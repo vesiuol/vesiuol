@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sobre — meus livros</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F5F0E8; --dark: #1C1A17; --accent: #C8472B;
+    --warm: #E8A87C; --muted: #8C8070; --card: #FFFDF8; --border: #E0D8CC;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--cream); color: var(--dark); font-family: 'DM Sans', sans-serif; font-weight: 300; }
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--dark); padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between; height: 56px;
+  }
+  nav .logo { font-family: 'Playfair Display', serif; font-style: italic; color: var(--cream); font-size: 1.3rem; }
+  nav ul { list-style: none; display: flex; gap: 2rem; }
+  nav ul a { color: var(--muted); text-decoration: none; font-size: .85rem; letter-spacing: .08em; text-transform: uppercase; transition: color .2s; }
+  nav ul a:hover, nav ul a.active { color: var(--cream); }
+  .page { max-width: 720px; margin: 0 auto; padding: 6rem 2rem 8rem; }
+  .eyebrow { font-size: .75rem; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-bottom: 1rem; }
+  h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 5vw, 3.5rem); line-height: 1.1; margin-bottom: 2rem; }
+  h1 em { font-style: italic; color: var(--accent); }
+  .divider { width: 48px; height: 2px; background: var(--accent); margin: 2rem 0; }
+  .placeholder-block {
+    background: var(--card); border: 1.5px dashed var(--border);
+    border-radius: 2px; padding: 3rem 2rem; text-align: center;
+    color: var(--muted); font-size: .9rem; line-height: 1.7; margin-bottom: 2rem;
+  }
+  .placeholder-block strong { display: block; font-size: 1rem; color: var(--dark); margin-bottom: .5rem; }
+  footer { background: var(--dark); padding: 2rem; text-align: center; color: var(--muted); font-size: .78rem; }
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo">meus livros</div>
+  <ul>
+    <li><a href="index.html">Início</a></li>
+    <li><a href="desafio.html">Desafio</a></li>
+    <li><a href="sobre.html" class="active">Sobre</a></li>
+  </ul>
+</nav>
+
+<div class="page">
+  <p class="eyebrow">Quem sou eu</p>
+  <h1>Sobre <em>mim</em></h1>
+  <div class="divider"></div>
+
+  <div class="placeholder-block">
+    <strong>✏️ Espaço para sua apresentação</strong>
+    Quando quiser, me mande o texto e atualizo aqui.<br>
+    Pode ser curto ou longo — do jeitinho que você quiser contar sua história com os livros.
+  </div>
+
+  <div class="placeholder-block">
+    <strong>📚 Segundo parágrafo (opcional)</strong>
+    Sobre sua relação com os livros, o que te levou a rastrear as leituras, projetos que faz parte…
+  </div>
+</div>
+
+<footer>dados via Google Sheets · por Louise Victoria</footer>
+</body>
+</html>

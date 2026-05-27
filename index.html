@@ -369,6 +369,8 @@
     <li><a href="#graficos">Gráficos</a></li>
     <li><a href="#mapa">Mapa</a></li>
     <li><a href="#lista">Lista</a></li>
+    <li><a href="desafio.html">Desafio</a></li>
+    <li><a href="sobre.html">Sobre</a></li>
   </ul>
 </nav>
 
@@ -526,7 +528,8 @@
 // ─── CONFIG ───────────────────────────────────────────────────────────────────
 const CSV_LIVROS = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQWGv70Tc2vz-YUKxwU_0_H8F7UuHom1tCJQlE2Tfi8AMNem2c5X3WSs6z4CPjoTb2AaFKmJ8bihlPV/pub?gid=0&single=true&output=csv';
 const CSV_STATS  = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub?gid=700848757&single=true&output=csv';
-const META_2026  = 44; // livros planejados para 2026 (baseado nos seus dados)
+const META_2026  = 44; // livros planejados para 2026
+const CSV_2026   = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub?gid=537800862&single=true&output=csv';
 const PER_PAGE   = 20;
 
 // Coordenadas dos países
@@ -556,14 +559,17 @@ let activeTag = '';
 // ─── LOAD DATA ────────────────────────────────────────────────────────────────
 let statsRows = [];
 
+let rows2026 = [];
 async function loadData() {
   try {
-    const [r1, r2] = await Promise.all([
+    const [r1, r2, r3] = await Promise.all([
       fetchCSV(CSV_LIVROS),
       fetchCSV(CSV_STATS),
+      fetchCSV(CSV_2026),
     ]);
     allBooks = r1.filter(r => r['Livros'] && r['Livros'].trim());
     statsRows = r2;
+    rows2026 = r3;
     initAll();
   } catch(e) {
     document.getElementById('stat-loading').textContent = 'Erro ao carregar dados. Verifique o CSV.';
@@ -617,9 +623,11 @@ function buildStats() {
 
 // ─── PROGRESS 2026 ────────────────────────────────────────────────────────────
 function buildProgress2026() {
-  // Tenta pegar dados de 2026 da planilha de stats
-  let lidos26 = 0;
-  let paginas26 = 0;
+  // Conta lidos da planilha de livros (status = Lido)
+  let lidos26 = allBooks.filter(b => norm(b['Lido/Não Lido']) === 'lido').length;
+  let paginas26 = allBooks.filter(b => norm(b['Lido/Não Lido']) === 'lido').reduce((s,b) => s + (parseInt(b['Páginas'])||0), 0);
+
+  // Tenta sobrescrever com stats CSV se disponível
   if (statsRows && statsRows.length > 0) {
     const livrosRow = statsRows.find(r => Object.values(r)[0]?.toString().trim().toLowerCase() === 'livros');
     const paginasRow = statsRows.find(r => Object.values(r)[0]?.toString().trim().toLowerCase() === 'páginas');

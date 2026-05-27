@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Desafio Livros pelo Mundo — meus livros</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<style>
+  :root {
+    --cream: #F5F0E8; --dark: #1C1A17; --accent: #C8472B;
+    --warm: #E8A87C; --muted: #8C8070; --card: #FFFDF8; --border: #E0D8CC;
+    --green: #2E7D52; --green-light: #D4EDDA;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--cream); color: var(--dark); font-family: 'DM Sans', sans-serif; font-weight: 300; }
+
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--dark); padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between; height: 56px;
+  }
+  nav .logo { font-family: 'Playfair Display', serif; font-style: italic; color: var(--cream); font-size: 1.3rem; }
+  nav ul { list-style: none; display: flex; gap: 2rem; }
+  nav ul a { color: var(--muted); text-decoration: none; font-size: .85rem; letter-spacing: .08em; text-transform: uppercase; transition: color .2s; }
+  nav ul a:hover, nav ul a.active { color: var(--cream); }
+
+  /* HERO */
+  .hero { padding: 6rem 2rem 4rem; max-width: 860px; margin: 0 auto; }
+  .eyebrow { font-size: .75rem; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-bottom: 1rem; }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1.05; margin-bottom: 1.5rem; }
+  .hero h1 em { font-style: italic; color: var(--accent); }
+  .hero-line { width: 48px; height: 2px; background: var(--accent); margin: 2rem 0; }
+  .hero p { color: var(--muted); font-size: 1.05rem; line-height: 1.8; max-width: 600px; margin-bottom: 1.2rem; }
+
+  /* STATS */
+  .stats-strip {
+    background: var(--dark); display: flex; gap: 0;
+  }
+  .stat-item { flex: 1; text-align: center; padding: 2rem 1rem; border-right: 1px solid #333; }
+  .stat-item:last-child { border-right: none; }
+  .stat-number { font-family: 'Playfair Display', serif; font-size: 2.4rem; color: var(--cream); display: block; line-height: 1; }
+  .stat-label { font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-top: .4rem; display: block; }
+
+  /* SECTIONS */
+  section { max-width: 1060px; margin: 0 auto; padding: 5rem 2rem; }
+  .section-header { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 3rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem; }
+  .section-header h2 { font-family: 'Playfair Display', serif; font-size: 1.8rem; }
+  .section-header span { font-size: .75rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+
+  /* MEDIUM CARDS */
+  .posts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.2rem; }
+  .post-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 2px;
+    padding: 1.8rem; text-decoration: none; color: inherit;
+    display: flex; flex-direction: column; gap: .8rem;
+    transition: transform .2s, box-shadow .2s;
+  }
+  .post-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,.08); }
+  .post-tag { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+  .post-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; line-height: 1.35; }
+  .post-desc { font-size: .85rem; color: var(--muted); line-height: 1.6; flex: 1; }
+  .post-meta { font-size: .75rem; color: var(--muted); display: flex; align-items: center; gap: .5rem; padding-top: .5rem; border-top: 1px solid var(--border); }
+  .post-arrow { margin-left: auto; color: var(--accent); font-size: 1rem; }
+
+  /* MAP */
+  #dlm-map { height: 460px; border-radius: 2px; border: 1px solid var(--border); }
+  .map-legend { display: flex; gap: 1.5rem; margin-top: 1rem; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: .5rem; font-size: .8rem; color: var(--muted); }
+  .legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+
+  /* NOTION LINK */
+  .notion-cta {
+    background: var(--dark); border-radius: 2px; padding: 2.5rem;
+    display: flex; align-items: center; justify-content: space-between; gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .notion-cta-text h3 { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--cream); margin-bottom: .5rem; }
+  .notion-cta-text p { color: var(--muted); font-size: .9rem; line-height: 1.6; max-width: 400px; }
+  .notion-btn {
+    padding: .8rem 1.8rem; background: var(--accent); color: #fff;
+    text-decoration: none; font-size: .85rem; letter-spacing: .06em;
+    border-radius: 2px; white-space: nowrap; transition: opacity .2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .notion-btn:hover { opacity: .85; }
+
+  /* TABLE */
+  .country-table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: .85rem; }
+  thead tr { border-bottom: 2px solid var(--dark); }
+  th { padding: .7rem 1rem; text-align: left; font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+  td { padding: .7rem 1rem; border-bottom: 1px solid var(--border); }
+  tr:hover td { background: rgba(200,71,43,.04); }
+  .badge { display: inline-block; padding: .2rem .6rem; border-radius: 100px; font-size: .72rem; }
+  .badge-lido { background: var(--green-light); color: var(--green); }
+  .badge-mapeado { background: #FFF3CD; color: #8A6200; }
+  .badge-nao { background: #F0F0F0; color: #666; }
+  .table-search { margin-bottom: 1rem; }
+  .table-search input {
+    width: 100%; max-width: 360px; padding: .65rem 1rem;
+    border: 1px solid var(--border); background: var(--card);
+    font-family: 'DM Sans', sans-serif; font-size: .88rem; border-radius: 2px; outline: none;
+  }
+
+  footer { background: var(--dark); padding: 2rem; text-align: center; color: var(--muted); font-size: .78rem; }
+
+  @media (max-width: 600px) {
+    .stats-strip { flex-wrap: wrap; }
+    .stat-item { flex: 1 1 50%; border-right: none; border-bottom: 1px solid #333; }
+    nav ul { display: none; }
+    .notion-cta { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">meus livros</div>
+  <ul>
+    <li><a href="index.html">Início</a></li>
+    <li><a href="desafio.html" class="active">Desafio</a></li>
+    <li><a href="sobre.html">Sobre</a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <p class="eyebrow">Um livro para cada país</p>
+  <h1>Desafio Livros<br><em>pelo Mundo</em></h1>
+  <div class="hero-line"></div>
+  <p>Uma jornada de pluralidade e descoberta — ler ao menos um livro de cada país do mundo. Cada leitura é um passo para ampliar perspectivas e conhecer histórias que raramente chegam até nós.</p>
+  <p>Acompanhe o progresso, explore os países já mapeados e encontre indicações para começar a sua própria jornada.</p>
+</div>
+
+<div class="stats-strip">
+  <div class="stat-item">
+    <span class="stat-number" id="st-total">—</span>
+    <span class="stat-label">Países mapeados</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-number" id="st-lidos">—</span>
+    <span class="stat-label">Já lidos</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-number" id="st-encontrados">—</span>
+    <span class="stat-label">Livros encontrados</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-number" id="st-pct">—</span>
+    <span class="stat-label">% concluído</span>
+  </div>
+</div>
+
+<!-- POSTS DO MEDIUM -->
+<section id="posts">
+  <div class="section-header">
+    <h2>Blog do desafio</h2>
+    <span>Artigos no Medium</span>
+  </div>
+  <div class="posts-grid">
+    <a class="post-card" href="https://medium.com/@vesiuol/desafio-livros-pelo-mundo-d8e01e80812f" target="_blank" rel="noopener">
+      <span class="post-tag">Apresentação</span>
+      <div class="post-title">Desafio Livros pelo Mundo</div>
+      <div class="post-desc">Iniciando uma jornada de um livro para cada país — por que esse projeto, o que me motivou e o que espero aprender.</div>
+      <div class="post-meta">
+        <span>Jul 2024</span>
+        <span>·</span>
+        <span>3 min de leitura</span>
+        <span class="post-arrow">→</span>
+      </div>
+    </a>
+    <a class="post-card" href="https://medium.com/@vesiuol/estruturando-a-nossa-rota-1-ac374720227f" target="_blank" rel="noopener">
+      <span class="post-tag">Organização</span>
+      <div class="post-title">Estruturando a nossa rota #1</div>
+      <div class="post-desc">Como montar a estrutura no Notion, a lista de países da ONU e o modelo de planilha disponível para duplicar.</div>
+      <div class="post-meta">
+        <span>Jul 2024</span>
+        <span>·</span>
+        <span>2 min de leitura</span>
+        <span class="post-arrow">→</span>
+      </div>
+    </a>
+    <a class="post-card" href="https://medium.com/@vesiuol/montando-a-nossa-rota-2-c98c5bcf7a20" target="_blank" rel="noopener">
+      <span class="post-tag">Organização</span>
+      <div class="post-title">Montando a nossa rota #2</div>
+      <div class="post-desc">Continuação da estruturação do projeto — aprofundando a organização dos países e das escolhas de livros.</div>
+      <div class="post-meta">
+        <span>2024</span>
+        <span>·</span>
+        <span>Medium</span>
+        <span class="post-arrow">→</span>
+      </div>
+    </a>
+    <a class="post-card" href="https://medium.com/@vesiuol/visualização-da-minha-planilha-no-nopor-onde-já-viajei-acaf251c4985" target="_blank" rel="noopener">
+      <span class="post-tag">Dados</span>
+      <div class="post-title">Visualização da minha planilha</div>
+      <div class="post-desc">Como visualizar no Notion os países por onde já "viajei" nas leituras — mapas, dados e configurações práticas.</div>
+      <div class="post-meta">
+        <span>2024</span>
+        <span>·</span>
+        <span>Medium</span>
+        <span class="post-arrow">→</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- MAPA -->
+<section id="mapa">
+  <div class="section-header">
+    <h2>Mapa da jornada</h2>
+    <span>Países por status</span>
+  </div>
+  <div id="dlm-map"></div>
+  <div class="map-legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#2E7D52"></div> Lido</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#E8A87C"></div> Livro encontrado / mapeado</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#ccc"></div> Ainda não mapeado</div>
+  </div>
+</section>
+
+<!-- NOTION CTA -->
+<section>
+  <div class="notion-cta">
+    <div class="notion-cta-text">
+      <h3>Ver lista completa no Notion</h3>
+      <p>A planilha pública com todos os países, os livros escolhidos e o status de cada um. Você pode duplicar o modelo para começar sua própria jornada.</p>
+    </div>
+    <a class="notion-btn" href="https://www.notion.so/vesiuol/dec695e012bd4252b3280c7d4de3e911?v=12efd84e205f4f7d8f3f40ff116b5351" target="_blank" rel="noopener">
+      Abrir no Notion →
+    </a>
+  </div>
+</section>
+
+<!-- LISTA DE PAÍSES -->
+<section id="lista">
+  <div class="section-header">
+    <h2>Países</h2>
+    <span id="paises-count">—</span>
+  </div>
+  <div class="table-search">
+    <input type="text" id="search-paises" placeholder="Buscar país…">
+  </div>
+  <div class="country-table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>País</th>
+          <th>Livro escolhido</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="paises-tbody">
+        <tr><td colspan="3" style="text-align:center;padding:2rem;color:var(--muted)">Carregando…</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<footer>dados via Notion · por Louise Victoria</footer>
+
+<script>
+const CSV_DLM = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub?gid=537800862&single=true&output=csv';
+
+const COORDS = {
+  'Brasil': [-15.8,-47.9],'EUA': [37.1,-95.7],'Reino Unido': [51.5,-0.1],
+  'Japão': [35.7,139.7],'França': [46.2,2.2],'Canadá': [56.1,-106.3],
+  'Argentina': [-34.6,-58.4],'Portugal': [38.7,-9.1],'Alemanha': [52.5,13.4],
+  'Espanha': [40.4,-3.7],'Itália': [41.9,12.5],'México': [19.4,-99.1],
+  'Colômbia': [4.7,-74.1],'Chile': [-33.4,-70.6],'Índia': [28.6,77.2],
+  'China': [39.9,116.4],'Rússia': [55.8,37.6],'Austrália': [-35.3,149.1],
+  'Nigéria': [9.1,7.5],'África do Sul': [-25.7,28.2],'Zâmbia': [-15.4,28.3],
+  'Camarões': [3.9,11.5],'Irã': [35.7,51.4],'Noruega': [59.9,10.7],
+  'Holanda': [52.4,4.9],'Cuba': [23.1,-82.4],'Ucrânia': [50.5,30.5],
+  'Nova Zelândia': [-41.3,174.8],'Uruguai': [-34.9,-56.2],'Bolívia': [-16.5,-68.1],
+  'Ruanda': [-1.9,30.1],'Somália': [2.0,45.3],'República Tcheca': [50.1,14.4],
+  'Bélgica': [50.8,4.4],'Coreia do Sul': [37.6,127.0],'Vietnã': [21.0,105.8],
+  'Polônia': [52.2,21.0],'Suécia': [59.3,18.1],'Grécia': [37.9,23.7],
+  'Turquia': [39.9,32.9],'Egito': [30.1,31.2],'Marrocos': [34.0,-6.8],
+  'Etiópia': [9.0,38.7],'Quênia': [-1.3,36.8],'Tanzânia': [-6.4,34.9],
+  'Gana': [5.6,-0.2],'Senegal': [14.7,-17.4],'Costa do Marfim': [6.8,-5.3],
+  'Peru': [-12.0,-77.0],'Venezuela': [10.5,-66.9],'Equador': [-0.2,-78.5],
+  'Paraguai': [-25.3,-57.6],'Pakistan': [33.7,73.1],'Bangladesh': [23.7,90.4],
+  'Sri Lanka': [7.9,80.7],'Myanmar': [16.9,96.1],'Tailândia': [13.8,100.5],
+  'Indonésia': [-6.2,106.8],'Filipinas': [14.6,121.0],'Israel': [31.8,35.2],
+  'Iraque': [33.3,44.4],'Síria': [33.5,36.3],'Líbano': [33.9,35.5],
+  'Jordânia': [31.9,35.9],'Afeganistão': [34.5,69.2],'Cazaquistão': [51.2,71.4],
+  'Gâmbia': [13.5,-15.6],'Serra Leoa': [8.5,-13.2],'Congo': [-4.3,15.3],
+  'Angola': [-8.8,13.2],'Moçambique': [-18.7,35.5],'Madagascar': [-20.0,47.0],
+  'Zimbabwe': [-17.8,31.1],'Zâmbia': [-15.4,28.3],'Botswana': [-24.7,25.9],
+  'Namíbia': [-22.6,17.1],'Malawi': [-13.3,33.8],'Uganda': [0.3,32.6],
+};
+
+let allRows = [];
+
+async function load() {
+  Papa.parse(CSV_DLM, {
+    download: true, header: true, skipEmptyLines: true,
+    complete: r => {
+      allRows = r.data.filter(row => {
+        const first = Object.values(row)[0];
+        return first && first.trim();
+      });
+      init();
+    },
+    error: e => console.error(e),
+  });
+}
+
+function norm(s) { return (s||'').trim().toLowerCase(); }
+
+function getStatus(row) {
+  // Tenta detectar colunas de status comuns no Notion export
+  const keys = Object.keys(row);
+  for (const k of keys) {
+    const kn = norm(k);
+    if (kn.includes('lido') || kn.includes('status') || kn.includes('andamento')) {
+      return row[k];
+    }
+  }
+  return '';
+}
+
+function getPais(row) {
+  const keys = Object.keys(row);
+  const first = Object.values(row)[0];
+  return first || '';
+}
+
+function getLivro(row) {
+  const keys = Object.keys(row);
+  for (const k of keys) {
+    const kn = norm(k);
+    if (kn.includes('livro') || kn.includes('book') || kn.includes('título') || kn.includes('titulo')) {
+      return row[k];
+    }
+  }
+  // segundo valor
+  const vals = Object.values(row);
+  return vals[1] || '';
+}
+
+function init() {
+  const total = allRows.length;
+  const lidos = allRows.filter(r => norm(getStatus(r)).includes('lido') && !norm(getStatus(r)).includes('não')).length;
+  const encontrados = allRows.filter(r => getLivro(r) && getLivro(r).trim()).length;
+  const pct = total > 0 ? Math.round((lidos/total)*100) : 0;
+
+  document.getElementById('st-total').textContent = total;
+  document.getElementById('st-lidos').textContent = lidos;
+  document.getElementById('st-encontrados').textContent = encontrados;
+  document.getElementById('st-pct').textContent = pct + '%';
+  document.getElementById('paises-count').textContent = total + ' países';
+
+  buildMap();
+  renderTable(allRows);
+
+  document.getElementById('search-paises').addEventListener('input', e => {
+    const q = e.target.value.toLowerCase();
+    const filtered = allRows.filter(r => getPais(r).toLowerCase().includes(q) || getLivro(r).toLowerCase().includes(q));
+    renderTable(filtered);
+  });
+}
+
+function buildMap() {
+  const map = L.map('dlm-map').setView([20,10],2);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '© OpenStreetMap © CARTO'
+  }).addTo(map);
+
+  allRows.forEach(row => {
+    const pais = getPais(row);
+    const coords = COORDS[pais];
+    if (!coords) return;
+    const st = norm(getStatus(row));
+    const livro = getLivro(row);
+    let color = '#ccc';
+    if (st.includes('lido') && !st.includes('não')) color = '#2E7D52';
+    else if (livro && livro.trim()) color = '#E8A87C';
+
+    L.circleMarker(coords, {
+      radius: 7, fillColor: color, color: '#fff', weight: 1.5, fillOpacity: .85
+    }).addTo(map).bindPopup(`<strong>${pais}</strong>${livro ? '<br><em>' + livro + '</em>' : ''}`);
+  });
+}
+
+function renderTable(rows) {
+  const tbody = document.getElementById('paises-tbody');
+  if (!rows.length) {
+    tbody.innerHTML = `<tr><td colspan="3" style="text-align:center;padding:2rem;color:var(--muted)">Nenhum país encontrado.</td></tr>`;
+    return;
+  }
+  tbody.innerHTML = rows.map(row => {
+    const pais = getPais(row);
+    const livro = getLivro(row) || '—';
+    const st = getStatus(row) || '';
+    const stn = norm(st);
+    let badgeClass = 'badge-nao';
+    let label = st || 'Não mapeado';
+    if (stn.includes('lido') && !stn.includes('não')) { badgeClass = 'badge-lido'; label = 'Lido'; }
+    else if (livro !== '—') { badgeClass = 'badge-mapeado'; label = 'Mapeado'; }
+    return `<tr>
+      <td><strong>${pais}</strong></td>
+      <td>${livro}</td>
+      <td><span class="badge ${badgeClass}">${label}</span></td>
+    </tr>`;
+  }).join('');
+}
+
+load();
+</script>
+</body>
+</html>
