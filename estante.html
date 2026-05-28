@@ -3,15 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Meus Livros</title>
+<title>Estante — Meus Livros</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
-<style>
-:root {
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<style>:root {
   --cream:#F5F0E8; --dark:#1C1A17; --accent:#C8472B;
   --warm:#E8A87C; --muted:#8C8070; --card:#FFFDF8; --border:#E0D8CC;
   --green:#2E7D52; --green-light:#D4EDDA;
@@ -110,12 +111,7 @@ footer{background:var(--dark);padding:1.5rem;text-align:center;color:var(--muted
   nav ul{display:none;position:absolute;top:56px;left:0;right:0;background:var(--dark);flex-direction:column;padding:1rem 2rem;gap:1rem;}
   nav ul.open{display:flex;}
   .nav-hamburger{display:block;}
-}
-.mini-chart-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1.5rem;}
-.mini-card{background:var(--card);border:1px solid var(--border);border-radius:2px;padding:1.2rem;}
-.mini-title{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.8rem;}
-.mini-wrap{position:relative;height:140px;}
-</style>
+}</style>
 </head>
 <body>
 <nav>
@@ -130,58 +126,71 @@ footer{background:var(--dark);padding:1.5rem;text-align:center;color:var(--muted
   </ul>
   <button class="nav-hamburger" onclick="document.querySelector('nav ul').classList.toggle('open')">☰</button>
 </nav>
+
 <div class="hero">
-  <p class="eyebrow">Leituras desde 2020</p>
-  <h1>Cada livro,<br><em>uma história.</em></h1>
+  <p class="eyebrow">Catálogo completo</p>
+  <h1>Livros na <em>Estante</em></h1>
   <div class="hero-line"></div>
-  <p>Uma vitrine das minhas leituras — da estante ao desafio literário pelo mundo.</p>
+  <p>Todos os livros catalogados desde 2020 — com gráficos e filtros detalhados.</p>
 </div>
 
-<div class="stats-bar" id="stats-bar">
-  <div class="stat-item"><span class="stat-number" id="s-total">—</span><span class="stat-label">Livros na estante</span></div>
+<div class="stats-bar">
+  <div class="stat-item"><span class="stat-number" id="s-total">—</span><span class="stat-label">Total na estante</span></div>
   <div class="stat-item"><span class="stat-number" id="s-lidos">—</span><span class="stat-label">Lidos</span></div>
   <div class="stat-item"><span class="stat-number" id="s-paginas">—</span><span class="stat-label">Páginas lidas</span></div>
   <div class="stat-item"><span class="stat-number" id="s-autores">—</span><span class="stat-label">Autores únicos</span></div>
   <div class="stat-item"><span class="stat-number" id="s-paises">—</span><span class="stat-label">Países</span></div>
-  <div class="stat-item"><span class="stat-number" id="s-anos">7</span><span class="stat-label">Anos de registros</span></div>
+  <div class="stat-item"><span class="stat-number" id="s-lgbtq">—</span><span class="stat-label">LGBTQIA+</span></div>
 </div>
 
-<section>
-  <div class="section-header"><h2>Navegue pelo site</h2><span>Seções</span></div>
-  <div class="vitrine-grid">
-    <a class="vitrine-card" href="2026.html">
-      <span class="vitrine-tag">Ano atual</span>
-      <div class="vitrine-title">Leituras de 2026</div>
-      <div class="vitrine-desc">Progresso da meta anual, gráficos e todos os livros lidos e em andamento este ano.</div>
-      <span class="vitrine-arrow">→</span>
-    </a>
-    <a class="vitrine-card" href="estante.html">
-      <span class="vitrine-tag">Catálogo</span>
-      <div class="vitrine-title">Livros na Estante</div>
-      <div class="vitrine-desc">Todos os livros catalogados desde 2020 — com filtros, gráficos de gênero, cor, idioma e diversidade.</div>
-      <span class="vitrine-arrow">→</span>
-    </a>
-    <a class="vitrine-card" href="historico.html">
-      <span class="vitrine-tag">2020 → 2026</span>
-      <div class="vitrine-title">Histórico de Leituras</div>
-      <div class="vitrine-desc">Evolução ano a ano — livros, páginas, representatividade e gêneros literários com filtro por ano.</div>
-      <span class="vitrine-arrow">→</span>
-    </a>
-    <a class="vitrine-card" href="desafio.html">
-      <span class="vitrine-tag">Projeto especial</span>
-      <div class="vitrine-title">Desafio Livros pelo Mundo</div>
-      <div class="vitrine-desc">Um livro de cada país do mundo — mapa da jornada, artigos no Medium e lista completa dos países.</div>
-      <span class="vitrine-arrow">→</span>
-    </a>
+<section id="graficos">
+  <div class="section-header"><h2>Gráficos da Estante</h2><span>Dados completos</span></div>
+  <div class="charts-grid">
+    <div class="chart-card full"><div class="chart-title">Gêneros literários — todos os livros lidos</div><div class="chart-wrap tall"><canvas id="c-generos"></canvas></div></div>
+    <div class="chart-card"><div class="chart-title">Cor dos autores</div><div class="chart-wrap"><canvas id="c-cor"></canvas></div></div>
+    <div class="chart-card"><div class="chart-title">Gênero dos autores</div><div class="chart-wrap"><canvas id="c-ga"></canvas></div></div>
+    <div class="chart-card"><div class="chart-title">Idioma original</div><div class="chart-wrap"><canvas id="c-idioma"></canvas></div></div>
+    <div class="chart-card"><div class="chart-title">Formato</div><div class="chart-wrap"><canvas id="c-formato"></canvas></div></div>
+    <div class="chart-card"><div class="chart-title">Faixa etária</div><div class="chart-wrap"><canvas id="c-faixa"></canvas></div></div>
+    <div class="chart-card"><div class="chart-title">Série ou livro único</div><div class="chart-wrap"><canvas id="c-serie"></canvas></div></div>
+    <div class="chart-card full"><div class="chart-title">Avaliações (⭐ dos lidos)</div><div class="chart-wrap short"><canvas id="c-estrelas"></canvas></div></div>
+    <div class="chart-card full"><div class="chart-title">Diversidade e representatividade</div><div class="chart-wrap short"><canvas id="c-diversidade"></canvas></div></div>
   </div>
 </section>
 
-<section>
-  <div class="section-header"><h2>Visão rápida</h2><span>Distribuição geral</span></div>
-  <div class="mini-chart-grid">
-    <div class="mini-card"><div class="mini-title">Cor dos autores</div><div class="mini-wrap"><canvas id="mc-cor"></canvas></div></div>
-    <div class="mini-card"><div class="mini-title">Gênero dos autores</div><div class="mini-wrap"><canvas id="mc-genero-autor"></canvas></div></div>
-    <div class="mini-card"><div class="mini-title">Idioma</div><div class="mini-wrap"><canvas id="mc-idioma"></canvas></div></div>
+<section id="mapa">
+  <div class="section-header"><h2>Mapa de países</h2><span>Autores por país</span></div>
+  <div id="map"></div>
+</section>
+
+<section id="lista">
+  <div class="section-header"><h2>Todos os livros</h2><span id="lista-count">—</span></div>
+  <div class="table-controls">
+    <div class="search-wrap"><input type="text" id="search" placeholder="Buscar título ou autor…"></div>
+    <select class="filter-select" id="f-status"><option value="">Todos</option><option>Lido</option><option>Não Lido</option><option>Lendo</option></select>
+    <select class="filter-select" id="f-genero"><option value="">Todos os gêneros</option></select>
+    <select class="filter-select" id="f-idioma"><option value="">Todos os idiomas</option></select>
+    <select class="filter-select" id="f-cor"><option value="">Toda cor</option></select>
+  </div>
+  <div class="tag-filters">
+    <button class="tag-btn active" data-tag="">Todos</button>
+    <button class="tag-btn" data-tag="lgbtqia">LGBTQIA+</button>
+    <button class="tag-btn" data-tag="diversidade">Diversidade étnica</button>
+    <button class="tag-btn" data-tag="ownvoices">#OwnVoices</button>
+    <button class="tag-btn" data-tag="psico">Questões psicológicas</button>
+  </div>
+  <div style="overflow-x:auto">
+    <table>
+      <thead><tr>
+        <th>Título</th><th>Autor/a</th><th>Gênero</th><th>Páginas</th>
+        <th>Idioma</th><th>Cor</th><th>País</th><th>Status</th><th>⭐</th>
+      </tr></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+  <div class="table-footer">
+    <span id="t-info">—</span>
+    <div class="pagination" id="pagination"></div>
   </div>
 </section>
 
@@ -288,32 +297,154 @@ function chartPie(){
   };
 }
 
-async function init(){
-  const books = await fetchCSV(CSV_ESTANTE);
-  const lidos = books.filter(b=>norm(b['Lido/Não Lido'])==='lido');
+const PER=20;
+let allBooks=[], filtered=[], activeTag='', page=1;
 
-  document.getElementById('s-total').textContent = books.length;
+async function init(){
+  allBooks = await fetchCSV(CSV_ESTANTE);
+  const lidos = allBooks.filter(b=>norm(b['Lido/Não Lido'])==='lido');
+
+  document.getElementById('s-total').textContent = allBooks.length;
   document.getElementById('s-lidos').textContent = lidos.length;
   document.getElementById('s-paginas').textContent = lidos.reduce((s,b)=>s+(parseInt(b['Páginas'])||0),0).toLocaleString('pt-BR');
-  document.getElementById('s-autores').textContent = new Set(books.map(b=>b['Nome']).filter(Boolean)).size;
-  document.getElementById('s-paises').textContent = new Set(books.map(b=>b['País']).filter(Boolean)).size;
+  document.getElementById('s-autores').textContent = new Set(allBooks.map(b=>b['Nome']).filter(Boolean)).size;
+  document.getElementById('s-paises').textContent = new Set(allBooks.map(b=>b['País']).filter(Boolean)).size;
+  document.getElementById('s-lgbtq').textContent = allBooks.filter(b=>isTrue(b['Protagonista LGBTQIA+?'])).length;
 
-  // Mini charts
-  makeDonut('mc-cor', count(lidos,'Cor'));
-  makeDonut('mc-genero-autor', count(lidos,'Se identifica como...'));
-  makeDonut('mc-idioma', count(lidos,'Idioma'));
-
-  // Mark active nav
-  document.querySelectorAll('nav ul a[data-page="index"]').forEach(a=>a.classList.add('active'));
+  buildCharts(lidos, allBooks);
+  buildMap(allBooks);
+  buildFilters();
+  filtered=[...allBooks];
+  renderTable();
+  document.querySelectorAll('nav ul a[data-page="estante"]').forEach(a=>a.classList.add('active'));
 }
 
-function makeDonut(id, obj){
-  const entries = topN(obj,6);
-  new Chart(document.getElementById(id),{
-    type:'doughnut',
-    data:{labels:entries.map(e=>e[0]),datasets:[{data:entries.map(e=>e[1]),backgroundColor:CORES,borderWidth:0}]},
-    options:{...chartPie(), maintainAspectRatio:false}
+function barH(){ 
+  const b=chartBase();b.indexAxis='y';
+  b.plugins.datalabels={display:true,anchor:'end',align:'end',color:DARK,font:{family:'DM Sans',size:10,weight:'500'},formatter:v=>v>0?v:'',clamp:true};
+  return b;
+}
+function barV(){
+  const b=chartBase();
+  b.plugins.datalabels={display:true,anchor:'end',align:'end',color:DARK,font:{family:'DM Sans',size:10,weight:'500'},formatter:v=>v>0?v:'',clamp:true};
+  return b;
+}
+
+function buildCharts(lidos, all){
+  // Gêneros
+  const gn=topN(count(lidos,'Gênero'),12);
+  new Chart(document.getElementById('c-generos'),{type:'bar',data:{labels:gn.map(e=>e[0]),datasets:[{data:gn.map(e=>e[1]),backgroundColor:ACCENT,borderRadius:2}]},options:barH()});
+
+  // Cor autores
+  const cor=count(lidos,'Cor');
+  new Chart(document.getElementById('c-cor'),{type:'doughnut',data:{labels:Object.keys(cor),datasets:[{data:Object.values(cor),backgroundColor:CORES,borderWidth:0}]},options:chartPie()});
+
+  // Gênero autor
+  const ga=count(lidos,'Se identifica como...');
+  new Chart(document.getElementById('c-ga'),{type:'doughnut',data:{labels:Object.keys(ga),datasets:[{data:Object.values(ga),backgroundColor:CORES,borderWidth:0}]},options:chartPie()});
+
+  // Idioma
+  const id=count(lidos,'Idioma');
+  new Chart(document.getElementById('c-idioma'),{type:'doughnut',data:{labels:Object.keys(id),datasets:[{data:Object.values(id),backgroundColor:CORES,borderWidth:0}]},options:chartPie()});
+
+  // Formato
+  const fm=count(all,'Formato');
+  new Chart(document.getElementById('c-formato'),{type:'doughnut',data:{labels:Object.keys(fm),datasets:[{data:Object.values(fm),backgroundColor:CORES,borderWidth:0}]},options:chartPie()});
+
+  // Faixa etária
+  const fa=count(all,'Faixa etária');
+  new Chart(document.getElementById('c-faixa'),{type:'doughnut',data:{labels:Object.keys(fa),datasets:[{data:Object.values(fa),backgroundColor:CORES,borderWidth:0}]},options:chartPie()});
+
+  // Série
+  const se=count(all,'Série ou único?');
+  new Chart(document.getElementById('c-serie'),{type:'doughnut',data:{labels:Object.keys(se),datasets:[{data:Object.values(se),backgroundColor:CORES,borderWidth:0}]},options:chartPie()});
+
+  // Estrelas
+  const st={1:0,2:0,3:0,4:0,5:0};
+  lidos.forEach(b=>{const s=parseInt(b['Estrelas']);if(s>=1&&s<=5)st[s]++;});
+  new Chart(document.getElementById('c-estrelas'),{type:'bar',data:{labels:['1 ⭐','2 ⭐','3 ⭐','4 ⭐','5 ⭐'],datasets:[{data:Object.values(st),backgroundColor:ACCENT,borderRadius:2}]},options:barV()});
+
+  // Diversidade
+  const div=[
+    lidos.filter(b=>isTrue(b['Protagonista LGBTQIA+?'])).length,
+    lidos.filter(b=>isTrue(b['Diversidade étnica/racial ?'])).length,
+    lidos.filter(b=>isTrue(b['#OwnVoices ?'])).length,
+    lidos.filter(b=>isTrue(b['Questões psicológicas'])).length,
+  ];
+  new Chart(document.getElementById('c-diversidade'),{type:'bar',
+    data:{labels:['LGBTQIA+','Diversidade étnica','#OwnVoices','Questões psicológicas'],
+    datasets:[{data:div,backgroundColor:['#A8C5DA','#B5EAD7','#F0D9FF','#FFE8E4'],borderRadius:2}]},
+    options:barV()});
+}
+
+function buildMap(books){
+  const map=L.map('map').setView([20,10],2);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+    attribution:'© OpenStreetMap',
+    // Português via openstreetmap
+  }).addTo(map);
+  const pc=count(books,'País');
+  Object.entries(pc).forEach(([p,q])=>{
+    const c=COORDS[p]; if(!c) return;
+    L.circleMarker(c,{radius:6+Math.sqrt(q)*4,fillColor:ACCENT,color:'#fff',weight:1.5,fillOpacity:.75})
+     .addTo(map).bindPopup('<strong>'+p+'</strong><br>'+q+' livro'+(q>1?'s':''));
   });
+}
+
+function buildFilters(){
+  ['Gênero','Idioma','Cor'].forEach((col,i)=>{
+    const ids=['f-genero','f-idioma','f-cor'];
+    const sel=document.getElementById(ids[i]);
+    [...new Set(allBooks.map(b=>b[col]).filter(Boolean))].sort().forEach(v=>{
+      const o=document.createElement('option');o.value=v;o.textContent=v;sel.appendChild(o);
+    });
+  });
+  ['search','f-status','f-genero','f-idioma','f-cor'].forEach(id=>{
+    document.getElementById(id).addEventListener(id==='search'?'input':'change',applyFilters);
+  });
+  document.querySelectorAll('.tag-btn').forEach(btn=>btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tag-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');activeTag=btn.dataset.tag;applyFilters();
+  }));
+}
+
+function applyFilters(){
+  const q=document.getElementById('search').value.toLowerCase();
+  const st=document.getElementById('f-status').value;
+  const gn=document.getElementById('f-genero').value;
+  const id=document.getElementById('f-idioma').value;
+  const cor=document.getElementById('f-cor').value;
+  filtered=allBooks.filter(b=>{
+    if(q&&!((b['Livros']||'')+(b['Nome']||'')).toLowerCase().includes(q))return false;
+    if(st&&norm(b['Lido/Não Lido'])!==norm(st))return false;
+    if(gn&&b['Gênero']!==gn)return false;
+    if(id&&b['Idioma']!==id)return false;
+    if(cor&&b['Cor']!==cor)return false;
+    if(activeTag==='lgbtqia'&&!isTrue(b['Protagonista LGBTQIA+?']))return false;
+    if(activeTag==='diversidade'&&!isTrue(b['Diversidade étnica/racial ?']))return false;
+    if(activeTag==='ownvoices'&&!isTrue(b['#OwnVoices ?']))return false;
+    if(activeTag==='psico'&&!isTrue(b['Questões psicológicas']))return false;
+    return true;
+  });
+  page=1;renderTable();
+}
+
+function renderTable(){
+  const start=(page-1)*PER;
+  const pg=filtered.slice(start,start+PER);
+  const tbody=document.getElementById('tbody');
+  document.getElementById('lista-count').textContent=filtered.length+' livros';
+  if(!filtered.length){tbody.innerHTML='<tr><td colspan="9" style="text-align:center;padding:2rem;color:var(--muted)">Nenhum encontrado.</td></tr>';document.getElementById('t-info').textContent='';document.getElementById('pagination').innerHTML='';return;}
+  tbody.innerHTML=pg.map(b=>{
+    const st=b['Lido/Não Lido']||'';
+    const bc=norm(st)==='lido'?'badge-lido':norm(st)==='lendo'?'badge-lendo':'badge-nao';
+    const s=parseInt(b['Estrelas'])||0;
+    return '<tr><td><strong>'+(b['Livros']||'—')+'</strong></td><td>'+(b['Nome']||'—')+'</td><td>'+(b['Gênero']||'—')+'</td><td>'+(b['Páginas']||'—')+'</td><td>'+(b['Idioma']||'—')+'</td><td>'+(b['Cor']||'—')+'</td><td>'+(b['País']||'—')+'</td><td><span class="badge '+bc+'">'+(st||'—')+'</span></td><td><span class="stars">'+'★'.repeat(s)+'</span></td></tr>';
+  }).join('');
+  document.getElementById('t-info').textContent=(start+1)+'–'+Math.min(start+PER,filtered.length)+' de '+filtered.length;
+  const pages=Math.ceil(filtered.length/PER);
+  const pag=document.getElementById('pagination');pag.innerHTML='';
+  for(let i=1;i<=pages;i++){const btn=document.createElement('button');btn.className='page-btn'+(i===page?' active':'');btn.textContent=i;btn.onclick=()=>{page=i;renderTable();};pag.appendChild(btn);}
 }
 
 init();
