@@ -3,122 +3,210 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Sobre — Meus Livros</title>
+<title>Estante — Meus Livros</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <style>
-:root {
-  --cream:#F5F0E8; --dark:#1C1A17; --accent:#C8472B;
-  --warm:#E8A87C; --muted:#8C8070; --card:#FFFDF8; --border:#E0D8CC;
-  --green:#2E7D52; --green-light:#D4EDDA;
+:root{
+  --cream:#F5F0E8; --paper:#FFFDF8; --dark:#1C1A17;
+  --sage:#9CB17F; --sage-deep:#6B8156; --sage-soft:#C9D6B5;
+  --accent:#C8472B; --muted:#8C8070; --border:#1C1A17;
+  --shadow: 4px 5px 0 var(--sage-deep);
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--cream);color:var(--dark);font-family:'DM Sans',sans-serif;font-weight:300;}
-nav{
-  position:sticky;top:0;z-index:100;background:var(--dark);
-  padding:0 2rem;display:flex;align-items:center;gap:2rem;height:56px;
+html,body{background:var(--cream);}
+body{color:var(--dark);font-family:'DM Sans',sans-serif;font-weight:400;line-height:1.5;}
+
+/* ── OUTER WINDOW FRAME ─────────────────────────────────── */
+.window{
+  margin:1rem; border:2px solid var(--sage); border-radius:28px;
+  background:var(--cream); overflow:hidden; min-height:calc(100vh - 2rem);
+  display:flex; flex-direction:column;
 }
-nav .logo{font-family:'Playfair Display',serif;font-style:italic;color:var(--cream);font-size:1.3rem;text-decoration:none;white-space:nowrap;}
-nav ul{list-style:none;display:flex;gap:1.5rem;margin-left:auto;}
-nav ul a{color:var(--muted);text-decoration:none;font-size:.82rem;letter-spacing:.08em;text-transform:uppercase;transition:color .2s;}
-nav ul a:hover,nav ul a.active{color:var(--cream);}
-.nav-hamburger{display:none;background:none;border:none;color:var(--cream);font-size:1.4rem;cursor:pointer;margin-left:auto;}
 
-.hero{padding:5rem 2rem 3rem;max-width:860px;margin:0 auto;}
-.eyebrow{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:.8rem;}
-.hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.4rem,5vw,4rem);line-height:1.05;margin-bottom:1.5rem;}
-.hero h1 em{font-style:italic;color:var(--accent);}
-.hero p{color:var(--muted);font-size:1rem;line-height:1.8;max-width:540px;margin-bottom:.8rem;}
-.hero-line{width:48px;height:2px;background:var(--accent);margin:1.5rem 0;}
+/* ── NAV ────────────────────────────────────────────────── */
+nav{
+  display:flex; align-items:center; padding:1.4rem 2rem 1.2rem;
+  border-bottom:1.5px solid var(--sage);
+}
+.dots{display:flex;gap:.45rem;}
+.dots span{width:14px;height:14px;border-radius:50%;background:var(--dark);}
+nav ul{list-style:none;display:flex;gap:1.6rem;margin-left:auto;align-items:center;}
+nav ul a{
+  color:var(--dark); text-decoration:none; font-family:'DM Sans',sans-serif;
+  font-size:.9rem; letter-spacing:.12em; text-transform:uppercase; font-weight:500;
+  padding:.35rem .7rem; border-radius:6px; transition:background .15s, color .15s;
+}
+nav ul a:hover{background:var(--sage);color:var(--dark);}
+nav ul a.active{background:var(--sage);color:var(--dark);}
+nav .logo-year{font-family:'Playfair Display',serif;font-style:italic;font-size:1.05rem;}
+.nav-hamburger{display:none;background:none;border:none;color:var(--dark);font-size:1.6rem;cursor:pointer;margin-left:auto;}
 
-.stats-bar{background:var(--dark);padding:2rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:0;}
-.stat-item{text-align:center;padding:1rem;border-right:1px solid #2a2825;}
-.stat-item:last-child{border-right:none;}
-.stat-number{font-family:'Playfair Display',serif;font-size:2.2rem;color:var(--cream);display:block;line-height:1;}
-.stat-label{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:.3rem;display:block;}
+/* ── INTRO CARD ─────────────────────────────────────────── */
+.intro-wrap{padding:3rem 2.5rem 1.5rem;}
+.card-frame{
+  background:var(--paper); border:1.5px solid var(--dark); border-radius:18px;
+  box-shadow: var(--shadow); position:relative; padding:1.8rem 2rem;
+}
+.card-frame::before{
+  content:''; position:absolute; top:.95rem; left:1.1rem;
+  width:34px; height:8px; background-image:radial-gradient(circle,var(--sage) 3px,transparent 3.5px);
+  background-size:12px 8px; background-repeat:repeat-x;
+}
+.intro-card{padding:3rem 2.5rem 2rem;}
+.intro-card h1{
+  font-family:'Playfair Display',serif; font-weight:400; font-size:clamp(2.4rem,5vw,3.6rem);
+  line-height:1.05; margin-bottom:1.2rem; display:inline-block;
+  background:var(--sage); padding:.1rem .6rem .25rem; border-radius:4px;
+}
+.intro-card p{font-size:1rem;color:var(--dark);max-width:780px;}
+.intro-card .sub{
+  margin-top:1.3rem; padding-top:1.1rem; border-top:1px solid var(--sage);
+  display:flex; align-items:center; justify-content:space-between; gap:1rem;
+  font-size:.75rem; letter-spacing:.16em; text-transform:uppercase; color:var(--dark);
+}
+.intro-card .sub .arrow{font-size:1.2rem;}
 
-section{max-width:1100px;margin:0 auto;padding:4rem 2rem;}
-.section-header{display:flex;align-items:baseline;gap:1rem;margin-bottom:2.5rem;border-bottom:1px solid var(--border);padding-bottom:.8rem;}
-.section-header h2{font-family:'Playfair Display',serif;font-size:1.6rem;}
-.section-header span{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+/* ── SECTION HEADERS ────────────────────────────────────── */
+section{padding:1.5rem 2.5rem; max-width:none;}
+.sec-header{
+  display:flex; align-items:baseline; gap:.9rem; margin-bottom:1.6rem;
+  border-bottom:1.5px solid var(--sage); padding-bottom:.7rem;
+}
+.sec-header h2{
+  font-family:'Playfair Display',serif; font-weight:400; font-style:italic;
+  font-size:1.5rem; background:var(--sage); padding:.1rem .7rem .2rem; border-radius:4px;
+}
+.sec-header span{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dark);font-weight:500;}
 
-.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;}
-.chart-card{background:var(--card);border:1px solid var(--border);border-radius:2px;padding:1.5rem;}
+/* ── STATS ROW (pill cards) ─────────────────────────────── */
+.stats-row{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:1.1rem; padding:1rem 2.5rem 2rem;
+}
+.stat-pill{
+  background:var(--sage); border:1.5px solid var(--dark); border-radius:14px;
+  box-shadow: var(--shadow); padding:1.4rem 1rem; text-align:center;
+}
+.stat-pill .num{font-family:'Playfair Display',serif;font-size:2.2rem;line-height:1;color:var(--dark);}
+.stat-pill .lbl{margin-top:.4rem;font-size:.78rem;color:var(--dark);font-weight:400;}
+
+/* ── CHART CARDS ────────────────────────────────────────── */
+.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+.chart-card{
+  background:var(--paper); border:1.5px solid var(--dark); border-radius:18px;
+  box-shadow: var(--shadow); padding:2.2rem 1.6rem 1.4rem; position:relative;
+}
+.chart-card::before{
+  content:''; position:absolute; top:.95rem; left:1.1rem;
+  width:34px; height:8px; background-image:radial-gradient(circle,var(--sage) 3px,transparent 3.5px);
+  background-size:12px 8px; background-repeat:repeat-x;
+}
 .chart-card.full{grid-column:1/-1;}
-.chart-card.third{grid-column:span 1;}
-.chart-title{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem;}
-.chart-wrap{position:relative;height:220px;}
-.chart-wrap.tall{height:300px;}
-.chart-wrap.short{height:160px;}
+.chart-title{
+  position:absolute; top:.75rem; left:3.5rem;
+  font-size:.72rem; color:var(--muted); font-weight:400;
+}
+.chart-wrap{position:relative;height:240px;margin-top:.5rem;}
+.chart-wrap.tall{height:320px;}
+.chart-wrap.short{height:170px;}
 
-#map,#dlm-map{height:400px;border-radius:2px;border:1px solid var(--border);}
+/* ── MAP ────────────────────────────────────────────────── */
+.map-card{
+  background:var(--paper); border:1.5px solid var(--dark); border-radius:18px;
+  box-shadow: var(--shadow); padding:2.2rem 1.4rem 1.4rem; position:relative;
+}
+.map-card::before{
+  content:''; position:absolute; top:.95rem; left:1.1rem;
+  width:34px; height:8px; background-image:radial-gradient(circle,var(--sage) 3px,transparent 3.5px);
+  background-size:12px 8px; background-repeat:repeat-x;
+}
+#map{height:440px;border-radius:10px;border:1px solid var(--border);}
 
-/* TABLE */
-.table-controls{display:flex;gap:.8rem;flex-wrap:wrap;margin-bottom:1rem;align-items:center;}
-.search-wrap{flex:1;min-width:180px;position:relative;}
-.search-wrap input{width:100%;padding:.6rem 1rem .6rem 2.2rem;border:1px solid var(--border);background:var(--card);font-family:'DM Sans',sans-serif;font-size:.85rem;border-radius:2px;outline:none;color:var(--dark);}
-.search-wrap::before{content:'⌕';position:absolute;left:.7rem;top:50%;transform:translateY(-50%);color:var(--muted);}
-.filter-select{padding:.6rem .9rem;border:1px solid var(--border);background:var(--card);font-family:'DM Sans',sans-serif;font-size:.82rem;border-radius:2px;color:var(--dark);cursor:pointer;outline:none;}
-.tag-filters{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1rem;}
-.tag-btn{padding:.3rem .8rem;border:1px solid var(--border);background:transparent;font-family:'DM Sans',sans-serif;font-size:.72rem;letter-spacing:.06em;border-radius:100px;cursor:pointer;transition:all .2s;color:var(--muted);}
-.tag-btn.active{background:var(--dark);border-color:var(--dark);color:var(--cream);}
-table{width:100%;border-collapse:collapse;font-size:.83rem;}
+/* ── TABLE ──────────────────────────────────────────────── */
+.table-card{
+  background:var(--paper); border:1.5px solid var(--dark); border-radius:18px;
+  box-shadow: var(--shadow); padding:1.6rem; position:relative;
+}
+.table-controls{display:flex;gap:.7rem;flex-wrap:wrap;margin-bottom:1rem;align-items:center;}
+.search-wrap{flex:1;min-width:200px;position:relative;}
+.search-wrap input{
+  width:100%;padding:.65rem 1rem .65rem 2.2rem;
+  border:1.5px solid var(--dark); background:var(--cream);
+  font-family:'DM Sans',sans-serif;font-size:.88rem;
+  border-radius:100px;outline:none;color:var(--dark);
+}
+.search-wrap::before{content:'⌕';position:absolute;left:.85rem;top:50%;transform:translateY(-50%);color:var(--dark);}
+.filter-select{
+  padding:.65rem 1rem; border:1.5px solid var(--dark); background:var(--cream);
+  font-family:'DM Sans',sans-serif; font-size:.84rem; border-radius:100px;
+  color:var(--dark); cursor:pointer; outline:none;
+}
+.tag-filters{display:flex;gap:.45rem;flex-wrap:wrap;margin-bottom:1.2rem;}
+.tag-btn{
+  padding:.4rem 1rem; border:1.5px solid var(--dark); background:var(--paper);
+  font-family:'DM Sans',sans-serif; font-size:.75rem; letter-spacing:.06em;
+  border-radius:100px; cursor:pointer; transition:all .15s;
+  color:var(--dark); box-shadow:2px 2px 0 var(--sage-deep);
+}
+.tag-btn:hover{background:var(--cream);}
+.tag-btn.active{background:var(--sage);color:var(--dark);}
+table{width:100%;border-collapse:collapse;font-size:.85rem;}
 thead tr{border-bottom:2px solid var(--dark);}
-th{padding:.6rem .8rem;text-align:left;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);white-space:nowrap;cursor:pointer;user-select:none;}
-th:hover{color:var(--dark);}
-td{padding:.65rem .8rem;border-bottom:1px solid var(--border);vertical-align:middle;}
-tr:hover td{background:rgba(200,71,43,.04);}
-.badge{display:inline-block;padding:.18rem .55rem;border-radius:100px;font-size:.7rem;}
-.badge-lido{background:#D4EDDA;color:#1A6631;}
-.badge-nao{background:#FFE8E4;color:#9B2B1A;}
-.badge-lendo{background:#FFF3CD;color:#8A6200;}
+th{padding:.7rem .8rem;text-align:left;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dark);white-space:nowrap;cursor:pointer;user-select:none;font-weight:600;}
+td{padding:.7rem .8rem;border-bottom:1px solid var(--sage-soft);vertical-align:middle;}
+tr:hover td{background:rgba(156,177,127,.15);}
+.badge{display:inline-block;padding:.2rem .7rem;border-radius:100px;font-size:.72rem;font-weight:500;border:1px solid transparent;}
+.badge-lido{background:var(--sage);color:var(--dark);}
+.badge-nao{background:#F5DAD2;color:#7A2A18;}
+.badge-lendo{background:#FFE9A8;color:#7A5A00;}
 .stars{color:var(--accent);}
-.table-footer{padding:.8rem 0;color:var(--muted);font-size:.8rem;display:flex;justify-content:space-between;align-items:center;}
-.pagination{display:flex;gap:.3rem;flex-wrap:wrap;}
-.page-btn{width:30px;height:30px;border:1px solid var(--border);background:transparent;cursor:pointer;font-size:.8rem;border-radius:2px;transition:all .15s;}
-.page-btn.active{background:var(--dark);color:var(--cream);border-color:var(--dark);}
-.page-btn:hover:not(.active){border-color:var(--dark);}
+.table-footer{padding:.9rem 0 0;color:var(--dark);font-size:.82rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.6rem;}
+.pagination{display:flex;gap:.35rem;flex-wrap:wrap;}
+.page-btn{
+  min-width:34px;height:34px;padding:0 .55rem;
+  border:1.5px solid var(--dark); background:var(--paper);
+  cursor:pointer; font-size:.82rem; border-radius:100px;
+  transition:all .15s; box-shadow:2px 2px 0 var(--sage-deep);
+}
+.page-btn:hover:not(.active){background:var(--cream);}
+.page-btn.active{background:var(--accent);color:var(--paper);border-color:var(--dark);}
 
-/* PROGRESS */
-.progress-card{background:var(--card);border:1px solid var(--border);border-radius:2px;padding:2rem;display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;align-items:center;}
-.progress-bar-wrap{background:var(--border);height:5px;border-radius:3px;overflow:hidden;margin:.8rem 0 .4rem;}
-.progress-bar-fill{height:100%;background:var(--accent);border-radius:3px;transition:width 1s ease;}
-.progress-pct{font-size:.75rem;color:var(--muted);}
-.pstat{display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;border-bottom:1px solid var(--border);}
-.pstat:last-child{border-bottom:none;}
-.pstat-label{font-size:.8rem;color:var(--muted);}
-.pstat-val{font-family:'Playfair Display',serif;font-size:1.3rem;}
+/* ── FOOTER ─────────────────────────────────────────────── */
+footer{
+  margin-top:auto; background:var(--sage); padding:1.1rem 2rem;
+  display:flex; align-items:center; gap:1rem;
+  font-size:.72rem; letter-spacing:.1em; color:var(--dark);
+}
+footer .dots span{background:var(--dark);}
 
-/* VITRINE CARDS */
-.vitrine-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.2rem;}
-.vitrine-card{background:var(--card);border:1px solid var(--border);border-radius:2px;padding:1.8rem;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:.8rem;transition:transform .2s,box-shadow .2s;}
-.vitrine-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.08);}
-.vitrine-tag{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);}
-.vitrine-title{font-family:'Playfair Display',serif;font-size:1.1rem;}
-.vitrine-desc{font-size:.83rem;color:var(--muted);line-height:1.6;flex:1;}
-.vitrine-arrow{color:var(--accent);font-size:.9rem;margin-top:.5rem;}
-
-footer{background:var(--dark);padding:1.5rem;text-align:center;color:var(--muted);font-size:.75rem;letter-spacing:.04em;}
-
-@media(max-width:700px){
+/* ── RESPONSIVE ─────────────────────────────────────────── */
+@media(max-width:820px){
+  .window{margin:.5rem;border-radius:20px;}
+  .intro-wrap,.stats-row,section{padding-left:1.2rem;padding-right:1.2rem;}
   .charts-grid{grid-template-columns:1fr;}
-  .progress-card{grid-template-columns:1fr;}
-  nav ul{display:none;position:absolute;top:56px;left:0;right:0;background:var(--dark);flex-direction:column;padding:1rem 2rem;gap:1rem;}
+  nav{padding:1rem 1.2rem;}
+  nav ul{display:none;position:absolute;top:62px;left:0;right:0;background:var(--cream);
+    flex-direction:column;padding:1rem 1.5rem;gap:.6rem;border-bottom:1.5px solid var(--sage);z-index:50;}
   nav ul.open{display:flex;}
   .nav-hamburger{display:block;}
 }
-.sobre-content{max-width:680px;margin:0 auto;padding:5rem 2rem 8rem;}
-.placeholder{background:var(--card);border:1.5px dashed var(--border);border-radius:2px;padding:2.5rem;text-align:center;color:var(--muted);line-height:1.7;margin-bottom:1.5rem;}
-.placeholder strong{display:block;font-size:.95rem;color:var(--dark);margin-bottom:.4rem;}
 </style>
 </head>
 <body>
+<div class="window">
+
 <nav>
-  <a class="logo" href="index.html">meus livros</a>
+  <div class="dots"><span></span><span></span><span></span></div>
   <ul>
     <li><a href="index.html" data-page="index">Início</a></li>
-    <li><a href="2026.html" data-page="2026">2026</a></li>
+    <li><a href="2026.html" data-page="2026" class="logo-year">2026</a></li>
     <li><a href="estante.html" data-page="estante">Estante</a></li>
     <li><a href="historico.html" data-page="historico">Histórico</a></li>
     <li><a href="desafio.html" data-page="desafio">Desafio</a></li>
@@ -126,20 +214,280 @@ footer{background:var(--dark);padding:1.5rem;text-align:center;color:var(--muted
   </ul>
   <button class="nav-hamburger" onclick="document.querySelector('nav ul').classList.toggle('open')">☰</button>
 </nav>
-<div class="sobre-content">
-  <p class="eyebrow">Quem sou eu</p>
-  <h1 style="font-family:'Playfair Display',serif;font-size:clamp(2.2rem,5vw,3.5rem);line-height:1.1;margin-bottom:2rem;">Sobre <em style="font-style:italic;color:var(--accent)">mim</em></h1>
-  <div style="width:48px;height:2px;background:var(--accent);margin:0 0 2rem;"></div>
-  <div class="placeholder">
-    <strong>✏️ Seu texto aqui</strong>
-    Me mande o texto e atualizo esta página!
-  </div>
-  <div class="placeholder">
-    <strong>📚 Segundo parágrafo (opcional)</strong>
-    Sobre sua relação com os livros, o Desafio Livros pelo Mundo, seus projetos…
+
+<div class="intro-wrap">
+  <div class="card-frame intro-card">
+    <h1>Livros na Estante</h1>
+    <p>Todos os livros catalogados desde 2020 — com gráficos, mapa de origem e filtros detalhados. Cada item conta um pedaço da minha trajetória de leitura.</p>
+    <div class="sub">
+      <span>CATÁLOGO COMPLETO COM FILTROS POR GÊNERO, IDIOMA, CORES E PAÍS.</span>
+      <span class="arrow">→</span>
+    </div>
   </div>
 </div>
-<footer>dados via Google Sheets</footer>
-<script>document.querySelectorAll('nav ul a[data-page="sobre"]').forEach(a=>a.classList.add('active'));</script>
+
+<div class="stats-row">
+  <div class="stat-pill"><div class="num" id="s-total">—</div><div class="lbl">Total na estante</div></div>
+  <div class="stat-pill"><div class="num" id="s-lidos">—</div><div class="lbl">Lidos</div></div>
+  <div class="stat-pill"><div class="num" id="s-paginas">—</div><div class="lbl">Páginas lidas</div></div>
+  <div class="stat-pill"><div class="num" id="s-autores">—</div><div class="lbl">Autores únicos</div></div>
+  <div class="stat-pill"><div class="num" id="s-paises">—</div><div class="lbl">Países</div></div>
+  <div class="stat-pill"><div class="num" id="s-lgbtq">—</div><div class="lbl">LGBTQIA+</div></div>
+</div>
+
+<section id="graficos">
+  <div class="sec-header"><h2>Gráficos</h2><span>Dados completos da estante</span></div>
+  <div class="charts-grid">
+    <div class="chart-card full"><span class="chart-title">Gêneros literários — todos os livros lidos</span><div class="chart-wrap tall"><canvas id="c-generos"></canvas></div></div>
+    <div class="chart-card"><span class="chart-title">Cor dos autores</span><div class="chart-wrap"><canvas id="c-cor"></canvas></div></div>
+    <div class="chart-card"><span class="chart-title">Gênero dos autores</span><div class="chart-wrap"><canvas id="c-ga"></canvas></div></div>
+    <div class="chart-card"><span class="chart-title">Idioma original</span><div class="chart-wrap"><canvas id="c-idioma"></canvas></div></div>
+    <div class="chart-card"><span class="chart-title">Formato</span><div class="chart-wrap"><canvas id="c-formato"></canvas></div></div>
+    <div class="chart-card"><span class="chart-title">Faixa etária</span><div class="chart-wrap"><canvas id="c-faixa"></canvas></div></div>
+    <div class="chart-card"><span class="chart-title">Série ou livro único</span><div class="chart-wrap"><canvas id="c-serie"></canvas></div></div>
+    <div class="chart-card full"><span class="chart-title">Avaliações (⭐ dos lidos)</span><div class="chart-wrap short"><canvas id="c-estrelas"></canvas></div></div>
+    <div class="chart-card full"><span class="chart-title">Diversidade e representatividade</span><div class="chart-wrap short"><canvas id="c-diversidade"></canvas></div></div>
+  </div>
+</section>
+
+<section id="mapa">
+  <div class="sec-header"><h2>De onde vieram meus livros?</h2><span>Autores por país</span></div>
+  <div class="map-card"><div id="map"></div></div>
+</section>
+
+<section id="lista">
+  <div class="sec-header"><h2>Todos os livros</h2><span id="lista-count">—</span></div>
+  <div class="table-card">
+    <div class="table-controls">
+      <div class="search-wrap"><input type="text" id="search" placeholder="Buscar título ou autor…"></div>
+      <select class="filter-select" id="f-status"><option value="">Todos</option><option>Lido</option><option>Não Lido</option><option>Lendo</option></select>
+      <select class="filter-select" id="f-genero"><option value="">Todos os gêneros</option></select>
+      <select class="filter-select" id="f-idioma"><option value="">Todos os idiomas</option></select>
+      <select class="filter-select" id="f-cor"><option value="">Toda cor</option></select>
+    </div>
+    <div class="tag-filters">
+      <button class="tag-btn active" data-tag="">Todos</button>
+      <button class="tag-btn" data-tag="lgbtqia">LGBTQIA+</button>
+      <button class="tag-btn" data-tag="diversidade">Diversidade étnica</button>
+      <button class="tag-btn" data-tag="ownvoices">#OwnVoices</button>
+      <button class="tag-btn" data-tag="psico">Questões psicológicas</button>
+    </div>
+    <div style="overflow-x:auto">
+      <table>
+        <thead><tr>
+          <th>Título</th><th>Autor/a</th><th>Gênero</th><th>Páginas</th>
+          <th>Idioma</th><th>Cor</th><th>País</th><th>Status</th><th>⭐</th>
+        </tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+    <div class="table-footer">
+      <span id="t-info">—</span>
+      <div class="pagination" id="pagination"></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="dots"><span></span><span></span><span></span></div>
+  <span>O QUE TEM NA ESTANTE DA LOUISE | LOUISE VICTORIA | © 2026 | DADOS VIA GOOGLE SHEETS · MAPA VIA LEAFLET · GRÁFICOS VIA CHART.JS</span>
+</footer>
+
+</div>
+
+<script>
+Chart.register(ChartDataLabels);
+const CSV_ESTANTE = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQWGv70Tc2vz-YUKxwU_0_H8F7UuHom1tCJQlE2Tfi8AMNem2c5X3WSs6z4CPjoTb2AaFKmJ8bihlPV/pub?gid=0&single=true&output=csv';
+
+const CORES = ['#9CB17F','#6B8156','#C9D6B5','#C8472B','#E8A87C','#8C8070','#A8C5DA','#F0D9FF','#B5EAD7','#FFE8E4'];
+const SAGE = '#9CB17F';
+const DARK = '#1C1A17';
+const MUTED = '#8C8070';
+
+const COORDS = {
+  'Brasil':[-15.8,-47.9],'EUA':[37.1,-95.7],'Estados Unidos':[37.1,-95.7],
+  'Reino Unido':[51.5,-0.1],'Japão':[35.7,139.7],'França':[46.2,2.2],
+  'Canadá':[56.1,-106.3],'Argentina':[-34.6,-58.4],'Portugal':[38.7,-9.1],
+  'Alemanha':[52.5,13.4],'Espanha':[40.4,-3.7],'Itália':[41.9,12.5],
+  'México':[19.4,-99.1],'Colômbia':[4.7,-74.1],'Chile':[-33.4,-70.6],
+  'Índia':[28.6,77.2],'China':[39.9,116.4],'Rússia':[55.8,37.6],
+  'Austrália':[-35.3,149.1],'Nigéria':[9.1,7.5],'África do Sul':[-25.7,28.2],
+  'Zâmbia':[-15.4,28.3],'Camarões':[3.9,11.5],'Irã':[35.7,51.4],
+  'Noruega':[59.9,10.7],'Holanda':[52.4,4.9],'Cuba':[23.1,-82.4],
+  'Ucrânia':[50.5,30.5],'Nova Zelândia':[-41.3,174.8],'Uruguai':[-34.9,-56.2],
+  'Bolívia':[-16.5,-68.1],'Ruanda':[-1.9,30.1],'Somália':[2.0,45.3],
+  'República Tcheca':[50.1,14.4],'Bélgica':[50.8,4.4],
+  'Coreia do Sul':[37.6,127.0],'Vietnã':[21.0,105.8],
+  'Polônia':[52.2,21.0],'Suécia':[59.3,18.1],'Grécia':[37.9,23.7],
+  'Turquia':[39.9,32.9],'Egito':[30.1,31.2],'Marrocos':[34.0,-6.8],
+  'Etiópia':[9.0,38.7],'Quênia':[-1.3,36.8],'Gana':[5.6,-0.2],
+  'Senegal':[14.7,-17.4],'Peru':[-12.0,-77.0],'Venezuela':[10.5,-66.9],
+  'Paquistão':[33.7,73.1],'Bangladesh':[23.7,90.4],'Israel':[31.8,35.2],
+  'Iraque':[33.3,44.4],'Síria':[33.5,36.3],'Angola':[-8.8,13.2],
+  'Moçambique':[-18.7,35.5],'Zimbabwe':[-17.8,31.1],'Uganda':[0.3,32.6],
+  'Gâmbia':[13.5,-15.6],'Serra Leoa':[8.5,-13.2],'Congo':[-4.3,15.3],
+  'República Democrática do Congo':[-4.3,15.3],
+  'Namíbia':[-22.6,17.1],'Madagascar':[-20.0,47.0],
+  'Tanzânia':[-6.4,34.9],'Costa do Marfim':[6.8,-5.3],
+  'Indonésia':[-6.2,106.8],'Filipinas':[14.6,121.0],
+  'Afeganistão':[34.5,69.2],'Cazaquistão':[51.2,71.4],
+  'Suíça':[46.8,8.2],'Áustria':[48.2,16.4],
+  'Hungria':[47.5,19.1],'Romênia':[44.4,26.1],'Bulgária':[42.7,23.3],
+  'Sérvia':[44.8,20.5],'Croácia':[45.8,16.0],'Irlanda':[53.3,-6.3],
+  'Escócia':[56.5,-4.2],'País de Gales':[52.1,-3.8],
+};
+
+function norm(s){ return (s||'').trim().toLowerCase(); }
+function isTrue(v){ return ['sim','yes','true','1','✓','x','verdadeiro'].includes(norm(v)); }
+function fetchCSV(url){
+  return new Promise((res,rej)=>{
+    Papa.parse(url,{download:true,header:true,skipEmptyLines:true,complete:r=>res(r.data),error:rej});
+  });
+}
+function count(arr,key){const c={};arr.forEach(b=>{const v=(b[key]||'').trim();if(v)c[v]=(c[v]||0)+1;});return c;}
+function topN(obj,n){return Object.entries(obj).sort((a,b)=>b[1]-a[1]).slice(0,n);}
+
+function chartBase(){
+  return {
+    maintainAspectRatio:false,
+    plugins:{
+      legend:{display:false},
+      datalabels:{display:true,anchor:'end',align:'end',color:DARK,font:{family:'DM Sans',size:10,weight:'500'},formatter:v=>v>0?v:'',clamp:true}
+    },
+    scales:{
+      x:{grid:{color:'rgba(156,177,127,.3)'},ticks:{font:{family:'DM Sans',size:11},color:DARK}},
+      y:{grid:{color:'rgba(156,177,127,.3)'},ticks:{font:{family:'DM Sans',size:11},color:DARK}},
+    }
+  };
+}
+function chartPie(){
+  return {
+    maintainAspectRatio:false,
+    plugins:{
+      legend:{position:'bottom',labels:{font:{family:'DM Sans',size:11},color:DARK,padding:10,boxWidth:12}},
+      datalabels:{display:true,formatter:(v,ctx)=>{const t=ctx.dataset.data.reduce((a,b)=>a+b,0);const p=Math.round(v/t*100);return p>4?p+'%':'';},color:DARK,font:{family:'DM Sans',size:11,weight:'600'}}
+    }
+  };
+}
+
+const PER=20;
+let allBooks=[], filtered=[], activeTag='', page=1;
+
+async function init(){
+  allBooks = await fetchCSV(CSV_ESTANTE);
+  const lidos = allBooks.filter(b=>norm(b['Lido/Não Lido'])==='lido');
+  document.getElementById('s-total').textContent = allBooks.length;
+  document.getElementById('s-lidos').textContent = lidos.length;
+  document.getElementById('s-paginas').textContent = lidos.reduce((s,b)=>s+(parseInt(b['Páginas'])||0),0).toLocaleString('pt-BR');
+  document.getElementById('s-autores').textContent = new Set(allBooks.map(b=>b['Nome']).filter(Boolean)).size;
+  document.getElementById('s-paises').textContent = new Set(allBooks.map(b=>b['País']).filter(Boolean)).size;
+  document.getElementById('s-lgbtq').textContent = allBooks.filter(b=>isTrue(b['Protagonista LGBTQIA+?'])).length;
+  buildCharts(lidos, allBooks);
+  buildMap(allBooks);
+  buildFilters();
+  filtered=[...allBooks];
+  renderTable();
+  document.querySelectorAll('nav ul a[data-page="estante"]').forEach(a=>a.classList.add('active'));
+}
+
+function barH(){const b=chartBase();b.indexAxis='y';return b;}
+function barV(){return chartBase();}
+
+function buildCharts(lidos, all){
+  const gn=topN(count(lidos,'Gênero'),12);
+  new Chart(document.getElementById('c-generos'),{type:'bar',data:{labels:gn.map(e=>e[0]),datasets:[{data:gn.map(e=>e[1]),backgroundColor:SAGE,borderRadius:4}]},options:barH()});
+  const cor=count(lidos,'Cor');
+  new Chart(document.getElementById('c-cor'),{type:'doughnut',data:{labels:Object.keys(cor),datasets:[{data:Object.values(cor),backgroundColor:CORES,borderWidth:0}]},options:chartPie()});
+  const ga=count(lidos,'Se identifica como...');
+  new Chart(document.getElementById('c-ga'),{type:'doughnut',data:{labels:Object.keys(ga),datasets:[{data:Object.values(ga),backgroundColor:CORES,borderWidth:0}]},options:chartPie()});
+  const id=count(lidos,'Idioma');
+  new Chart(document.getElementById('c-idioma'),{type:'doughnut',data:{labels:Object.keys(id),datasets:[{data:Object.values(id),backgroundColor:CORES,borderWidth:0}]},options:chartPie()});
+  const fm=count(all,'Formato');
+  new Chart(document.getElementById('c-formato'),{type:'doughnut',data:{labels:Object.keys(fm),datasets:[{data:Object.values(fm),backgroundColor:CORES,borderWidth:0}]},options:chartPie()});
+  const fa=count(all,'Faixa etária');
+  new Chart(document.getElementById('c-faixa'),{type:'doughnut',data:{labels:Object.keys(fa),datasets:[{data:Object.values(fa),backgroundColor:CORES,borderWidth:0}]},options:chartPie()});
+  const se=count(all,'Série ou único?');
+  new Chart(document.getElementById('c-serie'),{type:'doughnut',data:{labels:Object.keys(se),datasets:[{data:Object.values(se),backgroundColor:CORES,borderWidth:0}]},options:chartPie()});
+  const st={1:0,2:0,3:0,4:0,5:0};
+  lidos.forEach(b=>{const s=parseInt(b['Estrelas']);if(s>=1&&s<=5)st[s]++;});
+  new Chart(document.getElementById('c-estrelas'),{type:'bar',data:{labels:['1 ⭐','2 ⭐','3 ⭐','4 ⭐','5 ⭐'],datasets:[{data:Object.values(st),backgroundColor:SAGE,borderRadius:4}]},options:barV()});
+  const div=[
+    lidos.filter(b=>isTrue(b['Protagonista LGBTQIA+?'])).length,
+    lidos.filter(b=>isTrue(b['Diversidade étnica/racial ?'])).length,
+    lidos.filter(b=>isTrue(b['#OwnVoices ?'])).length,
+    lidos.filter(b=>isTrue(b['Questões psicológicas'])).length,
+  ];
+  new Chart(document.getElementById('c-diversidade'),{type:'bar',data:{labels:['LGBTQIA+','Diversidade étnica','#OwnVoices','Questões psicológicas'],datasets:[{data:div,backgroundColor:['#9CB17F','#6B8156','#C9D6B5','#E8A87C'],borderRadius:4}]},options:barV()});
+}
+
+function buildMap(books){
+  const map=L.map('map').setView([20,10],2);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map);
+  const pc=count(books,'País');
+  Object.entries(pc).forEach(([p,q])=>{
+    const c=COORDS[p]; if(!c) return;
+    L.circleMarker(c,{radius:6+Math.sqrt(q)*4,fillColor:SAGE,color:DARK,weight:1.5,fillOpacity:.8})
+     .addTo(map).bindPopup('<strong>'+p+'</strong><br>'+q+' livro'+(q>1?'s':''));
+  });
+}
+
+function buildFilters(){
+  ['Gênero','Idioma','Cor'].forEach((col,i)=>{
+    const ids=['f-genero','f-idioma','f-cor'];
+    const sel=document.getElementById(ids[i]);
+    [...new Set(allBooks.map(b=>b[col]).filter(Boolean))].sort().forEach(v=>{
+      const o=document.createElement('option');o.value=v;o.textContent=v;sel.appendChild(o);
+    });
+  });
+  ['search','f-status','f-genero','f-idioma','f-cor'].forEach(id=>{
+    document.getElementById(id).addEventListener(id==='search'?'input':'change',applyFilters);
+  });
+  document.querySelectorAll('.tag-btn').forEach(btn=>btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tag-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');activeTag=btn.dataset.tag;applyFilters();
+  }));
+}
+
+function applyFilters(){
+  const q=document.getElementById('search').value.toLowerCase();
+  const st=document.getElementById('f-status').value;
+  const gn=document.getElementById('f-genero').value;
+  const id=document.getElementById('f-idioma').value;
+  const cor=document.getElementById('f-cor').value;
+  filtered=allBooks.filter(b=>{
+    if(q&&!((b['Livros']||'')+(b['Nome']||'')).toLowerCase().includes(q))return false;
+    if(st&&norm(b['Lido/Não Lido'])!==norm(st))return false;
+    if(gn&&b['Gênero']!==gn)return false;
+    if(id&&b['Idioma']!==id)return false;
+    if(cor&&b['Cor']!==cor)return false;
+    if(activeTag==='lgbtqia'&&!isTrue(b['Protagonista LGBTQIA+?']))return false;
+    if(activeTag==='diversidade'&&!isTrue(b['Diversidade étnica/racial ?']))return false;
+    if(activeTag==='ownvoices'&&!isTrue(b['#OwnVoices ?']))return false;
+    if(activeTag==='psico'&&!isTrue(b['Questões psicológicas']))return false;
+    return true;
+  });
+  page=1;renderTable();
+}
+
+function renderTable(){
+  const start=(page-1)*PER;
+  const pg=filtered.slice(start,start+PER);
+  const tbody=document.getElementById('tbody');
+  document.getElementById('lista-count').textContent=filtered.length+' livros';
+  if(!filtered.length){tbody.innerHTML='<tr><td colspan="9" style="text-align:center;padding:2rem;color:var(--muted)">Nenhum encontrado.</td></tr>';document.getElementById('t-info').textContent='';document.getElementById('pagination').innerHTML='';return;}
+  tbody.innerHTML=pg.map(b=>{
+    const st=b['Lido/Não Lido']||'';
+    const bc=norm(st)==='lido'?'badge-lido':norm(st)==='lendo'?'badge-lendo':'badge-nao';
+    const s=parseInt(b['Estrelas'])||0;
+    return '<tr><td><strong>'+(b['Livros']||'—')+'</strong></td><td>'+(b['Nome']||'—')+'</td><td>'+(b['Gênero']||'—')+'</td><td>'+(b['Páginas']||'—')+'</td><td>'+(b['Idioma']||'—')+'</td><td>'+(b['Cor']||'—')+'</td><td>'+(b['País']||'—')+'</td><td><span class="badge '+bc+'">'+(st||'—')+'</span></td><td><span class="stars">'+'★'.repeat(s)+'</span></td></tr>';
+  }).join('');
+  document.getElementById('t-info').textContent=(start+1)+'–'+Math.min(start+PER,filtered.length)+' de '+filtered.length;
+  const pages=Math.ceil(filtered.length/PER);
+  const pag=document.getElementById('pagination');pag.innerHTML='';
+  for(let i=1;i<=pages;i++){const btn=document.createElement('button');btn.className='page-btn'+(i===page?' active':'');btn.textContent=i;btn.onclick=()=>{page=i;renderTable();};pag.appendChild(btn);}
+}
+
+init();
+</script>
 </body>
 </html>
