@@ -3,192 +3,613 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>2026 — Meus Livros</title>
+<title>2026 — O Que Tem na Estante da Louise</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
-<style>:root {
-  --cream:#F5F0E8; --dark:#1C1A17; --accent:#C8472B;
-  --warm:#E8A87C; --muted:#8C8070; --card:#FFFDF8; --border:#E0D8CC;
-  --green:#2E7D52; --green-light:#D4EDDA;
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+:root {
+  --white: #ffffff;
+  --black: #000000;
+  --green: #849974;
+  --green-dark: #6a7d5e;
+  --green-light: #a8b99a;
+  --green-bg: #c5d1bc;
+  --border: #c8d4bf;
+  --text: #1a1a1a;
+  --muted: #666;
+  --card-bg: #ffffff;
 }
-*{margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--cream);color:var(--dark);font-family:'DM Sans',sans-serif;font-weight:300;}
-nav{
-  position:sticky;top:0;z-index:100;background:var(--dark);
-  padding:0 2rem;display:flex;align-items:center;gap:2rem;height:56px;
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background: var(--white);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
 }
-nav .logo{font-family:'Playfair Display',serif;font-style:italic;color:var(--cream);font-size:1.3rem;text-decoration:none;white-space:nowrap;}
-nav ul{list-style:none;display:flex;gap:1.5rem;margin-left:auto;}
-nav ul a{color:var(--muted);text-decoration:none;font-size:.82rem;letter-spacing:.08em;text-transform:uppercase;transition:color .2s;}
-nav ul a:hover,nav ul a.active{color:var(--cream);}
-.nav-hamburger{display:none;background:none;border:none;color:var(--cream);font-size:1.4rem;cursor:pointer;margin-left:auto;}
 
-.hero{padding:5rem 2rem 3rem;max-width:860px;margin:0 auto;}
-.eyebrow{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:.8rem;}
-.hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.4rem,5vw,4rem);line-height:1.05;margin-bottom:1.5rem;}
-.hero h1 em{font-style:italic;color:var(--accent);}
-.hero p{color:var(--muted);font-size:1rem;line-height:1.8;max-width:540px;margin-bottom:.8rem;}
-.hero-line{width:48px;height:2px;background:var(--accent);margin:1.5rem 0;}
+/* ── NAV ── */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--white);
+  border-bottom: 1.5px solid var(--border);
+  padding: 0 2.5rem;
+  display: flex; align-items: center; gap: 2rem; height: 52px;
+}
+.nav-logo {
+  display: flex; gap: 6px; align-items: center;
+}
+.nav-logo span {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--black);
+  display: inline-block;
+}
+nav ul { list-style: none; display: flex; gap: 1.8rem; margin-left: auto; }
+nav ul a {
+  color: var(--black);
+  text-decoration: none;
+  font-size: .78rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  font-weight: 400;
+  transition: color .2s;
+}
+nav ul a:hover { color: var(--green); }
+nav ul a.active {
+  background: var(--green);
+  color: var(--white);
+  padding: .2rem .55rem;
+  border-radius: 3px;
+}
 
-.stats-bar{background:var(--dark);padding:2rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:0;}
-.stat-item{text-align:center;padding:1rem;border-right:1px solid #2a2825;}
-.stat-item:last-child{border-right:none;}
-.stat-number{font-family:'Playfair Display',serif;font-size:2.2rem;color:var(--cream);display:block;line-height:1;}
-.stat-label{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:.3rem;display:block;}
+/* ── MAIN WRAPPER ── */
+.page-wrap { max-width: 1180px; margin: 0 auto; padding: 0 2rem; }
 
-section{max-width:1100px;margin:0 auto;padding:4rem 2rem;}
-.section-header{display:flex;align-items:baseline;gap:1rem;margin-bottom:2.5rem;border-bottom:1px solid var(--border);padding-bottom:.8rem;}
-.section-header h2{font-family:'Playfair Display',serif;font-size:1.6rem;}
-.section-header span{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+/* ── HERO CARD ── */
+.hero-section { padding: 3rem 2rem 2rem; max-width: 1180px; margin: 0 auto; }
+.hero-card {
+  border: 1.5px solid var(--black);
+  border-radius: 12px;
+  padding: 2.5rem 2.5rem 2rem;
+  position: relative;
+  background: var(--white);
+}
+.card-dots {
+  display: flex; gap: 5px; margin-bottom: 1.2rem;
+}
+.card-dots span {
+  width: 9px; height: 9px; border-radius: 50%;
+  background: var(--black); display: inline-block;
+}
+.hero-title {
+  font-family: 'EB Garamond', serif;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 400;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+  background: var(--green);
+  display: inline-block;
+  padding: .1rem .4rem;
+  border-radius: 4px;
+}
+.hero-desc {
+  color: var(--text);
+  font-size: .95rem;
+  line-height: 1.75;
+  max-width: 820px;
+  margin-bottom: 1.5rem;
+}
+.hero-link-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--black);
+  padding-top: 1rem;
+  margin-top: .5rem;
+}
+.hero-link-label {
+  font-size: .7rem;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.hero-arrow { font-size: 1.3rem; color: var(--black); }
 
-.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;}
-.chart-card{background:var(--card);border:1px solid var(--border);border-radius:2px;padding:1.5rem;}
-.chart-card.full{grid-column:1/-1;}
-.chart-card.third{grid-column:span 1;}
-.chart-title{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem;}
-.chart-wrap{position:relative;height:220px;}
-.chart-wrap.tall{height:300px;}
-.chart-wrap.short{height:160px;}
+/* ── STATS GRID ── */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0;
+  max-width: 1180px;
+  margin: 1.5rem auto 0;
+  padding: 0 2rem;
+}
+.stat-box {
+  border: 1.5px solid var(--black);
+  border-radius: 10px;
+  padding: 1.4rem 1rem;
+  text-align: center;
+  margin: 0 .3rem;
+  background: var(--green-bg);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  min-height: 110px;
+}
+.stat-number {
+  font-family: 'EB Garamond', serif;
+  font-size: 2.4rem;
+  font-weight: 400;
+  line-height: 1;
+  color: var(--black);
+  display: block;
+}
+.stat-label {
+  font-size: .72rem;
+  letter-spacing: .06em;
+  color: var(--text);
+  margin-top: .35rem;
+  display: block;
+}
 
-#map,#dlm-map{height:400px;border-radius:2px;border:1px solid var(--border);}
+/* ── SECTION HEADER ── */
+.sec-header {
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: .8rem;
+}
+.sec-tag {
+  background: var(--green);
+  color: var(--white);
+  font-family: 'EB Garamond', serif;
+  font-size: 1rem;
+  padding: .15rem .5rem;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+.sec-subtitle {
+  font-size: .72rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+section.page-section {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 3rem 2rem 1rem;
+}
 
-/* TABLE */
-.table-controls{display:flex;gap:.8rem;flex-wrap:wrap;margin-bottom:1rem;align-items:center;}
-.search-wrap{flex:1;min-width:180px;position:relative;}
-.search-wrap input{width:100%;padding:.6rem 1rem .6rem 2.2rem;border:1px solid var(--border);background:var(--card);font-family:'DM Sans',sans-serif;font-size:.85rem;border-radius:2px;outline:none;color:var(--dark);}
-.search-wrap::before{content:'⌕';position:absolute;left:.7rem;top:50%;transform:translateY(-50%);color:var(--muted);}
-.filter-select{padding:.6rem .9rem;border:1px solid var(--border);background:var(--card);font-family:'DM Sans',sans-serif;font-size:.82rem;border-radius:2px;color:var(--dark);cursor:pointer;outline:none;}
-.tag-filters{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1rem;}
-.tag-btn{padding:.3rem .8rem;border:1px solid var(--border);background:transparent;font-family:'DM Sans',sans-serif;font-size:.72rem;letter-spacing:.06em;border-radius:100px;cursor:pointer;transition:all .2s;color:var(--muted);}
-.tag-btn.active{background:var(--dark);border-color:var(--dark);color:var(--cream);}
-table{width:100%;border-collapse:collapse;font-size:.83rem;}
-thead tr{border-bottom:2px solid var(--dark);}
-th{padding:.6rem .8rem;text-align:left;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);white-space:nowrap;cursor:pointer;user-select:none;}
-th:hover{color:var(--dark);}
-td{padding:.65rem .8rem;border-bottom:1px solid var(--border);vertical-align:middle;}
-tr:hover td{background:rgba(200,71,43,.04);}
-.badge{display:inline-block;padding:.18rem .55rem;border-radius:100px;font-size:.7rem;}
-.badge-lido{background:#D4EDDA;color:#1A6631;}
-.badge-nao{background:#FFE8E4;color:#9B2B1A;}
-.badge-lendo{background:#FFF3CD;color:#8A6200;}
-.stars{color:var(--accent);}
-.table-footer{padding:.8rem 0;color:var(--muted);font-size:.8rem;display:flex;justify-content:space-between;align-items:center;}
-.pagination{display:flex;gap:.3rem;flex-wrap:wrap;}
-.page-btn{width:30px;height:30px;border:1px solid var(--border);background:transparent;cursor:pointer;font-size:.8rem;border-radius:2px;transition:all .15s;}
-.page-btn.active{background:var(--dark);color:var(--cream);border-color:var(--dark);}
-.page-btn:hover:not(.active){border-color:var(--dark);}
+/* ── CHART CARD ── */
+.chart-card {
+  border: 1.5px solid var(--black);
+  border-radius: 12px;
+  padding: 0;
+  overflow: hidden;
+  background: var(--white);
+  position: relative;
+}
+.chart-card-header {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .7rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+.chart-card-header .card-dots span { width: 7px; height: 7px; background: var(--black); }
+.chart-card-title {
+  font-size: .72rem;
+  letter-spacing: .08em;
+  color: var(--muted);
+  margin-left: .3rem;
+}
+.chart-body {
+  padding: 1.2rem;
+  position: relative;
+}
+.chart-wrap { position: relative; }
+.chart-wrap.h200 { height: 200px; }
+.chart-wrap.h260 { height: 260px; }
+.chart-wrap.h120 { height: 120px; }
+.chart-wrap.h300 { height: 300px; }
 
-/* PROGRESS */
-.progress-card{background:var(--card);border:1px solid var(--border);border-radius:2px;padding:2rem;display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;align-items:center;}
-.progress-bar-wrap{background:var(--border);height:5px;border-radius:3px;overflow:hidden;margin:.8rem 0 .4rem;}
-.progress-bar-fill{height:100%;background:var(--accent);border-radius:3px;transition:width 1s ease;}
-.progress-pct{font-size:.75rem;color:var(--muted);}
-.pstat{display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;border-bottom:1px solid var(--border);}
-.pstat:last-child{border-bottom:none;}
-.pstat-label{font-size:.8rem;color:var(--muted);}
-.pstat-val{font-family:'Playfair Display',serif;font-size:1.3rem;}
+/* Chart card title big (placeholder style) */
+.chart-placeholder {
+  font-family: 'EB Garamond', serif;
+  font-size: 2.8rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--green);
+  text-align: center;
+  padding: 2rem 1rem;
+  font-weight: 400;
+}
 
-/* VITRINE CARDS */
-.vitrine-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.2rem;}
-.vitrine-card{background:var(--card);border:1px solid var(--border);border-radius:2px;padding:1.8rem;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:.8rem;transition:transform .2s,box-shadow .2s;}
-.vitrine-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.08);}
-.vitrine-tag{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);}
-.vitrine-title{font-family:'Playfair Display',serif;font-size:1.1rem;}
-.vitrine-desc{font-size:.83rem;color:var(--muted);line-height:1.6;flex:1;}
-.vitrine-arrow{color:var(--accent);font-size:.9rem;margin-top:.5rem;}
+/* ── PROGRESS CARD ── */
+.progress-big-card {
+  border: 1.5px solid var(--black);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--white);
+  margin-bottom: 2rem;
+}
+.progress-big-card .chart-card-header .card-dots { margin-bottom: 0; }
+.progress-body {
+  padding: 2rem 2.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+.progress-meta-label {
+  font-family: 'EB Garamond', serif;
+  font-size: 1.1rem;
+  margin-bottom: .4rem;
+}
+.progress-sub {
+  font-size: .85rem;
+  color: var(--muted);
+  margin-bottom: .9rem;
+}
+.progress-bar-wrap {
+  background: var(--border);
+  height: 6px;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: .4rem;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: var(--green);
+  border-radius: 4px;
+  transition: width 1s ease;
+}
+.progress-pct {
+  font-size: .74rem;
+  color: var(--muted);
+}
+.pstat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: .55rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.pstat:last-child { border-bottom: none; }
+.pstat-label { font-size: .82rem; color: var(--muted); }
+.pstat-val {
+  font-family: 'EB Garamond', serif;
+  font-size: 1.3rem;
+  font-weight: 500;
+}
 
-footer{background:var(--dark);padding:1.5rem;text-align:center;color:var(--muted);font-size:.75rem;letter-spacing:.04em;}
+/* ── CHARTS GRID ── */
+.charts-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.charts-grid-2 .full { grid-column: 1 / -1; }
+.charts-grid-2 .chart-card { min-height: 200px; }
 
-@media(max-width:700px){
-  .charts-grid{grid-template-columns:1fr;}
-  .progress-card{grid-template-columns:1fr;}
-  nav ul{display:none;position:absolute;top:56px;left:0;right:0;background:var(--dark);flex-direction:column;padding:1rem 2rem;gap:1rem;}
-  nav ul.open{display:flex;}
-  .nav-hamburger{display:block;}
-}</style>
+/* ── MAP ── */
+#map-2026 {
+  height: 420px;
+  border-radius: 0 0 10px 10px;
+  z-index: 1;
+}
+
+/* ── TABLE ── */
+.table-controls {
+  display: flex; gap: .8rem; flex-wrap: wrap;
+  margin-bottom: 1rem; align-items: center;
+}
+.search-wrap { flex: 1; min-width: 200px; position: relative; }
+.search-wrap input {
+  width: 100%;
+  padding: .55rem 1rem .55rem 2rem;
+  border: 1.5px solid var(--border);
+  background: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  font-size: .85rem;
+  border-radius: 6px;
+  outline: none;
+  color: var(--text);
+}
+.search-wrap::before {
+  content: '⌕';
+  position: absolute; left: .65rem; top: 50%;
+  transform: translateY(-50%); color: var(--muted);
+}
+.filter-select {
+  padding: .55rem .9rem;
+  border: 1.5px solid var(--border);
+  background: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  font-size: .82rem; border-radius: 6px;
+  color: var(--text); cursor: pointer; outline: none;
+}
+.tag-filters { display: flex; gap: .4rem; flex-wrap: wrap; margin-bottom: 1rem; }
+.tag-btn {
+  padding: .3rem .8rem;
+  border: 1.5px solid var(--border);
+  background: transparent;
+  font-family: 'DM Sans', sans-serif;
+  font-size: .72rem; letter-spacing: .06em;
+  border-radius: 100px; cursor: pointer;
+  transition: all .2s; color: var(--muted);
+}
+.tag-btn.active {
+  background: var(--green); border-color: var(--green); color: var(--white);
+}
+table { width: 100%; border-collapse: collapse; font-size: .83rem; }
+thead tr { border-bottom: 2px solid var(--black); }
+th {
+  padding: .55rem .8rem;
+  text-align: left; font-size: .68rem;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--muted); white-space: nowrap;
+  cursor: pointer; user-select: none;
+}
+th:hover { color: var(--black); }
+td { padding: .62rem .8rem; border-bottom: 1px solid var(--border); vertical-align: middle; }
+tr:hover td { background: rgba(132,153,116,.07); }
+.badge {
+  display: inline-block; padding: .18rem .55rem;
+  border-radius: 100px; font-size: .7rem;
+}
+.badge-lido { background: #d4edd4; color: #1a5c1a; }
+.badge-nao { background: #f5e4e4; color: #7a2020; }
+.badge-lendo { background: #fef3cd; color: #7a5c00; }
+.stars { color: var(--green); }
+.table-footer {
+  padding: .8rem 0; color: var(--muted); font-size: .8rem;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.pagination { display: flex; gap: .3rem; flex-wrap: wrap; }
+.page-btn {
+  width: 30px; height: 30px;
+  border: 1.5px solid var(--border); background: transparent;
+  cursor: pointer; font-size: .8rem; border-radius: 4px;
+  transition: all .15s;
+}
+.page-btn.active { background: var(--green); color: var(--white); border-color: var(--green); }
+.page-btn:hover:not(.active) { border-color: var(--green); }
+
+/* ── AUDIOBOOKS NOTE ── */
+.audio-note {
+  font-size: .78rem;
+  color: var(--muted);
+  padding: .4rem .8rem;
+  background: #f5f9f3;
+  border-left: 3px solid var(--green);
+  border-radius: 0 4px 4px 0;
+  margin-bottom: 1rem;
+}
+
+/* ── FOOTER ── */
+footer {
+  background: var(--green);
+  padding: 1.2rem 2rem;
+  text-align: left;
+  display: flex; align-items: center; gap: .8rem;
+  margin-top: 3rem;
+}
+.footer-dots span { width: 9px; height: 9px; border-radius: 50%; background: var(--white); display: inline-block; }
+.footer-dots { display: flex; gap: 5px; }
+footer p {
+  color: var(--white);
+  font-size: .72rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+@media(max-width: 900px) {
+  .stats-grid { grid-template-columns: repeat(3,1fr); gap: .5rem; padding: 0 1rem; }
+  .stat-box { margin: 0; }
+  .charts-grid-2 { grid-template-columns: 1fr; }
+  .progress-body { grid-template-columns: 1fr; gap: 1.5rem; }
+  nav ul { display: none; }
+}
+</style>
 </head>
 <body>
+
 <nav>
-  <a class="logo" href="index.html">meus livros</a>
+  <div class="nav-logo"><span></span><span></span><span></span></div>
   <ul>
-    <li><a href="index.html" data-page="index">Início</a></li>
-    <li><a href="2026.html" data-page="2026">2026</a></li>
-    <li><a href="estante.html" data-page="estante">Estante</a></li>
-    <li><a href="historico.html" data-page="historico">Histórico</a></li>
-    <li><a href="desafio.html" data-page="desafio">Desafio</a></li>
-    <li><a href="sobre.html" data-page="sobre">Sobre</a></li>
+    <li><a href="index.html">Início</a></li>
+    <li><a href="2026.html" class="active">2026</a></li>
+    <li><a href="estante.html">Estante</a></li>
+    <li><a href="historico.html">Histórico</a></li>
+    <li><a href="desafio.html">Desafio</a></li>
+    <li><a href="sobre.html">Sobre</a></li>
   </ul>
-  <button class="nav-hamburger" onclick="document.querySelector('nav ul').classList.toggle('open')">☰</button>
 </nav>
 
-<div class="hero">
-  <p class="eyebrow">Ano em curso</p>
-  <h1>Leituras de <em>2026</em></h1>
-  <div class="hero-line"></div>
-  <p>Progresso da meta anual e os dados específicos dos livros lidos este ano.</p>
-</div>
-
-<div class="stats-bar">
-  <div class="stat-item"><span class="stat-number" id="s-lidos">—</span><span class="stat-label">Lidos em 2026</span></div>
-  <div class="stat-item"><span class="stat-number" id="s-meta">44</span><span class="stat-label">Meta do ano</span></div>
-  <div class="stat-item"><span class="stat-number" id="s-paginas">—</span><span class="stat-label">Páginas</span></div>
-  <div class="stat-item"><span class="stat-number" id="s-autores-novos">—</span><span class="stat-label">Autores novos</span></div>
-  <div class="stat-item"><span class="stat-number" id="s-paises">—</span><span class="stat-label">Países</span></div>
-</div>
-
-<section id="progresso">
-  <div class="section-header"><h2>Meta 2026</h2><span>Progresso</span></div>
-  <div class="progress-card">
-    <div>
-      <div style="font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:.4rem;">Meta de leitura</div>
-      <div style="font-size:.83rem;color:var(--muted);margin-bottom:1rem;" id="prog-texto">— lidos de 44 planejados</div>
-      <div class="progress-bar-wrap"><div class="progress-bar-fill" id="prog-bar" style="width:0%"></div></div>
-      <div class="progress-pct" id="prog-pct">0% concluído</div>
+<!-- ── HERO ── -->
+<div class="hero-section">
+  <div class="hero-card">
+    <div class="card-dots"><span></span><span></span><span></span></div>
+    <div class="hero-title">Leituras de 2026</div>
+    <p class="hero-desc">
+      A parte legal de acompanhar os dados das minhas leituras ao longo do ano é conseguir perceber se estou evoluindo no quesito diversidade (explorando novos gêneros, autores e países) e até mesmo se estou tendo boas leituras ou apenas passando por elas.
+    </p>
+    <div class="hero-link-row">
+      <span class="hero-link-label">Progresso da meta anual e os dados específicos dos livros lidos este ano</span>
+      <span class="hero-arrow">→</span>
     </div>
-    <div>
-      <div class="pstat"><span class="pstat-label">Lidos</span><span class="pstat-val" id="p-lidos">—</span></div>
-      <div class="pstat"><span class="pstat-label">Não lidos</span><span class="pstat-val" id="p-nao">—</span></div>
-      <div class="pstat"><span class="pstat-label">Lendo agora</span><span class="pstat-val" id="p-lendo">—</span></div>
-      <div class="pstat"><span class="pstat-label">Gênero mais lido</span><span class="pstat-val" id="p-genero">—</span></div>
+  </div>
+</div>
+
+<!-- ── STATS BAR ── -->
+<div class="stats-grid">
+  <div class="stat-box"><span class="stat-number" id="s-meta">43</span><span class="stat-label">Meta do ano</span></div>
+  <div class="stat-box"><span class="stat-number" id="s-lidos">—</span><span class="stat-label">Lidos</span></div>
+  <div class="stat-box"><span class="stat-number" id="s-paginas">—</span><span class="stat-label">Páginas lidas</span></div>
+  <div class="stat-box"><span class="stat-number" id="s-horas">—</span><span class="stat-label">Horas ouvidas</span></div>
+  <div class="stat-box"><span class="stat-number" id="s-autores">—</span><span class="stat-label">Autores novos</span></div>
+  <div class="stat-box"><span class="stat-number" id="s-paises">—</span><span class="stat-label">Países</span></div>
+</div>
+
+<!-- ── META / PROGRESSO ── -->
+<section class="page-section">
+  <div class="sec-header">
+    <span class="sec-tag">Meta 2026</span>
+    <span class="sec-subtitle">Progresso</span>
+  </div>
+  <div class="progress-big-card">
+    <div class="chart-card-header">
+      <div class="card-dots"><span></span><span></span><span></span></div>
+    </div>
+    <div class="progress-body">
+      <div>
+        <div class="progress-meta-label">Meta de leitura</div>
+        <div class="progress-sub" id="prog-texto">— lidos de 43 planejados</div>
+        <div class="progress-bar-wrap"><div class="progress-bar-fill" id="prog-bar" style="width:0%"></div></div>
+        <div class="progress-pct" id="prog-pct">0% concluído</div>
+      </div>
+      <div>
+        <div class="pstat"><span class="pstat-label">Lidos</span><span class="pstat-val" id="p-lidos">—</span></div>
+        <div class="pstat"><span class="pstat-label">Lendo agora</span><span class="pstat-val" id="p-lendo">—</span></div>
+        <div class="pstat"><span class="pstat-label">Não lidos</span><span class="pstat-val" id="p-nao">—</span></div>
+        <div class="pstat"><span class="pstat-label">Gênero mais lido</span><span class="pstat-val" id="p-genero">—</span></div>
+      </div>
     </div>
   </div>
 </section>
 
-<section id="graficos">
-  <div class="section-header"><h2>Gráficos de 2026</h2><span>Dados específicos do ano</span></div>
-  <div class="charts-grid">
-    <div class="chart-card full"><div class="chart-title">Status de leitura em 2026</div><div class="chart-wrap short"><canvas id="c-status"></canvas></div></div>
-    <div class="chart-card"><div class="chart-title">Gêneros literários</div><div class="chart-wrap tall"><canvas id="c-generos"></canvas></div></div>
-    <div class="chart-card"><div class="chart-title">Cor dos autores</div><div class="chart-wrap"><canvas id="c-cor"></canvas></div></div>
-    <div class="chart-card"><div class="chart-title">Gênero dos autores</div><div class="chart-wrap"><canvas id="c-genero-autor"></canvas></div></div>
-    <div class="chart-card"><div class="chart-title">Idioma original</div><div class="chart-wrap"><canvas id="c-idioma"></canvas></div></div>
-    <div class="chart-card"><div class="chart-title">Formato</div><div class="chart-wrap"><canvas id="c-formato"></canvas></div></div>
-    <div class="chart-card full"><div class="chart-title">Avaliações (estrelas)</div><div class="chart-wrap short"><canvas id="c-estrelas"></canvas></div></div>
+<!-- ── LEITURAS EM DADOS ── -->
+<section class="page-section" style="padding-top:1rem">
+  <div class="sec-header">
+    <span class="sec-tag">Leituras em dados</span>
+    <span class="sec-subtitle">Dados específicos do ano</span>
+  </div>
+
+  <!-- Status + gênero row -->
+  <div class="charts-grid-2" style="margin-bottom:1rem">
+    <div class="chart-card full">
+      <div class="chart-card-header">
+        <div class="card-dots"><span></span><span></span><span></span></div>
+        <span class="chart-card-title">Status de leitura em 2026</span>
+      </div>
+      <div class="chart-body"><div class="chart-wrap h120"><canvas id="c-status"></canvas></div></div>
+    </div>
+  </div>
+
+  <div class="charts-grid-2" style="margin-bottom:1rem">
+    <div class="chart-card">
+      <div class="chart-card-header">
+        <div class="card-dots"><span></span><span></span><span></span></div>
+        <span class="chart-card-title">Gêneros literários</span>
+      </div>
+      <div class="chart-body"><div class="chart-wrap h300"><canvas id="c-generos"></canvas></div></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-card-header">
+        <div class="card-dots"><span></span><span></span><span></span></div>
+        <span class="chart-card-title">Cor dos autores</span>
+      </div>
+      <div class="chart-body"><div class="chart-wrap h300"><canvas id="c-cor"></canvas></div></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-card-header">
+        <div class="card-dots"><span></span><span></span><span></span></div>
+        <span class="chart-card-title">Gênero dos autores</span>
+      </div>
+      <div class="chart-body"><div class="chart-wrap h200"><canvas id="c-genero-autor"></canvas></div></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-card-header">
+        <div class="card-dots"><span></span><span></span><span></span></div>
+        <span class="chart-card-title">Idioma original</span>
+      </div>
+      <div class="chart-body"><div class="chart-wrap h200"><canvas id="c-idioma"></canvas></div></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-card-header">
+        <div class="card-dots"><span></span><span></span><span></span></div>
+        <span class="chart-card-title">Formato</span>
+      </div>
+      <div class="chart-body"><div class="chart-wrap h200"><canvas id="c-formato"></canvas></div></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-card-header">
+        <div class="card-dots"><span></span><span></span><span></span></div>
+        <span class="chart-card-title">Avaliações (estrelas)</span>
+      </div>
+      <div class="chart-body"><div class="chart-wrap h200"><canvas id="c-estrelas"></canvas></div></div>
+    </div>
+    <div class="chart-card full">
+      <div class="chart-card-header">
+        <div class="card-dots"><span></span><span></span><span></span></div>
+        <span class="chart-card-title">Páginas lidas por mês</span>
+      </div>
+      <div class="chart-body"><div class="chart-wrap h200"><canvas id="c-paginas-mes"></canvas></div></div>
+    </div>
   </div>
 </section>
 
-<section id="lista">
-  <div class="section-header"><h2>Livros de 2026</h2><span id="lista-count">—</span></div>
+<!-- ── DE ONDE VIERAM ── -->
+<section class="page-section" style="padding-top:1rem">
+  <div class="sec-header">
+    <span class="sec-tag">De onde vieram minhas leituras?</span>
+    <span class="sec-subtitle">Autores por País</span>
+  </div>
+  <div class="chart-card">
+    <div class="chart-card-header">
+      <div class="card-dots"><span></span><span></span><span></span></div>
+    </div>
+    <div id="map-2026"></div>
+  </div>
+</section>
+
+<!-- ── LISTA DE LIVROS ── -->
+<section class="page-section" style="padding-top:2rem">
+  <div class="sec-header">
+    <span class="sec-tag">Livros de 2026</span>
+    <span class="sec-subtitle" id="lista-count">— livros</span>
+  </div>
+
+  <div class="audio-note" id="audio-note" style="display:none">
+    📢 <strong id="audio-count">—</strong> audiobooks nesta lista · horas ouvidas incluídas nas estatísticas
+  </div>
+
   <div class="table-controls">
     <div class="search-wrap"><input type="text" id="search" placeholder="Buscar título ou autor…"></div>
-    <select class="filter-select" id="f-status"><option value="">Todos</option><option>Lido</option><option>Não Lido</option><option>Lendo</option></select>
+    <select class="filter-select" id="f-status">
+      <option value="">Todos os status</option>
+      <option>Lido</option><option>Não Lido</option><option>Lendo</option>
+    </select>
     <select class="filter-select" id="f-genero"><option value="">Todos os gêneros</option></select>
+    <select class="filter-select" id="f-formato"><option value="">Todos os formatos</option></select>
   </div>
   <div class="tag-filters">
     <button class="tag-btn active" data-tag="">Todos</button>
     <button class="tag-btn" data-tag="lgbtqia">LGBTQIA+</button>
     <button class="tag-btn" data-tag="diversidade">Diversidade étnica</button>
     <button class="tag-btn" data-tag="ownvoices">#OwnVoices</button>
+    <button class="tag-btn" data-tag="audiobook">Audiobook</button>
   </div>
   <div style="overflow-x:auto">
     <table>
       <thead><tr>
-        <th>Título</th><th>Autor/a</th><th>Gênero</th><th>Páginas</th>
-        <th>Idioma</th><th>Status</th><th>⭐</th>
+        <th data-col="Livros">Título ↕</th>
+        <th data-col="Nome">Autor/a ↕</th>
+        <th data-col="Gênero">Gênero ↕</th>
+        <th data-col="Páginas">Pág. ↕</th>
+        <th data-col="Horas ouvidas">Áudio ↕</th>
+        <th data-col="Idioma">Idioma ↕</th>
+        <th data-col="País">País ↕</th>
+        <th data-col="Cor">Cor ↕</th>
+        <th data-col="Lido/Não Lido">Status ↕</th>
+        <th data-col="Estrelas">⭐ ↕</th>
       </tr></thead>
       <tbody id="tbody"></tbody>
     </table>
@@ -199,22 +620,100 @@ footer{background:var(--dark);padding:1.5rem;text-align:center;color:var(--muted
   </div>
 </section>
 
-<footer>dados via Google Sheets · gráficos via Chart.js</footer>
+<footer>
+  <div class="footer-dots"><span></span><span></span><span></span></div>
+  <p>O Que Tem na Estante da Louise | Louise Victoria © 2026 | Dados via Google Sheets · Mapa via Leaflet · Gráficos via Chart.js</p>
+</footer>
 
 <script>
 Chart.register(ChartDataLabels);
-// ─── URLs ────────────────────────────────────────────────────────────────────
-const CSV_ESTANTE   = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQWGv70Tc2vz-YUKxwU_0_H8F7UuHom1tCJQlE2Tfi8AMNem2c5X3WSs6z4CPjoTb2AaFKmJ8bihlPV/pub?gid=0&single=true&output=csv';
-const CSV_VISAO     = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub?gid=700848757&single=true&output=csv';
-const CSV_DESAFIO   = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub?gid=537800862&single=true&output=csv';
 
-// ─── PALETA ──────────────────────────────────────────────────────────────────
-const CORES = ['#C8472B','#E8A87C','#8C8070','#4A6741','#D4EDDA','#A8C5DA','#F0D9FF','#B5EAD7','#FFE8E4','#FFF3CD'];
-const ACCENT = '#C8472B';
-const DARK   = '#1C1A17';
-const MUTED  = '#8C8070';
+const CSV_2026 = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub?gid=537800862&single=true&output=csv';
 
-// ─── COORDS PAÍSES ──────────────────────────────────────────────────────────
+const GREEN   = '#849974';
+const GREEN_D = '#6a7d5e';
+const GREEN_L = '#c5d1bc';
+const CORES   = ['#849974','#a8b99a','#6a7d5e','#c5d1bc','#4a5e42','#d4e4cb','#3d5038','#b0c4a4','#8faa82','#e6f0e0'];
+const MUTED   = '#666';
+const BLACK   = '#000';
+
+const META = 43;
+const PER  = 20;
+let all2026 = [], filtered = [], page = 1, sortCol = '', sortAsc = true, activeTag = '';
+
+function norm(s){ return (s||'').trim().toLowerCase(); }
+function isTrue(v){ return ['sim','yes','true','1','✓','x','verdadeiro'].includes(norm(v)); }
+function fetchCSV(url){
+  return new Promise((res,rej)=>{
+    Papa.parse(url,{download:true,header:true,skipEmptyLines:true,complete:r=>res(r.data),error:rej});
+  });
+}
+function count(arr,key){
+  const c={};
+  arr.forEach(b=>{const v=(b[key]||'').trim();if(v)c[v]=(c[v]||0)+1;});
+  return c;
+}
+function topN(obj,n){
+  return Object.entries(obj).sort((a,b)=>b[1]-a[1]).slice(0,n);
+}
+
+// Parse "HH:MM:SS.mmm" or similar
+function parseHours(s){
+  if(!s||s==='00:00:00.000'||s.trim()==='') return 0;
+  const p=(s||'').trim().split(':');
+  if(p.length>=2){
+    const h=parseFloat(p[0])||0, m=parseFloat(p[1])||0, sec=parseFloat(p[2])||0;
+    return h + m/60 + sec/3600;
+  }
+  return 0;
+}
+
+function isAudiobook(b){
+  const h = parseHours(b['Horas ouvidas'] || b['Horas Ouvidas'] || '');
+  return h > 0;
+}
+
+function chartOpts(indexAxis='x'){
+  return {
+    maintainAspectRatio:false,
+    indexAxis,
+    plugins:{
+      legend:{display:false},
+      datalabels:{
+        display:true,
+        anchor:'end', align: indexAxis==='y'?'end':'top',
+        color: BLACK,
+        font:{family:'DM Sans',size:10,weight:'500'},
+        formatter:v=>v>0?v:'',
+        clamp:true,
+        padding: 2,
+      }
+    },
+    scales:{
+      x:{grid:{color:'rgba(0,0,0,.06)'},ticks:{font:{family:'DM Sans',size:10},color:MUTED}},
+      y:{grid:{color:'rgba(0,0,0,.06)'},ticks:{font:{family:'DM Sans',size:10},color:MUTED}},
+    }
+  };
+}
+
+function chartPie(){
+  return {
+    maintainAspectRatio:false,
+    plugins:{
+      legend:{position:'bottom',labels:{font:{family:'DM Sans',size:11},color:BLACK,padding:8,boxWidth:12}},
+      datalabels:{
+        display:true,
+        formatter:(v,ctx)=>{
+          const total=ctx.dataset.data.reduce((a,b)=>a+b,0);
+          const pct=Math.round(v/total*100);
+          return pct>5?pct+'%':'';
+        },
+        color:'#fff',font:{family:'DM Sans',size:11,weight:'500'},
+      }
+    }
+  };
+}
+
 const COORDS = {
   'Brasil':[-15.8,-47.9],'EUA':[37.1,-95.7],'Estados Unidos':[37.1,-95.7],
   'Reino Unido':[51.5,-0.1],'Japão':[35.7,139.7],'França':[46.2,2.2],
@@ -236,158 +735,83 @@ const COORDS = {
   'Paquistão':[33.7,73.1],'Bangladesh':[23.7,90.4],'Israel':[31.8,35.2],
   'Iraque':[33.3,44.4],'Síria':[33.5,36.3],'Angola':[-8.8,13.2],
   'Moçambique':[-18.7,35.5],'Zimbabwe':[-17.8,31.1],'Uganda':[0.3,32.6],
-  'Índia Britânica':[28.6,77.2],'Gâmbia':[13.5,-15.6],
-  'Serra Leoa':[8.5,-13.2],'Congo':[-4.3,15.3],
-  'República Democrática do Congo':[-4.3,15.3],
-  'Namíbia':[-22.6,17.1],'Madagascar':[-20.0,47.0],
-  'Tanzânia':[-6.4,34.9],'Costa do Marfim':[6.8,-5.3],
-  'Indonésia':[-6.2,106.8],'Filipinas':[14.6,121.0],
-  'Afeganistão':[34.5,69.2],'Cazaquistão':[51.2,71.4],
-  'Itália':[41.9,12.5],'Suíça':[46.8,8.2],'Áustria':[48.2,16.4],
-  'Hungria':[47.5,19.1],'Romênia':[44.4,26.1],'Bulgária':[42.7,23.3],
-  'Sérvia':[44.8,20.5],'Croácia':[45.8,16.0],'Irlanda':[53.3,-6.3],
-  'Escócia':[56.5,-4.2],'País de Gales':[52.1,-3.8],
+  'Gâmbia':[13.5,-15.6],'Serra Leoa':[8.5,-13.2],'Congo':[-4.3,15.3],
+  'Namíbia':[-22.6,17.1],'Tanzânia':[-6.4,34.9],'Costa do Marfim':[6.8,-5.3],
+  'Indonésia':[-6.2,106.8],'Filipinas':[14.6,121.0],'Afeganistão':[34.5,69.2],
+  'Suíça':[46.8,8.2],'Áustria':[48.2,16.4],'Irlanda':[53.3,-6.3],
 };
 
-// ─── HELPERS ─────────────────────────────────────────────────────────────────
-function norm(s){ return (s||'').trim().toLowerCase(); }
-function isTrue(v){ return ['sim','yes','true','1','✓','x','verdadeiro'].includes(norm(v)); }
-function fetchCSV(url){
-  return new Promise((res,rej)=>{
-    Papa.parse(url,{download:true,header:true,skipEmptyLines:true,
-      complete:r=>res(r.data), error:rej});
-  });
-}
-function count(arr,key){
-  const c={};
-  arr.forEach(b=>{const v=(b[key]||'').trim();if(v)c[v]=(c[v]||0)+1;});
-  return c;
-}
-function topN(obj,n){
-  return Object.entries(obj).sort((a,b)=>b[1]-a[1]).slice(0,n);
-}
-function chartBase(extra={}){
-  return {
-    maintainAspectRatio:false,
-    plugins:{
-      legend:{display:false},
-      datalabels:{
-        display:true, color:'#fff', font:{family:'DM Sans',size:11,weight:'500'},
-        formatter:v=>v>0?v:'',
-        anchor:'end', align:'start', clamp:true,
-      },
-      ...extra
-    },
-    scales:{
-      x:{grid:{color:'#E0D8CC'},ticks:{font:{family:'DM Sans',size:11},color:MUTED}},
-      y:{grid:{color:'#E0D8CC'},ticks:{font:{family:'DM Sans',size:11},color:MUTED}},
-    }
-  };
-}
-function chartPie(){
-  return {
-    maintainAspectRatio:false,
-    plugins:{
-      legend:{position:'bottom',labels:{font:{family:'DM Sans',size:11},color:DARK,padding:10,boxWidth:12}},
-      datalabels:{
-        display:true,
-        formatter:(v,ctx)=>{
-          const total=ctx.dataset.data.reduce((a,b)=>a+b,0);
-          const pct=Math.round(v/total*100);
-          return pct>4?pct+'%':'';
-        },
-        color:'#fff',font:{family:'DM Sans',size:11,weight:'500'},
-      }
-    }
-  };
-}
-
-const META = 44;
-const ANO  = '2026';
-const PER  = 20;
-let all2026=[], filtered=[], sortCol='', sortAsc=true, activeTag='', page=1;
-
 async function init(){
-  const all = await fetchCSV(CSV_ESTANTE);
-  // Filtra pelo ano — coluna 'Ano' se existir, senão usa todos
-  all2026 = all.filter(b=>{
-    if(b['Ano']) return b['Ano'].trim()===ANO;
-    return true; // sem coluna ano: mostra todos
-  });
-
-  // Se não houver coluna Ano, tenta inferir pela visão geral
-  // Por ora mostra tudo que está lido/lendo (subset mais útil)
-  if(!all[0]?.['Ano']){
-    // fallback: pega os últimos N livros adicionados (assume ordem cronológica)
-    // Usa todos mas informa
-    all2026 = all;
-  }
+  const data = await fetchCSV(CSV_2026);
+  all2026 = data;
 
   buildStats();
   buildCharts();
+  buildMap();
   buildFilters();
-  filtered=[...all2026];
+  filtered = [...all2026];
   renderTable();
-  document.querySelectorAll('nav ul a[data-page="2026"]').forEach(a=>a.classList.add('active'));
 }
 
 function buildStats(){
   const lidos = all2026.filter(b=>norm(b['Lido/Não Lido'])==='lido');
   const pags  = lidos.reduce((s,b)=>s+(parseInt(b['Páginas'])||0),0);
-  const novos = new Set(lidos.map(b=>b['Nome']).filter(Boolean)).size;
-  const paises= new Set(lidos.map(b=>b['País']).filter(Boolean)).size;
-  const pct   = Math.min(100,Math.round(lidos.length/META*100));
 
-  document.getElementById('s-lidos').textContent = lidos.length;
-  document.getElementById('s-paginas').textContent = pags.toLocaleString('pt-BR');
-  document.getElementById('s-autores-novos').textContent = novos;
-  document.getElementById('s-paises').textContent = paises;
+  // Horas ouvidas de audiobooks
+  let totalHoras = 0;
+  all2026.forEach(b=>{
+    totalHoras += parseHours(b['Horas ouvidas'] || b['Horas Ouvidas'] || '');
+  });
+
+  const autoresSet = new Set(lidos.map(b=>(b['Nome']||'').trim()).filter(Boolean));
+  const paisesSet  = new Set(lidos.map(b=>(b['País']||'').trim()).filter(Boolean));
+  const pct = Math.min(100, Math.round(lidos.length/META*100));
+
+  document.getElementById('s-lidos').textContent   = lidos.length;
+  document.getElementById('s-paginas').textContent  = pags.toLocaleString('pt-BR');
+  document.getElementById('s-horas').textContent    = totalHoras > 0 ? Math.round(totalHoras)+'h' : '—';
+  document.getElementById('s-autores').textContent  = autoresSet.size;
+  document.getElementById('s-paises').textContent   = paisesSet.size;
+
   document.getElementById('prog-texto').textContent = lidos.length+' lidos de '+META+' planejados';
-  document.getElementById('prog-bar').style.width = pct+'%';
-  document.getElementById('prog-pct').textContent = pct+'% concluído';
-  document.getElementById('p-lidos').textContent = lidos.length;
-  document.getElementById('p-nao').textContent = all2026.filter(b=>norm(b['Lido/Não Lido'])==='não lido').length;
-  document.getElementById('p-lendo').textContent = all2026.filter(b=>norm(b['Lido/Não Lido'])==='lendo').length;
-  const gc=count(lidos,'Gênero');
-  const top=Object.entries(gc).sort((a,b)=>b[1]-a[1])[0];
-  document.getElementById('p-genero').textContent = top?top[0]:'—';
-}
+  document.getElementById('prog-bar').style.width   = pct+'%';
+  document.getElementById('prog-pct').textContent   = pct+'% concluído';
+  document.getElementById('p-lidos').textContent    = lidos.length;
+  document.getElementById('p-lendo').textContent    = all2026.filter(b=>norm(b['Lido/Não Lido'])==='lendo').length;
+  document.getElementById('p-nao').textContent      = all2026.filter(b=>norm(b['Lido/Não Lido'])==='não lido').length;
 
-function barOpts(vert=true){
-  const base = chartBase();
-  if(!vert) base.indexAxis='y';
-  base.plugins.datalabels = {
-    display:true,
-    anchor: vert?'end':'end',
-    align: vert?'end':'end',
-    color: DARK,
-    font:{family:'DM Sans',size:10,weight:'500'},
-    formatter:v=>v>0?v:'',
-    clamp:true,
-  };
-  return base;
+  const gc  = count(lidos,'Gênero');
+  const top = Object.entries(gc).sort((a,b)=>b[1]-a[1])[0];
+  document.getElementById('p-genero').textContent = top ? top[0] : '—';
+
+  // Audiobook note
+  const audios = all2026.filter(isAudiobook);
+  if(audios.length > 0){
+    document.getElementById('audio-note').style.display = 'block';
+    document.getElementById('audio-count').textContent  = audios.length;
+  }
 }
 
 function buildCharts(){
   const lidos = all2026.filter(b=>norm(b['Lido/Não Lido'])==='lido');
 
-  // Status
+  // Status (horizontal bar)
   const stData = [
     all2026.filter(b=>norm(b['Lido/Não Lido'])==='lido').length,
     all2026.filter(b=>norm(b['Lido/Não Lido'])==='lendo').length,
     all2026.filter(b=>norm(b['Lido/Não Lido'])==='não lido').length,
   ];
   new Chart(document.getElementById('c-status'),{type:'bar',
-    data:{labels:['Lido','Lendo','Não lido'],datasets:[{data:stData,backgroundColor:['#D4EDDA','#FFF3CD','#FFE8E4'],borderRadius:2}]},
-    options:barOpts()});
+    data:{labels:['Lido','Lendo','Não lido'],datasets:[{data:stData,backgroundColor:[GREEN,'#fef3cd','#f5e4e4'],borderRadius:4,borderWidth:0}]},
+    options: chartOpts('x')});
 
-  // Gêneros
+  // Gêneros (horizontal)
   const gn = topN(count(lidos,'Gênero'),10);
   new Chart(document.getElementById('c-generos'),{type:'bar',
-    data:{labels:gn.map(e=>e[0]),datasets:[{data:gn.map(e=>e[1]),backgroundColor:ACCENT,borderRadius:2}]},
-    options:barOpts(false)});
+    data:{labels:gn.map(e=>e[0]),datasets:[{data:gn.map(e=>e[1]),backgroundColor:GREEN,borderRadius:4,borderWidth:0}]},
+    options: chartOpts('y')});
 
-  // Cor autores
+  // Cor
   const cor = count(lidos,'Cor');
   new Chart(document.getElementById('c-cor'),{type:'doughnut',
     data:{labels:Object.keys(cor),datasets:[{data:Object.values(cor),backgroundColor:CORES,borderWidth:0}]},
@@ -415,20 +839,75 @@ function buildCharts(){
   const st={1:0,2:0,3:0,4:0,5:0};
   lidos.forEach(b=>{const s=parseInt(b['Estrelas']);if(s>=1&&s<=5)st[s]++;});
   new Chart(document.getElementById('c-estrelas'),{type:'bar',
-    data:{labels:['⭐','⭐⭐','⭐⭐⭐','⭐⭐⭐⭐','⭐⭐⭐⭐⭐'],datasets:[{data:Object.values(st),backgroundColor:ACCENT,borderRadius:2}]},
-    options:barOpts()});
+    data:{labels:['★','★★','★★★','★★★★','★★★★★'],datasets:[{data:Object.values(st),backgroundColor:GREEN,borderRadius:4,borderWidth:0}]},
+    options:chartOpts('x')});
+
+  // Páginas por mês
+  const mesMapa = {};
+  const meses = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+  lidos.forEach(b=>{
+    const d = b['Data de leitura'] || b['Data'] || '';
+    const m = d.match(/(\d{2})[\/\-](\d{4})/);
+    if(m){
+      const idx = parseInt(m[1])-1;
+      if(idx>=0&&idx<12){
+        mesMapa[idx] = (mesMapa[idx]||0) + (parseInt(b['Páginas'])||0);
+      }
+    }
+  });
+  const mesDados = meses.map((_,i)=>mesMapa[i]||0);
+  new Chart(document.getElementById('c-paginas-mes'),{type:'bar',
+    data:{labels:meses,datasets:[{data:mesDados,backgroundColor:GREEN,borderRadius:4,borderWidth:0}]},
+    options:chartOpts('x')});
+}
+
+function buildMap(){
+  const map = L.map('map-2026',{scrollWheelZoom:false}).setView([20,10],2);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+    attribution:'© OpenStreetMap',maxZoom:18
+  }).addTo(map);
+
+  const lidos = all2026.filter(b=>norm(b['Lido/Não Lido'])==='lido');
+  const byPais = count(lidos,'País');
+
+  Object.entries(byPais).forEach(([pais,qtd])=>{
+    const c = COORDS[pais];
+    if(!c) return;
+    const r = Math.max(8, Math.min(28, 8+qtd*4));
+    L.circleMarker(c,{
+      radius:r, fillColor:GREEN, color:'#fff',
+      weight:2, opacity:1, fillOpacity:.8
+    }).addTo(map).bindPopup(`<b>${pais}</b><br>${qtd} livro${qtd>1?'s':''}`);
+  });
 }
 
 function buildFilters(){
   const gns=[...new Set(all2026.map(b=>b['Gênero']).filter(Boolean))].sort();
   const sel=document.getElementById('f-genero');
   gns.forEach(g=>{const o=document.createElement('option');o.value=g;o.textContent=g;sel.appendChild(o);});
+
+  const fmts=[...new Set(all2026.map(b=>b['Formato']).filter(Boolean))].sort();
+  const fsel=document.getElementById('f-formato');
+  fmts.forEach(f=>{const o=document.createElement('option');o.value=f;o.textContent=f;fsel.appendChild(o);});
+
   document.getElementById('search').addEventListener('input',applyFilters);
   document.getElementById('f-status').addEventListener('change',applyFilters);
   document.getElementById('f-genero').addEventListener('change',applyFilters);
+  document.getElementById('f-formato').addEventListener('change',applyFilters);
   document.querySelectorAll('.tag-btn').forEach(btn=>btn.addEventListener('click',()=>{
     document.querySelectorAll('.tag-btn').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active'); activeTag=btn.dataset.tag; applyFilters();
+  }));
+
+  // Sortable headers
+  document.querySelectorAll('th[data-col]').forEach(th=>th.addEventListener('click',()=>{
+    const col=th.dataset.col;
+    if(sortCol===col) sortAsc=!sortAsc; else {sortCol=col;sortAsc=true;}
+    filtered.sort((a,b)=>{
+      const av=a[col]||'', bv=b[col]||'';
+      return sortAsc ? av.localeCompare(bv,'pt') : bv.localeCompare(av,'pt');
+    });
+    page=1; renderTable();
   }));
 }
 
@@ -436,13 +915,16 @@ function applyFilters(){
   const q=document.getElementById('search').value.toLowerCase();
   const st=document.getElementById('f-status').value;
   const gn=document.getElementById('f-genero').value;
+  const fm=document.getElementById('f-formato').value;
   filtered=all2026.filter(b=>{
     if(q&&!((b['Livros']||'')+(b['Nome']||'')).toLowerCase().includes(q))return false;
     if(st&&norm(b['Lido/Não Lido'])!==norm(st))return false;
     if(gn&&b['Gênero']!==gn)return false;
+    if(fm&&b['Formato']!==fm)return false;
     if(activeTag==='lgbtqia'&&!isTrue(b['Protagonista LGBTQIA+?']))return false;
     if(activeTag==='diversidade'&&!isTrue(b['Diversidade étnica/racial ?']))return false;
     if(activeTag==='ownvoices'&&!isTrue(b['#OwnVoices ?']))return false;
+    if(activeTag==='audiobook'&&!isAudiobook(b))return false;
     return true;
   });
   page=1; renderTable();
@@ -453,17 +935,41 @@ function renderTable(){
   const pg=filtered.slice(start,start+PER);
   const tbody=document.getElementById('tbody');
   document.getElementById('lista-count').textContent=filtered.length+' livros';
-  if(!filtered.length){tbody.innerHTML='<tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--muted)">Nenhum livro encontrado.</td></tr>';document.getElementById('t-info').textContent='';document.getElementById('pagination').innerHTML='';return;}
+  if(!filtered.length){
+    tbody.innerHTML='<tr><td colspan="10" style="text-align:center;padding:2rem;color:var(--muted)">Nenhum livro encontrado.</td></tr>';
+    document.getElementById('t-info').textContent='';
+    document.getElementById('pagination').innerHTML='';
+    return;
+  }
   tbody.innerHTML=pg.map(b=>{
     const st=b['Lido/Não Lido']||'';
     const bc=norm(st)==='lido'?'badge-lido':norm(st)==='lendo'?'badge-lendo':'badge-nao';
     const s=parseInt(b['Estrelas'])||0;
-    return '<tr><td><strong>'+(b['Livros']||'—')+'</strong></td><td>'+(b['Nome']||'—')+'</td><td>'+(b['Gênero']||'—')+'</td><td>'+(b['Páginas']||'—')+'</td><td>'+(b['Idioma']||'—')+'</td><td><span class="badge '+bc+'">'+(st||'—')+'</span></td><td><span class="stars">'+'★'.repeat(s)+'</span></td></tr>';
+    const horas = b['Horas ouvidas']||b['Horas Ouvidas']||'';
+    const horasDisplay = isAudiobook(b) ? horas.substring(0,5) : '—';
+    return `<tr>
+      <td><strong>${b['Livros']||'—'}</strong></td>
+      <td>${b['Nome']||'—'}</td>
+      <td>${b['Gênero']||'—'}</td>
+      <td>${b['Páginas']||'—'}</td>
+      <td>${horasDisplay}</td>
+      <td>${b['Idioma']||'—'}</td>
+      <td>${b['País']||'—'}</td>
+      <td>${b['Cor']||'—'}</td>
+      <td><span class="badge ${bc}">${st||'—'}</span></td>
+      <td><span class="stars">${'★'.repeat(s)}</span></td>
+    </tr>`;
   }).join('');
   document.getElementById('t-info').textContent=(start+1)+'–'+Math.min(start+PER,filtered.length)+' de '+filtered.length;
   const pages=Math.ceil(filtered.length/PER);
   const pag=document.getElementById('pagination');pag.innerHTML='';
-  for(let i=1;i<=pages;i++){const btn=document.createElement('button');btn.className='page-btn'+(i===page?' active':'');btn.textContent=i;btn.onclick=()=>{page=i;renderTable();};pag.appendChild(btn);}
+  for(let i=1;i<=pages;i++){
+    const btn=document.createElement('button');
+    btn.className='page-btn'+(i===page?' active':'');
+    btn.textContent=i;
+    btn.onclick=()=>{page=i;renderTable();};
+    pag.appendChild(btn);
+  }
 }
 
 init();
