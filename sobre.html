@@ -9,113 +9,162 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --cream:#F5F0E8; --dark:#1C1A17; --accent:#C8472B;
-  --warm:#E8A87C; --muted:#8C8070; --card:#FFFDF8; --border:#E0D8CC;
-  --green:#2E7D52; --green-light:#D4EDDA;
+  --cream:#ffffff;
+  --dark:#000000;
+  --accent:#849974;
+  --accent-light:#a8bb96;
+  --accent-bg:#849974;
+  --muted:#555;
+  --card:#ffffff;
+  --border:#c8d4be;
+  --green:#849974;
+  --green-dark:#6a7d5e;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--cream);color:var(--dark);font-family:'DM Sans',sans-serif;font-weight:300;}
+body{background:#fff;color:var(--dark);font-family:'DM Sans',sans-serif;font-weight:300;}
+
+/* NAV */
 nav{
-  position:sticky;top:0;z-index:100;background:var(--dark);
-  padding:0 2rem;display:flex;align-items:center;gap:2rem;height:56px;
+  position:sticky;top:0;z-index:100;background:#fff;
+  padding:0 2.5rem;display:flex;align-items:center;gap:2rem;height:56px;
+  border-bottom:2px solid var(--accent);
 }
-nav .logo{font-family:'Playfair Display',serif;font-style:italic;color:var(--cream);font-size:1.3rem;text-decoration:none;white-space:nowrap;}
-nav ul{list-style:none;display:flex;gap:1.5rem;margin-left:auto;}
-nav ul a{color:var(--muted);text-decoration:none;font-size:.82rem;letter-spacing:.08em;text-transform:uppercase;transition:color .2s;}
-nav ul a:hover,nav ul a.active{color:var(--cream);}
-.nav-hamburger{display:none;background:none;border:none;color:var(--cream);font-size:1.4rem;cursor:pointer;margin-left:auto;}
+nav .logo{display:flex;gap:.35rem;align-items:center;}
+nav .logo span{width:10px;height:10px;border-radius:50%;background:#000;display:inline-block;}
+nav ul{list-style:none;display:flex;gap:1.8rem;margin-left:auto;}
+nav ul a{
+  color:var(--dark);text-decoration:none;font-size:.82rem;
+  letter-spacing:.08em;text-transform:uppercase;transition:color .2s;
+}
+nav ul a:hover{color:var(--accent);}
+nav ul a.active{
+  background:var(--accent);color:#fff;
+  padding:.3rem .7rem;border-radius:3px;
+}
+.nav-hamburger{display:none;background:none;border:none;color:var(--dark);font-size:1.4rem;cursor:pointer;margin-left:auto;}
 
-.hero{padding:5rem 2rem 3rem;max-width:860px;margin:0 auto;}
-.eyebrow{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:.8rem;}
-.hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.4rem,5vw,4rem);line-height:1.05;margin-bottom:1.5rem;}
-.hero h1 em{font-style:italic;color:var(--accent);}
-.hero p{color:var(--muted);font-size:1rem;line-height:1.8;max-width:540px;margin-bottom:.8rem;}
-.hero-line{width:48px;height:2px;background:var(--accent);margin:1.5rem 0;}
+/* MAIN CONTENT */
+.sobre-content{max-width:900px;margin:0 auto;padding:3rem 2rem 6rem;}
 
-.stats-bar{background:var(--dark);padding:2rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:0;}
-.stat-item{text-align:center;padding:1rem;border-right:1px solid #2a2825;}
-.stat-item:last-child{border-right:none;}
-.stat-number{font-family:'Playfair Display',serif;font-size:2.2rem;color:var(--cream);display:block;line-height:1;}
-.stat-label{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:.3rem;display:block;}
+/* PROFILE CARD */
+.profile-card{
+  border:2px solid var(--dark);border-radius:12px;
+  overflow:hidden;margin-bottom:3rem;
+}
+.profile-card-header{
+  background:#fff;padding:1.8rem 2rem 1.5rem;
+  border-bottom:1px solid var(--border);
+  position:relative;
+}
+.profile-card-dots{
+  display:flex;gap:.4rem;margin-bottom:1.2rem;
+}
+.profile-card-dots span{width:10px;height:10px;border-radius:50%;background:#000;display:inline-block;}
+.profile-name{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2rem,5vw,3rem);
+  line-height:1.1;
+  display:inline-block;
+  background:var(--accent);
+  color:#fff;
+  padding:.1rem .5rem;
+  margin-bottom:1rem;
+}
+.profile-desc{
+  font-size:.95rem;line-height:1.7;color:#222;
+  max-width:720px;padding:0 .3rem;
+}
+.profile-card-footer{
+  background:#fff;padding:1.2rem 2rem;
+  display:flex;align-items:center;justify-content:space-between;
+  border-top:1px solid var(--border);
+}
+.profile-links{display:flex;gap:.7rem;flex-wrap:wrap;}
+.profile-link{
+  display:inline-block;padding:.45rem 1.1rem;
+  border:2px solid var(--dark);border-radius:50px;
+  font-size:.8rem;font-weight:500;letter-spacing:.04em;
+  text-decoration:none;color:var(--dark);background:transparent;
+  transition:all .2s;
+}
+.profile-link:hover,.profile-link:active{background:var(--accent);border-color:var(--accent);color:#fff;}
+.profile-arrow{font-size:1.3rem;color:var(--dark);}
 
-section{max-width:1100px;margin:0 auto;padding:4rem 2rem;}
-.section-header{display:flex;align-items:baseline;gap:1rem;margin-bottom:2.5rem;border-bottom:1px solid var(--border);padding-bottom:.8rem;}
-.section-header h2{font-family:'Playfair Display',serif;font-size:1.6rem;}
-.section-header span{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+/* SECTIONS */
+.section-label{
+  display:inline-block;background:var(--accent);color:#fff;
+  font-family:'Playfair Display',serif;font-size:1.1rem;
+  padding:.3rem .8rem;margin-bottom:.5rem;
+}
+.section-divider{
+  border:none;border-top:1px solid var(--border);
+  margin-bottom:2rem;
+}
 
-.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;}
-.chart-card{background:var(--card);border:1px solid var(--border);border-radius:2px;padding:1.5rem;}
-.chart-card.full{grid-column:1/-1;}
-.chart-card.third{grid-column:span 1;}
-.chart-title{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem;}
-.chart-wrap{position:relative;height:220px;}
-.chart-wrap.tall{height:300px;}
-.chart-wrap.short{height:160px;}
+.text-block{
+  font-size:.92rem;line-height:1.85;color:#222;
+  margin-bottom:1.2rem;max-width:860px;
+}
 
-#map,#dlm-map{height:400px;border-radius:2px;border:1px solid var(--border);}
+/* INSPIRATION CARDS */
+.inspiration-grid{display:flex;flex-direction:column;gap:1.2rem;margin-top:1rem;}
+.inspiration-card{
+  border:2px solid var(--dark);border-radius:12px;
+  overflow:hidden;background:#fff;
+}
+.inspiration-card-inner{background:var(--accent);padding:1.8rem 2rem;}
+.inspiration-name{
+  font-family:'Playfair Display',serif;font-size:1.6rem;
+  color:#fff;display:inline-block;
+  background:var(--green-dark);padding:.1rem .5rem;
+  margin-bottom:1rem;
+}
+.inspiration-text{
+  font-size:.88rem;line-height:1.75;color:#fff;
+  margin-bottom:.8rem;
+}
+.inspiration-footer{
+  background:var(--accent);padding:.9rem 2rem;
+  display:flex;align-items:center;gap:1.5rem;
+  border-top:1px solid rgba(255,255,255,.25);
+}
+.inspiration-subtitle{
+  font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;
+  color:rgba(255,255,255,.75);
+}
+.inspiration-link{
+  display:inline-block;padding:.38rem 1rem;
+  border:2px solid #fff;border-radius:50px;
+  font-size:.78rem;font-weight:500;letter-spacing:.04em;
+  text-decoration:none;color:#fff;background:transparent;
+  transition:all .2s;
+}
+.inspiration-link:hover{background:#fff;color:var(--accent);}
 
-/* TABLE */
-.table-controls{display:flex;gap:.8rem;flex-wrap:wrap;margin-bottom:1rem;align-items:center;}
-.search-wrap{flex:1;min-width:180px;position:relative;}
-.search-wrap input{width:100%;padding:.6rem 1rem .6rem 2.2rem;border:1px solid var(--border);background:var(--card);font-family:'DM Sans',sans-serif;font-size:.85rem;border-radius:2px;outline:none;color:var(--dark);}
-.search-wrap::before{content:'⌕';position:absolute;left:.7rem;top:50%;transform:translateY(-50%);color:var(--muted);}
-.filter-select{padding:.6rem .9rem;border:1px solid var(--border);background:var(--card);font-family:'DM Sans',sans-serif;font-size:.82rem;border-radius:2px;color:var(--dark);cursor:pointer;outline:none;}
-.tag-filters{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1rem;}
-.tag-btn{padding:.3rem .8rem;border:1px solid var(--border);background:transparent;font-family:'DM Sans',sans-serif;font-size:.72rem;letter-spacing:.06em;border-radius:100px;cursor:pointer;transition:all .2s;color:var(--muted);}
-.tag-btn.active{background:var(--dark);border-color:var(--dark);color:var(--cream);}
-table{width:100%;border-collapse:collapse;font-size:.83rem;}
-thead tr{border-bottom:2px solid var(--dark);}
-th{padding:.6rem .8rem;text-align:left;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);white-space:nowrap;cursor:pointer;user-select:none;}
-th:hover{color:var(--dark);}
-td{padding:.65rem .8rem;border-bottom:1px solid var(--border);vertical-align:middle;}
-tr:hover td{background:rgba(200,71,43,.04);}
-.badge{display:inline-block;padding:.18rem .55rem;border-radius:100px;font-size:.7rem;}
-.badge-lido{background:#D4EDDA;color:#1A6631;}
-.badge-nao{background:#FFE8E4;color:#9B2B1A;}
-.badge-lendo{background:#FFF3CD;color:#8A6200;}
-.stars{color:var(--accent);}
-.table-footer{padding:.8rem 0;color:var(--muted);font-size:.8rem;display:flex;justify-content:space-between;align-items:center;}
-.pagination{display:flex;gap:.3rem;flex-wrap:wrap;}
-.page-btn{width:30px;height:30px;border:1px solid var(--border);background:transparent;cursor:pointer;font-size:.8rem;border-radius:2px;transition:all .15s;}
-.page-btn.active{background:var(--dark);color:var(--cream);border-color:var(--dark);}
-.page-btn:hover:not(.active){border-color:var(--dark);}
-
-/* PROGRESS */
-.progress-card{background:var(--card);border:1px solid var(--border);border-radius:2px;padding:2rem;display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;align-items:center;}
-.progress-bar-wrap{background:var(--border);height:5px;border-radius:3px;overflow:hidden;margin:.8rem 0 .4rem;}
-.progress-bar-fill{height:100%;background:var(--accent);border-radius:3px;transition:width 1s ease;}
-.progress-pct{font-size:.75rem;color:var(--muted);}
-.pstat{display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;border-bottom:1px solid var(--border);}
-.pstat:last-child{border-bottom:none;}
-.pstat-label{font-size:.8rem;color:var(--muted);}
-.pstat-val{font-family:'Playfair Display',serif;font-size:1.3rem;}
-
-/* VITRINE CARDS */
-.vitrine-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.2rem;}
-.vitrine-card{background:var(--card);border:1px solid var(--border);border-radius:2px;padding:1.8rem;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:.8rem;transition:transform .2s,box-shadow .2s;}
-.vitrine-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.08);}
-.vitrine-tag{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);}
-.vitrine-title{font-family:'Playfair Display',serif;font-size:1.1rem;}
-.vitrine-desc{font-size:.83rem;color:var(--muted);line-height:1.6;flex:1;}
-.vitrine-arrow{color:var(--accent);font-size:.9rem;margin-top:.5rem;}
-
-footer{background:var(--dark);padding:1.5rem;text-align:center;color:var(--muted);font-size:.75rem;letter-spacing:.04em;}
+/* FOOTER */
+footer{
+  background:var(--accent);padding:1.5rem;
+  text-align:center;color:rgba(255,255,255,.75);
+  font-size:.75rem;letter-spacing:.04em;
+  display:flex;align-items:center;justify-content:center;gap:.8rem;
+}
+footer .footer-dots{display:flex;gap:.3rem;}
+footer .footer-dots span{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.5);}
 
 @media(max-width:700px){
-  .charts-grid{grid-template-columns:1fr;}
-  .progress-card{grid-template-columns:1fr;}
-  nav ul{display:none;position:absolute;top:56px;left:0;right:0;background:var(--dark);flex-direction:column;padding:1rem 2rem;gap:1rem;}
+  nav ul{display:none;position:absolute;top:56px;left:0;right:0;background:#fff;flex-direction:column;padding:1rem 2rem;gap:1rem;border-bottom:2px solid var(--accent);}
   nav ul.open{display:flex;}
   .nav-hamburger{display:block;}
+  .profile-card-footer{flex-direction:column;align-items:flex-start;gap:.8rem;}
+  .inspiration-footer{flex-direction:column;align-items:flex-start;gap:.5rem;}
 }
-.sobre-content{max-width:680px;margin:0 auto;padding:5rem 2rem 8rem;}
-.placeholder{background:var(--card);border:1.5px dashed var(--border);border-radius:2px;padding:2.5rem;text-align:center;color:var(--muted);line-height:1.7;margin-bottom:1.5rem;}
-.placeholder strong{display:block;font-size:.95rem;color:var(--dark);margin-bottom:.4rem;}
 </style>
 </head>
 <body>
 <nav>
-  <a class="logo" href="index.html">meus livros</a>
+  <div class="logo">
+    <span></span><span></span><span></span>
+  </div>
   <ul>
     <li><a href="index.html" data-page="index">Início</a></li>
     <li><a href="2026.html" data-page="2026">2026</a></li>
@@ -126,20 +175,93 @@ footer{background:var(--dark);padding:1.5rem;text-align:center;color:var(--muted
   </ul>
   <button class="nav-hamburger" onclick="document.querySelector('nav ul').classList.toggle('open')">☰</button>
 </nav>
+
 <div class="sobre-content">
-  <p class="eyebrow">Quem sou eu</p>
-  <h1 style="font-family:'Playfair Display',serif;font-size:clamp(2.2rem,5vw,3.5rem);line-height:1.1;margin-bottom:2rem;">Sobre <em style="font-style:italic;color:var(--accent)">mim</em></h1>
-  <div style="width:48px;height:2px;background:var(--accent);margin:0 0 2rem;"></div>
-  <div class="placeholder">
-    <strong>✏️ Seu texto aqui</strong>
-    Me mande o texto e atualizo esta página!
+
+  <!-- PROFILE CARD -->
+  <div class="profile-card">
+    <div class="profile-card-header">
+      <div class="profile-card-dots">
+        <span></span><span></span><span></span>
+      </div>
+      <div class="profile-name">Louise Victoria</div>
+      <p class="profile-desc">Jornalista que sempre atuou com marketing, trabalho com comunicação, experiência do cliente e análise /apresentação de dados. Também leio bastante e tenho uma certa fascinação por acompanhar, organizar e analisar esse hobby.</p>
+    </div>
+    <div class="profile-card-footer">
+      <div class="profile-links">
+        <a class="profile-link" href="https://www.linkedin.com/in/louise-victoria/" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="profile-link" href="https://www.instagram.com/vesiuol/" target="_blank" rel="noopener">Instagram</a>
+        <a class="profile-link" href="https://medium.com/@vesiuol" target="_blank" rel="noopener">Medium</a>
+      </div>
+      <span class="profile-arrow">→</span>
+    </div>
   </div>
-  <div class="placeholder">
-    <strong>📚 Segundo parágrafo (opcional)</strong>
-    Sobre sua relação com os livros, o Desafio Livros pelo Mundo, seus projetos…
+
+  <!-- PORQUE ESSE SITE EXISTE -->
+  <div class="section-label">Porque esse site existe?</div>
+  <hr class="section-divider">
+
+  <p class="text-block">Já falei bastante sobre minha relação com os livros e sobre como acho fascinante descobrir coisas que vão muito além do que a sinopse pode contar. E eu adoro pensar que posso compartilhar essa maluquice com outras pessoas. E que fique claro: eu não sou criadora de conteúdo literário e nem aspiro ser. Só gosto de imaginar que talvez existam outras pessoas nesse universo da internet que também se interessem por esse tipo de fascinação.</p>
+
+  <p class="text-block">Durante a pandemia, comecei a catalogar meus livros através de uma planilha de Excel que foi compartilhada por uma maravilhosa criadora de conteúdo literário. Era um modelo pronto para duplicar e preencher com os dados dos próprios livros, essa planilha abriu um baú dos tesouros na minha cabeça. Hoje, tenho duas planilhas: uma dedicada aos livros da minha estante e outra ao histórico das minhas leituras. Mais tarde, comecei a me aventurar no Notion. Foi um certo desafio, mas me recusei a aceitar que não conseguiria aprender e, aos poucos, migrei minha organização para lá também.</p>
+
+  <p class="text-block">Isso significa que abandonei o Excel? Nãooo. Continuo usando as duas planilhas e talvez isso me torne um pouquinho maluca da organização. Também já perdi boas horas buscando informações retroativas, montando visualmente minhas páginas no Notion e atualizando dados que provavelmente só eu mesma consultaria com tanta frequência.</p>
+
+  <p class="text-block">Mas, afinal, por que criar esse site? Um belo dia, vi nos stories do Instagram uma pessoa compartilhando o site de uma amiga que catalogava todos os shows em que já tinha ido. Achei incrível. Era bonito, interativo, criativo e cheio de informações sobre algo que ela claramente amava.</p>
+
+  <p class="text-block">E pensei: por que não fazer um para mim também? Afinal, se tem uma coisa que eu já deixei claro, é que tenho dados suficientes para isso. Bem-vindo ao meu pequeno universo de catalogação literária ou, como gosto de pensar, ao meu acervo literário pessoal.</p>
+
+  <!-- EM QUEM ME INSPIREI -->
+  <div class="section-label" style="margin-top:3rem;">Em quem me inspirei</div>
+  <hr class="section-divider">
+
+  <div class="inspiration-grid">
+    <!-- Bruna Miranda -->
+    <div class="inspiration-card">
+      <div class="inspiration-card-inner">
+        <div class="inspiration-name">Bruna Miranda</div>
+        <p class="inspiration-text">A Bruna é booktuber e criadora de conteúdo literário, além de ter participado do podcast Wine About It, que eu adorava. Hoje já não encontro mais o link da planilha, mas ainda assim queria deixar meu agradecimento.</p>
+        <p class="inspiration-text">A planilha que ela criou foi o ponto de partida para esse meu hobby de catalogação literária. Foi através dela que comecei a organizar meus livros e, com o tempo, adaptar tudo para uma versão com a minha cara.</p>
+      </div>
+      <div class="inspiration-footer">
+        <span class="inspiration-subtitle">Bruna está lendo</span>
+        <a class="inspiration-link" href="https://www.instagram.com/brunaestalendo/" target="_blank" rel="noopener">Instagram</a>
+      </div>
+    </div>
+
+    <!-- Bianca Muniz -->
+    <div class="inspiration-card">
+      <div class="inspiration-card-inner">
+        <div class="inspiration-name">Bianca Muniz</div>
+        <p class="inspiration-text">A Bianca me mostrou que todo esse projeto era possível, algo que até então eu nem imaginava como fazer ou tinha referências. Ao descobrir o site dela, percebi que também poderia planejar e construir um espaço parecido para mim.</p>
+        <p class="inspiration-text">Ela acabou sendo uma referência visual e um ponto de partida importante, me ajudando com ideias, estrutura e até no entendimento de como começar. A meta é que, assim como minhas planilhas, este site também vá sendo cada vez mais personalizado.</p>
+      </div>
+      <div class="inspiration-footer">
+        <span class="inspiration-subtitle">300 shows em 30 anos</span>
+        <a class="inspiration-link" href="https://biamuniz.github.io/300em30/index.html" target="_blank" rel="noopener">Site</a>
+      </div>
+    </div>
   </div>
+
+  <!-- NÃO VOU PARAR POR AQUI -->
+  <div class="section-label" style="margin-top:3rem;">Não vou parar por aqui</div>
+  <hr class="section-divider">
+
+  <p class="text-block">Como já falei, a ideia é deixar este espaço cada vez mais com a minha cara. Neste primeiro momento, quis colocar no ar a estrutura do que já existia nas minhas planilhas e organizações pessoais. Aos poucos, a intenção é personalizar mais, aprofundar os dados e expandir as possibilidades do que pode existir por aqui.</p>
+
+  <p class="text-block">Ainda há muita coisa que quero fazer com essas informações. Meu desafio literário continua, novos textos no Medium talvez voltem a aparecer e um novo desafio já está engatinhando para, em breve, ganhar espaço neste site também. As leituras do ano podem render reflexões sobre a experiência, novas metas podem surgir a partir dos dados e, conforme os números mudam, os cenários também mudam junto comigo.</p>
+
 </div>
-<footer>dados via Google Sheets</footer>
-<script>document.querySelectorAll('nav ul a[data-page="sobre"]').forEach(a=>a.classList.add('active'));</script>
+
+<footer>
+  <div class="footer-dots">
+    <span></span><span></span><span></span>
+  </div>
+  O QUE TEM NA ESTANTE DA LOUISE | LOUISE VICTORIA | © 2026 | DADOS VIA GOOGLE SHEETS · MAPA VIA LEAFLET · GRÁFICOS VIA CHART.JS
+</footer>
+
+<script>
+  document.querySelectorAll('nav ul a[data-page="sobre"]').forEach(a => a.classList.add('active'));
+</script>
 </body>
 </html>
