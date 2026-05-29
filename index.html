@@ -3,400 +3,317 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>O que tem na estante da Louise</title>
+<title>Meus Livros</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 <style>
 :root {
-  --orange: #849974;
-  --black: #000000;
-  --white: #ffffff;
-  --gray: #f5f5f5;
-  --text-muted: #555;
-  --border: #e0e0e0;
-  --card-radius: 14px;
+  --cream:#F5F0E8; --dark:#1C1A17; --accent:#C8472B;
+  --warm:#E8A87C; --muted:#8C8070; --card:#FFFDF8; --border:#E0D8CC;
+  --green:#2E7D52; --green-light:#D4EDDA;
 }
-*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-body { background: var(--white); color: var(--black); font-family: 'DM Sans', sans-serif; font-weight: 300; }
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--cream);color:var(--dark);font-family:'DM Sans',sans-serif;font-weight:300;}
+nav{
+  position:sticky;top:0;z-index:100;background:var(--dark);
+  padding:0 2rem;display:flex;align-items:center;gap:2rem;height:56px;
+}
+nav .logo{font-family:'Playfair Display',serif;font-style:italic;color:var(--cream);font-size:1.3rem;text-decoration:none;white-space:nowrap;}
+nav ul{list-style:none;display:flex;gap:1.5rem;margin-left:auto;}
+nav ul a{color:var(--muted);text-decoration:none;font-size:.82rem;letter-spacing:.08em;text-transform:uppercase;transition:color .2s;}
+nav ul a:hover,nav ul a.active{color:var(--cream);}
+.nav-hamburger{display:none;background:none;border:none;color:var(--cream);font-size:1.4rem;cursor:pointer;margin-left:auto;}
 
-/* ── NAV ── */
-nav {
-  position: sticky; top: 0; z-index: 100;
-  background: var(--white);
-  border-bottom: 3px solid var(--orange);
-  padding: 0 2.5rem;
-  display: flex; align-items: center; justify-content: space-between;
-  height: 52px;
-}
-.nav-logo {
-  display: flex; gap: 6px; align-items: center;
-}
-.nav-logo span {
-  width: 10px; height: 10px; border-radius: 50%; background: var(--black);
-}
-.nav-logo span:nth-child(2) { background: var(--orange); }
-nav ul { list-style: none; display: flex; gap: 0; align-items: center; }
-nav ul li a {
-  display: inline-block;
-  padding: .28rem .75rem;
-  font-size: .78rem; font-weight: 500;
-  letter-spacing: .1em; text-transform: uppercase;
-  text-decoration: none; color: var(--black);
-  transition: background .15s, color .15s;
-  border-radius: 3px;
-}
-nav ul li a:hover { background: var(--black); color: var(--white); }
-nav ul li a.active { background: var(--orange); color: var(--black); font-weight: 700; }
-.nav-hamburger { display:none; background:none; border:none; font-size:1.4rem; cursor:pointer; }
+.hero{padding:5rem 2rem 3rem;max-width:860px;margin:0 auto;}
+.eyebrow{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:.8rem;}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.4rem,5vw,4rem);line-height:1.05;margin-bottom:1.5rem;}
+.hero h1 em{font-style:italic;color:var(--accent);}
+.hero p{color:var(--muted);font-size:1rem;line-height:1.8;max-width:540px;margin-bottom:.8rem;}
+.hero-line{width:48px;height:2px;background:var(--accent);margin:1.5rem 0;}
 
-/* ── HERO CARD ── */
-.hero-wrap { max-width: 1100px; margin: 3rem auto; padding: 0 2rem; }
-.hero-card {
-  border: 2px solid var(--black);
-  border-radius: var(--card-radius);
-  padding: 2.5rem 3rem;
-  position: relative;
-}
-.hero-card .dots { display: flex; gap: 6px; margin-bottom: 1.5rem; }
-.hero-card .dots span { width: 10px; height: 10px; border-radius: 50%; background: var(--orange); }
-.hero-title-wrap {
-  background: var(--orange);
-  display: inline-block;
-  padding: .2rem .5rem;
-  margin-bottom: 1.5rem;
-  border-radius: 3px;
-}
-.hero-title {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(2rem, 4.5vw, 3.2rem);
-  font-style: italic;
-  line-height: 1.1;
-  color: var(--black);
-}
-.hero-body { max-width: 900px; }
-.hero-body p {
-  font-size: .97rem; line-height: 1.85; color: #1a1a1a;
-  margin-bottom: 1rem;
-}
-.hero-body p:last-child { margin-bottom: 0; }
-.hero-footer {
-  margin-top: 2rem;
-  padding-top: 1.2rem;
-  border-top: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: space-between;
-}
-.hero-footer-meta { font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; color: var(--text-muted); line-height: 1.8; }
-.hero-footer-meta strong { color: var(--black); }
-.hero-footer-arrow {
-  font-size: 1.4rem; color: var(--black);
-  text-decoration: none; transition: transform .2s;
-}
-.hero-footer-arrow:hover { transform: translateX(4px); }
+.stats-bar{background:var(--dark);padding:2rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:0;}
+.stat-item{text-align:center;padding:1rem;border-right:1px solid #2a2825;}
+.stat-item:last-child{border-right:none;}
+.stat-number{font-family:'Playfair Display',serif;font-size:2.2rem;color:var(--cream);display:block;line-height:1;}
+.stat-label{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:.3rem;display:block;}
 
-/* ── STATS BAR ── */
-.stats-bar {
-  background: var(--white);
-  max-width: 1100px; margin: 1rem auto 0; padding: 0 2rem;
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 1rem;
-}
-.stat-box {
-  background: var(--orange);
-  border-radius: var(--card-radius);
-  padding: 1.4rem 1rem;
-  text-align: center;
-  box-shadow: 3px 3px 0 var(--black);
-}
-.stat-number {
-  font-family: 'Playfair Display', serif;
-  font-size: 2rem; font-weight: 700;
-  color: var(--black); display: block; line-height: 1;
-}
-.stat-label {
-  font-size: .68rem; font-weight: 500;
-  letter-spacing: .07em; text-transform: uppercase;
-  color: var(--black); margin-top: .4rem; display: block;
-}
+section{max-width:1100px;margin:0 auto;padding:4rem 2rem;}
+.section-header{display:flex;align-items:baseline;gap:1rem;margin-bottom:2.5rem;border-bottom:1px solid var(--border);padding-bottom:.8rem;}
+.section-header h2{font-family:'Playfair Display',serif;font-size:1.6rem;}
+.section-header span{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
 
-/* ── SECTION ── */
-.section { max-width: 1100px; margin: 4rem auto; padding: 0 2rem; }
-.section-header {
-  display: flex; align-items: baseline; gap: 1rem;
-  margin-bottom: 2rem;
-  border-bottom: 1px solid var(--border); padding-bottom: .7rem;
-}
-.section-header h2 {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.5rem;
-  background: var(--orange);
-  padding: .1rem .5rem;
-  border-radius: 3px;
-}
-.section-header span {
-  font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
-  color: var(--text-muted);
-}
+.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;}
+.chart-card{background:var(--card);border:1px solid var(--border);border-radius:2px;padding:1.5rem;}
+.chart-card.full{grid-column:1/-1;}
+.chart-card.third{grid-column:span 1;}
+.chart-title{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem;}
+.chart-wrap{position:relative;height:220px;}
+.chart-wrap.tall{height:300px;}
+.chart-wrap.short{height:160px;}
 
-/* ── VITRINE CARDS ── */
-.vitrine-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.2rem;
-}
-.vitrine-card {
-  border: 2px solid var(--black);
-  border-radius: var(--card-radius);
-  padding: 1.8rem;
-  text-decoration: none; color: inherit;
-  display: flex; flex-direction: column; gap: .9rem;
-  transition: transform .2s, box-shadow .2s;
-  background: var(--white);
-}
-.vitrine-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 4px 4px 0 var(--black);
-}
-.vitrine-card .dots { display: flex; gap: 5px; }
-.vitrine-card .dots span { width: 9px; height: 9px; border-radius: 50%; background: var(--orange); }
-.vitrine-card-title-wrap {
-  background: var(--orange);
-  display: inline-block;
-  padding: .1rem .45rem;
-  border-radius: 3px;
-  align-self: flex-start;
-}
-.vitrine-card-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.45rem;
-  font-style: italic;
-  color: var(--black);
-}
-.vitrine-card-desc {
-  font-size: .85rem; color: var(--text-muted);
-  line-height: 1.65; flex: 1;
-}
-.vitrine-card-footer {
-  margin-top: .5rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: space-between;
-}
-.vitrine-card-tag {
-  font-size: .72rem; letter-spacing: .1em; text-transform: uppercase;
-  color: var(--text-muted);
-}
-.vitrine-card-arrow { font-size: 1.2rem; color: var(--black); }
+#map,#dlm-map{height:400px;border-radius:2px;border:1px solid var(--border);}
 
-/* desafio card — spans 2 cols */
-.vitrine-card.wide {
-  grid-column: span 2;
-}
+/* TABLE */
+.table-controls{display:flex;gap:.8rem;flex-wrap:wrap;margin-bottom:1rem;align-items:center;}
+.search-wrap{flex:1;min-width:180px;position:relative;}
+.search-wrap input{width:100%;padding:.6rem 1rem .6rem 2.2rem;border:1px solid var(--border);background:var(--card);font-family:'DM Sans',sans-serif;font-size:.85rem;border-radius:2px;outline:none;color:var(--dark);}
+.search-wrap::before{content:'⌕';position:absolute;left:.7rem;top:50%;transform:translateY(-50%);color:var(--muted);}
+.filter-select{padding:.6rem .9rem;border:1px solid var(--border);background:var(--card);font-family:'DM Sans',sans-serif;font-size:.82rem;border-radius:2px;color:var(--dark);cursor:pointer;outline:none;}
+.tag-filters{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1rem;}
+.tag-btn{padding:.3rem .8rem;border:1px solid var(--border);background:transparent;font-family:'DM Sans',sans-serif;font-size:.72rem;letter-spacing:.06em;border-radius:100px;cursor:pointer;transition:all .2s;color:var(--muted);}
+.tag-btn.active{background:var(--dark);border-color:var(--dark);color:var(--cream);}
+table{width:100%;border-collapse:collapse;font-size:.83rem;}
+thead tr{border-bottom:2px solid var(--dark);}
+th{padding:.6rem .8rem;text-align:left;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);white-space:nowrap;cursor:pointer;user-select:none;}
+th:hover{color:var(--dark);}
+td{padding:.65rem .8rem;border-bottom:1px solid var(--border);vertical-align:middle;}
+tr:hover td{background:rgba(200,71,43,.04);}
+.badge{display:inline-block;padding:.18rem .55rem;border-radius:100px;font-size:.7rem;}
+.badge-lido{background:#D4EDDA;color:#1A6631;}
+.badge-nao{background:#FFE8E4;color:#9B2B1A;}
+.badge-lendo{background:#FFF3CD;color:#8A6200;}
+.stars{color:var(--accent);}
+.table-footer{padding:.8rem 0;color:var(--muted);font-size:.8rem;display:flex;justify-content:space-between;align-items:center;}
+.pagination{display:flex;gap:.3rem;flex-wrap:wrap;}
+.page-btn{width:30px;height:30px;border:1px solid var(--border);background:transparent;cursor:pointer;font-size:.8rem;border-radius:2px;transition:all .15s;}
+.page-btn.active{background:var(--dark);color:var(--cream);border-color:var(--dark);}
+.page-btn:hover:not(.active){border-color:var(--dark);}
 
-/* ── FOOTER ── */
-footer {
-  background: var(--orange);
-  padding: 1.8rem 2.5rem;
-  display: flex; align-items: center; gap: 1.5rem;
-}
-.footer-dots { display: flex; gap: 6px; }
-.footer-dots span { width: 10px; height: 10px; border-radius: 50%; background: var(--black); }
-footer p {
-  font-size: .72rem; letter-spacing: .06em; text-transform: uppercase;
-  color: var(--black); flex: 1;
-}
+/* PROGRESS */
+.progress-card{background:var(--card);border:1px solid var(--border);border-radius:2px;padding:2rem;display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;align-items:center;}
+.progress-bar-wrap{background:var(--border);height:5px;border-radius:3px;overflow:hidden;margin:.8rem 0 .4rem;}
+.progress-bar-fill{height:100%;background:var(--accent);border-radius:3px;transition:width 1s ease;}
+.progress-pct{font-size:.75rem;color:var(--muted);}
+.pstat{display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;border-bottom:1px solid var(--border);}
+.pstat:last-child{border-bottom:none;}
+.pstat-label{font-size:.8rem;color:var(--muted);}
+.pstat-val{font-family:'Playfair Display',serif;font-size:1.3rem;}
 
-/* ── MOBILE ── */
-@media(max-width: 800px) {
-  .stats-bar { grid-template-columns: repeat(2, 1fr); }
-  .vitrine-grid { grid-template-columns: 1fr; }
-  .vitrine-card.wide { grid-column: span 1; }
-  nav ul { display:none; position:absolute; top:52px; left:0; right:0;
-    background:var(--white); flex-direction:column; padding:1rem 2rem; gap:.5rem;
-    border-bottom: 2px solid var(--orange); }
-  nav ul.open { display:flex; }
-  .nav-hamburger { display:block; }
-  .hero-card { padding: 1.5rem; }
-  .stats-bar { padding: 0 1rem; }
+/* VITRINE CARDS */
+.vitrine-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.2rem;}
+.vitrine-card{background:var(--card);border:1px solid var(--border);border-radius:2px;padding:1.8rem;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:.8rem;transition:transform .2s,box-shadow .2s;}
+.vitrine-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.08);}
+.vitrine-tag{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);}
+.vitrine-title{font-family:'Playfair Display',serif;font-size:1.1rem;}
+.vitrine-desc{font-size:.83rem;color:var(--muted);line-height:1.6;flex:1;}
+.vitrine-arrow{color:var(--accent);font-size:.9rem;margin-top:.5rem;}
+
+footer{background:var(--dark);padding:1.5rem;text-align:center;color:var(--muted);font-size:.75rem;letter-spacing:.04em;}
+
+@media(max-width:700px){
+  .charts-grid{grid-template-columns:1fr;}
+  .progress-card{grid-template-columns:1fr;}
+  nav ul{display:none;position:absolute;top:56px;left:0;right:0;background:var(--dark);flex-direction:column;padding:1rem 2rem;gap:1rem;}
+  nav ul.open{display:flex;}
+  .nav-hamburger{display:block;}
 }
+.mini-chart-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1.5rem;}
+.mini-card{background:var(--card);border:1px solid var(--border);border-radius:2px;padding:1.2rem;}
+.mini-title{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.8rem;}
+.mini-wrap{position:relative;height:140px;}
 </style>
 </head>
 <body>
-
 <nav>
-  <div class="nav-logo">
-    <span></span><span></span><span></span>
-  </div>
-  <ul id="nav-menu">
-    <li><a href="index.html" data-page="index" class="active">Início</a></li>
+  <a class="logo" href="index.html">meus livros</a>
+  <ul>
+    <li><a href="index.html" data-page="index">Início</a></li>
     <li><a href="2026.html" data-page="2026">2026</a></li>
     <li><a href="estante.html" data-page="estante">Estante</a></li>
     <li><a href="historico.html" data-page="historico">Histórico</a></li>
     <li><a href="desafio.html" data-page="desafio">Desafio</a></li>
     <li><a href="sobre.html" data-page="sobre">Sobre</a></li>
   </ul>
-  <button class="nav-hamburger" onclick="document.getElementById('nav-menu').classList.toggle('open')">☰</button>
+  <button class="nav-hamburger" onclick="document.querySelector('nav ul').classList.toggle('open')">☰</button>
 </nav>
-
-<!-- HERO -->
-<div class="hero-wrap">
-  <div class="hero-card">
-    <div class="dots"><span></span><span></span><span></span></div>
-    <div class="hero-title-wrap">
-      <h1 class="hero-title">O que tem na estante da louise</h1>
-    </div>
-    <div class="hero-body">
-      <p>Um passeio completo pela minha estante, histórico mais antigo que possuo da minha vida literária, as leituras deste ano e o desafio literário que me propus!</p>
-      <p>Eu, que fui uma criança e pré-adolescente apaixonada por livros, reduzi meu consumo durante a faculdade, mas na pandemia da Covid em 2020 voltei ao mundo dos livros com força total. Nesse momento também descobri a bolha dos criadores de conteúdo literários e a grande maravilha que é a atividade de catalogação de livros.</p>
-      <p>Eu tenho duas planilhas de Excel e um Notion exclusivo para a minha catalogação, sem contar layout e textos no notion sobre meu projeto literário. Tendo tantos dados assim, porque não compartilhar!</p>
-    </div>
-    <div class="hero-footer">
-      <div class="hero-footer-meta">
-        <div>por <strong>LOUISE VICTORIA</strong> · <span id="data-atualizacao">atualizado em 29 de maio de 2026</span></div>
-        <div>BASE DE DADOS DA QUASE BIBLIOTECA PESSOAL LV</div>
-      </div>
-      <a href="sobre.html" class="hero-footer-arrow">→</a>
-    </div>
-  </div>
+<div class="hero">
+  <p class="eyebrow">Leituras desde 2020</p>
+  <h1>Cada livro,<br><em>uma história.</em></h1>
+  <div class="hero-line"></div>
+  <p>Uma vitrine das minhas leituras — da estante ao desafio literário pelo mundo.</p>
 </div>
 
-<!-- STATS -->
-<div class="stats-bar">
-  <div class="stat-box"><span class="stat-number" id="s-total">—</span><span class="stat-label">Livros na estante</span></div>
-  <div class="stat-box"><span class="stat-number" id="s-lidos">—</span><span class="stat-label">Lidos</span></div>
-  <div class="stat-box"><span class="stat-number" id="s-paginas">—</span><span class="stat-label">Páginas lidas</span></div>
-  <div class="stat-box"><span class="stat-number" id="s-horas">—</span><span class="stat-label">Horas ouvidas</span></div>
-  <div class="stat-box"><span class="stat-number" id="s-autores">—</span><span class="stat-label">Autores únicos</span></div>
-  <div class="stat-box"><span class="stat-number" id="s-paises">—</span><span class="stat-label">Países</span></div>
-  <div class="stat-box"><span class="stat-number">7</span><span class="stat-label">Anos de registro</span></div>
+<div class="stats-bar" id="stats-bar">
+  <div class="stat-item"><span class="stat-number" id="s-total">—</span><span class="stat-label">Livros na estante</span></div>
+  <div class="stat-item"><span class="stat-number" id="s-lidos">—</span><span class="stat-label">Lidos</span></div>
+  <div class="stat-item"><span class="stat-number" id="s-paginas">—</span><span class="stat-label">Páginas lidas</span></div>
+  <div class="stat-item"><span class="stat-number" id="s-autores">—</span><span class="stat-label">Autores únicos</span></div>
+  <div class="stat-item"><span class="stat-number" id="s-paises">—</span><span class="stat-label">Países</span></div>
+  <div class="stat-item"><span class="stat-number" id="s-anos">7</span><span class="stat-label">Anos de registros</span></div>
 </div>
 
-<!-- VITRINE -->
-<div class="section">
-  <div class="section-header">
-    <h2>Navegue pelo site</h2>
-    <span>Páginas</span>
-  </div>
+<section>
+  <div class="section-header"><h2>Navegue pelo site</h2><span>Seções</span></div>
   <div class="vitrine-grid">
-
-    <a href="2026.html" class="vitrine-card">
-      <div class="dots"><span></span><span></span><span></span></div>
-      <div class="vitrine-card-title-wrap">
-        <div class="vitrine-card-title">Leituras de 2026</div>
-      </div>
-      <p class="vitrine-card-desc">Progresso da meta anual e os dados específicos dos livros lidos este ano.</p>
-      <div class="vitrine-card-footer">
-        <span class="vitrine-card-tag">Ano atual</span>
-        <span class="vitrine-card-arrow">→</span>
-      </div>
+    <a class="vitrine-card" href="2026.html">
+      <span class="vitrine-tag">Ano atual</span>
+      <div class="vitrine-title">Leituras de 2026</div>
+      <div class="vitrine-desc">Progresso da meta anual, gráficos e todos os livros lidos e em andamento este ano.</div>
+      <span class="vitrine-arrow">→</span>
     </a>
-
-    <a href="estante.html" class="vitrine-card">
-      <div class="dots"><span></span><span></span><span></span></div>
-      <div class="vitrine-card-title-wrap">
-        <div class="vitrine-card-title">Livros na Estante</div>
-      </div>
-      <p class="vitrine-card-desc">Todos os livros catalogados desde 2020, com gráficos e filtros detalhados.</p>
-      <div class="vitrine-card-footer">
-        <span class="vitrine-card-tag">Estante completa</span>
-        <span class="vitrine-card-arrow">→</span>
-      </div>
+    <a class="vitrine-card" href="estante.html">
+      <span class="vitrine-tag">Catálogo</span>
+      <div class="vitrine-title">Livros na Estante</div>
+      <div class="vitrine-desc">Todos os livros catalogados desde 2020 — com filtros, gráficos de gênero, cor, idioma e diversidade.</div>
+      <span class="vitrine-arrow">→</span>
     </a>
-
-    <a href="historico.html" class="vitrine-card">
-      <div class="dots"><span></span><span></span><span></span></div>
-      <div class="vitrine-card-title-wrap">
-        <div class="vitrine-card-title">Vida de Leitora</div>
-      </div>
-      <p class="vitrine-card-desc">Histórico de leituras com evolução ano a ano, gráficos gerais e filtro por ano específico.</p>
-      <div class="vitrine-card-footer">
-        <span class="vitrine-card-tag">2020 → 2026</span>
-        <span class="vitrine-card-arrow">→</span>
-      </div>
+    <a class="vitrine-card" href="historico.html">
+      <span class="vitrine-tag">2020 → 2026</span>
+      <div class="vitrine-title">Histórico de Leituras</div>
+      <div class="vitrine-desc">Evolução ano a ano — livros, páginas, representatividade e gêneros literários com filtro por ano.</div>
+      <span class="vitrine-arrow">→</span>
     </a>
-
-    <a href="desafio.html" class="vitrine-card wide">
-      <div class="dots"><span></span><span></span><span></span></div>
-      <div class="vitrine-card-title-wrap">
-        <div class="vitrine-card-title">Desafio Livros pelo Mundo</div>
-      </div>
-      <p class="vitrine-card-desc">Uma viagem rumo à diversidade: ler ao menos um livro de cada país do mundo. Cada leitura é um passo para ampliar perspectivas e conhecer histórias fora de um eixo automático.</p>
-      <div class="vitrine-card-footer">
-        <span class="vitrine-card-tag">Um livro para cada país</span>
-        <span class="vitrine-card-arrow">→</span>
-      </div>
+    <a class="vitrine-card" href="desafio.html">
+      <span class="vitrine-tag">Projeto especial</span>
+      <div class="vitrine-title">Desafio Livros pelo Mundo</div>
+      <div class="vitrine-desc">Um livro de cada país do mundo — mapa da jornada, artigos no Medium e lista completa dos países.</div>
+      <span class="vitrine-arrow">→</span>
     </a>
-
   </div>
-</div>
+</section>
 
-<footer>
-  <div class="footer-dots"><span></span><span></span><span></span></div>
-  <p>O QUE TEM NA ESTANTE DA LOUISE &nbsp;|&nbsp; LOUISE VICTORIA &nbsp;|&nbsp; © 2026 &nbsp;|&nbsp; DADOS VIA GOOGLE SHEETS · MAPA VIA LEAFLET · GRÁFICOS VIA CHART.JS</p>
-</footer>
+<section>
+  <div class="section-header"><h2>Visão rápida</h2><span>Distribuição geral</span></div>
+  <div class="mini-chart-grid">
+    <div class="mini-card"><div class="mini-title">Cor dos autores</div><div class="mini-wrap"><canvas id="mc-cor"></canvas></div></div>
+    <div class="mini-card"><div class="mini-title">Gênero dos autores</div><div class="mini-wrap"><canvas id="mc-genero-autor"></canvas></div></div>
+    <div class="mini-card"><div class="mini-title">Idioma</div><div class="mini-wrap"><canvas id="mc-idioma"></canvas></div></div>
+  </div>
+</section>
 
-<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+<footer>dados via Google Sheets · mapa via Leaflet · gráficos via Chart.js</footer>
+
 <script>
-const CSV_ESTANTE = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQWGv70Tc2vz-YUKxwU_0_H8F7UuHom1tCJQlE2Tfi8AMNem2c5X3WSs6z4CPjoTb2AaFKmJ8bihlPV/pub?gid=0&single=true&output=csv';
-const CSV_2026    = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub?gid=537800862&single=true&output=csv';
+Chart.register(ChartDataLabels);
+// ─── URLs ────────────────────────────────────────────────────────────────────
+const CSV_ESTANTE   = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQWGv70Tc2vz-YUKxwU_0_H8F7UuHom1tCJQlE2Tfi8AMNem2c5X3WSs6z4CPjoTb2AaFKmJ8bihlPV/pub?gid=0&single=true&output=csv';
+const CSV_VISAO     = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub?gid=700848757&single=true&output=csv';
+const CSV_DESAFIO   = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub?gid=537800862&single=true&output=csv';
 
+// ─── PALETA ──────────────────────────────────────────────────────────────────
+const CORES = ['#C8472B','#E8A87C','#8C8070','#4A6741','#D4EDDA','#A8C5DA','#F0D9FF','#B5EAD7','#FFE8E4','#FFF3CD'];
+const ACCENT = '#C8472B';
+const DARK   = '#1C1A17';
+const MUTED  = '#8C8070';
+
+// ─── COORDS PAÍSES ──────────────────────────────────────────────────────────
+const COORDS = {
+  'Brasil':[-15.8,-47.9],'EUA':[37.1,-95.7],'Estados Unidos':[37.1,-95.7],
+  'Reino Unido':[51.5,-0.1],'Japão':[35.7,139.7],'França':[46.2,2.2],
+  'Canadá':[56.1,-106.3],'Argentina':[-34.6,-58.4],'Portugal':[38.7,-9.1],
+  'Alemanha':[52.5,13.4],'Espanha':[40.4,-3.7],'Itália':[41.9,12.5],
+  'México':[19.4,-99.1],'Colômbia':[4.7,-74.1],'Chile':[-33.4,-70.6],
+  'Índia':[28.6,77.2],'China':[39.9,116.4],'Rússia':[55.8,37.6],
+  'Austrália':[-35.3,149.1],'Nigéria':[9.1,7.5],'África do Sul':[-25.7,28.2],
+  'Zâmbia':[-15.4,28.3],'Camarões':[3.9,11.5],'Irã':[35.7,51.4],
+  'Noruega':[59.9,10.7],'Holanda':[52.4,4.9],'Cuba':[23.1,-82.4],
+  'Ucrânia':[50.5,30.5],'Nova Zelândia':[-41.3,174.8],'Uruguai':[-34.9,-56.2],
+  'Bolívia':[-16.5,-68.1],'Ruanda':[-1.9,30.1],'Somália':[2.0,45.3],
+  'República Tcheca':[50.1,14.4],'Bélgica':[50.8,4.4],
+  'Coreia do Sul':[37.6,127.0],'Vietnã':[21.0,105.8],
+  'Polônia':[52.2,21.0],'Suécia':[59.3,18.1],'Grécia':[37.9,23.7],
+  'Turquia':[39.9,32.9],'Egito':[30.1,31.2],'Marrocos':[34.0,-6.8],
+  'Etiópia':[9.0,38.7],'Quênia':[-1.3,36.8],'Gana':[5.6,-0.2],
+  'Senegal':[14.7,-17.4],'Peru':[-12.0,-77.0],'Venezuela':[10.5,-66.9],
+  'Paquistão':[33.7,73.1],'Bangladesh':[23.7,90.4],'Israel':[31.8,35.2],
+  'Iraque':[33.3,44.4],'Síria':[33.5,36.3],'Angola':[-8.8,13.2],
+  'Moçambique':[-18.7,35.5],'Zimbabwe':[-17.8,31.1],'Uganda':[0.3,32.6],
+  'Índia Britânica':[28.6,77.2],'Gâmbia':[13.5,-15.6],
+  'Serra Leoa':[8.5,-13.2],'Congo':[-4.3,15.3],
+  'República Democrática do Congo':[-4.3,15.3],
+  'Namíbia':[-22.6,17.1],'Madagascar':[-20.0,47.0],
+  'Tanzânia':[-6.4,34.9],'Costa do Marfim':[6.8,-5.3],
+  'Indonésia':[-6.2,106.8],'Filipinas':[14.6,121.0],
+  'Afeganistão':[34.5,69.2],'Cazaquistão':[51.2,71.4],
+  'Itália':[41.9,12.5],'Suíça':[46.8,8.2],'Áustria':[48.2,16.4],
+  'Hungria':[47.5,19.1],'Romênia':[44.4,26.1],'Bulgária':[42.7,23.3],
+  'Sérvia':[44.8,20.5],'Croácia':[45.8,16.0],'Irlanda':[53.3,-6.3],
+  'Escócia':[56.5,-4.2],'País de Gales':[52.1,-3.8],
+};
+
+// ─── HELPERS ─────────────────────────────────────────────────────────────────
 function norm(s){ return (s||'').trim().toLowerCase(); }
-
+function isTrue(v){ return ['sim','yes','true','1','✓','x','verdadeiro'].includes(norm(v)); }
 function fetchCSV(url){
   return new Promise((res,rej)=>{
     Papa.parse(url,{download:true,header:true,skipEmptyLines:true,
       complete:r=>res(r.data), error:rej});
   });
 }
-
-function parseHoras(val) {
-  if (!val || val === '00:00:00.000' || val.trim() === '') return 0;
-  const parts = val.replace('.000','').split(':');
-  if (parts.length < 2) return 0;
-  return parseInt(parts[0]||0) + parseInt(parts[1]||0)/60;
+function count(arr,key){
+  const c={};
+  arr.forEach(b=>{const v=(b[key]||'').trim();if(v)c[v]=(c[v]||0)+1;});
+  return c;
+}
+function topN(obj,n){
+  return Object.entries(obj).sort((a,b)=>b[1]-a[1]).slice(0,n);
+}
+function chartBase(extra={}){
+  return {
+    maintainAspectRatio:false,
+    plugins:{
+      legend:{display:false},
+      datalabels:{
+        display:true, color:'#fff', font:{family:'DM Sans',size:11,weight:'500'},
+        formatter:v=>v>0?v:'',
+        anchor:'end', align:'start', clamp:true,
+      },
+      ...extra
+    },
+    scales:{
+      x:{grid:{color:'#E0D8CC'},ticks:{font:{family:'DM Sans',size:11},color:MUTED}},
+      y:{grid:{color:'#E0D8CC'},ticks:{font:{family:'DM Sans',size:11},color:MUTED}},
+    }
+  };
+}
+function chartPie(){
+  return {
+    maintainAspectRatio:false,
+    plugins:{
+      legend:{position:'bottom',labels:{font:{family:'DM Sans',size:11},color:DARK,padding:10,boxWidth:12}},
+      datalabels:{
+        display:true,
+        formatter:(v,ctx)=>{
+          const total=ctx.dataset.data.reduce((a,b)=>a+b,0);
+          const pct=Math.round(v/total*100);
+          return pct>4?pct+'%':'';
+        },
+        color:'#fff',font:{family:'DM Sans',size:11,weight:'500'},
+      }
+    }
+  };
 }
 
 async function init(){
-  try {
-    const [estante, leituras26] = await Promise.all([
-      fetchCSV(CSV_ESTANTE),
-      fetchCSV(CSV_2026)
-    ]);
+  const books = await fetchCSV(CSV_ESTANTE);
+  const lidos = books.filter(b=>norm(b['Lido/Não Lido'])==='lido');
 
-    const lidos = estante.filter(b => norm(b['Lido/Não Lido']) === 'lido');
+  document.getElementById('s-total').textContent = books.length;
+  document.getElementById('s-lidos').textContent = lidos.length;
+  document.getElementById('s-paginas').textContent = lidos.reduce((s,b)=>s+(parseInt(b['Páginas'])||0),0).toLocaleString('pt-BR');
+  document.getElementById('s-autores').textContent = new Set(books.map(b=>b['Nome']).filter(Boolean)).size;
+  document.getElementById('s-paises').textContent = new Set(books.map(b=>b['País']).filter(Boolean)).size;
 
-    // Total estante
-    document.getElementById('s-total').textContent = estante.length;
+  // Mini charts
+  makeDonut('mc-cor', count(lidos,'Cor'));
+  makeDonut('mc-genero-autor', count(lidos,'Se identifica como...'));
+  makeDonut('mc-idioma', count(lidos,'Idioma'));
 
-    // Lidos (estante)
-    document.getElementById('s-lidos').textContent = lidos.length;
+  // Mark active nav
+  document.querySelectorAll('nav ul a[data-page="index"]').forEach(a=>a.classList.add('active'));
+}
 
-    // Páginas lidas
-    const pag = lidos.reduce((s,b) => s + (parseInt(b['Páginas'])||0), 0);
-    document.getElementById('s-paginas').textContent = pag.toLocaleString('pt-BR');
-
-    // Horas ouvidas (audiobooks de 2026 — coluna D com horas > 0)
-    const audioCol = Object.keys(leituras26[0]||{}).find(k =>
-      k.toLowerCase().includes('hora') || k.toLowerCase().includes('áudio') || k.toLowerCase().includes('audio')
-    ) || 'Horas ouvidas';
-    const totalHoras = leituras26.reduce((s,b) => s + parseHoras(b[audioCol]), 0);
-    document.getElementById('s-horas').textContent = Math.round(totalHoras) > 0
-      ? Math.round(totalHoras) + 'h'
-      : '—';
-
-    // Autores únicos
-    const autoresSet = new Set(estante.map(b => (b['Nome']||'').trim()).filter(Boolean));
-    document.getElementById('s-autores').textContent = autoresSet.size;
-
-    // Países únicos
-    const paisesSet = new Set(estante.map(b => (b['País']||'').trim()).filter(Boolean));
-    document.getElementById('s-paises').textContent = paisesSet.size;
-
-  } catch(e) {
-    console.error('Erro ao carregar dados:', e);
-  }
+function makeDonut(id, obj){
+  const entries = topN(obj,6);
+  new Chart(document.getElementById(id),{
+    type:'doughnut',
+    data:{labels:entries.map(e=>e[0]),datasets:[{data:entries.map(e=>e[1]),backgroundColor:CORES,borderWidth:0}]},
+    options:{...chartPie(), maintainAspectRatio:false}
+  });
 }
 
 init();
