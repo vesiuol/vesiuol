@@ -6,7 +6,7 @@
 <title>O que tem na estante da Louise</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 <style>
 :root {
@@ -14,10 +14,10 @@
   --black: #000000;
   --green: #849974;
   --green-dark: #6b7e5e;
+  --green-light: #c8d4b8;
   --border: #c8c8c8;
   --text: #1a1a1a;
   --muted: #555;
-  --bg: #ffffff;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--white);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:400;}
@@ -31,82 +31,66 @@ nav{
 .nav-logo{display:flex;gap:6px;align-items:center;}
 .nav-dot{width:11px;height:11px;border-radius:50%;background:var(--black);}
 nav ul{list-style:none;display:flex;gap:2rem;margin-left:auto;align-items:center;}
-nav ul li a{color:var(--black);text-decoration:none;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;transition:color .2s;font-weight:400;}
+nav ul li a{color:var(--black);text-decoration:none;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;transition:color .2s;font-weight:500;}
 nav ul li a:hover{color:var(--green);}
 nav ul li a.active{
   background:var(--green);color:var(--white);
-  padding:.28rem .7rem;border-radius:3px;
+  padding:.28rem .7rem;border-radius:3px;font-weight:700;
 }
 .nav-hamburger{display:none;background:none;border:none;color:var(--black);font-size:1.4rem;cursor:pointer;margin-left:auto;}
 
 /* ── WINDOW CARD ── */
 .window-card{
-  background:var(--white);
-  border:1.5px solid #b0b090;
-  border-radius:16px;
-  overflow:hidden;
+  background:var(--white);border:1.5px solid #b0b090;
+  border-radius:16px;overflow:hidden;
 }
 .window-bar{
-  padding:.55rem 1rem;
-  display:flex;align-items:center;gap:6px;
+  padding:.55rem 1rem;display:flex;align-items:center;gap:6px;
   border-bottom:1px solid #ddd;
 }
 .win-dot{width:9px;height:9px;border-radius:50%;background:#bbb;}
 
 /* ── HERO ── */
-.hero-section{
-  max-width:1100px;margin:3rem auto 2rem;padding:0 2rem;
-}
+.hero-section{max-width:1100px;margin:3rem auto 2rem;padding:0 2rem;}
 .hero-card{padding:2.5rem 2.5rem 0;}
 .hero-title-bg{
-  background:var(--green);
-  display:inline-block;
-  padding:.3rem .7rem;
-  margin-bottom:1.2rem;
+  background:var(--green);display:inline-block;
+  padding:.3rem .7rem;margin-bottom:1.2rem;
 }
 .hero-title-bg h1{
   font-family:'Playfair Display',serif;
   font-size:clamp(2rem,4vw,3rem);
-  font-weight:400;
-  font-style:italic;
-  color:var(--white);
-  line-height:1.1;
+  font-weight:400;color:var(--white);line-height:1.1;
 }
 .hero-card p{
   font-size:.95rem;line-height:1.85;color:var(--text);
   max-width:900px;margin-bottom:.9rem;
 }
 .hero-divider{
-  margin-top:2rem;
-  border-top:1px solid #ccc;
+  margin-top:2rem;border-top:1px solid #ccc;
   padding:1rem 2.5rem;
-  display:flex;align-items:center;justify-content:space-between;
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
 }
-.hero-tagline{
-  font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);line-height:1.9;
-}
-.hero-tagline strong{color:var(--black);}
-.hero-arrow{font-size:1.1rem;color:var(--black);text-decoration:none;transition:transform .2s;display:inline-block;}
+.hero-meta{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:500;line-height:1.7;}
+.hero-meta strong{color:var(--black);font-weight:700;}
+.hero-arrow{font-size:1.3rem;color:var(--black);text-decoration:none;transition:transform .2s;}
 .hero-arrow:hover{transform:translateX(4px);}
 
 /* ── STATS BAR ── */
 .stats-bar{
   max-width:1100px;margin:0 auto 3rem;padding:0 2rem;
-  display:grid;grid-template-columns:repeat(6,1fr);gap:.8rem;
+  display:grid;grid-template-columns:repeat(7,1fr);gap:.8rem;
 }
 .stat-card{
-  background:var(--green);
-  border:1.5px solid #6b7e5e;
-  border-radius:12px;
-  padding:1.2rem .8rem;
-  text-align:center;
+  background:var(--green);border:1.5px solid var(--green-dark);
+  border-radius:12px;padding:1.2rem .8rem;text-align:center;
   display:flex;flex-direction:column;align-items:center;gap:.4rem;
 }
 .stat-num{
   font-family:'Playfair Display',serif;
   font-size:2rem;font-weight:400;color:var(--white);line-height:1;
 }
-.stat-lbl{font-size:.68rem;letter-spacing:.06em;text-transform:capitalize;color:rgba(255,255,255,.85);}
+.stat-lbl{font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--white);font-weight:600;}
 
 /* ── SECTION ── */
 .page-section{max-width:1100px;margin:0 auto;padding:0 2rem 3.5rem;}
@@ -115,33 +99,33 @@ nav ul li a.active{
   margin-bottom:1.8rem;border-bottom:1px solid #ccc;padding-bottom:.7rem;
 }
 .section-header .sh-label{
-  background:var(--green);padding:.2rem .7rem;
-  font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:400;color:var(--white);
+  background:var(--green);padding:.25rem .75rem;
+  font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:500;color:var(--white);
 }
 .section-header .sh-sub{
-  font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+  font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:500;
 }
 
-/* ── VITRINE CARDS ── */
-.posts-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;}
-.post-card{
+/* ── VITRINE (post-card style do desafio) ── */
+.vitrine-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;}
+.vitrine-card{
   background:var(--white);border:1.5px solid #b0b090;
   border-radius:14px;overflow:hidden;text-decoration:none;color:inherit;
   display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s;
 }
-.post-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.08);}
-.post-card.wide{grid-column:span 2;}
-.post-winbar{padding:.45rem .9rem;display:flex;align-items:center;gap:5px;border-bottom:1px solid #e0e0e0;}
-.post-body{padding:1.3rem 1.3rem 1rem;flex:1;display:flex;flex-direction:column;gap:.6rem;}
-.post-title-bg{background:var(--green);display:inline-block;padding:.15rem .45rem;}
-.post-title-bg h3{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:400;font-style:italic;color:var(--white);}
-.post-desc{font-size:.86rem;line-height:1.6;color:var(--muted);flex:1;}
-.post-footer-row{
-  border-top:1px solid #e0e0e0;padding:.7rem 1.3rem;
+.vitrine-card:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,0,0,.08);}
+.vitrine-card.wide{grid-column:span 2;}
+.vc-winbar{padding:.45rem .9rem;display:flex;align-items:center;gap:5px;border-bottom:1px solid #e0e0e0;}
+.vc-body{padding:1.3rem 1.3rem 1rem;flex:1;display:flex;flex-direction:column;gap:.7rem;}
+.vc-title-bg{background:var(--green);display:inline-block;padding:.18rem .5rem;align-self:flex-start;}
+.vc-title-bg h3{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:400;color:var(--white);}
+.vc-desc{font-size:.87rem;line-height:1.65;color:var(--muted);flex:1;}
+.vc-footer{
+  border-top:1px solid #e0e0e0;padding:.75rem 1.3rem;
   display:flex;align-items:center;justify-content:space-between;
 }
-.post-tag{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
-.post-arrow{font-size:1rem;color:var(--black);}
+.vc-tag{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:500;}
+.vc-arrow{font-size:1.05rem;color:var(--black);}
 
 /* ── FOOTER ── */
 footer{
@@ -149,35 +133,30 @@ footer{
   display:flex;align-items:center;gap:1rem;
 }
 .footer-dots{display:flex;gap:6px;}
-.footer-dot{width:11px;height:11px;border-radius:50%;background:rgba(255,255,255,.7);}
-.footer-text{
-  font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;
-  color:rgba(255,255,255,.8);
-}
+.footer-dot{width:11px;height:11px;border-radius:50%;background:var(--white);}
+.footer-text{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--white);font-weight:500;}
 
 @media(max-width:900px){
   .stats-bar{grid-template-columns:repeat(3,1fr);}
-  .posts-grid{grid-template-columns:1fr 1fr;}
-  .post-card.wide{grid-column:span 2;}
+  .vitrine-grid{grid-template-columns:1fr 1fr;}
+  .vitrine-card.wide{grid-column:span 2;}
 }
 @media(max-width:600px){
   .stats-bar{grid-template-columns:repeat(2,1fr);}
-  .posts-grid{grid-template-columns:1fr;}
-  .post-card.wide{grid-column:span 1;}
+  .vitrine-grid{grid-template-columns:1fr;}
+  .vitrine-card.wide{grid-column:span 1;}
   nav ul{display:none;position:absolute;top:52px;left:0;right:0;background:var(--white);flex-direction:column;padding:1rem 2rem;gap:1rem;border-bottom:1px solid #ccc;}
   nav ul.open{display:flex;}
   .nav-hamburger{display:block;}
+  .hero-divider{flex-direction:column;align-items:flex-start;gap:.6rem;}
 }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <div class="nav-logo">
-    <div class="nav-dot"></div>
-    <div class="nav-dot"></div>
-    <div class="nav-dot"></div>
+    <div class="nav-dot"></div><div class="nav-dot"></div><div class="nav-dot"></div>
   </div>
   <ul id="nav-menu">
     <li><a href="index.html" data-page="index" class="active">Início</a></li>
@@ -194,9 +173,7 @@ footer{
 <div class="hero-section">
   <div class="window-card">
     <div class="window-bar">
-      <div class="win-dot"></div>
-      <div class="win-dot"></div>
-      <div class="win-dot"></div>
+      <div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div>
     </div>
     <div class="hero-card">
       <div class="hero-title-bg">
@@ -207,7 +184,7 @@ footer{
       <p>Eu tenho duas planilhas de Excel e um Notion exclusivo para a minha catalogação, sem contar layout e textos no notion sobre meu projeto literário. Tendo tantos dados assim, porque não compartilhar!</p>
     </div>
     <div class="hero-divider">
-      <div class="hero-tagline">
+      <div class="hero-meta">
         <div>por <strong>LOUISE VICTORIA</strong> · <span id="data-atualizacao">atualizado em 29 de maio de 2026</span></div>
         <div>BASE DE DADOS DA QUASE BIBLIOTECA PESSOAL LV</div>
       </div>
@@ -221,9 +198,10 @@ footer{
   <div class="stat-card"><span class="stat-num" id="s-total">—</span><span class="stat-lbl">Livros na estante</span></div>
   <div class="stat-card"><span class="stat-num" id="s-lidos">—</span><span class="stat-lbl">Lidos</span></div>
   <div class="stat-card"><span class="stat-num" id="s-paginas">—</span><span class="stat-lbl">Páginas lidas</span></div>
+  <div class="stat-card"><span class="stat-num" id="s-horas">—</span><span class="stat-lbl">Horas ouvidas</span></div>
   <div class="stat-card"><span class="stat-num" id="s-autores">—</span><span class="stat-lbl">Autores únicos</span></div>
   <div class="stat-card"><span class="stat-num" id="s-paises">—</span><span class="stat-lbl">Países</span></div>
-  <div class="stat-card"><span class="stat-num" id="s-idiomas">—</span><span class="stat-lbl">Idiomas</span></div>
+  <div class="stat-card"><span class="stat-num">7</span><span class="stat-lbl">Anos de registro</span></div>
 </div>
 
 <!-- VITRINE -->
@@ -232,103 +210,113 @@ footer{
     <span class="sh-label">Navegue pelo site</span>
     <span class="sh-sub">Páginas</span>
   </div>
-  <div class="posts-grid">
+  <div class="vitrine-grid">
 
-    <a href="2026.html" class="post-card">
-      <div class="post-winbar">
-        <div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div>
+    <a href="2026.html" class="vitrine-card">
+      <div class="vc-winbar"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div></div>
+      <div class="vc-body">
+        <div class="vc-title-bg"><h3>Leituras de 2026</h3></div>
+        <p class="vc-desc">Progresso da meta anual e os dados específicos dos livros lidos este ano.</p>
       </div>
-      <div class="post-body">
-        <div class="post-title-bg"><h3>Leituras de 2026</h3></div>
-        <p class="post-desc">Progresso da meta anual e os dados específicos dos livros lidos este ano.</p>
-      </div>
-      <div class="post-footer-row">
-        <span class="post-tag">Ano atual</span>
-        <span class="post-arrow">→</span>
+      <div class="vc-footer">
+        <span class="vc-tag">Ano atual</span>
+        <span class="vc-arrow">→</span>
       </div>
     </a>
 
-    <a href="estante.html" class="post-card">
-      <div class="post-winbar">
-        <div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div>
+    <a href="estante.html" class="vitrine-card">
+      <div class="vc-winbar"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div></div>
+      <div class="vc-body">
+        <div class="vc-title-bg"><h3>Livros na Estante</h3></div>
+        <p class="vc-desc">Todos os livros catalogados desde 2020, com gráficos e filtros detalhados.</p>
       </div>
-      <div class="post-body">
-        <div class="post-title-bg"><h3>Livros na Estante</h3></div>
-        <p class="post-desc">Todos os livros catalogados desde 2020, com gráficos e filtros detalhados.</p>
-      </div>
-      <div class="post-footer-row">
-        <span class="post-tag">Estante completa</span>
-        <span class="post-arrow">→</span>
+      <div class="vc-footer">
+        <span class="vc-tag">Estante completa</span>
+        <span class="vc-arrow">→</span>
       </div>
     </a>
 
-    <a href="historico.html" class="post-card">
-      <div class="post-winbar">
-        <div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div>
+    <a href="historico.html" class="vitrine-card">
+      <div class="vc-winbar"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div></div>
+      <div class="vc-body">
+        <div class="vc-title-bg"><h3>Vida de Leitora</h3></div>
+        <p class="vc-desc">Histórico de leituras com evolução ano a ano, gráficos gerais e filtro por ano específico.</p>
       </div>
-      <div class="post-body">
-        <div class="post-title-bg"><h3>Vida de Leitora</h3></div>
-        <p class="post-desc">Histórico de leituras com evolução ano a ano, gráficos gerais e filtro por ano específico.</p>
-      </div>
-      <div class="post-footer-row">
-        <span class="post-tag">2020 → 2026</span>
-        <span class="post-arrow">→</span>
+      <div class="vc-footer">
+        <span class="vc-tag">2020 → 2026</span>
+        <span class="vc-arrow">→</span>
       </div>
     </a>
 
-    <a href="desafio.html" class="post-card wide">
-      <div class="post-winbar">
-        <div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div>
+    <a href="desafio.html" class="vitrine-card wide">
+      <div class="vc-winbar"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div></div>
+      <div class="vc-body">
+        <div class="vc-title-bg"><h3>Desafio Livros pelo Mundo</h3></div>
+        <p class="vc-desc">Uma viagem rumo à diversidade: ler ao menos um livro de cada país do mundo. Cada leitura é um passo para ampliar perspectivas e conhecer histórias fora de um eixo automático.</p>
       </div>
-      <div class="post-body">
-        <div class="post-title-bg"><h3>Desafio Livros pelo Mundo</h3></div>
-        <p class="post-desc">Uma viagem rumo à diversidade: ler ao menos um livro de cada país do mundo. Cada leitura é um passo para ampliar perspectivas e conhecer histórias fora de um eixo automático.</p>
-      </div>
-      <div class="post-footer-row">
-        <span class="post-tag">Um livro para cada país</span>
-        <span class="post-arrow">→</span>
+      <div class="vc-footer">
+        <span class="vc-tag">Um livro para cada país</span>
+        <span class="vc-arrow">→</span>
       </div>
     </a>
 
   </div>
 </div>
 
-<!-- FOOTER -->
 <footer>
-  <div class="footer-dots">
-    <div class="footer-dot"></div>
-    <div class="footer-dot"></div>
-    <div class="footer-dot"></div>
-  </div>
-  <span class="footer-text">O QUE TEM NA ESTANTE DA LOUISE &nbsp;|&nbsp; LOUISE VICTORIA &nbsp;|&nbsp; © 2026 &nbsp;|&nbsp; DADOS VIA GOOGLE SHEETS · GRÁFICOS VIA CHART.JS</span>
+  <div class="footer-dots"><div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div></div>
+  <span class="footer-text">O que tem na estante da Louise &nbsp;|&nbsp; Louise Victoria &nbsp;|&nbsp; © 2026 &nbsp;|&nbsp; Dados via Google Sheets · Mapa via Leaflet · Gráficos via Chart.js</span>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 <script>
-const CSV_VISAO_GERAL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQWGv70Tc2vz-YUKxwU_0_H8F7UuHom1tCJQlE2Tfi8AMNem2c5X3WSs6z4CPjoTb2AaFKmJ8bihlPV/pub?gid=96920357&single=true&output=csv';
+const CSV_ESTANTE = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQWGv70Tc2vz-YUKxwU_0_H8F7UuHom1tCJQlE2Tfi8AMNem2c5X3WSs6z4CPjoTb2AaFKmJ8bihlPV/pub?gid=0&single=true&output=csv';
+const CSV_2026    = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub?gid=537800862&single=true&output=csv';
+
+function norm(s){ return (s||'').trim().toLowerCase(); }
 
 function fetchCSV(url){
   return new Promise((res,rej)=>{
-    Papa.parse(url, { download:true, header:false, skipEmptyLines:true,
-      complete: r => res(r.data), error: rej });
+    Papa.parse(url,{download:true,header:true,skipEmptyLines:true,
+      complete:r=>res(r.data), error:rej});
   });
 }
 
-function getStat(rows, label) {
-  const row = rows.find(r => (r[0]||'').trim().toLowerCase() === label.toLowerCase());
-  return row ? (row[1]||'').trim() : '—';
+function parseHoras(val) {
+  if (!val || val === '00:00:00.000' || val.trim() === '') return 0;
+  const parts = val.replace('.000','').split(':');
+  if (parts.length < 2) return 0;
+  return parseInt(parts[0]||0) + parseInt(parts[1]||0)/60;
 }
 
 async function init(){
   try {
-    const rows = await fetchCSV(CSV_VISAO_GERAL);
-    console.log('Linhas do CSV:', rows.slice(0, 12).map(r => r[0] + ' → ' + r[1]));
-    document.getElementById('s-total').textContent   = getStat(rows, 'Livros na estante');
-    document.getElementById('s-lidos').textContent   = getStat(rows, 'Lidos');
-    document.getElementById('s-paginas').textContent = getStat(rows, 'Páginas lidas');
-    document.getElementById('s-autores').textContent = getStat(rows, 'Autores únicos');
-    document.getElementById('s-paises').textContent  = getStat(rows, 'Países');
-    document.getElementById('s-idiomas').textContent = getStat(rows, 'Idiomas');
+    const [estante, leituras26] = await Promise.all([
+      fetchCSV(CSV_ESTANTE),
+      fetchCSV(CSV_2026)
+    ]);
+
+    const lidos = estante.filter(b => norm(b['Lido/Não Lido']) === 'lido');
+
+    document.getElementById('s-total').textContent = estante.length;
+    document.getElementById('s-lidos').textContent = lidos.length;
+
+    const pag = lidos.reduce((s,b) => s + (parseInt(b['Páginas'])||0), 0);
+    document.getElementById('s-paginas').textContent = pag.toLocaleString('pt-BR');
+
+    const audioCol = Object.keys(leituras26[0]||{}).find(k =>
+      k.toLowerCase().includes('hora') || k.toLowerCase().includes('áudio') || k.toLowerCase().includes('audio')
+    ) || 'Horas ouvidas';
+    const totalHoras = leituras26.reduce((s,b) => s + parseHoras(b[audioCol]), 0);
+    document.getElementById('s-horas').textContent = Math.round(totalHoras) > 0
+      ? Math.round(totalHoras) + 'h'
+      : '—';
+
+    const autoresSet = new Set(estante.map(b => (b['Nome']||'').trim()).filter(Boolean));
+    document.getElementById('s-autores').textContent = autoresSet.size;
+
+    const paisesSet = new Set(estante.map(b => (b['País']||'').trim()).filter(Boolean));
+    document.getElementById('s-paises').textContent = paisesSet.size;
+
   } catch(e) {
     console.error('Erro ao carregar dados:', e);
   }
