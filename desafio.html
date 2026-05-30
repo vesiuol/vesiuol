@@ -14,59 +14,49 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <style>
 :root {
-  --orange: #849974;
-  --black: #000000;
   --white: #ffffff;
-  --gray: #f5f5f5;
-  --text-muted: #555;
-  --border: #e0e0e0;
-  --card-radius: 14px;
-  /* aliases para compatibilidade interna */
+  --black: #000000;
   --green: #849974;
   --green-dark: #6b7e5e;
-  --green-light: #c8d4b8;
-  --text: #000000;
+  --green-light: #849974;
+  --border: #c8c8c8;
+  --text: #1a1a1a;
   --muted: #555;
   --bg: #ffffff;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--white);color:var(--black);font-family:'DM Sans',sans-serif;font-weight:300;}
+body{background:var(--white);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:400;}
 
 /* ── NAV ── */
 nav{
-  position:sticky;top:0;z-index:100;
-  background:var(--white);
-  border-bottom:3px solid var(--orange);
-  padding:0 2.5rem;
-  display:flex;align-items:center;justify-content:space-between;
-  height:52px;
+  position:sticky;top:0;z-index:100;background:var(--white);
+  padding:0 2rem;display:flex;align-items:center;height:52px;
+  border-bottom: 1.5px solid #c5c5a0;
 }
 .nav-logo{display:flex;gap:6px;align-items:center;}
-.nav-dot,.nav-logo span{width:10px;height:10px;border-radius:50%;background:var(--black);}
-.nav-dot:nth-child(2),.nav-logo span:nth-child(2){background:var(--orange);}
-nav ul{list-style:none;display:flex;gap:0;margin-left:auto;align-items:center;}
-nav ul li a{
-  display:inline-block;padding:.28rem .75rem;
-  font-size:.78rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;
-  text-decoration:none;color:var(--black);transition:color .2s;border-radius:3px;
+.nav-dot{width:11px;height:11px;border-radius:50%;background:var(--black);}
+nav ul{list-style:none;display:flex;gap:2rem;margin-left:auto;align-items:center;}
+nav ul li a{color:var(--black);text-decoration:none;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;transition:color .2s;font-weight:400;}
+nav ul li a:hover{color:var(--green);}
+nav ul li a.active{
+  background:var(--green);color:var(--white);
+  padding:.28rem .7rem;border-radius:3px;
 }
-nav ul li a:hover{color:var(--orange);background:transparent;}
-nav ul li a.active{background:var(--orange);color:var(--white);font-weight:700;}
-.nav-hamburger{display:none;background:none;border:none;font-size:1.4rem;cursor:pointer;}
+.nav-hamburger{display:none;background:none;border:none;color:var(--black);font-size:1.4rem;cursor:pointer;margin-left:auto;}
 
 /* ── WINDOW CARD ── */
 .window-card{
   background:var(--white);
-  border:2px solid var(--black);
-  border-radius:var(--card-radius);
+  border:1.5px solid #b0b090;
+  border-radius:16px;
   overflow:hidden;
 }
 .window-bar{
   padding:.55rem 1rem;
   display:flex;align-items:center;gap:6px;
-  border-bottom:1px solid var(--border);
+  border-bottom:1px solid #ddd;
 }
-.win-dot{width:9px;height:9px;border-radius:50%;background:var(--orange);}
+.win-dot{width:9px;height:9px;border-radius:50%;background:#bbb;}
 
 /* ── HERO SECTION ── */
 .hero-section{
@@ -74,95 +64,93 @@ nav ul li a.active{background:var(--orange);color:var(--white);font-weight:700;}
 }
 .hero-card{padding:2.5rem 2.5rem 0;}
 .hero-title-bg{
-  background:var(--orange);
+  background:var(--green);
   display:inline-block;
-  padding:.2rem .5rem;
+  padding:.3rem .7rem;
   margin-bottom:1.2rem;
-  border-radius:3px;
 }
 .hero-title-bg h1{
   font-family:'Playfair Display',serif;
   font-size:clamp(2rem,4vw,3rem);
-  font-style:italic;
   font-weight:400;
-  color:var(--black);
+  color:var(--white);
   line-height:1.1;
 }
 .hero-card p{
-  font-size:.97rem;line-height:1.85;color:#1a1a1a;
+  font-size:.95rem;line-height:1.85;color:var(--text);
   max-width:900px;margin-bottom:.9rem;
 }
 .hero-divider{
   margin-top:2rem;
-  border-top:1px solid var(--border);
+  border-top:1px solid #ccc;
   padding:1rem 2.5rem;
   display:flex;align-items:center;justify-content:space-between;
 }
 .hero-tagline{
-  font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);
+  font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
 }
-.hero-arrow{font-size:1.4rem;color:var(--black);text-decoration:none;}
+.hero-arrow{font-size:1.1rem;color:var(--black);}
 
 /* ── STATS BAR ── */
 .stats-bar{
-  max-width:1100px;margin:1rem auto 3rem;padding:0 2rem;
-  display:grid;grid-template-columns:repeat(6,1fr);gap:1rem;
+  max-width:1100px;margin:0 auto 3rem;padding:0 2rem;
+  display:grid;grid-template-columns:repeat(6,1fr);gap:.8rem;
 }
 .stat-card{
-  background:var(--orange);
-  border-radius:var(--card-radius);
-  padding:1.4rem 1rem;
+  background:var(--green);
+  border:1.5px solid #6b7e5e;
+  border-radius:12px;
+  padding:1.2rem .8rem;
   text-align:center;
-  box-shadow:3px 3px 0 var(--black);
   display:flex;flex-direction:column;align-items:center;gap:.4rem;
 }
 .stat-num{
   font-family:'Playfair Display',serif;
-  font-size:2rem;font-weight:700;color:var(--black);line-height:1;display:block;
+  font-size:2rem;font-weight:400;color:var(--white);line-height:1;
 }
-.stat-lbl{font-size:.68rem;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--black);margin-top:.4rem;display:block;}
+.stat-lbl{font-size:.68rem;letter-spacing:.06em;text-transform:capitalize;color:rgba(255,255,255,.85);}
 
 /* ── SECTION LAYOUT ── */
 .page-section{max-width:1100px;margin:0 auto;padding:0 2rem 3.5rem;}
 .section-header{
   display:flex;align-items:baseline;gap:1.2rem;
-  margin-bottom:1.8rem;border-bottom:1px solid var(--border);padding-bottom:.7rem;
+  margin-bottom:1.8rem;border-bottom:1px solid #ccc;padding-bottom:.7rem;
 }
 .section-header .sh-label{
-  background:var(--orange);padding:.1rem .5rem;border-radius:3px;
-  font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:400;color:var(--black);
+  background:var(--green);padding:.2rem .7rem;
+  font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:400;color:var(--white);
 }
 .section-header .sh-sub{
-  font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);
+  font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
 }
 
 /* ── BLOG POSTS ── */
-.posts-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;}
+.posts-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;}
 .posts-grid .full-row{grid-column:1/2;}
 .post-card{
-  background:var(--white);border:2px solid var(--black);
-  border-radius:var(--card-radius);overflow:hidden;text-decoration:none;color:inherit;
+  background:var(--white);border:1.5px solid #b0b090;
+  border-radius:14px;overflow:hidden;text-decoration:none;color:inherit;
   display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s;
 }
-.post-card:hover{transform:translateY(-3px);box-shadow:4px 4px 0 var(--black);}
-.post-winbar{padding:.45rem .9rem;display:flex;align-items:center;gap:5px;border-bottom:1px solid var(--border);}
+.post-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.08);}
+.post-winbar{padding:.45rem .9rem;display:flex;align-items:center;gap:5px;border-bottom:1px solid #e0e0e0;}
 .post-body{padding:1.3rem 1.3rem 1rem;flex:1;display:flex;flex-direction:column;gap:.6rem;}
-.post-title-bg{background:var(--orange);display:inline-block;padding:.1rem .45rem;border-radius:3px;align-self:flex-start;}
-.post-title-bg h3{font-family:'Playfair Display',serif;font-size:1rem;font-style:italic;font-weight:400;color:var(--black);}
-.post-desc{font-size:.85rem;line-height:1.65;color:var(--text-muted);flex:1;}
+.post-title-bg{background:var(--green);display:inline-block;padding:.15rem .45rem;}
+.post-title-bg h3{font-family:'Playfair Display',serif;font-size:1rem;font-weight:400;color:var(--white);}
+.post-desc{font-size:.86rem;line-height:1.6;color:var(--muted);flex:1;}
 .post-footer-row{
-  border-top:1px solid var(--border);padding:.7rem 1.3rem;
+  border-top:1px solid #e0e0e0;padding:.7rem 1.3rem;
   display:flex;align-items:center;justify-content:space-between;
 }
-.post-tag{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);}
-.post-arrow{font-size:1.2rem;color:var(--black);}
+.post-tag{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+.post-arrow{font-size:1rem;color:var(--black);}
 
 /* ── CHARTS ── */
 .charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
-.chart-card{background:var(--white);border:2px solid var(--black);border-radius:var(--card-radius);overflow:hidden;}
+.chart-card{background:var(--white);border:1.5px solid #b0b090;border-radius:14px;overflow:hidden;}
 .chart-card.full{grid-column:1/-1;}
-.chart-header{padding:.5rem 1rem;display:flex;align-items:center;gap:6px;border-bottom:1px solid var(--border);}
-.chart-title-small{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);}
+.chart-header{padding:.5rem 1rem;display:flex;align-items:center;gap:6px;border-bottom:1px solid #e0e0e0;}
+.chart-title-small{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);}
 .chart-body{padding:1.2rem;position:relative;}
 .chart-body canvas{max-height:220px;}
 .chart-body.tall canvas{max-height:300px;}
@@ -170,21 +158,20 @@ nav ul li a.active{background:var(--orange);color:var(--white);font-weight:700;}
 /* ── MAP ── */
 #dlm-map{height:420px;border-radius:0 0 12px 12px;}
 .map-legend{display:flex;gap:1.5rem;margin-top:.8rem;flex-wrap:wrap;}
-.legend-item{display:flex;align-items:center;gap:.5rem;font-size:.78rem;color:var(--text-muted);}
+.legend-item{display:flex;align-items:center;gap:.5rem;font-size:.78rem;color:var(--muted);}
 .legend-dot{width:11px;height:11px;border-radius:50%;flex-shrink:0;}
 
 /* ── NOTION CTA ── */
 .notion-cta-card{
-  background:var(--orange);border:2px solid var(--black);
-  border-radius:var(--card-radius);overflow:hidden;
-  box-shadow:4px 4px 0 var(--black);
+  background:var(--green);border:1.5px solid #6b7e5e;
+  border-radius:14px;overflow:hidden;
 }
 .notion-cta-body{padding:2rem 2.5rem;}
-.notion-cta-title-bg{background:rgba(0,0,0,.12);display:inline-block;padding:.2rem .6rem;border-radius:3px;margin-bottom:1rem;}
-.notion-cta-title-bg h2{font-family:'Playfair Display',serif;font-size:1.4rem;font-style:italic;font-weight:400;color:var(--black);}
-.notion-cta-body p{font-size:.93rem;line-height:1.8;color:#1a1a1a;margin-bottom:.7rem;}
+.notion-cta-title-bg{background:rgba(255,255,255,.15);display:inline-block;padding:.2rem .6rem;margin-bottom:1rem;}
+.notion-cta-title-bg h2{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:400;color:var(--white);}
+.notion-cta-body p{font-size:.93rem;line-height:1.8;color:rgba(255,255,255,.9);margin-bottom:.7rem;}
 .notion-cta-footer{
-  border-top:1px solid rgba(0,0,0,.15);padding:1.1rem 2.5rem;
+  border-top:1px solid rgba(255,255,255,.25);padding:1.1rem 2.5rem;
   display:flex;align-items:center;justify-content:space-between;
 }
 .notion-btn-link{
@@ -193,25 +180,52 @@ nav ul li a.active{background:var(--orange);color:var(--white);font-weight:700;}
   background:var(--black);color:var(--white);
   font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;
   text-decoration:none;border-radius:6px;
-  border:2px solid var(--black);
-  transition:background .2s,box-shadow .2s,transform .15s;
+  border:2px solid transparent;
+  transition:background .2s, box-shadow .2s, border-color .2s, transform .15s;
   font-weight:500;
 }
 .notion-btn-link:hover{
   background:#1a1a1a;
-  box-shadow:3px 3px 0 rgba(0,0,0,.4);
+  box-shadow:0 4px 16px rgba(0,0,0,.35);
+  border-color:rgba(255,255,255,.2);
   transform:translateY(-1px);
 }
-.notion-btn-link:active{transform:translateY(1px);}
+.notion-btn-link:active{
+  transform:translateY(1px);
+  box-shadow:0 1px 6px rgba(0,0,0,.4), inset 0 2px 4px rgba(0,0,0,.3);
+  border-color:rgba(255,255,255,.4);
+}
 
 /* ── TABLE ── */
-.filter-pill{
+.evolucao-card{
+  background:var(--white);border:1.5px solid #b0b090;border-radius:12px;
+  padding:1.1rem 1rem;text-align:center;
+}
+.evolucao-card .ev-ano{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.3rem;}
+.evolucao-card .ev-num{font-family:'Playfair Display',serif;font-size:2rem;font-weight:400;color:var(--green);line-height:1.1;}
+.evolucao-card .ev-sub{font-size:.75rem;color:var(--muted);margin-top:.2rem;}
+.evolucao-card.destaque{background:var(--green);border-color:var(--green-dark);}
+.evolucao-card.destaque .ev-ano{color:rgba(255,255,255,.7);}
+.evolucao-card.destaque .ev-num{color:var(--white);}
+.evolucao-card.destaque .ev-sub{color:rgba(255,255,255,.8);}
+
+/* barra de progresso */
+.prog-track{background:#eee;height:12px;border-radius:6px;overflow:hidden;margin:.5rem 0 .3rem;}
+.prog-fill{height:100%;background:var(--green);border-radius:6px;transition:width 1.2s cubic-bezier(.4,0,.2,1);}
+.prog-labels{display:flex;justify-content:space-between;font-size:.75rem;color:var(--muted);}
+
+/* projeção */
+.proj-linha{display:flex;justify-content:space-between;align-items:center;padding:.55rem 0;border-bottom:1px solid #eee;font-size:.85rem;}
+.proj-linha:last-child{border-bottom:none;}
+.proj-label{color:var(--muted);}
+.proj-val{font-weight:500;color:var(--text);}
+.proj-destaque{color:var(--green);font-weight:600;font-family:'Playfair Display',serif;font-size:1rem;}
   padding:.35rem .9rem;border:1.5px solid var(--border);background:transparent;
   font-family:'DM Sans',sans-serif;font-size:.78rem;border-radius:100px;
-  cursor:pointer;transition:all .18s;color:var(--text-muted);font-weight:400;
+  cursor:pointer;transition:all .18s;color:var(--muted);font-weight:400;
 }
-.filter-pill:hover{border-color:var(--orange);color:var(--orange);}
-.filter-pill.active{background:var(--orange);border-color:var(--orange);color:var(--black);font-weight:500;}
+.filter-pill:hover{border-color:var(--green);color:var(--green);}
+.filter-pill.active{background:var(--green);border-color:var(--green);color:var(--white);font-weight:500;}
 
 /* capa miniatura */
 .book-cover{width:28px;height:40px;object-fit:cover;border-radius:2px;display:block;}
@@ -230,30 +244,29 @@ nav ul li a.active{background:var(--orange);color:var(--white);font-weight:700;}
   width:100%;padding:.55rem 1rem .55rem 2.2rem;
   border:1px solid var(--border);background:var(--white);
   font-family:'DM Sans',sans-serif;font-size:.85rem;border-radius:6px;
-  outline:none;color:var(--black);
+  outline:none;color:var(--text);
 }
-.search-wrap input:focus{border-color:var(--orange);}
-.search-wrap::before{content:'⌕';position:absolute;left:.7rem;top:50%;transform:translateY(-50%);color:var(--text-muted);}
+.search-wrap::before{content:'⌕';position:absolute;left:.7rem;top:50%;transform:translateY(-50%);color:var(--muted);}
 .filter-select{
   padding:.55rem .9rem;border:1px solid var(--border);background:var(--white);
   font-family:'DM Sans',sans-serif;font-size:.82rem;border-radius:6px;
-  color:var(--black);cursor:pointer;outline:none;
+  color:var(--text);cursor:pointer;outline:none;
 }
 table{width:100%;border-collapse:collapse;font-size:.87rem;}
 thead tr{border-bottom:2px solid var(--black);}
 th{
   padding:.6rem .8rem;text-align:left;
   font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--text-muted);white-space:nowrap;cursor:pointer;user-select:none;
+  color:var(--muted);white-space:nowrap;cursor:pointer;user-select:none;
 }
 th:hover{color:var(--black);}
-td{padding:.65rem .8rem;border-bottom:1px solid var(--border);vertical-align:middle;}
+td{padding:.65rem .8rem;border-bottom:1px solid #eee;vertical-align:middle;}
 tr:hover td{background:rgba(132,153,116,.06);}
 .badge{display:inline-block;padding:.18rem .55rem;border-radius:100px;font-size:.7rem;}
 .badge-lido{background:#D4EDDA;color:#1A6631;}
 .badge-nao{background:#f0f0f0;color:#666;}
 .badge-mapeado{background:#FFF3CD;color:#8A6200;}
-.table-footer{padding:.8rem 0;color:var(--text-muted);font-size:.8rem;display:flex;justify-content:space-between;align-items:center;}
+.table-footer{padding:.8rem 0;color:var(--muted);font-size:.8rem;display:flex;justify-content:space-between;align-items:center;}
 .pagination{display:flex;gap:.3rem;flex-wrap:wrap;}
 .page-btn{
   width:30px;height:30px;border:1px solid var(--border);
@@ -264,14 +277,14 @@ tr:hover td{background:rgba(132,153,116,.06);}
 
 /* ── FOOTER ── */
 footer{
-  background:var(--orange);padding:1.8rem 2.5rem;
-  display:flex;align-items:center;gap:1.5rem;
+  background:var(--green);padding:1.2rem 2rem;
+  display:flex;align-items:center;gap:1rem;
 }
 .footer-dots{display:flex;gap:6px;}
-.footer-dot{width:10px;height:10px;border-radius:50%;background:var(--black);}
+.footer-dot{width:11px;height:11px;border-radius:50%;background:rgba(255,255,255,.7);}
 .footer-text{
-  font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;
-  color:var(--black);flex:1;
+  font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(255,255,255,.8);
 }
 
 @media(max-width:900px){
@@ -282,10 +295,9 @@ footer{
 @media(max-width:600px){
   .stats-bar{grid-template-columns:repeat(2,1fr);}
   .posts-grid{grid-template-columns:1fr;}
-  nav ul{display:none;position:absolute;top:52px;left:0;right:0;background:var(--white);flex-direction:column;padding:1rem 2rem;gap:.5rem;border-bottom:2px solid var(--orange);}
+  nav ul{display:none;position:absolute;top:52px;left:0;right:0;background:var(--white);flex-direction:column;padding:1rem 2rem;gap:1rem;border-bottom:1px solid #ccc;}
   nav ul.open{display:flex;}
   .nav-hamburger{display:block;}
-  .hero-card{padding:1.5rem 1.5rem 0;}
 }
 </style>
 </head>
@@ -294,7 +306,9 @@ footer{
 <!-- ── NAVIGATION ── -->
 <nav>
   <div class="nav-logo">
-    <span></span><span></span><span></span>
+    <div class="nav-dot"></div>
+    <div class="nav-dot"></div>
+    <div class="nav-dot"></div>
   </div>
   <ul>
     <li><a href="index.html" data-page="index">Início</a></li>
@@ -335,7 +349,7 @@ footer{
   <div class="stat-card"><span class="stat-num" id="s-mapeados">—</span><span class="stat-lbl">Países com livros</span></div>
   <div class="stat-card"><span class="stat-num" id="s-semlivro">—</span><span class="stat-lbl">País sem livros</span></div>
   <div class="stat-card"><span class="stat-num" id="s-pct">—</span><span class="stat-lbl">% lidos</span></div>
-  <div class="stat-card"><span class="stat-num" id="s-novos">—</span><span class="stat-lbl">Novos autores</span></div>
+  <div class="stat-card"><span class="stat-num" id="s-novos">—</span><span class="stat-lbl">Páginas lidas</span></div>
   <div class="stat-card"><span class="stat-num" id="s-cinco">—</span><span class="stat-lbl">5 estrelas</span></div>
 </div>
 
@@ -510,6 +524,61 @@ footer{
   </div>
 </div>
 
+<!-- ── EVOLUÇÃO ── -->
+<div class="page-section" id="evolucao">
+  <div class="section-header">
+    <span class="sh-label">Evolução do desafio</span>
+    <span class="sh-sub">Uma viagem contada em números — do início até o fim</span>
+  </div>
+
+  <!-- Cards de progresso por ano -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;margin-bottom:1.8rem;" id="evolucao-cards">
+    <!-- preenchido via JS -->
+  </div>
+
+  <!-- Gráfico principal: linha acumulada -->
+  <div class="window-card" style="margin-bottom:1rem;">
+    <div class="window-bar">
+      <div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div>
+      <span class="chart-title-small" style="margin-left:.5rem">Países conquistados · 2024 → 2025 → 2026</span>
+    </div>
+    <div style="padding:1.5rem;">
+      <canvas id="c-evolucao-linha" style="max-height:280px"></canvas>
+    </div>
+  </div>
+
+  <!-- Barras: leituras por ano lado a lado + ritmo -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
+    <div class="window-card">
+      <div class="window-bar">
+        <div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div>
+        <span class="chart-title-small" style="margin-left:.5rem">Leituras LPM por ano</span>
+      </div>
+      <div style="padding:1.2rem;"><canvas id="c-evolucao-barras" style="max-height:220px"></canvas></div>
+    </div>
+    <div class="window-card">
+      <div class="window-bar">
+        <div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div>
+        <span class="chart-title-small" style="margin-left:.5rem">Projeção para completar 209 países</span>
+      </div>
+      <div style="padding:1.2rem;" id="projecao-body">
+        <!-- preenchido via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Barra de progresso geral -->
+  <div class="window-card">
+    <div class="window-bar">
+      <div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div>
+      <span class="chart-title-small" style="margin-left:.5rem">Progresso geral rumo a 209 países</span>
+    </div>
+    <div style="padding:1.5rem 2rem;" id="barra-progresso-geral">
+      <!-- preenchido via JS -->
+    </div>
+  </div>
+</div>
+
 <!-- ── NOTION CTA ── -->
 <div class="page-section">
   <div class="notion-cta-card">
@@ -587,7 +656,7 @@ footer{
 Chart.register(ChartDataLabels);
 
 const CSV_ESTANTE = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQWGv70Tc2vz-YUKxwU_0_H8F7UuHom1tCJQlE2Tfi8AMNem2c5X3WSs6z4CPjoTb2AaFKmJ8bihlPV/pub?gid=0&single=true&output=csv';
-const CSV_DESAFIO = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub?gid=1413764044&single=true&output=csv';
+const CSV_DESAFIO = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub?gid=537800862&single=true&output=csv';
 // Anos anteriores — mesmo filtro "Desafio LPM" na coluna "Por que li?"
 const CSV_2024 = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub?gid=963475305&single=true&output=csv';
 const CSV_2025 = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub?gid=0&single=true&output=csv';
@@ -800,6 +869,11 @@ async function init(){
   const notionSemLivro = NOTION_DATA.filter(n=>!n.livro||!n.livro.trim()).length;
   const notionMapeados = NOTION_DATA.filter(n=>n.livro&&n.livro.trim()).length;
   const novosAutores = new Set(lidos.map(r=>norm(r.autor)).filter(Boolean)).size;
+  // Páginas lidas — soma coluna Páginas de todos os anos LPM
+  const totalPaginas = allLPM.reduce((sum,r)=>{
+    const p = parseInt(findField(r,['Páginas','paginas','pages','Paginas'])||'0');
+    return sum + (isNaN(p)?0:p);
+  },0);
   const cincoEstrelas = lidos.filter(r=>{const n=(r.estrelas||'').trim();return n==='5'||n==='★★★★★';}).length;
   const pctLidos = NOTION_DATA.length ? Math.round(NOTION_DATA.filter(n=>n.status_notion==='Concluído').length/NOTION_DATA.length*100)+'%' : '—';
 
@@ -809,11 +883,12 @@ async function init(){
   document.getElementById('s-mapeados').textContent = notionMapeados || '0';
   document.getElementById('s-semlivro').textContent  = notionSemLivro || '0';
   document.getElementById('s-pct').textContent      = pctLidos;
-  document.getElementById('s-novos').textContent    = novosAutores   || '0';
+  document.getElementById('s-novos').textContent    = totalPaginas > 0 ? totalPaginas.toLocaleString('pt-BR') : novosAutores||'0';
   document.getElementById('s-cinco').textContent    = cincoEstrelas  || '0';
 
   buildCharts(lidos, allLPM);
   buildMap();
+  buildEvolucao(rows2024, rows2025, rows2026);
   crossExcelIntoNotion(desafioRows);
   const cl = document.getElementById('charts-loading');
   if(cl) cl.textContent = `Dados cruzados — ${allLPM.length} leituras LPM (2024·2025·2026)`;
@@ -969,8 +1044,188 @@ function buildMap(){
   });
 }
 
+function buildEvolucao(r2024, r2025, r2026){
+  const TOTAL_PAISES = 209;
+  const ANO_INICIO   = 2024;
+  const ANO_ATUAL    = 2026;
+
+  const n24 = r2024.length;
+  const n25 = r2025.length;
+  const n26 = r2026.length;
+  const acum24 = n24;
+  const acum25 = acum24 + n25;
+  const acum26 = acum25 + n26;
+  const total  = acum26;
+
+  // ── Cards de progresso ──────────────────────────────────────────────────────
+  const cardEl = document.getElementById('evolucao-cards');
+  if(cardEl){
+    const cardData = [
+      {ano:'2024', num:n24,    sub:`${acum24} acumulado`},
+      {ano:'2025', num:n25,    sub:`${acum25} acumulado`},
+      {ano:'2026', num:n26,    sub:`${acum26} acumulado`, destaque:true},
+      {ano:'Faltam',num:TOTAL_PAISES-total, sub:`de ${TOTAL_PAISES} países`},
+    ];
+    cardEl.innerHTML = cardData.map(c=>`
+      <div class="evolucao-card${c.destaque?' destaque':''}">
+        <div class="ev-ano">${c.ano}</div>
+        <div class="ev-num">${c.num}</div>
+        <div class="ev-sub">${c.sub}</div>
+      </div>`).join('');
+  }
+
+  // ── Linha acumulada ─────────────────────────────────────────────────────────
+  const linhaEl = document.getElementById('c-evolucao-linha');
+  if(linhaEl){
+    // Projeta ritmo médio para anos futuros
+    const mediaAnual = total / (ANO_ATUAL - ANO_INICIO + 1);
+    const anosProj   = [];
+    let   acumProj   = total;
+    let   anoProj    = ANO_ATUAL + 1;
+    while(acumProj < TOTAL_PAISES && anoProj <= 2040){
+      anosProj.push(anoProj);
+      acumProj = Math.min(acumProj + Math.round(mediaAnual), TOTAL_PAISES);
+      anoProj++;
+    }
+    // Primeiro ano de conclusão projetado
+    const anoFim = anosProj.length ? anosProj[anosProj.length-1] : ANO_ATUAL;
+
+    const labelsReais = ['2024','2025','2026'];
+    const dadosReais  = [acum24, acum25, acum26];
+    const labelsProj  = anosProj.slice(0, Math.min(anosProj.length, 8));
+    const dadosProj   = labelsProj.map((_,i)=>Math.min(total + Math.round(mediaAnual*(i+1)), TOTAL_PAISES));
+
+    const allLabels = [...labelsReais, ...labelsProj.map(String)];
+    const allReais  = [...dadosReais,  ...Array(labelsProj.length).fill(null)];
+    const allProj   = [...Array(labelsReais.length-1).fill(null), acum26, ...dadosProj];
+
+    const lOpts = {
+      maintainAspectRatio: false,
+      plugins:{
+        legend:{display:true,labels:{font:{family:'DM Sans',size:11},color:DARK,boxWidth:12,padding:16}},
+        datalabels:{
+          display: ctx => ctx.datasetIndex===0 && ctx.raw!==null,
+          color: DARK, font:{family:'DM Sans',size:10,weight:'500'},
+          anchor:'end', align:'top', formatter: v => v!=null?v:'',
+        }
+      },
+      scales:{
+        x:{grid:{color:'#eee'},ticks:{font:{family:'DM Sans',size:11},color:MUTED}},
+        y:{
+          grid:{color:'#eee'},
+          ticks:{font:{family:'DM Sans',size:11},color:MUTED,stepSize:10},
+          min:0, max:TOTAL_PAISES,
+          title:{display:true,text:'países acumulados',font:{family:'DM Sans',size:10},color:MUTED}
+        }
+      }
+    };
+
+    new Chart(linhaEl,{type:'line',
+      data:{
+        labels: allLabels,
+        datasets:[
+          {
+            label:'Países lidos (real)',
+            data: allReais,
+            borderColor: GREEN, backgroundColor: GREEN+'33',
+            borderWidth:2.5, pointRadius:5, pointBackgroundColor:GREEN,
+            fill:true, tension:.3, spanGaps:false
+          },
+          {
+            label:'Projeção (ritmo atual)',
+            data: allProj,
+            borderColor: '#b0b090', backgroundColor: 'transparent',
+            borderWidth:1.5, borderDash:[5,4],
+            pointRadius:3, pointBackgroundColor:'#b0b090',
+            fill:false, tension:.3, spanGaps:false
+          },
+        ]
+      },
+      options: lOpts
+    });
+
+    // Preenche projeção textual
+    const projEl = document.getElementById('projecao-body');
+    if(projEl){
+      const ritmo = mediaAnual.toFixed(1);
+      const anosRestantes = mediaAnual > 0 ? Math.ceil((TOTAL_PAISES - total) / mediaAnual) : '—';
+      const anoConc = mediaAnual > 0 ? ANO_ATUAL + anosRestantes : '—';
+      projEl.innerHTML = `
+        <div class="proj-linha"><span class="proj-label">Ritmo médio</span><span class="proj-val">${ritmo} países/ano</span></div>
+        <div class="proj-linha"><span class="proj-label">Total lido até hoje</span><span class="proj-val">${total} de ${TOTAL_PAISES}</span></div>
+        <div class="proj-linha"><span class="proj-label">Ainda faltam</span><span class="proj-val">${TOTAL_PAISES - total} países</span></div>
+        <div class="proj-linha"><span class="proj-label">Anos restantes</span><span class="proj-val">${anosRestantes}</span></div>
+        <div class="proj-linha" style="margin-top:.5rem;padding-top:.8rem;border-top:2px solid var(--green)">
+          <span class="proj-label">Conclusão estimada</span>
+          <span class="proj-destaque">${anoConc}</span>
+        </div>
+        <p style="font-size:.72rem;color:var(--muted);margin-top:.8rem;line-height:1.5;">
+          Baseado no ritmo médio de ${ritmo} países/ano entre 2024 e 2026.
+        </p>`;
+    }
+  }
+
+  // ── Barras por ano ──────────────────────────────────────────────────────────
+  const barEl = document.getElementById('c-evolucao-barras');
+  if(barEl){
+    const bOpts = chartBase();
+    bOpts.plugins.legend = {display:false};
+    bOpts.plugins.datalabels = {
+      display:true, anchor:'end', align:'top', color:DARK,
+      font:{family:'DM Sans',size:13,weight:'500'}, formatter:v=>v
+    };
+    bOpts.scales.y = {
+      grid:{color:'#eee'},
+      ticks:{font:{family:'DM Sans',size:11},color:MUTED,stepSize:1},
+      min:0
+    };
+    new Chart(barEl,{type:'bar',
+      data:{
+        labels:['2024','2025','2026'],
+        datasets:[{
+          data:[n24,n25,n26],
+          backgroundColor:[GREEN_LIGHT, GREEN, GREEN_DARK],
+          borderRadius:5
+        }]
+      },
+      options: bOpts
+    });
+  }
+
+  // ── Barra de progresso geral ────────────────────────────────────────────────
+  const progEl = document.getElementById('barra-progresso-geral');
+  if(progEl){
+    const pct = Math.round(total/TOTAL_PAISES*100);
+    progEl.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.6rem;">
+        <span style="font-family:'Playfair Display',serif;font-size:1.1rem;">${total} países lidos</span>
+        <span style="font-size:.78rem;color:var(--muted);">${pct}% de ${TOTAL_PAISES}</span>
+      </div>
+      <div class="prog-track"><div class="prog-fill" style="width:0%" id="prog-fill-anim"></div></div>
+      <div class="prog-labels">
+        <span>0</span>
+        <span style="color:var(--green);font-weight:500">${total} ✓</span>
+        <span>${TOTAL_PAISES}</span>
+      </div>
+      <div style="display:flex;gap:1.5rem;margin-top:1.2rem;flex-wrap:wrap;">
+        ${[{ano:'2024',n:n24,c:GREEN_LIGHT},{ano:'2025',n:n25,c:GREEN},{ano:'2026',n:n26,c:GREEN_DARK}].map(y=>`
+          <div>
+            <div class="prog-track" style="width:140px;height:6px;">
+              <div class="prog-fill" style="width:${Math.round(y.n/TOTAL_PAISES*100)}%;background:${y.c};"></div>
+            </div>
+            <div style="font-size:.72rem;color:var(--muted);margin-top:.2rem;">${y.ano} — ${y.n} países (${Math.round(y.n/TOTAL_PAISES*100)}%)</div>
+          </div>`).join('')}
+      </div>`;
+    // Anima a barra principal com delay
+    requestAnimationFrame(()=>setTimeout(()=>{
+      const el = document.getElementById('prog-fill-anim');
+      if(el) el.style.width = pct+'%';
+    }, 300));
+  }
+}
+
 // ── DADOS DO NOTION (embutidos — exportar novo CSV e re-gerar quando atualizar) ──
-const NOTION_DATA = [{"pais": "Afeganistão", "livro": "O segredo do meu turbante", "autor": "Nadia Ghulam", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": ""}, {"pais": "África do Sul", "livro": "Nascido do crime", "autor": "Trevor Noah", "ga": "Masculino", "status_notion": "Concluído", "tenho": "Sim", "capa": "https://site.taglivros.com/static/11c78ed3732ef3826fa87fb9266ced83/94cf1/ine_2020_01_cover_7964d44ba5.webp"}, {"pais": "Albânia", "livro": "", "autor": "", "ga": "", "status_notion": "Não iniciada", "tenho": "", "capa": ""}, {"pais": "Alemanha", "livro": "A intérprete", "autor": "Annette Hess", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/81FjbMeOVfL._SL1500_.jpg"}, {"pais": "Andorra", "livro": "", "autor": "", "ga": "", "status_notion": "Não iniciada", "tenho": "", "capa": ""}, {"pais": "Angola", "livro": "Os transparentes", "autor": "Ondjaki", "ga": "Masculino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/91el+MIrHCL._SY466_.jpg"}, {"pais": "Antígua e Barbuda", "livro": "A autobiografia da minha mãe", "autor": "Jamaica Kincaid", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/71fbcgEr6fL._SY466_.jpg"}, {"pais": "Arábia Saudita", "livro": "", "autor": "", "ga": "", "status_notion": "Não iniciada", "tenho": "", "capa": ""}, {"pais": "Argélia", "livro": "", "autor": "", "ga": "", "status_notion": "Não iniciada", "tenho": "", "capa": ""}, {"pais": "Argentina", "livro": "Sou uma tola por te querer", "autor": "Camila Sosa Villada", "ga": "Trans", "status_notion": "Concluído", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/81cp3Fo+HWL._SY425_.jpg"}, {"pais": "Armênia", "livro": "", "autor": "", "ga": "", "status_notion": "Não iniciada", "tenho": "", "capa": ""}, {"pais": "Austrália", "livro": "Nove desconhecidos", "autor": "Liane Moriarty", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/71pFXoa6ESL._SY466_.jpg"}, {"pais": "Áustria", "livro": "24 Horas na Vida de uma Mulher", "autor": "Stefan Zweig", "ga": "Masculino", "status_notion": "Concluído", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/71PkeoTg8+L._AC_UF1000,1000_QL80_.jpg"}, {"pais": "Azerbaijão", "livro": "", "autor": "", "ga": "", "status_notion": "Não iniciada", "tenho": "", "capa": ""}, {"pais": "Bangladesh", "livro": "Uma era de ouro", "autor": "Talmina Anam", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/91lWcKAzBNL._SY466_.jpg"}, {"pais": "Bélgica", "livro": "Eu que nunca conheci os homens", "autor": "Jacqueline Harpman", "ga": "Feminino", "status_notion": "Concluído", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/81IKyAwkU7L._SY466_.jpg"}, {"pais": "Bielorrússia", "livro": "Vozes De Tchernóbil", "autor": "Svetlana Alexijevich", "ga": "Feminino", "status_notion": "Concluído", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/91RcGh5EDaL._SL1500_.jpg"}, {"pais": "Bolívia", "livro": "Os afetos", "autor": "Rodrigo Hasbún", "ga": "Masculino", "status_notion": "Concluído", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/61zbEahX4+L._SY466_.jpg"}, {"pais": "Bósnia e Herzegovina", "livro": "Como o soldado conserta o gramofone", "autor": "Saša Stanišić", "ga": "Masculino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/91nrIr1awJL._SY466_.jpg"}, {"pais": "Brasil", "livro": "A cabeça do santo", "autor": "Socorro Acioli", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/71-YhujYUxS._SL1500_.jpg"}, {"pais": "Bulgária", "livro": "Onde estão as flores?", "autor": "Ilko Minev", "ga": "Masculino", "status_notion": "Concluído", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/81gEa09B+nL._SY466_.jpg"}, {"pais": "Burundi", "livro": "Meu Pequeno Pais", "autor": "Gaël Faye", "ga": "Masculino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/71jBut2DyML._SY466_.jpg"}, {"pais": "Camarões", "livro": "Aqui estão os sonhadores", "autor": "Imbolo Mbue", "ga": "Feminino", "status_notion": "Concluído", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/51pFP4T4XEL.jpg"}, {"pais": "Canadá", "livro": "Mar da tranquilidade", "autor": "Emily St. John Mandel", "ga": "Feminino", "status_notion": "Concluído", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/41nuwM6VUSL._SY445_SX342_ML2_.jpg"}, {"pais": "Chile", "livro": "O vento sabe o meu nome", "autor": "Isabel Allende", "ga": "Feminino", "status_notion": "Concluído", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/919QiNB2-6L._SY466_.jpg"}, {"pais": "China", "livro": "Expiração", "autor": "Ted Chiang", "ga": "Masculino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/61pmdZryUyS._SL1500_.jpg"}, {"pais": "Colômbia", "livro": "Cem anos de solidão", "autor": "Gabriel García Márquez", "ga": "Masculino", "status_notion": "Não iniciada", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/817esPahlrL._SY466_.jpg"}, {"pais": "Congo", "livro": "O involuntário ato de respirar", "autor": "JJ Bola", "ga": "Masculino", "status_notion": "Não iniciada", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/51FLeh+dBrL.jpg"}, {"pais": "Coreia do Norte", "livro": "A Acusação", "autor": "Bandi", "ga": "Desconhecide", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/81Zb5YuQWxS._SL1500_.jpg"}, {"pais": "Coreia do Sul", "livro": "Castella", "autor": "Min-gyu Park", "ga": "Masculino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/51nSOhvSFoL.jpg"}, {"pais": "Cuba", "livro": "Cartas para a minha mãe", "autor": "Teresa Cárdenas", "ga": "Feminino", "status_notion": "Concluído", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/61YbM0CxNIL._SY466_.jpg"}, {"pais": "Dinamarca", "livro": "Os funcionários", "autor": "Olga Ravn", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/71NNwTzLGSL._SY466_.jpg"}, {"pais": "Egito", "livro": "Noites das mil e uma noites", "autor": "Naguib Mahfouz", "ga": "Masculino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/81lxBn+MHrL._SY466_.jpg"}, {"pais": "Eritreia", "livro": "As consequências do amor", "autor": "Sulaiman Addonia", "ga": "Masculino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/71cTrCZc+HL._SY466_.jpg"}, {"pais": "Eslovênia", "livro": "Alamut", "autor": "Vladimir Barto", "ga": "Masculino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/91fk9rfFqTL._SY466_.jpg"}, {"pais": "Espanha", "livro": "Dom Quixote", "autor": "Miguel Cervantes", "ga": "Masculino", "status_notion": "Não iniciada", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/81k74t+lqyL._SY466_.jpg"}, {"pais": "Estados Unidos", "livro": "Tudo sobre o amor", "autor": "Bell Hooks", "ga": "Feminino", "status_notion": "Concluído", "tenho": "Sim", "capa": "https://img.skoob.com.br/O9nCofU9GN6-KYpbFAFOXABwqSE=/200x/center/top/smart/filters:format(jpeg)/https://skoob.s3.amazonaws.com/livros/11723773/TUDO_SOBRE_O_AMOR_172214208911723773SK-V11722142090B.jpg"}, {"pais": "Etiópia", "livro": "O décimo primeiro mandamento", "autor": "Abraham Verghese", "ga": "Masculino", "status_notion": "Não iniciada", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/91L7fuzfm4S._SY466_.jpg"}, {"pais": "Filipinas", "livro": "Espelhos de água", "autor": "Samantha Sotto Yambao", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/71yG3+3+2qL._SY425_.jpg"}, {"pais": "Finlândia", "livro": "Maresi", "autor": "Maria Turtschaninoff", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/71S+pufvpWL._SL1447_.jpg"}, {"pais": "França", "livro": "O Baile das Loucas", "autor": "Victoria Mas", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/81FSZu-pIGS._SY425_.jpg"}, {"pais": "Gana", "livro": "O imenso azul entre nós", "autor": "Ayesha Harruna Attah", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/81gT6tf0k0L._SY466_.jpg"}, {"pais": "Haiti", "livro": "A Cor do Amanhecer", "autor": "Yanick Lahens", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/61TsY-o+++L._SY466_.jpg"}, {"pais": "Holanda", "livro": "Táxi!", "autor": "Aimée de Jongh", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/41hg5ZoZ2bL.jpg"}, {"pais": "Hungria", "livro": "A Porta", "autor": "Magda Szabó", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/51xTVPNfLIL._SY466_.jpg"}, {"pais": "Ilhas Virgens", "livro": "King e as libélulas", "autor": "Kacen Callender", "ga": "Trans", "status_notion": "Concluído", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/61qNJZl4o0L._SY466_.jpg"}, {"pais": "Índia", "livro": "O monge endinheirado mulher do bandido e outras histórias", "autor": "Gita Mehta", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/917ynGrPvVL._SY425_.jpg"}, {"pais": "Irã", "livro": "Lendo Lolita em Teerã", "autor": "Azar Nafisi", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/81LQST9hn6L._SL1500_.jpg"}, {"pais": "Irlanda", "livro": "Rugido", "autor": "Cecelia Ahern", "ga": "Feminino", "status_notion": "Concluído", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/81XDzrd6jxL._SY466_.jpg"}, {"pais": "Islândia", "livro": "Rosa cândida", "autor": "Auður Ava Ólafsdóttir", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/81QXOavKKbL._SY466_.jpg"}, {"pais": "Israel", "livro": "A propriedade", "autor": "Rutu Modan", "ga": "Masculino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/51N39cvcL8L.jpg"}, {"pais": "Itália", "livro": "A amiga genial", "autor": "Elena Ferrante", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/71ssdjzNbXL._SL1500_.jpg"}, {"pais": "Jamaica", "livro": "Só nós", "autor": "Claudia Rankine", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/41dg-o5iXcS.jpg"}, {"pais": "Japão", "livro": "Diario dos Gatos Yon & Mu", "autor": "Junji Ito", "ga": "Masculino", "status_notion": "Concluído", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/51y+Ul4umeL._SY425_.jpg"}, {"pais": "Líbano", "livro": "Samarcanda", "autor": "Amin Maalouf", "ga": "Masculino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/71+jkvhgFVL._SY466_.jpg"}, {"pais": "Libéria", "livro": "Ela Seria o Rei", "autor": "Wayétu Moore", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/81MkXxUG6NL._SL1500_.jpg"}, {"pais": "Malásia", "livro": "O perfume da folha de chá", "autor": "Dinah Jefferies", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/91RAvujgA9L._SL1500_.jpg"}, {"pais": "Marrocos", "livro": "O hotel dos sonhos", "autor": "Laila Lalami", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/71b890mPU5L._SY425_.jpg"}, {"pais": "México", "livro": "Páradais", "autor": "Fernanda Melchor", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/51nqEy57vVL._SY466_.jpg"}, {"pais": "Moçambique", "livro": "O mapeador de ausências", "autor": "Mia Couto", "ga": "Masculino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/71d1x8XT4GL._SY466_.jpg"}, {"pais": "Nicarágua", "livro": "O país das mulheres", "autor": "Gioconda Belli", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/71WJQenuTWL._SY466_.jpg"}, {"pais": "Nigéria", "livro": "A garota que não se calou", "autor": "Abi Daré", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/91tzCiK7ozL._SY466_.jpg"}, {"pais": "Noruega", "livro": "Tudo que Deixamos Para Trás", "autor": "Maja Lunde", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/61yLCMQ3V1L._SY466_.jpg"}, {"pais": "Nova Zelândia", "livro": "O Jogo do Assassino", "autor": "Ngaio Marsh", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/61XtKla65VL._SX445_.jpg"}, {"pais": "Omã", "livro": "Damas da lua", "autor": "Jokha Alharthi", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/813ZrKq5TiL._SY466_.jpg"}, {"pais": "Paquistão", "livro": "O último homem branco", "autor": "Mohsin Hamid", "ga": "Masculino", "status_notion": "Concluído", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/61q+S9pZioL._SY466_.jpg"}, {"pais": "Peru", "livro": "Matei um cachorro na Romênia", "autor": "Claudia Ulloa", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/61r+-p70SEL._SY466_.jpg"}, {"pais": "Polônia", "livro": "Solaris", "autor": "Stanisław Lem", "ga": "Masculino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/61wluSJ2bjL._AC_UY218_.jpg"}, {"pais": "Portugal", "livro": "Vamos comprar um poeta", "autor": "Afonso Cruz", "ga": "Feminino", "status_notion": "Concluído", "tenho": "Não", "capa": "https://static.skeelo.com/remote/320/480/100/https://skoob.s3.amazonaws.com/livros/608779/VAMOS_COMPRAR_UM_POETA_1656275729608779SK-V11656275730B.jpg"}, {"pais": "Reino Unido", "livro": "O Priorado da Laranjeira", "autor": "Samantha Shannon", "ga": "Feminino", "status_notion": "Concluído", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/71wQ7qes-XL._SL1000_.jpg"}, {"pais": "República Dominicana", "livro": "A Fantástica Vida Breve de Oscar Wao", "autor": "Junot Díaz", "ga": "Masculino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/71MjVW+tRmL._SY466_.jpg"}, {"pais": "República Tcheca", "livro": "A insustentável leveza do ser", "autor": "Milan Kundera", "ga": "Masculino", "status_notion": "Concluído", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/818ShC1u68L._SL1500_.jpg"}, {"pais": "Ruanda", "livro": "Um belo diploma", "autor": "Scholastique Mukasonga", "ga": "Feminino", "status_notion": "Concluído", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/71kxBKomPML._SY466_.jpg"}, {"pais": "Rússia", "livro": "A Morte de Ivan Ilitch", "autor": "Liev Tolstói", "ga": "Masculino", "status_notion": "Concluído", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/81U5uhi2vML._UF1000,1000_QL80_.jpg"}, {"pais": "Senegal", "livro": "A greve dos mendigos", "autor": "Aminata Sow Fall", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": ""}, {"pais": "Serra Leoa", "livro": "O brilho do amanhã", "autor": "Ishmael Beah", "ga": "Masculino", "status_notion": "Não iniciada", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/91kBeCnZ4YL._SY425_.jpg"}, {"pais": "Somália", "livro": "Infiel", "autor": "Ayaan Hirsi Ali", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/91UtcPIPByL._SY466_.jpg"}, {"pais": "Sudão", "livro": "Tempo De Migrar Para O Norte", "autor": "Tayeb Salih", "ga": "Masculino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/51O4mU0B3gL._SY466_.jpg"}, {"pais": "Suécia", "livro": "Um homem chamado Ove", "autor": "Fredrik Backman", "ga": "Masculino", "status_notion": "Concluído", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/51K-O9uzclL.jpg"}, {"pais": "Suíça", "livro": "Pílulas azuis", "autor": "Frederik Peeters", "ga": "Masculino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/81SksFX50mL._SY466_.jpg"}, {"pais": "Trinidad e Tobago", "livro": "Menino de ouro", "autor": "Claire Adam", "ga": "Feminino", "status_notion": "Em andamento", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/91sNbK-KzvL._SY466_.jpg"}, {"pais": "Turquia", "livro": "A casa do silêncio", "autor": "Elif Shafak", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/816biVSrVDL._SY466_.jpg"}, {"pais": "Ucrânia", "livro": "", "autor": "", "ga": "", "status_notion": "Não iniciada", "tenho": "", "capa": ""}, {"pais": "Uruguai", "livro": "O Livro dos Abraços", "autor": "Eduardo Galeano", "ga": "Masculino", "status_notion": "Concluído", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/81TLZQ4DlxL._SY466_.jpg"}, {"pais": "Vietnã", "livro": "A menina da foto", "autor": "Phan Thị Kim Phúc", "ga": "Feminino", "status_notion": "Concluído", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/41B8CVh-6uL._SY445_SX342_.jpg"}, {"pais": "Zâmbia", "livro": "Assando bolos em Kigali", "autor": "Gaile Parkin", "ga": "Feminino", "status_notion": "Concluído", "tenho": "Sim", "capa": "https://a-static.mlcdn.com.br/470x352/assando-bolos-em-kigali/biruta/289744/3cebf783ea7ee8d9aa964cb6a2139acb.jpeg"}, {"pais": "Zimbábue", "livro": "As Lágrimas da Girafa", "autor": "Alexander McCall Smith", "ga": "Masculino", "status_notion": "Concluído", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/91SzxuEeSQL._SY425_.jpg"}];
+const NOTION_DATA = [{"pais":"Afeganistão","livro":"O segredo do meu turbante","autor":"Nadia Ghulam","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":""},{"pais":"África do Sul","livro":"Nascido do crime","autor":"Trevor Noah","ga":"Masculino","status_notion":"Concluído","tenho":"Sim","capa":"https://site.taglivros.com/static/11c78ed3732ef3826fa87fb9266ced83/94cf1/ine_2020_01_cover_7964d44ba5.webp"},{"pais":"Albânia","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Alemanha","livro":"A intérprete","autor":"Annette Hess","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/81FjbMeOVfL._SL1500_.jpg"},{"pais":"Andorra","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Angola","livro":"Os transparentes","autor":"Ondjaki","ga":"Masculino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/91el+MIrHCL._SY466_.jpg"},{"pais":"Antígua e Barbuda","livro":"A autobiografia da minha mãe","autor":"Jamaica Kincaid","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/71fbcgEr6fL._SY466_.jpg"},{"pais":"Arábia Saudita","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Argélia","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Argentina","livro":"Sou uma tola por te querer","autor":"https://www.skoob.com.br/author/31233","ga":"Trans","status_notion":"Concluído","tenho":"Não","capa":"https://m.media-amazon.com/images/I/81cp3Fo+HWL._SY425_.jpg"},{"pais":"Armênia","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Aruba***","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Austrália","livro":"Nove desconhecidos","autor":"Liane Moriarty","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/71pFXoa6ESL._SY466_.jpg"},{"pais":"Áustria","livro":"24 Horas na Vida de uma Mulher","autor":"Stefan Zweig","ga":"Masculino","status_notion":"Concluído","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/71PkeoTg8+L._AC_UF1000,1000_QL80_.jpg"},{"pais":"Azerbaijão","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Bahamas","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Bahrein","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Bangladesh","livro":"Uma era de ouro","autor":"Talmina Anam","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/91lWcKAzBNL._SY466_.jpg"},{"pais":"Barbados","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Belarus","livro":"","autor":"","ga":"","status_notion":"","tenho":"","capa":""},{"pais":"Bélgica","livro":"Eu que nunca conheci os homens","autor":"Jacqueline Harpman","ga":"Feminino","status_notion":"Concluído","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/81IKyAwkU7L._SY466_.jpg"},{"pais":"Belize","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Benim","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Bielorrússia","livro":"Vozes De Tchernóbil","autor":"Svetlana Alexijevich","ga":"Feminino","status_notion":"Concluído","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/91RcGh5EDaL._SL1500_.jpg"},{"pais":"Bolívia","livro":"Os afetos","autor":"Rodrigo Hasbún","ga":"Masculino","status_notion":"Concluído","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/61zbEahX4+L._SY466_.jpg"},{"pais":"Bósnia e Herzegovina","livro":"Como o soldado conserta o gramofone","autor":"Saša Stanišić","ga":"Masculino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/91nrIr1awJL._SY466_.jpg"},{"pais":"Botsuana","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Brasil","livro":"A cabeça do santo","autor":"Socorro Acioli","ga":"Feminino","status_notion":"Não iniciada","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/71-YhujYUxS._SL1500_.jpg"},{"pais":"Brunei","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Bulgária","livro":"Onde estão as flores?","autor":"Ilko Minev","ga":"Masculino","status_notion":"Concluído","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/81gEa09B+nL._SY466_.jpg"},{"pais":"Burkina Faso","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Burundi","livro":"Meu Pequeno Pais","autor":"Gaël Faye","ga":"Masculino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/71jBut2DyML._SY466_.jpg"},{"pais":"Butão","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Cabo Verde","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Camarões","livro":"Aqui estão os sonhadores","autor":"Imbolo Mbue","ga":"Feminino","status_notion":"Concluído","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/51pFP4T4XEL.jpg"},{"pais":"Camboja","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Canadá","livro":"Mar da tranquilidade","autor":"Emily St. John Mandel","ga":"Feminino","status_notion":"Concluído","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/41nuwM6VUSL._SY445_SX342_ML2_.jpg"},{"pais":"Cazaquistão","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Chade","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Chile","livro":"O vento sabe o meu nome","autor":"Isabel Allende","ga":"Feminino","status_notion":"Concluído","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/919QiNB2-6L._SY466_.jpg"},{"pais":"China","livro":"Expiração","autor":"Ted Chiang","ga":"Masculino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/61pmdZryUyS._SL1500_.jpg"},{"pais":"Chipre","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Colômbia","livro":"Cem anos de solidão","autor":"Gabriel García Márquez","ga":"Masculino","status_notion":"Não iniciada","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/817esPahlrL._SY466_.jpg"},{"pais":"Comores","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Congo","livro":"O involuntário ato de respirar","autor":"JJ Bola","ga":"Masculino","status_notion":"Não iniciada","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/51FLeh+dBrL.jpg"},{"pais":"Coreia do Norte","livro":"A Acusação: Histórias proibidas vindas da Coreia do Norte","autor":"Bandi","ga":"Desconhecide","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/81Zb5YuQWxS._SL1500_.jpg"},{"pais":"Coreia do Sul","livro":"Castella","autor":"Min-gyu Park","ga":"Masculino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/51nSOhvSFoL.jpg"},{"pais":"Costa do Marfim","livro":"","autor":"Marguerite Abouet","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Costa Rica","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Croácia","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Cuba","livro":"Cartas para a minha mãe","autor":"Teresa Cárdenas","ga":"Feminino","status_notion":"Concluído","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/61YbM0CxNIL._SY466_.jpg"},{"pais":"Curaçao**","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Dinamarca","livro":"Os funcionários","autor":"Olga Ravn","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/71NNwTzLGSL._SY466_.jpg"},{"pais":"Djibouti","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Dominica","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Dominicana","livro":"","autor":"","ga":"","status_notion":"","tenho":"","capa":""},{"pais":"Egito","livro":"Noites das mil e uma noites","autor":"Naguib Mahfouz","ga":"Masculino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/81lxBn+MHrL._SY466_.jpg"},{"pais":"El Salvador","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Emirados Árabes Unidos","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Equador","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Eritreia","livro":"As consequências do amor","autor":"Sulaiman Addonia","ga":"Masculino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/71cTrCZc+HL._SY466_.jpg"},{"pais":"Escócia**","livro":"","autor":"cherlock holmes","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Eslováquia","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Eslovênia","livro":"Alamut","autor":"Vladimir Barto","ga":"Masculino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/91fk9rfFqTL._SY466_.jpg"},{"pais":"Espanha","livro":"Dom Quixote","autor":"Miguel Cervantes","ga":"Masculino","status_notion":"Não iniciada","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/81k74t+lqyL._SY466_.jpg"},{"pais":"Estados Federados da Micronésia***","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Estados Unidos","livro":"Tudo sobre o amor","autor":"Bell Hooks","ga":"Feminino","status_notion":"Concluído","tenho":"Sim","capa":"https://img.skoob.com.br/O9nCofU9GN6-KYpbFAFOXABwqSE=/200x/center/top/smart/filters:format(jpeg)/https://skoob.s3.amazonaws.com/livros/11723773/TUDO_SOBRE_O_AMOR_172214208911723773SK-V11722142090B.jpg"},{"pais":"Estônia","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Eswatini","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Etiópia","livro":"O décimo primeiro mandamento","autor":"Abraham Verghese","ga":"Masculino","status_notion":"Não iniciada","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/91L7fuzfm4S._SY466_.jpg"},{"pais":"Fiji","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Filipinas","livro":"Espelhos de água","autor":"Samantha Sotto Yambao","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/71yG3+3+2qL._SY425_.jpg"},{"pais":"Finlândia","livro":"Maresi","autor":"Maria Turtschaninoff","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/71S+pufvpWL._SL1447_.jpg"},{"pais":"França","livro":"O Baile das Loucas","autor":"Victoria Mas","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/81FSZu-pIGS._SY425_.jpg"},{"pais":"Gabão","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Gâmbia","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Gana","livro":"O imenso azul entre nós","autor":"Ayesha Harruna Attah","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/81gT6tf0k0L._SY466_.jpg"},{"pais":"Geórgia","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Grécia","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Grenada","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Groenlândia**","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Guadalupe","livro":"","autor":"Maryse Conde","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/81OMSeNLE6L._SY466_.jpg"},{"pais":"Guatemala","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Guiana","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Guiné","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Guiné Equatorial","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Guiné-Bissau","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Haiti","livro":"A Cor do Amanhecer","autor":"Yanick Lahens","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/61TsY-o+++L._SY466_.jpg"},{"pais":"Holanda","livro":"Táxi!","autor":"Aimée de Jongh","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/41hg5ZoZ2bL.jpg"},{"pais":"Honduras","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Hungria","livro":"A Porta","autor":"Magda Szabó","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/51xTVPNfLIL._SY466_.jpg"},{"pais":"Iêmen","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Ilhas Marshall","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Ilhas Salomão","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Ilhas Virgens","livro":"King e as libélulas","autor":"Kacen Callender","ga":"Trans","status_notion":"Concluído","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/61qNJZl4o0L._SY466_.jpg"},{"pais":"Índia","livro":"O monge endinheirado mulher do bandido e outras histórias de um rio indiano","autor":"Gita Mehta","ga":"Feminino","status_notion":"Não iniciada","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/917ynGrPvVL._SY425_.jpg"},{"pais":"Indonésia","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Inglaterra","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Irã","livro":"Lendo Lolita em Teerã","autor":"Azar Nafisi","ga":"Feminino","status_notion":"Não iniciada","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/81LQST9hn6L._SL1500_.jpg"},{"pais":"Iraque","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Irlanda","livro":"Rugido","autor":"Cecelia Ahern","ga":"Feminino","status_notion":"Concluído","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/81XDzrd6jxL._SY466_.jpg"},{"pais":"Islândia","livro":"Rosa cândida","autor":"Auður Ava Ólafsdóttir","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/81QXOavKKbL._SY466_.jpg"},{"pais":"Israel","livro":"A propriedade","autor":"Rutu Modan","ga":"Masculino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/51N39cvcL8L.jpg"},{"pais":"Itália","livro":"A amiga genial","autor":"Elena Ferrante","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/71ssdjzNbXL._SL1500_.jpg"},{"pais":"Jamaica","livro":"Só nós","autor":"Claudia Rankine","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/41dg-o5iXcS.jpg"},{"pais":"Japão","livro":"Diario dos Gatos Yon & Mu","autor":"Junji Ito","ga":"Masculino","status_notion":"Concluído","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/51y+Ul4umeL._SY425_.jpg"},{"pais":"Jordânia","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Kiribati","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Kuwait","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Laos","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Lesoto","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Letônia","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Líbano","livro":"Samarcanda","autor":"Amin Maalouf","ga":"Masculino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/71+jkvhgFVL._SY466_.jpg"},{"pais":"Libéria","livro":"Ela Seria o Rei","autor":"Wayétu Moore","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/81MkXxUG6NL._SL1500_.jpg"},{"pais":"Líbia","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Liechtenstein","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Lituânia","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Luxemburgo","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Madagascar","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Malásia","livro":"O perfume da folha de chá","autor":"Dinah Jefferies","ga":"Feminino","status_notion":"Não iniciada","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/91RAvujgA9L._SL1500_.jpg"},{"pais":"Malawi","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Maldivas","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Mali","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Malta","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Marrocos","livro":"O hotel dos sonhos","autor":"Laila Lalami","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/71b890mPU5L._SY425_.jpg"},{"pais":"Maurício","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Mauritânia","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"México","livro":"Páradais","autor":"Fernanda Melchor","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/51nqEy57vVL._SY466_.jpg"},{"pais":"Mianmar","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Micronésia","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Moçambique","livro":"O mapeador de ausências","autor":"Mia Couto","ga":"Masculino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/71d1x8XT4GL._SY466_.jpg"},{"pais":"Moldávia","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Mônaco","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Mongólia","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Montenegro","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Namíbia","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Nauru","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Nepal","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Nicarágua","livro":"O país das mulheres","autor":"Gioconda Belli","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/71WJQenuTWL._SY466_.jpg"},{"pais":"Níger","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Nigéria","livro":"A garota que não se calou","autor":"Abi Daré","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/91tzCiK7ozL._SY466_.jpg"},{"pais":"Norte da Macedônia","livro":"","autor":"","ga":"","status_notion":"","tenho":"","capa":""},{"pais":"Noruega","livro":"Tudo que Deixamos Para Trás","autor":"Maja Lunde","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/61yLCMQ3V1L._SY466_.jpg"},{"pais":"Nova Zelândia","livro":"O Jogo do Assassino","autor":"Ngaio Marsh","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/61XtKla65VL._SX445_.jpg"},{"pais":"Omã","livro":"Damas da lua","autor":"Jokha Alharthi","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/813ZrKq5TiL._SY466_.jpg"},{"pais":"País de Gales","livro":"A Fabulosa Casa com Pernas","autor":"Sophie Anderson","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/81olQWTv5lL._SY466_.jpg"},{"pais":"Países baixos","livro":"","autor":"","ga":"","status_notion":"","tenho":"","capa":""},{"pais":"Palau","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Panamá","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Papua-Nova Guiné","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Paquistão","livro":"O último homem branco","autor":"Mohsin Hamid","ga":"Masculino","status_notion":"Concluído","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/61q+S9pZioL._SY466_.jpg"},{"pais":"Paraguai","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Peru","livro":"Matei um cachorro na Romênia","autor":"Claudia Ulloa","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/61r+-p70SEL._SY466_.jpg"},{"pais":"Polinésia Francesa","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Polônia","livro":"Solaris","autor":"Stanisław Lem","ga":"Masculino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/61wluSJ2bjL._AC_UY218_.jpg"},{"pais":"Porto Rico***","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Portugal","livro":"Vamos comprar um poeta","autor":"Afonso Cruz","ga":"Feminino","status_notion":"Concluído","tenho":"Não","capa":"https://static.skeelo.com/remote/320/480/100/https://skoob.s3.amazonaws.com/livros/608779/VAMOS_COMPRAR_UM_POETA_1656275729608779SK-V11656275730B.jpg"},{"pais":"Qatar","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Quênia","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Quirguistão","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Reino Unido","livro":"O Priorado da Laranjeira","autor":"Samantha Shannon","ga":"Feminino","status_notion":"Concluído","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/71wQ7qes-XL._SL1000_.jpg"},{"pais":"República Centro-Africana**","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"República Democrática do Congo**","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"República do Congo","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"República Dominicana","livro":"A Fantástica Vida Breve de Oscar Wao","autor":"Junot Díaz","ga":"Masculino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/71MjVW+tRmL._SY466_.jpg"},{"pais":"República Tcheca","livro":"A insustentável leveza do ser","autor":"Milan Kundera","ga":"Masculino","status_notion":"Concluído","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/818ShC1u68L._SL1500_.jpg"},{"pais":"Romênia","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Ruanda","livro":"Um belo diploma","autor":"Scholastique Mukasonga","ga":"Feminino","status_notion":"Concluído","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/71kxBKomPML._SY466_.jpg"},{"pais":"Rússia","livro":"A Morte de Ivan Ilitch","autor":"Liev Tolstói","ga":"Masculino","status_notion":"Concluído","tenho":"Não","capa":"https://m.media-amazon.com/images/I/81U5uhi2vML._UF1000,1000_QL80_.jpg"},{"pais":"Samoa","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Santa Lúcia","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"São Marino","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"São Tomé e Príncipe","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"São Vicente e Granadinas","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Senegal","livro":"A greve dos mendigos","autor":"Aminata Sow Fall","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":""},{"pais":"Serra Leoa","livro":"O brilho do amanhã","autor":"Ishmael Beah","ga":"Masculino","status_notion":"Não iniciada","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/91kBeCnZ4YL._SY425_.jpg"},{"pais":"Sérvia","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Seychelles","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Singapura","livro":"","autor":"Jesse Q. Sutanto","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":""},{"pais":"Síria","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Somália","livro":"Infiel","autor":"Ayaan Hirsi Ali","ga":"Feminino","status_notion":"Não iniciada","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/91UtcPIPByL._SY466_.jpg"},{"pais":"Sri Lanka","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Sudão","livro":"Tempo De Migrar Para O Norte","autor":"Tayeb Salih","ga":"Masculino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/51O4mU0B3gL._SY466_.jpg"},{"pais":"Sudão do Sul","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Suécia","livro":"Um homem chamado Ove","autor":"Fredrik Backman","ga":"Masculino","status_notion":"Concluído","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/51K-O9uzclL.jpg"},{"pais":"Suíça","livro":"Pílulas azuis","autor":"Frederik Peeters","ga":"Masculino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/81SksFX50mL._SY466_.jpg"},{"pais":"Suriname","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Tailândia","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Taiwan**","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Tajiquistão","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Tanzânia","livro":"","autor":"Abdulrazak Gurnah","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Timor-Leste","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Togo","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Tonga","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Trinidad e Tobago","livro":"Menino de ouro","autor":"Claire Adam","ga":"Feminino","status_notion":"Em andamento","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/91sNbK-KzvL._SY466_.jpg"},{"pais":"Tunísia","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Turcomenistão","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Turquia","livro":"A casa do silêncio","autor":"Elif Shafak","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/816biVSrVDL._SY466_.jpg"},{"pais":"Tuvalu","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Ucrânia","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Uganda","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Uruguai","livro":"O Livro dos Abraços","autor":"Eduardo Galeano","ga":"Masculino","status_notion":"Concluído","tenho":"Não","capa":"https://m.media-amazon.com/images/I/81TLZQ4DlxL._SY466_.jpg"},{"pais":"Uzbequistão","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Vanuatu","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Vaticano**","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Venezuela","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Vietnã","livro":"A menina da foto","autor":"Phan Thị Kim Phúc","ga":"Feminino","status_notion":"Concluído","tenho":"Não","capa":"https://m.media-amazon.com/images/I/41B8CVh-6uL._SY445_SX342_.jpg"},{"pais":"Zâmbia","livro":"Assando bolos em Kigali","autor":"Gaile Parkin","ga":"Feminino","status_notion":"Concluído","tenho":"Sim","capa":"https://a-static.mlcdn.com.br/470x352/assando-bolos-em-kigali/biruta/289744/3cebf783ea7ee8d9aa964cb6a2139acb.jpeg"},{"pais":"Zimbábue","livro":"As Lágrimas da Girafa","autor":"Alexander McCall Smith","ga":"Masculino","status_notion":"Concluído","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/91SzxuEeSQL._SY425_.jpg"}];
 
 // ── Estado da tabela Notion ───────────────────────────────────────────────────
 let notionData = NOTION_DATA.map(r=>({...r})); // cópia mutável
