@@ -25,7 +25,7 @@
   --bg: #ffffff;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--white);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;}
+body{background:var(--white);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:400;}
 
 /* ── NAV ── */
 nav{
@@ -77,7 +77,7 @@ nav ul li a.active{
   line-height:1.1;
 }
 .hero-card p{
-  font-size:.92rem;line-height:1.85;color:var(--text);
+  font-size:.95rem;line-height:1.85;color:var(--text);
   max-width:900px;margin-bottom:.9rem;
 }
 .hero-divider{
@@ -137,7 +137,7 @@ nav ul li a.active{
 .post-body{padding:1.3rem 1.3rem 1rem;flex:1;display:flex;flex-direction:column;gap:.6rem;}
 .post-title-bg{background:var(--green);display:inline-block;padding:.15rem .45rem;}
 .post-title-bg h3{font-family:'Playfair Display',serif;font-size:1rem;font-weight:400;color:var(--white);}
-.post-desc{font-size:.82rem;line-height:1.6;color:var(--muted);flex:1;}
+.post-desc{font-size:.86rem;line-height:1.6;color:var(--muted);flex:1;}
 .post-footer-row{
   border-top:1px solid #e0e0e0;padding:.7rem 1.3rem;
   display:flex;align-items:center;justify-content:space-between;
@@ -169,7 +169,7 @@ nav ul li a.active{
 .notion-cta-body{padding:2rem 2.5rem;}
 .notion-cta-title-bg{background:rgba(255,255,255,.15);display:inline-block;padding:.2rem .6rem;margin-bottom:1rem;}
 .notion-cta-title-bg h2{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:400;color:var(--white);}
-.notion-cta-body p{font-size:.9rem;line-height:1.8;color:rgba(255,255,255,.9);margin-bottom:.7rem;}
+.notion-cta-body p{font-size:.93rem;line-height:1.8;color:rgba(255,255,255,.9);margin-bottom:.7rem;}
 .notion-cta-footer{
   border-top:1px solid rgba(255,255,255,.25);padding:1.1rem 2.5rem;
   display:flex;align-items:center;justify-content:space-between;
@@ -197,7 +197,17 @@ nav ul li a.active{
 }
 
 /* ── TABLE ── */
-.table-controls{display:flex;gap:.8rem;flex-wrap:wrap;margin-bottom:1rem;align-items:center;}
+.filter-pill{
+  padding:.35rem .9rem;border:1.5px solid var(--border);background:transparent;
+  font-family:'DM Sans',sans-serif;font-size:.78rem;border-radius:100px;
+  cursor:pointer;transition:all .18s;color:var(--muted);font-weight:400;
+}
+.filter-pill:hover{border-color:var(--green);color:var(--green);}
+.filter-pill.active{background:var(--green);border-color:var(--green);color:var(--white);font-weight:500;}
+
+/* capa miniatura */
+.book-cover{width:28px;height:40px;object-fit:cover;border-radius:2px;display:block;}
+.cover-placeholder{width:28px;height:40px;background:#eee;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:.6rem;color:#aaa;}
 .search-wrap{flex:1;min-width:180px;position:relative;}
 .search-wrap input{
   width:100%;padding:.55rem 1rem .55rem 2.2rem;
@@ -211,7 +221,7 @@ nav ul li a.active{
   font-family:'DM Sans',sans-serif;font-size:.82rem;border-radius:6px;
   color:var(--text);cursor:pointer;outline:none;
 }
-table{width:100%;border-collapse:collapse;font-size:.83rem;}
+table{width:100%;border-collapse:collapse;font-size:.87rem;}
 thead tr{border-bottom:2px solid var(--black);}
 th{
   padding:.6rem .8rem;text-align:left;
@@ -432,39 +442,51 @@ footer{
   </div>
 </div>
 
-<!-- ── LISTA DE PAÍSES ── -->
+<!-- ── LISTA DE PAÍSES (Notion + cruzamento Excel) ── -->
 <div class="page-section" id="lista">
   <div class="section-header">
     <span class="sh-label">Lista de países</span>
+    <span class="sh-sub" id="lista-loading">carregando leituras…</span>
   </div>
-  <div class="table-controls">
-    <div class="search-wrap"><input type="text" id="search" placeholder="Buscar país ou livro…"></div>
-    <select class="filter-select" id="f-status">
-      <option value="">Todos os status</option>
-      <option value="lido">Lidos</option>
-      <option value="mapeado">Mapeados</option>
-      <option value="nao">Não mapeados</option>
-    </select>
+
+  <!-- Filtros + legenda -->
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.8rem;margin-bottom:1rem;">
+    <div style="display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;">
+      <button class="filter-pill active" data-f="todos" onclick="setPillFilter('todos',this)">Todos</button>
+      <button class="filter-pill" data-f="lido" onclick="setPillFilter('lido',this)">✓ Lidos</button>
+      <button class="filter-pill" data-f="mapeado" onclick="setPillFilter('mapeado',this)">📚 Livros mapeados</button>
+      <button class="filter-pill" data-f="nao" onclick="setPillFilter('nao',this)">— Sem livro</button>
+    </div>
+    <div class="search-wrap" style="max-width:260px;">
+      <input type="text" id="search-notion" placeholder="Buscar país, livro ou autor…" oninput="renderNotion()">
+    </div>
   </div>
+
+  <!-- Legenda de cores -->
+  <div style="display:flex;gap:1.2rem;flex-wrap:wrap;margin-bottom:1.2rem;font-size:.78rem;color:var(--muted);">
+    <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#849974;margin-right:4px;vertical-align:middle;"></span>Lido (confirmado via planilha)</span>
+    <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#c8d4b8;margin-right:4px;vertical-align:middle;"></span>Mapeado (livro escolhido, ainda não lido)</span>
+    <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#eee;border:1px solid #ccc;margin-right:4px;vertical-align:middle;"></span>Sem livro definido</span>
+  </div>
+
   <div style="overflow-x:auto">
-    <table>
+    <table id="notion-table">
       <thead>
         <tr>
-          <th onclick="sortTable('pais')">País ↕</th>
-          <th onclick="sortTable('livro')">Livro ↕</th>
-          <th onclick="sortTable('autor')">Autor/a ↕</th>
-          <th onclick="sortTable('genero')">Gênero</th>
-          <th onclick="sortTable('cor')">Cor autor</th>
-          <th onclick="sortTable('ga')">Gênero autor</th>
+          <th style="width:36px"></th>
+          <th onclick="sortNotion('pais')">País ↕</th>
+          <th onclick="sortNotion('livro')">Livro ↕</th>
+          <th onclick="sortNotion('autor')">Autor/a ↕</th>
+          <th onclick="sortNotion('ga')">Gênero autor</th>
           <th>Status</th>
         </tr>
       </thead>
-      <tbody id="ptbody"></tbody>
+      <tbody id="notion-tbody"></tbody>
     </table>
   </div>
   <div class="table-footer">
-    <span id="p-count">—</span>
-    <div class="pagination" id="pagination"></div>
+    <span id="notion-count">—</span>
+    <div class="pagination" id="notion-pagination"></div>
   </div>
 </div>
 
@@ -686,7 +708,7 @@ async function init(){
 
   buildCharts(lidos);
   buildMap();
-  renderPaises();
+  crossExcelIntoNotion(desafioRows); // cruza excel com tabela Notion
 
   document.getElementById('search').addEventListener('input',applyFilters);
   document.getElementById('f-status').addEventListener('change',applyFilters);
@@ -745,52 +767,138 @@ function buildMap(){
   });
 }
 
-function applyFilters(){
-  const q=document.getElementById('search').value.toLowerCase();
-  const st=document.getElementById('f-status').value;
-  filteredM=merged.filter(r=>{
-    if(q&&!(r.pais+r.livro+r.autor).toLowerCase().includes(q))return false;
-    const isLido=isLidoStatus(r.status);
-    if(st==='lido'&&!isLido)return false;
-    if(st==='mapeado'&&!(r.livro&&r.livro.trim()))return false;
-    if(st==='nao'&&(r.livro&&r.livro.trim()))return false;
+// ── DADOS DO NOTION (embutidos — exportar novo CSV e re-gerar quando atualizar) ──
+const NOTION_DATA = [{"pais": "Afeganistão", "livro": "O segredo do meu turbante", "autor": "Nadia Ghulam", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": ""}, {"pais": "África do Sul", "livro": "Nascido do crime", "autor": "Trevor Noah", "ga": "Masculino", "status_notion": "Concluído", "tenho": "Sim", "capa": "https://site.taglivros.com/static/11c78ed3732ef3826fa87fb9266ced83/94cf1/ine_2020_01_cover_7964d44ba5.webp"}, {"pais": "Albânia", "livro": "", "autor": "", "ga": "", "status_notion": "Não iniciada", "tenho": "", "capa": ""}, {"pais": "Alemanha", "livro": "A intérprete", "autor": "Annette Hess", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/81FjbMeOVfL._SL1500_.jpg"}, {"pais": "Andorra", "livro": "", "autor": "", "ga": "", "status_notion": "Não iniciada", "tenho": "", "capa": ""}, {"pais": "Angola", "livro": "Os transparentes", "autor": "Ondjaki", "ga": "Masculino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/91el+MIrHCL._SY466_.jpg"}, {"pais": "Antígua e Barbuda", "livro": "A autobiografia da minha mãe", "autor": "Jamaica Kincaid", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/71fbcgEr6fL._SY466_.jpg"}, {"pais": "Arábia Saudita", "livro": "", "autor": "", "ga": "", "status_notion": "Não iniciada", "tenho": "", "capa": ""}, {"pais": "Argélia", "livro": "", "autor": "", "ga": "", "status_notion": "Não iniciada", "tenho": "", "capa": ""}, {"pais": "Argentina", "livro": "Sou uma tola por te querer", "autor": "Camila Sosa Villada", "ga": "Trans", "status_notion": "Concluído", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/81cp3Fo+HWL._SY425_.jpg"}, {"pais": "Armênia", "livro": "", "autor": "", "ga": "", "status_notion": "Não iniciada", "tenho": "", "capa": ""}, {"pais": "Austrália", "livro": "Nove desconhecidos", "autor": "Liane Moriarty", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/71pFXoa6ESL._SY466_.jpg"}, {"pais": "Áustria", "livro": "24 Horas na Vida de uma Mulher", "autor": "Stefan Zweig", "ga": "Masculino", "status_notion": "Concluído", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/71PkeoTg8+L._AC_UF1000,1000_QL80_.jpg"}, {"pais": "Azerbaijão", "livro": "", "autor": "", "ga": "", "status_notion": "Não iniciada", "tenho": "", "capa": ""}, {"pais": "Bangladesh", "livro": "Uma era de ouro", "autor": "Talmina Anam", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/91lWcKAzBNL._SY466_.jpg"}, {"pais": "Bélgica", "livro": "Eu que nunca conheci os homens", "autor": "Jacqueline Harpman", "ga": "Feminino", "status_notion": "Concluído", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/81IKyAwkU7L._SY466_.jpg"}, {"pais": "Bielorrússia", "livro": "Vozes De Tchernóbil", "autor": "Svetlana Alexijevich", "ga": "Feminino", "status_notion": "Concluído", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/91RcGh5EDaL._SL1500_.jpg"}, {"pais": "Bolívia", "livro": "Os afetos", "autor": "Rodrigo Hasbún", "ga": "Masculino", "status_notion": "Concluído", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/61zbEahX4+L._SY466_.jpg"}, {"pais": "Bósnia e Herzegovina", "livro": "Como o soldado conserta o gramofone", "autor": "Saša Stanišić", "ga": "Masculino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/91nrIr1awJL._SY466_.jpg"}, {"pais": "Brasil", "livro": "A cabeça do santo", "autor": "Socorro Acioli", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/71-YhujYUxS._SL1500_.jpg"}, {"pais": "Bulgária", "livro": "Onde estão as flores?", "autor": "Ilko Minev", "ga": "Masculino", "status_notion": "Concluído", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/81gEa09B+nL._SY466_.jpg"}, {"pais": "Burundi", "livro": "Meu Pequeno Pais", "autor": "Gaël Faye", "ga": "Masculino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/71jBut2DyML._SY466_.jpg"}, {"pais": "Camarões", "livro": "Aqui estão os sonhadores", "autor": "Imbolo Mbue", "ga": "Feminino", "status_notion": "Concluído", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/51pFP4T4XEL.jpg"}, {"pais": "Canadá", "livro": "Mar da tranquilidade", "autor": "Emily St. John Mandel", "ga": "Feminino", "status_notion": "Concluído", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/41nuwM6VUSL._SY445_SX342_ML2_.jpg"}, {"pais": "Chile", "livro": "O vento sabe o meu nome", "autor": "Isabel Allende", "ga": "Feminino", "status_notion": "Concluído", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/919QiNB2-6L._SY466_.jpg"}, {"pais": "China", "livro": "Expiração", "autor": "Ted Chiang", "ga": "Masculino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/61pmdZryUyS._SL1500_.jpg"}, {"pais": "Colômbia", "livro": "Cem anos de solidão", "autor": "Gabriel García Márquez", "ga": "Masculino", "status_notion": "Não iniciada", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/817esPahlrL._SY466_.jpg"}, {"pais": "Congo", "livro": "O involuntário ato de respirar", "autor": "JJ Bola", "ga": "Masculino", "status_notion": "Não iniciada", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/51FLeh+dBrL.jpg"}, {"pais": "Coreia do Norte", "livro": "A Acusação", "autor": "Bandi", "ga": "Desconhecide", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/81Zb5YuQWxS._SL1500_.jpg"}, {"pais": "Coreia do Sul", "livro": "Castella", "autor": "Min-gyu Park", "ga": "Masculino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/51nSOhvSFoL.jpg"}, {"pais": "Cuba", "livro": "Cartas para a minha mãe", "autor": "Teresa Cárdenas", "ga": "Feminino", "status_notion": "Concluído", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/61YbM0CxNIL._SY466_.jpg"}, {"pais": "Dinamarca", "livro": "Os funcionários", "autor": "Olga Ravn", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/71NNwTzLGSL._SY466_.jpg"}, {"pais": "Egito", "livro": "Noites das mil e uma noites", "autor": "Naguib Mahfouz", "ga": "Masculino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/81lxBn+MHrL._SY466_.jpg"}, {"pais": "Eritreia", "livro": "As consequências do amor", "autor": "Sulaiman Addonia", "ga": "Masculino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/71cTrCZc+HL._SY466_.jpg"}, {"pais": "Eslovênia", "livro": "Alamut", "autor": "Vladimir Barto", "ga": "Masculino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/91fk9rfFqTL._SY466_.jpg"}, {"pais": "Espanha", "livro": "Dom Quixote", "autor": "Miguel Cervantes", "ga": "Masculino", "status_notion": "Não iniciada", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/81k74t+lqyL._SY466_.jpg"}, {"pais": "Estados Unidos", "livro": "Tudo sobre o amor", "autor": "Bell Hooks", "ga": "Feminino", "status_notion": "Concluído", "tenho": "Sim", "capa": "https://img.skoob.com.br/O9nCofU9GN6-KYpbFAFOXABwqSE=/200x/center/top/smart/filters:format(jpeg)/https://skoob.s3.amazonaws.com/livros/11723773/TUDO_SOBRE_O_AMOR_172214208911723773SK-V11722142090B.jpg"}, {"pais": "Etiópia", "livro": "O décimo primeiro mandamento", "autor": "Abraham Verghese", "ga": "Masculino", "status_notion": "Não iniciada", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/91L7fuzfm4S._SY466_.jpg"}, {"pais": "Filipinas", "livro": "Espelhos de água", "autor": "Samantha Sotto Yambao", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/71yG3+3+2qL._SY425_.jpg"}, {"pais": "Finlândia", "livro": "Maresi", "autor": "Maria Turtschaninoff", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/71S+pufvpWL._SL1447_.jpg"}, {"pais": "França", "livro": "O Baile das Loucas", "autor": "Victoria Mas", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/81FSZu-pIGS._SY425_.jpg"}, {"pais": "Gana", "livro": "O imenso azul entre nós", "autor": "Ayesha Harruna Attah", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/81gT6tf0k0L._SY466_.jpg"}, {"pais": "Haiti", "livro": "A Cor do Amanhecer", "autor": "Yanick Lahens", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/61TsY-o+++L._SY466_.jpg"}, {"pais": "Holanda", "livro": "Táxi!", "autor": "Aimée de Jongh", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/41hg5ZoZ2bL.jpg"}, {"pais": "Hungria", "livro": "A Porta", "autor": "Magda Szabó", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/51xTVPNfLIL._SY466_.jpg"}, {"pais": "Ilhas Virgens", "livro": "King e as libélulas", "autor": "Kacen Callender", "ga": "Trans", "status_notion": "Concluído", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/61qNJZl4o0L._SY466_.jpg"}, {"pais": "Índia", "livro": "O monge endinheirado mulher do bandido e outras histórias", "autor": "Gita Mehta", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/917ynGrPvVL._SY425_.jpg"}, {"pais": "Irã", "livro": "Lendo Lolita em Teerã", "autor": "Azar Nafisi", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/81LQST9hn6L._SL1500_.jpg"}, {"pais": "Irlanda", "livro": "Rugido", "autor": "Cecelia Ahern", "ga": "Feminino", "status_notion": "Concluído", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/81XDzrd6jxL._SY466_.jpg"}, {"pais": "Islândia", "livro": "Rosa cândida", "autor": "Auður Ava Ólafsdóttir", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/81QXOavKKbL._SY466_.jpg"}, {"pais": "Israel", "livro": "A propriedade", "autor": "Rutu Modan", "ga": "Masculino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/51N39cvcL8L.jpg"}, {"pais": "Itália", "livro": "A amiga genial", "autor": "Elena Ferrante", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/71ssdjzNbXL._SL1500_.jpg"}, {"pais": "Jamaica", "livro": "Só nós", "autor": "Claudia Rankine", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/41dg-o5iXcS.jpg"}, {"pais": "Japão", "livro": "Diario dos Gatos Yon & Mu", "autor": "Junji Ito", "ga": "Masculino", "status_notion": "Concluído", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/51y+Ul4umeL._SY425_.jpg"}, {"pais": "Líbano", "livro": "Samarcanda", "autor": "Amin Maalouf", "ga": "Masculino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/71+jkvhgFVL._SY466_.jpg"}, {"pais": "Libéria", "livro": "Ela Seria o Rei", "autor": "Wayétu Moore", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/81MkXxUG6NL._SL1500_.jpg"}, {"pais": "Malásia", "livro": "O perfume da folha de chá", "autor": "Dinah Jefferies", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/91RAvujgA9L._SL1500_.jpg"}, {"pais": "Marrocos", "livro": "O hotel dos sonhos", "autor": "Laila Lalami", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/71b890mPU5L._SY425_.jpg"}, {"pais": "México", "livro": "Páradais", "autor": "Fernanda Melchor", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/51nqEy57vVL._SY466_.jpg"}, {"pais": "Moçambique", "livro": "O mapeador de ausências", "autor": "Mia Couto", "ga": "Masculino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/71d1x8XT4GL._SY466_.jpg"}, {"pais": "Nicarágua", "livro": "O país das mulheres", "autor": "Gioconda Belli", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/71WJQenuTWL._SY466_.jpg"}, {"pais": "Nigéria", "livro": "A garota que não se calou", "autor": "Abi Daré", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/91tzCiK7ozL._SY466_.jpg"}, {"pais": "Noruega", "livro": "Tudo que Deixamos Para Trás", "autor": "Maja Lunde", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/61yLCMQ3V1L._SY466_.jpg"}, {"pais": "Nova Zelândia", "livro": "O Jogo do Assassino", "autor": "Ngaio Marsh", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/61XtKla65VL._SX445_.jpg"}, {"pais": "Omã", "livro": "Damas da lua", "autor": "Jokha Alharthi", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/813ZrKq5TiL._SY466_.jpg"}, {"pais": "Paquistão", "livro": "O último homem branco", "autor": "Mohsin Hamid", "ga": "Masculino", "status_notion": "Concluído", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/61q+S9pZioL._SY466_.jpg"}, {"pais": "Peru", "livro": "Matei um cachorro na Romênia", "autor": "Claudia Ulloa", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/61r+-p70SEL._SY466_.jpg"}, {"pais": "Polônia", "livro": "Solaris", "autor": "Stanisław Lem", "ga": "Masculino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/61wluSJ2bjL._AC_UY218_.jpg"}, {"pais": "Portugal", "livro": "Vamos comprar um poeta", "autor": "Afonso Cruz", "ga": "Feminino", "status_notion": "Concluído", "tenho": "Não", "capa": "https://static.skeelo.com/remote/320/480/100/https://skoob.s3.amazonaws.com/livros/608779/VAMOS_COMPRAR_UM_POETA_1656275729608779SK-V11656275730B.jpg"}, {"pais": "Reino Unido", "livro": "O Priorado da Laranjeira", "autor": "Samantha Shannon", "ga": "Feminino", "status_notion": "Concluído", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/71wQ7qes-XL._SL1000_.jpg"}, {"pais": "República Dominicana", "livro": "A Fantástica Vida Breve de Oscar Wao", "autor": "Junot Díaz", "ga": "Masculino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/71MjVW+tRmL._SY466_.jpg"}, {"pais": "República Tcheca", "livro": "A insustentável leveza do ser", "autor": "Milan Kundera", "ga": "Masculino", "status_notion": "Concluído", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/818ShC1u68L._SL1500_.jpg"}, {"pais": "Ruanda", "livro": "Um belo diploma", "autor": "Scholastique Mukasonga", "ga": "Feminino", "status_notion": "Concluído", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/71kxBKomPML._SY466_.jpg"}, {"pais": "Rússia", "livro": "A Morte de Ivan Ilitch", "autor": "Liev Tolstói", "ga": "Masculino", "status_notion": "Concluído", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/81U5uhi2vML._UF1000,1000_QL80_.jpg"}, {"pais": "Senegal", "livro": "A greve dos mendigos", "autor": "Aminata Sow Fall", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": ""}, {"pais": "Serra Leoa", "livro": "O brilho do amanhã", "autor": "Ishmael Beah", "ga": "Masculino", "status_notion": "Não iniciada", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/91kBeCnZ4YL._SY425_.jpg"}, {"pais": "Somália", "livro": "Infiel", "autor": "Ayaan Hirsi Ali", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/91UtcPIPByL._SY466_.jpg"}, {"pais": "Sudão", "livro": "Tempo De Migrar Para O Norte", "autor": "Tayeb Salih", "ga": "Masculino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/51O4mU0B3gL._SY466_.jpg"}, {"pais": "Suécia", "livro": "Um homem chamado Ove", "autor": "Fredrik Backman", "ga": "Masculino", "status_notion": "Concluído", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/51K-O9uzclL.jpg"}, {"pais": "Suíça", "livro": "Pílulas azuis", "autor": "Frederik Peeters", "ga": "Masculino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/81SksFX50mL._SY466_.jpg"}, {"pais": "Trinidad e Tobago", "livro": "Menino de ouro", "autor": "Claire Adam", "ga": "Feminino", "status_notion": "Em andamento", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/91sNbK-KzvL._SY466_.jpg"}, {"pais": "Turquia", "livro": "A casa do silêncio", "autor": "Elif Shafak", "ga": "Feminino", "status_notion": "Não iniciada", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/816biVSrVDL._SY466_.jpg"}, {"pais": "Ucrânia", "livro": "", "autor": "", "ga": "", "status_notion": "Não iniciada", "tenho": "", "capa": ""}, {"pais": "Uruguai", "livro": "O Livro dos Abraços", "autor": "Eduardo Galeano", "ga": "Masculino", "status_notion": "Concluído", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/81TLZQ4DlxL._SY466_.jpg"}, {"pais": "Vietnã", "livro": "A menina da foto", "autor": "Phan Thị Kim Phúc", "ga": "Feminino", "status_notion": "Concluído", "tenho": "Não", "capa": "https://m.media-amazon.com/images/I/41B8CVh-6uL._SY445_SX342_.jpg"}, {"pais": "Zâmbia", "livro": "Assando bolos em Kigali", "autor": "Gaile Parkin", "ga": "Feminino", "status_notion": "Concluído", "tenho": "Sim", "capa": "https://a-static.mlcdn.com.br/470x352/assando-bolos-em-kigali/biruta/289744/3cebf783ea7ee8d9aa964cb6a2139acb.jpeg"}, {"pais": "Zimbábue", "livro": "As Lágrimas da Girafa", "autor": "Alexander McCall Smith", "ga": "Masculino", "status_notion": "Concluído", "tenho": "Sim", "capa": "https://m.media-amazon.com/images/I/91SzxuEeSQL._SY425_.jpg"}];
+
+// ── Estado da tabela Notion ───────────────────────────────────────────────────
+let notionData = NOTION_DATA.map(r=>({...r})); // cópia mutável
+let notionFiltered = [...notionData];
+let notionSortKey = 'pais', notionSortDir = 1;
+let notionPage = 1;
+let pillFilter = 'todos';
+const NOTION_PAGE = 30;
+
+// ── Cruzamento em tempo real com Excel ───────────────────────────────────────
+// Quando o Excel carrega, para cada livro lido na planilha procura na lista Notion
+// e atualiza status_excel = 'lido'
+function crossExcelIntoNotion(excelRows){
+  const lidosTitulos = new Set();
+  excelRows.forEach(r=>{
+    const titulo = findField(r,['Livros','Título','Titulo','Livro','Book','Title']);
+    const porQueLi = r['Por que li?'] || r['Por que li'] || '';
+    // Conta como lido se for Desafio LPM E status lido
+    if(norm(porQueLi).includes('desafio lpm') && isLidoStatus(findField(r,['Status','status']))){
+      if(titulo) lidosTitulos.add(norm(titulo));
+    }
+  });
+
+  // Também considera lidos da estante
+  allBooks.forEach(r=>{
+    const titulo = findField(r,['Livros','Título','Titulo','Livro']);
+    const status = findField(r,['Status','status','Lido','Situação']);
+    if(isLidoStatus(status) && titulo) lidosTitulos.add(norm(titulo));
+  });
+
+  // Atualiza notionData com status real
+  notionData.forEach(n=>{
+    if(n.livro && lidosTitulos.has(norm(n.livro))){
+      n.status_real = 'lido';
+    } else {
+      n.status_real = n.status_notion === 'Concluído' ? 'lido' :
+                      n.status_notion === 'Em andamento' ? 'andamento' :
+                      n.livro ? 'mapeado' : 'nao';
+    }
+  });
+
+  renderNotion();
+  const el = document.getElementById('lista-loading');
+  if(el) el.textContent = lidosTitulos.size + ' livros lidos cruzados';
+}
+
+function getStatusReal(n){
+  if(n.status_real) return n.status_real;
+  if(n.status_notion === 'Concluído') return 'lido';
+  if(n.status_notion === 'Em andamento') return 'andamento';
+  if(n.livro && n.livro.trim()) return 'mapeado';
+  return 'nao';
+}
+
+function setPillFilter(f, btn){
+  pillFilter = f;
+  document.querySelectorAll('.filter-pill').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  notionPage = 1;
+  renderNotion();
+}
+
+function sortNotion(key){
+  if(notionSortKey===key) notionSortDir*=-1; else {notionSortKey=key;notionSortDir=1;}
+  renderNotion();
+}
+
+function renderNotion(){
+  const q = (document.getElementById('search-notion')?.value||'').toLowerCase();
+
+  notionFiltered = notionData.filter(n=>{
+    const sr = getStatusReal(n);
+    if(pillFilter === 'lido'    && sr !== 'lido')    return false;
+    if(pillFilter === 'mapeado' && sr !== 'mapeado' && sr !== 'andamento') return false;
+    if(pillFilter === 'nao'     && sr !== 'nao')     return false;
+    if(q && !(n.pais+n.livro+n.autor).toLowerCase().includes(q)) return false;
     return true;
   });
-  currentPage=1;
-  renderPaises();
-}
 
-function sortTable(key){
-  if(sortKey===key) sortDir*=-1; else {sortKey=key;sortDir=1;}
-  filteredM.sort((a,b)=>(a[key]||'').localeCompare(b[key]||'')*sortDir);
-  renderPaises();
-}
+  // Ordenação
+  notionFiltered.sort((a,b)=>(a[notionSortKey]||'').localeCompare(b[notionSortKey]||'')*notionSortDir);
 
-function renderPaises(){
-  const total=filteredM.length;
-  document.getElementById('p-count').textContent=total+' países';
-  const pages=Math.ceil(total/PAGE_SIZE);
-  const start=(currentPage-1)*PAGE_SIZE;
-  const slice=filteredM.slice(start,start+PAGE_SIZE);
+  const total = notionFiltered.length;
+  document.getElementById('notion-count').textContent = total + ' países';
 
-  document.getElementById('ptbody').innerHTML=slice.map(r=>{
-    const isLido=isLidoStatus(r.status);
-    const isMapeado=r.livro&&r.livro.trim();
-    const badge=isLido?'<span class="badge badge-lido">Lido</span>':isMapeado?'<span class="badge badge-mapeado">Mapeado</span>':'<span class="badge badge-nao">—</span>';
-    return `<tr><td><strong>${r.pais}</strong></td><td>${r.livro||'—'}</td><td>${r.autor||'—'}</td><td>${r.genero||'—'}</td><td>${r.cor||'—'}</td><td>${r.ga||'—'}</td><td>${badge}</td></tr>`;
+  const pages = Math.ceil(total/NOTION_PAGE);
+  const start = (notionPage-1)*NOTION_PAGE;
+  const slice = notionFiltered.slice(start, start+NOTION_PAGE);
+
+  document.getElementById('notion-tbody').innerHTML = slice.map(n=>{
+    const sr = getStatusReal(n);
+    const rowBg = sr==='lido' ? 'background:rgba(132,153,116,.08)' : '';
+    const badge = sr==='lido'
+      ? '<span class="badge badge-lido">Lido ✓</span>'
+      : sr==='andamento'
+      ? '<span class="badge badge-mapeado">Lendo…</span>'
+      : sr==='mapeado'
+      ? '<span class="badge badge-mapeado">Mapeado</span>'
+      : '<span class="badge badge-nao">—</span>';
+    const capa = n.capa
+      ? `<img class="book-cover" src="${n.capa}" alt="" loading="lazy" onerror="this.style.display='none'">`
+      : `<div class="cover-placeholder">?</div>`;
+    const livroText = n.livro
+      ? `<span style="font-weight:500">${n.livro}</span>`
+      : '<span style="color:#aaa">—</span>';
+    return `<tr style="${rowBg}">
+      <td>${capa}</td>
+      <td><strong>${n.pais}</strong></td>
+      <td>${livroText}</td>
+      <td>${n.autor||'—'}</td>
+      <td>${n.ga||'—'}</td>
+      <td>${badge}</td>
+    </tr>`;
   }).join('');
 
   // Paginação
-  const pg=document.getElementById('pagination');
-  pg.innerHTML='';
+  const pg = document.getElementById('notion-pagination');
+  pg.innerHTML = '';
   for(let i=1;i<=pages;i++){
-    const btn=document.createElement('button');
-    btn.className='page-btn'+(i===currentPage?' active':'');
-    btn.textContent=i;
-    btn.onclick=()=>{currentPage=i;renderPaises();};
+    const btn = document.createElement('button');
+    btn.className = 'page-btn'+(i===notionPage?' active':'');
+    btn.textContent = i;
+    btn.onclick = ()=>{notionPage=i; renderNotion(); document.getElementById('lista').scrollIntoView({behavior:'smooth'});};
     pg.appendChild(btn);
   }
 }
+
+// Inicializa tabela Notion imediatamente com dados embutidos
+notionData.forEach(n=>{ n.status_real = getStatusReal(n); });
+renderNotion();
 
 init();
 </script>
