@@ -14,49 +14,59 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <style>
 :root {
-  --white: #ffffff;
+  --orange: #849974;
   --black: #000000;
+  --white: #ffffff;
+  --gray: #f5f5f5;
+  --text-muted: #555;
+  --border: #e0e0e0;
+  --card-radius: 14px;
+  /* aliases para compatibilidade interna */
   --green: #849974;
   --green-dark: #6b7e5e;
-  --green-light: #849974;
-  --border: #c8c8c8;
-  --text: #1a1a1a;
+  --green-light: #c8d4b8;
+  --text: #000000;
   --muted: #555;
   --bg: #ffffff;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--white);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:400;}
+body{background:var(--white);color:var(--black);font-family:'DM Sans',sans-serif;font-weight:300;}
 
 /* ── NAV ── */
 nav{
-  position:sticky;top:0;z-index:100;background:var(--white);
-  padding:0 2rem;display:flex;align-items:center;height:52px;
-  border-bottom: 1.5px solid #c5c5a0;
+  position:sticky;top:0;z-index:100;
+  background:var(--white);
+  border-bottom:3px solid var(--orange);
+  padding:0 2.5rem;
+  display:flex;align-items:center;justify-content:space-between;
+  height:52px;
 }
 .nav-logo{display:flex;gap:6px;align-items:center;}
-.nav-dot{width:11px;height:11px;border-radius:50%;background:var(--black);}
-nav ul{list-style:none;display:flex;gap:2rem;margin-left:auto;align-items:center;}
-nav ul li a{color:var(--black);text-decoration:none;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;transition:color .2s;font-weight:400;}
-nav ul li a:hover{color:var(--green);}
-nav ul li a.active{
-  background:var(--green);color:var(--white);
-  padding:.28rem .7rem;border-radius:3px;
+.nav-dot,.nav-logo span{width:10px;height:10px;border-radius:50%;background:var(--black);}
+.nav-dot:nth-child(2),.nav-logo span:nth-child(2){background:var(--orange);}
+nav ul{list-style:none;display:flex;gap:0;margin-left:auto;align-items:center;}
+nav ul li a{
+  display:inline-block;padding:.28rem .75rem;
+  font-size:.78rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;
+  text-decoration:none;color:var(--black);transition:color .2s;border-radius:3px;
 }
-.nav-hamburger{display:none;background:none;border:none;color:var(--black);font-size:1.4rem;cursor:pointer;margin-left:auto;}
+nav ul li a:hover{color:var(--orange);background:transparent;}
+nav ul li a.active{background:var(--orange);color:var(--white);font-weight:700;}
+.nav-hamburger{display:none;background:none;border:none;font-size:1.4rem;cursor:pointer;}
 
 /* ── WINDOW CARD ── */
 .window-card{
   background:var(--white);
-  border:1.5px solid #b0b090;
-  border-radius:16px;
+  border:2px solid var(--black);
+  border-radius:var(--card-radius);
   overflow:hidden;
 }
 .window-bar{
   padding:.55rem 1rem;
   display:flex;align-items:center;gap:6px;
-  border-bottom:1px solid #ddd;
+  border-bottom:1px solid var(--border);
 }
-.win-dot{width:9px;height:9px;border-radius:50%;background:#bbb;}
+.win-dot{width:9px;height:9px;border-radius:50%;background:var(--orange);}
 
 /* ── HERO SECTION ── */
 .hero-section{
@@ -64,93 +74,95 @@ nav ul li a.active{
 }
 .hero-card{padding:2.5rem 2.5rem 0;}
 .hero-title-bg{
-  background:var(--green);
+  background:var(--orange);
   display:inline-block;
-  padding:.3rem .7rem;
+  padding:.2rem .5rem;
   margin-bottom:1.2rem;
+  border-radius:3px;
 }
 .hero-title-bg h1{
   font-family:'Playfair Display',serif;
   font-size:clamp(2rem,4vw,3rem);
+  font-style:italic;
   font-weight:400;
-  color:var(--white);
+  color:var(--black);
   line-height:1.1;
 }
 .hero-card p{
-  font-size:.95rem;line-height:1.85;color:var(--text);
+  font-size:.97rem;line-height:1.85;color:#1a1a1a;
   max-width:900px;margin-bottom:.9rem;
 }
 .hero-divider{
   margin-top:2rem;
-  border-top:1px solid #ccc;
+  border-top:1px solid var(--border);
   padding:1rem 2.5rem;
   display:flex;align-items:center;justify-content:space-between;
 }
 .hero-tagline{
-  font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+  font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);
 }
-.hero-arrow{font-size:1.1rem;color:var(--black);}
+.hero-arrow{font-size:1.4rem;color:var(--black);text-decoration:none;}
 
 /* ── STATS BAR ── */
 .stats-bar{
-  max-width:1100px;margin:0 auto 3rem;padding:0 2rem;
-  display:grid;grid-template-columns:repeat(6,1fr);gap:.8rem;
+  max-width:1100px;margin:1rem auto 3rem;padding:0 2rem;
+  display:grid;grid-template-columns:repeat(6,1fr);gap:1rem;
 }
 .stat-card{
-  background:var(--green);
-  border:1.5px solid #6b7e5e;
-  border-radius:12px;
-  padding:1.2rem .8rem;
+  background:var(--orange);
+  border-radius:var(--card-radius);
+  padding:1.4rem 1rem;
   text-align:center;
+  box-shadow:3px 3px 0 var(--black);
   display:flex;flex-direction:column;align-items:center;gap:.4rem;
 }
 .stat-num{
   font-family:'Playfair Display',serif;
-  font-size:2rem;font-weight:400;color:var(--white);line-height:1;
+  font-size:2rem;font-weight:700;color:var(--black);line-height:1;display:block;
 }
-.stat-lbl{font-size:.68rem;letter-spacing:.06em;text-transform:capitalize;color:rgba(255,255,255,.85);}
+.stat-lbl{font-size:.68rem;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--black);margin-top:.4rem;display:block;}
 
 /* ── SECTION LAYOUT ── */
 .page-section{max-width:1100px;margin:0 auto;padding:0 2rem 3.5rem;}
 .section-header{
   display:flex;align-items:baseline;gap:1.2rem;
-  margin-bottom:1.8rem;border-bottom:1px solid #ccc;padding-bottom:.7rem;
+  margin-bottom:1.8rem;border-bottom:1px solid var(--border);padding-bottom:.7rem;
 }
 .section-header .sh-label{
-  background:var(--green);padding:.2rem .7rem;
-  font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:400;color:var(--white);
+  background:var(--orange);padding:.1rem .5rem;border-radius:3px;
+  font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:400;color:var(--black);
 }
 .section-header .sh-sub{
-  font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+  font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);
 }
 
 /* ── BLOG POSTS ── */
-.posts-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;}
+.posts-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;}
 .posts-grid .full-row{grid-column:1/2;}
 .post-card{
-  background:var(--white);border:1.5px solid #b0b090;
-  border-radius:14px;overflow:hidden;text-decoration:none;color:inherit;
+  background:var(--white);border:2px solid var(--black);
+  border-radius:var(--card-radius);overflow:hidden;text-decoration:none;color:inherit;
   display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s;
 }
-.post-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.08);}
-.post-winbar{padding:.45rem .9rem;display:flex;align-items:center;gap:5px;border-bottom:1px solid #e0e0e0;}
+.post-card:hover{transform:translateY(-3px);box-shadow:4px 4px 0 var(--black);}
+.post-winbar{padding:.45rem .9rem;display:flex;align-items:center;gap:5px;border-bottom:1px solid var(--border);}
 .post-body{padding:1.3rem 1.3rem 1rem;flex:1;display:flex;flex-direction:column;gap:.6rem;}
-.post-title-bg{background:var(--green);display:inline-block;padding:.15rem .45rem;}
-.post-title-bg h3{font-family:'Playfair Display',serif;font-size:1rem;font-weight:400;color:var(--white);}
-.post-desc{font-size:.86rem;line-height:1.6;color:var(--muted);flex:1;}
+.post-title-bg{background:var(--orange);display:inline-block;padding:.1rem .45rem;border-radius:3px;align-self:flex-start;}
+.post-title-bg h3{font-family:'Playfair Display',serif;font-size:1rem;font-style:italic;font-weight:400;color:var(--black);}
+.post-desc{font-size:.85rem;line-height:1.65;color:var(--text-muted);flex:1;}
 .post-footer-row{
-  border-top:1px solid #e0e0e0;padding:.7rem 1.3rem;
+  border-top:1px solid var(--border);padding:.7rem 1.3rem;
   display:flex;align-items:center;justify-content:space-between;
 }
-.post-tag{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
-.post-arrow{font-size:1rem;color:var(--black);}
+.post-tag{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);}
+.post-arrow{font-size:1.2rem;color:var(--black);}
 
 /* ── CHARTS ── */
 .charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
-.chart-card{background:var(--white);border:1.5px solid #b0b090;border-radius:14px;overflow:hidden;}
+.chart-card{background:var(--white);border:2px solid var(--black);border-radius:var(--card-radius);overflow:hidden;}
 .chart-card.full{grid-column:1/-1;}
-.chart-header{padding:.5rem 1rem;display:flex;align-items:center;gap:6px;border-bottom:1px solid #e0e0e0;}
-.chart-title-small{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);}
+.chart-header{padding:.5rem 1rem;display:flex;align-items:center;gap:6px;border-bottom:1px solid var(--border);}
+.chart-title-small{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);}
 .chart-body{padding:1.2rem;position:relative;}
 .chart-body canvas{max-height:220px;}
 .chart-body.tall canvas{max-height:300px;}
@@ -158,20 +170,21 @@ nav ul li a.active{
 /* ── MAP ── */
 #dlm-map{height:420px;border-radius:0 0 12px 12px;}
 .map-legend{display:flex;gap:1.5rem;margin-top:.8rem;flex-wrap:wrap;}
-.legend-item{display:flex;align-items:center;gap:.5rem;font-size:.78rem;color:var(--muted);}
+.legend-item{display:flex;align-items:center;gap:.5rem;font-size:.78rem;color:var(--text-muted);}
 .legend-dot{width:11px;height:11px;border-radius:50%;flex-shrink:0;}
 
 /* ── NOTION CTA ── */
 .notion-cta-card{
-  background:var(--green);border:1.5px solid #6b7e5e;
-  border-radius:14px;overflow:hidden;
+  background:var(--orange);border:2px solid var(--black);
+  border-radius:var(--card-radius);overflow:hidden;
+  box-shadow:4px 4px 0 var(--black);
 }
 .notion-cta-body{padding:2rem 2.5rem;}
-.notion-cta-title-bg{background:rgba(255,255,255,.15);display:inline-block;padding:.2rem .6rem;margin-bottom:1rem;}
-.notion-cta-title-bg h2{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:400;color:var(--white);}
-.notion-cta-body p{font-size:.93rem;line-height:1.8;color:rgba(255,255,255,.9);margin-bottom:.7rem;}
+.notion-cta-title-bg{background:rgba(0,0,0,.12);display:inline-block;padding:.2rem .6rem;border-radius:3px;margin-bottom:1rem;}
+.notion-cta-title-bg h2{font-family:'Playfair Display',serif;font-size:1.4rem;font-style:italic;font-weight:400;color:var(--black);}
+.notion-cta-body p{font-size:.93rem;line-height:1.8;color:#1a1a1a;margin-bottom:.7rem;}
 .notion-cta-footer{
-  border-top:1px solid rgba(255,255,255,.25);padding:1.1rem 2.5rem;
+  border-top:1px solid rgba(0,0,0,.15);padding:1.1rem 2.5rem;
   display:flex;align-items:center;justify-content:space-between;
 }
 .notion-btn-link{
@@ -180,62 +193,67 @@ nav ul li a.active{
   background:var(--black);color:var(--white);
   font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;
   text-decoration:none;border-radius:6px;
-  border:2px solid transparent;
-  transition:background .2s, box-shadow .2s, border-color .2s, transform .15s;
+  border:2px solid var(--black);
+  transition:background .2s,box-shadow .2s,transform .15s;
   font-weight:500;
 }
 .notion-btn-link:hover{
   background:#1a1a1a;
-  box-shadow:0 4px 16px rgba(0,0,0,.35);
-  border-color:rgba(255,255,255,.2);
+  box-shadow:3px 3px 0 rgba(0,0,0,.4);
   transform:translateY(-1px);
 }
-.notion-btn-link:active{
-  transform:translateY(1px);
-  box-shadow:0 1px 6px rgba(0,0,0,.4), inset 0 2px 4px rgba(0,0,0,.3);
-  border-color:rgba(255,255,255,.4);
-}
+.notion-btn-link:active{transform:translateY(1px);}
 
 /* ── TABLE ── */
 .filter-pill{
   padding:.35rem .9rem;border:1.5px solid var(--border);background:transparent;
   font-family:'DM Sans',sans-serif;font-size:.78rem;border-radius:100px;
-  cursor:pointer;transition:all .18s;color:var(--muted);font-weight:400;
+  cursor:pointer;transition:all .18s;color:var(--text-muted);font-weight:400;
 }
-.filter-pill:hover{border-color:var(--green);color:var(--green);}
-.filter-pill.active{background:var(--green);border-color:var(--green);color:var(--white);font-weight:500;}
+.filter-pill:hover{border-color:var(--orange);color:var(--orange);}
+.filter-pill.active{background:var(--orange);border-color:var(--orange);color:var(--black);font-weight:500;}
 
 /* capa miniatura */
 .book-cover{width:28px;height:40px;object-fit:cover;border-radius:2px;display:block;}
-.cover-placeholder{width:28px;height:40px;background:#eee;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:.6rem;color:#aaa;}
+.cover-placeholder{
+  width:28px;height:40px;background:#f0ede8;border:1.5px dashed #c8c0b0;
+  border-radius:2px;display:flex;align-items:center;justify-content:center;
+  font-size:.55rem;color:#999;cursor:default;
+}
+.cover-broken{
+  width:28px;height:40px;background:#fff3e0;border:1.5px dashed #e8a060;
+  border-radius:2px;display:flex;align-items:center;justify-content:center;
+  font-size:.7rem;color:#d4700a;cursor:help;position:relative;
+}
 .search-wrap{flex:1;min-width:180px;position:relative;}
 .search-wrap input{
   width:100%;padding:.55rem 1rem .55rem 2.2rem;
   border:1px solid var(--border);background:var(--white);
   font-family:'DM Sans',sans-serif;font-size:.85rem;border-radius:6px;
-  outline:none;color:var(--text);
+  outline:none;color:var(--black);
 }
-.search-wrap::before{content:'⌕';position:absolute;left:.7rem;top:50%;transform:translateY(-50%);color:var(--muted);}
+.search-wrap input:focus{border-color:var(--orange);}
+.search-wrap::before{content:'⌕';position:absolute;left:.7rem;top:50%;transform:translateY(-50%);color:var(--text-muted);}
 .filter-select{
   padding:.55rem .9rem;border:1px solid var(--border);background:var(--white);
   font-family:'DM Sans',sans-serif;font-size:.82rem;border-radius:6px;
-  color:var(--text);cursor:pointer;outline:none;
+  color:var(--black);cursor:pointer;outline:none;
 }
 table{width:100%;border-collapse:collapse;font-size:.87rem;}
 thead tr{border-bottom:2px solid var(--black);}
 th{
   padding:.6rem .8rem;text-align:left;
   font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--muted);white-space:nowrap;cursor:pointer;user-select:none;
+  color:var(--text-muted);white-space:nowrap;cursor:pointer;user-select:none;
 }
 th:hover{color:var(--black);}
-td{padding:.65rem .8rem;border-bottom:1px solid #eee;vertical-align:middle;}
+td{padding:.65rem .8rem;border-bottom:1px solid var(--border);vertical-align:middle;}
 tr:hover td{background:rgba(132,153,116,.06);}
 .badge{display:inline-block;padding:.18rem .55rem;border-radius:100px;font-size:.7rem;}
 .badge-lido{background:#D4EDDA;color:#1A6631;}
 .badge-nao{background:#f0f0f0;color:#666;}
 .badge-mapeado{background:#FFF3CD;color:#8A6200;}
-.table-footer{padding:.8rem 0;color:var(--muted);font-size:.8rem;display:flex;justify-content:space-between;align-items:center;}
+.table-footer{padding:.8rem 0;color:var(--text-muted);font-size:.8rem;display:flex;justify-content:space-between;align-items:center;}
 .pagination{display:flex;gap:.3rem;flex-wrap:wrap;}
 .page-btn{
   width:30px;height:30px;border:1px solid var(--border);
@@ -246,14 +264,14 @@ tr:hover td{background:rgba(132,153,116,.06);}
 
 /* ── FOOTER ── */
 footer{
-  background:var(--green);padding:1.2rem 2rem;
-  display:flex;align-items:center;gap:1rem;
+  background:var(--orange);padding:1.8rem 2.5rem;
+  display:flex;align-items:center;gap:1.5rem;
 }
 .footer-dots{display:flex;gap:6px;}
-.footer-dot{width:11px;height:11px;border-radius:50%;background:rgba(255,255,255,.7);}
+.footer-dot{width:10px;height:10px;border-radius:50%;background:var(--black);}
 .footer-text{
-  font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;
-  color:rgba(255,255,255,.8);
+  font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--black);flex:1;
 }
 
 @media(max-width:900px){
@@ -264,9 +282,10 @@ footer{
 @media(max-width:600px){
   .stats-bar{grid-template-columns:repeat(2,1fr);}
   .posts-grid{grid-template-columns:1fr;}
-  nav ul{display:none;position:absolute;top:52px;left:0;right:0;background:var(--white);flex-direction:column;padding:1rem 2rem;gap:1rem;border-bottom:1px solid #ccc;}
+  nav ul{display:none;position:absolute;top:52px;left:0;right:0;background:var(--white);flex-direction:column;padding:1rem 2rem;gap:.5rem;border-bottom:2px solid var(--orange);}
   nav ul.open{display:flex;}
   .nav-hamburger{display:block;}
+  .hero-card{padding:1.5rem 1.5rem 0;}
 }
 </style>
 </head>
@@ -275,9 +294,7 @@ footer{
 <!-- ── NAVIGATION ── -->
 <nav>
   <div class="nav-logo">
-    <div class="nav-dot"></div>
-    <div class="nav-dot"></div>
-    <div class="nav-dot"></div>
+    <span></span><span></span><span></span>
   </div>
   <ul>
     <li><a href="index.html" data-page="index">Início</a></li>
@@ -380,15 +397,17 @@ footer{
 <div class="page-section" id="graficos">
   <div class="section-header">
     <span class="sh-label">Visão geral do desafio</span>
-    <span class="sh-sub">Dados cruzados</span>
+    <span class="sh-sub" id="charts-loading">Dados cruzados — carregando…</span>
   </div>
-  <div class="charts-grid">
+
+  <!-- Linha 1: Status + Diversidade (donut 4) -->
+  <div class="charts-grid" style="margin-bottom:1rem">
     <div class="chart-card">
       <div class="chart-header"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div><span class="chart-title-small" style="margin-left:.4rem">Status dos países</span></div>
       <div class="chart-body"><canvas id="c-status"></canvas></div>
     </div>
     <div class="chart-card">
-      <div class="chart-header"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div><span class="chart-title-small" style="margin-left:.4rem">Cor dos autores (lidos)</span></div>
+      <div class="chart-header"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div><span class="chart-title-small" style="margin-left:.4rem">Cor / raça dos autores</span></div>
       <div class="chart-body"><canvas id="c-cor"></canvas></div>
     </div>
     <div class="chart-card">
@@ -399,13 +418,77 @@ footer{
       <div class="chart-header"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div><span class="chart-title-small" style="margin-left:.4rem">Idioma original</span></div>
       <div class="chart-body"><canvas id="c-idioma"></canvas></div>
     </div>
+  </div>
+
+  <!-- Linha 2: Conteúdo (3 donuts) -->
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1rem">
+    <div class="chart-card">
+      <div class="chart-header"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div><span class="chart-title-small" style="margin-left:.4rem">Protagonista LGBTQ+</span></div>
+      <div class="chart-body"><canvas id="c-lgbtq"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-header"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div><span class="chart-title-small" style="margin-left:.4rem">Diversidade étnica/racial</span></div>
+      <div class="chart-body"><canvas id="c-diversidade"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-header"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div><span class="chart-title-small" style="margin-left:.4rem">#OwnVoices</span></div>
+      <div class="chart-body"><canvas id="c-ownvoices"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Linha 3: Formato + Faixa etária -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+    <div class="chart-card">
+      <div class="chart-header"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div><span class="chart-title-small" style="margin-left:.4rem">Formato de leitura</span></div>
+      <div class="chart-body"><canvas id="c-formato"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-header"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div><span class="chart-title-small" style="margin-left:.4rem">Faixa etária</span></div>
+      <div class="chart-body"><canvas id="c-faixa"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Linha 4: barras horizontais full-width -->
+  <div class="charts-grid" style="margin-bottom:1rem">
     <div class="chart-card full">
-      <div class="chart-header"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div><span class="chart-title-small" style="margin-left:.4rem">Continentes / regiões dos países lidos</span></div>
-      <div class="chart-body"><canvas id="c-regiao" style="max-height:180px"></canvas></div>
+      <div class="chart-header"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div><span class="chart-title-small" style="margin-left:.4rem">Regiões / continentes lidos</span></div>
+      <div class="chart-body"><canvas id="c-regiao" style="max-height:200px"></canvas></div>
     </div>
     <div class="chart-card full">
-      <div class="chart-header"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div><span class="chart-title-small" style="margin-left:.4rem">Gêneros literários lidos por país</span></div>
+      <div class="chart-header"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div><span class="chart-title-small" style="margin-left:.4rem">Gêneros literários</span></div>
       <div class="chart-body"><canvas id="c-generos" style="max-height:200px"></canvas></div>
+    </div>
+    <div class="chart-card full">
+      <div class="chart-header"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div><span class="chart-title-small" style="margin-left:.4rem">Como conheci o livro</span></div>
+      <div class="chart-body"><canvas id="c-conheci" style="max-height:180px"></canvas></div>
+    </div>
+    <div class="chart-card full">
+      <div class="chart-header"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div><span class="chart-title-small" style="margin-left:.4rem">Origem do livro (onde comprei/obtive)</span></div>
+      <div class="chart-body"><canvas id="c-origem" style="max-height:180px"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Linha 5: Notas + Série ou único -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+    <div class="chart-card">
+      <div class="chart-header"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div><span class="chart-title-small" style="margin-left:.4rem">Distribuição de notas</span></div>
+      <div class="chart-body"><canvas id="c-notas"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-header"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div><span class="chart-title-small" style="margin-left:.4rem">Série ou livro único?</span></div>
+      <div class="chart-body"><canvas id="c-serie"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Linha 6: Leituras por ano (barras agrupadas) -->
+  <div class="charts-grid">
+    <div class="chart-card full">
+      <div class="chart-header"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div><span class="chart-title-small" style="margin-left:.4rem">Leituras do Desafio LPM por ano (2024 · 2025 · 2026)</span></div>
+      <div class="chart-body"><canvas id="c-anos" style="max-height:200px"></canvas></div>
+    </div>
+    <div class="chart-card full">
+      <div class="chart-header"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div><span class="chart-title-small" style="margin-left:.4rem">Primeiras vezes lendo o autor/a</span></div>
+      <div class="chart-body"><canvas id="c-novos-autores" style="max-height:160px"></canvas></div>
     </div>
   </div>
 </div>
@@ -486,7 +569,10 @@ footer{
   </div>
   <div class="table-footer">
     <span id="notion-count">—</span>
-    <div class="pagination" id="notion-pagination"></div>
+    <div style="display:flex;align-items:center;gap:1rem;">
+      <button onclick="mostrarCapasErro()" style="background:none;border:none;font-size:.75rem;color:var(--muted);cursor:pointer;text-decoration:underline;font-family:'DM Sans',sans-serif;">ver capas com erro (F12)</button>
+      <div class="pagination" id="notion-pagination"></div>
+    </div>
   </div>
 </div>
 
@@ -501,7 +587,10 @@ footer{
 Chart.register(ChartDataLabels);
 
 const CSV_ESTANTE = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQWGv70Tc2vz-YUKxwU_0_H8F7UuHom1tCJQlE2Tfi8AMNem2c5X3WSs6z4CPjoTb2AaFKmJ8bihlPV/pub?gid=0&single=true&output=csv';
-const CSV_DESAFIO = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub?gid=537800862&single=true&output=csv';
+const CSV_DESAFIO = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub?gid=1413764044&single=true&output=csv';
+// Anos anteriores — mesmo filtro "Desafio LPM" na coluna "Por que li?"
+const CSV_2024 = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub?gid=963475305&single=true&output=csv';
+const CSV_2025 = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub?gid=0&single=true&output=csv';
 
 const GREEN = '#849974';
 const GREEN_DARK = '#6b7e5e';
@@ -584,6 +673,15 @@ function chartPie(){
 }
 
 let desafioRows=[], allBooks=[], merged=[], filteredM=[];
+let rows2024=[], rows2025=[], rows2026=[];
+
+function filterLPM(rows){
+  const f = rows.filter(r=>{
+    const v = r['Por que li?']||r['Por que li']||r['por que li?']||r['por que li']||'';
+    return norm(v).includes('desafio lpm');
+  });
+  return f.length ? f : rows; // fallback se coluna não existir
+}
 
 // ── HELPERS para detectar campos pelo nome da coluna ──────────────────────────
 function findField(row, candidates){
@@ -608,7 +706,14 @@ async function init(){
   });
 
   try{
-    [desafioRows, allBooks] = await Promise.all([fetchCSV(CSV_DESAFIO), fetchCSV(CSV_ESTANTE)]);
+    [desafioRows, allBooks, rows2024, rows2025] = await Promise.all([
+      fetchCSV(CSV_DESAFIO), fetchCSV(CSV_ESTANTE),
+      fetchCSV(CSV_2024), fetchCSV(CSV_2025)
+    ]);
+    rows2026 = filterLPM(desafioRows);
+    rows2024 = filterLPM(rows2024);
+    rows2025 = filterLPM(rows2025);
+    console.log('[LPM] 2024:', rows2024.length, '| 2025:', rows2025.length, '| 2026:', rows2026.length);
   } catch(e){
     console.error('Erro ao carregar CSV:', e);
     ['s-paises','s-mapeados','s-semlivro','s-pct','s-novos','s-cinco'].forEach(id=>{
@@ -627,11 +732,9 @@ async function init(){
     console.log('[Estante CSV] Linha 1:', allBooks[0]);
   }
 
-  // ── Filtrar linhas vazias e cabeçalho repetido ───────────────────────────────
-  desafioRows = desafioRows.filter(r=>{
-    const vals = Object.values(r).filter(v=>v&&v.trim());
-    return vals.length > 1;
-  });
+  // desafioRows já foi filtrado para LPM acima; usa todos os anos para gráficos
+  desafioRows = desafioRows.filter(r=>Object.values(r).filter(v=>v&&v.trim()).length>1);
+  const allLPM = [...rows2024, ...rows2025, ...rows2026]; // todos os anos juntos
 
   // ── Filtrar SOMENTE linhas marcadas como "Desafio LPM" na coluna K ──────────
   // A coluna K é a 11ª coluna (índice 10). Pode se chamar "Desafio", "Projeto", etc.
@@ -693,65 +796,164 @@ async function init(){
   const lidos = merged.filter(r=>isLidoStatus(r.status));
   const mapeados = merged.filter(r=>r.livro&&r.livro.trim());
   const semLivro = merged.filter(r=>!r.livro||!r.livro.trim());
+  // Conta do Notion (fonte real dos 209 países)
+  const notionSemLivro = NOTION_DATA.filter(n=>!n.livro||!n.livro.trim()).length;
+  const notionMapeados = NOTION_DATA.filter(n=>n.livro&&n.livro.trim()).length;
   const novosAutores = new Set(lidos.map(r=>norm(r.autor)).filter(Boolean)).size;
   const cincoEstrelas = lidos.filter(r=>{const n=(r.estrelas||'').trim();return n==='5'||n==='★★★★★';}).length;
-  const pctLidos = merged.length ? Math.round(lidos.length/merged.length*100)+'%' : '—';
+  const pctLidos = NOTION_DATA.length ? Math.round(NOTION_DATA.filter(n=>n.status_notion==='Concluído').length/NOTION_DATA.length*100)+'%' : '—';
 
   console.log('[Stats] Total países:', merged.length, '| Lidos:', lidos.length, '| Mapeados:', mapeados.length);
 
-  document.getElementById('s-paises').textContent  = lidos.length  || '0';
-  document.getElementById('s-mapeados').textContent = mapeados.length || '0';
-  document.getElementById('s-semlivro').textContent  = semLivro.length || '0';
+  document.getElementById('s-paises').textContent  = NOTION_DATA.filter(n=>n.status_notion==='Concluído').length || '0';
+  document.getElementById('s-mapeados').textContent = notionMapeados || '0';
+  document.getElementById('s-semlivro').textContent  = notionSemLivro || '0';
   document.getElementById('s-pct').textContent      = pctLidos;
   document.getElementById('s-novos').textContent    = novosAutores   || '0';
   document.getElementById('s-cinco').textContent    = cincoEstrelas  || '0';
 
-  buildCharts(lidos);
+  buildCharts(lidos, allLPM);
   buildMap();
-  crossExcelIntoNotion(desafioRows); // cruza excel com tabela Notion
+  crossExcelIntoNotion(desafioRows);
+  const cl = document.getElementById('charts-loading');
+  if(cl) cl.textContent = `Dados cruzados — ${allLPM.length} leituras LPM (2024·2025·2026)`;
 
   document.getElementById('search').addEventListener('input',applyFilters);
   document.getElementById('f-status').addEventListener('change',applyFilters);
 }
 
-function buildCharts(lidos){
+function buildCharts(lidos, allLPM){
+  // Helper: conta campo em array de rows do Excel
+  const countField = (rows, candidates) => {
+    const c={};
+    rows.forEach(r=>{
+      const v = findField(r, candidates);
+      if(v) c[v]=(c[v]||0)+1;
+    });
+    return c;
+  };
+
+  const barH = (id, obj, color, maxH=180) => {
+    const pairs = topN(obj, 10);
+    if(!pairs.length) return;
+    const el = document.getElementById(id);
+    if(!el) return;
+    el.style.maxHeight = maxH+'px';
+    const bOpts = chartBase();
+    bOpts.indexAxis='y';
+    bOpts.plugins.datalabels={display:true,anchor:'end',align:'end',color:DARK,
+      font:{family:'DM Sans',size:10,weight:'500'},formatter:v=>v>0?v:'',clamp:true};
+    bOpts.scales.x.ticks.stepSize=1;
+    new Chart(el,{type:'bar',
+      data:{labels:pairs.map(e=>e[0]),datasets:[{data:pairs.map(e=>e[1]),backgroundColor:color,borderRadius:3}]},
+      options:bOpts});
+  };
+
+  const donut = (id, obj) => {
+    const el = document.getElementById(id);
+    if(!el||!Object.keys(obj).length) return;
+    new Chart(el,{type:'doughnut',
+      data:{labels:Object.keys(obj),datasets:[{data:Object.values(obj),backgroundColor:CORES,borderWidth:0}]},
+      options:chartPie()});
+  };
+
+  // ── 1. Status países (usando merged do ano corrente) ─────────────────────────
   const li=lidos.length;
   const ma=merged.filter(r=>r.livro&&r.livro.trim()&&!isLidoStatus(r.status)).length;
   const na=merged.length-li-ma;
-
   new Chart(document.getElementById('c-status'),{type:'doughnut',
     data:{labels:['Lido','Mapeado','Não mapeado'],datasets:[{data:[li,ma,na],backgroundColor:[GREEN,GREEN_LIGHT,'#ddd'],borderWidth:0}]},
     options:chartPie()});
 
-  const pie=(id,field)=>{
-    const obj=count(lidos.filter(r=>r[field]),field);
-    if(!Object.keys(obj).length)return;
-    new Chart(document.getElementById(id),{type:'doughnut',
-      data:{labels:Object.keys(obj),datasets:[{data:Object.values(obj),backgroundColor:CORES,borderWidth:0}]},
-      options:chartPie()});
-  };
-  pie('c-cor','cor');
-  pie('c-ga','ga');
-  pie('c-idioma','idioma');
+  // ── 2–4. Diversidade (todos os anos LPM) ────────────────────────────────────
+  donut('c-cor',        countField(allLPM,['Cor','cor do autor','raça','Raça']));
+  donut('c-ga',         countField(allLPM,['Se identifica como...','Gênero do autor','Gênero autor']));
+  donut('c-idioma',     countField(allLPM,['Idioma','idioma original']));
 
-  // Regiões
+  // ── 5–7. Conteúdo ────────────────────────────────────────────────────────────
+  donut('c-lgbtq',      countField(allLPM,['Protagonista LGBTQ+','lgbtq']));
+  donut('c-diversidade',countField(allLPM,['Diversidade etnica/racial','Diversidade étnica/racial','diversidade']));
+  donut('c-ownvoices',  countField(allLPM,['#OwnVoices?','OwnVoices','ownvoices']));
+
+  // ── 8–9. Formato + Faixa etária ─────────────────────────────────────────────
+  donut('c-formato', countField(allLPM,['Formato']));
+  donut('c-faixa',   countField(allLPM,['Faixa etária','Faixa etaria','faixa']));
+
+  // ── 10–11. Barras horizontais ────────────────────────────────────────────────
   const rc={};
-  lidos.forEach(r=>{const rg=REGIAO[r.pais]||'Outros';rc[rg]=(rc[rg]||0)+1;});
-  const re=topN(rc,10);
-  const bOpts=chartBase();bOpts.indexAxis='y';
-  bOpts.plugins.datalabels={display:true,anchor:'end',align:'end',color:DARK,font:{family:'DM Sans',size:10,weight:'500'},formatter:v=>v>0?v:'',clamp:true};
-  new Chart(document.getElementById('c-regiao'),{type:'bar',
-    data:{labels:re.map(e=>e[0]),datasets:[{data:re.map(e=>e[1]),backgroundColor:GREEN,borderRadius:3}]},
-    options:bOpts});
+  allLPM.forEach(r=>{
+    const pais = findField(r,['País','Pais']);
+    const rg = REGIAO[pais]||'Outros';
+    rc[rg]=(rc[rg]||0)+1;
+  });
+  barH('c-regiao', rc, GREEN, 200);
+  barH('c-generos', countField(allLPM,['Gênero','Genero','Genre','gênero literário']), GREEN_LIGHT, 200);
+  barH('c-conheci', countField(allLPM,['Como conheci?','Como conheci','como conheci']), '#a8bc90', 180);
+  barH('c-origem',  countField(allLPM,['Origem do livro?','Origem do livro','origem']), '#c8d4b8', 180);
 
-  // Gêneros
-  const gc=count(lidos.filter(r=>r.genero),'genero');
-  const ge=topN(gc,8);
-  const gOpts=chartBase();
-  gOpts.plugins.datalabels={display:true,anchor:'end',align:'end',color:DARK,font:{family:'DM Sans',size:10,weight:'500'},formatter:v=>v>0?v:'',clamp:true};
-  new Chart(document.getElementById('c-generos'),{type:'bar',
-    data:{labels:ge.map(e=>e[0]),datasets:[{data:ge.map(e=>e[1]),backgroundColor:GREEN_LIGHT,borderRadius:3}]},
-    options:gOpts});
+  // ── 12. Notas (distribuição 1–5) ─────────────────────────────────────────────
+  const nc={1:0,2:0,3:0,4:0,5:0};
+  allLPM.forEach(r=>{
+    const n=parseInt(findField(r,['NOTA','Nota','nota','Avaliação'])||'0');
+    if(n>=1&&n<=5) nc[n]++;
+  });
+  const notasEl = document.getElementById('c-notas');
+  if(notasEl){
+    const nOpts = chartBase();
+    nOpts.plugins.datalabels={display:true,anchor:'end',align:'top',color:DARK,
+      font:{family:'DM Sans',size:11,weight:'500'},formatter:v=>v>0?v:''};
+    delete nOpts.scales.y;
+    nOpts.scales.x={grid:{display:false},ticks:{font:{family:'DM Sans',size:13},color:DARK}};
+    nOpts.scales.y2={display:false};
+    new Chart(notasEl,{type:'bar',
+      data:{labels:['★','★★','★★★','★★★★','★★★★★'],
+        datasets:[{data:Object.values(nc),backgroundColor:[GREEN_LIGHT,GREEN_LIGHT,'#a8bc90',GREEN,GREEN_DARK],borderRadius:4}]},
+      options:nOpts});
+  }
+
+  // ── 13. Série ou único ────────────────────────────────────────────────────────
+  donut('c-serie', countField(allLPM,['Série ou único?','Série ou único','serie ou unico']));
+
+  // ── 14. Leituras por ano (barras agrupadas: cor/ga/idioma por ano) ───────────
+  const anosEl = document.getElementById('c-anos');
+  if(anosEl){
+    const countYear = rows => rows.length;
+    const aOpts = chartBase();
+    aOpts.plugins.legend = {display:true,labels:{font:{family:'DM Sans',size:11},color:DARK,boxWidth:12}};
+    aOpts.plugins.datalabels = {display:true,anchor:'end',align:'top',color:DARK,
+      font:{family:'DM Sans',size:11,weight:'500'},formatter:v=>v>0?v:''};
+    new Chart(anosEl,{type:'bar',
+      data:{
+        labels:['2024','2025','2026'],
+        datasets:[{
+          label:'Livros LPM lidos',
+          data:[countYear(rows2024),countYear(rows2025),countYear(rows2026)],
+          backgroundColor:[GREEN_LIGHT,GREEN,GREEN_DARK],borderRadius:4
+        }]
+      },options:aOpts});
+  }
+
+  // ── 15. Primeiras vezes lendo o autor ────────────────────────────────────────
+  const nvEl = document.getElementById('c-novos-autores');
+  if(nvEl){
+    const contaNovos = rows => rows.filter(r=>{
+      const v = findField(r,['Primeira vez lendo autore','Primeira vez lendo autor','primeira vez']);
+      return norm(v)==='sim'||norm(v)==='true'||norm(v)==='1'||norm(v)==='✓'||norm(v)==='x';
+    }).length;
+    const nvOpts = chartBase();
+    nvOpts.plugins.legend={display:true,labels:{font:{family:'DM Sans',size:11},color:DARK,boxWidth:12}};
+    nvOpts.plugins.datalabels={display:true,anchor:'end',align:'top',color:DARK,
+      font:{family:'DM Sans',size:11,weight:'500'},formatter:v=>v>0?v:''};
+    new Chart(nvEl,{type:'bar',
+      data:{
+        labels:['2024','2025','2026'],
+        datasets:[{
+          label:'Novos autores/as',
+          data:[contaNovos(rows2024),contaNovos(rows2025),contaNovos(rows2026)],
+          backgroundColor:[GREEN_LIGHT,GREEN,GREEN_DARK],borderRadius:4
+        }]
+      },options:nvOpts});
+  }
 }
 
 function buildMap(){
@@ -869,8 +1071,9 @@ function renderNotion(){
       ? '<span class="badge badge-mapeado">Mapeado</span>'
       : '<span class="badge badge-nao">—</span>';
     const capa = n.capa
-      ? `<img class="book-cover" src="${n.capa}" alt="" loading="lazy" onerror="this.style.display='none'">`
-      : `<div class="cover-placeholder">?</div>`;
+      ? `<img class="book-cover" src="${n.capa}" alt="${n.livro||''}" loading="lazy"
+           onerror="this.outerHTML='<div class=\\'cover-broken\\' title=\\'URL com erro: ${n.capa.replace(/'/g,'').slice(0,60)}\\'>⚠</div>';window._capaErros=window._capaErros||[];window._capaErros.push({pais:'${n.pais}',livro:'${(n.livro||'').replace(/'/g,'')}',url:'${n.capa.replace(/'/g,'').slice(0,80)}'});">`
+      : `<div class="cover-placeholder" title="Sem URL de capa">—</div>`;
     const livroText = n.livro
       ? `<span style="font-weight:500">${n.livro}</span>`
       : '<span style="color:#aaa">—</span>';
@@ -899,6 +1102,18 @@ function renderNotion(){
 // Inicializa tabela Notion imediatamente com dados embutidos
 notionData.forEach(n=>{ n.status_real = getStatusReal(n); });
 renderNotion();
+
+function mostrarCapasErro(){
+  const erros = window._capaErros || [];
+  if(!erros.length){
+    console.log('%c✓ Nenhuma capa com erro detectada ainda. Role a tabela para carregar as imagens.','color:#849974;font-weight:bold');
+    return;
+  }
+  console.group(`%c⚠ ${erros.length} capas com erro de URL`, 'color:#d4700a;font-weight:bold');
+  erros.forEach(e=>console.log(`• ${e.pais} — "${e.livro}"\n  URL: ${e.url}`));
+  console.groupEnd();
+  console.log('%cCopie as linhas acima e me mande para eu corrigir as URLs.','color:#555;font-style:italic');
+}
 
 init();
 </script>
