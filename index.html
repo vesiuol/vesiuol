@@ -100,7 +100,7 @@ nav ul li a.active { background: var(--orange); color: var(--white); font-weight
   background: var(--white);
   max-width: 1100px; margin: 1rem auto 0; padding: 0 2rem;
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: 1rem;
 }
 .stat-box {
@@ -267,10 +267,9 @@ footer p {
   <div class="stat-box"><span class="stat-number" id="s-total">—</span><span class="stat-label">Livros na estante</span></div>
   <div class="stat-box"><span class="stat-number" id="s-lidos">—</span><span class="stat-label">Lidos</span></div>
   <div class="stat-box"><span class="stat-number" id="s-paginas">—</span><span class="stat-label">Páginas lidas</span></div>
-  <div class="stat-box"><span class="stat-number" id="s-horas">—</span><span class="stat-label">Horas ouvidas</span></div>
   <div class="stat-box"><span class="stat-number" id="s-autores">—</span><span class="stat-label">Autores únicos</span></div>
   <div class="stat-box"><span class="stat-number" id="s-paises">—</span><span class="stat-label">Países</span></div>
-  <div class="stat-box"><span class="stat-number">7</span><span class="stat-label">Anos de registro</span></div>
+  <div class="stat-box"><span class="stat-number" id="s-anos">—</span><span class="stat-label">Anos de registro</span></div>
 </div>
 
 <!-- VITRINE -->
@@ -339,8 +338,10 @@ footer p {
 
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 <script>
-const CSV_ESTANTE = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQWGv70Tc2vz-YUKxwU_0_H8F7UuHom1tCJQlE2Tfi8AMNem2c5X3WSs6z4CPjoTb2AaFKmJ8bihlPV/pub?gid=0&single=true&output=csv';
-const CSV_2026    = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub?gid=537800862&single=true&output=csv';
+// Planilha estante — aba de resumo/stats (gid=96920357)
+const CSV_STATS   = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQWGv70Tc2vz-YUKxwU_0_H8F7UuHom1tCJQlE2Tfi8AMNem2c5X3WSs6z4CPjoTb2AaFKmJ8bihlPV/pub?gid=96920357&single=true&output=csv';
+// Planilha 2026 — aba com anos de registro (gid=1413764044)
+const CSV_ANOS    = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub?gid=1413764044&single=true&output=csv';
 
 function norm(s){ return (s||'').trim().toLowerCase(); }
 
@@ -351,48 +352,60 @@ function fetchCSV(url){
   });
 }
 
-function parseHoras(val) {
-  if (!val || val === '00:00:00.000' || val.trim() === '') return 0;
-  const parts = val.replace('.000','').split(':');
-  if (parts.length < 2) return 0;
-  return parseInt(parts[0]||0) + parseInt(parts[1]||0)/60;
+// Procura valor numa linha da planilha de stats pelo label na 1ª coluna
+function findStat(rows, labelFragment) {
+  const row = rows.find(r => {
+    const firstVal = Object.values(r)[0] || '';
+    return norm(firstVal).includes(norm(labelFragment));
+  });
+  if (!row) return null;
+  const vals = Object.values(row);
+  return vals[1] || vals[0] || null;
 }
 
 async function init(){
   try {
-    const [estante, leituras26] = await Promise.all([
-      fetchCSV(CSV_ESTANTE),
-      fetchCSV(CSV_2026)
+    const [statsRows, anosRows] = await Promise.all([
+      fetchCSV(CSV_STATS),
+      fetchCSV(CSV_ANOS)
     ]);
 
-    const lidos = estante.filter(b => norm(b['Lido/Não Lido']) === 'lido');
+    // Debug: log das colunas disponíveis
+    console.log('Stats rows (primeiras):', statsRows.slice(0,5));
+    console.log('Anos rows (primeiras):', anosRows.slice(0,5));
 
-    // Total estante
-    document.getElementById('s-total').textContent = estante.length;
+    // Tenta achar os valores por label ou por posição
+    // A planilha de stats pode ter formato "Label | Valor"
+    function getVal(rows, labels) {
+      for (const label of labels) {
+        const v = findStat(rows, label);
+        if (v !== null && v !== undefined && v !== '') return v;
+      }
+      return '—';
+    }
 
-    // Lidos (estante)
-    document.getElementById('s-lidos').textContent = lidos.length;
+    const total   = getVal(statsRows, ['total','estante','livros na estante','total de livros']);
+    const lidos   = getVal(statsRows, ['lidos','lido']);
+    const paginas = getVal(statsRows, ['página','pagina','pages']);
+    const autores = getVal(statsRows, ['autor','autores']);
+    const paises  = getVal(statsRows, ['país','pais','países','paises']);
 
-    // Páginas lidas
-    const pag = lidos.reduce((s,b) => s + (parseInt(b['Páginas'])||0), 0);
-    document.getElementById('s-paginas').textContent = pag.toLocaleString('pt-BR');
+    document.getElementById('s-total').textContent   = total;
+    document.getElementById('s-lidos').textContent   = lidos;
+    document.getElementById('s-paginas').textContent = paginas;
+    document.getElementById('s-autores').textContent = autores;
+    document.getElementById('s-paises').textContent  = paises;
 
-    // Horas ouvidas (audiobooks de 2026 — coluna D com horas > 0)
-    const audioCol = Object.keys(leituras26[0]||{}).find(k =>
-      k.toLowerCase().includes('hora') || k.toLowerCase().includes('áudio') || k.toLowerCase().includes('audio')
-    ) || 'Horas ouvidas';
-    const totalHoras = leituras26.reduce((s,b) => s + parseHoras(b[audioCol]), 0);
-    document.getElementById('s-horas').textContent = Math.round(totalHoras) > 0
-      ? Math.round(totalHoras) + 'h'
-      : '—';
-
-    // Autores únicos
-    const autoresSet = new Set(estante.map(b => (b['Nome']||'').trim()).filter(Boolean));
-    document.getElementById('s-autores').textContent = autoresSet.size;
-
-    // Países únicos
-    const paisesSet = new Set(estante.map(b => (b['País']||'').trim()).filter(Boolean));
-    document.getElementById('s-paises').textContent = paisesSet.size;
+    // Anos de registro: pega o valor da planilha de anos
+    const anos = getVal(anosRows, ['ano','anos','registro','years']);
+    // Se não achar por label, tenta contar linhas únicas de ano
+    if (anos === '—') {
+      // Tenta contar anos distintos na 1ª coluna
+      const anosSet = new Set(anosRows.map(r => Object.values(r)[0]).filter(v => v && !isNaN(v)));
+      document.getElementById('s-anos').textContent = anosSet.size > 0 ? anosSet.size : '—';
+    } else {
+      document.getElementById('s-anos').textContent = anos;
+    }
 
   } catch(e) {
     console.error('Erro ao carregar dados:', e);
