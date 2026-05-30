@@ -739,16 +739,23 @@ let desafioRows=[], allBooks=[], merged=[], filteredM=[];
 let rows2024=[], rows2025=[], rows2026=[];
 
 function filterLPM(rows){
-  const f = rows.filter(r=>{
-    const v = r['Por que li?']||r['Por que li']||r['por que li?']||r['por que li']||'';
-    return norm(v).includes('desafio lpm');
+  // Tenta filtrar pela coluna "Por que li?" com valor "Desafio LPM"
+  // Aceita variações de nome da coluna
+  const filtered = rows.filter(r=>{
+    const keys = Object.keys(r);
+    const col = keys.find(k => norm(k).includes('por que li') || norm(k).includes('porqueli'));
+    if(!col) return false;
+    return norm(r[col]).includes('desafio lpm');
   });
-  // SEM fallback: se nenhuma linha tem "Desafio LPM", retorna array vazio
-  // Isso evita que o 2026 puxe TODOS os livros ao invés de só os do desafio
-  return f;
+  // Se não encontrou a coluna ou nenhum resultado, loga e retorna vazio
+  if(!filtered.length){
+    const sample = rows[0] ? Object.keys(rows[0]).join(', ') : '(vazio)';
+    console.warn('[filterLPM] Nenhum resultado. Colunas disponíveis:', sample);
+  }
+  return filtered;
 }
 
-// ── HELPERS para detectar campos pelo nome da coluna ──────────────────────────
+// ── HELPERS ───────────────────────────────────────────────────────────────────
 function findField(row, candidates){
   const keys = Object.keys(row);
   for(const cand of candidates){
@@ -760,25 +767,31 @@ function findField(row, candidates){
 
 function isLidoStatus(status){
   const s = norm(status);
-  // Notion: "Concluído" | Planilha: "Lido", "lida", "Desafio LPM" já filtrado
   return s.includes('conclu') || (s.includes('lido') && !s.includes('não')) || s.includes('lida');
 }
 
 async function init(){
-  // Exibe loading nos stats
   ['s-paises','s-mapeados','s-semlivro','s-pct','s-novos','s-cinco'].forEach(id=>{
     document.getElementById(id).textContent='…';
   });
 
   try{
-    [desafioRows, allBooks, rows2024, rows2025] = await Promise.all([
-      fetchCSV(CSV_DESAFIO), fetchCSV(CSV_ESTANTE),
-      fetchCSV(CSV_2024), fetchCSV(CSV_2025)
+    // Carrega os 3 anos + estante em paralelo
+    // gid=963475305 = 2024 | gid=0 = 2025 | gid=537800862 = 2026
+    const [raw2024, raw2025, raw2026, rawEstante] = await Promise.all([
+      fetchCSV(CSV_2024), fetchCSV(CSV_2025), fetchCSV(CSV_DESAFIO), fetchCSV(CSV_ESTANTE)
     ]);
-    rows2026 = filterLPM(desafioRows);
-    rows2024 = filterLPM(rows2024);
-    rows2025 = filterLPM(rows2025);
+
+    rows2024 = filterLPM(raw2024);
+    rows2025 = filterLPM(raw2025);
+    rows2026 = filterLPM(raw2026);
+    allBooks = rawEstante;
+
     console.log('[LPM] 2024:', rows2024.length, '| 2025:', rows2025.length, '| 2026:', rows2026.length);
+    if(rows2024[0]) console.log('[2024 cols]', Object.keys(rows2024[0]).join(', '));
+    if(rows2025[0]) console.log('[2025 cols]', Object.keys(rows2025[0]).join(', '));
+    if(rows2026[0]) console.log('[2026 cols]', Object.keys(rows2026[0]).join(', '));
+
   } catch(e){
     console.error('Erro ao carregar CSV:', e);
     ['s-paises','s-mapeados','s-semlivro','s-pct','s-novos','s-cinco'].forEach(id=>{
@@ -787,118 +800,51 @@ async function init(){
     return;
   }
 
-  // ── Log das primeiras colunas para debug (abre console F12 para ver) ────────
-  if(desafioRows.length){
-    console.log('[Desafio CSV] Colunas:', Object.keys(desafioRows[0]));
-    console.log('[Desafio CSV] Linha 1:', desafioRows[0]);
-  }
-  if(allBooks.length){
-    console.log('[Estante CSV] Colunas:', Object.keys(allBooks[0]));
-    console.log('[Estante CSV] Linha 1:', allBooks[0]);
-  }
+  // Todos os anos LPM juntos — para gráficos e stats
+  const allLPM = [...rows2024, ...rows2025, ...rows2026];
 
-  // desafioRows já foi filtrado para LPM acima; usa todos os anos para gráficos
-  desafioRows = desafioRows.filter(r=>Object.values(r).filter(v=>v&&v.trim()).length>1);
-  const allLPM = [...rows2024, ...rows2025, ...rows2026]; // todos os anos juntos
+  // ── Stats ─────────────────────────────────────────────────────────────────
+  // Países lidos: países únicos que aparecem em allLPM
+  const paisesLidos = new Set(
+    allLPM.map(r => norm(findField(r,['País','Pais']))).filter(Boolean)
+  ).size;
 
-  // ── Filtrar SOMENTE linhas marcadas como "Desafio LPM" na coluna K ──────────
-  // A coluna K é a 11ª coluna (índice 10). Pode se chamar "Desafio", "Projeto", etc.
-  // Tentamos pelo nome; se não achar, filtramos pelo valor "Desafio LPM" em qualquer col.
-  const DESAFIO_MARKER = 'desafio lpm';
-  let desafioFiltered = desafioRows.filter(r=>{
-    // Coluna exata: "Por que li?"
-    const porQueLi = r['Por que li?'] || r['Por que li'] || r['por que li?'] || r['por que li'] || '';
-    return norm(porQueLi).includes(DESAFIO_MARKER);
-  });
+  // Países com livro mapeado: do NOTION_DATA (fonte de verdade dos 209)
+  const notionMapeados  = NOTION_DATA.filter(n => n.livro && n.livro.trim()).length;
+  const notionSemLivro  = NOTION_DATA.filter(n => !n.livro || !n.livro.trim()).length;
 
-  // Se nenhuma linha passou no filtro Desafio LPM, usa todas (pode ser planilha do Notion)
-  if(desafioFiltered.length === 0){
-    console.warn('[Desafio] Nenhuma linha com "Desafio LPM" encontrada — usando todas as linhas');
-    desafioFiltered = desafioRows;
-  }
+  // Páginas lidas: soma coluna "Páginas" de todos os anos LPM
+  const totalPaginas = allLPM.reduce((sum,r) => {
+    const p = parseInt(findField(r,['Páginas','Paginas','pages'])||'0');
+    return sum + (isNaN(p) ? 0 : p);
+  }, 0);
 
-  console.log('[Desafio] Linhas após filtro:', desafioFiltered.length);
-
-  // ── Mapa da estante pelo título ───────────────────────────────────────────────
-  const bookMap={};
-  allBooks.forEach(b=>{
-    // Coluna título pode ser "Livros", "Título", "Livro", "Nome do livro"
-    const titulo = findField(b,['Livros','Título','Titulo','Livro','Title','Nome do livro']);
-    if(titulo) bookMap[norm(titulo)] = b;
-  });
-
-  // ── Detectar colunas principais ───────────────────────────────────────────────
-  const getPais = r => findField(r,['País','Pais','Country','país','país de origem']);
-  const getLivro = r => findField(r,['Livro','Livros','Título','Titulo','Book','Title','nome do livro','título do livro']);
-  const getStatus = r => findField(r,['Status','status','Lido','Situação','situacao','Andamento']);
-  const getAutor = r => findField(r,['Autor','Autora','Nome','Author','Escritor','Escritora','autor/a','nome do autor']);
-  const getGenero = r => findField(r,['Gênero','Genero','Genre','categoria','gênero literário']);
-  const getCor = r => findField(r,['Cor','cor do autor','raça','Raça','etnia','Etnia','cor/etnia']);
-  const getGA = r => findField(r,['Se identifica como...','Gênero do autor','Gênero autor','identidade de gênero','gênero (autor)']);
-  const getIdioma = r => findField(r,['Idioma','idioma original','Language','língua']);
-  const getNota = r => findField(r,['Nota','nota','Avaliação','avaliacao','Stars','estrelas','rating']);
-
-  merged = desafioFiltered.map(r=>{
-    const pais = getPais(r);
-    const livro = getLivro(r);
-    const status = getStatus(r);
-    const match = bookMap[norm(livro)] || {};
-
-    // Enriquecer com dados da estante se disponível
-    return {pais, livro, status,
-      autor:   getAutor(match)  || getAutor(r),
-      genero:  getGenero(match) || getGenero(r),
-      cor:     getCor(match)    || getCor(r),
-      ga:      getGA(match)     || getGA(r),
-      idioma:  getIdioma(match) || getIdioma(r),
-      estrelas:getNota(match)   || getNota(r),
-    };
-  }).filter(r=>r.pais); // remove linhas sem país
-
-  filteredM=[...merged];
-
-  // ── Estatísticas ──────────────────────────────────────────────────────────────
-  const lidos = merged.filter(r=>isLidoStatus(r.status));
-  const mapeados = merged.filter(r=>r.livro&&r.livro.trim());
-  const semLivro = merged.filter(r=>!r.livro||!r.livro.trim());
-  // Conta do Notion (fonte real dos 209 países)
-  const notionSemLivro = NOTION_DATA.filter(n=>!n.livro||!n.livro.trim()).length;
-  const notionMapeados = NOTION_DATA.filter(n=>n.livro&&n.livro.trim()).length;
-  const novosAutores = new Set(lidos.map(r=>norm(r.autor)).filter(Boolean)).size;
-  // Páginas lidas — soma coluna Páginas de todos os anos LPM
-  const totalPaginas = allLPM.reduce((sum,r)=>{
-    const p = parseInt(findField(r,['Páginas','paginas','pages','Paginas'])||'0');
-    return sum + (isNaN(p)?0:p);
-  },0);
-  const cincoEstrelas = allLPM.filter(r=>{
-    const n = (findField(r,['NOTA','Nota','nota','Avaliação','avaliacao','Stars'])||'').trim();
-    return n==='5'||n==='★★★★★';
+  // 5 estrelas: coluna NOTA = 5 em allLPM
+  const cincoEstrelas = allLPM.filter(r => {
+    const n = (findField(r,['NOTA','Nota','nota'])||'').trim();
+    return n === '5';
   }).length;
-  const totalPaises = 209;
-  const pctLidos = allLPM.length ? Math.round(allLPM.length/totalPaises*100)+'%' : '—';
 
-  console.log('[Stats] Total países:', merged.length, '| Lidos:', lidos.length, '| Mapeados:', mapeados.length);
+  const pct = allLPM.length ? Math.round(allLPM.length / 209 * 100) + '%' : '—';
 
-  // Países lidos = linhas únicas lidas no Excel (todos os anos, filtro LPM)
-  const paisesLidosExcel = new Set(allLPM.map(r=>norm(findField(r,['País','Pais','Country']))).filter(Boolean)).size;
-  document.getElementById('s-paises').textContent  = paisesLidosExcel || allLPM.length || '0';
+  document.getElementById('s-paises').textContent  = paisesLidos  || allLPM.length || '0';
   document.getElementById('s-mapeados').textContent = notionMapeados || '0';
   document.getElementById('s-semlivro').textContent  = notionSemLivro || '0';
-  document.getElementById('s-pct').textContent      = pctLidos;
-  document.getElementById('s-novos').textContent    = totalPaginas > 0 ? totalPaginas.toLocaleString('pt-BR') : novosAutores||'0';
-  document.getElementById('s-cinco').textContent    = cincoEstrelas  || '0';
+  document.getElementById('s-pct').textContent      = pct;
+  document.getElementById('s-novos').textContent    = totalPaginas > 0 ? totalPaginas.toLocaleString('pt-BR') : '0';
+  document.getElementById('s-cinco').textContent    = cincoEstrelas || '0';
 
-  buildCharts(lidos, allLPM);
+  buildCharts(allLPM);
   buildMap();
   buildEvolucao(rows2024, rows2025, rows2026);
-  crossExcelIntoNotion(desafioRows);
+  crossExcelIntoNotion(allLPM);
+
   const cl = document.getElementById('charts-loading');
   if(cl) cl.textContent = `Dados cruzados — ${allLPM.length} leituras LPM (2024·2025·2026)`;
-
-  // Listeners da tabela Notion já registrados inline (search-notion + pills)
 }
 
-function buildCharts(lidos, allLPM){
+function buildCharts(allLPM){
+  const lidos = allLPM; // todos já são lidos (passaram pelo filtro LPM)
   // Helper: conta campo em array de rows do Excel
   const countField = (rows, candidates) => {
     const c={};
@@ -933,12 +879,12 @@ function buildCharts(lidos, allLPM){
       options:chartPie()});
   };
 
-  // ── 1. Status países (usando merged do ano corrente) ─────────────────────────
-  const li=lidos.length;
-  const ma=merged.filter(r=>r.livro&&r.livro.trim()&&!isLidoStatus(r.status)).length;
-  const na=merged.length-li-ma;
+  // ── 1. Status países — fonte: NOTION_DATA (209 países) ──────────────────────
+  const notionLidos    = NOTION_DATA.filter(n=>n.status_notion==='Concluído').length;
+  const notionMapeados2 = NOTION_DATA.filter(n=>n.livro&&n.livro.trim()&&n.status_notion!=='Concluído').length;
+  const notionNao      = NOTION_DATA.filter(n=>!n.livro||!n.livro.trim()).length;
   new Chart(document.getElementById('c-status'),{type:'doughnut',
-    data:{labels:['Lido','Mapeado','Não mapeado'],datasets:[{data:[li,ma,na],backgroundColor:[GREEN,GREEN_LIGHT,'#ddd'],borderWidth:0}]},
+    data:{labels:['Lido','Mapeado','Sem livro'],datasets:[{data:[notionLidos,notionMapeados2,notionNao],backgroundColor:[GREEN,GREEN_LIGHT,'#ddd'],borderWidth:0}]},
     options:chartPie()});
 
   // ── 2–4. Diversidade (todos os anos LPM) ────────────────────────────────────
@@ -1035,13 +981,12 @@ function buildCharts(lidos, allLPM){
 function buildMap(){
   const map=L.map('dlm-map').setView([20,10],2);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map);
-  merged.forEach(r=>{
-    const c=COORDS[r.pais]; if(!c) return;
-    const isLido=isLidoStatus(r.status);
-    const isMapeado=r.livro&&r.livro.trim();
-    const color=isLido?GREEN:isMapeado?GREEN_LIGHT:'#bbb';
+  NOTION_DATA.forEach(n=>{
+    const c=COORDS[n.pais.replace(/\*+$/,'').trim()]; if(!c) return;
+    const sr = getStatusReal(n);
+    const color = sr==='lido' ? GREEN : n.livro ? GREEN_LIGHT : '#bbb';
     L.circleMarker(c,{radius:7,fillColor:color,color:'#fff',weight:1.5,fillOpacity:.85})
-     .addTo(map).bindPopup('<strong>'+r.pais+'</strong>'+(r.livro?'<br><em>'+r.livro+'</em>':'')+(r.autor?'<br>'+r.autor:''));
+     .addTo(map).bindPopup('<strong>'+n.pais+'</strong>'+(n.livro?'<br><em>'+n.livro+'</em>':'')+(n.autor?'<br>'+n.autor:''));
   });
 }
 
@@ -1239,25 +1184,16 @@ const NOTION_PAGE = 30;
 // ── Cruzamento em tempo real com Excel ───────────────────────────────────────
 // Quando o Excel carrega, para cada livro lido na planilha procura na lista Notion
 // e atualiza status_excel = 'lido'
-function crossExcelIntoNotion(excelRows){
+function crossExcelIntoNotion(allLPM){
+  // allLPM já está filtrado por "Desafio LPM" — todos são lidos
   const lidosTitulos = new Set();
-  excelRows.forEach(r=>{
+  allLPM.forEach(r=>{
     const titulo = findField(r,['Livros','Título','Titulo','Livro','Book','Title']);
-    const porQueLi = r['Por que li?'] || r['Por que li'] || '';
-    // Conta como lido se for Desafio LPM E status lido
-    if(norm(porQueLi).includes('desafio lpm') && isLidoStatus(findField(r,['Status','status']))){
-      if(titulo) lidosTitulos.add(norm(titulo));
-    }
+    if(titulo) lidosTitulos.add(norm(titulo));
   });
 
-  // Também considera lidos da estante
-  allBooks.forEach(r=>{
-    const titulo = findField(r,['Livros','Título','Titulo','Livro']);
-    const status = findField(r,['Status','status','Lido','Situação']);
-    if(isLidoStatus(status) && titulo) lidosTitulos.add(norm(titulo));
-  });
-
-  // Atualiza notionData com status real
+  // Atualiza notionData: se o livro aparece no Excel LPM → lido
+  // Se não, usa o status do próprio Notion
   notionData.forEach(n=>{
     if(n.livro && lidosTitulos.has(norm(n.livro))){
       n.status_real = 'lido';
