@@ -496,14 +496,8 @@ footer{
 
   <!-- Linha 6: Leituras por ano (barras agrupadas) -->
   <div class="charts-grid">
-    <div class="chart-card full">
-      <div class="chart-header"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div><span class="chart-title-small" style="margin-left:.4rem">Leituras do Desafio LPM por ano (2024 · 2025 · 2026)</span></div>
-      <div class="chart-body"><canvas id="c-anos" style="max-height:200px"></canvas></div>
-    </div>
-    <div class="chart-card full">
-      <div class="chart-header"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div><span class="chart-title-small" style="margin-left:.4rem">Primeiras vezes lendo o autor/a</span></div>
-      <div class="chart-body"><canvas id="c-novos-autores" style="max-height:160px"></canvas></div>
-    </div>
+
+
   </div>
 </div>
 
@@ -749,7 +743,9 @@ function filterLPM(rows){
     const v = r['Por que li?']||r['Por que li']||r['por que li?']||r['por que li']||'';
     return norm(v).includes('desafio lpm');
   });
-  return f.length ? f : rows; // fallback se coluna não existir
+  // SEM fallback: se nenhuma linha tem "Desafio LPM", retorna array vazio
+  // Isso evita que o 2026 puxe TODOS os livros ao invés de só os do desafio
+  return f;
 }
 
 // ── HELPERS para detectar campos pelo nome da coluna ──────────────────────────
@@ -874,12 +870,18 @@ async function init(){
     const p = parseInt(findField(r,['Páginas','paginas','pages','Paginas'])||'0');
     return sum + (isNaN(p)?0:p);
   },0);
-  const cincoEstrelas = lidos.filter(r=>{const n=(r.estrelas||'').trim();return n==='5'||n==='★★★★★';}).length;
-  const pctLidos = NOTION_DATA.length ? Math.round(NOTION_DATA.filter(n=>n.status_notion==='Concluído').length/NOTION_DATA.length*100)+'%' : '—';
+  const cincoEstrelas = allLPM.filter(r=>{
+    const n = (findField(r,['NOTA','Nota','nota','Avaliação','avaliacao','Stars'])||'').trim();
+    return n==='5'||n==='★★★★★';
+  }).length;
+  const totalPaises = 209;
+  const pctLidos = allLPM.length ? Math.round(allLPM.length/totalPaises*100)+'%' : '—';
 
   console.log('[Stats] Total países:', merged.length, '| Lidos:', lidos.length, '| Mapeados:', mapeados.length);
 
-  document.getElementById('s-paises').textContent  = NOTION_DATA.filter(n=>n.status_notion==='Concluído').length || '0';
+  // Países lidos = linhas únicas lidas no Excel (todos os anos, filtro LPM)
+  const paisesLidosExcel = new Set(allLPM.map(r=>norm(findField(r,['País','Pais','Country']))).filter(Boolean)).size;
+  document.getElementById('s-paises').textContent  = paisesLidosExcel || allLPM.length || '0';
   document.getElementById('s-mapeados').textContent = notionMapeados || '0';
   document.getElementById('s-semlivro').textContent  = notionSemLivro || '0';
   document.getElementById('s-pct').textContent      = pctLidos;
@@ -893,8 +895,7 @@ async function init(){
   const cl = document.getElementById('charts-loading');
   if(cl) cl.textContent = `Dados cruzados — ${allLPM.length} leituras LPM (2024·2025·2026)`;
 
-  document.getElementById('search').addEventListener('input',applyFilters);
-  document.getElementById('f-status').addEventListener('change',applyFilters);
+  // Listeners da tabela Notion já registrados inline (search-notion + pills)
 }
 
 function buildCharts(lidos, allLPM){
