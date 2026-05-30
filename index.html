@@ -10,224 +10,174 @@
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 <style>
 :root {
-  --orange: #849974;
-  --black: #000000;
   --white: #ffffff;
-  --gray: #f5f5f5;
-  --text-muted: #555;
-  --border: #e0e0e0;
-  --card-radius: 14px;
+  --black: #000000;
+  --green: #849974;
+  --green-dark: #6b7e5e;
+  --border: #c8c8c8;
+  --text: #1a1a1a;
+  --muted: #555;
+  --bg: #ffffff;
 }
-*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-body { background: var(--white); color: var(--black); font-family: 'DM Sans', sans-serif; font-weight: 300; }
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--white);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:400;}
 
 /* ── NAV ── */
-nav {
-  position: sticky; top: 0; z-index: 100;
-  background: var(--white);
-  border-bottom: 3px solid var(--orange);
-  padding: 0 2.5rem;
-  display: flex; align-items: center; justify-content: space-between;
-  height: 52px;
+nav{
+  position:sticky;top:0;z-index:100;background:var(--white);
+  padding:0 2rem;display:flex;align-items:center;height:52px;
+  border-bottom: 1.5px solid #c5c5a0;
 }
-.nav-logo {
-  display: flex; gap: 6px; align-items: center;
+.nav-logo{display:flex;gap:6px;align-items:center;}
+.nav-dot{width:11px;height:11px;border-radius:50%;background:var(--black);}
+nav ul{list-style:none;display:flex;gap:2rem;margin-left:auto;align-items:center;}
+nav ul li a{color:var(--black);text-decoration:none;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;transition:color .2s;font-weight:400;}
+nav ul li a:hover{color:var(--green);}
+nav ul li a.active{
+  background:var(--green);color:var(--white);
+  padding:.28rem .7rem;border-radius:3px;
 }
-.nav-logo span {
-  width: 10px; height: 10px; border-radius: 50%; background: var(--black);
-}
-.nav-logo span:nth-child(2) { background: var(--orange); }
-nav ul { list-style: none; display: flex; gap: 0; align-items: center; }
-nav ul li a {
-  display: inline-block;
-  padding: .28rem .75rem;
-  font-size: .78rem; font-weight: 500;
-  letter-spacing: .1em; text-transform: uppercase;
-  text-decoration: none; color: var(--black);
-  transition: color .2s;
-  border-radius: 3px;
-}
-nav ul li a:hover { color: var(--orange); background: transparent; }
-nav ul li a.active { background: var(--orange); color: var(--white); font-weight: 700; }
-.nav-hamburger { display:none; background:none; border:none; font-size:1.4rem; cursor:pointer; }
+.nav-hamburger{display:none;background:none;border:none;color:var(--black);font-size:1.4rem;cursor:pointer;margin-left:auto;}
 
-/* ── HERO CARD ── */
-.hero-wrap { max-width: 1100px; margin: 3rem auto; padding: 0 2rem; }
-.hero-card {
-  border: 2px solid var(--black);
-  border-radius: var(--card-radius);
-  padding: 2.5rem 3rem;
-  position: relative;
+/* ── WINDOW CARD ── */
+.window-card{
+  background:var(--white);
+  border:1.5px solid #b0b090;
+  border-radius:16px;
+  overflow:hidden;
 }
-.hero-card .dots { display: flex; gap: 6px; margin-bottom: 1.5rem; }
-.hero-card .dots span { width: 10px; height: 10px; border-radius: 50%; background: var(--orange); }
-.hero-title-wrap {
-  background: var(--orange);
-  display: inline-block;
-  padding: .2rem .5rem;
-  margin-bottom: 1.5rem;
-  border-radius: 3px;
+.window-bar{
+  padding:.55rem 1rem;
+  display:flex;align-items:center;gap:6px;
+  border-bottom:1px solid #ddd;
 }
-.hero-title {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(2rem, 4.5vw, 3.2rem);
-  font-style: italic;
-  line-height: 1.1;
-  color: var(--black);
+.win-dot{width:9px;height:9px;border-radius:50%;background:#bbb;}
+
+/* ── HERO ── */
+.hero-section{
+  max-width:1100px;margin:3rem auto 2rem;padding:0 2rem;
 }
-.hero-body { max-width: 900px; }
-.hero-body p {
-  font-size: .97rem; line-height: 1.85; color: #1a1a1a;
-  margin-bottom: 1rem;
+.hero-card{padding:2.5rem 2.5rem 0;}
+.hero-title-bg{
+  background:var(--green);
+  display:inline-block;
+  padding:.3rem .7rem;
+  margin-bottom:1.2rem;
 }
-.hero-body p:last-child { margin-bottom: 0; }
-.hero-footer {
-  margin-top: 2rem;
-  padding-top: 1.2rem;
-  border-top: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: space-between;
+.hero-title-bg h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2rem,4vw,3rem);
+  font-weight:400;
+  font-style:italic;
+  color:var(--white);
+  line-height:1.1;
 }
-.hero-footer-meta { font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; color: var(--text-muted); line-height: 1.8; }
-.hero-footer-meta strong { color: var(--black); }
-.hero-footer-arrow {
-  font-size: 1.4rem; color: var(--black);
-  text-decoration: none; transition: transform .2s;
+.hero-card p{
+  font-size:.95rem;line-height:1.85;color:var(--text);
+  max-width:900px;margin-bottom:.9rem;
 }
-.hero-footer-arrow:hover { transform: translateX(4px); }
+.hero-divider{
+  margin-top:2rem;
+  border-top:1px solid #ccc;
+  padding:1rem 2.5rem;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.hero-tagline{
+  font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);line-height:1.9;
+}
+.hero-tagline strong{color:var(--black);}
+.hero-arrow{font-size:1.1rem;color:var(--black);text-decoration:none;transition:transform .2s;display:inline-block;}
+.hero-arrow:hover{transform:translateX(4px);}
 
 /* ── STATS BAR ── */
-.stats-bar {
-  background: var(--white);
-  max-width: 1100px; margin: 1rem auto 0; padding: 0 2rem;
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 1rem;
+.stats-bar{
+  max-width:1100px;margin:0 auto 3rem;padding:0 2rem;
+  display:grid;grid-template-columns:repeat(6,1fr);gap:.8rem;
 }
-.stat-box {
-  background: var(--orange);
-  border-radius: var(--card-radius);
-  padding: 1.4rem 1rem;
-  text-align: center;
-  box-shadow: 3px 3px 0 var(--black);
+.stat-card{
+  background:var(--green);
+  border:1.5px solid #6b7e5e;
+  border-radius:12px;
+  padding:1.2rem .8rem;
+  text-align:center;
+  display:flex;flex-direction:column;align-items:center;gap:.4rem;
 }
-.stat-number {
-  font-family: 'Playfair Display', serif;
-  font-size: 2rem; font-weight: 700;
-  color: var(--black); display: block; line-height: 1;
+.stat-num{
+  font-family:'Playfair Display',serif;
+  font-size:2rem;font-weight:400;color:var(--white);line-height:1;
 }
-.stat-label {
-  font-size: .68rem; font-weight: 500;
-  letter-spacing: .07em; text-transform: uppercase;
-  color: var(--black); margin-top: .4rem; display: block;
-}
+.stat-lbl{font-size:.68rem;letter-spacing:.06em;text-transform:capitalize;color:rgba(255,255,255,.85);}
 
 /* ── SECTION ── */
-.section { max-width: 1100px; margin: 4rem auto; padding: 0 2rem; }
-.section-header {
-  display: flex; align-items: baseline; gap: 1rem;
-  margin-bottom: 2rem;
-  border-bottom: 1px solid var(--border); padding-bottom: .7rem;
+.page-section{max-width:1100px;margin:0 auto;padding:0 2rem 3.5rem;}
+.section-header{
+  display:flex;align-items:baseline;gap:1.2rem;
+  margin-bottom:1.8rem;border-bottom:1px solid #ccc;padding-bottom:.7rem;
 }
-.section-header h2 {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.5rem;
-  background: var(--orange);
-  padding: .1rem .5rem;
-  border-radius: 3px;
+.section-header .sh-label{
+  background:var(--green);padding:.2rem .7rem;
+  font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:400;color:var(--white);
 }
-.section-header span {
-  font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
-  color: var(--text-muted);
+.section-header .sh-sub{
+  font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
 }
 
 /* ── VITRINE CARDS ── */
-.vitrine-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.2rem;
+.posts-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;}
+.post-card{
+  background:var(--white);border:1.5px solid #b0b090;
+  border-radius:14px;overflow:hidden;text-decoration:none;color:inherit;
+  display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s;
 }
-.vitrine-card {
-  border: 2px solid var(--black);
-  border-radius: var(--card-radius);
-  padding: 1.8rem;
-  text-decoration: none; color: inherit;
-  display: flex; flex-direction: column; gap: .9rem;
-  transition: transform .2s, box-shadow .2s;
-  background: var(--white);
+.post-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.08);}
+.post-card.wide{grid-column:span 2;}
+.post-winbar{padding:.45rem .9rem;display:flex;align-items:center;gap:5px;border-bottom:1px solid #e0e0e0;}
+.post-body{padding:1.3rem 1.3rem 1rem;flex:1;display:flex;flex-direction:column;gap:.6rem;}
+.post-title-bg{background:var(--green);display:inline-block;padding:.15rem .45rem;}
+.post-title-bg h3{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:400;font-style:italic;color:var(--white);}
+.post-desc{font-size:.86rem;line-height:1.6;color:var(--muted);flex:1;}
+.post-footer-row{
+  border-top:1px solid #e0e0e0;padding:.7rem 1.3rem;
+  display:flex;align-items:center;justify-content:space-between;
 }
-.vitrine-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 4px 4px 0 var(--black);
-}
-.vitrine-card .dots { display: flex; gap: 5px; }
-.vitrine-card .dots span { width: 9px; height: 9px; border-radius: 50%; background: var(--orange); }
-.vitrine-card-title-wrap {
-  background: var(--orange);
-  display: inline-block;
-  padding: .1rem .45rem;
-  border-radius: 3px;
-  align-self: flex-start;
-}
-.vitrine-card-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.45rem;
-  font-style: italic;
-  color: var(--black);
-}
-.vitrine-card-desc {
-  font-size: .85rem; color: var(--text-muted);
-  line-height: 1.65; flex: 1;
-}
-.vitrine-card-footer {
-  margin-top: .5rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: space-between;
-}
-.vitrine-card-tag {
-  font-size: .72rem; letter-spacing: .1em; text-transform: uppercase;
-  color: var(--text-muted);
-}
-.vitrine-card-arrow { font-size: 1.2rem; color: var(--black); }
-
-/* desafio card — spans 2 cols */
-.vitrine-card.wide {
-  grid-column: span 2;
-}
+.post-tag{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+.post-arrow{font-size:1rem;color:var(--black);}
 
 /* ── FOOTER ── */
-footer {
-  background: var(--orange);
-  padding: 1.8rem 2.5rem;
-  display: flex; align-items: center; gap: 1.5rem;
+footer{
+  background:var(--green);padding:1.2rem 2rem;
+  display:flex;align-items:center;gap:1rem;
 }
-.footer-dots { display: flex; gap: 6px; }
-.footer-dots span { width: 10px; height: 10px; border-radius: 50%; background: var(--black); }
-footer p {
-  font-size: .72rem; letter-spacing: .06em; text-transform: uppercase;
-  color: var(--black); flex: 1;
+.footer-dots{display:flex;gap:6px;}
+.footer-dot{width:11px;height:11px;border-radius:50%;background:rgba(255,255,255,.7);}
+.footer-text{
+  font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(255,255,255,.8);
 }
 
-/* ── MOBILE ── */
-@media(max-width: 800px) {
-  .stats-bar { grid-template-columns: repeat(2, 1fr); }
-  .vitrine-grid { grid-template-columns: 1fr; }
-  .vitrine-card.wide { grid-column: span 1; }
-  nav ul { display:none; position:absolute; top:52px; left:0; right:0;
-    background:var(--white); flex-direction:column; padding:1rem 2rem; gap:.5rem;
-    border-bottom: 2px solid var(--orange); }
-  nav ul.open { display:flex; }
-  .nav-hamburger { display:block; }
-  .hero-card { padding: 1.5rem; }
-  .stats-bar { padding: 0 1rem; }
+@media(max-width:900px){
+  .stats-bar{grid-template-columns:repeat(3,1fr);}
+  .posts-grid{grid-template-columns:1fr 1fr;}
+  .post-card.wide{grid-column:span 2;}
+}
+@media(max-width:600px){
+  .stats-bar{grid-template-columns:repeat(2,1fr);}
+  .posts-grid{grid-template-columns:1fr;}
+  .post-card.wide{grid-column:span 1;}
+  nav ul{display:none;position:absolute;top:52px;left:0;right:0;background:var(--white);flex-direction:column;padding:1rem 2rem;gap:1rem;border-bottom:1px solid #ccc;}
+  nav ul.open{display:flex;}
+  .nav-hamburger{display:block;}
 }
 </style>
 </head>
 <body>
 
+<!-- NAV -->
 <nav>
   <div class="nav-logo">
-    <span></span><span></span><span></span>
+    <div class="nav-dot"></div>
+    <div class="nav-dot"></div>
+    <div class="nav-dot"></div>
   </div>
   <ul id="nav-menu">
     <li><a href="index.html" data-page="index" class="active">Início</a></li>
@@ -241,172 +191,144 @@ footer p {
 </nav>
 
 <!-- HERO -->
-<div class="hero-wrap">
-  <div class="hero-card">
-    <div class="dots"><span></span><span></span><span></span></div>
-    <div class="hero-title-wrap">
-      <h1 class="hero-title">O que tem na estante da louise</h1>
+<div class="hero-section">
+  <div class="window-card">
+    <div class="window-bar">
+      <div class="win-dot"></div>
+      <div class="win-dot"></div>
+      <div class="win-dot"></div>
     </div>
-    <div class="hero-body">
+    <div class="hero-card">
+      <div class="hero-title-bg">
+        <h1>O que tem na estante da Louise</h1>
+      </div>
       <p>Um passeio completo pela minha estante, histórico mais antigo que possuo da minha vida literária, as leituras deste ano e o desafio literário que me propus!</p>
       <p>Eu, que fui uma criança e pré-adolescente apaixonada por livros, reduzi meu consumo durante a faculdade, mas na pandemia da Covid em 2020 voltei ao mundo dos livros com força total. Nesse momento também descobri a bolha dos criadores de conteúdo literários e a grande maravilha que é a atividade de catalogação de livros.</p>
       <p>Eu tenho duas planilhas de Excel e um Notion exclusivo para a minha catalogação, sem contar layout e textos no notion sobre meu projeto literário. Tendo tantos dados assim, porque não compartilhar!</p>
     </div>
-    <div class="hero-footer">
-      <div class="hero-footer-meta">
+    <div class="hero-divider">
+      <div class="hero-tagline">
         <div>por <strong>LOUISE VICTORIA</strong> · <span id="data-atualizacao">atualizado em 29 de maio de 2026</span></div>
         <div>BASE DE DADOS DA QUASE BIBLIOTECA PESSOAL LV</div>
       </div>
-      <a href="sobre.html" class="hero-footer-arrow">→</a>
+      <a href="sobre.html" class="hero-arrow">→</a>
     </div>
   </div>
 </div>
 
 <!-- STATS -->
 <div class="stats-bar">
-  <div class="stat-box"><span class="stat-number" id="s-total">—</span><span class="stat-label">Livros na estante</span></div>
-  <div class="stat-box"><span class="stat-number" id="s-lidos">—</span><span class="stat-label">Lidos</span></div>
-  <div class="stat-box"><span class="stat-number" id="s-paginas">—</span><span class="stat-label">Páginas lidas</span></div>
-  <div class="stat-box"><span class="stat-number" id="s-autores">—</span><span class="stat-label">Autores únicos</span></div>
-  <div class="stat-box"><span class="stat-number" id="s-paises">—</span><span class="stat-label">Países</span></div>
-  <div class="stat-box"><span class="stat-number" id="s-anos">—</span><span class="stat-label">Anos de registro</span></div>
+  <div class="stat-card"><span class="stat-num" id="s-total">—</span><span class="stat-lbl">Livros na estante</span></div>
+  <div class="stat-card"><span class="stat-num" id="s-lidos">—</span><span class="stat-lbl">Lidos</span></div>
+  <div class="stat-card"><span class="stat-num" id="s-paginas">—</span><span class="stat-lbl">Páginas lidas</span></div>
+  <div class="stat-card"><span class="stat-num" id="s-autores">—</span><span class="stat-lbl">Autores únicos</span></div>
+  <div class="stat-card"><span class="stat-num" id="s-paises">—</span><span class="stat-lbl">Países</span></div>
+  <div class="stat-card"><span class="stat-num" id="s-idiomas">—</span><span class="stat-lbl">Idiomas</span></div>
 </div>
 
 <!-- VITRINE -->
-<div class="section">
+<div class="page-section">
   <div class="section-header">
-    <h2>Navegue pelo site</h2>
-    <span>Páginas</span>
+    <span class="sh-label">Navegue pelo site</span>
+    <span class="sh-sub">Páginas</span>
   </div>
-  <div class="vitrine-grid">
+  <div class="posts-grid">
 
-    <a href="2026.html" class="vitrine-card">
-      <div class="dots"><span></span><span></span><span></span></div>
-      <div class="vitrine-card-title-wrap">
-        <div class="vitrine-card-title">Leituras de 2026</div>
+    <a href="2026.html" class="post-card">
+      <div class="post-winbar">
+        <div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div>
       </div>
-      <p class="vitrine-card-desc">Progresso da meta anual e os dados específicos dos livros lidos este ano.</p>
-      <div class="vitrine-card-footer">
-        <span class="vitrine-card-tag">Ano atual</span>
-        <span class="vitrine-card-arrow">→</span>
+      <div class="post-body">
+        <div class="post-title-bg"><h3>Leituras de 2026</h3></div>
+        <p class="post-desc">Progresso da meta anual e os dados específicos dos livros lidos este ano.</p>
+      </div>
+      <div class="post-footer-row">
+        <span class="post-tag">Ano atual</span>
+        <span class="post-arrow">→</span>
       </div>
     </a>
 
-    <a href="estante.html" class="vitrine-card">
-      <div class="dots"><span></span><span></span><span></span></div>
-      <div class="vitrine-card-title-wrap">
-        <div class="vitrine-card-title">Livros na Estante</div>
+    <a href="estante.html" class="post-card">
+      <div class="post-winbar">
+        <div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div>
       </div>
-      <p class="vitrine-card-desc">Todos os livros catalogados desde 2020, com gráficos e filtros detalhados.</p>
-      <div class="vitrine-card-footer">
-        <span class="vitrine-card-tag">Estante completa</span>
-        <span class="vitrine-card-arrow">→</span>
+      <div class="post-body">
+        <div class="post-title-bg"><h3>Livros na Estante</h3></div>
+        <p class="post-desc">Todos os livros catalogados desde 2020, com gráficos e filtros detalhados.</p>
       </div>
-    </a>
-
-    <a href="historico.html" class="vitrine-card">
-      <div class="dots"><span></span><span></span><span></span></div>
-      <div class="vitrine-card-title-wrap">
-        <div class="vitrine-card-title">Vida de Leitora</div>
-      </div>
-      <p class="vitrine-card-desc">Histórico de leituras com evolução ano a ano, gráficos gerais e filtro por ano específico.</p>
-      <div class="vitrine-card-footer">
-        <span class="vitrine-card-tag">2020 → 2026</span>
-        <span class="vitrine-card-arrow">→</span>
+      <div class="post-footer-row">
+        <span class="post-tag">Estante completa</span>
+        <span class="post-arrow">→</span>
       </div>
     </a>
 
-    <a href="desafio.html" class="vitrine-card wide">
-      <div class="dots"><span></span><span></span><span></span></div>
-      <div class="vitrine-card-title-wrap">
-        <div class="vitrine-card-title">Desafio Livros pelo Mundo</div>
+    <a href="historico.html" class="post-card">
+      <div class="post-winbar">
+        <div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div>
       </div>
-      <p class="vitrine-card-desc">Uma viagem rumo à diversidade: ler ao menos um livro de cada país do mundo. Cada leitura é um passo para ampliar perspectivas e conhecer histórias fora de um eixo automático.</p>
-      <div class="vitrine-card-footer">
-        <span class="vitrine-card-tag">Um livro para cada país</span>
-        <span class="vitrine-card-arrow">→</span>
+      <div class="post-body">
+        <div class="post-title-bg"><h3>Vida de Leitora</h3></div>
+        <p class="post-desc">Histórico de leituras com evolução ano a ano, gráficos gerais e filtro por ano específico.</p>
+      </div>
+      <div class="post-footer-row">
+        <span class="post-tag">2020 → 2026</span>
+        <span class="post-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="desafio.html" class="post-card wide">
+      <div class="post-winbar">
+        <div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div>
+      </div>
+      <div class="post-body">
+        <div class="post-title-bg"><h3>Desafio Livros pelo Mundo</h3></div>
+        <p class="post-desc">Uma viagem rumo à diversidade: ler ao menos um livro de cada país do mundo. Cada leitura é um passo para ampliar perspectivas e conhecer histórias fora de um eixo automático.</p>
+      </div>
+      <div class="post-footer-row">
+        <span class="post-tag">Um livro para cada país</span>
+        <span class="post-arrow">→</span>
       </div>
     </a>
 
   </div>
 </div>
 
+<!-- FOOTER -->
 <footer>
-  <div class="footer-dots"><span></span><span></span><span></span></div>
-  <p>O QUE TEM NA ESTANTE DA LOUISE &nbsp;|&nbsp; LOUISE VICTORIA &nbsp;|&nbsp; © 2026 &nbsp;|&nbsp; DADOS VIA GOOGLE SHEETS · MAPA VIA LEAFLET · GRÁFICOS VIA CHART.JS</p>
+  <div class="footer-dots">
+    <div class="footer-dot"></div>
+    <div class="footer-dot"></div>
+    <div class="footer-dot"></div>
+  </div>
+  <span class="footer-text">O QUE TEM NA ESTANTE DA LOUISE &nbsp;|&nbsp; LOUISE VICTORIA &nbsp;|&nbsp; © 2026 &nbsp;|&nbsp; DADOS VIA GOOGLE SHEETS · GRÁFICOS VIA CHART.JS</span>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 <script>
-// Planilha estante — aba de resumo/stats (gid=96920357)
-const CSV_STATS   = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQWGv70Tc2vz-YUKxwU_0_H8F7UuHom1tCJQlE2Tfi8AMNem2c5X3WSs6z4CPjoTb2AaFKmJ8bihlPV/pub?gid=96920357&single=true&output=csv';
-// Planilha 2026 — aba com anos de registro (gid=1413764044)
-const CSV_ANOS    = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub?gid=1413764044&single=true&output=csv';
-
-function norm(s){ return (s||'').trim().toLowerCase(); }
+const CSV_VISAO_GERAL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQWGv70Tc2vz-YUKxwU_0_H8F7UuHom1tCJQlE2Tfi8AMNem2c5X3WSs6z4CPjoTb2AaFKmJ8bihlPV/pub?gid=96920357&single=true&output=csv';
 
 function fetchCSV(url){
   return new Promise((res,rej)=>{
-    Papa.parse(url,{download:true,header:true,skipEmptyLines:true,
-      complete:r=>res(r.data), error:rej});
+    Papa.parse(url, { download:true, header:false, skipEmptyLines:true,
+      complete: r => res(r.data), error: rej });
   });
 }
 
-// Procura valor numa linha da planilha de stats pelo label na 1ª coluna
-function findStat(rows, labelFragment) {
-  const row = rows.find(r => {
-    const firstVal = Object.values(r)[0] || '';
-    return norm(firstVal).includes(norm(labelFragment));
-  });
-  if (!row) return null;
-  const vals = Object.values(row);
-  return vals[1] || vals[0] || null;
+function getStat(rows, label) {
+  const row = rows.find(r => (r[0]||'').trim().toLowerCase() === label.toLowerCase());
+  return row ? (row[1]||'').trim() : '—';
 }
 
 async function init(){
   try {
-    const [statsRows, anosRows] = await Promise.all([
-      fetchCSV(CSV_STATS),
-      fetchCSV(CSV_ANOS)
-    ]);
-
-    // Debug: log das colunas disponíveis
-    console.log('Stats rows (primeiras):', statsRows.slice(0,5));
-    console.log('Anos rows (primeiras):', anosRows.slice(0,5));
-
-    // Tenta achar os valores por label ou por posição
-    // A planilha de stats pode ter formato "Label | Valor"
-    function getVal(rows, labels) {
-      for (const label of labels) {
-        const v = findStat(rows, label);
-        if (v !== null && v !== undefined && v !== '') return v;
-      }
-      return '—';
-    }
-
-    const total   = getVal(statsRows, ['total','estante','livros na estante','total de livros']);
-    const lidos   = getVal(statsRows, ['lidos','lido']);
-    const paginas = getVal(statsRows, ['página','pagina','pages']);
-    const autores = getVal(statsRows, ['autor','autores']);
-    const paises  = getVal(statsRows, ['país','pais','países','paises']);
-
-    document.getElementById('s-total').textContent   = total;
-    document.getElementById('s-lidos').textContent   = lidos;
-    document.getElementById('s-paginas').textContent = paginas;
-    document.getElementById('s-autores').textContent = autores;
-    document.getElementById('s-paises').textContent  = paises;
-
-    // Anos de registro: pega o valor da planilha de anos
-    const anos = getVal(anosRows, ['ano','anos','registro','years']);
-    // Se não achar por label, tenta contar linhas únicas de ano
-    if (anos === '—') {
-      // Tenta contar anos distintos na 1ª coluna
-      const anosSet = new Set(anosRows.map(r => Object.values(r)[0]).filter(v => v && !isNaN(v)));
-      document.getElementById('s-anos').textContent = anosSet.size > 0 ? anosSet.size : '—';
-    } else {
-      document.getElementById('s-anos').textContent = anos;
-    }
-
+    const rows = await fetchCSV(CSV_VISAO_GERAL);
+    console.log('Linhas do CSV:', rows.slice(0, 12).map(r => r[0] + ' → ' + r[1]));
+    document.getElementById('s-total').textContent   = getStat(rows, 'Livros na estante');
+    document.getElementById('s-lidos').textContent   = getStat(rows, 'Lidos');
+    document.getElementById('s-paginas').textContent = getStat(rows, 'Páginas lidas');
+    document.getElementById('s-autores').textContent = getStat(rows, 'Autores únicos');
+    document.getElementById('s-paises').textContent  = getStat(rows, 'Países');
+    document.getElementById('s-idiomas').textContent = getStat(rows, 'Idiomas');
   } catch(e) {
     console.error('Erro ao carregar dados:', e);
   }
