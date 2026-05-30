@@ -30,6 +30,8 @@ nav ul{list-style:none;display:flex;gap:.3rem;margin-left:auto;align-items:cente
 nav ul a{color:var(--black);text-decoration:none;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:500;padding:.3rem .6rem;transition:all .15s;}
 nav ul a.active{background:var(--green);color:var(--white);padding:.3rem .7rem;}
 .nav-year{font-size:.72rem;letter-spacing:.1em;font-weight:600;color:var(--black);}
+.nav-year-link{font-size:.72rem!important;letter-spacing:.1em!important;font-weight:700!important;color:var(--black)!important;padding:.3rem .6rem!important;}
+.nav-year-link:hover{color:var(--green)!important;}
 
 .intro-section{padding:2.5rem 2rem 0;max-width:1200px;margin:0 auto;}
 .card-window{border:1.5px solid var(--border);border-radius:12px;background:var(--white);overflow:hidden;box-shadow:2px 2px 0 #c8c8c8;}
@@ -43,27 +45,25 @@ nav ul a.active{background:var(--green);color:var(--white);padding:.3rem .7rem;}
 
 .stats-row{
   display:grid;grid-template-columns:repeat(6,1fr);
-  max-width:1200px;margin:1.5rem auto 0;padding:0 2rem;gap:1rem;
+  max-width:1200px;margin:1.5rem auto 0;padding:0 2rem;gap:.8rem;
 }
 .stat-box{
-  background:var(--green);
-  border-radius:12px;
-  padding:1.6rem 1rem 1.4rem;
+  background:#849974;
+  border-radius:10px;
+  padding:1.4rem .8rem 1.2rem;
   text-align:center;
-  border:2px solid var(--green-dark);
-  box-shadow:3px 3px 0 var(--green-dark);
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  min-height:110px;
+  min-height:100px;
 }
 .stat-number{
-  font-size:2.2rem;font-weight:900;color:var(--white);
+  font-size:2rem;font-weight:900;color:var(--black);
   display:block;line-height:1;letter-spacing:-.02em;
   font-family:'Montserrat',sans-serif;
 }
 .stat-label{
-  font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;
-  color:rgba(255,255,255,.88);margin-top:.5rem;display:block;
-  font-weight:600;line-height:1.3;
+  font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--black);margin-top:.45rem;display:block;
+  font-weight:700;line-height:1.3;
 }
 
 .page-section{max-width:1200px;margin:0 auto;padding:2.5rem 2rem 0;}
@@ -131,7 +131,7 @@ footer span{font-size:.68rem;letter-spacing:.08em;color:rgba(255,255,255,.85);te
   </div>
   <ul>
     <li><a href="index.html" data-page="index">Início</a></li>
-    <li><span class="nav-year">2026</span></li>
+    <li><a href="2026.html" data-page="2026" class="nav-year-link">2026</a></li>
     <li><a href="estante.html" data-page="estante">Estante</a></li>
     <li><a href="historico.html" data-page="historico">Histórico</a></li>
     <li><a href="desafio.html" data-page="desafio">Desafio</a></li>
@@ -214,7 +214,7 @@ footer span{font-size:.68rem;letter-spacing:.08em;color:rgba(255,255,255,.85);te
     <!-- Avaliações full width -->
     <div class="chart-card full">
       <div class="chart-card-dots"><div class="chart-card-dot"></div><div class="chart-card-dot"></div><div class="chart-card-dot"></div></div>
-      <div class="chart-title">Avaliações (⭐ dos lidos) — ⭐⭐⭐⭐⭐+❤️ = Favorito</div>
+      <div class="chart-title">Avaliações (⭐ dos lidos)</div>
       <div class="chart-wrap h200" style="height:200px;"><canvas id="c-estrelas"></canvas></div>
     </div>
     <!-- Diversidade full width -->
@@ -370,6 +370,7 @@ function topN(obj,n){
 function barOpts(horizontal=false){
   return {
     maintainAspectRatio:false,
+    layout:{padding:{top:24, right: horizontal ? 28 : 4, bottom:4, left:4}},
     plugins:{
       legend:{display:false},
       datalabels:{
@@ -383,10 +384,8 @@ function barOpts(horizontal=false){
       }
     },
     scales:{
-      x:{grid:{color:'#f0f0f0'},ticks:{font:{family:'Montserrat',size:10},color:'#777'},
-         ...(horizontal ? {} : {})},
-      y:{grid:{color:'#f0f0f0'},ticks:{font:{family:'Montserrat',size:10},color:'#777'},
-         beginAtZero:true},
+      x:{grid:{color:'#f0f0f0'},ticks:{font:{family:'Montserrat',size:10},color:'#777'}},
+      y:{grid:{color:'#f0f0f0'},ticks:{font:{family:'Montserrat',size:10},color:'#777'},beginAtZero:true},
     },
     ...(horizontal ? {indexAxis:'y'} : {})
   };
