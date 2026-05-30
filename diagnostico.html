@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Diagnóstico — historico.html</title>
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: monospace; font-size: 13px; background: #0d1117; color: #c9d1d9; padding: 20px; }
+h1 { color: #58a6ff; margin-bottom: 20px; font-size: 18px; }
+h2 { color: #f0883e; margin: 20px 0 8px; font-size: 14px; }
+.step { background: #161b22; border: 1px solid #30363d; border-radius: 6px; padding: 14px; margin-bottom: 12px; }
+.step-title { color: #79c0ff; font-weight: bold; margin-bottom: 8px; font-size: 13px; }
+.ok   { color: #56d364; }
+.err  { color: #f85149; }
+.warn { color: #e3b341; }
+.info { color: #79c0ff; }
+.data { background: #0d1117; border: 1px solid #21262d; border-radius: 4px; padding: 8px; margin-top: 8px; overflow-x: auto; white-space: pre-wrap; word-break: break-all; max-height: 300px; overflow-y: auto; font-size: 11px; }
+button { background: #238636; color: #fff; border: none; border-radius: 6px; padding: 10px 20px; cursor: pointer; font-size: 14px; margin-bottom: 20px; }
+button:hover { background: #2ea043; }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 11px; margin-left: 6px; }
+.badge-ok   { background: #1f4e2b; color: #56d364; }
+.badge-err  { background: #4e1f1f; color: #f85149; }
+.badge-warn { background: #4e3d1f; color: #e3b341; }
+</style>
+</head>
+<body>
+<h1>🔬 Diagnóstico Técnico — historico.html</h1>
+<button onclick="runDiag()">▶ Executar Diagnóstico Completo</button>
+<div id="log"></div>
+
+<script>
+const SHEET = '2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK';
+const GID_VISAO  = '700848757';
+const GID_RESUMO = '1413764044';
+
+// Todos os proxies a testar
+const PROXIES = [
+  { name: 'allorigins /raw',   fn: u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}` },
+  { name: 'allorigins /get',   fn: u => `https://api.allorigins.win/get?url=${encodeURIComponent(u)}`, json: true },
+  { name: 'corsproxy.io',      fn: u => `https://corsproxy.io/?url=${encodeURIComponent(u)}` },
+  { name: 'direto (sem proxy)',fn: u => u },
+];
+
+const URLS = {
+  visao_geral: `https://docs.google.com/spreadsheets/d/e/${SHEET}/pub?gid=${GID_VISAO}&single=true&output=csv`,
+  resumo:      `https://docs.google.com/spreadsheets/d/e/${SHEET}/pub?gid=${GID_RESUMO}&single=true&output=csv`,
+};
+
+const log = document.getElementById('log');
+function step(title) {
+  const d = document.createElement('div');
+  d.className = 'step';
+  d.innerHTML = `<div class="step-title">${title}</div>`;
+  log.appendChild(d);
+  return {
+    add(html) { d.innerHTML += html; },
+    ok(msg)   { d.innerHTML += `<div class="ok">✓ ${msg}</div>`; },
+    err(msg)  { d.innerHTML += `<div class="err">✗ ${msg}</div>`; },
+    warn(msg) { d.innerHTML += `<div class="warn">⚠ ${msg}</div>`; },
+    info(msg) { d.innerHTML += `<div class="info">ℹ ${msg}</div>`; },
+    data(content) { d.innerHTML += `<div class="data">${String(content).replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>`; },
+  };
+}
+
+async function tryFetch(proxyFn, url, isJson) {
+  const finalUrl = proxyFn(url);
+  const r = await fetch(finalUrl, { signal: (()=>{ const c=new AbortController(); setTimeout(()=>c.abort(),8000); return c.signal; })() });
+  if (!r.ok) throw new Error(`HTTP ${r.status}`);
+  if (isJson) {
+    const j = await r.json();
+    return j.contents || '';
+  }
+  return await r.text();
+}
+
+function parseCSV(text) {
+  const clean = text.replace(/^\uFEFF/, '').trim();
+  if (!clean) return { data: [], meta: { fields: [] } };
+  return Papa.parse(clean, { header: true, skipEmptyLines: true, dynamicTyping: false });
+}
+
+async function runDiag() {
+  log.innerHTML = '';
+
+  // ── STEP 1: Testar todos os proxies com GID visão geral ─────────────────
+  const s1 = step('STEP 1 — Testando proxies para GID_VISAO (700848757)');
+  let workingProxy = null, workingText = null;
+
+  for (const p of PROXIES) {
+    try {
+      const text = await tryFetch(p.fn, URLS.visao_geral, p.json);
+      const preview = text.slice(0, 200);
+      if (text.includes(',') && text.length > 50) {
+        s1.ok(`${p.name} → <span class="badge badge-ok">OK</span> (${text.length} bytes)`);
+        s1.data(`Primeiros 300 chars:\n${text.slice(0,300)}`);
+        if (!workingProxy) { workingProxy = p; workingText = text; }
+      } else {
+        s1.warn(`${p.name} → retornou conteúdo suspeito (${text.length} bytes)`);
+        s1.data(`Conteúdo: ${preview}`);
+      }
+    } catch(e) {
+      s1.err(`${p.name} → FALHOU: ${e.message}`);
+    }
+  }
+
+  if (!workingProxy) {
+    s1.err('NENHUM PROXY FUNCIONOU para GID_VISAO. CORS é o problema raiz.');
+    return;
+  }
+
+  // ── STEP 2: Analisar estrutura do CSV visão geral ───────────────────────
+  const s2 = step('STEP 2 — Estrutura do CSV: GID_VISAO (visão geral)');
+  const parsed1 = parseCSV(workingText);
+  s2.info(`Total linhas parseadas: ${parsed1.data.length}`);
+  s2.info(`Colunas detectadas: ${parsed1.meta.fields?.length ?? 0}`);
+  if (parsed1.meta.fields?.length) {
+    s2.data('Colunas:\n' + JSON.stringify(parsed1.meta.fields, null, 2));
+  }
+  if (parsed1.data.length > 0) {
+    s2.data('Linha 1:\n' + JSON.stringify(parsed1.data[0], null, 2));
+    if (parsed1.data.length > 1) s2.data('Linha 2:\n' + JSON.stringify(parsed1.data[1], null, 2));
+    if (parsed1.data.length > 7) s2.data('Linha 8:\n' + JSON.stringify(parsed1.data[7], null, 2));
+  }
+
+  // ── STEP 3: Testar GID_RESUMO ───────────────────────────────────────────
+  const s3 = step('STEP 3 — Buscando GID_RESUMO (1413764044) com proxy que funcionou');
+  let textResumo = null;
+  try {
+    textResumo = await tryFetch(workingProxy.fn, URLS.resumo, workingProxy.json);
+    s3.ok(`Recebido: ${textResumo.length} bytes`);
+    s3.data(`Primeiros 400 chars:\n${textResumo.slice(0,400)}`);
+  } catch(e) {
+    s3.err(`Falhou: ${e.message}`);
+  }
+
+  // ── STEP 4: Estrutura GID_RESUMO ────────────────────────────────────────
+  if (textResumo) {
+    const s4 = step('STEP 4 — Estrutura do CSV: GID_RESUMO (resumo livro a livro)');
+    const parsed2 = parseCSV(textResumo);
+    s4.info(`Total linhas: ${parsed2.data.length}`);
+    s4.info(`Colunas: ${parsed2.meta.fields?.length ?? 0}`);
+    if (parsed2.meta.fields?.length) {
+      s4.data('Colunas:\n' + JSON.stringify(parsed2.meta.fields, null, 2));
+    }
+    if (parsed2.data.length > 0) {
+      s4.data('Linha 1 (amostra):\n' + JSON.stringify(parsed2.data[0], null, 2));
+      if (parsed2.data.length > 1) s4.data('Linha 2:\n' + JSON.stringify(parsed2.data[1], null, 2));
+    }
+
+    // ── STEP 5: Simular detectAnoCol ──────────────────────────────────────
+    const s5 = step('STEP 5 — Simulação: detectAnoCol() e getLidos()');
+    const keys = parsed2.meta.fields || [];
+    const anoCol = keys.find(k => /^ano$/i.test(k.trim())) || keys.find(k => /\bano\b/i.test(k)) || null;
+    s5.info(`anoCol detectado: "${anoCol}"`);
+    if (!anoCol) s5.err('anoCol = null → filtro por ano elimina TODOS os registros!');
+
+    const lidoCol = keys.find(k => /lido/i.test(k));
+    s5.info(`lidoCol detectado: "${lidoCol}"`);
+    if (!lidoCol) s5.warn('lidoCol = null → getLidos() retorna tudo (sem filtro)');
+
+    if (lidoCol) {
+      const valores = [...new Set(parsed2.data.map(r => r[lidoCol]))].slice(0, 10);
+      s5.data(`Valores únicos em "${lidoCol}":\n${JSON.stringify(valores)}`);
+      const lidos = parsed2.data.filter(r => /lido|sim|yes|1|true/i.test((r[lidoCol]||'').trim()));
+      s5.info(`Registros que passam no filtro getLidos(): ${lidos.length} de ${parsed2.data.length}`);
+    }
+
+    if (anoCol) {
+      const anos = [...new Set(parsed2.data.map(r => (r[anoCol]||'').trim()))].filter(Boolean).sort();
+      s5.data(`Anos encontrados em "${anoCol}":\n${JSON.stringify(anos)}`);
+      const ANOS = ['2020','2021','2022','2023','2024','2025','2026'];
+      ANOS.forEach(a => {
+        const n = parsed2.data.filter(r => (r[anoCol]||'').trim() === a).length;
+        s5.info(`  Ano ${a}: ${n} registros`);
+      });
+    }
+
+    // ── STEP 6: Verificar colunas usadas nos gráficos ─────────────────────
+    const s6 = step('STEP 6 — Colunas esperadas pelo JS vs colunas reais');
+    const expected = {
+      'Páginas/páginas': ['Páginas','Paginas','páginas','paginas','Num_Paginas'],
+      'Autor/autora':    ['Autor','Autora','autor','autora','Author','Nome_Autor'],
+      'País/pais':       ['País','Pais','país','pais','Country','Pais_Autor'],
+      'Idioma':          ['Idioma','idioma','Language'],
+      'Avaliação/nota':  ['Avaliação','Nota','Rating','avaliação','nota','rating'],
+      'Cor autor':       ['Cor','cor','Cor do Autor','cor_autor','Cor Autor'],
+      'Gênero autor':    ['Se identifica como','Gênero do Autor','gênero do autor','sexo','Sexo','Genero_Autor'],
+      'Gênero livro':    ['Gênero','gênero','Genero','genero','Genre'],
+      'LGBTQIA+':        ['LGBTQIA+','lgbtqia','LGBT','lgbtq','Lgbtqia','lgbtqia+'],
+      'Novo Autor':      ['Novo Autor','novo autor','Primeira vez','primeira vez','Novo','novo'],
+      'OwnVoices':       ['OwnVoices','ownvoices','Own Voices','own voices','#ownvoices'],
+      'Representatividade': ['Representatividade','representatividade','Etnia','etnia','POC'],
+    };
+    const norm = s => (s||'').trim().toLowerCase();
+    Object.entries(expected).forEach(([label, variants]) => {
+      const found = keys.find(k => variants.some(v => norm(k) === norm(v) || norm(k).includes(norm(v))));
+      if (found) {
+        const sample = [...new Set(parsed2.data.map(r=>r[found]).filter(Boolean))].slice(0,5);
+        s6.ok(`"${label}" → encontrado como "${found}" | amostras: ${JSON.stringify(sample)}`);
+      } else {
+        s6.err(`"${label}" → NÃO ENCONTRADO. Variantes testadas: ${JSON.stringify(variants)}`);
+      }
+    });
+  }
+
+  // ── STEP 7: Estrutura da planilha visão geral (blocos A1:H, J:Q, S:AA) ──
+  const s7 = step('STEP 7 — Blocos da planilha VISÃO GERAL (estrutura real)');
+  s7.info('Todas as linhas do CSV visão geral:');
+  const pv = parseCSV(workingText);
+  pv.data.forEach((row, i) => {
+    const vals = Object.values(row).filter(v => v && v.toString().trim());
+    if (vals.length > 0) {
+      s7.data(`Linha ${i+1}: ${JSON.stringify(row)}`);
+    }
+  });
+
+  // ── STEP 8: Verificar biblioteca Chart.js ────────────────────────────────
+  const s8 = step('STEP 8 — Verificar bibliotecas (Chart.js, PapaParse, Leaflet)');
+  s8.info(`PapaParse: ${typeof Papa !== 'undefined' ? '✓ carregado v'+Papa.SCRIPT_PATH : '✗ não carregado'}`);
+  s8.info(`Chart.js: ${typeof Chart !== 'undefined' ? '✓ carregado' : '✗ não carregado (carrega só na página principal)'}`);
+  s8.info(`Leaflet: ${typeof L !== 'undefined' ? '✓ carregado' : '✗ não carregado (carrega só na página principal)'}`);
+
+  // ── STEP 9: Diagnóstico final ─────────────────────────────────────────────
+  const s9 = step('STEP 9 — DIAGNÓSTICO FINAL');
+  s9.info(`Proxy funcionando: ${workingProxy ? workingProxy.name : 'NENHUM'}`);
+  s9.info(`URL base da planilha: ${URLS.visao_geral}`);
+  s9.data(`\nRecomendação de configuração para historico.html:\n\nconst WORKING_PROXY = "${workingProxy?.fn('URL').replace('URL','...')}"\nconst GID_VISAO  = "${GID_VISAO}"\nconst GID_RESUMO = "${GID_RESUMO}"`);
+
+  const s10 = step('✅ Diagnóstico concluído — verifique os logs acima');
+  s10.ok('Copie os resultados e envie para análise');
+}
+</script>
+</body>
+</html>
