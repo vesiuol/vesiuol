@@ -171,14 +171,30 @@ nav ul li a.active{
 .notion-cta-title-bg h2{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:400;color:var(--white);}
 .notion-cta-body p{font-size:.9rem;line-height:1.8;color:rgba(255,255,255,.9);margin-bottom:.7rem;}
 .notion-cta-footer{
-  border-top:1px solid rgba(255,255,255,.25);padding:.9rem 2.5rem;
+  border-top:1px solid rgba(255,255,255,.25);padding:1.1rem 2.5rem;
   display:flex;align-items:center;justify-content:space-between;
 }
 .notion-btn-link{
-  font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;
-  color:rgba(255,255,255,.85);text-decoration:none;
+  display:inline-flex;align-items:center;gap:.6rem;
+  padding:.75rem 1.8rem;
+  background:var(--black);color:var(--white);
+  font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;
+  text-decoration:none;border-radius:6px;
+  border:2px solid transparent;
+  transition:background .2s, box-shadow .2s, border-color .2s, transform .15s;
+  font-weight:500;
 }
-.notion-btn-link:hover{color:var(--white);}
+.notion-btn-link:hover{
+  background:#1a1a1a;
+  box-shadow:0 4px 16px rgba(0,0,0,.35);
+  border-color:rgba(255,255,255,.2);
+  transform:translateY(-1px);
+}
+.notion-btn-link:active{
+  transform:translateY(1px);
+  box-shadow:0 1px 6px rgba(0,0,0,.4), inset 0 2px 4px rgba(0,0,0,.3);
+  border-color:rgba(255,255,255,.4);
+}
 
 /* ── TABLE ── */
 .table-controls{display:flex;gap:.8rem;flex-wrap:wrap;margin-bottom:1rem;align-items:center;}
@@ -411,7 +427,7 @@ footer{
       <p>Espero que esse modelo possa servir como um empurrão inicial, uma ajuda na organização ou até uma fonte de inspiração para quem também quer explorar o mundo através dos livros. No fim, a ideia é tornar essa jornada um pouco mais leve e compartilhada.</p>
     </div>
     <div class="notion-cta-footer">
-      <a class="notion-btn-link" href="https://app.notion.com/p/vesiuol/679c7c463b784b75b645ca16b283cb64?v=091d4f4f0139433383dc3bfb1855ef48&source=copy_link" target="_blank" rel="noopener">Abrir no Notion</a>
+      <a class="notion-btn-link" href="https://app.notion.com/p/vesiuol/679c7c463b784b75b645ca16b283cb64?v=091d4f4f0139433383dc3bfb1855ef48&source=copy_link" target="_blank" rel="noopener">Abrir no Notion &nbsp;→</a>
     </div>
   </div>
 </div>
@@ -547,62 +563,126 @@ function chartPie(){
 
 let desafioRows=[], allBooks=[], merged=[], filteredM=[];
 
+// ── HELPERS para detectar campos pelo nome da coluna ──────────────────────────
+function findField(row, candidates){
+  const keys = Object.keys(row);
+  for(const cand of candidates){
+    const match = keys.find(k => norm(k) === norm(cand) || norm(k).includes(norm(cand)));
+    if(match && row[match] && row[match].trim()) return row[match].trim();
+  }
+  return '';
+}
+
+function isLidoStatus(status){
+  const s = norm(status);
+  // Notion: "Concluído" | Planilha: "Lido", "lida", "Desafio LPM" já filtrado
+  return s.includes('conclu') || (s.includes('lido') && !s.includes('não')) || s.includes('lida');
+}
+
 async function init(){
+  // Exibe loading nos stats
+  ['s-paises','s-mapeados','s-semlivro','s-pct','s-novos','s-cinco'].forEach(id=>{
+    document.getElementById(id).textContent='…';
+  });
+
   try{
     [desafioRows, allBooks] = await Promise.all([fetchCSV(CSV_DESAFIO), fetchCSV(CSV_ESTANTE)]);
-  } catch(e){console.error('Erro ao carregar CSV',e);}
+  } catch(e){
+    console.error('Erro ao carregar CSV:', e);
+    ['s-paises','s-mapeados','s-semlivro','s-pct','s-novos','s-cinco'].forEach(id=>{
+      document.getElementById(id).textContent='!';
+    });
+    return;
+  }
 
+  // ── Log das primeiras colunas para debug (abre console F12 para ver) ────────
+  if(desafioRows.length){
+    console.log('[Desafio CSV] Colunas:', Object.keys(desafioRows[0]));
+    console.log('[Desafio CSV] Linha 1:', desafioRows[0]);
+  }
+  if(allBooks.length){
+    console.log('[Estante CSV] Colunas:', Object.keys(allBooks[0]));
+    console.log('[Estante CSV] Linha 1:', allBooks[0]);
+  }
+
+  // ── Filtrar linhas vazias e cabeçalho repetido ───────────────────────────────
   desafioRows = desafioRows.filter(r=>{
-    const first=Object.values(r)[0];
-    return first && first.trim() && first.trim().toLowerCase()!=='país' && first.trim().toLowerCase()!=='pais';
+    const vals = Object.values(r).filter(v=>v&&v.trim());
+    return vals.length > 1;
   });
 
+  // ── Filtrar SOMENTE linhas marcadas como "Desafio LPM" na coluna K ──────────
+  // A coluna K é a 11ª coluna (índice 10). Pode se chamar "Desafio", "Projeto", etc.
+  // Tentamos pelo nome; se não achar, filtramos pelo valor "Desafio LPM" em qualquer col.
+  const DESAFIO_MARKER = 'desafio lpm';
+  let desafioFiltered = desafioRows.filter(r=>{
+    // Coluna exata: "Por que li?"
+    const porQueLi = r['Por que li?'] || r['Por que li'] || r['por que li?'] || r['por que li'] || '';
+    return norm(porQueLi).includes(DESAFIO_MARKER);
+  });
+
+  // Se nenhuma linha passou no filtro Desafio LPM, usa todas (pode ser planilha do Notion)
+  if(desafioFiltered.length === 0){
+    console.warn('[Desafio] Nenhuma linha com "Desafio LPM" encontrada — usando todas as linhas');
+    desafioFiltered = desafioRows;
+  }
+
+  console.log('[Desafio] Linhas após filtro:', desafioFiltered.length);
+
+  // ── Mapa da estante pelo título ───────────────────────────────────────────────
   const bookMap={};
-  allBooks.forEach(b=>{if(b['Livros'])bookMap[norm(b['Livros'])]=b;});
-
-  const getPais = r => Object.values(r)[0]||'';
-  const getLivro = r => {
-    const keys=Object.keys(r);
-    for(const k of keys){if(norm(k).includes('livro')||norm(k).includes('book')||norm(k).includes('título')||norm(k).includes('titulo'))return r[k]||'';}
-    return Object.values(r)[1]||'';
-  };
-  const getStatus = r => {
-    const keys=Object.keys(r);
-    for(const k of keys){if(norm(k).includes('status'))return r[k]||'';}
-    return '';
-  };
-
-  merged = desafioRows.map(r=>{
-    const pais=getPais(r);
-    const livro=getLivro(r);
-    const status=getStatus(r);
-    const match=bookMap[norm(livro)]||{};
-    return {pais, livro, status,
-      autor: match['Nome']||r['Autor']||r['Autora']||'',
-      genero: match['Gênero']||r['Gênero']||'',
-      cor: match['Cor']||r['Cor']||'',
-      ga: match['Se identifica como...']||r['Gênero do autor']||'',
-      idioma: match['Idioma']||r['Idioma']||'',
-      estrelas: match['Nota']||r['Nota']||'',
-    };
+  allBooks.forEach(b=>{
+    // Coluna título pode ser "Livros", "Título", "Livro", "Nome do livro"
+    const titulo = findField(b,['Livros','Título','Titulo','Livro','Title','Nome do livro']);
+    if(titulo) bookMap[norm(titulo)] = b;
   });
+
+  // ── Detectar colunas principais ───────────────────────────────────────────────
+  const getPais = r => findField(r,['País','Pais','Country','país','país de origem']);
+  const getLivro = r => findField(r,['Livro','Livros','Título','Titulo','Book','Title','nome do livro','título do livro']);
+  const getStatus = r => findField(r,['Status','status','Lido','Situação','situacao','Andamento']);
+  const getAutor = r => findField(r,['Autor','Autora','Nome','Author','Escritor','Escritora','autor/a','nome do autor']);
+  const getGenero = r => findField(r,['Gênero','Genero','Genre','categoria','gênero literário']);
+  const getCor = r => findField(r,['Cor','cor do autor','raça','Raça','etnia','Etnia','cor/etnia']);
+  const getGA = r => findField(r,['Se identifica como...','Gênero do autor','Gênero autor','identidade de gênero','gênero (autor)']);
+  const getIdioma = r => findField(r,['Idioma','idioma original','Language','língua']);
+  const getNota = r => findField(r,['Nota','nota','Avaliação','avaliacao','Stars','estrelas','rating']);
+
+  merged = desafioFiltered.map(r=>{
+    const pais = getPais(r);
+    const livro = getLivro(r);
+    const status = getStatus(r);
+    const match = bookMap[norm(livro)] || {};
+
+    // Enriquecer com dados da estante se disponível
+    return {pais, livro, status,
+      autor:   getAutor(match)  || getAutor(r),
+      genero:  getGenero(match) || getGenero(r),
+      cor:     getCor(match)    || getCor(r),
+      ga:      getGA(match)     || getGA(r),
+      idioma:  getIdioma(match) || getIdioma(r),
+      estrelas:getNota(match)   || getNota(r),
+    };
+  }).filter(r=>r.pais); // remove linhas sem país
 
   filteredM=[...merged];
 
-  // Stats
-  const lidos = merged.filter(r=>norm(r.status).includes('concluíd')||norm(r.status).includes('lido')&&!norm(r.status).includes('não'));
+  // ── Estatísticas ──────────────────────────────────────────────────────────────
+  const lidos = merged.filter(r=>isLidoStatus(r.status));
   const mapeados = merged.filter(r=>r.livro&&r.livro.trim());
   const semLivro = merged.filter(r=>!r.livro||!r.livro.trim());
   const novosAutores = new Set(lidos.map(r=>norm(r.autor)).filter(Boolean)).size;
-  const cincoEstrelas = lidos.filter(r=>(r.estrelas||'').trim()==='5').length;
+  const cincoEstrelas = lidos.filter(r=>{const n=(r.estrelas||'').trim();return n==='5'||n==='★★★★★';}).length;
   const pctLidos = merged.length ? Math.round(lidos.length/merged.length*100)+'%' : '—';
 
-  document.getElementById('s-paises').textContent = lidos.length || '—';
-  document.getElementById('s-mapeados').textContent = mapeados.length || '—';
-  document.getElementById('s-semlivro').textContent = semLivro.length || '—';
-  document.getElementById('s-pct').textContent = pctLidos;
-  document.getElementById('s-novos').textContent = novosAutores || '—';
-  document.getElementById('s-cinco').textContent = cincoEstrelas || '—';
+  console.log('[Stats] Total países:', merged.length, '| Lidos:', lidos.length, '| Mapeados:', mapeados.length);
+
+  document.getElementById('s-paises').textContent  = lidos.length  || '0';
+  document.getElementById('s-mapeados').textContent = mapeados.length || '0';
+  document.getElementById('s-semlivro').textContent  = semLivro.length || '0';
+  document.getElementById('s-pct').textContent      = pctLidos;
+  document.getElementById('s-novos').textContent    = novosAutores   || '0';
+  document.getElementById('s-cinco').textContent    = cincoEstrelas  || '0';
 
   buildCharts(lidos);
   buildMap();
@@ -614,7 +694,7 @@ async function init(){
 
 function buildCharts(lidos){
   const li=lidos.length;
-  const ma=merged.filter(r=>r.livro&&r.livro.trim()&&!lidos.includes(r)).length;
+  const ma=merged.filter(r=>r.livro&&r.livro.trim()&&!isLidoStatus(r.status)).length;
   const na=merged.length-li-ma;
 
   new Chart(document.getElementById('c-status'),{type:'doughnut',
@@ -657,7 +737,7 @@ function buildMap(){
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map);
   merged.forEach(r=>{
     const c=COORDS[r.pais]; if(!c) return;
-    const isLido=norm(r.status).includes('concluíd')||norm(r.status).includes('lido')&&!norm(r.status).includes('não');
+    const isLido=isLidoStatus(r.status);
     const isMapeado=r.livro&&r.livro.trim();
     const color=isLido?GREEN:isMapeado?GREEN_LIGHT:'#bbb';
     L.circleMarker(c,{radius:7,fillColor:color,color:'#fff',weight:1.5,fillOpacity:.85})
@@ -670,7 +750,7 @@ function applyFilters(){
   const st=document.getElementById('f-status').value;
   filteredM=merged.filter(r=>{
     if(q&&!(r.pais+r.livro+r.autor).toLowerCase().includes(q))return false;
-    const isLido=norm(r.status).includes('concluíd')||norm(r.status).includes('lido')&&!norm(r.status).includes('não');
+    const isLido=isLidoStatus(r.status);
     if(st==='lido'&&!isLido)return false;
     if(st==='mapeado'&&!(r.livro&&r.livro.trim()))return false;
     if(st==='nao'&&(r.livro&&r.livro.trim()))return false;
@@ -694,7 +774,7 @@ function renderPaises(){
   const slice=filteredM.slice(start,start+PAGE_SIZE);
 
   document.getElementById('ptbody').innerHTML=slice.map(r=>{
-    const isLido=norm(r.status).includes('concluíd')||(norm(r.status).includes('lido')&&!norm(r.status).includes('não'));
+    const isLido=isLidoStatus(r.status);
     const isMapeado=r.livro&&r.livro.trim();
     const badge=isLido?'<span class="badge badge-lido">Lido</span>':isMapeado?'<span class="badge badge-mapeado">Mapeado</span>':'<span class="badge badge-nao">—</span>';
     return `<tr><td><strong>${r.pais}</strong></td><td>${r.livro||'—'}</td><td>${r.autor||'—'}</td><td>${r.genero||'—'}</td><td>${r.cor||'—'}</td><td>${r.ga||'—'}</td><td>${badge}</td></tr>`;
