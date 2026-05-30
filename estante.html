@@ -27,10 +27,11 @@ nav{position:sticky;top:0;z-index:100;background:var(--white);padding:0 2rem;dis
 .nav-logo{display:flex;gap:6px;align-items:center;}
 .nav-dot{width:11px;height:11px;border-radius:50%;background:var(--black);}
 nav ul{list-style:none;display:flex;gap:.3rem;margin-left:auto;align-items:center;}
-nav ul a{color:var(--black);text-decoration:none;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:500;padding:.3rem .6rem;transition:all .15s;}
+nav ul a{color:var(--black);text-decoration:none;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:500;padding:.3rem .6rem;transition:color .15s;}
+nav ul a:hover{color:var(--green);}
 nav ul a.active{background:var(--green);color:var(--white);padding:.3rem .7rem;}
-.nav-year{font-size:.72rem;letter-spacing:.1em;font-weight:600;color:var(--black);}
-.nav-year-link{font-size:.72rem!important;letter-spacing:.1em!important;font-weight:700!important;color:var(--black)!important;padding:.3rem .6rem!important;}
+nav ul a.active:hover{color:var(--white);}
+.nav-year-link{font-size:.72rem!important;letter-spacing:.1em!important;font-weight:500!important;color:var(--black)!important;padding:.3rem .6rem!important;}
 .nav-year-link:hover{color:var(--green)!important;}
 .nav-hamburger{display:none;background:none;border:none;color:var(--black);font-size:1.4rem;cursor:pointer;margin-left:auto;padding:.2rem .4rem;}
 
