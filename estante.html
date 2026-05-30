@@ -448,15 +448,15 @@ function barOpts(horizontal=false){
         display:true,
         anchor:'end', align: horizontal ? 'end' : 'top',
         color:'#333',
-        font:{family:'Montserrat',size:10,weight:'600'},
+        font:{family:'DM Sans',size:10,weight:'600'},
         formatter:v=>v>0?v:'',
         clamp:true,
         offset: horizontal ? 4 : 2,
       }
     },
     scales:{
-      x:{grid:{color:'#f0f0f0'},ticks:{font:{family:'Montserrat',size:10},color:'#777'}},
-      y:{grid:{color:'#f0f0f0'},ticks:{font:{family:'Montserrat',size:10},color:'#777'},beginAtZero:true},
+      x:{grid:{color:'#f0f0f0'},ticks:{font:{family:'DM Sans',size:10},color:'#777'}},
+      y:{grid:{color:'#f0f0f0'},ticks:{font:{family:'DM Sans',size:10},color:'#777'},beginAtZero:true},
     },
     ...(horizontal ? {indexAxis:'y'} : {})
   };
@@ -472,7 +472,7 @@ function pieOpts(){
         display:true,
         position:'bottom',
         labels:{
-          font:{family:'Montserrat',size:10},
+          font:{family:'DM Sans',size:10},
           color:'#333',padding:10,boxWidth:12,boxHeight:12,
           generateLabels(chart){
             const data=chart.data;
@@ -494,7 +494,7 @@ function pieOpts(){
           return pct>=8?pct+'%':'';
         },
         color:'#fff',
-        font:{family:'Montserrat',size:10,weight:'700'},
+        font:{family:'DM Sans',size:10,weight:'700'},
         textAlign:'center',
       }
     }
@@ -619,7 +619,7 @@ function buildCharts(lidos, all){
         ...barOpts(true).plugins,
         datalabels:{
           display:true, anchor:'end', align:'end',
-          color:'#333', font:{family:'Montserrat',size:10,weight:'600'},
+          color:'#333', font:{family:'DM Sans',size:10,weight:'600'},
           formatter:v=>v>0?v:'', clamp:true, offset:4,
         }
       }
@@ -703,7 +703,7 @@ function buildCharts(lidos, all){
         legend:{display:false},
         datalabels:{
           display:true,anchor:'end',align:'top',
-          color:'#333',font:{family:'Montserrat',size:10,weight:'600'},
+          color:'#333',font:{family:'DM Sans',size:10,weight:'600'},
           formatter:v=>v>0?v:'',clamp:true,offset:2
         }
       }
@@ -736,7 +736,7 @@ function buildCharts(lidos, all){
         legend:{display:false},
         datalabels:{
           display:true,anchor:'end',align:'top',
-          color:'#333',font:{family:'Montserrat',size:10,weight:'600'},
+          color:'#333',font:{family:'DM Sans',size:10,weight:'600'},
           formatter:v=>v>0?v:'',clamp:true,offset:2
         }
       }
