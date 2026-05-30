@@ -29,7 +29,7 @@ nav{position:sticky;top:0;z-index:100;background:var(--white);padding:0 2rem;dis
 nav ul{list-style:none;display:flex;gap:.3rem;margin-left:auto;align-items:center;}
 nav ul a{color:var(--black);text-decoration:none;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:500;padding:.3rem .6rem;transition:color .15s;}
 nav ul a:hover{color:var(--green);}
-nav ul a.active{background:var(--green);color:var(--white);padding:.3rem .7rem;}
+nav ul a.active{background:var(--green);color:var(--white);padding:.28rem .7rem;border-radius:3px;}
 nav ul a.active:hover{color:var(--white);}
 .nav-year-link{font-size:.72rem!important;letter-spacing:.1em!important;font-weight:500!important;color:var(--black)!important;padding:.3rem .6rem!important;}
 .nav-year-link:hover{color:var(--green)!important;}
@@ -530,7 +530,9 @@ async function init(){
   buildFilters();
   filtered=[...allBooks];
   renderTable();
-  document.querySelectorAll('nav ul a[data-page="estante"]').forEach(a=>a.classList.add('active'));
+  document.querySelectorAll('nav ul a').forEach(a=>{
+    if(a.getAttribute('data-page')==='estante') a.classList.add('active');
+  });
 }
 
 function buildCharts(lidos, all){
