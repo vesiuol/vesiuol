@@ -600,16 +600,16 @@ footer p {
   <div style="overflow-x:auto">
     <table>
       <thead><tr>
-        <th data-col="Livros">Título ↕</th>
-        <th data-col="Nome">Autor/a ↕</th>
-        <th data-col="Gênero">Gênero ↕</th>
-        <th data-col="Páginas">Pág. ↕</th>
-        <th data-col="Horas ouvidas">Áudio ↕</th>
-        <th data-col="Idioma">Idioma ↕</th>
-        <th data-col="País">País ↕</th>
-        <th data-col="Cor">Cor ↕</th>
-        <th data-col="Lido/Não Lido">Status ↕</th>
-        <th data-col="Estrelas">⭐ ↕</th>
+        <th data-colidx="0">Título ↕</th>
+        <th data-colidx="1">Autor/a ↕</th>
+        <th data-colidx="4">Gênero ↕</th>
+        <th data-colidx="2">Pág. ↕</th>
+        <th data-colidx="3">Áudio ↕</th>
+        <th data-colidx="5">Idioma ↕</th>
+        <th data-colidx="14">País ↕</th>
+        <th data-colidx="18">Cor ↕</th>
+        <th data-colidx="22">Status ↕</th>
+        <th >⭐ ↕</th>
       </tr></thead>
       <tbody id="tbody"></tbody>
     </table>
@@ -630,37 +630,74 @@ Chart.register(ChartDataLabels);
 
 const CSV_2026 = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub?gid=537800862&single=true&output=csv';
 
+// ── PALETA ────────────────────────────────────────────────────────────────
+// Verde principal + paleta diversificada para gráficos (não monocromática)
 const GREEN   = '#849974';
-const GREEN_D = '#6a7d5e';
-const GREEN_L = '#c5d1bc';
-const CORES   = ['#849974','#a8b99a','#6a7d5e','#c5d1bc','#4a5e42','#d4e4cb','#3d5038','#b0c4a4','#8faa82','#e6f0e0'];
-const MUTED   = '#666';
 const BLACK   = '#000';
+const MUTED   = '#666';
 
-const META = 43;
-const PER  = 20;
-let all2026 = [], filtered = [], page = 1, sortCol = '', sortAsc = true, activeTag = '';
+// Paleta variada para gráficos de pizza/doughnut
+const PALETTE_PIE = [
+  '#849974', // verde base
+  '#c9956c', // terracota
+  '#6b9db8', // azul acinzentado
+  '#c4a35a', // dourado
+  '#a07898', // roxo acinzentado
+  '#6aab8e', // verde-água
+  '#d4816b', // salmão
+  '#7b8fa8', // azul-cinza
+  '#b8b05a', // oliva
+  '#c47a8a', // rosa antigo
+];
 
+// Paleta para barras
+const PALETTE_BAR = [
+  '#849974','#6b9db8','#c9956c','#c4a35a','#a07898',
+  '#6aab8e','#d4816b','#7b8fa8','#b8b05a','#c47a8a'
+];
+
+// ── MAPEAMENTO DE COLUNAS (A=0, B=1, ... W=22) ───────────────────────────
+// A=0  Livros
+// B=1  Meta do ano       (linha 49 = resumo)
+// C=2  Páginas           (linha 49 = total)
+// D=3  Horas ouvidas     (linha 49 = total)
+// E=4  Gênero
+// F=5  Idioma
+// G=6  Editora
+// H=7  Série
+// I=8  Ano de publicação
+// J=9  (?) 
+// K=10 Desafio LPM
+// L=11 (?)
+// M=12 (?)
+// N=13 (?)
+// O=14 País
+// P=15 (?)
+// Q=16 (?)
+// R=17 Autor novo (TRUE/FALSE)
+// S=18 Cor do autor
+// T=19 Gênero do autor
+// U=20 LGBTQIA+
+// V=21 OwnVoices / diversidade
+// W=22 Lido/Não Lido / total lidos (linha 49)
+
+const PER = 20;
+let rawRows = [];     // todas as linhas brutas (array de arrays)
+let headers = [];     // linha 1: nomes das colunas
+let dataRows = [];    // linhas 3–47 (índices 2 a 46), excluindo linha 49 (resumo)
+let summaryRow = null; // linha 49 (índice 48)
+let filtered = [], page = 1, sortColIdx = -1, sortAsc = true, activeTag = '';
+
+// ── HELPERS ───────────────────────────────────────────────────────────────
 function norm(s){ return (s||'').trim().toLowerCase(); }
-function isTrue(v){ return ['sim','yes','true','1','✓','x','verdadeiro'].includes(norm(v)); }
-function fetchCSV(url){
-  return new Promise((res,rej)=>{
-    Papa.parse(url,{download:true,header:true,skipEmptyLines:true,complete:r=>res(r.data),error:rej});
-  });
-}
-function count(arr,key){
-  const c={};
-  arr.forEach(b=>{const v=(b[key]||'').trim();if(v)c[v]=(c[v]||0)+1;});
-  return c;
-}
-function topN(obj,n){
-  return Object.entries(obj).sort((a,b)=>b[1]-a[1]).slice(0,n);
-}
+function isTrue(v){ return ['sim','yes','true','1','✓','x','verdadeiro','true'].includes(norm(v)); }
+function col(row, idx){ return (row[idx]||'').trim(); }
 
-// Parse "HH:MM:SS.mmm" or similar
 function parseHours(s){
-  if(!s||s==='00:00:00.000'||s.trim()==='') return 0;
-  const p=(s||'').trim().split(':');
+  if(!s) return 0;
+  s = s.trim();
+  if(s===''||s==='00:00:00'||s==='00:00:00.000') return 0;
+  const p = s.split(':');
   if(p.length>=2){
     const h=parseFloat(p[0])||0, m=parseFloat(p[1])||0, sec=parseFloat(p[2])||0;
     return h + m/60 + sec/3600;
@@ -668,12 +705,29 @@ function parseHours(s){
   return 0;
 }
 
-function isAudiobook(b){
-  const h = parseHours(b['Horas ouvidas'] || b['Horas Ouvidas'] || '');
-  return h > 0;
+function isAudiobook(row){
+  return parseHours(col(row, 3)) > 0; // col D
 }
 
-function chartOpts(indexAxis='x'){
+function fetchCSVRaw(url){
+  return new Promise((res,rej)=>{
+    Papa.parse(url,{download:true,header:false,skipEmptyLines:false,
+      complete:r=>res(r.data), error:rej});
+  });
+}
+
+function countByIdx(rows, idx){
+  const c={};
+  rows.forEach(r=>{ const v=col(r,idx); if(v) c[v]=(c[v]||0)+1; });
+  return c;
+}
+
+function topN(obj,n){
+  return Object.entries(obj).sort((a,b)=>b[1]-a[1]).slice(0,n);
+}
+
+// ── CHART OPTIONS ─────────────────────────────────────────────────────────
+function chartBar(indexAxis='x', colors=GREEN){
   return {
     maintainAspectRatio:false,
     indexAxis,
@@ -681,12 +735,13 @@ function chartOpts(indexAxis='x'){
       legend:{display:false},
       datalabels:{
         display:true,
-        anchor:'end', align: indexAxis==='y'?'end':'top',
+        anchor:'end',
+        align: indexAxis==='y'?'end':'top',
         color: BLACK,
         font:{family:'DM Sans',size:10,weight:'500'},
         formatter:v=>v>0?v:'',
         clamp:true,
-        padding: 2,
+        padding:2,
       }
     },
     scales:{
@@ -706,14 +761,16 @@ function chartPie(){
         formatter:(v,ctx)=>{
           const total=ctx.dataset.data.reduce((a,b)=>a+b,0);
           const pct=Math.round(v/total*100);
-          return pct>5?pct+'%':'';
+          return pct>4?v+'\n('+pct+'%)':'';
         },
-        color:'#fff',font:{family:'DM Sans',size:11,weight:'500'},
+        color:'#fff',font:{family:'DM Sans',size:10,weight:'500'},
+        textAlign:'center',
       }
     }
   };
 }
 
+// ── COORDS PARA MAPA ───────────────────────────────────────────────────────
 const COORDS = {
   'Brasil':[-15.8,-47.9],'EUA':[37.1,-95.7],'Estados Unidos':[37.1,-95.7],
   'Reino Unido':[51.5,-0.1],'Japão':[35.7,139.7],'França':[46.2,2.2],
@@ -736,144 +793,225 @@ const COORDS = {
   'Iraque':[33.3,44.4],'Síria':[33.5,36.3],'Angola':[-8.8,13.2],
   'Moçambique':[-18.7,35.5],'Zimbabwe':[-17.8,31.1],'Uganda':[0.3,32.6],
   'Gâmbia':[13.5,-15.6],'Serra Leoa':[8.5,-13.2],'Congo':[-4.3,15.3],
+  'República Democrática do Congo':[-4.3,15.3],
   'Namíbia':[-22.6,17.1],'Tanzânia':[-6.4,34.9],'Costa do Marfim':[6.8,-5.3],
   'Indonésia':[-6.2,106.8],'Filipinas':[14.6,121.0],'Afeganistão':[34.5,69.2],
   'Suíça':[46.8,8.2],'Áustria':[48.2,16.4],'Irlanda':[53.3,-6.3],
+  'Escócia':[56.5,-4.2],'Islândia':[64.1,-21.9],'Finlândia':[60.2,24.9],
+  'Dinamarca':[55.7,12.6],'Países Baixos':[52.4,4.9],
 };
 
+// ── INIT ──────────────────────────────────────────────────────────────────
 async function init(){
-  const data = await fetchCSV(CSV_2026);
-  all2026 = data;
+  rawRows = await fetchCSVRaw(CSV_2026);
+
+  // Linha 1 = cabeçalhos (índice 0)
+  headers = rawRows[0] || [];
+
+  // Linhas 3–47 = dados dos livros (índices 2 a 46)
+  // A linha 49 (índice 48) é o resumo — usada para os blocos de stats
+  dataRows = rawRows.slice(2, 47).filter(r => r.some(c => c.trim() !== ''));
+
+  // Linha 49 = índice 48
+  summaryRow = rawRows[48] || [];
 
   buildStats();
   buildCharts();
   buildMap();
   buildFilters();
-  filtered = [...all2026];
+  filtered = [...dataRows];
   renderTable();
 }
 
+// ── STATS ─────────────────────────────────────────────────────────────────
 function buildStats(){
-  const lidos = all2026.filter(b=>norm(b['Lido/Não Lido'])==='lido');
-  const pags  = lidos.reduce((s,b)=>s+(parseInt(b['Páginas'])||0),0);
+  // Blocos superiores — direto da linha 49
+  const meta    = col(summaryRow, 1);   // B49
+  const lidos49 = col(summaryRow, 22);  // W49
+  const pags49  = col(summaryRow, 2);   // C49
+  const horas49 = col(summaryRow, 3);   // D49
 
-  // Horas ouvidas de audiobooks
-  let totalHoras = 0;
-  all2026.forEach(b=>{
-    totalHoras += parseHours(b['Horas ouvidas'] || b['Horas Ouvidas'] || '');
-  });
+  // Autores novos: coluna R (idx 17) com TRUE nas linhas 3–47
+  const autoresNovos = dataRows.filter(r => isTrue(col(r, 17))).length;
 
-  const autoresSet = new Set(lidos.map(b=>(b['Nome']||'').trim()).filter(Boolean));
-  const paisesSet  = new Set(lidos.map(b=>(b['País']||'').trim()).filter(Boolean));
-  const pct = Math.min(100, Math.round(lidos.length/META*100));
+  // Países únicos: coluna O (idx 14) nas linhas 3–47
+  const paisesSet = new Set(dataRows.map(r => col(r, 14)).filter(Boolean));
+  const numPaises = paisesSet.size;
 
-  document.getElementById('s-lidos').textContent   = lidos.length;
-  document.getElementById('s-paginas').textContent  = pags.toLocaleString('pt-BR');
-  document.getElementById('s-horas').textContent    = totalHoras > 0 ? Math.round(totalHoras)+'h' : '—';
-  document.getElementById('s-autores').textContent  = autoresSet.size;
-  document.getElementById('s-paises').textContent   = paisesSet.size;
+  const metaNum = parseInt(meta) || 43;
+  const lidosNum = parseInt(lidos49) || 0;
+  const pct = Math.min(100, Math.round(lidosNum / metaNum * 100));
 
-  document.getElementById('prog-texto').textContent = lidos.length+' lidos de '+META+' planejados';
-  document.getElementById('prog-bar').style.width   = pct+'%';
-  document.getElementById('prog-pct').textContent   = pct+'% concluído';
-  document.getElementById('p-lidos').textContent    = lidos.length;
-  document.getElementById('p-lendo').textContent    = all2026.filter(b=>norm(b['Lido/Não Lido'])==='lendo').length;
-  document.getElementById('p-nao').textContent      = all2026.filter(b=>norm(b['Lido/Não Lido'])==='não lido').length;
+  // Bloco superior
+  document.getElementById('s-meta').textContent    = meta || '43';
+  document.getElementById('s-lidos').textContent   = lidos49 || '—';
+  document.getElementById('s-paginas').textContent = pags49
+    ? parseInt(pags49).toLocaleString('pt-BR') : '—';
 
-  const gc  = count(lidos,'Gênero');
-  const top = Object.entries(gc).sort((a,b)=>b[1]-a[1])[0];
-  document.getElementById('p-genero').textContent = top ? top[0] : '—';
+  // Horas: formatar D49 (pode ser "HH:MM:SS" ou número)
+  const horasNum = parseHours(horas49);
+  document.getElementById('s-horas').textContent = horasNum > 0
+    ? Math.round(horasNum) + 'h'
+    : (horas49 || '—');
 
-  // Audiobook note
-  const audios = all2026.filter(isAudiobook);
+  document.getElementById('s-autores').textContent = autoresNovos || '—';
+  document.getElementById('s-paises').textContent  = numPaises || '—';
+
+  // Seção meta de leitura
+  // Lidos: W49
+  // Lendo: col W (idx 22) com valor "LENDO" nas linhas 3–47
+  // Não lidos: col W (idx 22) com "NÃO LIDO" nas linhas 3–47
+  const lendoCount  = dataRows.filter(r => norm(col(r,22))==='lendo').length;
+  const naoLidoCount= dataRows.filter(r => norm(col(r,22))==='não lido').length;
+
+  // Gênero mais lido: col E (idx 4), somente lidos (W=lido)
+  const lidosRows = dataRows.filter(r => norm(col(r,22))==='lido');
+  const gcMap = {};
+  lidosRows.forEach(r=>{ const v=col(r,4); if(v) gcMap[v]=(gcMap[v]||0)+1; });
+  const topGenero = Object.entries(gcMap).sort((a,b)=>b[1]-a[1])[0];
+
+  document.getElementById('prog-texto').textContent = lidosNum + ' lidos de ' + metaNum + ' planejados';
+  document.getElementById('prog-bar').style.width   = pct + '%';
+  document.getElementById('prog-pct').textContent   = pct + '% concluído';
+  document.getElementById('p-lidos').textContent    = lidos49 || '—';
+  document.getElementById('p-lendo').textContent    = lendoCount;
+  document.getElementById('p-nao').textContent      = naoLidoCount;
+  document.getElementById('p-genero').textContent   = topGenero ? topGenero[0] : '—';
+
+  // Nota audiobooks
+  const audios = dataRows.filter(isAudiobook);
   if(audios.length > 0){
     document.getElementById('audio-note').style.display = 'block';
     document.getElementById('audio-count').textContent  = audios.length;
   }
 }
 
+// ── GRÁFICOS ──────────────────────────────────────────────────────────────
 function buildCharts(){
-  const lidos = all2026.filter(b=>norm(b['Lido/Não Lido'])==='lido');
+  // Apenas linhas 3–47, excluindo linha resumo (49)
+  const rows = dataRows;
+  const lidosRows = rows.filter(r => norm(col(r,22))==='lido');
 
-  // Status (horizontal bar)
-  const stData = [
-    all2026.filter(b=>norm(b['Lido/Não Lido'])==='lido').length,
-    all2026.filter(b=>norm(b['Lido/Não Lido'])==='lendo').length,
-    all2026.filter(b=>norm(b['Lido/Não Lido'])==='não lido').length,
-  ];
+  // 1. Status de leitura — col W (idx 22)
+  const nLido    = rows.filter(r=>norm(col(r,22))==='lido').length;
+  const nLendo   = rows.filter(r=>norm(col(r,22))==='lendo').length;
+  const nNaoLido = rows.filter(r=>norm(col(r,22))==='não lido').length;
   new Chart(document.getElementById('c-status'),{type:'bar',
-    data:{labels:['Lido','Lendo','Não lido'],datasets:[{data:stData,backgroundColor:[GREEN,'#fef3cd','#f5e4e4'],borderRadius:4,borderWidth:0}]},
-    options: chartOpts('x')});
+    data:{
+      labels:['Lido','Lendo','Não lido'],
+      datasets:[{data:[nLido,nLendo,nNaoLido],
+        backgroundColor:['#849974','#c4a35a','#c9956c'],
+        borderRadius:4,borderWidth:0}]
+    },
+    options: chartBar('x')});
 
-  // Gêneros (horizontal)
-  const gn = topN(count(lidos,'Gênero'),10);
+  // 2. Gêneros — col E (idx 4), somente lidos
+  const gnMap = countByIdx(lidosRows, 4);
+  const gnTop = topN(gnMap, 10);
   new Chart(document.getElementById('c-generos'),{type:'bar',
-    data:{labels:gn.map(e=>e[0]),datasets:[{data:gn.map(e=>e[1]),backgroundColor:GREEN,borderRadius:4,borderWidth:0}]},
-    options: chartOpts('y')});
+    data:{
+      labels:gnTop.map(e=>e[0]),
+      datasets:[{data:gnTop.map(e=>e[1]),
+        backgroundColor: gnTop.map((_,i)=>PALETTE_BAR[i%PALETTE_BAR.length]),
+        borderRadius:4,borderWidth:0}]
+    },
+    options: chartBar('y')});
 
-  // Cor
-  const cor = count(lidos,'Cor');
-  new Chart(document.getElementById('c-cor'),{type:'doughnut',
-    data:{labels:Object.keys(cor),datasets:[{data:Object.values(cor),backgroundColor:CORES,borderWidth:0}]},
-    options:chartPie()});
+  // 3. Cor dos autores — col S (idx 18), somente lidos
+  const corMap = countByIdx(lidosRows, 18);
+  if(Object.keys(corMap).length){
+    new Chart(document.getElementById('c-cor'),{type:'doughnut',
+      data:{labels:Object.keys(corMap),
+        datasets:[{data:Object.values(corMap),backgroundColor:PALETTE_PIE,borderWidth:2,borderColor:'#fff'}]},
+      options:chartPie()});
+  }
 
-  // Gênero autor
-  const ga = count(lidos,'Se identifica como...');
-  new Chart(document.getElementById('c-genero-autor'),{type:'doughnut',
-    data:{labels:Object.keys(ga),datasets:[{data:Object.values(ga),backgroundColor:CORES,borderWidth:0}]},
-    options:chartPie()});
+  // 4. Gênero dos autores — col T (idx 19), somente lidos
+  const gaMap = countByIdx(lidosRows, 19);
+  if(Object.keys(gaMap).length){
+    new Chart(document.getElementById('c-genero-autor'),{type:'doughnut',
+      data:{labels:Object.keys(gaMap),
+        datasets:[{data:Object.values(gaMap),backgroundColor:PALETTE_PIE,borderWidth:2,borderColor:'#fff'}]},
+      options:chartPie()});
+  }
 
-  // Idioma
-  const id = count(lidos,'Idioma');
-  new Chart(document.getElementById('c-idioma'),{type:'doughnut',
-    data:{labels:Object.keys(id),datasets:[{data:Object.values(id),backgroundColor:CORES,borderWidth:0}]},
-    options:chartPie()});
+  // 5. Idioma — col F (idx 5), somente lidos
+  const idMap = countByIdx(lidosRows, 5);
+  if(Object.keys(idMap).length){
+    new Chart(document.getElementById('c-idioma'),{type:'doughnut',
+      data:{labels:Object.keys(idMap),
+        datasets:[{data:Object.values(idMap),backgroundColor:PALETTE_PIE,borderWidth:2,borderColor:'#fff'}]},
+      options:chartPie()});
+  }
 
-  // Formato
-  const fm = count(all2026,'Formato');
-  new Chart(document.getElementById('c-formato'),{type:'doughnut',
-    data:{labels:Object.keys(fm),datasets:[{data:Object.values(fm),backgroundColor:CORES,borderWidth:0}]},
-    options:chartPie()});
-
-  // Estrelas
-  const st={1:0,2:0,3:0,4:0,5:0};
-  lidos.forEach(b=>{const s=parseInt(b['Estrelas']);if(s>=1&&s<=5)st[s]++;});
-  new Chart(document.getElementById('c-estrelas'),{type:'bar',
-    data:{labels:['★','★★','★★★','★★★★','★★★★★'],datasets:[{data:Object.values(st),backgroundColor:GREEN,borderRadius:4,borderWidth:0}]},
-    options:chartOpts('x')});
-
-  // Páginas por mês
-  const mesMapa = {};
-  const meses = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
-  lidos.forEach(b=>{
-    const d = b['Data de leitura'] || b['Data'] || '';
-    const m = d.match(/(\d{2})[\/\-](\d{4})/);
-    if(m){
-      const idx = parseInt(m[1])-1;
-      if(idx>=0&&idx<12){
-        mesMapa[idx] = (mesMapa[idx]||0) + (parseInt(b['Páginas'])||0);
-      }
+  // 6. Formato — col (idx ?) — tenta achar header "Formato"
+  const fmtIdx = headers.findIndex(h=>norm(h).includes('formato'));
+  if(fmtIdx>=0){
+    const fmMap = countByIdx(rows, fmtIdx);
+    if(Object.keys(fmMap).length){
+      new Chart(document.getElementById('c-formato'),{type:'doughnut',
+        data:{labels:Object.keys(fmMap),
+          datasets:[{data:Object.values(fmMap),backgroundColor:PALETTE_PIE,borderWidth:2,borderColor:'#fff'}]},
+        options:chartPie()});
     }
-  });
-  const mesDados = meses.map((_,i)=>mesMapa[i]||0);
+  }
+
+  // 7. Estrelas — busca header "Estrelas" ou "estrelas"
+  const strIdx = headers.findIndex(h=>norm(h).includes('estrela'));
+  if(strIdx>=0){
+    const st={1:0,2:0,3:0,4:0,5:0};
+    lidosRows.forEach(r=>{const s=parseInt(col(r,strIdx));if(s>=1&&s<=5)st[s]++;});
+    new Chart(document.getElementById('c-estrelas'),{type:'bar',
+      data:{labels:['★','★★','★★★','★★★★','★★★★★'],
+        datasets:[{data:Object.values(st),
+          backgroundColor:['#c4a35a','#c4a35a','#c4a35a','#849974','#849974'],
+          borderRadius:4,borderWidth:0}]},
+      options:chartBar('x')});
+  }
+
+  // 8. Páginas por mês — busca header com "data" ou "mês"
+  // Tenta coluna com data de conclusão; usa C (idx 2) para páginas
+  const dtIdx = headers.findIndex(h=>norm(h).includes('data'));
+  const meses = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+  const mesMap = {};
+  if(dtIdx >= 0){
+    lidosRows.forEach(r=>{
+      const d = col(r, dtIdx);
+      const m = d.match(/(\d{1,2})[\/\-](\d{2,4})/);
+      if(m){
+        const idx = parseInt(m[1])-1;
+        if(idx>=0&&idx<12)
+          mesMap[idx] = (mesMap[idx]||0) + (parseInt(col(r,2))||0);
+      }
+    });
+  }
+  const mesDados = meses.map((_,i)=>mesMap[i]||0);
   new Chart(document.getElementById('c-paginas-mes'),{type:'bar',
-    data:{labels:meses,datasets:[{data:mesDados,backgroundColor:GREEN,borderRadius:4,borderWidth:0}]},
-    options:chartOpts('x')});
+    data:{labels:meses,
+      datasets:[{data:mesDados,
+        backgroundColor:'#6b9db8',
+        borderRadius:4,borderWidth:0}]},
+    options:chartBar('x')});
 }
 
+// ── MAPA ──────────────────────────────────────────────────────────────────
 function buildMap(){
   const map = L.map('map-2026',{scrollWheelZoom:false}).setView([20,10],2);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
-    attribution:'© OpenStreetMap',maxZoom:18
+    attribution:'© OpenStreetMap', maxZoom:18
   }).addTo(map);
 
-  const lidos = all2026.filter(b=>norm(b['Lido/Não Lido'])==='lido');
-  const byPais = count(lidos,'País');
+  // Coluna O (idx 14), linhas 3–47
+  const byPais = {};
+  dataRows.forEach(r=>{
+    const p = col(r, 14);
+    if(p) byPais[p] = (byPais[p]||0)+1;
+  });
 
   Object.entries(byPais).forEach(([pais,qtd])=>{
     const c = COORDS[pais];
     if(!c) return;
-    const r = Math.max(8, Math.min(28, 8+qtd*4));
+    const r = Math.max(8, Math.min(30, 8+qtd*5));
     L.circleMarker(c,{
       radius:r, fillColor:GREEN, color:'#fff',
       weight:2, opacity:1, fillOpacity:.8
@@ -881,88 +1019,122 @@ function buildMap(){
   });
 }
 
+// ── FILTROS E TABELA ──────────────────────────────────────────────────────
 function buildFilters(){
-  const gns=[...new Set(all2026.map(b=>b['Gênero']).filter(Boolean))].sort();
-  const sel=document.getElementById('f-genero');
+  // Gênero (col E = idx 4)
+  const gns = [...new Set(dataRows.map(r=>col(r,4)).filter(Boolean))].sort();
+  const sel = document.getElementById('f-genero');
   gns.forEach(g=>{const o=document.createElement('option');o.value=g;o.textContent=g;sel.appendChild(o);});
 
-  const fmts=[...new Set(all2026.map(b=>b['Formato']).filter(Boolean))].sort();
-  const fsel=document.getElementById('f-formato');
-  fmts.forEach(f=>{const o=document.createElement('option');o.value=f;o.textContent=f;fsel.appendChild(o);});
+  // Formato
+  const fmtIdx = headers.findIndex(h=>norm(h).includes('formato'));
+  if(fmtIdx>=0){
+    const fmts=[...new Set(dataRows.map(r=>col(r,fmtIdx)).filter(Boolean))].sort();
+    const fsel=document.getElementById('f-formato');
+    fmts.forEach(f=>{const o=document.createElement('option');o.value=f;o.textContent=f;fsel.appendChild(o);});
+  }
 
-  document.getElementById('search').addEventListener('input',applyFilters);
-  document.getElementById('f-status').addEventListener('change',applyFilters);
-  document.getElementById('f-genero').addEventListener('change',applyFilters);
-  document.getElementById('f-formato').addEventListener('change',applyFilters);
+  document.getElementById('search').addEventListener('input', applyFilters);
+  document.getElementById('f-status').addEventListener('change', applyFilters);
+  document.getElementById('f-genero').addEventListener('change', applyFilters);
+  document.getElementById('f-formato').addEventListener('change', applyFilters);
   document.querySelectorAll('.tag-btn').forEach(btn=>btn.addEventListener('click',()=>{
     document.querySelectorAll('.tag-btn').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active'); activeTag=btn.dataset.tag; applyFilters();
   }));
 
-  // Sortable headers
-  document.querySelectorAll('th[data-col]').forEach(th=>th.addEventListener('click',()=>{
-    const col=th.dataset.col;
-    if(sortCol===col) sortAsc=!sortAsc; else {sortCol=col;sortAsc=true;}
+  // Cabeçalhos ordenáveis por índice
+  document.querySelectorAll('th[data-colidx]').forEach(th=>th.addEventListener('click',()=>{
+    const idx = parseInt(th.dataset.colidx);
+    if(sortColIdx===idx) sortAsc=!sortAsc; else {sortColIdx=idx;sortAsc=true;}
     filtered.sort((a,b)=>{
-      const av=a[col]||'', bv=b[col]||'';
-      return sortAsc ? av.localeCompare(bv,'pt') : bv.localeCompare(av,'pt');
+      const av=col(a,idx), bv=col(b,idx);
+      const an=parseFloat(av), bn=parseFloat(bv);
+      if(!isNaN(an)&&!isNaN(bn)) return sortAsc?an-bn:bn-an;
+      return sortAsc?av.localeCompare(bv,'pt'):bv.localeCompare(av,'pt');
     });
     page=1; renderTable();
   }));
 }
 
 function applyFilters(){
-  const q=document.getElementById('search').value.toLowerCase();
-  const st=document.getElementById('f-status').value;
-  const gn=document.getElementById('f-genero').value;
-  const fm=document.getElementById('f-formato').value;
-  filtered=all2026.filter(b=>{
-    if(q&&!((b['Livros']||'')+(b['Nome']||'')).toLowerCase().includes(q))return false;
-    if(st&&norm(b['Lido/Não Lido'])!==norm(st))return false;
-    if(gn&&b['Gênero']!==gn)return false;
-    if(fm&&b['Formato']!==fm)return false;
-    if(activeTag==='lgbtqia'&&!isTrue(b['Protagonista LGBTQIA+?']))return false;
-    if(activeTag==='diversidade'&&!isTrue(b['Diversidade étnica/racial ?']))return false;
-    if(activeTag==='ownvoices'&&!isTrue(b['#OwnVoices ?']))return false;
-    if(activeTag==='audiobook'&&!isAudiobook(b))return false;
+  const q  = document.getElementById('search').value.toLowerCase();
+  const st = document.getElementById('f-status').value;
+  const gn = document.getElementById('f-genero').value;
+  const fm = document.getElementById('f-formato').value;
+  const fmtIdx = headers.findIndex(h=>norm(h).includes('formato'));
+
+  filtered = dataRows.filter(r=>{
+    // Título (col A=0) ou Autor (col B... busca em todos)
+    if(q && !col(r,0).toLowerCase().includes(q) && !r.some(c=>c.toLowerCase().includes(q))) return false;
+    // Status: col W (idx 22)
+    if(st && norm(col(r,22)) !== norm(st)) return false;
+    // Gênero: col E (idx 4)
+    if(gn && col(r,4) !== gn) return false;
+    // Formato
+    if(fm && fmtIdx>=0 && col(r,fmtIdx) !== fm) return false;
+    // Tags
+    if(activeTag==='audiobook' && !isAudiobook(r)) return false;
+    // LGBTQIA+, diversidade, ownvoices — busca pelo header
+    if(activeTag==='lgbtqia'){
+      const i=headers.findIndex(h=>norm(h).includes('lgbtqia'));
+      if(i>=0&&!isTrue(col(r,i))) return false;
+    }
+    if(activeTag==='diversidade'){
+      const i=headers.findIndex(h=>norm(h).includes('diversidade'));
+      if(i>=0&&!isTrue(col(r,i))) return false;
+    }
+    if(activeTag==='ownvoices'){
+      const i=headers.findIndex(h=>norm(h).includes('ownvoice'));
+      if(i>=0&&!isTrue(col(r,i))) return false;
+    }
     return true;
   });
   page=1; renderTable();
 }
 
 function renderTable(){
-  const start=(page-1)*PER;
-  const pg=filtered.slice(start,start+PER);
-  const tbody=document.getElementById('tbody');
-  document.getElementById('lista-count').textContent=filtered.length+' livros';
+  const start = (page-1)*PER;
+  const pg    = filtered.slice(start, start+PER);
+  const tbody = document.getElementById('tbody');
+  document.getElementById('lista-count').textContent = filtered.length + ' livros';
+
   if(!filtered.length){
     tbody.innerHTML='<tr><td colspan="10" style="text-align:center;padding:2rem;color:var(--muted)">Nenhum livro encontrado.</td></tr>';
     document.getElementById('t-info').textContent='';
     document.getElementById('pagination').innerHTML='';
     return;
   }
-  tbody.innerHTML=pg.map(b=>{
-    const st=b['Lido/Não Lido']||'';
-    const bc=norm(st)==='lido'?'badge-lido':norm(st)==='lendo'?'badge-lendo':'badge-nao';
-    const s=parseInt(b['Estrelas'])||0;
-    const horas = b['Horas ouvidas']||b['Horas Ouvidas']||'';
-    const horasDisplay = isAudiobook(b) ? horas.substring(0,5) : '—';
+
+  const strIdx = headers.findIndex(h=>norm(h).includes('estrela'));
+  const fmtIdx = headers.findIndex(h=>norm(h).includes('formato'));
+
+  tbody.innerHTML = pg.map(r=>{
+    const status = col(r,22); // W
+    const bc = norm(status)==='lido'?'badge-lido':norm(status)==='lendo'?'badge-lendo':'badge-nao';
+    const stars = strIdx>=0 ? (parseInt(col(r,strIdx))||0) : 0;
+    const horas = col(r,3); // D
+    const horasDisplay = parseHours(horas)>0 ? horas.substring(0,5) : '—';
+    const fmt = fmtIdx>=0 ? col(r,fmtIdx) : '—';
     return `<tr>
-      <td><strong>${b['Livros']||'—'}</strong></td>
-      <td>${b['Nome']||'—'}</td>
-      <td>${b['Gênero']||'—'}</td>
-      <td>${b['Páginas']||'—'}</td>
+      <td><strong>${col(r,0)||'—'}</strong></td>
+      <td>${col(r,1)||'—'}</td>
+      <td>${col(r,4)||'—'}</td>
+      <td>${col(r,2)||'—'}</td>
       <td>${horasDisplay}</td>
-      <td>${b['Idioma']||'—'}</td>
-      <td>${b['País']||'—'}</td>
-      <td>${b['Cor']||'—'}</td>
-      <td><span class="badge ${bc}">${st||'—'}</span></td>
-      <td><span class="stars">${'★'.repeat(s)}</span></td>
+      <td>${col(r,5)||'—'}</td>
+      <td>${col(r,14)||'—'}</td>
+      <td>${col(r,18)||'—'}</td>
+      <td><span class="badge ${bc}">${status||'—'}</span></td>
+      <td><span class="stars">${'★'.repeat(stars)}</span></td>
     </tr>`;
   }).join('');
-  document.getElementById('t-info').textContent=(start+1)+'–'+Math.min(start+PER,filtered.length)+' de '+filtered.length;
-  const pages=Math.ceil(filtered.length/PER);
-  const pag=document.getElementById('pagination');pag.innerHTML='';
+
+  document.getElementById('t-info').textContent =
+    (start+1)+'–'+Math.min(start+PER,filtered.length)+' de '+filtered.length;
+
+  const pages = Math.ceil(filtered.length/PER);
+  const pag = document.getElementById('pagination'); pag.innerHTML='';
   for(let i=1;i<=pages;i++){
     const btn=document.createElement('button');
     btn.className='page-btn'+(i===page?' active':'');
