@@ -19,11 +19,9 @@
   --green: #849974;
   --green-dark: #6b7d5e;
   --green-light: #a8b99a;
-  --border: #d0d0d0;
-  --bg: #ffffff;
-  --card-bg: #ffffff;
-  --text: #000000;
+  --border: #cccccc;
   --muted: #555555;
+  --orange: #d4752e;
 }
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 body { background: var(--white); color: var(--black); font-family: 'DM Sans', sans-serif; font-weight: 300; line-height: 1.5; }
@@ -40,159 +38,143 @@ nav {
 .nav-dots { display: flex; gap: 6px; align-items: center; }
 .nav-dots span { width: 10px; height: 10px; border-radius: 50%; background: var(--black); display: block; }
 nav ul { list-style: none; display: flex; gap: 2rem; margin-left: auto; }
-nav ul a {
-  color: var(--black); text-decoration: none;
-  font-size: .78rem; letter-spacing: .12em; text-transform: uppercase;
-  font-weight: 400; transition: opacity .2s;
-}
+nav ul a { color: var(--black); text-decoration: none; font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 400; transition: opacity .2s; }
 nav ul a:hover { opacity: .5; }
-nav ul a.active {
-  background: var(--green); color: var(--white);
-  padding: .25rem .7rem; border-radius: 3px;
-}
+nav ul a.active { background: var(--green); color: var(--white); padding: .25rem .7rem; border-radius: 3px; }
 
-/* ─── HERO SECTION ────────────────────────────────────── */
+/* ─── HERO ────────────────────────────────────────────── */
 .hero-wrap { padding: 3rem 2.5rem 1.5rem; max-width: 1200px; margin: 0 auto; }
-.hero-card {
-  border: 1.5px solid var(--black); border-radius: 14px;
-  padding: 2.5rem 3rem; position: relative;
-}
+.hero-card { border: 1.5px solid var(--black); border-radius: 14px; padding: 2.5rem 3rem; }
 .hero-card-dots { display: flex; gap: 5px; margin-bottom: 1.2rem; }
 .hero-card-dots span { width: 9px; height: 9px; border-radius: 50%; background: var(--border); display: block; }
-.hero-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(2.5rem, 5vw, 4rem);
-  font-weight: 600; line-height: 1.1;
-  display: inline-block;
-  background: var(--green); color: var(--white);
-  padding: .1em .3em; margin-bottom: 1.2rem;
-}
-.hero-desc {
-  font-size: .95rem; color: var(--black); line-height: 1.75;
-  max-width: 800px; margin-bottom: 2rem;
-}
+.hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.5rem,5vw,4rem); font-weight: 600; line-height: 1.1; display: inline-block; background: var(--green); color: var(--white); padding: .1em .3em; margin-bottom: 1.2rem; }
+.hero-desc { font-size: .95rem; color: var(--black); line-height: 1.75; max-width: 800px; margin-bottom: 2rem; }
 .hero-divider { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
-.hero-sub {
-  display: flex; justify-content: space-between; align-items: center;
-}
-.hero-sub-text {
-  font-size: .68rem; letter-spacing: .16em; text-transform: uppercase; color: var(--muted);
-}
+.hero-sub { display: flex; justify-content: space-between; align-items: center; }
+.hero-sub-text { font-size: .68rem; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
 .hero-arrow { font-size: 1.4rem; color: var(--black); }
 
 /* ─── STAT CARDS ─────────────────────────────────────── */
 .stats-section { padding: 1.5rem 2.5rem; max-width: 1200px; margin: 0 auto; }
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 0;
-}
+.stats-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: .6rem; }
+
+/* Unified stat card style — used in both global and "por ano" section */
 .stat-card {
   border: 1.5px solid var(--black); border-radius: 10px;
   background: var(--green); padding: 1.5rem 1rem;
-  text-align: center; margin: 0 .4rem;
+  text-align: center;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   min-height: 110px;
 }
-.stat-card:first-child { margin-left: 0; }
-.stat-card:last-child { margin-right: 0; }
 .stat-num {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 2.5rem; font-weight: 600;
-  color: var(--black); line-height: 1;
+  font-size: 2.4rem; font-weight: 600;
+  color: #000000 !important; line-height: 1;
   display: block; margin-bottom: .4rem;
 }
 .stat-label {
-  font-size: .68rem; letter-spacing: .1em; text-transform: uppercase;
-  color: var(--black); font-weight: 400;
+  font-size: .65rem; letter-spacing: .1em; text-transform: uppercase;
+  color: #000000 !important; font-weight: 400;
 }
 
 /* ─── SECTION HEADER ─────────────────────────────────── */
 .section-wrap { max-width: 1200px; margin: 0 auto; padding: 2.5rem 2.5rem 1.5rem; }
-.section-header {
-  display: flex; align-items: center; gap: 1.2rem;
-  margin-bottom: 1.5rem;
-  border-bottom: 1px solid var(--border); padding-bottom: 1rem;
-}
-.section-label {
-  background: var(--green); color: var(--white);
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.2rem; font-weight: 600;
-  padding: .2rem .7rem; border-radius: 4px;
-  white-space: nowrap;
-}
-.section-sub {
-  font-size: .72rem; letter-spacing: .14em; text-transform: uppercase;
-  color: var(--muted);
-}
+.section-header { display: flex; align-items: center; gap: 1.2rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem; }
+.section-label { background: var(--green); color: var(--white); font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 600; padding: .2rem .7rem; border-radius: 4px; white-space: nowrap; }
+.section-sub { font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
 
 /* ─── CHART CARDS ────────────────────────────────────── */
 .charts-col { display: flex; flex-direction: column; gap: 1rem; }
-.chart-card {
-  border: 1.5px solid var(--black); border-radius: 14px;
-  padding: 1.5rem 2rem;
-  background: var(--white);
-}
+.chart-card { border: 1.5px solid var(--black); border-radius: 14px; padding: 1.5rem 2rem; background: var(--white); }
 .chart-card-header { display: flex; align-items: center; gap: .6rem; margin-bottom: 1.2rem; }
 .chart-card-dots { display: flex; gap: 4px; }
 .chart-card-dots span { width: 8px; height: 8px; border-radius: 50%; background: var(--green-light); display: block; }
 .chart-card-title { font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
 .chart-wrap { position: relative; height: 240px; }
 .chart-wrap.tall { height: 320px; }
-
-/* Two col grid */
 .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-.two-col .chart-card { }
 
-/* ─── MAP SECTION ────────────────────────────────────── */
-#hist-map {
-  height: 440px; border-radius: 12px;
-  border: 1.5px solid var(--black);
-}
+/* ─── MAP ────────────────────────────────────────────── */
+#hist-map { height: 440px; border-radius: 12px; border: 1.5px solid var(--black); }
 
 /* ─── YEAR FILTER ────────────────────────────────────── */
 .year-filter { display: flex; gap: .6rem; flex-wrap: wrap; margin-bottom: 2rem; }
 .year-btn {
   padding: .4rem 1.1rem;
-  border: 1.5px solid var(--black);
-  background: transparent;
-  font-family: 'DM Sans', sans-serif;
-  font-size: .82rem; font-weight: 400;
-  border-radius: 100px; cursor: pointer;
-  transition: all .15s; color: var(--black);
+  border: 1.5px solid var(--black); background: transparent;
+  font-family: 'DM Sans', sans-serif; font-size: .82rem; font-weight: 400;
+  border-radius: 100px; cursor: pointer; transition: background .15s, color .15s;
+  color: var(--black);
 }
-.year-btn:hover { background: var(--white); border-color: var(--black); color: var(--black); }
-.year-btn.active { background: var(--black); color: var(--white); }
+.year-btn:hover { background: var(--white); color: var(--black); }
+.year-btn.selected { background: var(--orange); border-color: var(--orange); color: var(--white); }
 .year-btn:focus { outline: none; }
 
-/* Big data card */
-.data-card {
-  border: 1.5px solid var(--black); border-radius: 14px;
-  padding: 2rem 2.5rem;
-  background: var(--white); margin-bottom: 1rem;
-}
-.data-card-dots { display: flex; gap: 5px; margin-bottom: 1rem; }
-.data-card-dots span { width: 8px; height: 8px; border-radius: 50%; background: var(--green-light); display: block; }
+/* ─── ANO STATS GRID — same style as global stats ────── */
+.ano-stats-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: .6rem; margin-bottom: 1.5rem; }
 
 /* ─── FOOTER ─────────────────────────────────────────── */
-footer {
-  background: var(--green);
-  padding: 1.2rem 2.5rem;
-  display: flex; align-items: center; gap: 1rem;
-}
+footer { background: var(--green); padding: 1.2rem 2.5rem; display: flex; align-items: center; gap: 1rem; }
 .footer-dots { display: flex; gap: 6px; }
 .footer-dots span { width: 9px; height: 9px; border-radius: 50%; background: var(--black); display: block; }
 .footer-text { font-size: .72rem; letter-spacing: .06em; color: var(--black); }
 
+/* ─── LOADING ────────────────────────────────────────── */
+.loading { text-align: center; padding: 3rem; color: var(--muted); font-size: .85rem; letter-spacing: .1em; text-transform: uppercase; }
+
 @media(max-width:900px){
-  .stats-grid { grid-template-columns: repeat(3,1fr); }
+  .stats-grid, .ano-stats-grid { grid-template-columns: repeat(3,1fr); }
   .two-col { grid-template-columns: 1fr; }
-  nav ul { gap: 1rem; }
   .hero-card { padding: 1.5rem; }
 }
 @media(max-width:600px){
-  .stats-grid { grid-template-columns: repeat(2,1fr); }
+  /* Geral */
+  body { overflow-x: hidden; }
+
+  /* Nav */
+  nav { padding: 0 1rem; }
   nav ul { display: none; }
+  .nav-dots span { width: 8px; height: 8px; }
+
+  /* Hero */
+  .hero-wrap { padding: 1.2rem 1rem 1rem; }
+  .hero-card { padding: 1.2rem; border-radius: 10px; }
+  .hero-title { font-size: 2.2rem; }
+  .hero-desc { font-size: .88rem; margin-bottom: 1.2rem; }
+  .hero-sub-text { font-size: .6rem; }
+
+  /* Stats */
+  .stats-section { padding: 1rem; }
+  .stats-grid, .ano-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: .5rem;
+  }
+  .stat-card { min-height: 90px; padding: 1rem .6rem; border-radius: 8px; }
+  .stat-num { font-size: 1.9rem; }
+  .stat-label { font-size: .6rem; }
+
+  /* Seções */
+  .section-wrap { padding: 1.5rem 1rem 1rem; }
+  .section-header { gap: .7rem; flex-wrap: wrap; }
+  .section-label { font-size: 1rem; }
+
+  /* Chart cards */
+  .chart-card { padding: 1rem; border-radius: 10px; }
+  .charts-col { gap: .8rem; }
+  .two-col { grid-template-columns: 1fr; gap: .8rem; }
+  .chart-wrap { height: 200px; }
+  .chart-wrap.tall { height: 260px; }
+
+  /* Mapa */
+  #hist-map { height: 280px; border-radius: 8px; }
+
+  /* Filtro de ano */
+  .year-filter { gap: .4rem; margin-bottom: 1.2rem; }
+  .year-btn { padding: .35rem .8rem; font-size: .76rem; }
+
+  /* Footer */
+  footer { padding: 1rem; flex-wrap: wrap; gap: .5rem; }
+  .footer-text { font-size: .65rem; }
 }
 </style>
 </head>
@@ -200,9 +182,7 @@ footer {
 
 <!-- NAV -->
 <nav>
-  <div class="nav-dots">
-    <span></span><span></span><span></span>
-  </div>
+  <div class="nav-dots"><span></span><span></span><span></span></div>
   <ul>
     <li><a href="index.html">Início</a></li>
     <li><a href="2026.html">2026</a></li>
@@ -227,33 +207,15 @@ footer {
   </div>
 </div>
 
-<!-- STAT CARDS -->
+<!-- STAT CARDS GLOBAIS -->
 <div class="stats-section">
-  <div class="stats-grid">
-    <div class="stat-card">
-      <span class="stat-num" id="stat-total">—</span>
-      <span class="stat-label">Total lidos</span>
-    </div>
-    <div class="stat-card">
-      <span class="stat-num" id="stat-paginas">—</span>
-      <span class="stat-label">Total páginas</span>
-    </div>
-    <div class="stat-card">
-      <span class="stat-num" id="stat-idiomas">—</span>
-      <span class="stat-label">Idiomas</span>
-    </div>
-    <div class="stat-card">
-      <span class="stat-num" id="stat-autores">—</span>
-      <span class="stat-label">Autores únicos</span>
-    </div>
-    <div class="stat-card">
-      <span class="stat-num" id="stat-paises">—</span>
-      <span class="stat-label">Países</span>
-    </div>
-    <div class="stat-card">
-      <span class="stat-num" id="stat-5estrelas">—</span>
-      <span class="stat-label">5 estrelas</span>
-    </div>
+  <div class="stats-grid" id="global-stats">
+    <div class="stat-card"><span class="stat-num" id="stat-total">—</span><span class="stat-label">Total lidos</span></div>
+    <div class="stat-card"><span class="stat-num" id="stat-paginas">—</span><span class="stat-label">Total páginas</span></div>
+    <div class="stat-card"><span class="stat-num" id="stat-idiomas">—</span><span class="stat-label">Idiomas</span></div>
+    <div class="stat-card"><span class="stat-num" id="stat-autores">—</span><span class="stat-label">Autores únicos</span></div>
+    <div class="stat-card"><span class="stat-num" id="stat-paises">—</span><span class="stat-label">Países</span></div>
+    <div class="stat-card"><span class="stat-num" id="stat-5estrelas">—</span><span class="stat-label">5 estrelas</span></div>
   </div>
 </div>
 
@@ -263,67 +225,44 @@ footer {
     <span class="section-label">Visão geral</span>
     <span class="section-sub">Dados de todos os anos</span>
   </div>
-
   <div class="charts-col">
     <div class="chart-card">
-      <div class="chart-card-header">
-        <div class="chart-card-dots"><span></span><span></span><span></span></div>
-        <span class="chart-card-title">Livros lidos por ano</span>
-      </div>
+      <div class="chart-card-header"><div class="chart-card-dots"><span></span><span></span><span></span></div><span class="chart-card-title">Livros lidos por ano</span></div>
       <div class="chart-wrap"><canvas id="c-anos"></canvas></div>
     </div>
     <div class="chart-card">
-      <div class="chart-card-header">
-        <div class="chart-card-dots"><span></span><span></span><span></span></div>
-        <span class="chart-card-title">Páginas lidas por ano</span>
-      </div>
+      <div class="chart-card-header"><div class="chart-card-dots"><span></span><span></span><span></span></div><span class="chart-card-title">Páginas lidas por ano</span></div>
       <div class="chart-wrap"><canvas id="c-paginas"></canvas></div>
     </div>
   </div>
-
-  <!-- 2x3 grid smaller charts -->
   <div class="two-col" style="margin-top:1rem;">
     <div class="chart-card">
-      <div class="chart-card-header">
-        <div class="chart-card-dots"><span></span><span></span><span></span></div>
-        <span class="chart-card-title">Autores lidos pela 1ª vez</span>
-      </div>
+      <div class="chart-card-header"><div class="chart-card-dots"><span></span><span></span><span></span></div><span class="chart-card-title">Autores lidos pela 1ª vez</span></div>
       <div class="chart-wrap"><canvas id="c-novos"></canvas></div>
     </div>
     <div class="chart-card">
-      <div class="chart-card-header">
-        <div class="chart-card-dots"><span></span><span></span><span></span></div>
-        <span class="chart-card-title">Protagonistas LGBTQIA+ por ano</span>
-      </div>
+      <div class="chart-card-header"><div class="chart-card-dots"><span></span><span></span><span></span></div><span class="chart-card-title">Protagonistas LGBTQIA+ por ano</span></div>
       <div class="chart-wrap"><canvas id="c-lgbtq"></canvas></div>
     </div>
     <div class="chart-card">
-      <div class="chart-card-header">
-        <div class="chart-card-dots"><span></span><span></span><span></span></div>
-        <span class="chart-card-title">Representatividade étnica por ano</span>
-      </div>
+      <div class="chart-card-header"><div class="chart-card-dots"><span></span><span></span><span></span></div><span class="chart-card-title">Representatividade étnica por ano</span></div>
       <div class="chart-wrap"><canvas id="c-etnia"></canvas></div>
     </div>
     <div class="chart-card">
-      <div class="chart-card-header">
-        <div class="chart-card-dots"><span></span><span></span><span></span></div>
-        <span class="chart-card-title">#OwnVoices por ano</span>
-      </div>
+      <div class="chart-card-header"><div class="chart-card-dots"><span></span><span></span><span></span></div><span class="chart-card-title">#OwnVoices por ano</span></div>
       <div class="chart-wrap"><canvas id="c-own"></canvas></div>
     </div>
   </div>
 </div>
 
-<!-- DE ONDE VIERAM -->
+<!-- MAPA -->
 <div class="section-wrap">
   <div class="section-header">
     <span class="section-label">De onde vieram meus livros?</span>
     <span class="section-sub">Autores por país</span>
   </div>
   <div class="chart-card">
-    <div class="chart-card-header">
-      <div class="chart-card-dots"><span></span><span></span><span></span></div>
-    </div>
+    <div class="chart-card-header"><div class="chart-card-dots"><span></span><span></span><span></span></div></div>
     <div id="hist-map"></div>
   </div>
 </div>
@@ -334,57 +273,41 @@ footer {
     <span class="section-label">Por ano</span>
     <span class="section-sub">Filtro</span>
   </div>
-
   <div class="year-filter" id="year-filter"></div>
 
-  <div class="data-card" id="ano-stats-card">
-    <div class="data-card-dots"><span></span><span></span><span></span></div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1.5rem;" id="ano-stats-grid">
-      <!-- populated by JS -->
-    </div>
+  <!-- Stat cards do ano — MESMO estilo dos globais -->
+  <div class="ano-stats-grid" id="ano-stats-grid">
+    <div class="stat-card"><span class="stat-num" id="a-livros">—</span><span class="stat-label">Livros lidos</span></div>
+    <div class="stat-card"><span class="stat-num" id="a-paginas">—</span><span class="stat-label">Total páginas</span></div>
+    <div class="stat-card"><span class="stat-num" id="a-idiomas">—</span><span class="stat-label">Idiomas</span></div>
+    <div class="stat-card"><span class="stat-num" id="a-autores">—</span><span class="stat-label">Autores únicos</span></div>
+    <div class="stat-card"><span class="stat-num" id="a-paises">—</span><span class="stat-label">Países</span></div>
+    <div class="stat-card"><span class="stat-num" id="a-5estrelas">—</span><span class="stat-label">5 estrelas</span></div>
   </div>
 
   <div class="two-col">
     <div class="chart-card">
-      <div class="chart-card-header">
-        <div class="chart-card-dots"><span></span><span></span><span></span></div>
-        <span class="chart-card-title">Cor dos autores</span>
-      </div>
+      <div class="chart-card-header"><div class="chart-card-dots"><span></span><span></span><span></span></div><span class="chart-card-title">Cor dos autores</span></div>
       <div class="chart-wrap"><canvas id="ac-cor"></canvas></div>
     </div>
     <div class="chart-card">
-      <div class="chart-card-header">
-        <div class="chart-card-dots"><span></span><span></span><span></span></div>
-        <span class="chart-card-title">Gênero dos autores</span>
-      </div>
+      <div class="chart-card-header"><div class="chart-card-dots"><span></span><span></span><span></span></div><span class="chart-card-title">Gênero dos autores</span></div>
       <div class="chart-wrap"><canvas id="ac-ga"></canvas></div>
     </div>
     <div class="chart-card">
-      <div class="chart-card-header">
-        <div class="chart-card-dots"><span></span><span></span><span></span></div>
-        <span class="chart-card-title">Idioma</span>
-      </div>
+      <div class="chart-card-header"><div class="chart-card-dots"><span></span><span></span><span></span></div><span class="chart-card-title">Idioma</span></div>
       <div class="chart-wrap"><canvas id="ac-idioma"></canvas></div>
     </div>
     <div class="chart-card">
-      <div class="chart-card-header">
-        <div class="chart-card-dots"><span></span><span></span><span></span></div>
-        <span class="chart-card-title">Gêneros literários</span>
-      </div>
+      <div class="chart-card-header"><div class="chart-card-dots"><span></span><span></span><span></span></div><span class="chart-card-title">Gêneros literários</span></div>
       <div class="chart-wrap tall"><canvas id="ac-generos"></canvas></div>
     </div>
     <div class="chart-card">
-      <div class="chart-card-header">
-        <div class="chart-card-dots"><span></span><span></span><span></span></div>
-        <span class="chart-card-title">País de origem dos autores</span>
-      </div>
-      <div class="chart-wrap"><canvas id="ac-paises"></canvas></div>
+      <div class="chart-card-header"><div class="chart-card-dots"><span></span><span></span><span></span></div><span class="chart-card-title">País de origem dos autores</span></div>
+      <div class="chart-wrap"><canvas id="ac-paises-ano"></canvas></div>
     </div>
     <div class="chart-card">
-      <div class="chart-card-header">
-        <div class="chart-card-dots"><span></span><span></span><span></span></div>
-        <span class="chart-card-title">Avaliação (estrelas)</span>
-      </div>
+      <div class="chart-card-header"><div class="chart-card-dots"><span></span><span></span><span></span></div><span class="chart-card-title">Avaliação (estrelas)</span></div>
       <div class="chart-wrap"><canvas id="ac-stars"></canvas></div>
     </div>
   </div>
@@ -399,16 +322,19 @@ footer {
 <script>
 Chart.register(ChartDataLabels);
 
-// ─── CONFIG ──────────────────────────────────────────────
-const GREEN = '#849974';
+// ─── CONSTANTES ──────────────────────────────────────────────────────────────
+const GREEN       = '#849974';
 const GREEN_LIGHT = '#a8b99a';
-const BLACK = '#000000';
-const WHITE = '#ffffff';
-const CORES = [GREEN,'#b5c9a8','#d4e3cc','#6b7d5e','#c8d8bf','#4a5c40','#e8f0e4','#3a4c32','#f0f5ee','#849974'];
-const ANOS = ['2020','2021','2022','2023','2024','2025','2026'];
+const BLACK       = '#000000';
+const WHITE       = '#ffffff';
+const ORANGE      = '#d4752e';
+const CORES = [GREEN,'#6b7d5e','#b5c9a8','#4a5c40','#d4e3cc','#3a4c32','#e8f0e4','#c8d8bf','#849974aa','#91a882'];
+const ANOS  = ['2020','2021','2022','2023','2024','2025','2026'];
 
-const CSV_VISAO   = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub?gid=700848757&single=true&output=csv';
-const CSV_ESTANTE = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQWGv70Tc2vz-YUKxwU_0_H8F7UuHom1tCJQlE2Tfi8AMNem2c5X3WSs6z4CPjoTb2AaFKmJ8bihlPV/pub?gid=0&single=true&output=csv';
+// URLs das planilhas — atualizadas conforme instrução
+const CSV_HISTORICO = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub?gid=700848757&single=true&output=csv';
+const CSV_LEITURAS  = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub?gid=1413764044&single=true&output=csv';
+const CSV_ESTANTE   = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQWGv70Tc2vz-YUKxwU_0_H8F7UuHom1tCJQlE2Tfi8AMNem2c5X3WSs6z4CPjoTb2AaFKmJ8bihlPV/pub?gid=0&single=true&output=csv';
 
 const COORDS = {
   'Brasil':[-15.8,-47.9],'EUA':[37.1,-95.7],'Estados Unidos':[37.1,-95.7],
@@ -429,158 +355,266 @@ const COORDS = {
   'Etiópia':[9.0,38.7],'Quênia':[-1.3,36.8],'Gana':[5.6,-0.2],
   'Senegal':[14.7,-17.4],'Peru':[-12.0,-77.0],'Venezuela':[10.5,-66.9],
   'Irlanda':[53.3,-6.3],'Escócia':[56.5,-4.2],'Angola':[-8.8,13.2],
+  'Moçambique':[-18.7,35.5],'Zimbabwe':[-17.8,31.1],'Uganda':[0.3,32.6],
 };
 
-// ─── HELPERS ────────────────────────────────────────────
+// ─── HELPERS ─────────────────────────────────────────────────────────────────
 const norm = s => (s||'').trim().toLowerCase();
-const isTrue = v => ['sim','yes','true','1','✓','x','verdadeiro'].includes(norm(v));
-function fetchCSV(url){
-  return new Promise((res,rej)=>{
-    Papa.parse(url,{download:true,header:true,skipEmptyLines:true,
-      complete:r=>res(r.data),error:rej});
-  });
+
+// Busca flexível de coluna (aceita variações de nome)
+function col(row, ...variants) {
+  const keys = Object.keys(row);
+  for (const v of variants) {
+    const found = keys.find(k => norm(k) === norm(v) || norm(k).includes(norm(v)));
+    if (found && (row[found]||'').trim() !== '') return row[found];
+  }
+  return '';
 }
-function count(arr,key){
-  const c={};
-  arr.forEach(b=>{const v=(b[key]||'').trim();if(v)c[v]=(c[v]||0)+1;});
+
+// Conta ocorrências de um campo (busca flexível)
+function count(arr, ...fieldVariants) {
+  const c = {};
+  arr.forEach(b => {
+    const v = col(b, ...fieldVariants).trim();
+    if (v) c[v] = (c[v]||0) + 1;
+  });
   return c;
 }
-function topN(obj,n){
-  return Object.entries(obj).sort((a,b)=>b[1]-a[1]).slice(0,n);
-}
+function topN(obj, n) { return Object.entries(obj).sort((a,b)=>b[1]-a[1]).slice(0,n); }
 
-function barOpts(horizontal=false){
-  return {
-    maintainAspectRatio:false,
-    indexAxis: horizontal?'y':'x',
-    plugins:{
-      legend:{display:false},
-      datalabels:{
-        display:true,
-        anchor:'end', align: horizontal?'end':'top',
-        color:BLACK, font:{family:'DM Sans',size:10,weight:'500'},
-        formatter:v=>v>0?v:'', clamp:true,
-      }
-    },
-    scales:{
-      x:{grid:{color:'#eeeeee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:'#666'},border:{display:false}},
-      y:{grid:{color:'#eeeeee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:'#666'},border:{display:false}},
-    }
-  };
-}
-function pieOpts(){
-  return {
-    maintainAspectRatio:false,
-    plugins:{
-      legend:{position:'bottom',labels:{font:{family:'DM Sans',size:10},color:BLACK,padding:8,boxWidth:10}},
-      datalabels:{
-        display:true,
-        formatter:(v,ctx)=>{
-          const total=ctx.dataset.data.reduce((a,b)=>a+b,0);
-          const pct=Math.round(v/total*100);
-          return pct>4?pct+'%':'';
-        },
-        color:WHITE,font:{family:'DM Sans',size:10,weight:'500'},
-      }
-    }
-  };
-}
-
-let statsRows=[], allBooks=[], anoAtivo='2026', anoCharts={};
-
-function getRow(label){
-  return statsRows.find(r=>{
-    const v=Object.values(r)[0];
-    return v&&v.toString().toLowerCase().includes(label.toLowerCase());
+function fetchCSV(url) {
+  return new Promise((res,rej) => {
+    Papa.parse(url, { download:true, header:true, skipEmptyLines:true,
+      complete: r => res(r.data), error: rej });
   });
 }
-function getAnoVal(row,ano){
-  if(!row)return 0;
-  const e=Object.entries(row).find(([k])=>k.trim()===ano);
-  return e?parseInt((e[1]||'').replace(/[^0-9]/g,''))||0:0;
+
+// Detecta o campo "ano" em qualquer linha
+function detectAnoCol(rows) {
+  if (!rows || !rows.length) return null;
+  const keys = Object.keys(rows[0]);
+  return keys.find(k => /^ano$/i.test(k.trim())) ||
+         keys.find(k => /ano/i.test(k.trim())) ||
+         null;
 }
 
-async function init(){
-  [statsRows, allBooks] = await Promise.all([fetchCSV(CSV_VISAO), fetchCSV(CSV_ESTANTE)]);
+// Detecta campo "lido/não lido"
+function detectLidoCol(rows) {
+  if (!rows || !rows.length) return null;
+  const keys = Object.keys(rows[0]);
+  return keys.find(k => /lido/i.test(k)) || null;
+}
 
-  buildStats();
+function isLido(row, lidoCol) {
+  if (!lidoCol) return true; // assume todos lidos se não tiver coluna
+  return norm(row[lidoCol]) === 'lido';
+}
+
+// Filtra livros lidos de qualquer planilha
+function getLidos(rows) {
+  const lidoCol = detectLidoCol(rows);
+  if (!lidoCol) return rows; // sem coluna status = considera todos
+  return rows.filter(r => isLido(r, lidoCol));
+}
+
+// Charts opts
+function barOpts(horizontal=false) {
+  return {
+    maintainAspectRatio: false,
+    indexAxis: horizontal ? 'y' : 'x',
+    plugins: {
+      legend: { display: false },
+      datalabels: {
+        display: true,
+        anchor: horizontal ? 'end' : 'end',
+        align: horizontal ? 'end' : 'top',
+        color: BLACK, font: { family:'DM Sans', size:10, weight:'500' },
+        formatter: v => v > 0 ? v : '', clamp: true,
+      }
+    },
+    scales: {
+      x: { grid:{ color:'#eeeeee', lineWidth:.7 }, ticks:{ font:{family:'DM Sans',size:10}, color:'#666' }, border:{display:false} },
+      y: { grid:{ color:'#eeeeee', lineWidth:.7 }, ticks:{ font:{family:'DM Sans',size:10}, color:'#666' }, border:{display:false} },
+    }
+  };
+}
+function pieOpts() {
+  return {
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position:'bottom', labels:{ font:{family:'DM Sans',size:10}, color:BLACK, padding:8, boxWidth:10 } },
+      datalabels: {
+        display: true,
+        formatter:(v,ctx) => {
+          const t = ctx.dataset.data.reduce((a,b)=>a+b,0);
+          const p = Math.round(v/t*100);
+          return p > 4 ? p+'%' : '';
+        },
+        color: WHITE, font:{ family:'DM Sans', size:10, weight:'500' },
+      }
+    }
+  };
+}
+
+// ─── STATE ───────────────────────────────────────────────────────────────────
+let statsRows=[], leituras=[], estante=[], anoAtivo='2026', anoCharts={};
+// allBooks = união de leituras + estante, deduplicado por título
+let allBooks = [];
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+async function init() {
+  // Carrega em paralelo
+  [statsRows, leituras, estante] = await Promise.all([
+    fetchCSV(CSV_HISTORICO),
+    fetchCSV(CSV_LEITURAS),
+    fetchCSV(CSV_ESTANTE),
+  ]);
+
+  // Debug: imprime headers para diagnóstico
+  if (leituras.length)  console.log('LEITURAS cols:', Object.keys(leituras[0]));
+  if (estante.length)   console.log('ESTANTE cols:', Object.keys(estante[0]));
+  if (statsRows.length) console.log('HISTORICO rows[0]:', Object.values(statsRows[0]).slice(0,8));
+
+  // Une as duas planilhas (leituras tem precedência)
+  buildAllBooks();
+
+  buildGlobalStats();
   buildGerais();
   buildMap();
   buildYearFilter();
   renderAno('2026');
 }
 
-function buildStats(){
-  const livros = allBooks.filter(b=>norm(b['Lido/Não Lido'])==='lido');
-  document.getElementById('stat-total').textContent = livros.length || '—';
-
-  const totalPag = livros.reduce((s,b)=>{
-    const p=parseInt((b['Páginas']||'').replace(/[^0-9]/g,''))||0;
-    return s+p;
-  },0);
-  document.getElementById('stat-paginas').textContent = totalPag>0?totalPag.toLocaleString('pt-BR'):'—';
-
-  const idiomas = new Set(livros.map(b=>(b['Idioma']||'').trim()).filter(Boolean));
-  document.getElementById('stat-idiomas').textContent = idiomas.size||'—';
-
-  const autores = new Set(livros.map(b=>(b['Autor']||b['Autora']||'').trim()).filter(Boolean));
-  document.getElementById('stat-autores').textContent = autores.size||'—';
-
-  const paises = new Set(livros.map(b=>(b['País']||b['Pais']||'').trim()).filter(Boolean));
-  document.getElementById('stat-paises').textContent = paises.size||'—';
-
-  const cincoEstrelas = livros.filter(b=>{
-    const r=(b['Avaliação']||b['Nota']||b['Rating']||'').trim();
-    return r==='5'||r==='5.0'||r==='★★★★★';
-  }).length;
-  document.getElementById('stat-5estrelas').textContent = cincoEstrelas||'—';
-}
-
-function buildGerais(){
-  const livRow  = getRow('livros');
-  const pagRow  = getRow('páginas');
-  const novRow  = getRow('autores lidos pela');
-  const lgRow   = getRow('lgbtqia');
-  const etnRow  = getRow('representatividade');
-  const ownRow  = getRow('ownvoices');
-
-  const livData = ANOS.map(a=>getAnoVal(livRow,a));
-  const pagData = ANOS.map(a=>getAnoVal(pagRow,a));
-  const novData = ANOS.map(a=>getAnoVal(novRow,a));
-  const lgData  = ANOS.map(a=>getAnoVal(lgRow,a));
-  const etnData = ANOS.map(a=>getAnoVal(etnRow,a));
-  const ownData = ANOS.map(a=>getAnoVal(ownRow,a));
-
-  const mkBar=(id,data,opts={})=>{
-    new Chart(document.getElementById(id),{type:'bar',
-      data:{labels:ANOS,datasets:[{data,backgroundColor:ANOS.map(a=>a==='2026'?GREEN:GREEN_LIGHT),borderRadius:3}]},
-      options:{...barOpts(),...opts}});
-  };
-  mkBar('c-anos',livData);
-  mkBar('c-paginas',pagData,{
-    plugins:{...barOpts().plugins,
-      datalabels:{...barOpts().plugins.datalabels,
-        formatter:v=>v>0?v.toLocaleString('pt-BR'):''}
-    }
+// Monta allBooks unindo leituras + estante
+function buildAllBooks() {
+  // Cria mapa de títulos da leituras
+  const titleMap = {};
+  leituras.forEach(r => {
+    const t = col(r,'Título','Titulo','Title','titulo','título').toLowerCase();
+    if (t) titleMap[t] = r;
   });
-  mkBar('c-novos',novData);
-  mkBar('c-lgbtq',lgData);
-  mkBar('c-etnia',etnData);
-  mkBar('c-own',ownData);
+  // Adiciona da estante o que não estiver em leituras
+  estante.forEach(r => {
+    const t = col(r,'Título','Titulo','Title','titulo','título').toLowerCase();
+    if (t && !titleMap[t]) titleMap[t] = r;
+  });
+  allBooks = Object.values(titleMap);
 }
 
-function buildMap(){
+// ─── STATS GLOBAIS ────────────────────────────────────────────────────────────
+function buildGlobalStats() {
+  const lidos = getLidos(allBooks);
+
+  document.getElementById('stat-total').textContent = lidos.length || '—';
+
+  const totalPag = lidos.reduce((s,b) => {
+    return s + (parseInt(col(b,'Páginas','Paginas','páginas','paginas','pages').replace(/\D/g,''))||0);
+  }, 0);
+  document.getElementById('stat-paginas').textContent = totalPag > 0 ? totalPag.toLocaleString('pt-BR') : '—';
+
+  const idiomas = new Set(lidos.map(b=>col(b,'Idioma','idioma','Language').trim()).filter(Boolean));
+  document.getElementById('stat-idiomas').textContent = idiomas.size || '—';
+
+  const autores = new Set(lidos.map(b=>col(b,'Autor','Autora','autor','autora','Author').trim()).filter(Boolean));
+  document.getElementById('stat-autores').textContent = autores.size || '—';
+
+  const paises = new Set(lidos.map(b=>col(b,'País','Pais','país','pais','Country').trim()).filter(Boolean));
+  document.getElementById('stat-paises').textContent = paises.size || '—';
+
+  const cincoEstrelas = lidos.filter(b => {
+    const r = col(b,'Avaliação','Nota','Rating','avaliação','nota','rating').trim();
+    return r==='5'||r==='5.0'||r==='5,0'||r==='★★★★★';
+  }).length;
+  document.getElementById('stat-5estrelas').textContent = cincoEstrelas || '—';
+}
+
+// ─── GRÁFICOS GERAIS (visão histórica a partir da planilha de histórico) ─────
+function buildGerais() {
+  // Tenta ler da planilha de histórico (statsRows)
+  // O histórico tem cabeçalhos em linhas específicas e anos como colunas
+  // Detecta qual coluna corresponde a cada ano
+  
+  function getRowByLabel(label) {
+    return statsRows.find(r => {
+      const first = Object.values(r)[0] || '';
+      return norm(first).includes(norm(label));
+    });
+  }
+  function getValByAno(row, ano) {
+    if (!row) return 0;
+    const entry = Object.entries(row).find(([k]) => k.trim() === ano);
+    return entry ? (parseInt((entry[1]||'').replace(/\D/g,'')) || 0) : 0;
+  }
+
+  // Tenta extrair dados do histórico
+  const livRow  = getRowByLabel('livros');
+  const pagRow  = getRowByLabel('páginas') || getRowByLabel('paginas');
+  const novRow  = getRowByLabel('autores lidos pela') || getRowByLabel('novos autores');
+  const lgRow   = getRowByLabel('lgbtqia') || getRowByLabel('lgbtq');
+  const etnRow  = getRowByLabel('representatividade') || getRowByLabel('etnia');
+  const ownRow  = getRowByLabel('ownvoices') || getRowByLabel('own voices');
+
+  // Se não tiver dados no histórico, computa da planilha de leituras
+  const livData = ANOS.map(a => {
+    const fromHist = getValByAno(livRow, a);
+    if (fromHist > 0) return fromHist;
+    // fallback: conta da leituras
+    const anoCol = detectAnoCol(leituras);
+    if (!anoCol) return 0;
+    return getLidos(leituras).filter(r => (r[anoCol]||'').trim() === a).length;
+  });
+
+  const pagData = ANOS.map(a => {
+    const fromHist = getValByAno(pagRow, a);
+    if (fromHist > 0) return fromHist;
+    const anoCol = detectAnoCol(leituras);
+    if (!anoCol) return 0;
+    return getLidos(leituras)
+      .filter(r=>(r[anoCol]||'').trim()===a)
+      .reduce((s,r)=>s+(parseInt(col(r,'Páginas','Paginas','páginas').replace(/\D/g,''))||0),0);
+  });
+
+  const novData = ANOS.map(a => getValByAno(novRow, a));
+  const lgData  = ANOS.map(a => getValByAno(lgRow, a));
+  const etnData = ANOS.map(a => getValByAno(etnRow, a));
+  const ownData = ANOS.map(a => getValByAno(ownRow, a));
+
+  function mkBar(id, data, fmtFn) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const opts = barOpts();
+    if (fmtFn) opts.plugins.datalabels.formatter = fmtFn;
+    new Chart(el, {
+      type:'bar',
+      data:{
+        labels: ANOS,
+        datasets:[{ data, backgroundColor: ANOS.map(a=>a==='2026'?GREEN:GREEN_LIGHT), borderRadius:3 }]
+      },
+      options: opts
+    });
+  }
+
+  mkBar('c-anos',   livData);
+  mkBar('c-paginas',pagData, v=>v>0?v.toLocaleString('pt-BR'):'');
+  mkBar('c-novos',  novData);
+  mkBar('c-lgbtq',  lgData);
+  mkBar('c-etnia',  etnData);
+  mkBar('c-own',    ownData);
+}
+
+// ─── MAPA ─────────────────────────────────────────────────────────────────────
+function buildMap() {
   const map = L.map('hist-map',{scrollWheelZoom:false}).setView([20,10],2);
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{
-    attribution:'© OpenStreetMap contributors © CARTO',maxZoom:19
+    attribution:'© OpenStreetMap contributors © CARTO', maxZoom:19
   }).addTo(map);
 
-  const lidos = allBooks.filter(b=>norm(b['Lido/Não Lido'])==='lido');
-  const paisCount = count(lidos,'País')||count(lidos,'Pais');
+  const lidos = getLidos(allBooks);
+  const paisCount = count(lidos,'País','Pais','país','pais','Country');
 
-  Object.entries(paisCount).forEach(([pais,qtd])=>{
+  Object.entries(paisCount).forEach(([pais,qtd]) => {
     const coord = COORDS[pais];
-    if(!coord)return;
+    if (!coord) return;
     L.circleMarker(coord,{
       radius: Math.max(5, Math.sqrt(qtd)*4),
       fillColor: GREEN, color: GREEN_LIGHT,
@@ -589,105 +623,112 @@ function buildMap(){
   });
 }
 
-function buildYearFilter(){
+// ─── FILTRO POR ANO ───────────────────────────────────────────────────────────
+function buildYearFilter() {
   const wrap = document.getElementById('year-filter');
-  ANOS.slice().reverse().forEach(ano=>{
-    const btn=document.createElement('button');
-    btn.className='year-btn'+(ano==='2026'?' active':'');
-    btn.textContent=ano;
-    btn.addEventListener('mouseenter',()=>{ if(!btn.classList.contains('active')) btn.style.background=WHITE; });
-    btn.addEventListener('mouseleave',()=>{ if(!btn.classList.contains('active')) btn.style.background='transparent'; });
-    btn.onclick=()=>{
-      document.querySelectorAll('.year-btn').forEach(b=>{
-        b.classList.remove('active');
-        b.style.background='transparent';
-        b.style.color=BLACK;
-        b.style.borderColor=BLACK;
+  ANOS.slice().reverse().forEach(ano => {
+    const btn = document.createElement('button');
+    btn.className = 'year-btn' + (ano==='2026' ? ' selected' : '');
+    btn.textContent = ano;
+    btn.addEventListener('mouseenter', () => { if(!btn.classList.contains('selected')) btn.style.background=WHITE; });
+    btn.addEventListener('mouseleave', () => { if(!btn.classList.contains('selected')) btn.style.background='transparent'; });
+    btn.onclick = () => {
+      document.querySelectorAll('.year-btn').forEach(b => {
+        b.classList.remove('selected');
+        b.style.background = 'transparent';
+        b.style.color = BLACK;
+        b.style.borderColor = BLACK;
       });
-      btn.classList.add('active');
-      btn.style.background=BLACK;
-      btn.style.color=WHITE;
+      btn.classList.add('selected');
+      btn.style.background = ORANGE;
+      btn.style.borderColor = ORANGE;
+      btn.style.color = WHITE;
       renderAno(ano);
     };
     wrap.appendChild(btn);
   });
 }
 
-function renderAno(ano){
-  anoAtivo=ano;
-  Object.values(anoCharts).forEach(c=>c.destroy());
-  anoCharts={};
+// ─── RENDER ANO ───────────────────────────────────────────────────────────────
+function renderAno(ano) {
+  anoAtivo = ano;
+  Object.values(anoCharts).forEach(c => c.destroy());
+  anoCharts = {};
 
-  let books = allBooks;
-  const colAno = Object.keys(allBooks[0]||{}).find(k=>k.trim().toLowerCase()==='ano');
-  if(colAno) books = allBooks.filter(b=>(b[colAno]||'').trim()===ano);
-  const lidos = books.filter(b=>norm(b['Lido/Não Lido'])==='lido');
-  const src = lidos.length?lidos:books;
+  // Detecta coluna de ano nas leituras
+  const anoCol = detectAnoCol(leituras);
+  
+  // Filtra leituras pelo ano
+  let booksDoAno = leituras;
+  if (anoCol) {
+    booksDoAno = leituras.filter(r => (r[anoCol]||'').trim() === ano);
+  }
+  const lidos = getLidos(booksDoAno);
+  const src = lidos.length ? lidos : booksDoAno;
 
-  // Stats do ano
-  const grid = document.getElementById('ano-stats-grid');
-  const livRow  = getRow('livros');
-  const pagRow  = getRow('páginas');
-  const totalLivAno = getAnoVal(livRow, ano);
-  const totalPagAno = getAnoVal(pagRow, ano);
-  grid.innerHTML = `
-    <div style="text-align:center">
-      <div style="font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:600;">${totalLivAno||lidos.length||'—'}</div>
-      <div style="font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:#555;margin-top:.3rem;">Livros lidos</div>
-    </div>
-    <div style="text-align:center">
-      <div style="font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:600;">${totalPagAno?totalPagAno.toLocaleString('pt-BR'):'—'}</div>
-      <div style="font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:#555;margin-top:.3rem;">Páginas</div>
-    </div>
-    <div style="text-align:center">
-      <div style="font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:600;">${new Set(src.map(b=>(b['Autor']||b['Autora']||'').trim()).filter(Boolean)).size||'—'}</div>
-      <div style="font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:#555;margin-top:.3rem;">Autores únicos</div>
-    </div>
-    <div style="text-align:center">
-      <div style="font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:600;">${new Set(src.map(b=>(b['País']||b['Pais']||'').trim()).filter(Boolean)).size||'—'}</div>
-      <div style="font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:#555;margin-top:.3rem;">Países</div>
-    </div>
-  `;
+  console.log(`Ano ${ano}: anoCol="${anoCol}", total leituras=${leituras.length}, filtrados=${booksDoAno.length}, lidos=${lidos.length}`);
 
-  const mkPie=(id,field)=>{
-    const obj=count(src,field);
-    if(!Object.keys(obj).length)return;
-    const c=new Chart(document.getElementById(id),{type:'doughnut',
-      data:{labels:Object.keys(obj),datasets:[{data:Object.values(obj),backgroundColor:CORES,borderWidth:0}]},
-      options:pieOpts()});
-    anoCharts[id]=c;
-  };
-  mkPie('ac-cor','Cor');
-  mkPie('ac-ga','Se identifica como...');
-  mkPie('ac-idioma','Idioma');
+  // ── Stat cards do ano ──
+  const totalPagAno = src.reduce((s,b) =>
+    s + (parseInt(col(b,'Páginas','Paginas','páginas','paginas').replace(/\D/g,''))||0), 0);
+  const idiomasAno = new Set(src.map(b=>col(b,'Idioma','idioma').trim()).filter(Boolean));
+  const autoresAno = new Set(src.map(b=>col(b,'Autor','Autora','autor','autora').trim()).filter(Boolean));
+  const paisesAno  = new Set(src.map(b=>col(b,'País','Pais','país','pais').trim()).filter(Boolean));
+  const cincoAno   = src.filter(b=>{
+    const r = col(b,'Avaliação','Nota','Rating','avaliação').trim();
+    return r==='5'||r==='5.0'||r==='5,0'||r==='★★★★★';
+  }).length;
 
-  // Gêneros
-  const gn=topN(count(src,'Gênero'),10);
-  if(gn.length){
-    const c=new Chart(document.getElementById('ac-generos'),{type:'bar',
-      data:{labels:gn.map(e=>e[0]),datasets:[{data:gn.map(e=>e[1]),backgroundColor:GREEN,borderRadius:3}]},
-      options:barOpts(true)});
-    anoCharts['ac-generos']=c;
+  document.getElementById('a-livros').textContent    = lidos.length || '—';
+  document.getElementById('a-paginas').textContent   = totalPagAno > 0 ? totalPagAno.toLocaleString('pt-BR') : '—';
+  document.getElementById('a-idiomas').textContent   = idiomasAno.size || '—';
+  document.getElementById('a-autores').textContent   = autoresAno.size || '—';
+  document.getElementById('a-paises').textContent    = paisesAno.size  || '—';
+  document.getElementById('a-5estrelas').textContent = cincoAno || '—';
+
+  // ── Gráficos do ano ──
+  function mkPie(id, ...fields) {
+    const obj = count(src, ...fields);
+    if (!Object.keys(obj).length) return;
+    const c = new Chart(document.getElementById(id), {
+      type:'doughnut',
+      data:{ labels:Object.keys(obj), datasets:[{ data:Object.values(obj), backgroundColor:CORES, borderWidth:0 }] },
+      options: pieOpts()
+    });
+    anoCharts[id] = c;
   }
 
-  // Países
-  const ps=topN(count(src,'País')||count(src,'Pais'),10);
-  if(ps.length){
-    const c=new Chart(document.getElementById('ac-paises'),{type:'bar',
-      data:{labels:ps.map(e=>e[0]),datasets:[{data:ps.map(e=>e[1]),backgroundColor:GREEN_LIGHT,borderRadius:3}]},
-      options:barOpts(true)});
-    anoCharts['ac-paises']=c;
+  function mkBarAno(id, ...fields) {
+    const obj = count(src, ...fields);
+    const entries = topN(obj, 10);
+    if (!entries.length) return;
+    const c = new Chart(document.getElementById(id), {
+      type:'bar',
+      data:{ labels:entries.map(e=>e[0]), datasets:[{ data:entries.map(e=>e[1]), backgroundColor:GREEN, borderRadius:3 }] },
+      options: barOpts(true)
+    });
+    anoCharts[id] = c;
   }
+
+  mkPie('ac-cor',    'Cor','cor','Cor do Autor','cor do autor');
+  mkPie('ac-ga',     'Se identifica como...','Gênero do Autor','gênero do autor','Sexo','sexo');
+  mkPie('ac-idioma', 'Idioma','idioma','Language');
+  mkBarAno('ac-generos',    'Gênero','gênero','Genero','genero','Genre');
+  mkBarAno('ac-paises-ano', 'País','Pais','país','pais','Country');
 
   // Stars
-  const stars = count(src,'Avaliação')||count(src,'Nota')||count(src,'Rating');
-  if(Object.keys(stars).length){
-    const starKeys=['1','2','3','4','5'];
-    const c=new Chart(document.getElementById('ac-stars'),{type:'bar',
-      data:{labels:starKeys.map(k=>'★'.repeat(parseInt(k))),
-            datasets:[{data:starKeys.map(k=>stars[k]||0),backgroundColor:ANOS.map((_,i)=>i===4?GREEN:GREEN_LIGHT),borderRadius:3}]},
-      options:barOpts()});
-    anoCharts['ac-stars']=c;
+  const starsObj = count(src,'Avaliação','Nota','Rating','avaliação','nota');
+  if (Object.keys(starsObj).length) {
+    const starKeys = ['1','2','3','4','5'];
+    const c = new Chart(document.getElementById('ac-stars'), {
+      type:'bar',
+      data:{
+        labels: starKeys.map(k=>'★'.repeat(parseInt(k))),
+        datasets:[{ data: starKeys.map(k=>starsObj[k]||0), backgroundColor:ANOS.map((_,i)=>i===4?GREEN:GREEN_LIGHT), borderRadius:3 }]
+      },
+      options: barOpts()
+    });
+    anoCharts['ac-stars'] = c;
   }
 }
 
