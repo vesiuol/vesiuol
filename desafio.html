@@ -696,19 +696,97 @@ const COORDS = {
 };
 
 function norm(s){ return (s||'').trim().toLowerCase(); }
+
+// fetchCSV com suporte a cabeçalho duplo
+// O Excel exporta com linha 1 = grupos mesclados, linha 2 = nomes reais
+// Estratégia: baixa o CSV duas vezes:
+//   1. sem header para pegar as linhas brutas
+//   2. reprocessa usando a linha que contém "Por que li?" como cabeçalho real
 function fetchCSV(url){
   return new Promise((res,rej)=>{
-    Papa.parse(url,{download:true,header:true,skipEmptyLines:true,complete:r=>res(r.data),error:rej});
+    Papa.parse(url,{
+      download:true, header:false, skipEmptyLines:true,
+      complete: r => {
+        const rows = r.data; // array de arrays
+        if(!rows.length){ res([]); return; }
+
+        // Descobre qual linha é o cabeçalho real (contém nomes como "Título", "Páginas")
+        // Geralmente é a linha 1 (índice 0) ou linha 2 (índice 1)
+        let headerIdx = 0;
+        for(let i=0;i<Math.min(3,rows.length);i++){
+          const vals = rows[i].map(v=>norm(v));
+          // Linha de cabeçalho real tem "título" ou "páginas" ou "gênero"
+          if(vals.some(v=>v==='título'||v==='titulo'||v==='páginas'||v==='paginas'||v==='gênero'||v==='genero')){
+            headerIdx = i;
+            break;
+          }
+        }
+
+        const headers = rows[headerIdx];
+        // Normaliza nomes duplicados adicionando sufixo
+        const seen = {};
+        const cleanHeaders = headers.map(h=>{
+          const k = (h||'').trim() || '_empty';
+          seen[k] = (seen[k]||0)+1;
+          return seen[k]>1 ? k+'_'+seen[k] : k;
+        });
+
+        // Converte as linhas de dados em objetos com cabeçalho real
+        const data = rows.slice(headerIdx+1).map(row=>{
+          const obj = {};
+          cleanHeaders.forEach((h,i)=>{ obj[h] = (row[i]||'').trim(); });
+          return obj;
+        }).filter(r=>Object.values(r).some(v=>v)); // remove linhas totalmente vazias
+
+        console.log(`[fetchCSV] ${url.slice(-20)} — ${data.length} linhas, cabeçalho[${headerIdx}]:`, cleanHeaders.slice(0,8).join(', '));
+        res(data);
+      },
+      error: rej
+    });
   });
 }
-function count(arr,key){
-  const c={};
-  arr.forEach(b=>{const v=(b[key]||'').trim();if(v)c[v]=(c[v]||0)+1;});
-  return c;
-}
+
 function topN(obj,n){return Object.entries(obj).sort((a,b)=>b[1]-a[1]).slice(0,n);}
 
-function chartBase(){
+// findField: busca valor pelo nome da coluna, aceita variações
+function findField(row, candidates){
+  if(!row) return '';
+  const keys = Object.keys(row);
+  for(const cand of candidates){
+    const cn = norm(cand);
+    // Exato
+    const exact = keys.find(k=>norm(k)===cn);
+    if(exact && row[exact] && row[exact].trim()) return row[exact].trim();
+    // Contém
+    const partial = keys.find(k=>norm(k).includes(cn)||cn.includes(norm(k)));
+    if(partial && row[partial] && row[partial].trim()) return row[partial].trim();
+  }
+  return '';
+}
+
+// filterLPM: filtra linhas onde "Por que li?" = "Desafio LPM"
+// Agora funciona porque fetchCSV já usa o cabeçalho real
+function filterLPM(rows){
+  const filtered = rows.filter(r => {
+    const v = findField(r,['Por que li?','Por que li','por que li?']);
+    return norm(v).includes('desafio lpm');
+  });
+  if(filtered.length){
+    console.log('[filterLPM] ✓', filtered.length, 'linhas LPM. Ex:', JSON.stringify(filtered[0]).slice(0,120));
+  } else {
+    // Fallback: procura em qualquer coluna
+    const byValue = rows.filter(r=>Object.values(r).some(v=>norm(v).includes('desafio lpm')));
+    if(byValue.length){
+      console.log('[filterLPM] ✓ (via valor)', byValue.length, 'linhas');
+      return byValue;
+    }
+    console.warn('[filterLPM] 0 resultados. Colunas:', rows[0]?Object.keys(rows[0]).slice(0,15).join(', '):'vazio');
+  }
+  return filtered;
+}
+
+let desafioRows=[], allBooks=[], merged=[], filteredM=[];
+let rows2024=[], rows2025=[], rows2026=[];
   return{
     maintainAspectRatio:false,
     plugins:{
@@ -739,31 +817,19 @@ let desafioRows=[], allBooks=[], merged=[], filteredM=[];
 let rows2024=[], rows2025=[], rows2026=[];
 
 function filterLPM(rows){
-  // Tenta filtrar pela coluna "Por que li?" com valor "Desafio LPM"
-  // Aceita variações de nome da coluna
-  const filtered = rows.filter(r=>{
-    const keys = Object.keys(r);
-    const col = keys.find(k => norm(k).includes('por que li') || norm(k).includes('porqueli'));
-    if(!col) return false;
-    return norm(r[col]).includes('desafio lpm');
-  });
-  // Se não encontrou a coluna ou nenhum resultado, loga e retorna vazio
+  // As colunas do Excel têm nomes gerados (_1, _2...) porque há cabeçalho duplo.
+  // Solução: procura "Desafio LPM" em QUALQUER coluna de qualquer linha.
+  const filtered = rows.filter(r =>
+    Object.values(r).some(v => norm(v||'').includes('desafio lpm'))
+  );
   if(!filtered.length){
-    const sample = rows[0] ? Object.keys(rows[0]).join(', ') : '(vazio)';
-    console.warn('[filterLPM] Nenhum resultado. Colunas disponíveis:', sample);
+    console.warn('[filterLPM] Nenhum resultado. Valores da linha 1:',
+      rows[0] ? Object.values(rows[0]).slice(0,10).join(' | ') : '(vazio)');
   }
   return filtered;
 }
 
-// ── HELPERS ───────────────────────────────────────────────────────────────────
-function findField(row, candidates){
-  const keys = Object.keys(row);
-  for(const cand of candidates){
-    const match = keys.find(k => norm(k) === norm(cand) || norm(k).includes(norm(cand)));
-    if(match && row[match] && row[match].trim()) return row[match].trim();
-  }
-  return '';
-}
+
 
 function isLidoStatus(status){
   const s = norm(status);
@@ -787,6 +853,8 @@ async function init(){
     rows2026 = filterLPM(raw2026);
     allBooks = rawEstante;
 
+
+
     console.log('[LPM] 2024:', rows2024.length, '| 2025:', rows2025.length, '| 2026:', rows2026.length);
     if(rows2024[0]) console.log('[2024 cols]', Object.keys(rows2024[0]).join(', '));
     if(rows2025[0]) console.log('[2025 cols]', Object.keys(rows2025[0]).join(', '));
@@ -800,26 +868,22 @@ async function init(){
     return;
   }
 
-  // Todos os anos LPM juntos — para gráficos e stats
+  // Todos os anos LPM juntos
   const allLPM = [...rows2024, ...rows2025, ...rows2026];
 
   // ── Stats ─────────────────────────────────────────────────────────────────
-  // Países lidos: países únicos que aparecem em allLPM
   const paisesLidos = new Set(
     allLPM.map(r => norm(findField(r,['País','Pais']))).filter(Boolean)
   ).size;
 
-  // Países com livro mapeado: do NOTION_DATA (fonte de verdade dos 209)
   const notionMapeados  = NOTION_DATA.filter(n => n.livro && n.livro.trim()).length;
   const notionSemLivro  = NOTION_DATA.filter(n => !n.livro || !n.livro.trim()).length;
 
-  // Páginas lidas: soma coluna "Páginas" de todos os anos LPM
   const totalPaginas = allLPM.reduce((sum,r) => {
     const p = parseInt(findField(r,['Páginas','Paginas','pages'])||'0');
     return sum + (isNaN(p) ? 0 : p);
   }, 0);
 
-  // 5 estrelas: coluna NOTA = 5 em allLPM
   const cincoEstrelas = allLPM.filter(r => {
     const n = (findField(r,['NOTA','Nota','nota'])||'').trim();
     return n === '5';
@@ -844,14 +908,9 @@ async function init(){
 }
 
 function buildCharts(allLPM){
-  const lidos = allLPM; // todos já são lidos (passaram pelo filtro LPM)
-  // Helper: conta campo em array de rows do Excel
   const countField = (rows, candidates) => {
     const c={};
-    rows.forEach(r=>{
-      const v = findField(r, candidates);
-      if(v) c[v]=(c[v]||0)+1;
-    });
+    rows.forEach(r=>{ const v=findField(r,candidates); if(v) c[v]=(c[v]||0)+1; });
     return c;
   };
 
@@ -910,10 +969,9 @@ function buildCharts(allLPM){
   });
   barH('c-regiao', rc, GREEN, 200);
   barH('c-generos', countField(allLPM,['Gênero','Genero','Genre','gênero literário']), GREEN_LIGHT, 200);
-  barH('c-conheci', countField(allLPM,['Como conheci?','Como conheci','como conheci']), '#a8bc90', 180);
-  barH('c-origem',  countField(allLPM,['Origem do livro?','Origem do livro','origem']), '#c8d4b8', 180);
+  barH('c-conheci', countField(allLPM,['Como conheci?','Como conheci']), '#a8bc90', 180);
+  barH('c-origem',  countField(allLPM,['Origem do livro?','Origem do livro']), '#c8d4b8', 180);
 
-  // ── 12. Notas (distribuição 1–5) ─────────────────────────────────────────────
   const nc={1:0,2:0,3:0,4:0,5:0};
   allLPM.forEach(r=>{
     const n=parseInt(findField(r,['NOTA','Nota','nota','Avaliação'])||'0');
