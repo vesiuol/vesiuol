@@ -858,7 +858,37 @@ async function init(){
   document.getElementById('s-novos').textContent    = totalPaginas > 0 ? totalPaginas.toLocaleString('pt-BR') : '0';
   document.getElementById('s-cinco').textContent    = cincoEstrelas || '0';
 
-  buildCharts(allLPM);
+  // ── DIAGNÓSTICO COMPLETO ─────────────────────────────────────────────────
+  console.group('%c🔍 DIAGNÓSTICO DESAFIO.HTML', 'color:#849974;font-weight:bold;font-size:14px');
+
+  console.log('NOTION: países total =', NOTION_DATA.length);
+  console.log('NOTION: Concluído =', NOTION_DATA.filter(n=>n.status_notion==='Concluído').length);
+  console.log('NOTION: amostra status únicos =', [...new Set(NOTION_DATA.map(n=>n.status_notion))]);
+
+  console.log('LEITURAS 2024:', rows2024.length, '— colunas:', rows2024[0]?Object.keys(rows2024[0]).join(', '):'(vazio)');
+  console.log('LEITURAS 2025:', rows2025.length, '— colunas:', rows2025[0]?Object.keys(rows2025[0]).join(', '):'(vazio)');
+  console.log('LEITURAS 2026:', rows2026.length, '— colunas:', rows2026[0]?Object.keys(rows2026[0]).join(', '):'(vazio)');
+  console.log('ESTANTE:', allBooks.length, '— colunas:', allBooks[0]?Object.keys(allBooks[0]).join(', '):'(vazio)');
+
+  // Filtro LPM
+  const testLPM = [...rows2024,...rows2025,...rows2026];
+  console.log('DESAFIO LPM total (3 anos):', testLPM.length);
+  if(testLPM[0]){
+    console.log('DESAFIO LPM amostra linha 1:', JSON.stringify(testLPM[0]).slice(0,300));
+  }
+
+  // Cruzamento Notion ↔ Excel
+  const titulosExcel = new Set(testLPM.map(r=>norm(findField(r,['Título','Titulo','título']))).filter(Boolean));
+  const titulosNotion = NOTION_DATA.filter(n=>n.livro).map(n=>norm(n.livro));
+  const cruzamentos = titulosNotion.filter(t=>titulosExcel.has(t)).length;
+  console.log('Títulos únicos no Excel LPM:', titulosExcel.size);
+  console.log('Títulos no Notion com livro:', titulosNotion.length);
+  console.log('Cruzamentos Notion ↔ Excel:', cruzamentos);
+  if(titulosNotion[0]) console.log('Ex. Notion:', titulosNotion[0]);
+  if(titulosExcel.size) console.log('Ex. Excel:', [...titulosExcel][0]);
+
+  console.groupEnd();
+  // ── FIM DIAGNÓSTICO ──────────────────────────────────────────────────────
   buildMap();
   buildEvolucao(rows2024, rows2025, rows2026);
   crossExcelIntoNotion(allLPM);
