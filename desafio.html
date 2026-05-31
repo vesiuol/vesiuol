@@ -697,52 +697,12 @@ const COORDS = {
 
 function norm(s){ return (s||'').trim().toLowerCase(); }
 
-// fetchCSV com suporte a cabeçalho duplo
-// O Excel exporta com linha 1 = grupos mesclados, linha 2 = nomes reais
-// Estratégia: baixa o CSV duas vezes:
-//   1. sem header para pegar as linhas brutas
-//   2. reprocessa usando a linha que contém "Por que li?" como cabeçalho real
 function fetchCSV(url){
   return new Promise((res,rej)=>{
-    Papa.parse(url,{
-      download:true, header:false, skipEmptyLines:true,
-      complete: r => {
-        const rows = r.data; // array de arrays
-        if(!rows.length){ res([]); return; }
-
-        // Descobre qual linha é o cabeçalho real (contém nomes como "Título", "Páginas")
-        // Geralmente é a linha 1 (índice 0) ou linha 2 (índice 1)
-        let headerIdx = 0;
-        for(let i=0;i<Math.min(3,rows.length);i++){
-          const vals = rows[i].map(v=>norm(v));
-          // Linha de cabeçalho real tem "título" ou "páginas" ou "gênero"
-          if(vals.some(v=>v==='título'||v==='titulo'||v==='páginas'||v==='paginas'||v==='gênero'||v==='genero')){
-            headerIdx = i;
-            break;
-          }
-        }
-
-        const headers = rows[headerIdx];
-        // Normaliza nomes duplicados adicionando sufixo
-        const seen = {};
-        const cleanHeaders = headers.map(h=>{
-          const k = (h||'').trim() || '_empty';
-          seen[k] = (seen[k]||0)+1;
-          return seen[k]>1 ? k+'_'+seen[k] : k;
-        });
-
-        // Converte as linhas de dados em objetos com cabeçalho real
-        const data = rows.slice(headerIdx+1).map(row=>{
-          const obj = {};
-          cleanHeaders.forEach((h,i)=>{ obj[h] = (row[i]||'').trim(); });
-          return obj;
-        }).filter(r=>Object.values(r).some(v=>v)); // remove linhas totalmente vazias
-
-        console.log(`[fetchCSV] ${url.slice(-20)} — ${data.length} linhas, cabeçalho[${headerIdx}]:`, cleanHeaders.slice(0,8).join(', '));
-        res(data);
-      },
-      error: rej
-    });
+    Papa.parse(url,{download:true,header:true,skipEmptyLines:true,complete:r=>{
+      console.log('[fetchCSV]', url.slice(-30), '—', r.data.length, 'linhas. Colunas:', Object.keys(r.data[0]||{}).join(', '));
+      res(r.data);
+    },error:rej});
   });
 }
 
