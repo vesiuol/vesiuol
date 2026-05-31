@@ -72,7 +72,7 @@ nav ul a.active:hover{color:var(--white);}
 .section-tag{background:var(--green);color:var(--white);font-size:.8rem;font-weight:700;padding:.25rem .7rem;font-family:'Lora',serif;}
 .section-sub{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);}
 
-.charts-grid{display:grid;grid-template-columns:1fr 1fr;column-gap:1.2rem;row-gap:2.8rem;margin-bottom:2.5rem;}
+.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-bottom:2.5rem;}
 .chart-card{border:1.5px solid var(--border);border-radius:12px;background:var(--white);overflow:hidden;box-shadow:2px 2px 0 #c8c8c8;}
 .chart-card.full{grid-column:1/-1;}
 .chart-card-dots{display:flex;gap:5px;padding:10px 12px 0;align-items:center;}
@@ -80,7 +80,7 @@ nav ul a.active:hover{color:var(--white);}
 .chart-title{font-size:.63rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:6px 14px 10px;font-weight:500;}
 .chart-wrap{position:relative;padding:0 1.2rem 1.2rem;}
 .chart-wrap canvas{width:100%!important;}
-.h220{height:220px;} .h260{height:260px;} .h180{height:180px;} .h300{height:300px;} .h160{height:160px;} .h320{height:320px;} .h400{height:400px;} .h340{height:255px;}
+.h220{height:220px;} .h260{height:260px;} .h180{height:180px;} .h300{height:300px;} .h160{height:160px;} .h320{height:320px;} .h400{height:400px;} .h340{height:340px;}
 
 #map{height:460px;border-radius:8px;border:1.5px solid var(--border);}
 .map-wrapper{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:2px 2px 0 #c8c8c8;}
@@ -402,15 +402,14 @@ function barOpts(horizontal=false){
 function pieOpts(){
   return {
     maintainAspectRatio:false,
-    layout:{padding:{top:4,bottom:2,left:4,right:4}},
-    cutout:'72%',
+    layout:{padding:{top:10,bottom:10,left:10,right:10}},
     plugins:{
       legend:{
         display:true,
         position:'bottom',
         labels:{
           font:{family:'Montserrat',size:10},
-          color:'#333',padding:4,boxWidth:10,boxHeight:10,
+          color:'#333',padding:10,boxWidth:12,boxHeight:12,
           generateLabels(chart){
             const data=chart.data;
             const total=data.datasets[0].data.reduce((a,b)=>a+b,0);
@@ -431,7 +430,7 @@ function pieOpts(){
           return pct>=8?pct+'%':'';
         },
         color:'#fff',
-        font:{family:'Montserrat',size:9,weight:'700'},
+        font:{family:'Montserrat',size:10,weight:'700'},
         textAlign:'center',
       }
     }
