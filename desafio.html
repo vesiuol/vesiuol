@@ -869,14 +869,33 @@ async function init(){
   console.log('LEITURAS 2026:', rows2026.length, '— colunas:', rows2026[0]?Object.keys(rows2026[0]).join(', '):'(vazio)');
   console.log('ESTANTE:', allBooks.length, '— colunas:', allBooks[0]?Object.keys(allBooks[0]).join(', '):'(vazio)');
 
-  // Filtro LPM
-  const testLPM = [...rows2024,...rows2025,...rows2026];
-  console.log('DESAFIO LPM total (3 anos):', testLPM.length);
-  if(testLPM[0]){
-    console.log('DESAFIO LPM amostra linha 1:', JSON.stringify(testLPM[0]).slice(0,300));
+  // ── Logs específicos pedidos ────────────────────────────────────────────────
+  console.log('--- CONSISTÊNCIA DE NÚMEROS ---');
+  console.log('Registros LPM (linhas brutas 2024+2025+2026):', allLPM.length);
+  console.log('Países únicos (Set por r["País"]):', new Set(allLPM.map(r=>r['País'])).size);
+  console.log('Status concluído no Notion (p.status_notion):', NOTION_DATA.filter(p=>p.status_notion==='Concluído').length);
+  console.log('Status concluído no Notion (p.status):', NOTION_DATA.filter(p=>p.status==='Concluído').length);
+
+  // Duplicados: países que aparecem mais de uma vez no allLPM
+  const paisesPorFreq = {};
+  allLPM.forEach(r=>{ const p=r['País']||''; paisesPorFreq[p]=(paisesPorFreq[p]||0)+1; });
+  const duplicados = Object.entries(paisesPorFreq).filter(([,n])=>n>1);
+  if(duplicados.length){
+    console.warn('Países duplicados no Excel LPM:', duplicados);
+  } else {
+    console.log('Nenhum país duplicado no Excel LPM ✓');
   }
 
+  // De onde vem cada número na interface
+  console.log('--- ORIGEM DOS NÚMEROS NA INTERFACE ---');
+  console.log('Card "Países lidos" (s-paises)  → Set de País em allLPM =', new Set(allLPM.map(r=>r['País']).filter(Boolean)).size);
+  console.log('Card "% lidos"                  → allLPM.length / 209 =', allLPM.length, '/ 209 =', Math.round(allLPM.length/209*100)+'%');
+  console.log('Barra progresso / card Faltam   → acum2024+2025+2026 =', rows2024.length, '+', rows2025.length, '+', rows2026.length, '=', rows2024.length+rows2025.length+rows2026.length);
+  console.log('NOTION_DATA concluídos           =', NOTION_DATA.filter(n=>n.status_notion==='Concluído').length);
+  console.log('→ Número oficial recomendado: NOTION_DATA.Concluído (fonte de verdade dos países)');
+
   // Cruzamento Notion ↔ Excel
+  const testLPM = allLPM;
   const titulosExcel = new Set(testLPM.map(r=>norm(findField(r,['Título','Titulo','título']))).filter(Boolean));
   const titulosNotion = NOTION_DATA.filter(n=>n.livro).map(n=>norm(n.livro));
   const cruzamentos = titulosNotion.filter(t=>titulosExcel.has(t)).length;
@@ -1070,8 +1089,14 @@ function buildEvolucao(r2024, r2025, r2026){
   // ── Linha acumulada ─────────────────────────────────────────────────────────
   const linhaEl = document.getElementById('c-evolucao-linha');
   if(linhaEl){
-    // Projeta ritmo médio para anos futuros
-    const mediaAnual = total / (ANO_ATUAL - ANO_INICIO + 1);
+    // Projeção melhorada: considera que 2026 está em andamento
+    // Usa mês atual para anualizar o ritmo de 2026
+    const mesAtual = new Date().getMonth() + 1; // 1-12
+    const ritmo2026Anualizado = n26 > 0 ? Math.round(n26 / mesAtual * 12) : 0;
+    // Média ponderada: anos completos (2024, 2025) + ritmo anualizado de 2026
+    const mediaAnual = n24 > 0 && n25 > 0
+      ? Math.round((n24 + n25 + ritmo2026Anualizado) / 3)
+      : Math.max(n24, n25, ritmo2026Anualizado) || 1;
     const anosProj   = [];
     let   acumProj   = total;
     let   anoProj    = ANO_ATUAL + 1;
@@ -1144,7 +1169,8 @@ function buildEvolucao(r2024, r2025, r2026){
       const anosRestantes = mediaAnual > 0 ? Math.ceil((TOTAL_PAISES - total) / mediaAnual) : '—';
       const anoConc = mediaAnual > 0 ? ANO_ATUAL + anosRestantes : '—';
       projEl.innerHTML = `
-        <div class="proj-linha"><span class="proj-label">Ritmo médio</span><span class="proj-val">${ritmo} países/ano</span></div>
+        <div class="proj-linha"><span class="proj-label">Ritmo médio (anos completos)</span><span class="proj-val">${((n24+n25)/2).toFixed(1)} países/ano</span></div>
+        <div class="proj-linha"><span class="proj-label">Ritmo 2026 (anualizado)</span><span class="proj-val">~${ritmo2026Anualizado} países/ano</span></div>
         <div class="proj-linha"><span class="proj-label">Total lido até hoje</span><span class="proj-val">${total} de ${TOTAL_PAISES}</span></div>
         <div class="proj-linha"><span class="proj-label">Ainda faltam</span><span class="proj-val">${TOTAL_PAISES - total} países</span></div>
         <div class="proj-linha"><span class="proj-label">Anos restantes</span><span class="proj-val">${anosRestantes}</span></div>
@@ -1153,7 +1179,8 @@ function buildEvolucao(r2024, r2025, r2026){
           <span class="proj-destaque">${anoConc}</span>
         </div>
         <p style="font-size:.72rem;color:var(--muted);margin-top:.8rem;line-height:1.5;">
-          Baseado no ritmo médio de ${ritmo} países/ano entre 2024 e 2026.
+          Projeção baseada no ritmo médio de ${mediaAnual} países/ano.<br>
+          O ritmo de 2026 é estimado com base nos ${mesAtual} meses já decorridos.
         </p>`;
     }
   }
@@ -1191,14 +1218,16 @@ function buildEvolucao(r2024, r2025, r2026){
     const pct = Math.round(total/TOTAL_PAISES*100);
     progEl.innerHTML = `
       <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.6rem;">
-        <span style="font-family:'Playfair Display',serif;font-size:1.1rem;">${total} países lidos</span>
-        <span style="font-size:.78rem;color:var(--muted);">${pct}% de ${TOTAL_PAISES}</span>
+        <span style="font-family:'Playfair Display',serif;font-size:1.1rem;">
+          <strong>${total}</strong> países lidos no desafio
+        </span>
+        <span style="font-size:.78rem;color:var(--muted);">${pct}% de ${TOTAL_PAISES} países no mundo</span>
       </div>
       <div class="prog-track"><div class="prog-fill" style="width:0%" id="prog-fill-anim"></div></div>
       <div class="prog-labels">
         <span>0</span>
-        <span style="color:var(--green);font-weight:500">${total} ✓</span>
-        <span>${TOTAL_PAISES}</span>
+        <span style="color:var(--green);font-weight:500">${total} lidos ✓</span>
+        <span>${TOTAL_PAISES} países</span>
       </div>
       <div style="display:flex;gap:1.5rem;margin-top:1.2rem;flex-wrap:wrap;">
         ${[{ano:'2024',n:n24,c:GREEN_LIGHT},{ano:'2025',n:n25,c:GREEN},{ano:'2026',n:n26,c:GREEN_DARK}].map(y=>`
@@ -1206,7 +1235,7 @@ function buildEvolucao(r2024, r2025, r2026){
             <div class="prog-track" style="width:140px;height:6px;">
               <div class="prog-fill" style="width:${Math.round(y.n/TOTAL_PAISES*100)}%;background:${y.c};"></div>
             </div>
-            <div style="font-size:.72rem;color:var(--muted);margin-top:.2rem;">${y.ano} — ${y.n} países (${Math.round(y.n/TOTAL_PAISES*100)}%)</div>
+            <div style="font-size:.72rem;color:var(--muted);margin-top:.2rem;">${y.ano} — ${y.n} lidos (${Math.round(y.n/TOTAL_PAISES*100)}%)</div>
           </div>`).join('')}
       </div>`;
     // Anima a barra principal com delay
@@ -1226,7 +1255,7 @@ let notionFiltered = [...notionData];
 let notionSortKey = 'pais', notionSortDir = 1;
 let notionPage = 1;
 let pillFilter = 'todos';
-const NOTION_PAGE = 30;
+const NOTION_PAGE = 15;
 
 // ── Cruzamento em tempo real com Excel ───────────────────────────────────────
 // Quando o Excel carrega, para cada livro lido na planilha procura na lista Notion
