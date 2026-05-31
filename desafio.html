@@ -862,51 +862,77 @@ async function init(){
 
   console.log('NOTION: países total =', NOTION_DATA.length);
   console.log('NOTION: Concluído =', NOTION_DATA.filter(n=>n.status_notion==='Concluído').length);
-  console.log('NOTION: amostra status únicos =', [...new Set(NOTION_DATA.map(n=>n.status_notion))]);
-
   console.log('LEITURAS 2024:', rows2024.length, '— colunas:', rows2024[0]?Object.keys(rows2024[0]).join(', '):'(vazio)');
   console.log('LEITURAS 2025:', rows2025.length, '— colunas:', rows2025[0]?Object.keys(rows2025[0]).join(', '):'(vazio)');
   console.log('LEITURAS 2026:', rows2026.length, '— colunas:', rows2026[0]?Object.keys(rows2026[0]).join(', '):'(vazio)');
   console.log('ESTANTE:', allBooks.length, '— colunas:', allBooks[0]?Object.keys(allBooks[0]).join(', '):'(vazio)');
 
-  // ── Logs específicos pedidos ────────────────────────────────────────────────
   console.log('--- CONSISTÊNCIA DE NÚMEROS ---');
   console.log('Registros LPM (linhas brutas 2024+2025+2026):', allLPM.length);
   console.log('Países únicos (Set por r["País"]):', new Set(allLPM.map(r=>r['País'])).size);
-  console.log('Status concluído no Notion (p.status_notion):', NOTION_DATA.filter(p=>p.status_notion==='Concluído').length);
-  console.log('Status concluído no Notion (p.status):', NOTION_DATA.filter(p=>p.status==='Concluído').length);
+  console.log('Status concluído no Notion:', NOTION_DATA.filter(p=>p.status_notion==='Concluído').length);
 
-  // Duplicados: países que aparecem mais de uma vez no allLPM
-  const paisesPorFreq = {};
-  allLPM.forEach(r=>{ const p=r['País']||''; paisesPorFreq[p]=(paisesPorFreq[p]||0)+1; });
-  const duplicados = Object.entries(paisesPorFreq).filter(([,n])=>n>1);
+  // ── 1. Duplicados: países que aparecem em mais de um ano ─────────────────────
+  console.group('📋 PAÍSES DUPLICADOS NO EXCEL (aparecem em mais de 1 ano)');
+  const porPais = {};
+  rows2024.forEach(r=>{ const p=(r['País']||'').trim(); if(p){ porPais[p]=porPais[p]||[]; porPais[p].push('2024'); }});
+  rows2025.forEach(r=>{ const p=(r['País']||'').trim(); if(p){ porPais[p]=porPais[p]||[]; porPais[p].push('2025'); }});
+  rows2026.forEach(r=>{ const p=(r['País']||'').trim(); if(p){ porPais[p]=porPais[p]||[]; porPais[p].push('2026'); }});
+  const duplicados = Object.entries(porPais).filter(([,anos])=>anos.length>1);
   if(duplicados.length){
-    console.warn('Países duplicados no Excel LPM:', duplicados);
+    console.log(`${duplicados.length} países duplicados:`);
+    duplicados.forEach(([pais,anos])=>console.log(`  ${pais}: ${anos.join(', ')}`));
   } else {
-    console.log('Nenhum país duplicado no Excel LPM ✓');
+    console.log('Nenhum país duplicado ✓');
   }
+  const paisesUnicosExcel = new Set(Object.keys(porPais));
+  console.log('Total países únicos no Excel:', paisesUnicosExcel.size);
+  console.groupEnd();
 
-  // De onde vem cada número na interface
-  console.log('--- ORIGEM DOS NÚMEROS NA INTERFACE ---');
-  console.log('Card "Países lidos" (s-paises)  → Set de País em allLPM =', new Set(allLPM.map(r=>r['País']).filter(Boolean)).size);
-  console.log('Card "% lidos"                  → allLPM.length / 209 =', allLPM.length, '/ 209 =', Math.round(allLPM.length/209*100)+'%');
-  console.log('Barra progresso / card Faltam   → acum2024+2025+2026 =', rows2024.length, '+', rows2025.length, '+', rows2026.length, '=', rows2024.length+rows2025.length+rows2026.length);
-  console.log('NOTION_DATA concluídos           =', NOTION_DATA.filter(n=>n.status_notion==='Concluído').length);
-  console.log('→ Número oficial recomendado: NOTION_DATA.Concluído (fonte de verdade dos países)');
+  // ── 2. No Excel mas NÃO concluído no Notion ───────────────────────────────────
+  console.group('📋 PAÍSES NO EXCEL LPM mas NÃO marcados como Concluído no Notion');
+  const notionConcluidos = new Set(NOTION_DATA.filter(n=>n.status_notion==='Concluído').map(n=>n.pais));
+  const soNoExcel = [...paisesUnicosExcel].filter(p=>!notionConcluidos.has(p));
+  if(soNoExcel.length){
+    console.log(`${soNoExcel.length} países:`);
+    soNoExcel.forEach(p=>{
+      const n = NOTION_DATA.find(n=>n.pais===p);
+      console.log(`  ${p} → Notion status: "${n?n.status_notion:'NÃO ENCONTRADO'}"`);
+    });
+  } else {
+    console.log('Todos os países do Excel estão como Concluído no Notion ✓');
+  }
+  console.groupEnd();
 
-  // Cruzamento Notion ↔ Excel
-  const testLPM = allLPM;
-  const titulosExcel = new Set(testLPM.map(r=>norm(findField(r,['Título','Titulo','título']))).filter(Boolean));
+  // ── 3. Concluído no Notion mas NÃO no Excel ───────────────────────────────────
+  console.group('📋 PAÍSES Concluído no Notion mas NÃO encontrados no Excel LPM');
+  const soNoNotion = [...notionConcluidos].filter(p=>!paisesUnicosExcel.has(p));
+  if(soNoNotion.length){
+    soNoNotion.forEach(p=>console.log(`  ${p}`));
+  } else {
+    console.log('Todos os concluídos do Notion estão no Excel ✓');
+  }
+  console.groupEnd();
+
+  // ── 4. Resumo final ────────────────────────────────────────────────────────────
+  console.group('📊 RESUMO — de onde vem cada número');
+  console.log(`32 (se aparecer) = allLPM.length = linhas brutas Excel = ${allLPM.length}`);
+  console.log(`30 (se aparecer) = países únicos Excel = ${paisesUnicosExcel.size}`);
+  console.log(`26 (Notion)      = status_notion Concluído = ${notionConcluidos.size}`);
+  console.log('→ FONTE OFICIAL recomendada: Notion (Concluído) — é a que você controla manualmente');
+  console.groupEnd();
+
+  // Cruzamento títulos
+  const titulosExcel = new Set(allLPM.map(r=>norm(findField(r,['Título','Titulo','título']))).filter(Boolean));
   const titulosNotion = NOTION_DATA.filter(n=>n.livro).map(n=>norm(n.livro));
   const cruzamentos = titulosNotion.filter(t=>titulosExcel.has(t)).length;
-  console.log('Títulos únicos no Excel LPM:', titulosExcel.size);
-  console.log('Títulos no Notion com livro:', titulosNotion.length);
-  console.log('Cruzamentos Notion ↔ Excel:', cruzamentos);
+  console.log('Cruzamentos Notion ↔ Excel (por título):', cruzamentos);
   if(titulosNotion[0]) console.log('Ex. Notion:', titulosNotion[0]);
   if(titulosExcel.size) console.log('Ex. Excel:', [...titulosExcel][0]);
 
   console.groupEnd();
   // ── FIM DIAGNÓSTICO ──────────────────────────────────────────────────────
+  buildCharts(allLPM);
   buildMap();
   buildEvolucao(rows2024, rows2025, rows2026);
   crossExcelIntoNotion(allLPM);
