@@ -6,7 +6,7 @@
 <title>Estante — Meus Livros</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Lora:ital,wght@0,400;0,600;1,400&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
@@ -14,197 +14,131 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <style>
 :root {
-  --white: #ffffff;
-  --black: #000000;
-  --green: #849974;
-  --green-dark: #6b7e5e;
-  --green-light: #c8d4b8;
-  --border: #c8c8c8;
-  --text: #1a1a1a;
-  --muted: #555;
+  --green:#849974; --green-dark:#6a7c5e; --green-light:#c4d4bc;
+  --white:#ffffff; --black:#000000;
+  --border:#c8c8c8; --body-bg:#ffffff; --text:#1a1a1a; --muted:#666666;
+  --sage:#7a9e7e; --moss:#4e7c5f; --fern:#8fbc8f; --olive:#8a9a5b;
+  --taupe:#b0a090; --clay:#c4a882; --sand:#d4c4a8;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--white);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:400;}
+body{background:var(--body-bg);color:var(--text);font-family:'Montserrat',sans-serif;font-weight:400;}
 
-/* ── NAV ── */
-nav{
-  position:sticky;top:0;z-index:100;background:var(--white);
-  padding:0 2rem;display:flex;align-items:center;height:52px;
-  border-bottom: 1.5px solid #c5c5a0;
-}
+nav{position:sticky;top:0;z-index:100;background:var(--white);padding:0 2rem;display:flex;align-items:center;gap:1.5rem;height:52px;border-bottom:1.5px solid var(--border);}
 .nav-logo{display:flex;gap:6px;align-items:center;}
 .nav-dot{width:11px;height:11px;border-radius:50%;background:var(--black);}
-nav ul{list-style:none;display:flex;gap:2rem;margin-left:auto;align-items:center;}
-nav ul li a{color:var(--black);text-decoration:none;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;transition:color .2s;font-weight:500;}
-nav ul li a:hover{color:var(--green);}
-nav ul li a.active{
-  background:var(--green);color:var(--white);
-  padding:.28rem .7rem;border-radius:3px;font-weight:700;
-}
-.nav-hamburger{display:none;background:none;border:none;color:var(--black);font-size:1.4rem;cursor:pointer;margin-left:auto;}
+nav ul{list-style:none;display:flex;gap:.3rem;margin-left:auto;align-items:center;}
+nav ul a{color:var(--black);text-decoration:none;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:500;padding:.3rem .6rem;transition:color .15s;}
+nav ul a:hover{color:var(--green);}
+nav ul a.active{background:var(--green);color:var(--white);padding:.28rem .7rem;border-radius:3px;}
+nav ul a.active:hover{color:var(--white);}
+.nav-year-link{font-size:.72rem!important;letter-spacing:.1em!important;font-weight:500!important;color:var(--black)!important;padding:.3rem .6rem!important;}
+.nav-year-link:hover{color:var(--green)!important;}
+.nav-hamburger{display:none;background:none;border:none;color:var(--black);font-size:1.4rem;cursor:pointer;margin-left:auto;padding:.2rem .4rem;}
 
-/* ── WINDOW CARD ── */
-.window-card{
-  background:var(--white);border:1.5px solid #b0b090;
-  border-radius:16px;overflow:hidden;
-}
-.window-bar{
-  padding:.55rem 1rem;display:flex;align-items:center;gap:6px;
-  border-bottom:1px solid #ddd;
-}
-.win-dot{width:9px;height:9px;border-radius:50%;background:#bbb;}
+.intro-section{padding:2.5rem 2rem 0;max-width:1200px;margin:0 auto;}
+.card-window{border:1.5px solid var(--border);border-radius:12px;background:var(--white);overflow:hidden;box-shadow:2px 2px 0 #c8c8c8;}
+.card-dots{display:flex;gap:5px;padding:10px 14px 0;align-items:center;}
+.card-dot{width:9px;height:9px;border-radius:50%;background:var(--border);}
+.card-inner{padding:1.5rem 2rem 1.8rem;}
+.card-intro-title{font-family:'Lora',serif;font-size:2rem;font-weight:600;background:var(--green);color:var(--white);display:inline-block;padding:.1rem .5rem;margin-bottom:1.2rem;line-height:1.3;}
+.card-body-text{font-size:.9rem;line-height:1.8;color:var(--text);margin-bottom:.9rem;}
+.card-footer-bar{border-top:1px solid var(--border);padding:.8rem 2rem;display:flex;justify-content:space-between;align-items:center;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+.card-footer-bar a{color:var(--text);text-decoration:none;font-size:1.1rem;}
 
-/* ── HERO ── */
-.hero-section{max-width:1100px;margin:3rem auto 2rem;padding:0 2rem;}
-.hero-card{padding:2.5rem 2.5rem 0;}
-.hero-title-bg{
-  background:var(--green);display:inline-block;
-  padding:.3rem .7rem;margin-bottom:1.2rem;
+.stats-row{
+  display:grid;grid-template-columns:repeat(6,1fr);
+  max-width:1200px;margin:1.5rem auto 0;padding:0 2rem;gap:.8rem;
 }
-.hero-title-bg h1{
-  font-family:'Playfair Display',serif;
-  font-size:clamp(2rem,4vw,3rem);
-  font-weight:400;color:var(--white);line-height:1.1;
-}
-.hero-card p{
-  font-size:.95rem;line-height:1.85;color:var(--text);
-  max-width:900px;margin-bottom:.9rem;
-}
-.hero-divider{
-  margin-top:2rem;border-top:1px solid #ccc;
-  padding:1rem 2.5rem;
-  display:flex;align-items:center;justify-content:space-between;gap:1rem;
-}
-.hero-tagline{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:500;}
-.hero-arrow{font-size:1.3rem;color:var(--black);text-decoration:none;transition:transform .2s;}
-.hero-arrow:hover{transform:translateX(4px);}
-
-/* ── STATS ── */
-.stats-bar{
-  max-width:1100px;margin:0 auto 3rem;padding:0 2rem;
-  display:grid;grid-template-columns:repeat(6,1fr);gap:.8rem;
-}
-.stat-card{
-  background:var(--green);border:1.5px solid var(--green-dark);
-  border-radius:12px;padding:1.2rem .8rem;text-align:center;
+.stat-box{
+  background:var(--green);
+  border:1.5px solid #6b7e5e;
+  border-radius:12px;
+  padding:1.2rem .8rem;
+  text-align:center;
   display:flex;flex-direction:column;align-items:center;gap:.4rem;
 }
-.stat-num{
+.stat-number{
   font-family:'Playfair Display',serif;
   font-size:2rem;font-weight:400;color:var(--white);line-height:1;
+  display:block;
 }
-.stat-lbl{font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--white);font-weight:600;}
-
-/* ── SECTION ── */
-.page-section{max-width:1100px;margin:0 auto;padding:0 2rem 3.5rem;}
-.section-header{
-  display:flex;align-items:baseline;gap:1.2rem;
-  margin-bottom:1.8rem;border-bottom:1px solid #ccc;padding-bottom:.7rem;
-}
-.section-header .sh-label{
-  background:var(--green);padding:.25rem .75rem;
-  font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:500;color:var(--white);
-}
-.section-header .sh-sub{
-  font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:500;
+.stat-label{
+  font-size:.68rem;letter-spacing:.06em;text-transform:capitalize;
+  color:rgba(255,255,255,.85);display:block;
 }
 
-/* ── CHARTS ── */
-.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
-.chart-card{background:var(--white);border:1.5px solid #b0b090;border-radius:14px;overflow:hidden;}
+.page-section{max-width:1200px;margin:0 auto;padding:2.5rem 2rem 0;}
+.section-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;padding-bottom:.7rem;border-bottom:1px solid var(--border);}
+.section-tag{background:var(--green);color:var(--white);font-size:.8rem;font-weight:700;padding:.25rem .7rem;font-family:'Lora',serif;}
+.section-sub{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);}
+
+.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-bottom:2.5rem;}
+.chart-card{border:1.5px solid var(--border);border-radius:12px;background:var(--white);overflow:hidden;box-shadow:2px 2px 0 #c8c8c8;}
 .chart-card.full{grid-column:1/-1;}
-.chart-header{padding:.5rem 1rem;display:flex;align-items:center;gap:6px;border-bottom:1px solid #e0e0e0;}
-.chart-title-small{font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-left:.4rem;}
-.chart-body{padding:1.2rem;position:relative;}
-.chart-body canvas{width:100%!important;max-height:220px;}
-.chart-body.tall canvas{max-height:300px;}
+.chart-card-dots{display:flex;gap:5px;padding:10px 12px 0;align-items:center;}
+.chart-card-dot{width:8px;height:8px;border-radius:50%;background:var(--border);}
+.chart-title{font-size:.63rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:6px 14px 10px;font-weight:500;}
+.chart-wrap{position:relative;padding:0 1.2rem 1.2rem;}
+.chart-wrap canvas{width:100%!important;}
+.h220{height:220px;} .h260{height:260px;} .h180{height:180px;} .h300{height:300px;} .h160{height:160px;} .h320{height:320px;} .h400{height:400px;} .h340{height:340px;}
 
-/* ── MAP ── */
-#map{height:460px;}
-.map-legend{display:flex;gap:1.5rem;margin-top:.8rem;flex-wrap:wrap;}
-.legend-item{display:flex;align-items:center;gap:.5rem;font-size:.78rem;color:var(--muted);}
-.legend-dot{width:11px;height:11px;border-radius:50%;flex-shrink:0;}
+#map{height:460px;border-radius:8px;border:1.5px solid var(--border);}
+.map-wrapper{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:2px 2px 0 #c8c8c8;}
 
-/* ── TABLE ── */
-.table-controls{display:flex;gap:.7rem;flex-wrap:wrap;margin-bottom:.9rem;align-items:center;}
-.search-wrap{flex:1;min-width:200px;position:relative;}
-.search-wrap input{
-  width:100%;padding:.55rem 1rem .55rem 2.2rem;
-  border:1px solid var(--border);background:var(--white);
-  font-family:'DM Sans',sans-serif;font-size:.85rem;border-radius:6px;
-  outline:none;color:var(--text);
-}
-.search-wrap::before{content:'⌕';position:absolute;left:.7rem;top:50%;transform:translateY(-50%);color:var(--muted);}
-.filter-select{
-  padding:.55rem .9rem;border:1px solid var(--border);background:var(--white);
-  font-family:'DM Sans',sans-serif;font-size:.82rem;border-radius:6px;
-  color:var(--text);cursor:pointer;outline:none;
-}
-.tag-filters{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.9rem;}
-.tag-btn{
-  padding:.3rem .85rem;border:1px solid var(--border);background:transparent;
-  font-family:'DM Sans',sans-serif;font-size:.74rem;letter-spacing:.04em;font-weight:500;
-  border-radius:100px;cursor:pointer;transition:all .15s;color:var(--muted);
-}
-.tag-btn.active{background:var(--green);border-color:var(--green);color:var(--white);font-weight:700;}
-table{width:100%;border-collapse:collapse;font-size:.83rem;}
+.table-controls{display:flex;gap:.7rem;flex-wrap:wrap;margin-bottom:.8rem;align-items:center;}
+.search-wrap{flex:1;min-width:180px;position:relative;}
+.search-wrap input{width:100%;padding:.55rem 1rem .55rem 2rem;border:1.5px solid var(--border);background:var(--white);font-family:'Montserrat',sans-serif;font-size:.83rem;border-radius:6px;outline:none;color:var(--text);}
+.search-wrap::before{content:'⌕';position:absolute;left:.65rem;top:50%;transform:translateY(-50%);color:var(--muted);}
+.filter-select{padding:.55rem .85rem;border:1.5px solid var(--border);background:var(--white);font-family:'Montserrat',sans-serif;font-size:.78rem;border-radius:6px;color:var(--text);cursor:pointer;outline:none;}
+.tag-filters{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.8rem;}
+.tag-btn{padding:.28rem .75rem;border:1.5px solid var(--border);background:transparent;font-family:'Montserrat',sans-serif;font-size:.7rem;letter-spacing:.05em;border-radius:100px;cursor:pointer;transition:all .15s;color:var(--muted);}
+.tag-btn.active{background:var(--green);border-color:var(--green);color:var(--white);}
+table{width:100%;border-collapse:collapse;font-size:.82rem;}
 thead tr{border-bottom:2px solid var(--black);}
-th{
-  padding:.6rem .8rem;text-align:left;
-  font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--muted);white-space:nowrap;cursor:pointer;user-select:none;font-weight:600;
-}
-th:hover{color:var(--black);}
-td{padding:.65rem .8rem;border-bottom:1px solid #eee;vertical-align:middle;}
+th{padding:.55rem .75rem;text-align:left;font-size:.63rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);white-space:nowrap;cursor:pointer;user-select:none;font-weight:600;}
+th:hover{color:var(--text);}
+td{padding:.6rem .75rem;border-bottom:1px solid var(--border);vertical-align:middle;}
 tr:hover td{background:rgba(132,153,116,.06);}
-.badge{display:inline-block;padding:.18rem .55rem;border-radius:100px;font-size:.7rem;font-weight:500;}
-.badge-lido{background:#D4EDDA;color:#1A6631;}
-.badge-nao{background:#FFE8E4;color:#9B2B1A;}
-.badge-lendo{background:#FFF3CD;color:#8A6200;}
+.badge{display:inline-block;padding:.16rem .5rem;border-radius:100px;font-size:.68rem;font-weight:500;}
+.badge-lido{background:#d4edda;color:#1a6631;}
+.badge-nao{background:#ffe8e4;color:#9b2b1a;}
+.badge-lendo{background:#fff3cd;color:#8a6200;}
 .stars{color:var(--green);}
-.table-footer{padding:.8rem 0;color:var(--muted);font-size:.8rem;display:flex;justify-content:space-between;align-items:center;}
+.table-footer{padding:.7rem 0;color:var(--muted);font-size:.78rem;display:flex;justify-content:space-between;align-items:center;}
 .pagination{display:flex;gap:.3rem;flex-wrap:wrap;}
-.page-btn{
-  width:30px;height:30px;border:1px solid var(--border);
-  background:transparent;cursor:pointer;font-size:.8rem;border-radius:4px;
-  transition:all .15s;font-family:'DM Sans',sans-serif;
-}
+.page-btn{width:28px;height:28px;border:1.5px solid var(--border);background:transparent;cursor:pointer;font-size:.75rem;border-radius:4px;transition:all .15s;font-family:'Montserrat',sans-serif;}
 .page-btn.active{background:var(--green);color:var(--white);border-color:var(--green);}
 .page-btn:hover:not(.active){border-color:var(--green);}
 
-/* ── FOOTER ── */
-footer{
-  background:var(--green);padding:1.2rem 2rem;
-  display:flex;align-items:center;gap:1rem;margin-top:2rem;
-}
-.footer-dots{display:flex;gap:6px;}
-.footer-dot{width:11px;height:11px;border-radius:50%;background:var(--white);}
-.footer-text{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--white);font-weight:500;}
+footer{background:var(--green);padding:1.2rem 2rem;display:flex;align-items:center;gap:8px;margin-top:3rem;}
+.foot-dots{display:flex;gap:5px;align-items:center;}
+.foot-dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.6);}
+footer span{font-size:.68rem;letter-spacing:.08em;color:rgba(255,255,255,.85);text-transform:uppercase;}
 
 @media(max-width:900px){
-  .stats-bar{grid-template-columns:repeat(3,1fr);}
   .charts-grid{grid-template-columns:1fr;}
+  .stats-row{grid-template-columns:repeat(3,1fr);}
 }
 @media(max-width:600px){
-  .stats-bar{grid-template-columns:repeat(2,1fr);}
-  nav ul{display:none;position:absolute;top:52px;left:0;right:0;background:var(--white);flex-direction:column;padding:1rem 2rem;gap:1rem;border-bottom:1px solid #ccc;}
+  .stats-row{grid-template-columns:repeat(2,1fr);}
+  nav ul{display:none;position:absolute;top:52px;left:0;right:0;background:var(--white);flex-direction:column;padding:1rem 2rem;gap:1rem;border-bottom:1px solid var(--border);z-index:99;}
   nav ul.open{display:flex;}
   .nav-hamburger{display:block;}
-  .hero-divider{flex-direction:column;align-items:flex-start;gap:.6rem;}
 }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <div class="nav-logo">
-    <div class="nav-dot"></div><div class="nav-dot"></div><div class="nav-dot"></div>
+    <div class="nav-dot"></div>
+    <div class="nav-dot"></div>
+    <div class="nav-dot" style="background:var(--green)"></div>
   </div>
   <ul>
     <li><a href="index.html" data-page="index">Início</a></li>
-    <li><a href="2026.html" data-page="2026">2026</a></li>
-    <li><a href="estante.html" data-page="estante" class="active">Estante</a></li>
+    <li><a href="2026.html" data-page="2026" class="nav-year-link">2026</a></li>
+    <li><a href="estante.html" data-page="estante">Estante</a></li>
     <li><a href="historico.html" data-page="historico">Histórico</a></li>
     <li><a href="desafio.html" data-page="desafio">Desafio</a></li>
     <li><a href="sobre.html" data-page="sobre">Sobre</a></li>
@@ -212,136 +146,146 @@ footer{
   <button class="nav-hamburger" onclick="document.querySelector('nav ul').classList.toggle('open')">☰</button>
 </nav>
 
-<!-- HERO -->
-<div class="hero-section">
-  <div class="window-card">
-    <div class="window-bar">
-      <div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div>
+<div class="intro-section">
+  <div class="card-window">
+    <div class="card-dots">
+      <div class="card-dot"></div><div class="card-dot"></div><div class="card-dot"></div>
     </div>
-    <div class="hero-card">
-      <div class="hero-title-bg">
-        <h1>Livros na Estante</h1>
-      </div>
-      <p>Tenho uma política pessoal: não deixo na estante livros dos quais não gostei, não achei relevantes ou que simplesmente não me marcaram. Não importa se são bonitos ou se isso vai deixá-la mais vazia. Para mim, é importante que ela represente quem eu sou: uma pessoa que tem, sim, seus gêneros literários preferidos, mas que também gosta de explorar diferentes caminhos e buscar cada vez mais diversidade.</p>
-      <p>Existem diferentes definições sobre o que realmente faz uma biblioteca pessoal. Algumas pessoas defendem que é um número mínimo de livros; outras acreditam que ela é um acervo construído aos poucos, ao longo dos anos, refletindo os gostos e a trajetória do dono. Confesso que simpatizo mais com a segunda opção. Mas, sendo bem sincera, independentemente do critério, quem decide o que faz sentido para a minha estante sou eu.</p>
-      <p>Minha estante é uma conquista da vida adulta, mas também a realização de um sonho que cultivo desde o ensino médio. Adoro participar de reuniões de trabalho com ela ao fundo, não para parecer culta, mas porque acho bonito ter algo que representa uma parte tão importante de quem sou. Cada livro foi adquirido aos poucos, desde a época de estagiária. Entre cupons, promoções e passeios em sebos, fui montando esse espaço com muito carinho.</p>
-      <p>Mas, afinal, o que a minha estante realmente representa? É exatamente isso que eu quero mostrar.</p>
+    <div class="card-inner">
+      <div class="card-intro-title">Livros na Estante</div>
+      <p class="card-body-text">Tenho uma política pessoal: não deixo na estante livros dos quais não gostei, não achei relevantes ou que simplesmente não me marcaram. Não importa se são bonitos ou se isso vai deixá-la mais vazia. Para mim, é importante que ela represente quem eu sou: uma pessoa que tem, sim, seus gêneros literários preferidos, mas que também gosta de explorar diferentes caminhos e buscar cada vez mais diversidade.</p>
+      <p class="card-body-text">Existem diferentes definições sobre o que realmente faz uma biblioteca pessoal. Algumas pessoas defendem que é um número mínimo de livros; outras acreditam que ela é um acervo construído aos poucos, ao longo dos anos, refletindo os gostos e a trajetória do dono. Confesso que simpatizo mais com a segunda opção. Mas, sendo bem sincera, independentemente do critério, quem decide o que faz sentido para a minha estante sou eu.</p>
+      <p class="card-body-text">Minha estante é uma conquista da vida adulta, mas também a realização de um sonho que cultivo desde o ensino médio. Adoro participar de reuniões de trabalho com ela ao fundo, não para parecer culta, mas porque acho bonito ter algo que representa uma parte tão importante de quem sou. Cada livro foi adquirido aos poucos, desde a época de estagiária. Entre cupons, promoções e passeios em sebos, fui montando esse espaço com muito carinho.</p>
+      <p class="card-body-text">Mas, afinal, o que a minha estante realmente representa? É exatamente isso que eu quero mostrar.</p>
     </div>
-    <div class="hero-divider">
-      <span class="hero-tagline">Todos os livros catalogados desde 2020, com gráficos e filtros detalhados.</span>
-      <a href="#lista" class="hero-arrow">→</a>
+    <div class="card-footer-bar">
+      <span>Todos os livros catalogados desde 2020, com gráficos e filtros detalhados.</span>
+      <a href="#lista">→</a>
     </div>
   </div>
 </div>
 
-<!-- STATS -->
-<div class="stats-bar">
-  <div class="stat-card"><span class="stat-num" id="s-total">—</span><span class="stat-lbl">Livros na estante</span></div>
-  <div class="stat-card"><span class="stat-num" id="s-lidos">—</span><span class="stat-lbl">Lidos</span></div>
-  <div class="stat-card"><span class="stat-num" id="s-paginas">—</span><span class="stat-lbl">Páginas lidas</span></div>
-  <div class="stat-card"><span class="stat-num" id="s-autores">—</span><span class="stat-lbl">Autores únicos</span></div>
-  <div class="stat-card"><span class="stat-num" id="s-paises">—</span><span class="stat-lbl">Países</span></div>
-  <div class="stat-card"><span class="stat-num" id="s-idiomas">—</span><span class="stat-lbl">Idiomas</span></div>
+<div class="stats-row">
+  <div class="stat-box"><span class="stat-number" id="s-total">—</span><span class="stat-label">Livros na estante</span></div>
+  <div class="stat-box"><span class="stat-number" id="s-lidos">—</span><span class="stat-label">Lidos</span></div>
+  <div class="stat-box"><span class="stat-number" id="s-paginas">—</span><span class="stat-label">Páginas lidas</span></div>
+  <div class="stat-box"><span class="stat-number" id="s-autores">—</span><span class="stat-label">Autores únicos</span></div>
+  <div class="stat-box"><span class="stat-number" id="s-paises">—</span><span class="stat-label">Países</span></div>
+  <div class="stat-box"><span class="stat-number" id="s-idiomas">—</span><span class="stat-label">Idiomas</span></div>
 </div>
 
-<!-- ESTANTE EM DADOS -->
 <div class="page-section" id="graficos">
   <div class="section-header">
-    <span class="sh-label">Estante em dados</span>
-    <span class="sh-sub">Dados completos</span>
+    <div class="section-tag">Estante em dados</div>
+    <span class="section-sub">Dados completos</span>
   </div>
 
-  <div class="chart-card full" style="margin-bottom:1rem;">
-    <div class="chart-header"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div><span class="chart-title-small">Gêneros literários — todos os livros lidos</span></div>
-    <div class="chart-body h260"><canvas id="c-generos"></canvas></div>
+  <!-- Gêneros — full width, tall -->
+  <div class="chart-card full" style="margin-bottom:1.2rem;">
+    <div class="chart-card-dots"><div class="chart-card-dot"></div><div class="chart-card-dot"></div><div class="chart-card-dot"></div></div>
+    <div class="chart-title">Gêneros literários — todos os livros lidos</div>
+    <div class="chart-wrap h400"><canvas id="c-generos"></canvas></div>
   </div>
 
   <div class="charts-grid">
     <div class="chart-card">
-      <div class="chart-header"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div><span class="chart-title-small">Cor dos autores</span></div>
-      <div class="chart-body h180"><canvas id="c-cor"></canvas></div>
+      <div class="chart-card-dots"><div class="chart-card-dot"></div><div class="chart-card-dot"></div><div class="chart-card-dot"></div></div>
+      <div class="chart-title">Cor dos autores</div>
+      <div class="chart-wrap h340"><canvas id="c-cor"></canvas></div>
     </div>
     <div class="chart-card">
-      <div class="chart-header"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div><span class="chart-title-small">Gênero dos autores</span></div>
-      <div class="chart-body h180"><canvas id="c-ga"></canvas></div>
+      <div class="chart-card-dots"><div class="chart-card-dot"></div><div class="chart-card-dot"></div><div class="chart-card-dot"></div></div>
+      <div class="chart-title">Gênero dos autores</div>
+      <div class="chart-wrap h340"><canvas id="c-ga"></canvas></div>
     </div>
     <div class="chart-card">
-      <div class="chart-header"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div><span class="chart-title-small">Idioma original</span></div>
-      <div class="chart-body h180"><canvas id="c-idioma"></canvas></div>
+      <div class="chart-card-dots"><div class="chart-card-dot"></div><div class="chart-card-dot"></div><div class="chart-card-dot"></div></div>
+      <div class="chart-title">Idioma original</div>
+      <div class="chart-wrap h340"><canvas id="c-idioma"></canvas></div>
     </div>
     <div class="chart-card">
-      <div class="chart-header"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div><span class="chart-title-small">Formato</span></div>
-      <div class="chart-body h180"><canvas id="c-formato"></canvas></div>
+      <div class="chart-card-dots"><div class="chart-card-dot"></div><div class="chart-card-dot"></div><div class="chart-card-dot"></div></div>
+      <div class="chart-title">Formato</div>
+      <div class="chart-wrap h340"><canvas id="c-formato"></canvas></div>
     </div>
     <div class="chart-card">
-      <div class="chart-header"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div><span class="chart-title-small">Faixa etária</span></div>
-      <div class="chart-body h180"><canvas id="c-faixa"></canvas></div>
+      <div class="chart-card-dots"><div class="chart-card-dot"></div><div class="chart-card-dot"></div><div class="chart-card-dot"></div></div>
+      <div class="chart-title">Faixa etária</div>
+      <div class="chart-wrap h340"><canvas id="c-faixa"></canvas></div>
     </div>
     <div class="chart-card">
-      <div class="chart-header"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div><span class="chart-title-small">Série ou livro único</span></div>
-      <div class="chart-body h180"><canvas id="c-serie"></canvas></div>
+      <div class="chart-card-dots"><div class="chart-card-dot"></div><div class="chart-card-dot"></div><div class="chart-card-dot"></div></div>
+      <div class="chart-title">Série ou livro único</div>
+      <div class="chart-wrap h340"><canvas id="c-serie"></canvas></div>
     </div>
+    <!-- Avaliações full width -->
     <div class="chart-card full">
-      <div class="chart-header"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div><span class="chart-title-small">Avaliações (⭐ dos lidos)</span></div>
-      <div class="chart-body h160"><canvas id="c-estrelas"></canvas></div>
+      <div class="chart-card-dots"><div class="chart-card-dot"></div><div class="chart-card-dot"></div><div class="chart-card-dot"></div></div>
+      <div class="chart-title">Avaliações (⭐ dos lidos)</div>
+      <div class="chart-wrap h200" style="height:200px;"><canvas id="c-estrelas"></canvas></div>
     </div>
+    <!-- Diversidade full width -->
     <div class="chart-card full">
-      <div class="chart-header"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div><span class="chart-title-small">Diversidade e representatividade</span></div>
-      <div class="chart-body h160"><canvas id="c-diversidade"></canvas></div>
+      <div class="chart-card-dots"><div class="chart-card-dot"></div><div class="chart-card-dot"></div><div class="chart-card-dot"></div></div>
+      <div class="chart-title">Diversidade e representatividade</div>
+      <div class="chart-wrap h200" style="height:200px;"><canvas id="c-diversidade"></canvas></div>
     </div>
   </div>
 </div>
 
-<!-- MAPA -->
 <div class="page-section" id="mapa">
   <div class="section-header">
-    <span class="sh-label">De onde vêm meus livros?</span>
-    <span class="sh-sub">Autores por país</span>
+    <div class="section-tag">De onde vem meus livros?</div>
+    <span class="section-sub">Autores por país</span>
   </div>
-  <div class="window-card">
-    <div class="window-bar"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div></div>
+  <div class="map-wrapper">
+    <div class="chart-card-dots" style="padding:10px 14px 8px;"><div class="chart-card-dot"></div><div class="chart-card-dot"></div><div class="chart-card-dot"></div></div>
     <div id="map"></div>
   </div>
 </div>
 
-<!-- LISTA -->
-<div class="page-section" id="lista">
+<div class="page-section" id="lista" style="padding-bottom:3rem;">
   <div class="section-header">
-    <span class="sh-label">Todos os livros</span>
-    <span class="sh-sub" id="lista-count">—</span>
+    <div class="section-tag">Todos os livros</div>
+    <span class="section-sub" id="lista-count">—</span>
   </div>
-  <div class="table-controls">
-    <div class="search-wrap"><input type="text" id="search" placeholder="Buscar título ou autor…"></div>
-    <select class="filter-select" id="f-status"><option value="">Todos</option><option>Lido</option><option>Não Lido</option><option>Lendo</option></select>
-    <select class="filter-select" id="f-genero"><option value="">Todos os gêneros</option></select>
-    <select class="filter-select" id="f-idioma"><option value="">Todos os idiomas</option></select>
-    <select class="filter-select" id="f-cor"><option value="">Toda cor</option></select>
-  </div>
-  <div class="tag-filters">
-    <button class="tag-btn active" data-tag="">Todos</button>
-    <button class="tag-btn" data-tag="lgbtqia">LGBTQIA+</button>
-    <button class="tag-btn" data-tag="diversidade">Diversidade étnica</button>
-    <button class="tag-btn" data-tag="ownvoices">#OwnVoices</button>
-    <button class="tag-btn" data-tag="psico">Questões psicológicas</button>
-  </div>
-  <div style="overflow-x:auto">
-    <table>
-      <thead><tr>
-        <th>Título</th><th>Autor/a</th><th>Gênero</th><th>Páginas</th>
-        <th>Idioma</th><th>Cor</th><th>País</th><th>Status</th><th>⭐</th>
-      </tr></thead>
-      <tbody id="tbody"></tbody>
-    </table>
-  </div>
-  <div class="table-footer">
-    <span id="t-info">—</span>
-    <div class="pagination" id="pagination"></div>
+  <div class="chart-card">
+    <div class="chart-card-dots" style="padding:10px 14px 14px;"><div class="chart-card-dot"></div><div class="chart-card-dot"></div><div class="chart-card-dot"></div></div>
+    <div style="padding:0 1.2rem 1.5rem;">
+      <div class="table-controls">
+        <div class="search-wrap"><input type="text" id="search" placeholder="Buscar título ou autor…"></div>
+        <select class="filter-select" id="f-status"><option value="">Todos</option><option>Lido</option><option>Não Lido</option><option>Lendo</option></select>
+        <select class="filter-select" id="f-genero"><option value="">Todos os gêneros</option></select>
+        <select class="filter-select" id="f-idioma"><option value="">Todos os idiomas</option></select>
+        <select class="filter-select" id="f-cor"><option value="">Toda cor</option></select>
+      </div>
+      <div class="tag-filters">
+        <button class="tag-btn active" data-tag="">Todos</button>
+        <button class="tag-btn" data-tag="lgbtqia">LGBTQIA+</button>
+        <button class="tag-btn" data-tag="diversidade">Diversidade étnica</button>
+        <button class="tag-btn" data-tag="ownvoices">#OwnVoices</button>
+        <button class="tag-btn" data-tag="psico">Questões psicológicas</button>
+      </div>
+      <div style="overflow-x:auto">
+        <table>
+          <thead><tr>
+            <th>Título</th><th>Autor/a</th><th>Gênero</th><th>Páginas</th>
+            <th>Idioma</th><th>Cor</th><th>País</th><th>Status</th><th>⭐</th>
+          </tr></thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+      <div class="table-footer">
+        <span id="t-info">—</span>
+        <div class="pagination" id="pagination"></div>
+      </div>
+    </div>
   </div>
 </div>
 
 <footer>
-  <div class="footer-dots"><div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div></div>
-  <span class="footer-text">O que tem na estante da Louise | Louise Victoria © 2026 | Dados via Google Sheets · Mapa via Leaflet · Gráficos via Chart.js</span>
+  <div class="foot-dots"><div class="foot-dot"></div><div class="foot-dot"></div><div class="foot-dot"></div></div>
+  <span>O que tem na estante da Louise | Louise Victoria © 2026 | Dados via Google Sheets · Mapa via Leaflet · Gráficos via Chart.js</span>
 </footer>
 
 <script>
@@ -458,7 +402,6 @@ function barOpts(horizontal=false){
 function pieOpts(){
   return {
     maintainAspectRatio:false,
-    cutout:'50%',
     layout:{padding:{top:10,bottom:10,left:10,right:10}},
     plugins:{
       legend:{
