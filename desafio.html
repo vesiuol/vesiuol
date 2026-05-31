@@ -747,6 +747,8 @@ function filterLPM(rows){
 
 let desafioRows=[], allBooks=[], merged=[], filteredM=[];
 let rows2024=[], rows2025=[], rows2026=[];
+
+function chartBase(){
   return{
     maintainAspectRatio:false,
     plugins:{
@@ -772,9 +774,6 @@ function chartPie(){
     }
   };
 }
-
-let desafioRows=[], allBooks=[], merged=[], filteredM=[];
-let rows2024=[], rows2025=[], rows2026=[];
 
 function filterLPM(rows){
   // As colunas do Excel têm nomes gerados (_1, _2...) porque há cabeçalho duplo.
