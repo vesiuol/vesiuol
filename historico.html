@@ -361,353 +361,441 @@ footer { background: var(--green); padding: 1.2rem 2.5rem; display: flex; align-
 <script>
 Chart.register(ChartDataLabels);
 
-// ─── PLANILHA (proxy allorigins resolve CORS do GitHub Pages) ─────────────────
-const SHEET_PUB    = '2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK';
-const GID_RESUMO   = '1413764044';
-const GID_VISAO    = '700848757';
-const PROXY = 'https://api.allorigins.win/raw?url=';
+// ══════════════════════════════════════════════════════════════════
+// CONFIGURAÇÃO — proxy e URLs confirmados pelo diagnóstico
+// ══════════════════════════════════════════════════════════════════
+const PROXY   = 'https://corsproxy.io/?url=';
+const BASE    = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub';
+const URL_VIS = PROXY + encodeURIComponent(BASE + '?gid=700848757&single=true&output=csv');
+const URL_RES = PROXY + encodeURIComponent(BASE + '?gid=1413764044&single=true&output=csv');
 
-function csvUrl(gid) {
-  return PROXY + encodeURIComponent(
-    `https://docs.google.com/spreadsheets/d/e/${SHEET_PUB}/pub?gid=${gid}&single=true&output=csv`
-  );
-}
+// ══════════════════════════════════════════════════════════════════
+// ESTRUTURA REAL CONFIRMADA:
+//   col ""        → rótulo da métrica
+//   col "2013"–"2026" → valores bloco principal
+//   col "Idiomas" → rótulo sub-bloco (idioma/cor/gênero/nota)
+//   col "2013_1"–"2026_1" → valores sub-bloco
+//   col "Países"  → nome do país
+//   col "2013_2"–"2026_2" + "Total" → valores por país
+// ══════════════════════════════════════════════════════════════════
 
-// ─── CONSTANTES ──────────────────────────────────────────────────────────────
 const GREEN       = '#849974';
 const GREEN_LIGHT = '#a8b99a';
 const BLACK       = '#000000';
 const WHITE       = '#ffffff';
-const CORES = [GREEN,'#6b7d5e','#b5c9a8','#4a5c40','#d4e3cc','#3a4c32','#e8f0e4','#c8d8bf','#91a882','#cedac5'];
-const ANOS  = ['2020','2021','2022','2023','2024','2025','2026'];
+const CORES10 = ['#849974','#6b7d5e','#b5c9a8','#4a5c40','#d4e3cc','#3a4c32','#c8d8bf','#91a882','#cedac5','#e8f0e4'];
+
+const TODOS_ANOS  = ['2013','2014','2015','2016','2017','2018','2019','2020','2021','2022','2023','2024','2025','2026'];
+const ANOS_FILTRO = ['2020','2021','2022','2023','2024','2025','2026'];
+
+// Categorias confirmadas pelo diagnóstico
+const CAT_COR    = ['Branco','Negro','Asiáticos','Diversos','Outros'];
+const CAT_GENERO = ['Feminino','Masculino','M. Trans','Não binário','Outros'];
+const CAT_NOTAS  = ['1','1,5','2','2,5','3','3,5','4','4,5','5'];
+const CAT_IDIOMA_SKIP = ['Idiomas','Cor escritor','Gênero escritor','Notas'];
 
 const COORDS = {
-  'Brasil':[-15.8,-47.9],'EUA':[37.1,-95.7],'Estados Unidos':[37.1,-95.7],
-  'Reino Unido':[51.5,-0.1],'Japão':[35.7,139.7],'França':[46.2,2.2],
-  'Canadá':[56.1,-106.3],'Argentina':[-34.6,-58.4],'Portugal':[38.7,-9.1],
-  'Alemanha':[52.5,13.4],'Espanha':[40.4,-3.7],'Itália':[41.9,12.5],
-  'México':[19.4,-99.1],'Colômbia':[4.7,-74.1],'Chile':[-33.4,-70.6],
-  'Índia':[28.6,77.2],'China':[39.9,116.4],'Rússia':[55.8,37.6],
-  'Austrália':[-35.3,149.1],'Nigéria':[9.1,7.5],'África do Sul':[-25.7,28.2],
-  'Zâmbia':[-15.4,28.3],'Camarões':[3.9,11.5],'Irã':[35.7,51.4],
-  'Noruega':[59.9,10.7],'Holanda':[52.4,4.9],'Cuba':[23.1,-82.4],
-  'Ucrânia':[50.5,30.5],'Nova Zelândia':[-41.3,174.8],'Uruguai':[-34.9,-56.2],
-  'Bolívia':[-16.5,-68.1],'Ruanda':[-1.9,30.1],'Somália':[2.0,45.3],
-  'República Tcheca':[50.1,14.4],'Bélgica':[50.8,4.4],
-  'Coreia do Sul':[37.6,127.0],'Vietnã':[21.0,105.8],
-  'Polônia':[52.2,21.0],'Suécia':[59.3,18.1],'Grécia':[37.9,23.7],
-  'Turquia':[39.9,32.9],'Egito':[30.1,31.2],'Marrocos':[34.0,-6.8],
-  'Etiópia':[9.0,38.7],'Quênia':[-1.3,36.8],'Gana':[5.6,-0.2],
-  'Senegal':[14.7,-17.4],'Peru':[-12.0,-77.0],'Venezuela':[10.5,-66.9],
-  'Irlanda':[53.3,-6.3],'Escócia':[56.5,-4.2],'Angola':[-8.8,13.2],
-  'Moçambique':[-18.7,35.5],'Zimbabwe':[-17.8,31.1],'Uganda':[0.3,32.6],
+  'Brasil':[-15.8,-47.9],'EUA':[37.1,-95.7],'Reino Unido':[51.5,-0.1],
+  'França':[46.2,2.2],'Canadá':[56.1,-106.3],'Rússia':[55.8,37.6],
+  'Ucrânia':[50.5,30.5],'Espanha':[40.4,-3.7],'Japão':[35.7,139.7],
+  'Irlanda':[53.3,-6.3],'Portugal':[38.7,-9.1],'Argentina':[-34.6,-58.4],
+  'Itália':[41.9,12.5],'Alemanha':[52.5,13.4],'México':[19.4,-99.1],
+  'Colômbia':[4.7,-74.1],'Comlômbia':[4.7,-74.1],'Chile':[-33.4,-70.6],
+  'Índia':[28.6,77.2],'índia':[28.6,77.2],'Índia Britânica':[20.6,78.9],
+  'China':[39.9,116.4],'Austrália':[-35.3,149.1],'Nova Zelândia':[-41.3,174.8],
+  'Nigéria':[9.1,7.5],'África do Sul':[-25.7,28.2],'Zâmbia':[-15.4,28.3],
+  'Camarões':[3.9,11.5],'Irã':[35.7,51.4],'Noruega':[59.9,10.7],
+  'Holanda':[52.4,4.9],'Cuba':[23.1,-82.4],'Uruguai':[-34.9,-56.2],
+  'Urugrai':[-34.9,-56.2],'Bolívia':[-16.5,-68.1],'Ruanda':[-1.9,30.1],
+  'Somália':[2.0,45.3],'República Tcheca':[50.1,14.4],'Bélgica':[50.8,4.4],
+  'Coreia do Sul':[37.6,127.0],'Vietnã':[21.0,105.8],'Suécia':[59.3,18.1],
+  ' Suécia':[59.3,18.1],'Polônia':[52.2,21.0],'Grécia':[37.9,23.7],
+  'Turquia':[39.9,32.9],'Síria':[34.8,38.9],'Paquistão':[33.7,73.1],
+  'Bulgária':[42.7,23.3],'Serra Leoa':[8.5,-11.9],'Zimbábue':[-17.8,31.1],
+  'Zimbabwe':[-17.8,31.1],'Angola':[-8.8,13.2],'Moçambique':[-18.7,35.5],
+  'Trinidad e Tobago':[10.7,-61.5],'Trindade e Tobago':[10.7,-61.5],
+  'República Democrática do Congo':[-4.3,15.3],'Malásia':[3.1,101.7],
+  'Etiópia':[9.0,38.7],'Inglaterra':[51.5,-0.1],'Diversos':[20,0],
+  ' Ilhas Virgens Americanas':[18.3,-64.9],'Senegal':[14.7,-17.4],
 };
 
-// ─── HELPERS ─────────────────────────────────────────────────────────────────
-const norm = s => (s||'').trim().toLowerCase();
+// ── helpers ──────────────────────────────────────────────────────────────────
+const pi = v => parseInt(String(v||'').replace(/[^0-9]/g,'')) || 0;
 
-function col(row, ...variants) {
-  const keys = Object.keys(row);
-  for (const v of variants) {
-    const found = keys.find(k => norm(k) === norm(v) || norm(k).includes(norm(v)));
-    if (found !== undefined && (row[found]||'').trim() !== '') return row[found];
+function fetchCSV(url) {
+  return fetch(url)
+    .then(r => { if (!r.ok) throw new Error('HTTP '+r.status); return r.text(); })
+    .then(t  => Papa.parse(t.replace(/^\uFEFF/,''), {header:true, skipEmptyLines:true}).data)
+    .catch(e => { console.error('fetchCSV falhou:', e); return []; });
+}
+
+// Lê linha pelo rótulo exato da col ""
+function getRow(label) {
+  return VIS.find(r => (r['']||'').trim() === label) || null;
+}
+
+// Extrai array de valores de uma linha para um conjunto de anos
+// suffix: '' = bloco principal, '_1' = sub-bloco, '_2' = países
+function vals(row, anos, suffix) {
+  if (!row) return anos.map(() => 0);
+  return anos.map(a => pi(row[(suffix ? a+suffix : a)]));
+}
+
+// Extrai {rótulo: valor} de uma seção do sub-bloco (col "Idiomas")
+// para um ano específico (suffix '_1') ou acumulado (todos os anos)
+function subVals(cats, ano) {
+  // ano = string como "2026", ou null para acumulado de TODOS_ANOS
+  const anos = ano ? [ano] : TODOS_ANOS;
+  const result = {};
+  cats.forEach(cat => {
+    const row = VIS.find(r => (r['Idiomas']||'').trim() === cat);
+    if (!row) return;
+    result[cat] = anos.reduce((s,a) => s + pi(row[a+'_1']), 0);
+  });
+  return result;
+}
+
+// Extrai idiomas dinâmicos (pula cabeçalhos e notas numéricas)
+function getIdiomas(ano) {
+  const anos = ano ? [ano] : TODOS_ANOS;
+  const result = {};
+  VIS.forEach(r => {
+    const lbl = (r['Idiomas']||'').trim();
+    if (!lbl) return;
+    if (CAT_IDIOMA_SKIP.includes(lbl)) return;
+    if ([...CAT_COR,...CAT_GENERO,...CAT_NOTAS].includes(lbl)) return;
+    const tot = anos.reduce((s,a) => s + pi(r[a+'_1']), 0);
+    if (tot > 0) result[lbl] = (result[lbl]||0) + tot;
+  });
+  return result;
+}
+
+// Extrai gêneros literários (col "" a partir da linha "Gêneros literários")
+function getGenLivro(ano) {
+  const anos = ano ? [ano] : TODOS_ANOS;
+  const idx = VIS.findIndex(r => (r['']||'').trim() === 'Gêneros literários');
+  if (idx < 0) return {};
+  const result = {};
+  VIS.slice(idx+1).forEach(r => {
+    const lbl = (r['']||'').trim();
+    if (!lbl) return;
+    const tot = anos.reduce((s,a) => s + pi(r[a]), 0);
+    if (tot > 0) result[lbl] = tot;
+  });
+  return result;
+}
+
+// Extrai países e totais (col "Países" + "Total" ou "2026_2" etc.)
+function getPaises(ano) {
+  if (!ano) {
+    // histórico: usa col "Total"
+    const result = {};
+    VIS.forEach(r => {
+      const p = (r['Países']||'').trim();
+      const v = pi(r['Total']);
+      if (p && v > 0) result[p] = v;
+    });
+    return result;
   }
-  return '';
-}
-
-function count(arr, ...fieldVariants) {
-  const c = {};
-  arr.forEach(b => {
-    const v = col(b, ...fieldVariants).trim();
-    if (v) c[v] = (c[v]||0) + 1;
+  // por ano: usa col "ano_2"
+  const result = {};
+  VIS.forEach(r => {
+    const p = (r['Países']||'').trim();
+    const v = pi(r[ano+'_2']);
+    if (p && v > 0) result[p] = v;
   });
-  return c;
-}
-function topN(obj, n) { return Object.entries(obj).sort((a,b)=>b[1]-a[1]).slice(0,n); }
-
-function fetchCSV(gid) {
-  return fetch(csvUrl(gid))
-    .then(r => { if(!r.ok) throw new Error(r.status); return r.text(); })
-    .then(text => {
-      const clean = text.replace(/^\uFEFF/, '');
-      const result = Papa.parse(clean, { header:true, skipEmptyLines:true, dynamicTyping:false });
-      console.log(`GID ${gid} → ${result.data.length} linhas | cols:`, result.data[0] ? Object.keys(result.data[0]) : []);
-      return result.data;
-    })
-    .catch(e => { console.warn(`Erro GID ${gid}:`, e); return []; });
+  return result;
 }
 
-function detectAnoCol(rows) {
-  if (!rows?.length) return null;
-  const keys = Object.keys(rows[0]);
-  return keys.find(k => /^ano$/i.test(k.trim())) || keys.find(k => /\bano\b/i.test(k)) || null;
+function topN(obj, n) {
+  return Object.entries(obj).sort((a,b)=>b[1]-a[1]).slice(0,n);
 }
 
-function getLidos(rows) {
-  if (!rows?.length) return [];
-  const keys = Object.keys(rows[0]);
-  const lidoCol = keys.find(k => /lido/i.test(k));
-  if (!lidoCol) return rows;
-  return rows.filter(r => /lido|sim|yes|1|true/i.test(norm(r[lidoCol])));
+// Parse RESUMO: "Livros lidos"→289, "Páginas lidas"→79338, etc.
+// Estrutura real: header = ["Livros lidos","289"], linhas = {livros_lidos:"Páginas lidas","289":"79.338"}
+function parseResumo(rows) {
+  if (!rows.length) return {};
+  const cols = Object.keys(rows[0]);
+  const kRot = cols[0], kVal = cols[1];
+  const out = {};
+  // primeira linha: o header virou os dados da linha 1
+  out[kRot] = pi(kVal);
+  rows.forEach(r => {
+    const rot = (r[kRot]||'').trim();
+    const val = (r[kVal]||'').toString().replace(/\./g,'').replace(',','.');
+    if (rot) out[rot] = pi(val) || parseFloat(val) || 0;
+  });
+  return out;
 }
 
-// ─── CHART OPTIONS ───────────────────────────────────────────────────────────
-function barOpts(horizontal=false) {
-  return {
-    maintainAspectRatio: false,
-    indexAxis: horizontal ? 'y' : 'x',
-    plugins: {
-      legend: { display: false },
-      datalabels: {
-        display: true, anchor: horizontal?'end':'end', align: horizontal?'end':'top',
-        color: BLACK, font:{family:'DM Sans',size:10,weight:'500'},
-        formatter: v => v>0?v:'', clamp:true,
-      }
-    },
-    scales: {
-      x: { grid:{color:'#eeeeee',lineWidth:.7}, ticks:{font:{family:'DM Sans',size:10},color:'#666'}, border:{display:false} },
-      y: { grid:{color:'#eeeeee',lineWidth:.7}, ticks:{font:{family:'DM Sans',size:10},color:'#666'}, border:{display:false} },
-    }
-  };
-}
-
-function lineOpts() {
-  return {
-    maintainAspectRatio: false,
-    plugins: {
-      legend: { display: false },
-      datalabels: {
-        display: true, align:'top', anchor:'end',
-        color: GREEN, font:{family:'DM Sans',size:10,weight:'600'},
-        formatter: v => v>0?v:'',
-      }
-    },
-    scales: {
-      x: { grid:{color:'#eeeeee',lineWidth:.7}, ticks:{font:{family:'DM Sans',size:10},color:'#666'}, border:{display:false} },
-      y: { grid:{color:'#eeeeee',lineWidth:.7}, ticks:{font:{family:'DM Sans',size:10},color:'#666'}, border:{display:false}, beginAtZero:true },
-    }
-  };
-}
-
-function pieOpts() {
-  return {
-    maintainAspectRatio: false,
-    plugins: {
-      legend: { position:'bottom', labels:{font:{family:'DM Sans',size:10},color:BLACK,padding:8,boxWidth:10} },
-      datalabels: {
-        display: true,
-        formatter:(v,ctx)=>{
-          const t=ctx.dataset.data.reduce((a,b)=>a+b,0);
-          const p=Math.round(v/t*100);
-          return p>4?p+'%':'';
-        },
-        color:WHITE, font:{family:'DM Sans',size:10,weight:'500'},
+// ── Chart factories ───────────────────────────────────────────────────────────
+function mkBar(id, labels, data, horizontal=false) {
+  const el = document.getElementById(id); if (!el) return null;
+  return new Chart(el, {
+    type: 'bar',
+    data: { labels, datasets: [{ data,
+      backgroundColor: labels.map((_,i) => i === labels.length-1 && !horizontal ? GREEN : GREEN_LIGHT),
+      borderRadius: 3, borderSkipped: false
+    }]},
+    options: {
+      maintainAspectRatio: false, indexAxis: horizontal ? 'y' : 'x',
+      plugins: {
+        legend: { display: false },
+        datalabels: {
+          display: true, anchor: 'end', align: horizontal ? 'end' : 'top', clamp: true,
+          color: BLACK, font: { family:'DM Sans', size:10, weight:'500' },
+          formatter: v => v > 0 ? v : '',
+        }
+      },
+      scales: {
+        x: { grid:{color:'#eee',lineWidth:.7}, ticks:{font:{family:'DM Sans',size:10},color:'#666'}, border:{display:false} },
+        y: { grid:{color:'#eee',lineWidth:.7}, ticks:{font:{family:'DM Sans',size:10},color:'#666'}, border:{display:false} },
       }
     }
-  };
+  });
 }
 
-// ─── HAMBURGER ───────────────────────────────────────────────────────────────
+function mkLine(id, labels, data, fmt) {
+  const el = document.getElementById(id); if (!el) return null;
+  return new Chart(el, {
+    type: 'line',
+    data: { labels, datasets: [{ data,
+      borderColor: GREEN, backgroundColor: GREEN+'22',
+      borderWidth: 2.5, pointBackgroundColor: GREEN,
+      pointBorderColor: WHITE, pointBorderWidth: 2,
+      pointRadius: 5, fill: true, tension: .35
+    }]},
+    options: {
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        datalabels: {
+          display: true, anchor: 'end', align: 'top',
+          color: BLACK, font: { family:'DM Sans', size:9, weight:'500' },
+          formatter: fmt || (v => v > 0 ? v : ''),
+        }
+      },
+      scales: {
+        x: { grid:{color:'#eee',lineWidth:.7}, ticks:{font:{family:'DM Sans',size:10},color:'#666'}, border:{display:false} },
+        y: { grid:{color:'#eee',lineWidth:.7}, ticks:{font:{family:'DM Sans',size:10},color:'#666'}, border:{display:false}, beginAtZero:true },
+      }
+    }
+  });
+}
+
+function mkPie(id, labels, data) {
+  const el = document.getElementById(id); if (!el) return null;
+  return new Chart(el, {
+    type: 'doughnut',
+    data: { labels, datasets: [{ data, backgroundColor: CORES10, borderWidth: 0 }] },
+    options: {
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position:'bottom', labels:{font:{family:'DM Sans',size:10},color:BLACK,padding:8,boxWidth:10} },
+        datalabels: {
+          display: true,
+          formatter:(v,ctx)=>{
+            const t=ctx.dataset.data.reduce((a,b)=>a+b,0);
+            const p=Math.round(v/t*100); return p>4?p+'%':'';
+          },
+          color:WHITE, font:{family:'DM Sans',size:10,weight:'500'},
+        }
+      }
+    }
+  });
+}
+
+// ── Hamburger ─────────────────────────────────────────────────────────────────
 (function(){
-  const btn  = document.getElementById('nav-hamburger');
-  const menu = document.getElementById('nav-mobile');
-  if(!btn||!menu) return;
-  btn.addEventListener('click', ()=>{
-    const open = menu.classList.toggle('open');
-    const bars = btn.querySelectorAll('span');
-    bars[0].style.transform = open ? 'translateY(7px) rotate(45deg)'  : '';
-    bars[1].style.opacity   = open ? '0' : '';
-    bars[2].style.transform = open ? 'translateY(-7px) rotate(-45deg)': '';
+  const btn=document.getElementById('nav-hamburger'), menu=document.getElementById('nav-mobile');
+  if(!btn||!menu)return;
+  btn.addEventListener('click',()=>{
+    const open=menu.classList.toggle('open'), bars=btn.querySelectorAll('span');
+    bars[0].style.transform=open?'translateY(7px) rotate(45deg)':'';
+    bars[1].style.opacity  =open?'0':'';
+    bars[2].style.transform=open?'translateY(-7px) rotate(-45deg)':'';
   });
-  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', ()=>{
+  menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
     menu.classList.remove('open');
     btn.querySelectorAll('span').forEach(s=>{s.style.transform='';s.style.opacity='';});
   }));
 })();
 
-// ─── STATE ───────────────────────────────────────────────────────────────────
-let resumo=[], anoAtivo='todos', anoCharts={};
+// ── State ─────────────────────────────────────────────────────────────────────
+let VIS=[], TOTAIS={}, anoCharts={}, leafMap=null;
 
-// ─── INIT ─────────────────────────────────────────────────────────────────────
+// ── Init ──────────────────────────────────────────────────────────────────────
 async function init() {
-  // Carrega as duas abas em paralelo
-  const [r1, r2] = await Promise.all([ fetchCSV(GID_RESUMO), fetchCSV(GID_VISAO) ]);
-  // Usa a aba RESUMO (livro por livro) como fonte principal
-  // Se GID_RESUMO vazio, tenta GID_VISAO como fallback
-  resumo = r1.length ? r1 : r2;
-  console.log(`resumo: ${resumo.length} linhas`);
+  const [visRaw, resRaw] = await Promise.all([fetchCSV(URL_VIS), fetchCSV(URL_RES)]);
+  VIS    = visRaw;
+  TOTAIS = parseResumo(resRaw);
+  console.log('VIS linhas:', VIS.length, '| TOTAIS:', TOTAIS);
 
-  buildGlobalStats();
+  buildStats();
   buildGerais();
   buildMap();
   buildYearFilter();
   renderAno('todos');
 }
 
-// ─── STATS GLOBAIS ────────────────────────────────────────────────────────────
-function buildGlobalStats() {
-  const lidos = getLidos(resumo);
-  document.getElementById('stat-total').textContent = lidos.length || '—';
-
-  const totalPag = lidos.reduce((s,b)=>s+(parseInt((col(b,'Páginas','Paginas','páginas','paginas','Num_Paginas')||'').replace(/\D/g,''))||0),0);
-  document.getElementById('stat-paginas').textContent = totalPag>0 ? totalPag.toLocaleString('pt-BR') : '—';
-
-  const idiomas = new Set(lidos.map(b=>col(b,'Idioma','idioma','Language').trim()).filter(Boolean));
-  document.getElementById('stat-idiomas').textContent = idiomas.size||'—';
-
-  const autores = new Set(lidos.map(b=>col(b,'Autor','Autora','autor','autora','Author','Nome_Autor').trim()).filter(Boolean));
-  document.getElementById('stat-autores').textContent = autores.size||'—';
-
-  const paises = new Set(lidos.map(b=>col(b,'País','Pais','país','pais','Country','Pais_Autor').trim()).filter(Boolean));
-  document.getElementById('stat-paises').textContent = paises.size||'—';
-
-  const cinco = lidos.filter(b=>{
-    const r=col(b,'Avaliação','Nota','Rating','avaliação','nota','rating').trim();
-    return r==='5'||r==='5.0'||r==='5,0'||r==='★★★★★';
-  }).length;
-  document.getElementById('stat-5estrelas').textContent = cinco||'—';
+// ── Stats globais ─────────────────────────────────────────────────────────────
+function buildStats() {
+  const idSet = getIdiomas(null);
+  const pSet  = getPaises(null);
+  set('stat-total',     TOTAIS['Livros lidos']   || '—');
+  set('stat-paginas',   fmt(TOTAIS['Páginas lidas']));
+  set('stat-idiomas',   Object.keys(idSet).length || '—');
+  set('stat-autores',   '—');
+  set('stat-paises',    TOTAIS['Países']          || Object.keys(pSet).length || '—');
+  set('stat-5estrelas', TOTAIS['Nota 5 estrelas'] || '—');
 }
 
-// ─── VISÃO GERAL (barras históricas) ──────────────────────────────────────────
+function set(id, v) { const el=document.getElementById(id); if(el) el.textContent=v; }
+function fmt(n) { return n>0 ? Number(n).toLocaleString('pt-BR') : '—'; }
+
+// ── Visão geral (barras históricas 2013–2026) ─────────────────────────────────
 function buildGerais() {
-  const anoCol = detectAnoCol(resumo);
-  const lidos  = getLidos(resumo);
+  const hl = TODOS_ANOS.map(a => a==='2026' ? GREEN : GREEN_LIGHT);
 
-  function porAno(fn) {
-    return ANOS.map(a => fn(anoCol ? lidos.filter(r=>(r[anoCol]||'').trim()===a) : []));
-  }
-
-  const livData = porAno(rows=>rows.length);
-  const pagData = porAno(rows=>rows.reduce((s,r)=>s+(parseInt((col(r,'Páginas','Paginas','páginas','paginas')||'').replace(/\D/g,''))||0),0));
-  const novData = porAno(rows=>rows.filter(r=>/sim|s|yes|1|true/i.test(norm(col(r,'Novo Autor','novo autor','Primeira vez','primeira vez','Novo','novo')))).length);
-  const lgData  = porAno(rows=>rows.filter(r=>/sim|s|yes|1|true/i.test(norm(col(r,'LGBTQIA+','lgbtqia','LGBT','lgbtq','Lgbtqia','lgbtqia+')))).length);
-  const etnData = porAno(rows=>rows.filter(r=>/sim|s|yes|1|true/i.test(norm(col(r,'Representatividade','representatividade','Etnia','etnia','POC')))).length);
-  const ownData = porAno(rows=>rows.filter(r=>/sim|s|yes|1|true/i.test(norm(col(r,'OwnVoices','ownvoices','Own Voices','own voices','#ownvoices')))).length);
-
-  function mkBar(id, data, fmtFn) {
+  function mkBarVis(id, row, anos, fmtFn) {
     const el=document.getElementById(id); if(!el) return;
-    const opts=barOpts();
-    if(fmtFn) opts.plugins.datalabels.formatter=fmtFn;
-    new Chart(el,{ type:'bar', data:{ labels:ANOS, datasets:[{ data, backgroundColor:ANOS.map((a,i)=>i===ANOS.length-1?GREEN:GREEN_LIGHT), borderRadius:3 }]}, options:opts });
+    const data = vals(row, anos, '');
+    const cfg = {
+      type:'bar',
+      data:{ labels:anos, datasets:[{data, backgroundColor:hl.slice(-anos.length), borderRadius:3}] },
+      options:{
+        maintainAspectRatio:false, plugins:{
+          legend:{display:false},
+          datalabels:{display:true,anchor:'end',align:'top',clamp:true,color:BLACK,
+            font:{family:'DM Sans',size:10,weight:'500'},
+            formatter: fmtFn || (v=>v>0?v:'')
+          }
+        },
+        scales:{
+          x:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:'#666'},border:{display:false}},
+          y:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:'#666'},border:{display:false}},
+        }
+      }
+    };
+    new Chart(el, cfg);
   }
-  mkBar('c-anos',    livData);
-  mkBar('c-paginas', pagData, v=>v>0?v.toLocaleString('pt-BR'):'');
-  mkBar('c-novos',   novData);
-  mkBar('c-lgbtq',   lgData);
-  mkBar('c-etnia',   etnData);
-  mkBar('c-own',     ownData);
+
+  mkBarVis('c-anos',    getRow('Livros'),                          TODOS_ANOS);
+  mkBarVis('c-paginas', getRow('Páginas'),                         TODOS_ANOS, v=>v>0?v.toLocaleString('pt-BR'):'');
+  mkBarVis('c-novos',   getRow('Autores lidos pela 1º vez'),       TODOS_ANOS);
+  mkBarVis('c-lgbtq',   getRow('Protagonistas LGBTQIA+'),          TODOS_ANOS);
+  mkBarVis('c-etnia',   getRow('Representatividade etnica/racial'),TODOS_ANOS);
+  mkBarVis('c-own',     getRow('#OwnVoices'),                      TODOS_ANOS);
 }
 
-// ─── MAPA ─────────────────────────────────────────────────────────────────────
+// ── Mapa ──────────────────────────────────────────────────────────────────────
 function buildMap() {
-  const map = L.map('hist-map',{scrollWheelZoom:false}).setView([20,10],2);
+  if (leafMap) return;
+  leafMap = L.map('hist-map',{scrollWheelZoom:false}).setView([20,10],2);
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{
     attribution:'© OpenStreetMap contributors © CARTO', maxZoom:19
-  }).addTo(map);
-  const lidos = getLidos(resumo);
-  const paisCount = count(lidos,'País','Pais','país','pais','Country','Pais_Autor');
-  Object.entries(paisCount).forEach(([pais,qtd])=>{
-    const coord=COORDS[pais]; if(!coord) return;
-    L.circleMarker(coord,{ radius:Math.max(5,Math.sqrt(qtd)*4), fillColor:GREEN, color:GREEN_LIGHT, weight:1.5, opacity:.9, fillOpacity:.7 })
-     .bindPopup(`<b>${pais}</b><br>${qtd} livro${qtd>1?'s':''}`).addTo(map);
+  }).addTo(leafMap);
+  Object.entries(getPaises(null)).forEach(([p,v]) => {
+    const c=COORDS[p]; if(!c) return;
+    L.circleMarker(c,{radius:Math.max(5,Math.sqrt(v)*3.5),fillColor:GREEN,color:GREEN_LIGHT,weight:1.5,opacity:.9,fillOpacity:.7})
+     .bindPopup(`<b>${p}</b><br>${v} livro${v>1?'s':''}`).addTo(leafMap);
   });
 }
 
-// ─── FILTRO POR ANO ───────────────────────────────────────────────────────────
+// ── Filtro de anos ────────────────────────────────────────────────────────────
 function buildYearFilter() {
-  const wrap = document.getElementById('year-filter');
-  // Botão Todos
-  const btn0 = document.createElement('button');
-  btn0.className = 'year-btn selected';
-  btn0.textContent = 'Todos';
-  btn0.onclick = () => selectYear('todos', btn0);
-  wrap.appendChild(btn0);
-  // Botões por ano
-  ANOS.slice().reverse().forEach(ano=>{
-    const btn=document.createElement('button');
-    btn.className='year-btn';
-    btn.textContent=ano;
-    btn.onclick=()=>selectYear(ano,btn);
-    wrap.appendChild(btn);
-  });
-}
-
-function selectYear(ano, btn) {
-  document.querySelectorAll('.year-btn').forEach(b=>b.classList.remove('selected'));
-  btn.classList.add('selected');
-  renderAno(ano);
-}
-
-// ─── RENDER ANO ───────────────────────────────────────────────────────────────
-function renderAno(ano) {
-  anoAtivo = ano;
-  Object.values(anoCharts).forEach(c=>c.destroy());
-  anoCharts = {};
-
-  const anoCol = detectAnoCol(resumo);
-  const lidos  = getLidos(resumo);
-  const src = ano==='todos' ? lidos
-            : anoCol ? lidos.filter(r=>(r[anoCol]||'').trim()===ano)
-            : lidos;
-
-  // Stats
-  const totalPag = src.reduce((s,b)=>s+(parseInt((col(b,'Páginas','Paginas','páginas','paginas')||'').replace(/\D/g,''))||0),0);
-  document.getElementById('a-livros').textContent    = src.length||'—';
-  document.getElementById('a-paginas').textContent   = totalPag>0?totalPag.toLocaleString('pt-BR'):'—';
-  document.getElementById('a-idiomas').textContent   = new Set(src.map(b=>col(b,'Idioma','idioma').trim()).filter(Boolean)).size||'—';
-  document.getElementById('a-autores').textContent   = new Set(src.map(b=>col(b,'Autor','Autora','autor','autora','Nome_Autor').trim()).filter(Boolean)).size||'—';
-  document.getElementById('a-paises').textContent    = new Set(src.map(b=>col(b,'País','Pais','país','pais','Pais_Autor').trim()).filter(Boolean)).size||'—';
-  document.getElementById('a-5estrelas').textContent = src.filter(b=>{const r=col(b,'Avaliação','Nota','Rating','avaliação').trim();return r==='5'||r==='5.0'||r==='5,0';}).length||'—';
-
-  // Atualiza títulos dos gráficos de cor/gênero conforme modo
-  const t1 = document.getElementById('chart-title-cor');
-  const t2 = document.getElementById('chart-title-genero');
-  if(t1) t1.textContent = ano==='todos' ? 'Evolução — livros por ano' : 'Cor dos autores';
-  if(t2) t2.textContent = ano==='todos' ? 'Evolução — páginas por ano' : 'Gênero dos autores';
-
-  if(ano==='todos') {
-    // Gráficos de LINHA para evolução
-    function mkLine(id, data, fmtFn) {
-      const el=document.getElementById(id); if(!el) return;
-      const opts=lineOpts();
-      if(fmtFn) opts.plugins.datalabels.formatter=fmtFn;
-      anoCharts[id]=new Chart(el,{ type:'line', data:{ labels:ANOS, datasets:[{
-        data, borderColor:GREEN, backgroundColor:GREEN+'22',
-        borderWidth:2.5, pointBackgroundColor:GREEN, pointBorderColor:WHITE,
-        pointBorderWidth:2, pointRadius:5, pointHoverRadius:7, fill:true, tension:.35
-      }]}, options:opts });
-    }
-    const livLine = ANOS.map(a=>anoCol?lidos.filter(r=>(r[anoCol]||'').trim()===a).length:0);
-    const pagLine = ANOS.map(a=>anoCol?lidos.filter(r=>(r[anoCol]||'').trim()===a).reduce((s,r)=>s+(parseInt((col(r,'Páginas','Paginas','páginas')||'').replace(/\D/g,''))||0),0):0);
-    mkLine('ac-cor',    livLine);
-    mkLine('ac-ga',     pagLine, v=>v>0?v.toLocaleString('pt-BR'):'');
-    // demais: pizza acumulada
-    mkPie('ac-idioma',    lidos,'Idioma','idioma');
-    mkBarH('ac-generos',  lidos,'Gênero','gênero','Genero','genero');
-    mkBarH('ac-paises-ano',lidos,'País','Pais','país','pais','Pais_Autor');
-    mkStars('ac-stars',   lidos);
-  } else {
-    mkPie('ac-cor',       src,'Cor','cor','Cor do Autor','cor_autor','Cor Autor');
-    mkPie('ac-ga',        src,'Se identifica como','Gênero do Autor','gênero do autor','sexo','Sexo','Genero_Autor');
-    mkPie('ac-idioma',    src,'Idioma','idioma');
-    mkBarH('ac-generos',  src,'Gênero','gênero','Genero','genero');
-    mkBarH('ac-paises-ano',src,'País','Pais','país','pais','Pais_Autor');
-    mkStars('ac-stars',   src);
+  const wrap=document.getElementById('year-filter'); wrap.innerHTML='';
+  function mkBtn(label, ano) {
+    const b=document.createElement('button');
+    b.className='year-btn'+(label==='Todos'?' selected':'');
+    b.textContent=label;
+    b.onclick=()=>{ document.querySelectorAll('.year-btn').forEach(x=>x.classList.remove('selected')); b.classList.add('selected'); renderAno(ano); };
+    wrap.appendChild(b);
   }
+  mkBtn('Todos','todos');
+  ANOS_FILTRO.slice().reverse().forEach(a => mkBtn(a,a));
 }
 
-function mkPie(id, src, ...fields) {
-  const obj=count(src,...fields); if(!Object.keys(obj).length) return;
-  anoCharts[id]=new Chart(document.getElementById(id),{ type:'doughnut', data:{ labels:Object.keys(obj), datasets:[{ data:Object.values(obj), backgroundColor:CORES, borderWidth:0 }]}, options:pieOpts() });
-}
-function mkBarH(id, src, ...fields) {
-  const entries=topN(count(src,...fields),10); if(!entries.length) return;
-  anoCharts[id]=new Chart(document.getElementById(id),{ type:'bar', data:{ labels:entries.map(e=>e[0]), datasets:[{ data:entries.map(e=>e[1]), backgroundColor:GREEN, borderRadius:3 }]}, options:barOpts(true) });
-}
-function mkStars(id, src) {
-  const obj=count(src,'Avaliação','Nota','Rating','avaliação','nota'); if(!Object.keys(obj).length) return;
-  const keys=['1','2','3','4','5'];
-  anoCharts[id]=new Chart(document.getElementById(id),{ type:'bar', data:{ labels:keys.map(k=>'★'.repeat(+k)), datasets:[{ data:keys.map(k=>obj[k]||0), backgroundColor:GREEN_LIGHT, borderRadius:3 }]}, options:barOpts() });
+// ── Render ano ────────────────────────────────────────────────────────────────
+function renderAno(ano) {
+  Object.values(anoCharts).forEach(c=>{ try{c.destroy();}catch(e){} });
+  anoCharts={};
+
+  const anos = ano==='todos' ? TODOS_ANOS : [ano];
+
+  // ── Stats do período ──
+  const livRow = getRow('Livros'), pagRow = getRow('Páginas');
+  const livTot = vals(livRow, anos, '').reduce((a,b)=>a+b, 0);
+  const pagTot = vals(pagRow, anos, '').reduce((a,b)=>a+b, 0);
+  const idSet  = getIdiomas(ano==='todos'?null:ano);
+  const pSet   = getPaises(ano==='todos'?null:ano);
+  const notasD = subVals(CAT_NOTAS, ano==='todos'?null:ano);
+  const c5     = notasD['5'] || 0;
+
+  set('a-livros',    livTot || '—');
+  set('a-paginas',   fmt(pagTot));
+  set('a-idiomas',   Object.keys(idSet).length || '—');
+  set('a-autores',   '—');
+  set('a-paises',    Object.keys(pSet).length  || '—');
+  set('a-5estrelas', c5 || '—');
+
+  // ── Títulos dinâmicos ──
+  const t1=document.getElementById('chart-title-cor');
+  const t2=document.getElementById('chart-title-genero');
+  if(t1) t1.textContent = ano==='todos' ? 'Evolução — livros por ano' : 'Cor do escritor';
+  if(t2) t2.textContent = ano==='todos' ? 'Evolução — páginas lidas'  : 'Gênero do escritor';
+
+  const anoArg = ano==='todos' ? null : ano;
+
+  if (ano === 'todos') {
+    // ── Gráficos de linha ──
+    anoCharts['ac-cor'] = mkLine('ac-cor', TODOS_ANOS, vals(getRow('Livros'), TODOS_ANOS, ''));
+    anoCharts['ac-ga']  = mkLine('ac-ga',  TODOS_ANOS, vals(getRow('Páginas'), TODOS_ANOS, ''),
+      v => v>0 ? v.toLocaleString('pt-BR') : '');
+
+    // ── Pizza idiomas ──
+    const idE = topN(idSet, 10);
+    anoCharts['ac-idioma'] = mkPie('ac-idioma', idE.map(e=>e[0]), idE.map(e=>e[1]));
+
+    // ── Barra gêneros literários ──
+    const genE = topN(getGenLivro(null), 10);
+    anoCharts['ac-generos'] = mkBar('ac-generos', genE.map(e=>e[0]), genE.map(e=>e[1]), true);
+
+    // ── Barra países ──
+    const pE = topN(pSet, 10);
+    anoCharts['ac-paises-ano'] = mkBar('ac-paises-ano', pE.map(e=>e[0]), pE.map(e=>e[1]), true);
+
+    // ── Barra notas ──
+    const notaAcum = subVals(CAT_NOTAS, null);
+    anoCharts['ac-stars'] = mkBar('ac-stars', CAT_NOTAS, CAT_NOTAS.map(k=>notaAcum[k]||0));
+
+  } else {
+    // ── Pizza cor ──
+    const corD = subVals(CAT_COR, ano);
+    const corE = Object.entries(corD).filter(e=>e[1]>0);
+    if (corE.length) anoCharts['ac-cor'] = mkPie('ac-cor', corE.map(e=>e[0]), corE.map(e=>e[1]));
+
+    // ── Pizza gênero ──
+    const genD = subVals(CAT_GENERO, ano);
+    const genE0 = Object.entries(genD).filter(e=>e[1]>0);
+    if (genE0.length) anoCharts['ac-ga'] = mkPie('ac-ga', genE0.map(e=>e[0]), genE0.map(e=>e[1]));
+
+    // ── Pizza idiomas ──
+    const idE = topN(idSet, 10);
+    if (idE.length) anoCharts['ac-idioma'] = mkPie('ac-idioma', idE.map(e=>e[0]), idE.map(e=>e[1]));
+
+    // ── Barra gêneros literários ──
+    const glE = topN(getGenLivro(ano), 10);
+    if (glE.length) anoCharts['ac-generos'] = mkBar('ac-generos', glE.map(e=>e[0]), glE.map(e=>e[1]), true);
+
+    // ── Barra países ──
+    const pE = topN(pSet, 10);
+    if (pE.length) anoCharts['ac-paises-ano'] = mkBar('ac-paises-ano', pE.map(e=>e[0]), pE.map(e=>e[1]), true);
+
+    // ── Barra notas ──
+    const notaD = subVals(CAT_NOTAS, ano);
+    anoCharts['ac-stars'] = mkBar('ac-stars', CAT_NOTAS, CAT_NOTAS.map(k=>notaD[k]||0));
+  }
 }
 
 init();
