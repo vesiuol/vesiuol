@@ -116,16 +116,8 @@ nav ul li a.active{
 .chart-header{padding:.5rem 1rem;display:flex;align-items:center;gap:6px;border-bottom:1px solid #e0e0e0;}
 .chart-title-small{font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-left:.4rem;}
 .chart-body{padding:1.2rem;position:relative;}
-.chart-body.h160{height:160px;}
-.chart-body.h180{height:180px;}
-.chart-body.h200{height:200px;}
-.chart-body.h220{height:220px;}
-.chart-body.h260{height:260px;}
-.chart-body.h300{height:300px;}
-.chart-body.h320{height:320px;}
-.chart-body.h340{height:340px;}
-.chart-body.h400{height:400px;}
-.chart-body canvas{width:100%!important;}
+.chart-body canvas{width:100%!important;max-height:220px;}
+.chart-body.tall canvas{max-height:300px;}
 
 /* ── MAP ── */
 #map{height:460px;}
@@ -466,7 +458,7 @@ function barOpts(horizontal=false){
 function pieOpts(){
   return {
     maintainAspectRatio:false,
-    cutout:'45%',
+    cutout:'50%',
     layout:{padding:{top:10,bottom:10,left:10,right:10}},
     plugins:{
       legend:{
