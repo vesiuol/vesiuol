@@ -857,7 +857,7 @@ function filterLPM(rows){
     Object.values(r).some(v => norm(v||'').includes('desafio lpm'))
   );
   if(!filtered.length){
-      rows[0] ? Object.values(rows[0]).slice(0,10).join(' | ') : '(vazio)');
+    // sem resultado — retorna vazio
   }
   return filtered;
 }
