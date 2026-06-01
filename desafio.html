@@ -18,7 +18,7 @@
   --black: #000000;
   --green: #849974;
   --green-dark: #6b7e5e;
-  --green-light: #849974;
+  --green-light: #c8d4b8;
   --border: #c8c8c8;
   --text: #1a1a1a;
   --muted: #555;
@@ -152,7 +152,7 @@ nav ul li a.active{
 .chart-header{padding:.5rem 1rem;display:flex;align-items:center;gap:6px;border-bottom:1px solid #e0e0e0;}
 .chart-title-small{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);}
 .chart-body{padding:1.2rem;position:relative;}
-.chart-body canvas{max-height:220px;}
+.chart-body canvas{max-height:180px;}
 .chart-body.tall canvas{max-height:300px;}
 
 /* ── MAP ── */
@@ -220,6 +220,8 @@ nav ul li a.active{
 .proj-label{color:var(--muted);}
 .proj-val{font-weight:500;color:var(--text);}
 .proj-destaque{color:var(--green);font-weight:600;font-family:'Playfair Display',serif;font-size:1rem;}
+
+.filter-pill{
   padding:.35rem .9rem;border:1.5px solid var(--border);background:transparent;
   font-family:'DM Sans',sans-serif;font-size:.78rem;border-radius:100px;
   cursor:pointer;transition:all .18s;color:var(--muted);font-weight:400;
@@ -299,6 +301,76 @@ footer{
   nav ul.open{display:flex;}
   .nav-hamburger{display:block;}
 }
+
+/* ── REPRESENTATIVIDADE BLOCO ── */
+.repr-bloco{
+  background:var(--white);border:1.5px solid #b0b090;border-radius:14px;overflow:hidden;
+  margin-bottom:1rem;
+}
+.repr-bloco-header{
+  padding:.5rem 1rem;display:flex;align-items:center;gap:6px;
+  border-bottom:1px solid #e0e0e0;
+}
+.repr-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:0;
+}
+.repr-item{
+  padding:1.2rem;border-right:1px solid #eee;
+}
+.repr-item:last-child{border-right:none;}
+.repr-item-title{
+  font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:.8rem;
+}
+.repr-item canvas{max-height:180px;}
+
+/* ── MOBILE REFINEMENTS ── */
+@media(max-width:900px){
+  .stats-bar{grid-template-columns:repeat(3,1fr);}
+  .posts-grid{grid-template-columns:1fr 1fr;}
+  .charts-grid{grid-template-columns:1fr;}
+  .chart-card.full{grid-column:1;}
+  .repr-grid{grid-template-columns:1fr;}
+  .repr-item{border-right:none;border-bottom:1px solid #eee;}
+  .repr-item:last-child{border-bottom:none;}
+  #evolucao-cards{grid-template-columns:repeat(2,1fr)!important;}
+  .chart-body canvas{max-height:160px;}
+  .repr-item canvas{max-height:160px;}
+}
+@media(max-width:600px){
+  .stats-bar{grid-template-columns:repeat(2,1fr);}
+  .posts-grid{grid-template-columns:1fr;}
+  .hero-card{padding:1.5rem 1.5rem 0;}
+  .hero-title-bg h1{font-size:1.6rem;}
+  .page-section{padding:0 1rem 2.5rem;}
+  .hero-section{padding:0 1rem;margin-top:1.5rem;}
+  nav{padding:0 1rem;}
+  nav ul{gap:1rem;}
+  .notion-cta-body{padding:1.5rem;}
+  .notion-cta-footer{padding:.9rem 1.5rem;}
+  /* Tabela: sem overflow horizontal */
+  .notion-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  table{font-size:.75rem;min-width:480px;}
+  td,th{padding:.45rem .4rem;}
+  td:nth-child(5),th:nth-child(5){display:none;} /* oculta col Gênero autor no mobile */
+  #evolucao-cards{grid-template-columns:1fr 1fr!important;}
+  .chart-body canvas{max-height:130px;}
+  .repr-item canvas{max-height:130px;}
+}
+@media(max-width:400px){
+  .stats-bar{grid-template-columns:repeat(2,1fr);}
+  .stat-num{font-size:1.5rem;}
+  .nav-hamburger{display:block;}
+  nav ul{
+    display:none;position:absolute;top:52px;left:0;right:0;
+    background:var(--white);flex-direction:column;
+    padding:1rem;gap:.8rem;border-bottom:1px solid #ccc;
+    box-shadow:0 4px 12px rgba(0,0,0,.08);
+  }
+  nav ul.open{display:flex;}
+}
+
 </style>
 </head>
 <body>
@@ -434,19 +506,25 @@ footer{
     </div>
   </div>
 
-  <!-- Linha 2: Conteúdo (3 donuts) -->
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1rem">
-    <div class="chart-card">
-      <div class="chart-header"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div><span class="chart-title-small" style="margin-left:.4rem">Protagonista LGBTQ+</span></div>
-      <div class="chart-body"><canvas id="c-lgbtq"></canvas></div>
+  <!-- Bloco Representatividade (modelo Estante) -->
+  <div class="repr-bloco">
+    <div class="repr-bloco-header">
+      <div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div>
+      <span class="chart-title-small" style="margin-left:.4rem">Diversidade e representatividade</span>
     </div>
-    <div class="chart-card">
-      <div class="chart-header"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div><span class="chart-title-small" style="margin-left:.4rem">Diversidade étnica/racial</span></div>
-      <div class="chart-body"><canvas id="c-diversidade"></canvas></div>
-    </div>
-    <div class="chart-card">
-      <div class="chart-header"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div><span class="chart-title-small" style="margin-left:.4rem">#OwnVoices</span></div>
-      <div class="chart-body"><canvas id="c-ownvoices"></canvas></div>
+    <div class="repr-grid">
+      <div class="repr-item">
+        <div class="repr-item-title">Protagonista LGBTQ+</div>
+        <canvas id="c-lgbtq"></canvas>
+      </div>
+      <div class="repr-item">
+        <div class="repr-item-title">Diversidade étnica / racial</div>
+        <canvas id="c-diversidade"></canvas>
+      </div>
+      <div class="repr-item">
+        <div class="repr-item-title">#OwnVoices</div>
+        <canvas id="c-ownvoices"></canvas>
+      </div>
     </div>
   </div>
 
@@ -472,12 +550,9 @@ footer{
       <div class="chart-header"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div><span class="chart-title-small" style="margin-left:.4rem">Gêneros literários</span></div>
       <div class="chart-body"><canvas id="c-generos" style="max-height:200px"></canvas></div>
     </div>
+
     <div class="chart-card full">
-      <div class="chart-header"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div><span class="chart-title-small" style="margin-left:.4rem">Como conheci o livro</span></div>
-      <div class="chart-body"><canvas id="c-conheci" style="max-height:180px"></canvas></div>
-    </div>
-    <div class="chart-card full">
-      <div class="chart-header"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div><span class="chart-title-small" style="margin-left:.4rem">Origem do livro (onde comprei/obtive)</span></div>
+      <div class="chart-header"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div><span class="chart-title-small" style="margin-left:.4rem">Origem do livro</span></div>
       <div class="chart-body"><canvas id="c-origem" style="max-height:180px"></canvas></div>
     </div>
   </div>
@@ -573,21 +648,6 @@ footer{
   </div>
 </div>
 
-<!-- ── NOTION CTA ── -->
-<div class="page-section">
-  <div class="notion-cta-card">
-    <div class="notion-cta-body">
-      <div class="notion-cta-title-bg"><h2>Ver lista completa no Notion</h2></div>
-      <p>Toda desafio literário começa antes da leitura e, para mim, ela começa na organização. Quando decidi embarcar no desafio de ler ao menos um livro de cada país do mundo, percebi que precisava de uma forma prática de acompanhar pesquisas, descobertas e progresso sem me perder no caminho.</p>
-      <p>Foi assim que nasceu essa planilha-modelo: uma estrutura inicial para organizar países, mapear possíveis leituras e visualizar o andamento do desafio de forma simples e personalizada. Ela reúne os pontos que fizeram sentido para a minha organização, mas a ideia é justamente que cada pessoa possa adaptar ao seu próprio jeito de ler.</p>
-      <p>Espero que esse modelo possa servir como um empurrão inicial, uma ajuda na organização ou até uma fonte de inspiração para quem também quer explorar o mundo através dos livros. No fim, a ideia é tornar essa jornada um pouco mais leve e compartilhada.</p>
-    </div>
-    <div class="notion-cta-footer">
-      <a class="notion-btn-link" href="https://app.notion.com/p/vesiuol/679c7c463b784b75b645ca16b283cb64?v=091d4f4f0139433383dc3bfb1855ef48&source=copy_link" target="_blank" rel="noopener">Abrir no Notion &nbsp;→</a>
-    </div>
-  </div>
-</div>
-
 <!-- ── LISTA DE PAÍSES (Notion + cruzamento Excel) ── -->
 <div class="page-section" id="lista">
   <div class="section-header">
@@ -639,6 +699,23 @@ footer{
   </div>
 </div>
 
+<!-- ── NOTION CTA ── -->
+<div class="page-section">
+  <div class="notion-cta-card">
+    <div class="notion-cta-body">
+      <div class="notion-cta-title-bg"><h2>Ver lista completa no Notion</h2></div>
+      <p>Toda desafio literário começa antes da leitura e, para mim, ela começa na organização. Quando decidi embarcar no desafio de ler ao menos um livro de cada país do mundo, percebi que precisava de uma forma prática de acompanhar pesquisas, descobertas e progresso sem me perder no caminho.</p>
+      <p>Foi assim que nasceu essa planilha-modelo: uma estrutura inicial para organizar países, mapear possíveis leituras e visualizar o andamento do desafio de forma simples e personalizada. Ela reúne os pontos que fizeram sentido para a minha organização, mas a ideia é justamente que cada pessoa possa adaptar ao seu próprio jeito de ler.</p>
+      <p>Espero que esse modelo possa servir como um empurrão inicial, uma ajuda na organização ou até uma fonte de inspiração para quem também quer explorar o mundo através dos livros. No fim, a ideia é tornar essa jornada um pouco mais leve e compartilhada.</p>
+    </div>
+    <div class="notion-cta-footer">
+      <a class="notion-btn-link" href="https://app.notion.com/p/vesiuol/679c7c463b784b75b645ca16b283cb64?v=091d4f4f0139433383dc3bfb1855ef48&source=copy_link" target="_blank" rel="noopener">Abrir no Notion &nbsp;→</a>
+    </div>
+  </div>
+</div>
+
+
+
 <footer>
   <div class="footer-dots">
     <div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div>
@@ -677,6 +754,8 @@ const REGIAO = {
   'Nigéria':'África','África do Sul':'África','Zâmbia':'África','Camarões':'África','Ruanda':'África','Somália':'África','Quênia':'África','Etiópia':'África','Gana':'África','Senegal':'África','Angola':'África','Moçambique':'África','Zimbabwe':'África','Uganda':'África',
   'Marrocos':'África do Norte','Egito':'África do Norte',
   'Austrália':'Oceania','Nova Zelândia':'Oceania',
+  // Correções pontuais — 4 países que apareciam como "Outros"
+  'Bielorrússia':'Europa','Bulgária':'Europa','Ilhas Virgens':'Caribe','Zimbábue':'África',
 };
 
 const COORDS = {
@@ -700,7 +779,6 @@ function norm(s){ return (s||'').trim().toLowerCase(); }
 function fetchCSV(url){
   return new Promise((res,rej)=>{
     Papa.parse(url,{download:true,header:true,skipEmptyLines:true,complete:r=>{
-      console.log('[fetchCSV]', url.slice(-30), '—', r.data.length, 'linhas. Colunas:', Object.keys(r.data[0]||{}).join(', '));
       res(r.data);
     },error:rej});
   });
@@ -732,15 +810,12 @@ function filterLPM(rows){
     return norm(v).includes('desafio lpm');
   });
   if(filtered.length){
-    console.log('[filterLPM] ✓', filtered.length, 'linhas LPM. Ex:', JSON.stringify(filtered[0]).slice(0,120));
   } else {
     // Fallback: procura em qualquer coluna
     const byValue = rows.filter(r=>Object.values(r).some(v=>norm(v).includes('desafio lpm')));
     if(byValue.length){
-      console.log('[filterLPM] ✓ (via valor)', byValue.length, 'linhas');
       return byValue;
     }
-    console.warn('[filterLPM] 0 resultados. Colunas:', rows[0]?Object.keys(rows[0]).slice(0,15).join(', '):'vazio');
   }
   return filtered;
 }
@@ -782,7 +857,6 @@ function filterLPM(rows){
     Object.values(r).some(v => norm(v||'').includes('desafio lpm'))
   );
   if(!filtered.length){
-    console.warn('[filterLPM] Nenhum resultado. Valores da linha 1:',
       rows[0] ? Object.values(rows[0]).slice(0,10).join(' | ') : '(vazio)');
   }
   return filtered;
@@ -814,13 +888,8 @@ async function init(){
 
 
 
-    console.log('[LPM] 2024:', rows2024.length, '| 2025:', rows2025.length, '| 2026:', rows2026.length);
-    if(rows2024[0]) console.log('[2024 cols]', Object.keys(rows2024[0]).join(', '));
-    if(rows2025[0]) console.log('[2025 cols]', Object.keys(rows2025[0]).join(', '));
-    if(rows2026[0]) console.log('[2026 cols]', Object.keys(rows2026[0]).join(', '));
 
   } catch(e){
-    console.error('Erro ao carregar CSV:', e);
     ['s-paises','s-mapeados','s-semlivro','s-pct','s-novos','s-cinco'].forEach(id=>{
       document.getElementById(id).textContent='!';
     });
@@ -857,81 +926,6 @@ async function init(){
   document.getElementById('s-novos').textContent    = totalPaginas > 0 ? totalPaginas.toLocaleString('pt-BR') : '0';
   document.getElementById('s-cinco').textContent    = cincoEstrelas || '0';
 
-  // ── DIAGNÓSTICO COMPLETO ─────────────────────────────────────────────────
-  console.group('%c🔍 DIAGNÓSTICO DESAFIO.HTML', 'color:#849974;font-weight:bold;font-size:14px');
-
-  console.log('NOTION: países total =', NOTION_DATA.length);
-  console.log('NOTION: Concluído =', NOTION_DATA.filter(n=>n.status_notion==='Concluído').length);
-  console.log('LEITURAS 2024:', rows2024.length, '— colunas:', rows2024[0]?Object.keys(rows2024[0]).join(', '):'(vazio)');
-  console.log('LEITURAS 2025:', rows2025.length, '— colunas:', rows2025[0]?Object.keys(rows2025[0]).join(', '):'(vazio)');
-  console.log('LEITURAS 2026:', rows2026.length, '— colunas:', rows2026[0]?Object.keys(rows2026[0]).join(', '):'(vazio)');
-  console.log('ESTANTE:', allBooks.length, '— colunas:', allBooks[0]?Object.keys(allBooks[0]).join(', '):'(vazio)');
-
-  console.log('--- CONSISTÊNCIA DE NÚMEROS ---');
-  console.log('Registros LPM (linhas brutas 2024+2025+2026):', allLPM.length);
-  console.log('Países únicos (Set por r["País"]):', new Set(allLPM.map(r=>r['País'])).size);
-  console.log('Status concluído no Notion:', NOTION_DATA.filter(p=>p.status_notion==='Concluído').length);
-
-  // ── 1. Duplicados: países que aparecem em mais de um ano ─────────────────────
-  console.group('📋 PAÍSES DUPLICADOS NO EXCEL (aparecem em mais de 1 ano)');
-  const porPais = {};
-  rows2024.forEach(r=>{ const p=(r['País']||'').trim(); if(p){ porPais[p]=porPais[p]||[]; porPais[p].push('2024'); }});
-  rows2025.forEach(r=>{ const p=(r['País']||'').trim(); if(p){ porPais[p]=porPais[p]||[]; porPais[p].push('2025'); }});
-  rows2026.forEach(r=>{ const p=(r['País']||'').trim(); if(p){ porPais[p]=porPais[p]||[]; porPais[p].push('2026'); }});
-  const duplicados = Object.entries(porPais).filter(([,anos])=>anos.length>1);
-  if(duplicados.length){
-    console.log(`${duplicados.length} países duplicados:`);
-    duplicados.forEach(([pais,anos])=>console.log(`  ${pais}: ${anos.join(', ')}`));
-  } else {
-    console.log('Nenhum país duplicado ✓');
-  }
-  const paisesUnicosExcel = new Set(Object.keys(porPais));
-  console.log('Total países únicos no Excel:', paisesUnicosExcel.size);
-  console.groupEnd();
-
-  // ── 2. No Excel mas NÃO concluído no Notion ───────────────────────────────────
-  console.group('📋 PAÍSES NO EXCEL LPM mas NÃO marcados como Concluído no Notion');
-  const notionConcluidos = new Set(NOTION_DATA.filter(n=>n.status_notion==='Concluído').map(n=>n.pais));
-  const soNoExcel = [...paisesUnicosExcel].filter(p=>!notionConcluidos.has(p));
-  if(soNoExcel.length){
-    console.log(`${soNoExcel.length} países:`);
-    soNoExcel.forEach(p=>{
-      const n = NOTION_DATA.find(n=>n.pais===p);
-      console.log(`  ${p} → Notion status: "${n?n.status_notion:'NÃO ENCONTRADO'}"`);
-    });
-  } else {
-    console.log('Todos os países do Excel estão como Concluído no Notion ✓');
-  }
-  console.groupEnd();
-
-  // ── 3. Concluído no Notion mas NÃO no Excel ───────────────────────────────────
-  console.group('📋 PAÍSES Concluído no Notion mas NÃO encontrados no Excel LPM');
-  const soNoNotion = [...notionConcluidos].filter(p=>!paisesUnicosExcel.has(p));
-  if(soNoNotion.length){
-    soNoNotion.forEach(p=>console.log(`  ${p}`));
-  } else {
-    console.log('Todos os concluídos do Notion estão no Excel ✓');
-  }
-  console.groupEnd();
-
-  // ── 4. Resumo final ────────────────────────────────────────────────────────────
-  console.group('📊 RESUMO — de onde vem cada número');
-  console.log(`32 (se aparecer) = allLPM.length = linhas brutas Excel = ${allLPM.length}`);
-  console.log(`30 (se aparecer) = países únicos Excel = ${paisesUnicosExcel.size}`);
-  console.log(`26 (Notion)      = status_notion Concluído = ${notionConcluidos.size}`);
-  console.log('→ FONTE OFICIAL recomendada: Notion (Concluído) — é a que você controla manualmente');
-  console.groupEnd();
-
-  // Cruzamento títulos
-  const titulosExcel = new Set(allLPM.map(r=>norm(findField(r,['Título','Titulo','título']))).filter(Boolean));
-  const titulosNotion = NOTION_DATA.filter(n=>n.livro).map(n=>norm(n.livro));
-  const cruzamentos = titulosNotion.filter(t=>titulosExcel.has(t)).length;
-  console.log('Cruzamentos Notion ↔ Excel (por título):', cruzamentos);
-  if(titulosNotion[0]) console.log('Ex. Notion:', titulosNotion[0]);
-  if(titulosExcel.size) console.log('Ex. Excel:', [...titulosExcel][0]);
-
-  console.groupEnd();
-  // ── FIM DIAGNÓSTICO ──────────────────────────────────────────────────────
   buildCharts(allLPM);
   buildMap();
   buildEvolucao(rows2024, rows2025, rows2026);
@@ -1400,13 +1394,9 @@ renderNotion();
 function mostrarCapasErro(){
   const erros = window._capaErros || [];
   if(!erros.length){
-    console.log('%c✓ Nenhuma capa com erro detectada ainda. Role a tabela para carregar as imagens.','color:#849974;font-weight:bold');
     return;
   }
-  console.group(`%c⚠ ${erros.length} capas com erro de URL`, 'color:#d4700a;font-weight:bold');
   erros.forEach(e=>console.log(`• ${e.pais} — "${e.livro}"\n  URL: ${e.url}`));
-  console.groupEnd();
-  console.log('%cCopie as linhas acima e me mande para eu corrigir as URLs.','color:#555;font-style:italic');
 }
 
 init();
