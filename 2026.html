@@ -6,7 +6,7 @@
 <title>2026 — O Que Tem na Estante da Louise</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
@@ -17,12 +17,12 @@
   --white: #ffffff;
   --black: #000000;
   --green: #849974;
-  --green-dark: #6a7d5e;
-  --green-light: #a8b99a;
+  --green-dark: #6b7e5e;
+  --green-light: #c8d4b8;
   --green-bg: #c5d1bc;
-  --border: #c8d4bf;
+  --border: #c8c8c8;
   --text: #1a1a1a;
-  --muted: #666;
+  --muted: #555;
   --card-bg: #ffffff;
 }
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -30,146 +30,148 @@ body {
   background: var(--white);
   color: var(--text);
   font-family: 'DM Sans', sans-serif;
-  font-weight: 300;
+  font-weight: 400;
 }
 
 /* ── NAV ── */
 nav {
   position: sticky; top: 0; z-index: 100;
   background: var(--white);
-  border-bottom: 1.5px solid var(--border);
-  padding: 0 2.5rem;
-  display: flex; align-items: center; gap: 2rem; height: 52px;
+  padding: 0 2rem;
+  display: flex; align-items: center; height: 52px;
+  border-bottom: 1.5px solid #c5c5a0;
 }
-.nav-logo {
-  display: flex; gap: 6px; align-items: center;
-}
+.nav-logo { display: flex; gap: 6px; align-items: center; }
 .nav-logo span {
-  width: 10px; height: 10px; border-radius: 50%;
-  background: var(--black);
-  display: inline-block;
+  width: 11px; height: 11px; border-radius: 50%;
+  background: var(--black); display: inline-block;
 }
-nav ul { list-style: none; display: flex; gap: 1.8rem; margin-left: auto; }
+nav ul {
+  list-style: none; display: flex; gap: 2rem;
+  margin-left: auto; align-items: center;
+}
 nav ul a {
-  color: var(--black);
-  text-decoration: none;
-  font-size: .78rem;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  font-weight: 400;
+  color: var(--black); text-decoration: none;
+  font-size: .78rem; letter-spacing: .12em;
+  text-transform: uppercase; font-weight: 500;
   transition: color .2s;
 }
 nav ul a:hover { color: var(--green); }
 nav ul a.active {
-  background: var(--green);
-  color: var(--white);
-  padding: .2rem .55rem;
-  border-radius: 3px;
+  background: var(--green); color: var(--white);
+  padding: .28rem .7rem; border-radius: 3px; font-weight: 700;
 }
 
 /* ── MAIN WRAPPER ── */
-.page-wrap { max-width: 1180px; margin: 0 auto; padding: 0 2rem; }
+.page-wrap { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
 
 /* ── HERO CARD ── */
-.hero-section { padding: 3rem 2rem 2rem; max-width: 1180px; margin: 0 auto; }
+.hero-section {
+  max-width: 1100px;
+  margin: 3rem auto 2rem;
+  padding: 0 2rem;
+}
 .hero-card {
-  border: 1.5px solid var(--black);
-  border-radius: 12px;
-  padding: 2.5rem 2.5rem 2rem;
-  position: relative;
+  border: 1.5px solid #b0b090;
+  border-radius: 16px;
+  padding: 2.5rem 2.5rem 0;
   background: var(--white);
+  overflow: hidden;
 }
-.card-dots {
-  display: flex; gap: 5px; margin-bottom: 1.2rem;
-}
+.card-dots { display: flex; gap: 5px; margin-bottom: 1.4rem; }
 .card-dots span {
   width: 9px; height: 9px; border-radius: 50%;
-  background: var(--black); display: inline-block;
+  background: #bbb; display: inline-block;
 }
 .hero-title {
-  font-family: 'EB Garamond', serif;
-  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 400;
   line-height: 1.1;
-  margin-bottom: 1rem;
+  color: var(--white);
   background: var(--green);
   display: inline-block;
-  padding: .1rem .4rem;
+  padding: .3rem .7rem;
   border-radius: 4px;
+  margin-bottom: 1.2rem;
 }
 .hero-desc {
   color: var(--text);
   font-size: .95rem;
-  line-height: 1.75;
-  max-width: 820px;
+  line-height: 1.85;
+  max-width: 900px;
   margin-bottom: 1.5rem;
 }
 .hero-link-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-top: 1px solid var(--black);
-  padding-top: 1rem;
-  margin-top: .5rem;
+  display: flex; align-items: center; justify-content: space-between;
+  border-top: 1px solid #ccc;
+  padding: 1rem 0;
+  margin-top: 1.2rem;
 }
 .hero-link-label {
-  font-size: .7rem;
-  letter-spacing: .15em;
+  font-size: .68rem;
+  letter-spacing: .14em;
   text-transform: uppercase;
   color: var(--muted);
 }
-.hero-arrow { font-size: 1.3rem; color: var(--black); }
+.hero-arrow { font-size: 1.1rem; color: var(--black); }
 
 /* ── STATS GRID ── */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 0;
-  max-width: 1180px;
-  margin: 1.5rem auto 0;
+  gap: .8rem;
+  max-width: 1100px;
+  margin: 0 auto 3rem;
   padding: 0 2rem;
 }
 .stat-box {
-  border: 1.5px solid var(--black);
-  border-radius: 10px;
-  padding: 1.4rem 1rem;
+  background: var(--green);
+  border: 1.5px solid var(--green-dark);
+  border-radius: 12px;
+  padding: 1.2rem .8rem;
   text-align: center;
-  margin: 0 .3rem;
-  background: var(--green-bg);
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  display: flex; flex-direction: column; align-items: center;
+  gap: .4rem;
   min-height: 110px;
+  justify-content: center;
 }
 .stat-number {
-  font-family: 'EB Garamond', serif;
-  font-size: 2.4rem;
-  font-weight: 400;
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem; font-weight: 400;
+  color: var(--white);
   line-height: 1;
-  color: var(--black);
   display: block;
 }
 .stat-label {
-  font-size: .72rem;
+  font-size: .68rem;
   letter-spacing: .06em;
-  color: var(--text);
-  margin-top: .35rem;
+  color: rgba(255,255,255,.85);
+  text-transform: capitalize;
   display: block;
 }
 
 /* ── SECTION HEADER ── */
+section.page-section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 2rem 3.5rem;
+}
 .sec-header {
   display: flex;
-  align-items: center;
-  gap: .8rem;
-  margin-bottom: 1.5rem;
-  border-bottom: 1px solid var(--border);
-  padding-bottom: .8rem;
+  align-items: baseline;
+  gap: 1.2rem;
+  margin-bottom: 1.8rem;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: .7rem;
 }
 .sec-tag {
   background: var(--green);
   color: var(--white);
-  font-family: 'EB Garamond', serif;
-  font-size: 1rem;
-  padding: .15rem .5rem;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem;
+  font-weight: 400;
+  padding: .2rem .7rem;
   border-radius: 4px;
   white-space: nowrap;
 }
@@ -179,61 +181,42 @@ nav ul a.active {
   text-transform: uppercase;
   color: var(--muted);
 }
-section.page-section {
-  max-width: 1180px;
-  margin: 0 auto;
-  padding: 3rem 2rem 1rem;
-}
 
 /* ── CHART CARD ── */
 .chart-card {
-  border: 1.5px solid var(--black);
-  border-radius: 12px;
-  padding: 0;
-  overflow: hidden;
   background: var(--white);
+  border: 1.5px solid #b0b090;
+  border-radius: 14px;
+  overflow: hidden;
   position: relative;
 }
 .chart-card-header {
   display: flex;
   align-items: center;
-  gap: .5rem;
-  padding: .7rem 1rem;
-  border-bottom: 1px solid var(--border);
+  gap: 6px;
+  padding: .5rem 1rem;
+  border-bottom: 1px solid #e0e0e0;
 }
-.chart-card-header .card-dots span { width: 7px; height: 7px; background: var(--black); }
+.chart-card-header .card-dots { margin-bottom: 0; }
+.chart-card-header .card-dots span { width: 7px; height: 7px; background: #bbb; }
 .chart-card-title {
   font-size: .72rem;
-  letter-spacing: .08em;
+  letter-spacing: .06em;
+  text-transform: uppercase;
   color: var(--muted);
   margin-left: .3rem;
 }
-.chart-body {
-  padding: 1.2rem;
-  position: relative;
-}
+.chart-body { padding: 1.2rem; position: relative; }
 .chart-wrap { position: relative; }
+.chart-wrap.h120 { height: 120px; }
 .chart-wrap.h200 { height: 200px; }
 .chart-wrap.h260 { height: 260px; }
-.chart-wrap.h120 { height: 120px; }
 .chart-wrap.h300 { height: 300px; }
-
-/* Chart card title big (placeholder style) */
-.chart-placeholder {
-  font-family: 'EB Garamond', serif;
-  font-size: 2.8rem;
-  letter-spacing: .2em;
-  text-transform: uppercase;
-  color: var(--green);
-  text-align: center;
-  padding: 2rem 1rem;
-  font-weight: 400;
-}
 
 /* ── PROGRESS CARD ── */
 .progress-big-card {
-  border: 1.5px solid var(--black);
-  border-radius: 12px;
+  border: 1.5px solid #b0b090;
+  border-radius: 14px;
   overflow: hidden;
   background: var(--white);
   margin-bottom: 2rem;
@@ -247,8 +230,9 @@ section.page-section {
   align-items: start;
 }
 .progress-meta-label {
-  font-family: 'EB Garamond', serif;
-  font-size: 1.1rem;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  font-weight: 400;
   margin-bottom: .4rem;
 }
 .progress-sub {
@@ -257,35 +241,35 @@ section.page-section {
   margin-bottom: .9rem;
 }
 .progress-bar-wrap {
-  background: var(--border);
-  height: 6px;
-  border-radius: 4px;
+  background: #eee;
+  height: 12px;
+  border-radius: 6px;
   overflow: hidden;
-  margin-bottom: .4rem;
+  margin-bottom: .5rem;
 }
 .progress-bar-fill {
   height: 100%;
   background: var(--green);
-  border-radius: 4px;
-  transition: width 1s ease;
+  border-radius: 6px;
+  transition: width 1.2s cubic-bezier(.4,0,.2,1);
 }
 .progress-pct {
-  font-size: .74rem;
+  font-size: .75rem;
   color: var(--muted);
 }
 .pstat {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: flex; justify-content: space-between; align-items: center;
   padding: .55rem 0;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #eee;
+  font-size: .85rem;
 }
 .pstat:last-child { border-bottom: none; }
-.pstat-label { font-size: .82rem; color: var(--muted); }
+.pstat-label { color: var(--muted); }
 .pstat-val {
-  font-family: 'EB Garamond', serif;
-  font-size: 1.3rem;
-  font-weight: 500;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: var(--green);
 }
 
 /* ── CHARTS GRID ── */
@@ -301,7 +285,7 @@ section.page-section {
 /* ── MAP ── */
 #map-2026 {
   height: 420px;
-  border-radius: 0 0 10px 10px;
+  border-radius: 0 0 12px 12px;
   z-index: 1;
 }
 
@@ -310,11 +294,11 @@ section.page-section {
   display: flex; gap: .8rem; flex-wrap: wrap;
   margin-bottom: 1rem; align-items: center;
 }
-.search-wrap { flex: 1; min-width: 200px; position: relative; }
+.search-wrap { flex: 1; min-width: 180px; position: relative; }
 .search-wrap input {
   width: 100%;
-  padding: .55rem 1rem .55rem 2rem;
-  border: 1.5px solid var(--border);
+  padding: .55rem 1rem .55rem 2.2rem;
+  border: 1px solid var(--border);
   background: var(--white);
   font-family: 'DM Sans', sans-serif;
   font-size: .85rem;
@@ -324,72 +308,89 @@ section.page-section {
 }
 .search-wrap::before {
   content: '⌕';
-  position: absolute; left: .65rem; top: 50%;
+  position: absolute; left: .7rem; top: 50%;
   transform: translateY(-50%); color: var(--muted);
 }
 .filter-select {
   padding: .55rem .9rem;
-  border: 1.5px solid var(--border);
+  border: 1px solid var(--border);
   background: var(--white);
   font-family: 'DM Sans', sans-serif;
-  font-size: .82rem; border-radius: 6px;
+  font-size: .82rem;
+  border-radius: 6px;
   color: var(--text); cursor: pointer; outline: none;
 }
 .tag-filters { display: flex; gap: .4rem; flex-wrap: wrap; margin-bottom: 1rem; }
 .tag-btn {
-  padding: .3rem .8rem;
+  padding: .35rem .9rem;
   border: 1.5px solid var(--border);
   background: transparent;
   font-family: 'DM Sans', sans-serif;
-  font-size: .72rem; letter-spacing: .06em;
-  border-radius: 100px; cursor: pointer;
-  transition: all .2s; color: var(--muted);
+  font-size: .78rem;
+  letter-spacing: .04em;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all .18s;
+  color: var(--muted);
+  font-weight: 400;
 }
+.tag-btn:hover { border-color: var(--green); color: var(--green); }
 .tag-btn.active {
-  background: var(--green); border-color: var(--green); color: var(--white);
+  background: var(--green);
+  border-color: var(--green);
+  color: var(--white);
+  font-weight: 500;
 }
-table { width: 100%; border-collapse: collapse; font-size: .83rem; }
+table { width: 100%; border-collapse: collapse; font-size: .87rem; }
 thead tr { border-bottom: 2px solid var(--black); }
 th {
-  padding: .55rem .8rem;
-  text-align: left; font-size: .68rem;
-  letter-spacing: .1em; text-transform: uppercase;
-  color: var(--muted); white-space: nowrap;
+  padding: .6rem .8rem;
+  text-align: left;
+  font-size: .68rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
   cursor: pointer; user-select: none;
 }
 th:hover { color: var(--black); }
-td { padding: .62rem .8rem; border-bottom: 1px solid var(--border); vertical-align: middle; }
-tr:hover td { background: rgba(132,153,116,.07); }
+td { padding: .65rem .8rem; border-bottom: 1px solid #eee; vertical-align: middle; }
+tr:hover td { background: rgba(132,153,116,.06); }
 .badge {
-  display: inline-block; padding: .18rem .55rem;
-  border-radius: 100px; font-size: .7rem;
+  display: inline-block;
+  padding: .18rem .55rem;
+  border-radius: 100px;
+  font-size: .7rem;
 }
-.badge-lido { background: #d4edd4; color: #1a5c1a; }
-.badge-nao { background: #f5e4e4; color: #7a2020; }
-.badge-lendo { background: #fef3cd; color: #7a5c00; }
+.badge-lido { background: #D4EDDA; color: #1A6631; }
+.badge-nao { background: #f0f0f0; color: #666; }
+.badge-lendo { background: #FFF3CD; color: #8A6200; }
 .stars { color: var(--green); }
 .table-footer {
-  padding: .8rem 0; color: var(--muted); font-size: .8rem;
+  padding: .8rem 0;
+  color: var(--muted);
+  font-size: .8rem;
   display: flex; justify-content: space-between; align-items: center;
 }
 .pagination { display: flex; gap: .3rem; flex-wrap: wrap; }
 .page-btn {
   width: 30px; height: 30px;
-  border: 1.5px solid var(--border); background: transparent;
-  cursor: pointer; font-size: .8rem; border-radius: 4px;
-  transition: all .15s;
+  border: 1px solid var(--border);
+  background: transparent;
+  cursor: pointer; font-size: .8rem;
+  border-radius: 4px; transition: all .15s;
 }
-.page-btn.active { background: var(--green); color: var(--white); border-color: var(--green); }
-.page-btn:hover:not(.active) { border-color: var(--green); }
+.page-btn.active { background: var(--black); color: var(--white); border-color: var(--black); }
+.page-btn:hover:not(.active) { border-color: var(--black); }
 
 /* ── AUDIOBOOKS NOTE ── */
 .audio-note {
-  font-size: .78rem;
+  font-size: .82rem;
   color: var(--muted);
-  padding: .4rem .8rem;
+  padding: .6rem 1rem;
   background: #f5f9f3;
   border-left: 3px solid var(--green);
-  border-radius: 0 4px 4px 0;
+  border-radius: 0 6px 6px 0;
   margin-bottom: 1rem;
 }
 
@@ -397,25 +398,30 @@ tr:hover td { background: rgba(132,153,116,.07); }
 footer {
   background: var(--green);
   padding: 1.2rem 2rem;
-  text-align: left;
-  display: flex; align-items: center; gap: .8rem;
+  display: flex; align-items: center; gap: 1rem;
   margin-top: 3rem;
 }
-.footer-dots span { width: 9px; height: 9px; border-radius: 50%; background: var(--white); display: inline-block; }
-.footer-dots { display: flex; gap: 5px; }
+.footer-dots { display: flex; gap: 6px; }
+.footer-dots span {
+  width: 11px; height: 11px; border-radius: 50%;
+  background: rgba(255,255,255,.7);
+  display: inline-block;
+}
 footer p {
-  color: var(--white);
-  font-size: .72rem;
-  letter-spacing: .06em;
+  font-size: .68rem;
+  letter-spacing: .1em;
   text-transform: uppercase;
+  color: rgba(255,255,255,.8);
 }
 
 @media(max-width: 900px) {
-  .stats-grid { grid-template-columns: repeat(3,1fr); gap: .5rem; padding: 0 1rem; }
-  .stat-box { margin: 0; }
+  .stats-grid { grid-template-columns: repeat(3,1fr); gap: .5rem; }
   .charts-grid-2 { grid-template-columns: 1fr; }
   .progress-body { grid-template-columns: 1fr; gap: 1.5rem; }
   nav ul { display: none; }
+}
+@media(max-width: 600px) {
+  .stats-grid { grid-template-columns: repeat(2,1fr); }
 }
 </style>
 </head>
@@ -600,16 +606,16 @@ footer p {
   <div style="overflow-x:auto">
     <table>
       <thead><tr>
-        <th data-colidx="0">Título ↕</th>
-        <th data-colidx="1">Autor/a ↕</th>
-        <th data-colidx="4">Gênero ↕</th>
-        <th data-colidx="2">Pág. ↕</th>
-        <th data-colidx="3">Áudio ↕</th>
-        <th data-colidx="5">Idioma ↕</th>
-        <th data-colidx="14">País ↕</th>
-        <th data-colidx="18">Cor ↕</th>
-        <th data-colidx="22">Status ↕</th>
-        <th >⭐ ↕</th>
+        <th data-col="Livros">Título ↕</th>
+        <th data-col="Nome">Autor/a ↕</th>
+        <th data-col="Gênero">Gênero ↕</th>
+        <th data-col="Páginas">Pág. ↕</th>
+        <th data-col="Horas ouvidas">Áudio ↕</th>
+        <th data-col="Idioma">Idioma ↕</th>
+        <th data-col="País">País ↕</th>
+        <th data-col="Cor">Cor ↕</th>
+        <th data-col="Lido/Não Lido">Status ↕</th>
+        <th data-col="Estrelas">⭐ ↕</th>
       </tr></thead>
       <tbody id="tbody"></tbody>
     </table>
@@ -628,170 +634,65 @@ footer p {
 <script>
 Chart.register(ChartDataLabels);
 
-/* ═══════════════════════════════════════════════════════════════
-   ESTRATÉGIA DE LEITURA DA PLANILHA
-   ─────────────────────────────────────────────────────────────
-   1. Fetch RAW (header:false) — linha 1 = array de cabeçalhos
-   2. Dados: linhas 3–47 (índices 2..46 do array raw)
-   3. Linha de resumo: linha 49 (índice 48 do array raw)
-   4. Todo acesso usa índice NUMÉRICO — nunca nome hardcoded
-   5. Colunas de posição fixa (definidas pela planilha):
-        A=0  Título do livro
-        B=1  Autor/Nome
-        C=2  Páginas
-        D=3  Horas ouvidas
-        E=4  Gênero literário
-        F=5  Idioma
-        G-N  outros campos
-        O=14 País do autor
-        P=15 …
-        Q=16 …
-        R=17 Autor novo? (TRUE/FALSE)
-        S=18 Cor/Raça do autor
-        T=19 Gênero do autor
-        U=20 LGBTQIA+ (TRUE/FALSE)
-        V=21 Diversidade étnica (TRUE/FALSE)
-        W=22 Status (Lido / Lendo / Não Lido)
-      Linha 49 (idx 48): B=meta, C=págs totais, D=horas totais, W=lidos totais
-   6. Colunas detectadas dinamicamente pelo nome do header:
-        Estrelas, OwnVoices, Formato, Data de conclusão
-═══════════════════════════════════════════════════════════════ */
+const CSV_2026 = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub?gid=537800862&single=true&output=csv';
 
-const CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub?gid=537800862&single=true&output=csv';
+const GREEN   = '#849974';
+const GREEN_D = '#6a7d5e';
+const GREEN_L = '#c5d1bc';
+const CORES   = ['#849974','#a8b99a','#6a7d5e','#c5d1bc','#4a5e42','#d4e4cb','#3d5038','#b0c4a4','#8faa82','#e6f0e0'];
+const MUTED   = '#666';
+const BLACK   = '#000';
 
-/* ── Paleta ── */
-const GREEN = '#849974';
-const BLACK = '#000';
-const MUTED = '#666';
-const PAL   = ['#849974','#c9956c','#6b9db8','#c4a35a','#a07898',
-               '#6aab8e','#d4816b','#7b8fa8','#b5935a','#c47a8a',
-               '#5a8a7b','#9b7a5a'];
+const META = 43;
+const PER  = 20;
+let all2026 = [], filtered = [], page = 1, sortCol = '', sortAsc = true, activeTag = '';
 
-/* ── Índices por posição (imutáveis) ── */
-const I = {
-  titulo:0, autor:1, paginas:2, horas:3, genero:4, idioma:5,
-  pais:14, autorNovo:17, cor:18, generoAut:19,
-  lgbtqia:20, divers:21, status:22,
-  /* detectados dinamicamente: */
-  estrelas:-1, ownvoices:-1, formato:-1, data:-1
-};
-
-const PER = 20;
-let H=[], ROWS=[], SUMROW=[], filtered=[], page=1, sortIdx=-1, sortAsc=true, activeTag='';
-
-/* ── Helpers ── */
-const cv   = (row,i) => (row[i]||'').trim();
-const norm = s => (s||'').trim().toLowerCase();
-const isT  = val => { const s=(val||'').trim(); return s==='TRUE'||['sim','yes','true','1','✓','verdadeiro'].includes(s.toLowerCase()); };
-const parseH = s => {
-  if(!s) return 0; s=s.trim();
-  if(!s||s==='00:00:00'||s==='00:00:00.000') return 0;
-  const p=s.split(':');
-  return p.length>=2 ? (parseFloat(p[0])||0)+(parseFloat(p[1])||0)/60+(parseFloat(p[2])||0)/3600 : 0;
-};
-const isAudio = row => parseH(cv(row,I.horas)) > 0;
-const setText = (id,v) => { const el=document.getElementById(id); if(el) el.textContent=v; };
-
-function fetchRaw(url){
+function norm(s){ return (s||'').trim().toLowerCase(); }
+function isTrue(v){ return ['sim','yes','true','1','✓','x','verdadeiro'].includes(norm(v)); }
+function fetchCSV(url){
   return new Promise((res,rej)=>{
-    Papa.parse(url,{download:true,header:false,skipEmptyLines:false,complete:r=>res(r.data),error:rej});
+    Papa.parse(url,{download:true,header:true,skipEmptyLines:true,complete:r=>res(r.data),error:rej});
   });
 }
-function cntIdx(rows,idx){ const m={}; rows.forEach(r=>{const v=cv(r,idx);if(v)m[v]=(m[v]||0)+1;}); return m; }
-const topN = (o,n) => Object.entries(o).sort((a,b)=>b[1]-a[1]).slice(0,n);
-
-/* ── Detecta colunas por substring no header ── */
-function detectDyn(){
-  H.forEach((h,i)=>{
-    const n=h.toLowerCase();
-    if(I.estrelas <0&&(n.includes('estrela')||n.includes('nota')||n.includes('rating')||n.includes('avalia'))) I.estrelas =i;
-    if(I.ownvoices<0&&(n.includes('ownvoice')||n.includes('own voice')||n.includes('#own')))                    I.ownvoices=i;
-    if(I.formato  <0&&(n.includes('formato')||n.includes('format')||n.includes('mídia')))                       I.formato  =i;
-    if(I.data     <0&&(n.includes('data de')||n.includes('data leit')||n.includes('conclus')||n.includes('mês lido')||n.includes('mes lido'))) I.data=i;
-  });
+function count(arr,key){
+  const c={};
+  arr.forEach(b=>{const v=(b[key]||'').trim();if(v)c[v]=(c[v]||0)+1;});
+  return c;
+}
+function topN(obj,n){
+  return Object.entries(obj).sort((a,b)=>b[1]-a[1]).slice(0,n);
 }
 
-/* ═══════════════ INIT ════════════════════════════════════════ */
-async function init(){
-  const raw = await fetchRaw(CSV);
-
-  H      = (raw[0]||[]).map(h=>h.trim());   // linha 1 = headers
-  SUMROW = raw[48]||[];                       // linha 49 = resumo
-  ROWS   = raw.slice(2,47).filter(r=>r.some(c=>c.trim()!==''));  // linhas 3-47
-
-  detectDyn();
-  buildStats();
-  buildCharts();
-  buildMap();
-  buildFilters();
-  filtered=[...ROWS];
-  renderTable();
-}
-
-/* ═══════════════ STATS ══════════════════════════════════════ */
-function buildStats(){
-  // Valores diretos da linha 49
-  const metaVal  = cv(SUMROW,1);   // B49 — meta do ano
-  const pagsVal  = cv(SUMROW,2);   // C49 — total páginas
-  const horasVal = cv(SUMROW,3);   // D49 — total horas
-  const lidosVal = cv(SUMROW,22);  // W49 — total lidos
-
-  const metaN  = parseInt(metaVal)||0;
-  const lidosN = parseInt(lidosVal)||ROWS.filter(r=>norm(cv(r,I.status))==='lido').length;
-  const pct    = metaN>0 ? Math.min(100,Math.round(lidosN/metaN*100)) : 0;
-
-  // Autores novos: col R (idx 17) TRUE
-  const novos = ROWS.filter(r=>isT(cv(r,I.autorNovo))).length;
-
-  // Países únicos col O (idx 14)
-  const paisSet = new Set(ROWS.map(r=>cv(r,I.pais)).filter(Boolean));
-
-  // Horas da linha 49
-  const hNum = parseH(horasVal);
-  const horasStr = hNum>0 ? Math.round(hNum)+'h' : (horasVal||'—');
-
-  setText('s-meta',    metaVal||'—');
-  setText('s-lidos',   lidosVal||String(lidosN)||'—');
-  setText('s-paginas', pagsVal ? parseInt(pagsVal).toLocaleString('pt-BR') : '—');
-  setText('s-horas',   horasStr);
-  setText('s-autores', novos||'—');
-  setText('s-paises',  paisSet.size||'—');
-
-  // Seção meta
-  const lendo    = ROWS.filter(r=>norm(cv(r,I.status))==='lendo').length;
-  const naoLido  = ROWS.filter(r=>{ const s=norm(cv(r,I.status)); return s==='não lido'||s==='nao lido'; }).length;
-  const lidosR   = ROWS.filter(r=>norm(cv(r,I.status))==='lido');
-  const gcM      = cntIdx(lidosR,I.genero);
-  const topG     = Object.entries(gcM).sort((a,b)=>b[1]-a[1])[0];
-
-  setText('prog-texto', lidosN+' lidos de '+metaN+' planejados');
-  document.getElementById('prog-bar').style.width = pct+'%';
-  setText('prog-pct', pct+'% concluído');
-  setText('p-lidos',  lidosN);
-  setText('p-lendo',  lendo);
-  setText('p-nao',    naoLido);
-  setText('p-genero', topG?topG[0]:'—');
-
-  // Audiobooks
-  const audios = ROWS.filter(isAudio);
-  if(audios.length>0){
-    document.getElementById('audio-note').style.display='block';
-    setText('audio-count',audios.length);
+// Parse "HH:MM:SS.mmm" or similar
+function parseHours(s){
+  if(!s||s==='00:00:00.000'||s.trim()==='') return 0;
+  const p=(s||'').trim().split(':');
+  if(p.length>=2){
+    const h=parseFloat(p[0])||0, m=parseFloat(p[1])||0, sec=parseFloat(p[2])||0;
+    return h + m/60 + sec/3600;
   }
+  return 0;
 }
 
-/* ═══════════════ GRÁFICOS ══════════════════════════════════ */
-function optBar(axis){
-  const h=axis==='y';
+function isAudiobook(b){
+  const h = parseHours(b['Horas ouvidas'] || b['Horas Ouvidas'] || '');
+  return h > 0;
+}
+
+function chartOpts(indexAxis='x'){
   return {
-    maintainAspectRatio:false, indexAxis:axis,
-    layout:{padding:{right:h?50:8,top:h?4:24,left:4,bottom:4}},
+    maintainAspectRatio:false,
+    indexAxis,
     plugins:{
       legend:{display:false},
       datalabels:{
-        display:true,anchor:'end',align:h?'end':'top',offset:4,
-        color:BLACK,font:{family:'DM Sans',size:10,weight:'500'},
-        formatter:v=>v>0?v:'',clamp:false,clip:false,
+        display:true,
+        anchor:'end', align: indexAxis==='y'?'end':'top',
+        color: BLACK,
+        font:{family:'DM Sans',size:10,weight:'500'},
+        formatter:v=>v>0?v:'',
+        clamp:true,
+        padding: 2,
       }
     },
     scales:{
@@ -801,30 +702,17 @@ function optBar(axis){
   };
 }
 
-function optPie(){
+function chartPie(){
   return {
     maintainAspectRatio:false,
     plugins:{
-      legend:{
-        position:'bottom',
-        labels:{font:{family:'DM Sans',size:11},color:BLACK,padding:10,boxWidth:12,
-          // quebra labels longos
-          generateLabels(chart){
-            return Chart.defaults.plugins.legend.labels.generateLabels(chart).map(l=>{
-              if(l.text&&l.text.length>20) l.text=l.text.substring(0,18)+'…';
-              return l;
-            });
-          }
-        }
-      },
+      legend:{position:'bottom',labels:{font:{family:'DM Sans',size:11},color:BLACK,padding:8,boxWidth:12}},
       datalabels:{
-        display:ctx=>{
-          const tot=ctx.dataset.data.reduce((a,b)=>a+b,0);
-          return tot>0&&ctx.dataset.data[ctx.dataIndex]/tot>0.04;
-        },
+        display:true,
         formatter:(v,ctx)=>{
-          const tot=ctx.dataset.data.reduce((a,b)=>a+b,0);
-          return Math.round(v/tot*100)+'%';
+          const total=ctx.dataset.data.reduce((a,b)=>a+b,0);
+          const pct=Math.round(v/total*100);
+          return pct>5?pct+'%':'';
         },
         color:'#fff',font:{family:'DM Sans',size:11,weight:'500'},
       }
@@ -832,86 +720,7 @@ function optPie(){
   };
 }
 
-function mkBar(id,labels,data,colors,axis){
-  const el=document.getElementById(id); if(!el)return;
-  new Chart(el,{type:'bar',
-    data:{labels,datasets:[{data,backgroundColor:Array.isArray(colors)?colors:data.map(()=>colors),borderRadius:4,borderWidth:0}]},
-    options:optBar(axis)});
-}
-
-function mkPie(id,countObj){
-  const el=document.getElementById(id); if(!el)return;
-  const entries=Object.entries(countObj).filter(([,v])=>v>0);
-  if(!entries.length)return;
-  new Chart(el,{type:'doughnut',
-    data:{labels:entries.map(e=>e[0]),
-      datasets:[{data:entries.map(e=>e[1]),backgroundColor:PAL.slice(0,entries.length),borderWidth:2,borderColor:'#fff'}]},
-    options:optPie()});
-}
-
-function buildCharts(){
-  const lidos=ROWS.filter(r=>norm(cv(r,I.status))==='lido');
-
-  /* 1. Status — col W (22) */
-  const nL=ROWS.filter(r=>norm(cv(r,I.status))==='lido').length;
-  const nE=ROWS.filter(r=>norm(cv(r,I.status))==='lendo').length;
-  const nN=ROWS.filter(r=>{const s=norm(cv(r,I.status));return s==='não lido'||s==='nao lido';}).length;
-  mkBar('c-status',['Lido','Lendo','Não lido'],[nL,nE,nN],['#849974','#c4a35a','#c9956c'],'x');
-
-  /* 2. Gêneros — col E (4), somente lidos */
-  const gnT=topN(cntIdx(lidos,I.genero),12);
-  if(gnT.length){
-    const el=document.getElementById('c-generos');
-    if(el){
-      el.parentElement.style.height=Math.max(260,gnT.length*28+50)+'px';
-      new Chart(el,{type:'bar',
-        data:{labels:gnT.map(e=>e[0]),
-          datasets:[{data:gnT.map(e=>e[1]),backgroundColor:gnT.map((_,i)=>PAL[i%PAL.length]),borderRadius:4,borderWidth:0}]},
-        options:optBar('y')});
-    }
-  }
-
-  /* 3. Cor dos autores — col S (18), somente lidos */
-  mkPie('c-cor',cntIdx(lidos,I.cor));
-
-  /* 4. Gênero dos autores — col T (19), somente lidos */
-  mkPie('c-genero-autor',cntIdx(lidos,I.generoAut));
-
-  /* 5. Idioma — col F (5), somente lidos */
-  mkPie('c-idioma',cntIdx(lidos,I.idioma));
-
-  /* 6. Formato — detectado, todos os registros */
-  if(I.formato>=0) mkPie('c-formato',cntIdx(ROWS,I.formato));
-
-  /* 7. Estrelas — detectada, somente lidos */
-  if(I.estrelas>=0){
-    const st={1:0,2:0,3:0,4:0,5:0};
-    lidos.forEach(r=>{const s=parseInt(cv(r,I.estrelas));if(s>=1&&s<=5)st[s]++;});
-    mkBar('c-estrelas',['★','★★','★★★','★★★★','★★★★★'],Object.values(st),
-      ['#c4a35a','#c4a35a','#c4a35a','#849974','#849974'],'x');
-  }
-
-  /* 8. Páginas por mês — col data detectada + col C (2) */
-  const meses=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
-  const mMap={};
-  if(I.data>=0){
-    lidos.forEach(r=>{
-      const d=cv(r,I.data);
-      // aceita dd/mm/yyyy, d/m/yyyy, mm/yyyy
-      const m1=d.match(/^(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{4})/);
-      const m2=d.match(/^(\d{1,2})[\/\-\.](\d{4})/);
-      let mi=-1;
-      if(m1) mi=parseInt(m1[2])-1;       // dd/mm/yyyy → grupo 2 é mês
-      else if(m2) mi=parseInt(m2[1])-1;  // mm/yyyy → grupo 1 é mês
-      if(mi>=0&&mi<12) mMap[mi]=(mMap[mi]||0)+(parseInt(cv(r,I.paginas))||0);
-    });
-  }
-  mkBar('c-paginas-mes',meses,meses.map((_,i)=>mMap[i]||0),
-    meses.map((_,i)=>(mMap[i]||0)>0?'#6b9db8':'#dde8dd'),'x');
-}
-
-/* ═══════════════ MAPA ═══════════════════════════════════════ */
-const COORDS={
+const COORDS = {
   'Brasil':[-15.8,-47.9],'EUA':[37.1,-95.7],'Estados Unidos':[37.1,-95.7],
   'Reino Unido':[51.5,-0.1],'Japão':[35.7,139.7],'França':[46.2,2.2],
   'Canadá':[56.1,-106.3],'Argentina':[-34.6,-58.4],'Portugal':[38.7,-9.1],
@@ -920,178 +729,244 @@ const COORDS={
   'Índia':[28.6,77.2],'China':[39.9,116.4],'Rússia':[55.8,37.6],
   'Austrália':[-35.3,149.1],'Nigéria':[9.1,7.5],'África do Sul':[-25.7,28.2],
   'Zâmbia':[-15.4,28.3],'Camarões':[3.9,11.5],'Irã':[35.7,51.4],
-  'Noruega':[59.9,10.7],'Holanda':[52.4,4.9],'Países Baixos':[52.4,4.9],
-  'Cuba':[23.1,-82.4],'Ucrânia':[50.5,30.5],'Nova Zelândia':[-41.3,174.8],
-  'Uruguai':[-34.9,-56.2],'Bolívia':[-16.5,-68.1],'Ruanda':[-1.9,30.1],
-  'Somália':[2.0,45.3],'República Tcheca':[50.1,14.4],'Bélgica':[50.8,4.4],
-  'Coreia do Sul':[37.6,127.0],'Vietnã':[21.0,105.8],'Polônia':[52.2,21.0],
-  'Suécia':[59.3,18.1],'Grécia':[37.9,23.7],'Turquia':[39.9,32.9],
-  'Egito':[30.1,31.2],'Marrocos':[34.0,-6.8],'Etiópia':[9.0,38.7],
-  'Quênia':[-1.3,36.8],'Gana':[5.6,-0.2],'Senegal':[14.7,-17.4],
-  'Peru':[-12.0,-77.0],'Venezuela':[10.5,-66.9],'Paquistão':[33.7,73.1],
-  'Bangladesh':[23.7,90.4],'Israel':[31.8,35.2],'Iraque':[33.3,44.4],
-  'Síria':[33.5,36.3],'Angola':[-8.8,13.2],'Moçambique':[-18.7,35.5],
-  'Zimbabwe':[-17.8,31.1],'Uganda':[0.3,32.6],'Gâmbia':[13.5,-15.6],
-  'Serra Leoa':[8.5,-13.2],'Congo':[-4.3,15.3],'República Democrática do Congo':[-4.3,15.3],
+  'Noruega':[59.9,10.7],'Holanda':[52.4,4.9],'Cuba':[23.1,-82.4],
+  'Ucrânia':[50.5,30.5],'Nova Zelândia':[-41.3,174.8],'Uruguai':[-34.9,-56.2],
+  'Bolívia':[-16.5,-68.1],'Ruanda':[-1.9,30.1],'Somália':[2.0,45.3],
+  'República Tcheca':[50.1,14.4],'Bélgica':[50.8,4.4],
+  'Coreia do Sul':[37.6,127.0],'Vietnã':[21.0,105.8],
+  'Polônia':[52.2,21.0],'Suécia':[59.3,18.1],'Grécia':[37.9,23.7],
+  'Turquia':[39.9,32.9],'Egito':[30.1,31.2],'Marrocos':[34.0,-6.8],
+  'Etiópia':[9.0,38.7],'Quênia':[-1.3,36.8],'Gana':[5.6,-0.2],
+  'Senegal':[14.7,-17.4],'Peru':[-12.0,-77.0],'Venezuela':[10.5,-66.9],
+  'Paquistão':[33.7,73.1],'Bangladesh':[23.7,90.4],'Israel':[31.8,35.2],
+  'Iraque':[33.3,44.4],'Síria':[33.5,36.3],'Angola':[-8.8,13.2],
+  'Moçambique':[-18.7,35.5],'Zimbabwe':[-17.8,31.1],'Uganda':[0.3,32.6],
+  'Gâmbia':[13.5,-15.6],'Serra Leoa':[8.5,-13.2],'Congo':[-4.3,15.3],
   'Namíbia':[-22.6,17.1],'Tanzânia':[-6.4,34.9],'Costa do Marfim':[6.8,-5.3],
   'Indonésia':[-6.2,106.8],'Filipinas':[14.6,121.0],'Afeganistão':[34.5,69.2],
   'Suíça':[46.8,8.2],'Áustria':[48.2,16.4],'Irlanda':[53.3,-6.3],
-  'Escócia':[56.5,-4.2],'Islândia':[64.1,-21.9],'Finlândia':[60.2,24.9],
-  'Dinamarca':[55.7,12.6],'Hungria':[47.5,19.0],'Romênia':[44.4,26.1],
-  'Bulgária':[42.7,23.3],'Sérvia':[44.8,20.5],'Croácia':[45.8,16.0],
-  'Lituânia':[55.2,23.9],'Letônia':[56.9,24.1],'Estônia':[59.4,24.7],
-  'Geórgia':[41.7,44.8],'Armênia':[40.2,44.5],'Azerbaijão':[40.4,49.9],
-  'Cazaquistão':[51.2,71.5],'Mongólia':[47.9,106.9],'Tailândia':[13.8,100.5],
-  'Malásia':[3.1,101.7],'Cingapura':[1.3,103.8],'Nepal':[28.0,84.1],
-  'Sri Lanka':[7.9,80.8],'Kuwait':[29.4,47.6],'Arábia Saudita':[24.7,46.7],
-  'Emirados Árabes Unidos':[24.5,54.4],'Emirados Árabes':[24.5,54.4],
-  'Jordânia':[30.6,36.1],'Líbano':[33.9,35.5],'Iêmen':[15.6,48.5],
-  'Sudão':[15.6,32.5],'Sudão do Sul':[4.9,31.3],'Líbia':[26.3,17.2],
-  'Tunísia':[36.8,10.2],'Argélia':[28.0,1.7],'Mali':[17.6,-2.0],
-  'Níger':[17.6,8.1],'Tchad':[15.5,18.7],'Madagascar':[-20.0,47.0],
-  'Guatemala':[15.8,-90.2],'Honduras':[15.2,-86.2],'El Salvador':[13.8,-88.9],
-  'Nicarágua':[12.9,-85.2],'Costa Rica':[9.7,-83.7],'Panamá':[8.9,-79.5],
-  'Jamaica':[18.1,-77.3],'Haiti':[19.0,-72.3],
-  'República Dominicana':[18.7,-70.2],'Equador':[-1.8,-78.2],
-  'Paraguai':[-23.4,-58.4],'Papua Nova Guiné':[-6.3,143.9],
-  'Guiana':[4.9,-58.9],'Trinidad e Tobago':[10.7,-61.2],
-  'Suriname':[4.0,-56.0],'Nicarágua':[12.9,-85.2],
-  'África do Oeste':[12.0,-2.0],'África Central':[-4.0,22.0],
 };
 
+async function init(){
+  const data = await fetchCSV(CSV_2026);
+  all2026 = data;
+
+  buildStats();
+  buildCharts();
+  buildMap();
+  buildFilters();
+  filtered = [...all2026];
+  renderTable();
+}
+
+function buildStats(){
+  const lidos = all2026.filter(b=>norm(b['Lido/Não Lido'])==='lido');
+  const pags  = lidos.reduce((s,b)=>s+(parseInt(b['Páginas'])||0),0);
+
+  // Horas ouvidas de audiobooks
+  let totalHoras = 0;
+  all2026.forEach(b=>{
+    totalHoras += parseHours(b['Horas ouvidas'] || b['Horas Ouvidas'] || '');
+  });
+
+  const autoresSet = new Set(lidos.map(b=>(b['Nome']||'').trim()).filter(Boolean));
+  const paisesSet  = new Set(lidos.map(b=>(b['País']||'').trim()).filter(Boolean));
+  const pct = Math.min(100, Math.round(lidos.length/META*100));
+
+  document.getElementById('s-lidos').textContent   = lidos.length;
+  document.getElementById('s-paginas').textContent  = pags.toLocaleString('pt-BR');
+  document.getElementById('s-horas').textContent    = totalHoras > 0 ? Math.round(totalHoras)+'h' : '—';
+  document.getElementById('s-autores').textContent  = autoresSet.size;
+  document.getElementById('s-paises').textContent   = paisesSet.size;
+
+  document.getElementById('prog-texto').textContent = lidos.length+' lidos de '+META+' planejados';
+  document.getElementById('prog-bar').style.width   = pct+'%';
+  document.getElementById('prog-pct').textContent   = pct+'% concluído';
+  document.getElementById('p-lidos').textContent    = lidos.length;
+  document.getElementById('p-lendo').textContent    = all2026.filter(b=>norm(b['Lido/Não Lido'])==='lendo').length;
+  document.getElementById('p-nao').textContent      = all2026.filter(b=>norm(b['Lido/Não Lido'])==='não lido').length;
+
+  const gc  = count(lidos,'Gênero');
+  const top = Object.entries(gc).sort((a,b)=>b[1]-a[1])[0];
+  document.getElementById('p-genero').textContent = top ? top[0] : '—';
+
+  // Audiobook note
+  const audios = all2026.filter(isAudiobook);
+  if(audios.length > 0){
+    document.getElementById('audio-note').style.display = 'block';
+    document.getElementById('audio-count').textContent  = audios.length;
+  }
+}
+
+function buildCharts(){
+  const lidos = all2026.filter(b=>norm(b['Lido/Não Lido'])==='lido');
+
+  // Status (horizontal bar)
+  const stData = [
+    all2026.filter(b=>norm(b['Lido/Não Lido'])==='lido').length,
+    all2026.filter(b=>norm(b['Lido/Não Lido'])==='lendo').length,
+    all2026.filter(b=>norm(b['Lido/Não Lido'])==='não lido').length,
+  ];
+  new Chart(document.getElementById('c-status'),{type:'bar',
+    data:{labels:['Lido','Lendo','Não lido'],datasets:[{data:stData,backgroundColor:[GREEN,'#fef3cd','#f5e4e4'],borderRadius:4,borderWidth:0}]},
+    options: chartOpts('x')});
+
+  // Gêneros (horizontal)
+  const gn = topN(count(lidos,'Gênero'),10);
+  new Chart(document.getElementById('c-generos'),{type:'bar',
+    data:{labels:gn.map(e=>e[0]),datasets:[{data:gn.map(e=>e[1]),backgroundColor:GREEN,borderRadius:4,borderWidth:0}]},
+    options: chartOpts('y')});
+
+  // Cor
+  const cor = count(lidos,'Cor');
+  new Chart(document.getElementById('c-cor'),{type:'doughnut',
+    data:{labels:Object.keys(cor),datasets:[{data:Object.values(cor),backgroundColor:CORES,borderWidth:0}]},
+    options:chartPie()});
+
+  // Gênero autor
+  const ga = count(lidos,'Se identifica como...');
+  new Chart(document.getElementById('c-genero-autor'),{type:'doughnut',
+    data:{labels:Object.keys(ga),datasets:[{data:Object.values(ga),backgroundColor:CORES,borderWidth:0}]},
+    options:chartPie()});
+
+  // Idioma
+  const id = count(lidos,'Idioma');
+  new Chart(document.getElementById('c-idioma'),{type:'doughnut',
+    data:{labels:Object.keys(id),datasets:[{data:Object.values(id),backgroundColor:CORES,borderWidth:0}]},
+    options:chartPie()});
+
+  // Formato
+  const fm = count(all2026,'Formato');
+  new Chart(document.getElementById('c-formato'),{type:'doughnut',
+    data:{labels:Object.keys(fm),datasets:[{data:Object.values(fm),backgroundColor:CORES,borderWidth:0}]},
+    options:chartPie()});
+
+  // Estrelas
+  const st={1:0,2:0,3:0,4:0,5:0};
+  lidos.forEach(b=>{const s=parseInt(b['Estrelas']);if(s>=1&&s<=5)st[s]++;});
+  new Chart(document.getElementById('c-estrelas'),{type:'bar',
+    data:{labels:['★','★★','★★★','★★★★','★★★★★'],datasets:[{data:Object.values(st),backgroundColor:GREEN,borderRadius:4,borderWidth:0}]},
+    options:chartOpts('x')});
+
+  // Páginas por mês
+  const mesMapa = {};
+  const meses = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+  lidos.forEach(b=>{
+    const d = b['Data de leitura'] || b['Data'] || '';
+    const m = d.match(/(\d{2})[\/\-](\d{4})/);
+    if(m){
+      const idx = parseInt(m[1])-1;
+      if(idx>=0&&idx<12){
+        mesMapa[idx] = (mesMapa[idx]||0) + (parseInt(b['Páginas'])||0);
+      }
+    }
+  });
+  const mesDados = meses.map((_,i)=>mesMapa[i]||0);
+  new Chart(document.getElementById('c-paginas-mes'),{type:'bar',
+    data:{labels:meses,datasets:[{data:mesDados,backgroundColor:GREEN,borderRadius:4,borderWidth:0}]},
+    options:chartOpts('x')});
+}
+
 function buildMap(){
-  const map=L.map('map-2026',{scrollWheelZoom:false}).setView([20,10],2);
+  const map = L.map('map-2026',{scrollWheelZoom:false}).setView([20,10],2);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
     attribution:'© OpenStreetMap',maxZoom:18
   }).addTo(map);
 
-  // col O (idx 14) — todos os registros
-  const byPais=cntIdx(ROWS,I.pais);
+  const lidos = all2026.filter(b=>norm(b['Lido/Não Lido'])==='lido');
+  const byPais = count(lidos,'País');
 
   Object.entries(byPais).forEach(([pais,qtd])=>{
-    const co=COORDS[pais];
-    if(!co) return; // país sem coordenada — ignorado silenciosamente
-    const r=Math.max(8,Math.min(30,8+qtd*5));
-    // Tooltip em português — nome vem direto da planilha
-    L.circleMarker(co,{radius:r,fillColor:GREEN,color:'#fff',weight:2,opacity:1,fillOpacity:.8})
-      .addTo(map)
-      .bindPopup(`<b>${pais}</b><br>${qtd} livro${qtd>1?'s':''}`);
+    const c = COORDS[pais];
+    if(!c) return;
+    const r = Math.max(8, Math.min(28, 8+qtd*4));
+    L.circleMarker(c,{
+      radius:r, fillColor:GREEN, color:'#fff',
+      weight:2, opacity:1, fillOpacity:.8
+    }).addTo(map).bindPopup(`<b>${pais}</b><br>${qtd} livro${qtd>1?'s':''}`);
   });
 }
 
-/* ═══════════════ FILTROS ═════════════════════════════════════ */
 function buildFilters(){
-  // Gênero (col E=4)
-  const gns=[...new Set(ROWS.map(r=>cv(r,I.genero)).filter(Boolean))].sort();
-  const sg=document.getElementById('f-genero');
-  gns.forEach(g=>{const o=document.createElement('option');o.value=g;o.textContent=g;sg.appendChild(o);});
+  const gns=[...new Set(all2026.map(b=>b['Gênero']).filter(Boolean))].sort();
+  const sel=document.getElementById('f-genero');
+  gns.forEach(g=>{const o=document.createElement('option');o.value=g;o.textContent=g;sel.appendChild(o);});
 
-  // Formato (detectado)
-  if(I.formato>=0){
-    const fmts=[...new Set(ROWS.map(r=>cv(r,I.formato)).filter(Boolean))].sort();
-    const sf=document.getElementById('f-formato');
-    fmts.forEach(f=>{const o=document.createElement('option');o.value=f;o.textContent=f;sf.appendChild(o);});
-  }
+  const fmts=[...new Set(all2026.map(b=>b['Formato']).filter(Boolean))].sort();
+  const fsel=document.getElementById('f-formato');
+  fmts.forEach(f=>{const o=document.createElement('option');o.value=f;o.textContent=f;fsel.appendChild(o);});
 
   document.getElementById('search').addEventListener('input',applyFilters);
   document.getElementById('f-status').addEventListener('change',applyFilters);
   document.getElementById('f-genero').addEventListener('change',applyFilters);
   document.getElementById('f-formato').addEventListener('change',applyFilters);
-
   document.querySelectorAll('.tag-btn').forEach(btn=>btn.addEventListener('click',()=>{
     document.querySelectorAll('.tag-btn').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');activeTag=btn.dataset.tag;applyFilters();
+    btn.classList.add('active'); activeTag=btn.dataset.tag; applyFilters();
   }));
 
-  // Ordenação pela coluna clicada no <th data-colidx>
-  document.querySelectorAll('th[data-colidx]').forEach(th=>th.addEventListener('click',()=>{
-    const i=parseInt(th.dataset.colidx);
-    if(sortIdx===i) sortAsc=!sortAsc; else{sortIdx=i;sortAsc=true;}
+  // Sortable headers
+  document.querySelectorAll('th[data-col]').forEach(th=>th.addEventListener('click',()=>{
+    const col=th.dataset.col;
+    if(sortCol===col) sortAsc=!sortAsc; else {sortCol=col;sortAsc=true;}
     filtered.sort((a,b)=>{
-      const av=cv(a,i),bv=cv(b,i);
-      const an=parseFloat(av),bn=parseFloat(bv);
-      if(!isNaN(an)&&!isNaN(bn)) return sortAsc?an-bn:bn-an;
-      return sortAsc?av.localeCompare(bv,'pt'):bv.localeCompare(av,'pt');
+      const av=a[col]||'', bv=b[col]||'';
+      return sortAsc ? av.localeCompare(bv,'pt') : bv.localeCompare(av,'pt');
     });
-    page=1;renderTable();
+    page=1; renderTable();
   }));
 }
 
 function applyFilters(){
-  const q  =document.getElementById('search').value.toLowerCase();
-  const st =document.getElementById('f-status').value;
-  const gn =document.getElementById('f-genero').value;
-  const fm =document.getElementById('f-formato').value;
-
-  filtered=ROWS.filter(r=>{
-    // Busca título (col 0) OU autor (col 1)
-    if(q&&!(cv(r,I.titulo)+' '+cv(r,I.autor)).toLowerCase().includes(q)) return false;
-    // Status (col W=22)
-    if(st&&norm(cv(r,I.status))!==norm(st)) return false;
-    // Gênero (col E=4)
-    if(gn&&cv(r,I.genero)!==gn) return false;
-    // Formato (detectado)
-    if(fm&&I.formato>=0&&cv(r,I.formato)!==fm) return false;
-    // Tags checkbox — índices fixos U=20, V=21, OwnVoices=detectado, áudio=col D
-    if(activeTag==='lgbtqia'    &&!isT(cv(r,I.lgbtqia)))              return false;
-    if(activeTag==='diversidade'&&!isT(cv(r,I.divers)))               return false;
-    if(activeTag==='ownvoices'  &&I.ownvoices>=0&&!isT(cv(r,I.ownvoices))) return false;
-    if(activeTag==='audiobook'  &&!isAudio(r))                         return false;
+  const q=document.getElementById('search').value.toLowerCase();
+  const st=document.getElementById('f-status').value;
+  const gn=document.getElementById('f-genero').value;
+  const fm=document.getElementById('f-formato').value;
+  filtered=all2026.filter(b=>{
+    if(q&&!((b['Livros']||'')+(b['Nome']||'')).toLowerCase().includes(q))return false;
+    if(st&&norm(b['Lido/Não Lido'])!==norm(st))return false;
+    if(gn&&b['Gênero']!==gn)return false;
+    if(fm&&b['Formato']!==fm)return false;
+    if(activeTag==='lgbtqia'&&!isTrue(b['Protagonista LGBTQIA+?']))return false;
+    if(activeTag==='diversidade'&&!isTrue(b['Diversidade étnica/racial ?']))return false;
+    if(activeTag==='ownvoices'&&!isTrue(b['#OwnVoices ?']))return false;
+    if(activeTag==='audiobook'&&!isAudiobook(b))return false;
     return true;
   });
-  page=1;renderTable();
+  page=1; renderTable();
 }
 
-/* ═══════════════ TABELA ══════════════════════════════════════ */
 function renderTable(){
   const start=(page-1)*PER;
   const pg=filtered.slice(start,start+PER);
   const tbody=document.getElementById('tbody');
-  setText('lista-count',filtered.length+' livros');
-
+  document.getElementById('lista-count').textContent=filtered.length+' livros';
   if(!filtered.length){
     tbody.innerHTML='<tr><td colspan="10" style="text-align:center;padding:2rem;color:var(--muted)">Nenhum livro encontrado.</td></tr>';
-    setText('t-info','');
+    document.getElementById('t-info').textContent='';
     document.getElementById('pagination').innerHTML='';
     return;
   }
-
-  tbody.innerHTML=pg.map(r=>{
-    const titulo  = cv(r,I.titulo)  ||'—';  // col A=0
-    const autor   = cv(r,I.autor)   ||'—';  // col B=1
-    const genero  = cv(r,I.genero)  ||'—';  // col E=4
-    const paginas = cv(r,I.paginas) ||'—';  // col C=2
-    const horas   = cv(r,I.horas)   ||'';   // col D=3
-    const horasD  = parseH(horas)>0 ? horas.substring(0,5) : '—';
-    const idioma  = cv(r,I.idioma)  ||'—';  // col F=5
-    const pais    = cv(r,I.pais)    ||'—';  // col O=14
-    const cor     = cv(r,I.cor)     ||'—';  // col S=18
-    const status  = cv(r,I.status)  ||'—';  // col W=22
-    const bc      = norm(status)==='lido'?'badge-lido':norm(status)==='lendo'?'badge-lendo':'badge-nao';
-
-    // Estrelas — col detectada
-    let starsHtml='—';
-    if(I.estrelas>=0){
-      const sv=parseInt(cv(r,I.estrelas));
-      if(sv>=1&&sv<=5) starsHtml='<span class="stars">'+'★'.repeat(sv)+'</span>';
-    }
-
+  tbody.innerHTML=pg.map(b=>{
+    const st=b['Lido/Não Lido']||'';
+    const bc=norm(st)==='lido'?'badge-lido':norm(st)==='lendo'?'badge-lendo':'badge-nao';
+    const s=parseInt(b['Estrelas'])||0;
+    const horas = b['Horas ouvidas']||b['Horas Ouvidas']||'';
+    const horasDisplay = isAudiobook(b) ? horas.substring(0,5) : '—';
     return `<tr>
-      <td><strong>${titulo}</strong></td>
-      <td>${autor}</td>
-      <td>${genero}</td>
-      <td>${paginas}</td>
-      <td>${horasD}</td>
-      <td>${idioma}</td>
-      <td>${pais}</td>
-      <td>${cor}</td>
-      <td><span class="badge ${bc}">${status}</span></td>
-      <td>${starsHtml}</td>
+      <td><strong>${b['Livros']||'—'}</strong></td>
+      <td>${b['Nome']||'—'}</td>
+      <td>${b['Gênero']||'—'}</td>
+      <td>${b['Páginas']||'—'}</td>
+      <td>${horasDisplay}</td>
+      <td>${b['Idioma']||'—'}</td>
+      <td>${b['País']||'—'}</td>
+      <td>${b['Cor']||'—'}</td>
+      <td><span class="badge ${bc}">${st||'—'}</span></td>
+      <td><span class="stars">${'★'.repeat(s)}</span></td>
     </tr>`;
   }).join('');
-
-  setText('t-info',(start+1)+'–'+Math.min(start+PER,filtered.length)+' de '+filtered.length);
-
+  document.getElementById('t-info').textContent=(start+1)+'–'+Math.min(start+PER,filtered.length)+' de '+filtered.length;
   const pages=Math.ceil(filtered.length/PER);
   const pag=document.getElementById('pagination');pag.innerHTML='';
   for(let i=1;i<=pages;i++){
