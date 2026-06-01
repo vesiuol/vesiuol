@@ -352,12 +352,14 @@ footer{
   .notion-cta-footer{padding:.9rem 1.5rem;}
   /* Tabela: sem overflow horizontal */
   .notion-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
-  table{font-size:.75rem;min-width:480px;}
+  table{font-size:.75rem;min-width:340px;}
   td,th{padding:.45rem .4rem;}
   td:nth-child(5),th:nth-child(5){display:none;} /* oculta col Gênero autor no mobile */
   #evolucao-cards{grid-template-columns:1fr 1fr!important;}
   .chart-body canvas{max-height:130px;}
   .repr-item canvas{max-height:130px;}
+  /* barras horizontais precisam de mais altura para rótulos */
+  canvas#c-regiao,canvas#c-generos,canvas#c-origem{max-height:160px!important;}
 }
 @media(max-width:400px){
   .stats-bar{grid-template-columns:repeat(2,1fr);}
