@@ -152,7 +152,7 @@ nav ul li a.active{
 .chart-card.full{grid-column:1/-1;}
 .chart-header{padding:.5rem 1rem;display:flex;align-items:center;gap:6px;border-bottom:1px solid #e0e0e0;}
 .chart-title-small{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);}
-.chart-body{padding:1.2rem;position:relative;}.chart-body canvas{max-height:180px;}
+.chart-body{padding:1.2rem;position:relative;overflow:hidden;}.chart-body canvas{max-height:180px;}
 .chart-body canvas{max-height:180px;}
 .chart-body.tall canvas{max-height:300px;}
 
@@ -374,6 +374,19 @@ footer{
   nav ul.open{display:flex;}
 }
 
+
+/* ── GRIDS DE GRÁFICOS RESPONSIVOS ── */
+.graf-2col{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;}
+.graf-3col{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1rem;}
+.graf-4col{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;margin-bottom:1.8rem;}
+@media(max-width:600px){
+  .graf-2col{grid-template-columns:1fr;}
+  .graf-3col{grid-template-columns:1fr;}
+  .graf-4col{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:390px){
+  .graf-4col{grid-template-columns:1fr;}
+}
 </style>
 </head>
 <body>
@@ -532,7 +545,7 @@ footer{
   </div>
 
   <!-- Linha 3: Formato + Faixa etária -->
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+  <div class="graf-2col">
     <div class="chart-card">
       <div class="chart-header"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div><span class="chart-title-small" style="margin-left:.4rem">Formato de leitura</span></div>
       <div class="chart-body"><canvas id="c-formato"></canvas></div>
@@ -561,7 +574,7 @@ footer{
   </div>
 
   <!-- Linha 5: Notas + Série ou único -->
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+  <div class="graf-2col">
     <div class="chart-card">
       <div class="chart-header"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div><span class="chart-title-small" style="margin-left:.4rem">Distribuição de notas</span></div>
       <div class="chart-body"><canvas id="c-notas"></canvas></div>
@@ -620,13 +633,13 @@ footer{
   </div>
 
   <!-- Barras: leituras por ano lado a lado + ritmo -->
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
+  <div class="graf-2col">
     <div class="window-card">
       <div class="window-bar">
         <div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div>
         <span class="chart-title-small" style="margin-left:.5rem">Leituras LPM por ano</span>
       </div>
-      <div style="padding:1.2rem;"><canvas id="c-evolucao-barras" style="max-height:220px"></canvas></div>
+      <div style="padding:1.2rem;overflow:hidden;"><canvas id="c-evolucao-barras" style="max-height:220px"></canvas></div>
     </div>
     <div class="window-card">
       <div class="window-bar">
