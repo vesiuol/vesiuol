@@ -137,7 +137,7 @@ nav ul li a.active{
 .post-card:hover{transform:translateY(-1px);box-shadow:2px 2px 0 #c8c8c8;}
 .post-winbar{padding:.45rem .9rem;display:flex;align-items:center;gap:5px;border-bottom:1px solid #e0e0e0;}
 .post-body{padding:1.3rem 1.3rem 1rem;flex:1;display:flex;flex-direction:column;gap:.6rem;}
-.post-title-bg{background:var(--green);display:inline-block;padding:.04rem .38rem;}
+.post-title-bg{background:var(--green);display:inline-block;padding:.05rem .5rem;}
 .post-title-bg h3{font-family:'Playfair Display',serif;font-size:1rem;font-weight:400;color:var(--white);}
 .post-desc{font-size:.86rem;line-height:1.6;color:var(--muted);flex:1;}
 .post-footer-row{
@@ -297,6 +297,8 @@ footer{
   .charts-grid{grid-template-columns:1fr;}
 }
 @media(max-width:600px){
+  .charts-grid{grid-template-columns:1fr;}
+  .repr-grid{grid-template-columns:1fr;}
   .stats-bar{grid-template-columns:repeat(2,1fr);}
   .posts-grid{grid-template-columns:1fr;}
   nav ul{display:none;position:absolute;top:52px;left:0;right:0;background:var(--white);flex-direction:column;padding:1rem 2rem;gap:1rem;border-bottom:1px solid #ccc;}
@@ -863,7 +865,7 @@ function chartBase(){
     maintainAspectRatio:false,
     plugins:{
       legend:{display:false},
-      datalabels:{display:true,color:'#fff',font:{family:'DM Sans',size:11,weight:'500'},formatter:v=>v>0?v:'',anchor:'end',align:'start',clamp:true}
+      datalabels:{display:true,color:DARK,font:{family:'DM Sans',size:10,weight:'500'},formatter:v=>v>0?v:'',anchor:'end',align:'end',offset:4,clamp:false}
     },
     scales:{
       x:{grid:{color:'#eee'},ticks:{font:{family:'DM Sans',size:11},color:MUTED}},
@@ -885,19 +887,26 @@ function chartPie(){
           generateLabels: chart => {
             const data = chart.data;
             const total = data.datasets[0].data.reduce((a,b)=>a+b,0);
+            // Cores fixas por label para consistência entre gráficos
+            const SIM_COR  = '#7a9e7e'; // sage — sempre Sim
+            const NAO_COR  = '#c4a882'; // clay — sempre Não
             const items = data.labels.map((label,i)=>{
               const val = data.datasets[0].data[i];
               const pct = total>0 ? Math.round(val/total*100) : 0;
               const displayLabel = String(label)
                 .replace(/^TRUE$/i,'Sim').replace(/^FALSE$/i,'Não')
                 .replace(/^true$/,'Sim').replace(/^false$/,'Não');
+              // Cor por label, não por posição
+              const isSim = /^sim$/i.test(displayLabel);
+              const isNao = /^não$/i.test(displayLabel)||/^nao$/i.test(displayLabel);
+              const legendColor = isSim ? SIM_COR : isNao ? NAO_COR : data.datasets[0].backgroundColor[i];
               return {
                 text: `${displayLabel} (${pct}%)`,
-                fillStyle: data.datasets[0].backgroundColor[i],
-                strokeStyle: data.datasets[0].backgroundColor[i],
+                fillStyle: legendColor,
+                strokeStyle: legendColor,
                 hidden: false,
                 index: i,
-                _order: /^sim$/i.test(displayLabel)?0:/^não$/i.test(displayLabel)?1:2
+                _order: isSim?0:isNao?1:2
               };
             });
             // Reordena visualmente: Sim antes de Não — dados internos intocados
@@ -1022,7 +1031,7 @@ function buildCharts(allLPM){
     const bOpts = chartBase();
     bOpts.indexAxis='y';
     bOpts.plugins.datalabels={display:true,anchor:'end',align:'end',color:DARK,
-      font:{family:'DM Sans',size:10,weight:'500'},formatter:v=>v>0?v:'',clamp:true};
+      font:{family:'DM Sans',size:10,weight:'500'},formatter:v=>v>0?v:'',clip:false,clamp:false,offset:6};
     bOpts.scales.x.ticks.stepSize=1;
     new Chart(el,{type:'bar',
       data:{labels:pairs.map(e=>normLabel(e[0])),datasets:[{data:pairs.map(e=>e[1]),backgroundColor:color,borderRadius:3}]},
@@ -1032,8 +1041,15 @@ function buildCharts(allLPM){
   const donut = (id, obj) => {
     const el = document.getElementById(id);
     if(!el||!Object.keys(obj).length) return;
+    const labels = Object.keys(obj);
+    // Cor fixa para Sim/Não — consistente nos 3 gráficos de diversidade
+    const bgColors = labels.map((l,i) =>
+      /^(sim|true)$/i.test(String(l)) ? '#7a9e7e'
+      : /^(não|nao|false)$/i.test(String(l)) ? '#c4a882'
+      : CORES[i % CORES.length]
+    );
     new Chart(el,{type:'doughnut',
-      data:{labels:Object.keys(obj),datasets:[{data:Object.values(obj),backgroundColor:CORES,borderWidth:0}]},
+      data:{labels,datasets:[{data:Object.values(obj),backgroundColor:bgColors,borderWidth:0}]},
       options:chartPie()});
   };
 
@@ -1042,7 +1058,7 @@ function buildCharts(allLPM){
   const notionMapeados2 = NOTION_DATA.filter(n=>n.livro&&n.livro.trim()&&n.status_notion!=='Concluído').length;
   const notionNao      = NOTION_DATA.filter(n=>!n.livro||!n.livro.trim()).length;
   new Chart(document.getElementById('c-status'),{type:'doughnut',
-    data:{labels:['Lido','Mapeado','Sem livro'],datasets:[{data:[notionLidos,notionMapeados2,notionNao],backgroundColor:[GREEN,GREEN_LIGHT,'#ddd'],borderWidth:0}]},
+    data:{labels:['Lido','Mapeado','Sem livro'],datasets:[{data:[notionLidos,notionMapeados2,notionNao],backgroundColor:[GREEN,GREEN_LIGHT,'#a0a0a0'],borderWidth:0}]},
     options:chartPie()});
 
   // ── 2–4. Diversidade (todos os anos LPM) ────────────────────────────────────
@@ -1067,7 +1083,7 @@ function buildCharts(allLPM){
     rc[rg]=(rc[rg]||0)+1;
   });
   barH('c-regiao', rc, GREEN, 200);
-  barH('c-generos', countField(allLPM,['Gênero','Genero','Genre','gênero literário']), GREEN_LIGHT, 200);
+  barH('c-generos', countField(allLPM,['Gênero','Genero','Genre','gênero literário']), GREEN, 200);
   barH('c-conheci', countField(allLPM,['Como conheci?','Como conheci']), '#a8bc90', 180);
   barH('c-origem',  countField(allLPM,['Origem do livro?','Origem do livro']), '#c8d4b8', 180);
 
@@ -1079,8 +1095,8 @@ function buildCharts(allLPM){
   const notasEl = document.getElementById('c-notas');
   if(notasEl){
     const nOpts = chartBase();
-    nOpts.plugins.datalabels={display:true,anchor:'end',align:'top',color:DARK,
-      font:{family:'DM Sans',size:11,weight:'500'},formatter:v=>v>0?v:''};
+    nOpts.plugins.datalabels={display:true,anchor:'end',align:'end',color:DARK,
+      font:{family:'DM Sans',size:11,weight:'500'},formatter:v=>v>0?v:'',clamp:false,offset:4};
     delete nOpts.scales.y;
     nOpts.scales.x={grid:{display:false},ticks:{font:{family:'DM Sans',size:13},color:DARK}};
     nOpts.scales.y2={display:false};
@@ -1099,8 +1115,8 @@ function buildCharts(allLPM){
     const countYear = rows => rows.length;
     const aOpts = chartBase();
     aOpts.plugins.legend = {display:true,labels:{font:{family:'DM Sans',size:11},color:DARK,boxWidth:12}};
-    aOpts.plugins.datalabels = {display:true,anchor:'end',align:'top',color:DARK,
-      font:{family:'DM Sans',size:11,weight:'500'},formatter:v=>v>0?v:''};
+    aOpts.plugins.datalabels = {display:true,anchor:'end',align:'end',color:DARK,
+      font:{family:'DM Sans',size:11,weight:'500'},formatter:v=>v>0?v:'',clamp:false,offset:4};
     new Chart(anosEl,{type:'bar',
       data:{
         labels:['2024','2025','2026'],
