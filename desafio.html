@@ -47,9 +47,10 @@ nav ul li a.active{
 /* ── WINDOW CARD ── */
 .window-card{
   background:var(--white);
-  border:1.5px solid #b0b090;
+  border:1.5px solid #c8c8c8;
   border-radius:16px;
   overflow:hidden;
+  box-shadow:2px 2px 0 #c8c8c8;
 }
 .window-bar{
   padding:.55rem 1rem;
@@ -129,11 +130,11 @@ nav ul li a.active{
 .posts-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;}
 .posts-grid .full-row{grid-column:1/2;}
 .post-card{
-  background:var(--white);border:1.5px solid #b0b090;
+  background:var(--white);border:1.5px solid #c8c8c8;
   border-radius:14px;overflow:hidden;text-decoration:none;color:inherit;
   display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s;
 }
-.post-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.08);}
+.post-card:hover{transform:translateY(-1px);box-shadow:2px 2px 0 #c8c8c8;}
 .post-winbar{padding:.45rem .9rem;display:flex;align-items:center;gap:5px;border-bottom:1px solid #e0e0e0;}
 .post-body{padding:1.3rem 1.3rem 1rem;flex:1;display:flex;flex-direction:column;gap:.6rem;}
 .post-title-bg{background:var(--green);display:inline-block;padding:.04rem .38rem;}
@@ -148,7 +149,7 @@ nav ul li a.active{
 
 /* ── CHARTS ── */
 .charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
-.chart-card{background:var(--white);border:1.5px solid #b0b090;border-radius:14px;overflow:hidden;}
+.chart-card{background:var(--white);border:1.5px solid #c8c8c8;border-radius:14px;overflow:hidden;box-shadow:2px 2px 0 #c8c8c8;}
 .chart-card.full{grid-column:1/-1;}
 .chart-header{padding:.5rem 1rem;display:flex;align-items:center;gap:6px;border-bottom:1px solid #e0e0e0;}
 .chart-title-small{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);}
@@ -199,7 +200,7 @@ nav ul li a.active{
 
 /* ── TABLE ── */
 .evolucao-card{
-  background:var(--white);border:1.5px solid #b0b090;border-radius:12px;
+  background:var(--white);border:1.5px solid #c8c8c8;border-radius:12px;
   padding:1.1rem 1rem;text-align:center;
 }
 .evolucao-card .ev-ano{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.3rem;}
@@ -262,7 +263,7 @@ th{
   font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;
   color:var(--muted);white-space:nowrap;cursor:pointer;user-select:none;
 }
-th:hover{color:var(--black);}
+th:hover{color:var(--text);}
 td{padding:.65rem .8rem;border-bottom:1px solid #eee;vertical-align:middle;}
 tr:hover td{background:rgba(132,153,116,.06);}
 .badge{display:inline-block;padding:.18rem .55rem;border-radius:100px;font-size:.7rem;}
@@ -305,8 +306,8 @@ footer{
 
 /* ── REPRESENTATIVIDADE BLOCO ── */
 .repr-bloco{
-  background:var(--white);border:1.5px solid #b0b090;border-radius:14px;overflow:hidden;
-  margin-bottom:1rem;
+  background:var(--white);border:1.5px solid #c8c8c8;border-radius:14px;overflow:hidden;
+  margin-bottom:1rem;box-shadow:2px 2px 0 #c8c8c8;
 }
 .repr-bloco-header{
   padding:.5rem 1rem;display:flex;align-items:center;gap:6px;
@@ -387,6 +388,11 @@ footer{
 @media(max-width:390px){
   .graf-4col{grid-template-columns:1fr;}
 }
+
+/* ── FIX espaço vazio c-notas e c-evolucao-barras ── */
+canvas#c-notas{display:block;height:180px!important;max-height:180px!important;}
+canvas#c-evolucao-barras{display:block;height:220px!important;max-height:220px!important;}
+.chart-body{height:auto!important;}
 </style>
 </head>
 <body>
@@ -617,7 +623,7 @@ footer{
   </div>
 
   <!-- Cards de progresso por ano -->
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;margin-bottom:1.8rem;" id="evolucao-cards">
+  <div class="graf-4col" id="evolucao-cards">
     <!-- preenchido via JS -->
   </div>
 
@@ -751,7 +757,20 @@ const CSV_2025 = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1k
 const GREEN = '#849974';
 const GREEN_DARK = '#6b7e5e';
 const GREEN_LIGHT = '#c8d4b8';
-const CORES = ['#6b7e5e','#849974','#a8bc90','#c8d4b8','#d4e0c4','#4a5e3a','#e8f0dc','#3a4e2a','#f0f4e8','#2a3e1a'];
+const CORES = [
+  '#7a9e7e', // sage
+  '#c4a882', // clay
+  '#6b8e9f', // slate blue
+  '#b5835a', // terracotta
+  '#8a9a5b', // olive
+  '#9b7fa6', // muted purple
+  '#4e7c5f', // moss
+  '#c4855a', // sienna
+  '#7ba3a8', // teal-grey
+  '#a07850', // warm brown
+  '#849974', // base green
+  '#b09080', // dusty rose
+];
 const DARK = '#1a1a1a';
 const MUTED = '#555';
 
@@ -1067,7 +1086,7 @@ function buildCharts(allLPM){
     nOpts.scales.y2={display:false};
     new Chart(notasEl,{type:'bar',
       data:{labels:['★','★★','★★★','★★★★','★★★★★'],
-        datasets:[{data:Object.values(nc),backgroundColor:[GREEN_LIGHT,GREEN_LIGHT,'#a8bc90',GREEN,GREEN_DARK],borderRadius:4}]},
+        datasets:[{data:Object.values(nc),backgroundColor:['#c4a882','#b5835a','#8a9a5b','#7a9e7e','#4e7c5f'],borderRadius:4}]},
       options:nOpts});
   }
 
@@ -1224,9 +1243,9 @@ function buildEvolucao(r2024, r2025, r2026){
           {
             label:'Projeção (ritmo atual)',
             data: allProj,
-            borderColor: '#b0b090', backgroundColor: 'transparent',
+            borderColor: '#c8c8c8', backgroundColor: 'transparent',
             borderWidth:1.5, borderDash:[5,4],
-            pointRadius:3, pointBackgroundColor:'#b0b090',
+            pointRadius:3, pointBackgroundColor:'#c8c8c8',
             fill:false, tension:.3, spanGaps:false
           },
         ]
