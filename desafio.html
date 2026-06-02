@@ -137,8 +137,8 @@ nav ul li a.active{
 .post-card:hover{transform:translateY(-1px);box-shadow:2px 2px 0 #c8c8c8;}
 .post-winbar{padding:.45rem .9rem;display:flex;align-items:center;gap:5px;border-bottom:1px solid #e0e0e0;}
 .post-body{padding:1.3rem 1.3rem 1rem;flex:1;display:flex;flex-direction:column;gap:.6rem;}
-.post-title-bg{background:var(--green);display:inline-block;padding:.05rem .5rem;}
-.post-title-bg h3{font-family:'Playfair Display',serif;font-size:1rem;font-weight:400;color:var(--white);}
+.post-title-bg{background:var(--green);display:inline-block;padding:.05rem .5rem;line-height:1.3;}
+.post-title-bg h3{font-family:'Playfair Display',serif;font-size:1rem;font-weight:400;color:var(--white);line-height:1.3;}
 .post-desc{font-size:.86rem;line-height:1.6;color:var(--muted);flex:1;}
 .post-footer-row{
   border-top:1px solid #e0e0e0;padding:.7rem 1.3rem;
@@ -395,6 +395,40 @@ footer{
 canvas#c-notas{display:block;height:180px!important;max-height:180px!important;}
 canvas#c-evolucao-barras{display:block;height:220px!important;max-height:220px!important;}
 .chart-body{height:auto!important;}
+
+/* Donuts circulares em todas as larguras */
+.chart-body canvas[id="c-ga"],
+.chart-body canvas[id="c-faixa"],
+.chart-body canvas[id="c-formato"],
+.chart-body canvas[id="c-cor"],
+.chart-body canvas[id="c-idioma"],
+.chart-body canvas[id="c-lgbtq"],
+.chart-body canvas[id="c-diversidade"],
+.chart-body canvas[id="c-ownvoices"],
+.chart-body canvas[id="c-serie"],
+.chart-body canvas[id="c-status"] {
+  max-height:220px;
+}
+@media(max-width:600px){
+  .chart-body canvas[id="c-ga"],
+  .chart-body canvas[id="c-faixa"],
+  .chart-body canvas[id="c-formato"] {
+    max-height:180px;
+    width:100%!important;
+  }
+  /* Cards de donut em 1 coluna em mobile para evitar compressão */
+  .repr-grid{grid-template-columns:1fr!important;}
+}
+
+@media(max-width:900px){
+  /* Garante donuts circulares limitando altura ao tamanho do container */
+  .chart-body{max-width:100%;}
+  .charts-grid canvas{max-height:160px;max-width:100%;}
+}
+@media(max-width:600px){
+  /* Barras horizontais com mais espaço em mobile */
+  canvas#c-regiao,canvas#c-generos,canvas#c-origem{max-height:180px!important;}
+}
 </style>
 </head>
 <body>
@@ -1085,7 +1119,7 @@ function buildCharts(allLPM){
   barH('c-regiao', rc, GREEN, 200);
   barH('c-generos', countField(allLPM,['Gênero','Genero','Genre','gênero literário']), GREEN, 200);
   barH('c-conheci', countField(allLPM,['Como conheci?','Como conheci']), '#a8bc90', 180);
-  barH('c-origem',  countField(allLPM,['Origem do livro?','Origem do livro']), '#c8d4b8', 180);
+  barH('c-origem',  countField(allLPM,['Origem do livro?','Origem do livro']), GREEN, 180);
 
   const nc={1:0,2:0,3:0,4:0,5:0};
   allLPM.forEach(r=>{
@@ -1097,9 +1131,8 @@ function buildCharts(allLPM){
     const nOpts = chartBase();
     nOpts.plugins.datalabels={display:true,anchor:'end',align:'end',color:DARK,
       font:{family:'DM Sans',size:11,weight:'500'},formatter:v=>v>0?v:'',clamp:false,offset:4};
-    delete nOpts.scales.y;
+    nOpts.scales.y={display:false,suggestedMax:undefined};
     nOpts.scales.x={grid:{display:false},ticks:{font:{family:'DM Sans',size:13},color:DARK}};
-    nOpts.scales.y2={display:false};
     new Chart(notasEl,{type:'bar',
       data:{labels:['★','★★','★★★','★★★★','★★★★★'],
         datasets:[{data:Object.values(nc),backgroundColor:['#c4a882','#b5835a','#8a9a5b','#7a9e7e','#4e7c5f'],borderRadius:4}]},
@@ -1115,6 +1148,7 @@ function buildCharts(allLPM){
     const countYear = rows => rows.length;
     const aOpts = chartBase();
     aOpts.plugins.legend = {display:true,labels:{font:{family:'DM Sans',size:11},color:DARK,boxWidth:12}};
+    aOpts.scales.y = {grid:{color:'#eee'},ticks:{font:{family:'DM Sans',size:11},color:MUTED,stepSize:1},suggestedMax:undefined,grace:'15%'};
     aOpts.plugins.datalabels = {display:true,anchor:'end',align:'end',color:DARK,
       font:{family:'DM Sans',size:11,weight:'500'},formatter:v=>v>0?v:'',clamp:false,offset:4};
     new Chart(anosEl,{type:'bar',
