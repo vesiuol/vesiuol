@@ -6,7 +6,7 @@
 <title>2026 — O Que Tem na Estante da Louise</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
@@ -17,13 +17,11 @@
   --white: #ffffff;
   --black: #000000;
   --green: #849974;
-  --green-dark: #6a7d5e;
-  --green-light: #a8b99a;
-  --green-bg: #c5d1bc;
-  --border: #c8d4bf;
+  --green-dark: #6b7e5e;
+  --green-light: #a8bb96;
+  --border: #c8c8c8;
   --text: #1a1a1a;
-  --muted: #666;
-  --card-bg: #ffffff;
+  --muted: #555;
 }
 * { margin:0; padding:0; box-sizing:border-box; }
 body {
@@ -46,7 +44,7 @@ nav {
 }
 .nav-logo span {
   width: 10px; height: 10px; border-radius: 50%;
-  background: var(--black);
+  background: #bbb;
   display: inline-block;
 }
 nav ul { list-style: none; display: flex; gap: 1.8rem; margin-left: auto; }
@@ -56,7 +54,7 @@ nav ul a {
   font-size: .78rem;
   letter-spacing: .1em;
   text-transform: uppercase;
-  font-weight: 400;
+  font-weight: 500;
   transition: color .2s;
 }
 nav ul a:hover { color: var(--green); }
@@ -66,6 +64,16 @@ nav ul a.active {
   padding: .2rem .55rem;
   border-radius: 3px;
 }
+.nav-hamburger {
+  display: none;
+  margin-left: auto;
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: var(--black);
+  padding: .2rem .4rem;
+}
 
 /* ── MAIN WRAPPER ── */
 .page-wrap { max-width: 1180px; margin: 0 auto; padding: 0 2rem; }
@@ -73,26 +81,28 @@ nav ul a.active {
 /* ── HERO CARD ── */
 .hero-section { padding: 3rem 2rem 2rem; max-width: 1180px; margin: 0 auto; }
 .hero-card {
-  border: 1.5px solid var(--black);
-  border-radius: 12px;
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
   padding: 2.5rem 2.5rem 2rem;
   position: relative;
   background: var(--white);
+  box-shadow: 2px 2px 0 var(--border);
 }
 .card-dots {
   display: flex; gap: 5px; margin-bottom: 1.2rem;
 }
 .card-dots span {
   width: 9px; height: 9px; border-radius: 50%;
-  background: var(--black); display: inline-block;
+  background: #bbb; display: inline-block;
 }
 .hero-title {
-  font-family: 'EB Garamond', serif;
-  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 400;
   line-height: 1.1;
   margin-bottom: 1rem;
   background: var(--green);
+  color: var(--white);
   display: inline-block;
   padding: .1rem .4rem;
   border-radius: 4px;
@@ -108,7 +118,7 @@ nav ul a.active {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-top: 1px solid var(--black);
+  border-top: 1px solid var(--border);
   padding-top: 1rem;
   margin-top: .5rem;
 }
@@ -130,27 +140,28 @@ nav ul a.active {
   padding: 0 2rem;
 }
 .stat-box {
-  border: 1.5px solid var(--black);
+  border: 1.5px solid var(--border);
   border-radius: 10px;
   padding: 1.4rem 1rem;
   text-align: center;
   margin: 0 .3rem;
-  background: var(--green-bg);
+  background: var(--green);
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   min-height: 110px;
+  box-shadow: 2px 2px 0 var(--border);
 }
 .stat-number {
-  font-family: 'EB Garamond', serif;
-  font-size: 2.4rem;
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
   font-weight: 400;
   line-height: 1;
-  color: var(--black);
+  color: var(--white);
   display: block;
 }
 .stat-label {
   font-size: .72rem;
   letter-spacing: .06em;
-  color: var(--text);
+  color: rgba(255,255,255,.85);
   margin-top: .35rem;
   display: block;
 }
@@ -167,7 +178,7 @@ nav ul a.active {
 .sec-tag {
   background: var(--green);
   color: var(--white);
-  font-family: 'EB Garamond', serif;
+  font-family: 'Playfair Display', serif;
   font-size: 1rem;
   padding: .15rem .5rem;
   border-radius: 4px;
@@ -187,12 +198,13 @@ section.page-section {
 
 /* ── CHART CARD ── */
 .chart-card {
-  border: 1.5px solid var(--black);
+  border: 1.5px solid var(--border);
   border-radius: 12px;
   padding: 0;
   overflow: hidden;
   background: var(--white);
   position: relative;
+  box-shadow: 2px 2px 0 var(--border);
 }
 .chart-card-header {
   display: flex;
@@ -201,7 +213,8 @@ section.page-section {
   padding: .7rem 1rem;
   border-bottom: 1px solid var(--border);
 }
-.chart-card-header .card-dots span { width: 7px; height: 7px; background: var(--black); }
+.chart-card-header .card-dots { margin-bottom: 0; }
+.chart-card-header .card-dots span { width: 7px; height: 7px; background: #bbb; }
 .chart-card-title {
   font-size: .72rem;
   letter-spacing: .08em;
@@ -212,31 +225,18 @@ section.page-section {
   padding: 1.2rem;
   position: relative;
 }
-.chart-wrap { position: relative; }
-.chart-wrap.h200 { height: 200px; }
-.chart-wrap.h260 { height: 260px; }
-.chart-wrap.h120 { height: 120px; }
-.chart-wrap.h300 { height: 300px; }
-
-/* Chart card title big (placeholder style) */
-.chart-placeholder {
-  font-family: 'EB Garamond', serif;
-  font-size: 2.8rem;
-  letter-spacing: .2em;
-  text-transform: uppercase;
-  color: var(--green);
-  text-align: center;
-  padding: 2rem 1rem;
-  font-weight: 400;
-}
+/* Decisão #004 — max-height no canvas, sem classes de altura fixa */
+.chart-body canvas { max-height: 180px; }
+.chart-body.tall canvas { max-height: 300px; }
 
 /* ── PROGRESS CARD ── */
 .progress-big-card {
-  border: 1.5px solid var(--black);
+  border: 1.5px solid var(--border);
   border-radius: 12px;
   overflow: hidden;
   background: var(--white);
   margin-bottom: 2rem;
+  box-shadow: 2px 2px 0 var(--border);
 }
 .progress-big-card .chart-card-header .card-dots { margin-bottom: 0; }
 .progress-body {
@@ -247,7 +247,7 @@ section.page-section {
   align-items: start;
 }
 .progress-meta-label {
-  font-family: 'EB Garamond', serif;
+  font-family: 'Playfair Display', serif;
   font-size: 1.1rem;
   margin-bottom: .4rem;
 }
@@ -283,9 +283,9 @@ section.page-section {
 .pstat:last-child { border-bottom: none; }
 .pstat-label { font-size: .82rem; color: var(--muted); }
 .pstat-val {
-  font-family: 'EB Garamond', serif;
+  font-family: 'Playfair Display', serif;
   font-size: 1.3rem;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 /* ── CHARTS GRID ── */
@@ -410,12 +410,18 @@ footer p {
   text-transform: uppercase;
 }
 
+/* ── RESPONSIVE ── */
 @media(max-width: 900px) {
   .stats-grid { grid-template-columns: repeat(3,1fr); gap: .5rem; padding: 0 1rem; }
   .stat-box { margin: 0; }
   .charts-grid-2 { grid-template-columns: 1fr; }
   .progress-body { grid-template-columns: 1fr; gap: 1.5rem; }
   nav ul { display: none; }
+  nav ul.open { display: flex; flex-direction: column; position: absolute; top: 52px; left: 0; right: 0; background: var(--white); border-bottom: 1.5px solid var(--border); padding: 1rem 2rem; gap: 1rem; z-index: 99; }
+  .nav-hamburger { display: block; }
+}
+@media(max-width: 600px) {
+  .stats-grid { grid-template-columns: repeat(2,1fr); }
 }
 </style>
 </head>
@@ -423,7 +429,7 @@ footer p {
 
 <nav>
   <div class="nav-logo"><span></span><span></span><span></span></div>
-  <ul>
+  <ul id="nav-ul">
     <li><a href="index.html">Início</a></li>
     <li><a href="2026.html" class="active">2026</a></li>
     <li><a href="estante.html">Estante</a></li>
@@ -431,6 +437,7 @@ footer p {
     <li><a href="desafio.html">Desafio</a></li>
     <li><a href="sobre.html">Sobre</a></li>
   </ul>
+  <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu">☰</button>
 </nav>
 
 <!-- ── HERO ── -->
@@ -492,59 +499,62 @@ footer p {
     <span class="sec-subtitle">Dados específicos do ano</span>
   </div>
 
-  <!-- Status + gênero row -->
+  <!-- Status row (barra horizontal, full width) -->
   <div class="charts-grid-2" style="margin-bottom:1rem">
     <div class="chart-card full">
       <div class="chart-card-header">
         <div class="card-dots"><span></span><span></span><span></span></div>
         <span class="chart-card-title">Status de leitura em 2026</span>
       </div>
-      <div class="chart-body"><div class="chart-wrap h120"><canvas id="c-status"></canvas></div></div>
+      <!-- barra horizontal → canvas de baixa altura, usa regra padrão 180px -->
+      <div class="chart-body"><canvas id="c-status"></canvas></div>
     </div>
   </div>
 
   <div class="charts-grid-2" style="margin-bottom:1rem">
+    <!-- Gêneros: barra vertical com muitos dados → .tall (300px) -->
     <div class="chart-card">
       <div class="chart-card-header">
         <div class="card-dots"><span></span><span></span><span></span></div>
         <span class="chart-card-title">Gêneros literários</span>
       </div>
-      <div class="chart-body"><div class="chart-wrap h300"><canvas id="c-generos"></canvas></div></div>
+      <div class="chart-body tall"><canvas id="c-generos"></canvas></div>
     </div>
+    <!-- Donut / pizza → padrão 180px -->
     <div class="chart-card">
       <div class="chart-card-header">
         <div class="card-dots"><span></span><span></span><span></span></div>
         <span class="chart-card-title">Cor dos autores</span>
       </div>
-      <div class="chart-body"><div class="chart-wrap h300"><canvas id="c-cor"></canvas></div></div>
+      <div class="chart-body"><canvas id="c-cor"></canvas></div>
     </div>
     <div class="chart-card">
       <div class="chart-card-header">
         <div class="card-dots"><span></span><span></span><span></span></div>
         <span class="chart-card-title">Gênero dos autores</span>
       </div>
-      <div class="chart-body"><div class="chart-wrap h200"><canvas id="c-genero-autor"></canvas></div></div>
+      <div class="chart-body"><canvas id="c-genero-autor"></canvas></div>
     </div>
     <div class="chart-card">
       <div class="chart-card-header">
         <div class="card-dots"><span></span><span></span><span></span></div>
         <span class="chart-card-title">Idioma original</span>
       </div>
-      <div class="chart-body"><div class="chart-wrap h200"><canvas id="c-idioma"></canvas></div></div>
+      <div class="chart-body"><canvas id="c-idioma"></canvas></div>
     </div>
     <div class="chart-card">
       <div class="chart-card-header">
         <div class="card-dots"><span></span><span></span><span></span></div>
         <span class="chart-card-title">Formato</span>
       </div>
-      <div class="chart-body"><div class="chart-wrap h200"><canvas id="c-formato"></canvas></div></div>
+      <div class="chart-body"><canvas id="c-formato"></canvas></div>
     </div>
     <div class="chart-card">
       <div class="chart-card-header">
         <div class="card-dots"><span></span><span></span><span></span></div>
         <span class="chart-card-title">Avaliações (estrelas)</span>
       </div>
-      <div class="chart-body"><div class="chart-wrap h200"><canvas id="c-estrelas"></canvas></div></div>
+      <div class="chart-body"><canvas id="c-estrelas"></canvas></div>
     </div>
   </div>
 </section>
@@ -578,7 +588,6 @@ footer p {
     <div class="search-wrap"><input type="text" id="search" placeholder="Buscar título ou autor…"></div>
     <select class="filter-select" id="f-status">
       <option value="">Todos os status</option>
-      <option>Lido</option><option>Não Lido</option><option>Lendo</option>
     </select>
     <select class="filter-select" id="f-genero"><option value="">Todos os gêneros</option></select>
     <select class="filter-select" id="f-formato"><option value="">Todos os formatos</option></select>
@@ -598,7 +607,7 @@ footer p {
         <th data-colidx="4">Gênero ↕</th>
         <th data-colidx="2">Pág. ↕</th>
         <th data-colidx="3">Áudio ↕</th>
-        <th data-colidx="5">Idioma ↕</th>
+        <th id="th-formato">Formato ↕</th>
         <th data-colidx="14">País ↕</th>
         <th data-colidx="22">Status ↕</th>
         <th>⭐</th>
@@ -625,19 +634,12 @@ const CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZ
 /* ── Paleta ── */
 const GREEN = '#849974';
 const BLACK = '#000';
-const MUTED = '#666';
+const MUTED = '#555';
 const PAL   = ['#849974','#c9956c','#6b9db8','#c4a35a','#a07898',
                '#6aab8e','#d4816b','#7b8fa8','#b5935a','#c47a8a',
                '#5a8a7b','#9b7a5a'];
 
-/* ── Índices fixos (posição na planilha) ──────────────────────
-   A=0 Título | B=1 Autor | C=2 Páginas | D=3 Horas
-   E=4 Gênero | F=5 Idioma | O=14 País
-   R=17 Autor novo | S=18 Cor | T=19 Gênero autor
-   U=20 LGBTQIA+ | V=21 Diversidade | W=22 Status
-   Linha 49: B=meta, C=págs, D=horas, W=lidos
-   Detectados por header: estrelas, ownvoices, formato
-─────────────────────────────────────────────────────────────── */
+/* ── Índices fixos ── */
 const I = {
   titulo:0, autor:1, paginas:2, horas:3, genero:4, idioma:5,
   pais:14, autorNovo:17, cor:18, generoAut:19,
@@ -649,11 +651,11 @@ const PER = 20;
 let H=[], ROWS=[], SUMROW=[], filtered=[], page=1, sortIdx=-1, sortAsc=true, activeTag='';
 
 /* ── Helpers ── */
-const cv   = (row,i) => (row[i]||'').trim();
+const cv   = (row,i) => (i>=0&&row[i]!=null?row[i]:'').trim();
 const norm = s => (s||'').trim().toLowerCase().replace(/\s+/g,' ');
 const isT  = val => {
   const s = (val||'').trim();
-  return s==='TRUE' || s==='true' || s==='1' || s==='VERDADEIRO' ||
+  return s==='TRUE'||s==='true'||s==='1'||s==='VERDADEIRO'||
          ['sim','yes','verdadeiro','✓'].includes(s.toLowerCase());
 };
 const parseH = s => {
@@ -673,32 +675,23 @@ function fetchRaw(url){
 function cntIdx(rows,idx){ const m={}; rows.forEach(r=>{const v=cv(r,idx);if(v)m[v]=(m[v]||0)+1;}); return m; }
 const topN = (o,n) => Object.entries(o).sort((a,b)=>b[1]-a[1]).slice(0,n);
 
-/* ── Detecta colunas dinâmicas com rede ampla de keywords ── */
+/* ── Detecta colunas dinâmicas ── */
 function detectDyn(){
   H.forEach((h,i)=>{
     const n = norm(h);
-    // Estrelas / notas
-    if(I.estrelas<0 &&
-      (n.includes('estrela')||n.includes('nota')||n.includes('rating')||
-       n.includes('avalia')||n.includes('score')||n==='★')){
+    if(I.estrelas<0&&(n.includes('estrela')||n.includes('nota')||n.includes('rating')||n.includes('avalia')||n.includes('score')||n==='★'))
       I.estrelas=i;
-    }
-    // OwnVoices
-    if(I.ownvoices<0 &&
-      (n.includes('ownvoice')||n.includes('own voice')||n.includes('#own')||
-       n.includes('own voices'))){
+    if(I.ownvoices<0&&(n.includes('ownvoice')||n.includes('own voice')||n.includes('#own')||n.includes('own voices')))
       I.ownvoices=i;
-    }
-    // Formato
-    if(I.formato<0 &&
-      (n.includes('formato')||n.includes('format')||n.includes('mídia')||
-       n.includes('midia')||n.includes('suporte'))){
+    if(I.formato<0&&(n.includes('formato')||n.includes('format')||n.includes('mídia')||n.includes('midia')||n.includes('suporte')))
       I.formato=i;
-    }
   });
+  /* Atualiza th de formato com data-colidx real */
+  const thFmt = document.getElementById('th-formato');
+  if(thFmt && I.formato>=0) thFmt.dataset.colidx = I.formato;
 }
 
-/* ─── Normaliza status da planilha → chave interna ─────────── */
+/* ── Normaliza status ── */
 function normStatus(raw){
   const n = norm(raw);
   if(n==='lido'||n==='read'||n==='concluído'||n==='concluido') return 'lido';
@@ -712,7 +705,9 @@ async function init(){
   const raw = await fetchRaw(CSV);
   H      = (raw[0]||[]).map(h=>h.trim());
   SUMROW = raw[48]||[];
-  ROWS   = raw.slice(2,47).filter(r=>r.some(c=>c.trim()!==''));
+  /* slice(2,47): pula linha 0 (header) e linha 1 (cabeçalho secundário ou vazio),
+     lê linhas 2–46 (dados). Se o CSV só tiver 1 linha de header, ajustar para slice(1,46). */
+  ROWS   = raw.slice(2,47).filter(r=>r.some(c=>c&&c.trim()!==''));
   detectDyn();
   buildStats();
   buildCharts();
@@ -800,7 +795,6 @@ function optPie(){
           padding:10,boxWidth:12,
           generateLabels(chart){
             return Chart.defaults.plugins.legend.labels.generateLabels(chart).map(l=>{
-              // trunca labels muito longos
               if(l.text&&l.text.length>22) l.text=l.text.substring(0,20)+'…';
               return l;
             });
@@ -814,8 +808,7 @@ function optPie(){
         },
         formatter:(v,ctx)=>{
           const tot=ctx.dataset.data.reduce((a,b)=>a+b,0);
-          const pct=Math.round(v/tot*100);
-          return pct+'%';
+          return Math.round(v/tot*100)+'%';
         },
         color:'#fff',font:{family:'DM Sans',size:11,weight:'600'},
       }
@@ -847,51 +840,41 @@ function mkPie(id,countObj){
 function buildCharts(){
   const lidos=ROWS.filter(r=>normStatus(cv(r,I.status))==='lido');
 
-  /* 1. Status — W[22] */
+  /* 1. Status */
   const nL=ROWS.filter(r=>normStatus(cv(r,I.status))==='lido').length;
   const nE=ROWS.filter(r=>normStatus(cv(r,I.status))==='lendo').length;
   const nN=ROWS.filter(r=>normStatus(cv(r,I.status))==='não lido').length;
   mkBar('c-status',['Lido','Lendo','Não lido'],[nL,nE,nN],
     ['#849974','#c4a35a','#c9956c'],'x');
 
-  /* 2. Gêneros — E[4], somente lidos */
+  /* 2. Gêneros — barra horizontal, .tall → max-height 300px */
   const gnT=topN(cntIdx(lidos,I.genero),12);
   if(gnT.length){
-    const el=document.getElementById('c-generos');
-    if(el){
-      el.parentElement.style.height=Math.max(280,gnT.length*30+60)+'px';
-      new Chart(el,{type:'bar',
-        data:{labels:gnT.map(e=>e[0]),
-          datasets:[{data:gnT.map(e=>e[1]),
-            backgroundColor:gnT.map((_,i)=>PAL[i%PAL.length]),
-            borderRadius:4,borderWidth:0}]},
-        options:optBar('y')});
-    }
+    mkBar('c-generos',gnT.map(e=>e[0]),gnT.map(e=>e[1]),
+      gnT.map((_,i)=>PAL[i%PAL.length]),'y');
   }
 
-  /* 3. Cor dos autores — S[18], somente lidos */
+  /* 3. Cor dos autores */
   mkPie('c-cor',cntIdx(lidos,I.cor));
 
-  /* 4. Gênero dos autores — T[19], somente lidos */
+  /* 4. Gênero dos autores */
   mkPie('c-genero-autor',cntIdx(lidos,I.generoAut));
 
-  /* 5. Idioma — F[5], somente lidos */
+  /* 5. Idioma */
   mkPie('c-idioma',cntIdx(lidos,I.idioma));
 
-  /* 6. Formato — detectado, todos */
+  /* 6. Formato */
   if(I.formato>=0) mkPie('c-formato',cntIdx(ROWS,I.formato));
 
-  /* 7. Estrelas — detectada, somente lidos */
+  /* 7. Estrelas */
   if(I.estrelas>=0){
     const st={1:0,2:0,3:0,4:0,5:0};
     lidos.forEach(r=>{const s=parseInt(cv(r,I.estrelas));if(s>=1&&s<=5)st[s]++;});
-    // só renderiza se houver pelo menos um dado
     if(Object.values(st).some(v=>v>0)){
       mkBar('c-estrelas',['★','★★','★★★','★★★★','★★★★★'],Object.values(st),
         ['#c4a35a','#c4a35a','#c4a35a','#849974','#849974'],'x');
     }
   }
-  /* Nota: gráfico "Páginas lidas por mês" foi removido conforme solicitado */
 }
 
 /* ═══════════════ MAPA ═══════════════════════════════════════ */
@@ -940,7 +923,7 @@ const COORDS={
   'República Dominicana':[18.7,-70.2],'Equador':[-1.8,-78.2],
   'Paraguai':[-23.4,-58.4],'Papua Nova Guiné':[-6.3,143.9],
   'Guiana':[4.9,-58.9],'Trinidad e Tobago':[10.7,-61.2],
-  'Suriname':[4.0,-56.0],'Islândia':[64.1,-21.9],
+  'Suriname':[4.0,-56.0],
 };
 
 function buildMap(){
@@ -954,7 +937,6 @@ function buildMap(){
     const co=COORDS[pais];
     if(!co)return;
     const r=Math.max(8,Math.min(30,8+qtd*5));
-    // Tooltip sempre em português — nome vem da planilha
     L.circleMarker(co,{
       radius:r,fillColor:GREEN,color:'#fff',weight:2,opacity:1,fillOpacity:.8
     }).addTo(map).bindPopup(`<b>${pais}</b><br>${qtd} livro${qtd>1?'s':''}`);
@@ -963,22 +945,21 @@ function buildMap(){
 
 /* ═══════════════ FILTROS ═════════════════════════════════════ */
 function buildFilters(){
-  // Gênero (E=4)
+  /* Gênero */
   const gns=[...new Set(ROWS.map(r=>cv(r,I.genero)).filter(Boolean))].sort();
   const sg=document.getElementById('f-genero');
   gns.forEach(g=>{const o=document.createElement('option');o.value=g;o.textContent=g;sg.appendChild(o);});
 
-  // Formato (detectado)
+  /* Formato (detectado dinamicamente) */
   if(I.formato>=0){
     const fmts=[...new Set(ROWS.map(r=>cv(r,I.formato)).filter(Boolean))].sort();
     const sf=document.getElementById('f-formato');
     fmts.forEach(f=>{const o=document.createElement('option');o.value=f;o.textContent=f;sf.appendChild(o);});
   }
 
-  // Atualiza options de status para garantir match exato com planilha
+  /* Status — opções extraídas da planilha */
   const statusSet=[...new Set(ROWS.map(r=>cv(r,I.status)).filter(Boolean))];
   const sf2=document.getElementById('f-status');
-  // limpa options existentes e reconstrói
   sf2.innerHTML='<option value="">Todos os status</option>';
   statusSet.forEach(s=>{const o=document.createElement('option');o.value=s;o.textContent=s;sf2.appendChild(o);});
 
@@ -992,8 +973,10 @@ function buildFilters(){
     btn.classList.add('active');activeTag=btn.dataset.tag;applyFilters();
   }));
 
+  /* Ordenação por coluna */
   document.querySelectorAll('th[data-colidx]').forEach(th=>th.addEventListener('click',()=>{
     const i=parseInt(th.dataset.colidx);
+    if(isNaN(i))return;
     if(sortIdx===i)sortAsc=!sortAsc;else{sortIdx=i;sortAsc=true;}
     filtered.sort((a,b)=>{
       const av=cv(a,i),bv=cv(b,i);
@@ -1007,24 +990,19 @@ function buildFilters(){
 
 function applyFilters(){
   const q  =document.getElementById('search').value.toLowerCase();
-  const st =document.getElementById('f-status').value;   // valor exato da planilha
+  const st =document.getElementById('f-status').value;
   const gn =document.getElementById('f-genero').value;
   const fm =document.getElementById('f-formato').value;
 
   filtered=ROWS.filter(r=>{
-    // Texto: busca em título (0) e autor (1)
     if(q&&!(cv(r,0)+' '+cv(r,1)).toLowerCase().includes(q))return false;
-    // Status: comparação exata com valor da planilha
     if(st&&cv(r,I.status)!==st)return false;
-    // Gênero
     if(gn&&cv(r,I.genero)!==gn)return false;
-    // Formato
     if(fm&&I.formato>=0&&cv(r,I.formato)!==fm)return false;
-    // Tags
-    if(activeTag==='lgbtqia'    &&!isT(cv(r,I.lgbtqia)))              return false;
-    if(activeTag==='diversidade'&&!isT(cv(r,I.divers)))               return false;
+    if(activeTag==='lgbtqia'    &&!isT(cv(r,I.lgbtqia)))return false;
+    if(activeTag==='diversidade'&&!isT(cv(r,I.divers)))return false;
     if(activeTag==='ownvoices'  &&I.ownvoices>=0&&!isT(cv(r,I.ownvoices)))return false;
-    if(activeTag==='audiobook'  &&!isAudio(r))                         return false;
+    if(activeTag==='audiobook'  &&!isAudio(r))return false;
     return true;
   });
   page=1;renderTable();
@@ -1045,33 +1023,32 @@ function renderTable(){
   }
 
   tbody.innerHTML=pg.map(r=>{
-    const titulo  = cv(r,0) ||'—';   // A — título
-    const autor   = cv(r,1) ||'—';   // B — autor
-    const genero  = cv(r,4) ||'—';   // E — gênero
-    const paginas = cv(r,2) ||'—';   // C — páginas
-    const horas   = cv(r,3) ||'';    // D — horas áudio
+    const titulo  = cv(r,I.titulo)  ||'—';
+    const autor   = cv(r,I.autor)   ||'—';
+    const genero  = cv(r,I.genero)  ||'—';
+    const paginas = cv(r,I.paginas) ||'—';
+    const horas   = cv(r,I.horas)   ||'';
     const horasD  = parseH(horas)>0?horas.substring(0,5):'—';
-    const idioma  = cv(r,5) ||'—';   // F — idioma
-    const pais    = cv(r,14)||'—';   // O — país
-    const status  = cv(r,22)||'—';   // W — status (valor exato da planilha)
+    /* Formato (detectado dinamicamente) em vez de Idioma */
+    const formato = I.formato>=0?cv(r,I.formato)||'—':'—';
+    const pais    = cv(r,I.pais)    ||'—';
+    const status  = cv(r,I.status)  ||'—';
     const ns      = normStatus(status);
     const bc      = ns==='lido'?'badge-lido':ns==='lendo'?'badge-lendo':'badge-nao';
 
-    // Estrelas
     let starsHtml='—';
     if(I.estrelas>=0){
       const sv=parseInt(cv(r,I.estrelas));
       if(sv>=1&&sv<=5) starsHtml='<span class="stars">'+'★'.repeat(sv)+'</span>';
     }
 
-    // 9 colunas (sem Cor)
     return `<tr>
       <td><strong>${titulo}</strong></td>
       <td>${autor}</td>
       <td>${genero}</td>
       <td>${paginas}</td>
       <td>${horasD}</td>
-      <td>${idioma}</td>
+      <td>${formato}</td>
       <td>${pais}</td>
       <td><span class="badge ${bc}">${status}</span></td>
       <td>${starsHtml}</td>
@@ -1090,6 +1067,11 @@ function renderTable(){
     pag.appendChild(btn);
   }
 }
+
+/* ── Hamburger ── */
+document.getElementById('nav-hamburger').addEventListener('click',()=>{
+  document.getElementById('nav-ul').classList.toggle('open');
+});
 
 init();
 </script>
