@@ -14,24 +14,26 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <style>
 :root {
-  --green:#849974; --green-dark:#6a7c5e; --green-light:#c4d4bc;
+  --green:#849974; --green-dark:#6b7e5e; --green-light:#a8bb96;
   --white:#ffffff; --black:#000000;
-  --border:#c8c8c8; --body-bg:#ffffff; --text:#1a1a1a; --muted:#666666;
+  --border:#c8c8c8; --body-bg:#ffffff; --text:#1a1a1a; --muted:#555;
   --sage:#7a9e7e; --moss:#4e7c5f; --fern:#8fbc8f; --olive:#8a9a5b;
   --taupe:#b0a090; --clay:#c4a882; --sand:#d4c4a8;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--body-bg);color:var(--text);font-family:'Montserrat',sans-serif;font-weight:400;}
 
-nav{position:sticky;top:0;z-index:100;background:var(--white);padding:0 2rem;display:flex;align-items:center;gap:1.5rem;height:52px;border-bottom:1.5px solid var(--border);}
+/* ── NAV ── */
+/* Governança #008: border-bottom #c5c5a0, font-size .78rem, letter-spacing .12em, gap 2rem */
+nav{position:sticky;top:0;z-index:100;background:var(--white);padding:0 2rem;display:flex;align-items:center;gap:1.5rem;height:52px;border-bottom:1.5px solid #c5c5a0;}
 .nav-logo{display:flex;gap:6px;align-items:center;}
 .nav-dot{width:11px;height:11px;border-radius:50%;background:var(--black);}
-nav ul{list-style:none;display:flex;gap:.3rem;margin-left:auto;align-items:center;}
-nav ul a{color:var(--black);text-decoration:none;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:500;padding:.3rem .6rem;transition:color .15s;}
+nav ul{list-style:none;display:flex;gap:2rem;margin-left:auto;align-items:center;}
+nav ul a{color:var(--black);text-decoration:none;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;font-weight:500;padding:.3rem .6rem;transition:color .2s;}
 nav ul a:hover{color:var(--green);}
-nav ul a.active{background:var(--green);color:var(--white);padding:.28rem .7rem;border-radius:3px;}
+nav ul a.active{background:var(--green);color:var(--white);padding:.28rem .7rem;border-radius:3px;font-weight:700;}
 nav ul a.active:hover{color:var(--white);}
-.nav-year-link{font-size:.72rem!important;letter-spacing:.1em!important;font-weight:500!important;color:var(--black)!important;padding:.3rem .6rem!important;}
+.nav-year-link{font-size:.78rem!important;letter-spacing:.12em!important;font-weight:500!important;color:var(--black)!important;padding:.3rem .6rem!important;}
 .nav-year-link:hover{color:var(--green)!important;}
 .nav-hamburger{display:none;background:none;border:none;color:var(--black);font-size:1.4rem;cursor:pointer;margin-left:auto;padding:.2rem .4rem;}
 
@@ -45,13 +47,15 @@ nav ul a.active:hover{color:var(--white);}
 .card-footer-bar{border-top:1px solid var(--border);padding:.8rem 2rem;display:flex;justify-content:space-between;align-items:center;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
 .card-footer-bar a{color:var(--text);text-decoration:none;font-size:1.1rem;}
 
+/* ── STAT BOX ── */
+/* Governança: 6 colunas desktop → 3 tablet → 2 celular */
 .stats-row{
   display:grid;grid-template-columns:repeat(6,1fr);
   max-width:1200px;margin:1.5rem auto 0;padding:0 2rem;gap:.8rem;
 }
 .stat-box{
   background:var(--green);
-  border:1.5px solid #6b7e5e;
+  border:1.5px solid var(--green-dark);
   border-radius:12px;
   padding:1.2rem .8rem;
   text-align:center;
@@ -90,9 +94,14 @@ nav ul a.active:hover{color:var(--white);}
 .search-wrap input{width:100%;padding:.55rem 1rem .55rem 2rem;border:1.5px solid var(--border);background:var(--white);font-family:'Montserrat',sans-serif;font-size:.83rem;border-radius:6px;outline:none;color:var(--text);}
 .search-wrap::before{content:'⌕';position:absolute;left:.65rem;top:50%;transform:translateY(-50%);color:var(--muted);}
 .filter-select{padding:.55rem .85rem;border:1.5px solid var(--border);background:var(--white);font-family:'Montserrat',sans-serif;font-size:.78rem;border-radius:6px;color:var(--text);cursor:pointer;outline:none;}
+
+/* ── TAG BUTTONS ── */
+/* Governança #007: hover = fundo sólido verde, borda verde, texto branco */
 .tag-filters{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.8rem;}
-.tag-btn{padding:.28rem .75rem;border:1.5px solid var(--border);background:transparent;font-family:'Montserrat',sans-serif;font-size:.7rem;letter-spacing:.05em;border-radius:100px;cursor:pointer;transition:all .15s;color:var(--muted);}
+.tag-btn{padding:.28rem .75rem;border:1.5px solid var(--border);background:transparent;font-family:'Montserrat',sans-serif;font-size:.7rem;letter-spacing:.05em;border-radius:100px;cursor:pointer;transition:all .2s;color:var(--muted);}
+.tag-btn:hover{background:var(--green);border-color:var(--green);color:var(--white);}
 .tag-btn.active{background:var(--green);border-color:var(--green);color:var(--white);}
+
 table{width:100%;border-collapse:collapse;font-size:.82rem;}
 thead tr{border-bottom:2px solid var(--black);}
 th{padding:.55rem .75rem;text-align:left;font-size:.63rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);white-space:nowrap;cursor:pointer;user-select:none;font-weight:600;}
@@ -106,14 +115,20 @@ tr:hover td{background:rgba(132,153,116,.06);}
 .stars{color:var(--green);}
 .table-footer{padding:.7rem 0;color:var(--muted);font-size:.78rem;display:flex;justify-content:space-between;align-items:center;}
 .pagination{display:flex;gap:.3rem;flex-wrap:wrap;}
-.page-btn{width:28px;height:28px;border:1.5px solid var(--border);background:transparent;cursor:pointer;font-size:.75rem;border-radius:4px;transition:all .15s;font-family:'Montserrat',sans-serif;}
+
+/* ── PAGE-BTN ── */
+/* Governança: active = green, hover = borda green */
+.page-btn{width:28px;height:28px;border:1.5px solid var(--border);background:transparent;cursor:pointer;font-size:.75rem;border-radius:4px;transition:all .2s;font-family:'Montserrat',sans-serif;}
 .page-btn.active{background:var(--green);color:var(--white);border-color:var(--green);}
 .page-btn:hover:not(.active){border-color:var(--green);}
 
+/* ── FOOTER ── */
+/* Governança #006 #009: .60rem, formato "Nome | Autora | © Ano | atualizado em DD de mês de AAAA" */
+/* Seletor desta página: footer span */
 footer{background:var(--green);padding:1.2rem 2rem;display:flex;align-items:center;gap:8px;margin-top:3rem;}
 .foot-dots{display:flex;gap:5px;align-items:center;}
 .foot-dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.6);}
-footer span{font-size:.68rem;letter-spacing:.08em;color:rgba(255,255,255,.85);text-transform:uppercase;}
+footer span{font-size:.60rem;letter-spacing:.1em;color:rgba(255,255,255,.85);text-transform:uppercase;font-weight:500;}
 
 @media(max-width:900px){
   .charts-grid{grid-template-columns:1fr;}
@@ -283,9 +298,12 @@ footer span{font-size:.68rem;letter-spacing:.08em;color:rgba(255,255,255,.85);te
   </div>
 </div>
 
+<!-- FOOTER -->
+<!-- Governança: formato "Nome do site | Louise Victoria | © Ano | atualizado em DD de mês de AAAA" -->
+<!-- Seletor desta página: footer span (.60rem) -->
 <footer>
   <div class="foot-dots"><div class="foot-dot"></div><div class="foot-dot"></div><div class="foot-dot"></div></div>
-  <span>O que tem na estante da Louise | Louise Victoria © 2026 | Dados via Google Sheets · Mapa via Leaflet · Gráficos via Chart.js</span>
+  <span>O que tem na estante da Louise &nbsp;|&nbsp; Louise Victoria &nbsp;|&nbsp; © 2026 &nbsp;|&nbsp; atualizado em <span id="data-atualizacao">6 de junho de 2026</span></span>
 </footer>
 
 <script>
@@ -296,20 +314,9 @@ const CSV_ESTANTE  = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQWGv70Tc2
 const CSV_RESUMO   = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQWGv70Tc2vz-YUKxwU_0_H8F7UuHom1tCJQlE2Tfi8AMNem2c5X3WSs6z4CPjoTb2AaFKmJ8bihlPV/pub?gid=96920357&single=true&output=csv';
 
 // ── PALETA ────────────────────────────────────────────────────────────────────
-// Variada, próxima do verde mas não monocromática
 const PALETTE = [
-  '#7a9e7e', // sage
-  '#c4a882', // clay
-  '#6b8e9f', // slate blue
-  '#b5835a', // terracotta
-  '#8a9a5b', // olive
-  '#9b7fa6', // muted purple
-  '#4e7c5f', // moss
-  '#c4855a', // sienna
-  '#7ba3a8', // teal-grey
-  '#a07850', // warm brown
-  '#849974', // base green
-  '#b09080', // dusty rose
+  '#7a9e7e','#c4a882','#6b8e9f','#b5835a','#8a9a5b','#9b7fa6',
+  '#4e7c5f','#c4855a','#7ba3a8','#a07850','#849974','#b09080',
 ];
 
 const COORDS = {
@@ -339,14 +346,12 @@ const COORDS = {
 // ── HELPERS ───────────────────────────────────────────────────────────────────
 function norm(s){ return (s||'').trim().toLowerCase(); }
 
-// Detecta TRUE de forma robusta: checkbox marcado vem como TRUE/true/"TRUE"/VERDADEIRO
 function isTrue(v){
   if(v === true) return true;
   const s = (v||'').toString().trim().toLowerCase();
   return ['sim','yes','true','1','✓','x','verdadeiro','true'].includes(s);
 }
 
-// Ignora linhas de (resumo), (gráfico) ou vazia no campo titulo
 function isDataRow(b){
   const t = norm(b['Livros']||b[Object.keys(b)[0]]||'');
   if(!t) return false;
@@ -364,7 +369,7 @@ function count(arr,key){
   const c={};
   arr.forEach(b=>{
     const v=(b[key]||'').trim();
-    if(v && !norm(v).includes('(gráfico)') && !norm(v).includes('(grafico)')) 
+    if(v && !norm(v).includes('(gráfico)') && !norm(v).includes('(grafico)'))
       c[v]=(c[v]||0)+1;
   });
   return c;
@@ -398,7 +403,6 @@ function barOpts(horizontal=false){
   };
 }
 
-// Pizza — legenda embaixo com todos os valores + % nas fatias grandes
 function pieOpts(){
   return {
     maintainAspectRatio:false,
@@ -437,15 +441,12 @@ function pieOpts(){
   };
 }
 
-// Mapeamento de colunas P-S detectado em runtime
 let COL_LGBTQIA = '', COL_DIV = '', COL_OWN = '', COL_PSICO = '';
 
 function detectTagColumns(books){
   if(!books.length) return;
   const headers = Object.keys(books[0]);
-  // Log para debug
   console.log('CSV headers:', headers);
-  // Busca por correspondência parcial nos nomes de coluna
   headers.forEach((h,i)=>{
     const hn = norm(h);
     if(!COL_LGBTQIA && (hn.includes('lgbtqia') || hn.includes('lgbt'))) COL_LGBTQIA=h;
@@ -453,7 +454,6 @@ function detectTagColumns(books){
     if(!COL_OWN && (hn.includes('ownvoices') || hn.includes('own voices') || hn.includes('own'))) COL_OWN=h;
     if(!COL_PSICO && (hn.includes('psicol') || hn.includes('psico') || hn.includes('questões'))) COL_PSICO=h;
   });
-  // Fallback: se não encontrou por nome, usa índices P=15, Q=16, R=17, S=18
   if(!COL_LGBTQIA && headers[15]) COL_LGBTQIA=headers[15];
   if(!COL_DIV     && headers[16]) COL_DIV=headers[16];
   if(!COL_OWN     && headers[17]) COL_OWN=headers[17];
@@ -462,7 +462,6 @@ function detectTagColumns(books){
 }
 
 function getTagVals(b){
-  // Tenta múltiplas variações do nome para garantir
   const pVal = b[COL_LGBTQIA] || b['Protagonista LGBTQIA+?'] || b['LGBTQIA+'] || b['LGBT'] || '';
   const qVal = b[COL_DIV] || b['Diversidade étnica/racial ?'] || b['Diversidade étnica'] || b['Diversidade'] || '';
   const rVal = b[COL_OWN] || b['#OwnVoices ?'] || b['OwnVoices'] || b['Own Voices'] || '';
@@ -474,32 +473,21 @@ const PER=20;
 let allBooks=[], filtered=[], activeTag='', page=1;
 
 async function init(){
-  // Carregar planilha resumo para os stats dos blocos
   let resumoRows = [];
   try { resumoRows = await fetchCSV(CSV_RESUMO); } catch(e){}
 
-  // Carregar planilha principal
   try { allBooks = await fetchCSV(CSV_ESTANTE); } catch(e){ console.error(e); return; }
 
-  // Filtrar linhas válidas (excluir resumo/gráfico/vazio)
   allBooks = allBooks.filter(isDataRow);
-
-  // Detectar colunas de tags em runtime
   detectTagColumns(allBooks);
 
-  // ── STATS da aba resumo (coluna J = índice 9) ────────────────────────────
-  // A aba resumo tem os valores nas colunas, precisamos localizar pelas labels
-  // Formato esperado: cada linha tem label em alguma coluna e valor em coluna J
-  // Vamos mapear pelo conteúdo
   const statsMap = {};
   resumoRows.forEach(row => {
     const vals = Object.values(row);
-    // Pega texto de qualquer coluna como label, coluna J (index 9) como valor
     const keys = Object.keys(row);
     const label = (vals[0]||vals[1]||'').toString().trim().toLowerCase();
     const valJ = (row[keys[9]] || row['J'] || vals[9] || '').toString().trim();
     if(label && valJ) statsMap[label] = valJ;
-    // Também mapeia pelo valor direto de cada coluna para encontrar os campos
     vals.forEach((v,i) => {
       const l = (v||'').toString().trim().toLowerCase();
       const nextVal = (vals[i+1]||'').toString().trim();
@@ -507,10 +495,8 @@ async function init(){
     });
   });
 
-  // Tenta extrair stats da planilha resumo; fallback para calcular da principal
   const lidos = allBooks.filter(b=>norm(b['Lido/Não Lido'])==='lido');
 
-  // Calcular da planilha principal como fonte confiável
   const totalNaEstante = allBooks.length;
   const totalLidos = lidos.length;
   const totalPaginas = lidos.reduce((s,b)=>s+(parseInt((b['Páginas']||'').replace(/\D/g,''))||0),0);
@@ -536,10 +522,8 @@ async function init(){
 }
 
 function buildCharts(lidos, all){
-  // ── Gêneros — barra horizontal, TODOS (sem limite de top N)
   const gnObj = count(lidos,'Gênero');
   const gnAll = Object.entries(gnObj).sort((a,b)=>b[1]-a[1]);
-  // Calcular altura dinamicamente
   const gnCard = document.getElementById('c-generos').parentElement;
   gnCard.style.height = Math.max(300, gnAll.length * 28 + 60) + 'px';
 
@@ -562,7 +546,6 @@ function buildCharts(lidos, all){
     }
   });
 
-  // ── Cor autores
   const cor=count(lidos,'Cor');
   new Chart(document.getElementById('c-cor'),{
     type:'doughnut',
@@ -570,7 +553,6 @@ function buildCharts(lidos, all){
     options:pieOpts()
   });
 
-  // ── Gênero autor
   const ga=count(lidos,'Se identifica como...');
   new Chart(document.getElementById('c-ga'),{
     type:'doughnut',
@@ -578,7 +560,6 @@ function buildCharts(lidos, all){
     options:pieOpts()
   });
 
-  // ── Idioma
   const id=count(lidos,'Idioma');
   new Chart(document.getElementById('c-idioma'),{
     type:'doughnut',
@@ -586,7 +567,6 @@ function buildCharts(lidos, all){
     options:pieOpts()
   });
 
-  // ── Formato
   const fm=count(all,'Formato');
   new Chart(document.getElementById('c-formato'),{
     type:'doughnut',
@@ -594,7 +574,6 @@ function buildCharts(lidos, all){
     options:pieOpts()
   });
 
-  // ── Faixa etária
   const fa=count(all,'Faixa etária');
   new Chart(document.getElementById('c-faixa'),{
     type:'doughnut',
@@ -602,7 +581,6 @@ function buildCharts(lidos, all){
     options:pieOpts()
   });
 
-  // ── Série ou único
   const se=count(all,'Série ou único?');
   new Chart(document.getElementById('c-serie'),{
     type:'doughnut',
@@ -610,11 +588,8 @@ function buildCharts(lidos, all){
     options:pieOpts()
   });
 
-  // ── Avaliações — coluna J = Notas; "Favorito" vai como "6" (barra acima de 5)
-  // Coluna J é a 10ª coluna (índice 9) do CSV principal
   const stCount = {1:0,2:0,3:0,4:0,5:0,'Favorito':0};
   lidos.forEach(b=>{
-    // Pega todas as colunas para encontrar a J
     const keys = Object.keys(b);
     const valJ = b[keys[9]] || b['J'] || '';
     const nota = (valJ||b['Estrelas']||'').toString().trim();
@@ -646,7 +621,6 @@ function buildCharts(lidos, all){
     }
   });
 
-  // ── Diversidade — usa colunas detectadas em runtime
   let cntLGBT=0, cntDiv=0, cntOwn=0, cntPsico=0;
   lidos.forEach(b=>{
     const {pVal,qVal,rVal,sVal}=getTagVals(b);
@@ -721,8 +695,6 @@ function applyFilters(){
     if(gn&&b['Gênero']!==gn)return false;
     if(id&&b['Idioma']!==id)return false;
     if(cor&&b['Cor']!==cor)return false;
-
-    // Tags — usa colunas detectadas em runtime
     if(activeTag){
       const {pVal,qVal,rVal,sVal}=getTagVals(b);
       if(activeTag==='lgbtqia'    && !isTrue(pVal)) return false;
@@ -749,7 +721,6 @@ function renderTable(){
   tbody.innerHTML=pg.map(b=>{
     const st=b['Lido/Não Lido']||'';
     const bc=norm(st)==='lido'?'badge-lido':norm(st)==='lendo'?'badge-lendo':'badge-nao';
-    // Avaliação: coluna J (índice 9)
     const keys=Object.keys(b);
     const nota=(b[keys[9]]||b['Estrelas']||'').toString().trim();
     let starsHtml='';
