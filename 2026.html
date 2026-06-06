@@ -127,9 +127,10 @@ section.page-section { max-width: 1180px; margin: 0 auto; padding: 3rem 2rem 1re
 .chart-card-title { font-size: .72rem; letter-spacing: .08em; color: var(--muted); margin-left: .3rem; }
 
 /* ── DECISÃO #004: max-height no canvas, sem classes de altura fixa ── */
-.chart-body { padding: 1.2rem; position: relative; }
-.chart-body canvas { max-height: 180px; }
-.chart-body.tall canvas { max-height: 300px; }
+.chart-body { padding: 1.4rem; position: relative; }
+.chart-body canvas { max-height: 200px; }
+.chart-body.tall canvas { max-height: 340px; }
+.chart-body.medium canvas { max-height: 240px; }
 
 /* ── PROGRESS ── */
 .progress-big-card {
@@ -154,7 +155,9 @@ section.page-section { max-width: 1180px; margin: 0 auto; padding: 3rem 2rem 1re
 /* ── CHARTS GRID ── */
 .charts-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
 .charts-grid-2 .full { grid-column: 1 / -1; }
-.charts-grid-2 .chart-card { min-height: 200px; }
+.charts-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+.charts-grid-2 .chart-card,
+.charts-grid-3 .chart-card { min-height: 220px; }
 
 /* ── MAP ── */
 #map-2026 { height: 420px; border-radius: 0 0 10px 10px; z-index: 1; }
@@ -224,6 +227,7 @@ footer p { color: var(--white); font-size: .72rem; letter-spacing: .06em; text-t
   .stats-grid { grid-template-columns: repeat(3,1fr); gap: .5rem; padding: 0 1rem; }
   .stat-box { margin: 0; }
   .charts-grid-2 { grid-template-columns: 1fr; }
+  .charts-grid-3 { grid-template-columns: 1fr; }
   .progress-body { grid-template-columns: 1fr; gap: 1.5rem; }
   nav ul { display: none; }
   nav ul.open {
@@ -312,23 +316,25 @@ footer p { color: var(--white); font-size: .72rem; letter-spacing: .06em; text-t
     <span class="sec-subtitle">Dados específicos do ano</span>
   </div>
 
+  <!-- LINHA 1: Gêneros em destaque total -->
   <div class="charts-grid-2" style="margin-bottom:1rem">
     <div class="chart-card full">
-      <div class="chart-card-header">
-        <div class="card-dots"><span></span><span></span><span></span></div>
-        <span class="chart-card-title">Status de leitura em 2026</span>
-      </div>
-      <div class="chart-body"><canvas id="c-status"></canvas></div>
-    </div>
-  </div>
-
-  <div class="charts-grid-2" style="margin-bottom:1rem">
-    <div class="chart-card">
       <div class="chart-card-header">
         <div class="card-dots"><span></span><span></span><span></span></div>
         <span class="chart-card-title">Gêneros literários</span>
       </div>
       <div class="chart-body tall"><canvas id="c-generos"></canvas></div>
+    </div>
+  </div>
+
+  <!-- LINHA 2: Status + Cor autores + Gênero autores -->
+  <div class="charts-grid-3" style="margin-bottom:1rem">
+    <div class="chart-card">
+      <div class="chart-card-header">
+        <div class="card-dots"><span></span><span></span><span></span></div>
+        <span class="chart-card-title">Status de leitura</span>
+      </div>
+      <div class="chart-body"><canvas id="c-status"></canvas></div>
     </div>
     <div class="chart-card">
       <div class="chart-card-header">
@@ -344,6 +350,10 @@ footer p { color: var(--white); font-size: .72rem; letter-spacing: .06em; text-t
       </div>
       <div class="chart-body"><canvas id="c-genero-autor"></canvas></div>
     </div>
+  </div>
+
+  <!-- LINHA 3: Idioma + Formato + Avaliações -->
+  <div class="charts-grid-3" style="margin-bottom:1rem">
     <div class="chart-card">
       <div class="chart-card-header">
         <div class="card-dots"><span></span><span></span><span></span></div>
@@ -364,6 +374,42 @@ footer p { color: var(--white); font-size: .72rem; letter-spacing: .06em; text-t
         <span class="chart-card-title">Avaliações (estrelas)</span>
       </div>
       <div class="chart-body"><canvas id="c-estrelas"></canvas></div>
+    </div>
+  </div>
+
+  <!-- LINHA 4: Série ou único + Faixa etária + Autore novo -->
+  <div class="charts-grid-3" style="margin-bottom:1rem">
+    <div class="chart-card">
+      <div class="chart-card-header">
+        <div class="card-dots"><span></span><span></span><span></span></div>
+        <span class="chart-card-title">Série ou livro único</span>
+      </div>
+      <div class="chart-body"><canvas id="c-serie"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-card-header">
+        <div class="card-dots"><span></span><span></span><span></span></div>
+        <span class="chart-card-title">Faixa etária</span>
+      </div>
+      <div class="chart-body"><canvas id="c-faixa"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-card-header">
+        <div class="card-dots"><span></span><span></span><span></span></div>
+        <span class="chart-card-title">Autore novo ou já conhecido</span>
+      </div>
+      <div class="chart-body"><canvas id="c-autor-novo"></canvas></div>
+    </div>
+  </div>
+
+  <!-- LINHA 5: Por que li? (full width) -->
+  <div class="charts-grid-2" style="margin-bottom:1rem">
+    <div class="chart-card full">
+      <div class="chart-card-header">
+        <div class="card-dots"><span></span><span></span><span></span></div>
+        <span class="chart-card-title">Por que li?</span>
+      </div>
+      <div class="chart-body medium"><canvas id="c-porquel"></canvas></div>
     </div>
   </div>
 </section>
@@ -464,6 +510,7 @@ const I = {
   editora:7,
   idioma:8,
   serie:9,
+  porqueL:10,
   pais:14,
   cor:15,
   generoAut:16,
@@ -559,7 +606,14 @@ async function init(){
   const raw=await fetchRaw(CSV);
   H=(raw[0]||[]).map(h=>h.trim());
   const start=findDataStart(raw);
-  ROWS=raw.slice(start,start+47).filter(r=>r.some(c=>c&&String(c).trim()!==''));
+  ROWS=raw.slice(start,start+47).filter(r=>{
+    const t=cv(r,1);
+    // Exclui linhas vazias, linhas de resumo/gráfico e linhas onde col B é só número (linha de meta/totais)
+    if(!t) return false;
+    if(t.toLowerCase().includes('(gráfico)')||t.toLowerCase().includes('grafico')) return false;
+    if(/^\d+$/.test(t.trim())) return false;
+    return r.some(c=>c&&String(c).trim()!=='');
+  });
   SUMROW=findSumRow(raw,start);
   buildStats();
   buildCharts();
@@ -617,18 +671,19 @@ function optBar(axis){
   const h=axis==='y';
   return {
     maintainAspectRatio:false, indexAxis:axis,
-    layout:{padding:{right:h?52:8,top:h?4:26,left:4,bottom:4}},
+    layout:{padding:{right:h?64:8,top:h?4:28,left:h?4:4,bottom:4}},
     plugins:{
       legend:{display:false},
       datalabels:{
-        display:true,anchor:'end',align:h?'end':'top',offset:4,
-        color:BLACK,font:{family:'DM Sans',size:10,weight:'500'},
+        display:true,anchor:'end',align:h?'end':'top',offset:5,
+        color:BLACK,font:{family:'DM Sans',size:11,weight:'500'},
         formatter:v=>v>0?v:'',clamp:false,clip:false
       }
     },
     scales:{
-      x:{grid:{color:'rgba(0,0,0,.05)'},ticks:{font:{family:'DM Sans',size:10},color:MUTED}},
-      y:{grid:{color:'rgba(0,0,0,.05)'},ticks:{font:{family:'DM Sans',size:10},color:MUTED}}
+      x:{grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{family:'DM Sans',size:10},color:MUTED}},
+      y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{family:'DM Sans',size:10},color:MUTED,
+        maxTicksLimit:h?14:6}}
     }
   };
 }
@@ -689,20 +744,20 @@ function mkPie(id,countObj){
 function buildCharts(){
   const lidos=ROWS.filter(r=>normStatus(cv(r,I.status))==='lido');
 
-  /* 1. Status */
-  const nL=lidos.length;
-  const nE=ROWS.filter(r=>normStatus(cv(r,I.status))==='lendo').length;
-  const nN=ROWS.filter(r=>normStatus(cv(r,I.status))==='não lido').length;
-  mkBar('c-status',['Lido','Lendo','Não lido'],[nL,nE,nN],
-    ['#849974','#c4a35a','#c9956c'],'x');
-
-  /* 2. Gêneros — barras horizontais */
+  /* 1. Gêneros — barras horizontais, destaque total */
   const gnT=topN(cntIdx(lidos,I.genero),12);
   if(gnT.length)
     mkBar('c-generos',gnT.map(e=>e[0]),gnT.map(e=>e[1]),
       gnT.map((_,i)=>PAL[i%PAL.length]),'y');
 
-  /* 3–5. Donuts */
+  /* 2. Status — donut */
+  const nL=lidos.length;
+  const nE=ROWS.filter(r=>normStatus(cv(r,I.status))==='lendo').length;
+  const nN=ROWS.filter(r=>normStatus(cv(r,I.status))==='não lido').length;
+  const stObj={'Lido':nL,'Lendo':nE,'Não lido':nN};
+  mkPie('c-status',stObj);
+
+  /* 3–5. Donuts identidade autores */
   mkPie('c-cor',         cntIdx(lidos,I.cor));
   mkPie('c-genero-autor',cntIdx(lidos,I.generoAut));
   mkPie('c-idioma',      cntIdx(lidos,I.idioma));
@@ -715,7 +770,24 @@ function buildCharts(){
   lidos.forEach(r=>{const s=parseInt(cv(r,I.estrelas));if(s>=1&&s<=5)st[s]++;});
   if(Object.values(st).some(v=>v>0))
     mkBar('c-estrelas',['★','★★','★★★','★★★★','★★★★★'],Object.values(st),
-      ['#c4a35a','#c4a35a','#c4a35a','#849974','#849974'],'x');
+      ['#c9956c','#c4a35a','#a8bb96','#849974','#6b7e5e'],'x');
+
+  /* 8. Série ou único */
+  mkPie('c-serie',cntIdx(lidos,I.serie));
+
+  /* 9. Faixa etária */
+  mkPie('c-faixa',cntIdx(lidos,I.faixaEtaria));
+
+  /* 10. Por que li? — barras horizontais */
+  const pqT=topN(cntIdx(lidos,I.porqueL),8);
+  if(pqT.length)
+    mkBar('c-porquel',pqT.map(e=>e[0]),pqT.map(e=>e[1]),
+      pqT.map((_,i)=>PAL[i%PAL.length]),'y');
+
+  /* 11. Autores novos x já conhecidos */
+  const novos=ROWS.filter(r=>isT(cv(r,I.autorNovo))).length;
+  const jaCon=lidos.length-ROWS.filter(r=>normStatus(cv(r,I.status))==='lido'&&isT(cv(r,I.autorNovo))).length;
+  mkPie('c-autor-novo',{'Autore novo':novos,'Já conhecia':Math.max(0,jaCon)});
 }
 
 /* ═══════════════ MAPA ═══════════════════════════════════════ */
