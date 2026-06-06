@@ -14,7 +14,7 @@
   --black: #000000;
   --green: #849974;
   --green-dark: #6b7e5e;
-  --green-light: #c8d4b8;
+  --green-light: #a8bb96; /* corrigido: era #c8d4b8 */
   --border: #c8c8c8;
   --text: #1a1a1a;
   --muted: #555;
@@ -77,9 +77,10 @@ nav ul li a.active{
 .hero-arrow:hover{transform:translateX(4px);}
 
 /* ── STATS BAR ── */
+/* Governança: 6 colunas desktop → 3 tablet → 2 celular */
 .stats-bar{
   max-width:1100px;margin:0 auto 3rem;padding:0 2rem;
-  display:grid;grid-template-columns:repeat(7,1fr);gap:.8rem;
+  display:grid;grid-template-columns:repeat(6,1fr);gap:.8rem;
 }
 .stat-card{
   background:var(--green);border:1.5px solid var(--green-dark);
@@ -106,7 +107,7 @@ nav ul li a.active{
   font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:500;
 }
 
-/* ── VITRINE (post-card style do desafio) ── */
+/* ── VITRINE ── */
 .vitrine-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;}
 .vitrine-card{
   background:var(--white);border:1.5px solid #b0b090;
@@ -134,7 +135,8 @@ footer{
 }
 .footer-dots{display:flex;gap:6px;}
 .footer-dot{width:11px;height:11px;border-radius:50%;background:var(--white);}
-.footer-text{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--white);font-weight:500;}
+/* Governança: font-size 0.68–0.72rem, sempre a menor do site */
+.footer-text{font-size:.60rem;letter-spacing:.1em;text-transform:uppercase;color:var(--white);font-weight:500;}
 
 @media(max-width:900px){
   .stats-bar{grid-template-columns:repeat(3,1fr);}
@@ -185,7 +187,7 @@ footer{
     </div>
     <div class="hero-divider">
       <div class="hero-meta">
-        <div>por <strong>LOUISE VICTORIA</strong> · <span id="data-atualizacao">atualizado em 29 de maio de 2026</span></div>
+        <div>por <strong>LOUISE VICTORIA</strong> · <span id="data-atualizacao">atualizado em 6 de junho de 2026</span></div>
         <div>BASE DE DADOS DA QUASE BIBLIOTECA PESSOAL LV</div>
       </div>
       <a href="sobre.html" class="hero-arrow">→</a>
@@ -194,14 +196,14 @@ footer{
 </div>
 
 <!-- STATS -->
+<!-- Governança: 6 cards → grid repeat(6,1fr) -->
 <div class="stats-bar">
   <div class="stat-card"><span class="stat-num" id="s-total">—</span><span class="stat-lbl">Livros na estante</span></div>
   <div class="stat-card"><span class="stat-num" id="s-lidos">—</span><span class="stat-lbl">Lidos</span></div>
   <div class="stat-card"><span class="stat-num" id="s-paginas">—</span><span class="stat-lbl">Páginas lidas</span></div>
-  <div class="stat-card"><span class="stat-num" id="s-horas">—</span><span class="stat-lbl">Horas ouvidas</span></div>
+  <div class="stat-card"><span class="stat-num" id="s-cinco">—</span><span class="stat-lbl">Livros 5 estrelas</span></div>
   <div class="stat-card"><span class="stat-num" id="s-autores">—</span><span class="stat-lbl">Autores únicos</span></div>
   <div class="stat-card"><span class="stat-num" id="s-paises">—</span><span class="stat-lbl">Países</span></div>
-  <div class="stat-card"><span class="stat-num">13</span><span class="stat-lbl">Anos de registro</span></div>
 </div>
 
 <!-- VITRINE -->
@@ -243,7 +245,7 @@ footer{
         <p class="vc-desc">Histórico de leituras com evolução ano a ano, gráficos gerais e filtro por ano específico.</p>
       </div>
       <div class="vc-footer">
-        <span class="vc-tag">2020 → 2026</span>
+        <span class="vc-tag">2013 → 2026</span>
         <span class="vc-arrow">→</span>
       </div>
     </a>
@@ -263,14 +265,16 @@ footer{
   </div>
 </div>
 
+<!-- FOOTER -->
+<!-- Governança: formato "Nome do site | Autora | © Ano | Atualizado em DD de mês de AAAA" -->
+<!-- index.html: data-atualizacao fica no hero card; footer usa .footer-atualizacao (nunca duplicar o id) -->
 <footer>
   <div class="footer-dots"><div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div></div>
-  <span class="footer-text">O que tem na estante da Louise &nbsp;|&nbsp; Louise Victoria &nbsp;|&nbsp; © 2026 &nbsp;|&nbsp; Dados via Google Sheets · Mapa via Leaflet · Gráficos via Chart.js</span>
+  <span class="footer-text">O que tem na estante da Louise &nbsp;|&nbsp; Louise Victoria &nbsp;|&nbsp; © 2026 &nbsp;|&nbsp; Atualizado em <span class="footer-atualizacao">6 de junho de 2026</span></span>
 </footer>
 
 <script>
 const CSV_ESTANTE = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQWGv70Tc2vz-YUKxwU_0_H8F7UuHom1tCJQlE2Tfi8AMNem2c5X3WSs6z4CPjoTb2AaFKmJ8bihlPV/pub?gid=0&single=true&output=csv';
-const CSV_2026    = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub?gid=537800862&single=true&output=csv';
 
 function norm(s){ return (s||'').trim().toLowerCase(); }
 
@@ -281,19 +285,9 @@ function fetchCSV(url){
   });
 }
 
-function parseHoras(val) {
-  if (!val || val === '00:00:00.000' || val.trim() === '') return 0;
-  const parts = val.replace('.000','').split(':');
-  if (parts.length < 2) return 0;
-  return parseInt(parts[0]||0) + parseInt(parts[1]||0)/60;
-}
-
 async function init(){
   try {
-    const [estante, leituras26] = await Promise.all([
-      fetchCSV(CSV_ESTANTE),
-      fetchCSV(CSV_2026)
-    ]);
+    const estante = await fetchCSV(CSV_ESTANTE);
 
     const lidos = estante.filter(b => norm(b['Lido/Não Lido']) === 'lido');
 
@@ -303,13 +297,9 @@ async function init(){
     const pag = lidos.reduce((s,b) => s + (parseInt(b['Páginas'])||0), 0);
     document.getElementById('s-paginas').textContent = pag.toLocaleString('pt-BR');
 
-    const audioCol = Object.keys(leituras26[0]||{}).find(k =>
-      k.toLowerCase().includes('hora') || k.toLowerCase().includes('áudio') || k.toLowerCase().includes('audio')
-    ) || 'Horas ouvidas';
-    const totalHoras = leituras26.reduce((s,b) => s + parseHoras(b[audioCol]), 0);
-    document.getElementById('s-horas').textContent = Math.round(totalHoras) > 0
-      ? Math.round(totalHoras) + 'h'
-      : '—';
+    // Livros 5 estrelas — coluna 'Estrelas' da Planilha B gid=0
+    const cinco = lidos.filter(b => (b['Estrelas']||'').trim() === '5').length;
+    document.getElementById('s-cinco').textContent = cinco;
 
     const autoresSet = new Set(estante.map(b => (b['Nome']||'').trim()).filter(Boolean));
     document.getElementById('s-autores').textContent = autoresSet.size;
