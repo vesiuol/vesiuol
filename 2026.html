@@ -312,7 +312,6 @@ footer p { color: var(--white); font-size: .72rem; letter-spacing: .06em; text-t
     <span class="sec-subtitle">Dados específicos do ano</span>
   </div>
 
-  <!-- Status — barra horizontal, cabe em 180px -->
   <div class="charts-grid-2" style="margin-bottom:1rem">
     <div class="chart-card full">
       <div class="chart-card-header">
@@ -324,7 +323,6 @@ footer p { color: var(--white); font-size: .72rem; letter-spacing: .06em; text-t
   </div>
 
   <div class="charts-grid-2" style="margin-bottom:1rem">
-    <!-- Gêneros: barras horizontais com até 12 itens → .tall (300px) -->
     <div class="chart-card">
       <div class="chart-card-header">
         <div class="card-dots"><span></span><span></span><span></span></div>
@@ -332,7 +330,6 @@ footer p { color: var(--white); font-size: .72rem; letter-spacing: .06em; text-t
       </div>
       <div class="chart-body tall"><canvas id="c-generos"></canvas></div>
     </div>
-    <!-- Donuts → max-height 180px (padrão) -->
     <div class="chart-card">
       <div class="chart-card-header">
         <div class="card-dots"><span></span><span></span><span></span></div>
@@ -361,7 +358,6 @@ footer p { color: var(--white); font-size: .72rem; letter-spacing: .06em; text-t
       </div>
       <div class="chart-body"><canvas id="c-formato"></canvas></div>
     </div>
-    <!-- Estrelas: barras verticais com 5 categorias → cabe em 180px -->
     <div class="chart-card">
       <div class="chart-card-header">
         <div class="card-dots"><span></span><span></span><span></span></div>
@@ -413,15 +409,15 @@ footer p { color: var(--white); font-size: .72rem; letter-spacing: .06em; text-t
   <div style="overflow-x:auto">
     <table>
       <thead><tr>
-        <th data-colidx="0">Título ↕</th>
-        <th data-colidx="1">Autor/a ↕</th>
+        <th data-colidx="1">Título ↕</th>
+        <th data-colidx="13">Autor/a ↕</th>
         <th data-colidx="4">Gênero ↕</th>
         <th data-colidx="2">Pág. ↕</th>
         <th data-colidx="3">Áudio ↕</th>
-        <th id="th-formato">Formato ↕</th>
+        <th data-colidx="6">Formato ↕</th>
         <th data-colidx="14">País ↕</th>
         <th data-colidx="22">Status ↕</th>
-        <th>⭐</th>
+        <th data-colidx="21">⭐</th>
       </tr></thead>
       <tbody id="tbody"></tbody>
     </table>
@@ -446,18 +442,37 @@ const GREEN = '#849974', BLACK = '#000', MUTED = '#555';
 const PAL = ['#849974','#c9956c','#6b9db8','#c4a35a','#a07898',
              '#6aab8e','#d4816b','#7b8fa8','#b5935a','#c47a8a','#5a8a7b','#9b7a5a'];
 
-/* Índices fixos — governança:
-   A=0 Título | B=1 Autor | C=2 Páginas | D=3 Horas
-   E=4 Gênero | F=5 Idioma | O=14 País
-   R=17 Autor novo | S=18 Cor | T=19 Gênero autor
-   U=20 LGBTQIA+ | V=21 Diversidade | W=22 Status
-   Linha 49 (raw[48]): B=meta, C=págs, D=horas, W=lidos
-   Detectados dinamicamente: estrelas, ownvoices, formato */
+/*
+  ÍNDICES DAS COLUNAS — Planilha A (gid=537800862), aba LEITURAS 26
+  Baseado na governança (col A do Sheets = idx 0, vazia/numeração interna):
+  A=0 (vazia) | B=1 Título | C=2 Páginas | D=3 Horas | E=4 Gênero
+  F=5 Faixa etária | G=6 Formato | H=7 Editora | I=8 Idioma
+  J=9 Série ou único? | K=10 Por que li? | L=11 Origem do livro?
+  M=12 Como conheci? | N=13 Nome (autor) | O=14 País
+  P=15 Cor | Q=16 Se identifica como... | R=17 Primeira vez lendo autore
+  S=18 Protagonista LGBTQ+ | T=19 Diversidade etnica/racial
+  U=20 #OwnVoices? | V=21 NOTA | W=22 LIDO
+*/
 const I = {
-  titulo:0, autor:1, paginas:2, horas:3, genero:4, idioma:5,
-  pais:14, autorNovo:17, cor:18, generoAut:19,
-  lgbtqia:20, divers:21, status:22,
-  estrelas:-1, ownvoices:-1, formato:-1
+  titulo:1,
+  autor:13,
+  paginas:2,
+  horas:3,
+  genero:4,
+  faixaEtaria:5,
+  formato:6,
+  editora:7,
+  idioma:8,
+  serie:9,
+  pais:14,
+  cor:15,
+  generoAut:16,
+  autorNovo:17,
+  lgbtqia:18,
+  divers:19,
+  ownvoices:20,
+  estrelas:21,
+  status:22
 };
 
 const PER = 20;
@@ -489,22 +504,6 @@ function fetchRaw(url){
   });
 }
 
-/* ── Detecta colunas dinâmicas por nome de header ── */
-function detectDyn(){
-  H.forEach((h,i)=>{
-    const n=norm(h);
-    if(I.estrelas<0&&(n.includes('estrela')||n.includes('nota')||n.includes('rating')||n.includes('avalia')||n.includes('score')||n==='★'))
-      I.estrelas=i;
-    if(I.ownvoices<0&&(n.includes('ownvoice')||n.includes('own voice')||n.includes('#own')||n.includes('own voices')))
-      I.ownvoices=i;
-    if(I.formato<0&&(n.includes('formato')||n.includes('format')||n.includes('mídia')||n.includes('midia')||n.includes('suporte')))
-      I.formato=i;
-  });
-  /* Atribui data-colidx ao th de Formato após detecção */
-  const thFmt=document.getElementById('th-formato');
-  if(thFmt&&I.formato>=0) thFmt.dataset.colidx=I.formato;
-}
-
 /* ── Normaliza status ── */
 function normStatus(raw){
   const n=norm(raw);
@@ -514,36 +513,54 @@ function normStatus(raw){
   return n;
 }
 
-/* ── Detecta quantas linhas de cabeçalho o CSV tem ──
-   Procura a primeira linha onde col A pareça um título de livro
-   (não vazia, não numérica, não igual a 'Título'/'titulo').
-   O Notion confirma: dados nas linhas 3-47 da planilha → raw[2..46].
-   Se raw[2][0] for vazio ou parecer header, tenta raw[1].            ── */
+/*
+  findDataStart: detecta onde começam os dados reais.
+  A planilha tem cabeçalhos nas linhas 0 e possivelmente 1.
+  Procura a primeira linha onde col B (idx 1) pareça um título de livro
+  e col W (idx 22) pareça um status reconhecível ou vazio.
+*/
 function findDataStart(raw){
-  /* Heurística: linha de dados tem col A não vazia e col W (status) reconhecível */
-  for(let i=1;i<=3;i++){
+  for(let i=1;i<=4;i++){
     const row=raw[i]||[];
-    const a=norm(cv(row,0));
-    const w=norm(cv(row,22));
-    if(a&&a!=='título'&&a!=='titulo'&&a!=='title'){
-      // verifica se col W parece status
-      if(!w||w==='lido'||w==='lendo'||w.includes('não')||w.includes('nao')||w==='tbr') return i;
+    const b=norm(cv(row,1)); // col B = Título
+    const w=norm(cv(row,22));// col W = LIDO
+    if(b && b!=='título' && b!=='titulo' && b!=='title'){
+      if(!w||w==='lido'||w==='lendo'||w.includes('não')||w.includes('nao')||w==='tbr'||w==='true'||w==='false') return i;
     }
   }
-  return 2; // fallback: linha 2 (como na governança)
+  return 2;
+}
+
+/*
+  findSumRow: procura a linha de totais/meta.
+  Na planilha, essa linha fica após os dados de leitura.
+  A governança cita "Linha 49 (raw[48])" assumindo start=1,
+  mas com start variável buscamos a linha onde col B contém
+  um número (a meta) e col C contém o total de páginas.
+  Fallback: raw[start + 47].
+*/
+function findSumRow(raw, start){
+  // Tenta encontrar pela heurística: col B é número inteiro (meta anual)
+  for(let i=start+40; i<=start+55 && i<raw.length; i++){
+    const row=raw[i]||[];
+    const b=cv(row,1);
+    const w=cv(row,22);
+    // Linha de meta: col B tem número razoável (20–500) e col W tem número
+    if(/^\d+$/.test(b) && parseInt(b)>=20 && parseInt(b)<=500){
+      return row;
+    }
+  }
+  // Fallback original
+  return raw[start+47]||raw[48]||[];
 }
 
 /* ═══════════════ INIT ═══════════════════════════════════════ */
 async function init(){
   const raw=await fetchRaw(CSV);
-  H=(raw[0]||[]).map(h=>h.trim());   // linha 0: header principal
-  SUMROW=raw[48]||[];                  // linha 49 (idx 48): totais/meta
-
-  /* Detecta onde os dados começam */
+  H=(raw[0]||[]).map(h=>h.trim());
   const start=findDataStart(raw);
-  ROWS=raw.slice(start,start+45).filter(r=>r.some(c=>c&&String(c).trim()!==''));
-
-  detectDyn();
+  ROWS=raw.slice(start,start+47).filter(r=>r.some(c=>c&&String(c).trim()!==''));
+  SUMROW=findSumRow(raw,start);
   buildStats();
   buildCharts();
   buildMap();
@@ -554,18 +571,19 @@ async function init(){
 
 /* ═══════════════ STATS ═════════════════════════════════════ */
 function buildStats(){
-  const metaVal  =cv(SUMROW,1);
-  const pagsVal  =cv(SUMROW,2);
-  const horasVal =cv(SUMROW,3);
-  const lidosVal =cv(SUMROW,22);
+  // SUMROW: col B=meta, col C=páginas totais, col D=horas totais, col W=lidos
+  const metaVal  = cv(SUMROW,1);
+  const pagsVal  = cv(SUMROW,2);
+  const horasVal = cv(SUMROW,3);
+  const lidosVal = cv(SUMROW,22);
 
-  const metaN  =parseInt(metaVal)||0;
-  const lidosN =parseInt(lidosVal)||ROWS.filter(r=>normStatus(cv(r,I.status))==='lido').length;
-  const pct    =metaN>0?Math.min(100,Math.round(lidosN/metaN*100)):0;
-  const novos  =ROWS.filter(r=>isT(cv(r,I.autorNovo))).length;
-  const paisSet=new Set(ROWS.map(r=>cv(r,I.pais)).filter(Boolean));
-  const hNum   =parseH(horasVal);
-  const horasStr=hNum>0?Math.round(hNum)+'h':(horasVal||'—');
+  const metaN  = parseInt(metaVal)||0;
+  const lidosN = parseInt(lidosVal)||ROWS.filter(r=>normStatus(cv(r,I.status))==='lido').length;
+  const pct    = metaN>0?Math.min(100,Math.round(lidosN/metaN*100)):0;
+  const novos  = ROWS.filter(r=>isT(cv(r,I.autorNovo))).length;
+  const paisSet= new Set(ROWS.filter(r=>normStatus(cv(r,I.status))==='lido').map(r=>cv(r,I.pais)).filter(Boolean));
+  const hNum   = parseH(horasVal);
+  const horasStr= hNum>0?Math.round(hNum)+'h':(horasVal||'—');
 
   setText('s-meta',    metaVal||'—');
   setText('s-lidos',   lidosVal||String(lidosN)||'—');
@@ -574,10 +592,10 @@ function buildStats(){
   setText('s-autores', novos||'—');
   setText('s-paises',  paisSet.size||'—');
 
-  const lendo  =ROWS.filter(r=>normStatus(cv(r,I.status))==='lendo').length;
-  const naoLido=ROWS.filter(r=>normStatus(cv(r,I.status))==='não lido').length;
-  const lidosR =ROWS.filter(r=>normStatus(cv(r,I.status))==='lido');
-  const topG   =Object.entries(cntIdx(lidosR,I.genero)).sort((a,b)=>b[1]-a[1])[0];
+  const lendo   = ROWS.filter(r=>normStatus(cv(r,I.status))==='lendo').length;
+  const naoLido = ROWS.filter(r=>normStatus(cv(r,I.status))==='não lido').length;
+  const lidosR  = ROWS.filter(r=>normStatus(cv(r,I.status))==='lido');
+  const topG    = Object.entries(cntIdx(lidosR,I.genero)).sort((a,b)=>b[1]-a[1])[0];
 
   setText('prog-texto',lidosN+' lidos de '+metaN+' planejados');
   document.getElementById('prog-bar').style.width=pct+'%';
@@ -671,39 +689,36 @@ function mkPie(id,countObj){
 function buildCharts(){
   const lidos=ROWS.filter(r=>normStatus(cv(r,I.status))==='lido');
 
-  /* 1. Status — barras verticais, 3 categorias, cabe em 180px */
+  /* 1. Status */
   const nL=lidos.length;
   const nE=ROWS.filter(r=>normStatus(cv(r,I.status))==='lendo').length;
   const nN=ROWS.filter(r=>normStatus(cv(r,I.status))==='não lido').length;
   mkBar('c-status',['Lido','Lendo','Não lido'],[nL,nE,nN],
     ['#849974','#c4a35a','#c9956c'],'x');
 
-  /* 2. Gêneros — barras horizontais, muitos itens → .tall (300px) */
+  /* 2. Gêneros — barras horizontais */
   const gnT=topN(cntIdx(lidos,I.genero),12);
   if(gnT.length)
     mkBar('c-generos',gnT.map(e=>e[0]),gnT.map(e=>e[1]),
       gnT.map((_,i)=>PAL[i%PAL.length]),'y');
 
-  /* 3–5. Donuts → max-height 180px (padrão) */
+  /* 3–5. Donuts */
   mkPie('c-cor',         cntIdx(lidos,I.cor));
   mkPie('c-genero-autor',cntIdx(lidos,I.generoAut));
   mkPie('c-idioma',      cntIdx(lidos,I.idioma));
 
-  /* 6. Formato (detectado) — donut → 180px */
-  if(I.formato>=0) mkPie('c-formato',cntIdx(ROWS,I.formato));
+  /* 6. Formato */
+  mkPie('c-formato',cntIdx(ROWS,I.formato));
 
-  /* 7. Estrelas — barras verticais, 5 categorias → 180px */
-  if(I.estrelas>=0){
-    const st={1:0,2:0,3:0,4:0,5:0};
-    lidos.forEach(r=>{const s=parseInt(cv(r,I.estrelas));if(s>=1&&s<=5)st[s]++;});
-    if(Object.values(st).some(v=>v>0))
-      mkBar('c-estrelas',['★','★★','★★★','★★★★','★★★★★'],Object.values(st),
-        ['#c4a35a','#c4a35a','#c4a35a','#849974','#849974'],'x');
-  }
+  /* 7. Estrelas (col V = NOTA) */
+  const st={1:0,2:0,3:0,4:0,5:0};
+  lidos.forEach(r=>{const s=parseInt(cv(r,I.estrelas));if(s>=1&&s<=5)st[s]++;});
+  if(Object.values(st).some(v=>v>0))
+    mkBar('c-estrelas',['★','★★','★★★','★★★★','★★★★★'],Object.values(st),
+      ['#c4a35a','#c4a35a','#c4a35a','#849974','#849974'],'x');
 }
 
-/* ═══════════════ MAPA ═══════════════════════════════════════
-   Chaves em português para casar com os valores da planilha.   */
+/* ═══════════════ MAPA ═══════════════════════════════════════ */
 const COORDS={
   'Brasil':[-15.8,-47.9],'EUA':[37.1,-95.7],'Estados Unidos':[37.1,-95.7],
   'Reino Unido':[51.5,-0.1],'Japão':[35.7,139.7],'França':[46.2,2.2],
@@ -754,7 +769,9 @@ const COORDS={
 function buildMap(){
   const map=L.map('map-2026',{scrollWheelZoom:false}).setView([20,10],2);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map);
-  const byPais=cntIdx(ROWS,I.pais);
+  // Usa apenas livros lidos para o mapa (autores por país)
+  const lidos=ROWS.filter(r=>normStatus(cv(r,I.status))==='lido');
+  const byPais=cntIdx(lidos,I.pais);
   Object.entries(byPais).forEach(([pais,qtd])=>{
     const co=COORDS[pais]; if(!co) return;
     const r=Math.max(8,Math.min(30,8+qtd*5));
@@ -770,14 +787,12 @@ function buildFilters(){
   const sg=document.getElementById('f-genero');
   gns.forEach(g=>{const o=document.createElement('option');o.value=g;o.textContent=g;sg.appendChild(o);});
 
-  /* Formato (dinâmico) */
-  if(I.formato>=0){
-    const fmts=[...new Set(ROWS.map(r=>cv(r,I.formato)).filter(Boolean))].sort();
-    const sf=document.getElementById('f-formato');
-    fmts.forEach(f=>{const o=document.createElement('option');o.value=f;o.textContent=f;sf.appendChild(o);});
-  }
+  /* Formato */
+  const fmts=[...new Set(ROWS.map(r=>cv(r,I.formato)).filter(Boolean))].sort();
+  const sf=document.getElementById('f-formato');
+  fmts.forEach(f=>{const o=document.createElement('option');o.value=f;o.textContent=f;sf.appendChild(o);});
 
-  /* Status — valores reais da planilha */
+  /* Status */
   const statusSet=[...new Set(ROWS.map(r=>cv(r,I.status)).filter(Boolean))];
   const sf2=document.getElementById('f-status');
   sf2.innerHTML='<option value="">Todos os status</option>';
@@ -816,11 +831,11 @@ function applyFilters(){
     if(q&&!(cv(r,I.titulo)+' '+cv(r,I.autor)).toLowerCase().includes(q)) return false;
     if(st&&cv(r,I.status)!==st) return false;
     if(gn&&cv(r,I.genero)!==gn) return false;
-    if(fm&&I.formato>=0&&cv(r,I.formato)!==fm) return false;
-    if(activeTag==='lgbtqia'    &&!isT(cv(r,I.lgbtqia)))                   return false;
-    if(activeTag==='diversidade'&&!isT(cv(r,I.divers)))                    return false;
-    if(activeTag==='ownvoices'  &&I.ownvoices>=0&&!isT(cv(r,I.ownvoices))) return false;
-    if(activeTag==='audiobook'  &&!isAudio(r))                             return false;
+    if(fm&&cv(r,I.formato)!==fm) return false;
+    if(activeTag==='lgbtqia'    &&!isT(cv(r,I.lgbtqia)))   return false;
+    if(activeTag==='diversidade'&&!isT(cv(r,I.divers)))    return false;
+    if(activeTag==='ownvoices'  &&!isT(cv(r,I.ownvoices))) return false;
+    if(activeTag==='audiobook'  &&!isAudio(r))             return false;
     return true;
   });
   page=1; renderTable();
@@ -847,17 +862,14 @@ function renderTable(){
     const paginas =cv(r,I.paginas) ||'—';
     const horas   =cv(r,I.horas)   ||'';
     const horasD  =parseH(horas)>0?horas.substring(0,5):'—';
-    const formato =I.formato>=0?cv(r,I.formato)||'—':'—';
+    const formato =cv(r,I.formato) ||'—';
     const pais    =cv(r,I.pais)    ||'—';
     const status  =cv(r,I.status)  ||'—';
     const ns      =normStatus(status);
     const bc      =ns==='lido'?'badge-lido':ns==='lendo'?'badge-lendo':'badge-nao';
 
-    let starsHtml='—';
-    if(I.estrelas>=0){
-      const sv=parseInt(cv(r,I.estrelas));
-      if(sv>=1&&sv<=5) starsHtml='<span class="stars">'+'★'.repeat(sv)+'</span>';
-    }
+    const sv=parseInt(cv(r,I.estrelas));
+    const starsHtml=(sv>=1&&sv<=5)?'<span class="stars">'+'★'.repeat(sv)+'</span>':'—';
 
     return `<tr>
       <td><strong>${titulo}</strong></td>
