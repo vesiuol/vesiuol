@@ -32,25 +32,28 @@ body {
 }
 
 /* ── NAV ── */
+/* Governança #008: border-bottom #c5c5a0, gap 2rem, letter-spacing .12em, font-size .78rem, DM Sans explícito */
 nav {
   position: sticky; top: 0; z-index: 100;
   background: var(--white);
-  border-bottom: 1.5px solid var(--border);
-  padding: 0 2.5rem;
+  border-bottom: 1.5px solid #c5c5a0;
+  padding: 0 2rem;
   display: flex; align-items: center; gap: 2rem; height: 52px;
 }
 .nav-logo { display: flex; gap: 6px; align-items: center; }
 .nav-logo span { width: 10px; height: 10px; border-radius: 50%; background: #bbb; display: inline-block; }
-nav ul { list-style: none; display: flex; gap: 1.8rem; margin-left: auto; }
-nav ul a {
+.nav-logo span:last-child { background: var(--green); }
+nav ul { list-style: none; display: flex; gap: 2rem; margin-left: auto; }
+nav ul li a {
   color: var(--black); text-decoration: none;
-  font-size: .78rem; letter-spacing: .1em;
+  font-family: 'DM Sans', sans-serif;
+  font-size: .78rem; letter-spacing: .12em;
   text-transform: uppercase; font-weight: 500; transition: color .2s;
 }
-nav ul a:hover { color: var(--green); }
-nav ul a.active {
+nav ul li a:hover { color: var(--green); }
+nav ul li a.active {
   background: var(--green); color: var(--white);
-  padding: .2rem .55rem; border-radius: 3px;
+  padding: .28rem .7rem; border-radius: 3px; font-weight: 700;
 }
 .nav-hamburger {
   display: none; margin-left: auto;
@@ -82,22 +85,23 @@ nav ul a.active {
 .hero-arrow { font-size: 1.3rem; color: var(--black); }
 
 /* ── STATS GRID ── */
+/* Governança: 6 colunas desktop → 3 tablet → 2 celular, border var(--green-dark) */
 .stats-grid {
   display: grid; grid-template-columns: repeat(6,1fr);
-  gap: 0; max-width: 1180px; margin: 1.5rem auto 0; padding: 0 2rem;
+  gap: .8rem; max-width: 1180px; margin: 1.5rem auto 0; padding: 0 2rem;
 }
 .stat-box {
-  border: 1.5px solid var(--border); border-radius: 10px;
-  padding: 1.4rem 1rem; text-align: center; margin: 0 .3rem;
+  border: 1.5px solid var(--green-dark); border-radius: 12px;
+  padding: 1.4rem 1rem; text-align: center;
   background: var(--green); display: flex; flex-direction: column;
   align-items: center; justify-content: center; min-height: 110px;
-  box-shadow: 2px 2px 0 var(--border);
+  box-shadow: 2px 2px 0 #c8c8c8;
 }
 .stat-number {
   font-family: 'Playfair Display', serif; font-size: 2rem;
   font-weight: 400; line-height: 1; color: var(--white); display: block;
 }
-.stat-label { font-size: .72rem; letter-spacing: .06em; color: rgba(255,255,255,.85); margin-top: .35rem; display: block; }
+.stat-label { font-size: .68rem; letter-spacing: .06em; color: rgba(255,255,255,.85); margin-top: .35rem; display: block; }
 
 /* ── SECTION ── */
 .sec-header {
@@ -116,7 +120,7 @@ section.page-section { max-width: 1180px; margin: 0 auto; padding: 3rem 2rem 1re
 .chart-card {
   border: 1.5px solid var(--border); border-radius: 12px;
   padding: 0; overflow: hidden; background: var(--white);
-  box-shadow: 2px 2px 0 var(--border);
+  box-shadow: 2px 2px 0 #c8c8c8;
 }
 .chart-card-header {
   display: flex; align-items: center; gap: .5rem;
@@ -126,12 +130,11 @@ section.page-section { max-width: 1180px; margin: 0 auto; padding: 3rem 2rem 1re
 .chart-card-header .card-dots span { width: 7px; height: 7px; background: #bbb; }
 .chart-card-title { font-size: .72rem; letter-spacing: .08em; color: var(--muted); margin-left: .3rem; }
 
-/* ── DECISÃO #004: altura fixa no chart-body, canvas preenche tudo ── */
+/* ── CHART BODY ── */
 .chart-body { padding: 1rem 1.2rem 1.2rem; position: relative; height: 280px; }
 .chart-body canvas { height: 100% !important; width: 100% !important; }
 .chart-body.tall { height: 480px; }
 .chart-body.medium { height: 320px; }
-/* Cards de gráfico sem min-height — o chart-body já define a altura */
 .charts-grid-2 .chart-card,
 .charts-grid-3 .chart-card { overflow: hidden; }
 
@@ -139,7 +142,7 @@ section.page-section { max-width: 1180px; margin: 0 auto; padding: 3rem 2rem 1re
 .progress-big-card {
   border: 1.5px solid var(--border); border-radius: 12px;
   overflow: hidden; background: var(--white);
-  margin-bottom: 2rem; box-shadow: 2px 2px 0 var(--border);
+  margin-bottom: 2rem; box-shadow: 2px 2px 0 #c8c8c8;
 }
 .progress-body {
   padding: 2rem 2.5rem; display: grid;
@@ -180,6 +183,9 @@ section.page-section { max-width: 1180px; margin: 0 auto; padding: 3rem 2rem 1re
   background: var(--white); font-family: 'DM Sans', sans-serif;
   font-size: .82rem; border-radius: 6px; color: var(--text); cursor: pointer; outline: none;
 }
+
+/* ── TAG BUTTONS ── */
+/* Governança #007: hover = fundo sólido verde, borda verde, texto branco */
 .tag-filters { display: flex; gap: .4rem; flex-wrap: wrap; margin-bottom: 1rem; }
 .tag-btn {
   padding: .3rem .8rem; border: 1.5px solid var(--border);
@@ -187,7 +193,9 @@ section.page-section { max-width: 1180px; margin: 0 auto; padding: 3rem 2rem 1re
   font-size: .72rem; letter-spacing: .06em; border-radius: 100px;
   cursor: pointer; transition: all .2s; color: var(--muted);
 }
+.tag-btn:hover { background: var(--green); border-color: var(--green); color: var(--white); }
 .tag-btn.active { background: var(--green); border-color: var(--green); color: var(--white); }
+
 table { width: 100%; border-collapse: collapse; font-size: .83rem; }
 thead tr { border-bottom: 2px solid var(--black); }
 th {
@@ -205,7 +213,10 @@ tr:hover td { background: rgba(132,153,116,.07); }
 .stars { color: var(--green); }
 .table-footer { padding: .8rem 0; color: var(--muted); font-size: .8rem; display: flex; justify-content: space-between; align-items: center; }
 .pagination { display: flex; gap: .3rem; flex-wrap: wrap; }
-.page-btn { width: 30px; height: 30px; border: 1.5px solid var(--border); background: transparent; cursor: pointer; font-size: .8rem; border-radius: 4px; transition: all .15s; }
+
+/* ── PAGE-BTN ── */
+/* Governança: active = green, hover = borda green */
+.page-btn { width: 30px; height: 30px; border: 1.5px solid var(--border); background: transparent; cursor: pointer; font-size: .8rem; border-radius: 4px; transition: all .2s; }
 .page-btn.active { background: var(--green); color: var(--white); border-color: var(--green); }
 .page-btn:hover:not(.active) { border-color: var(--green); }
 
@@ -217,18 +228,22 @@ tr:hover td { background: rgba(132,153,116,.07); }
 }
 
 /* ── FOOTER ── */
+/* Governança #006 #009: .60rem, formato "Nome | Autora | © Ano | atualizado em DD de mês de AAAA" */
+/* Seletor desta página: footer p */
 footer {
   background: var(--green); padding: 1.2rem 2rem;
   display: flex; align-items: center; gap: .8rem; margin-top: 3rem;
 }
 .footer-dots { display: flex; gap: 5px; }
 .footer-dots span { width: 9px; height: 9px; border-radius: 50%; background: var(--white); display: inline-block; }
-footer p { color: var(--white); font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; }
+footer p {
+  color: var(--white); font-size: .60rem;
+  letter-spacing: .1em; text-transform: uppercase; font-weight: 500;
+}
 
 /* ── RESPONSIVE ── */
 @media(max-width: 900px) {
-  .stats-grid { grid-template-columns: repeat(3,1fr); gap: .5rem; padding: 0 1rem; }
-  .stat-box { margin: 0; }
+  .stats-grid { grid-template-columns: repeat(3,1fr); }
   .charts-grid-2 { grid-template-columns: 1fr; }
   .charts-grid-3 { grid-template-columns: 1fr; }
   .progress-body { grid-template-columns: 1fr; gap: 1.5rem; }
@@ -236,7 +251,7 @@ footer p { color: var(--white); font-size: .72rem; letter-spacing: .06em; text-t
   nav ul.open {
     display: flex; flex-direction: column; position: absolute;
     top: 52px; left: 0; right: 0; background: var(--white);
-    border-bottom: 1.5px solid var(--border); padding: 1rem 2rem; gap: 1rem; z-index: 99;
+    border-bottom: 1.5px solid #c5c5a0; padding: 1rem 2rem; gap: 1rem; z-index: 99;
   }
   .nav-hamburger { display: block; }
 }
@@ -319,7 +334,6 @@ footer p { color: var(--white); font-size: .72rem; letter-spacing: .06em; text-t
     <span class="sec-subtitle">Dados específicos do ano</span>
   </div>
 
-  <!-- LINHA 1: Gêneros em destaque total -->
   <div class="charts-grid-2" style="margin-bottom:1rem">
     <div class="chart-card full">
       <div class="chart-card-header">
@@ -330,7 +344,6 @@ footer p { color: var(--white); font-size: .72rem; letter-spacing: .06em; text-t
     </div>
   </div>
 
-  <!-- LINHA 2: Cor autores + Gênero autores -->
   <div class="charts-grid-2" style="margin-bottom:1rem">
     <div class="chart-card">
       <div class="chart-card-header">
@@ -348,7 +361,6 @@ footer p { color: var(--white); font-size: .72rem; letter-spacing: .06em; text-t
     </div>
   </div>
 
-  <!-- LINHA 3: Idioma + Formato + Avaliações -->
   <div class="charts-grid-3" style="margin-bottom:1rem">
     <div class="chart-card">
       <div class="chart-card-header">
@@ -373,7 +385,6 @@ footer p { color: var(--white); font-size: .72rem; letter-spacing: .06em; text-t
     </div>
   </div>
 
-  <!-- LINHA 4: Série ou único + Faixa etária + Autore novo -->
   <div class="charts-grid-3" style="margin-bottom:1rem">
     <div class="chart-card">
       <div class="chart-card-header">
@@ -398,7 +409,6 @@ footer p { color: var(--white); font-size: .72rem; letter-spacing: .06em; text-t
     </div>
   </div>
 
-  <!-- LINHA 5: Por que li? (full width) -->
   <div class="charts-grid-2" style="margin-bottom:1rem">
     <div class="chart-card full">
       <div class="chart-card-header">
@@ -470,89 +480,45 @@ footer p { color: var(--white); font-size: .72rem; letter-spacing: .06em; text-t
   </div>
 </section>
 
+<!-- FOOTER -->
+<!-- Governança: formato "Nome do site | Louise Victoria | © Ano | atualizado em DD de mês de AAAA" -->
+<!-- Seletor desta página: footer p (.60rem) -->
 <footer>
   <div class="footer-dots"><span></span><span></span><span></span></div>
-  <p>O Que Tem na Estante da Louise | Louise Victoria © 2026 | <span id="data-atualizacao">atualizado em 06 de junho de 2026</span></p>
+  <p>O que tem na estante da Louise &nbsp;|&nbsp; Louise Victoria &nbsp;|&nbsp; © 2026 &nbsp;|&nbsp; atualizado em <span id="data-atualizacao">6 de junho de 2026</span></p>
 </footer>
 
 <script>
-// ChartDataLabels NÃO registrado globalmente — passado por chart nos mkBar
-
 const CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub?gid=537800862&single=true&output=csv';
 
-const GREEN = '#849974', BLACK = '#000', MUTED = '#555';
+const GREEN = '#849974', MUTED = '#555';
 const PAL = ['#849974','#c9956c','#6b9db8','#c4a35a','#a07898',
              '#6aab8e','#d4816b','#7b8fa8','#b5935a','#c47a8a','#5a8a7b','#9b7a5a'];
 const palGet = i => PAL[i % PAL.length];
 
-/*
-  ÍNDICES DAS COLUNAS — Planilha A (gid=537800862), aba LEITURAS 26
-  Baseado na governança (col A do Sheets = idx 0, vazia/numeração interna):
-  A=0 (vazia) | B=1 Título | C=2 Páginas | D=3 Horas | E=4 Gênero
-  F=5 Faixa etária | G=6 Formato | H=7 Editora | I=8 Idioma
-  J=9 Série ou único? | K=10 Por que li? | L=11 Origem do livro?
-  M=12 Como conheci? | N=13 Nome (autor) | O=14 País
-  P=15 Cor | Q=16 Se identifica como... | R=17 Primeira vez lendo autore
-  S=18 Protagonista LGBTQ+ | T=19 Diversidade etnica/racial
-  U=20 #OwnVoices? | V=21 NOTA | W=22 LIDO
-*/
 const I = {
-  titulo:1,
-  autor:13,
-  paginas:2,
-  horas:3,
-  genero:4,
-  faixaEtaria:5,
-  formato:6,
-  editora:7,
-  idioma:8,
-  serie:9,
-  porqueL:10,
-  pais:14,
-  cor:15,
-  generoAut:16,
-  autorNovo:17,
-  lgbtqia:18,
-  divers:19,
-  ownvoices:20,
-  estrelas:21,
-  status:22
+  titulo:1, autor:13, paginas:2, horas:3, genero:4, faixaEtaria:5,
+  formato:6, editora:7, idioma:8, serie:9, porqueL:10,
+  pais:14, cor:15, generoAut:16, autorNovo:17,
+  lgbtqia:18, divers:19, ownvoices:20, estrelas:21, status:22
 };
 
 const PER = 20;
 let H=[], ROWS=[], SUMROW=[], filtered=[], page=1, sortIdx=-1, sortAsc=true, activeTag='';
 
-/* ── Helpers ── */
-const cv   = (row,i) => {
-  if(i<0||row==null||row[i]==null) return '';
-  const s=String(row[i]).trim();
-  return (s==='undefined'||s==='null')?'':s;
-};
+const cv   = (row,i) => { if(i<0||row==null||row[i]==null) return ''; const s=String(row[i]).trim(); return (s==='undefined'||s==='null')?'':s; };
 const norm = s => (s||'').trim().toLowerCase().replace(/\s+/g,' ');
-const isT  = val => {
-  const s=(val||'').trim();
-  return s==='TRUE'||s==='true'||s==='1'||s==='VERDADEIRO'||
-         ['sim','yes','verdadeiro','✓'].includes(s.toLowerCase());
-};
-const parseH = s => {
-  if(!s) return 0; s=s.trim();
-  if(!s||s==='00:00:00'||s==='00:00:00.000') return 0;
-  const p=s.split(':');
-  return p.length>=2?(parseFloat(p[0])||0)+(parseFloat(p[1])||0)/60+(parseFloat(p[2])||0)/3600:0;
-};
+const isT  = val => { const s=(val||'').trim(); return s==='TRUE'||s==='true'||s==='1'||s==='VERDADEIRO'||['sim','yes','verdadeiro','✓'].includes(s.toLowerCase()); };
+const parseH = s => { if(!s) return 0; s=s.trim(); if(!s||s==='00:00:00'||s==='00:00:00.000') return 0; const p=s.split(':'); return p.length>=2?(parseFloat(p[0])||0)+(parseFloat(p[1])||0)/60+(parseFloat(p[2])||0)/3600:0; };
 const isAudio = row => parseH(cv(row,I.horas))>0;
 const setText = (id,v) => { const el=document.getElementById(id); if(el) el.textContent=v; };
 const cntIdx  = (rows,idx) => { const m={}; rows.forEach(r=>{const v=cv(r,idx);if(v)m[v]=(m[v]||0)+1;}); return m; };
 const topN    = (o,n) => Object.entries(o).sort((a,b)=>b[1]-a[1]).slice(0,n);
 
 function fetchRaw(url){
-  return new Promise((res,rej)=>{
-    Papa.parse(url,{download:true,header:false,skipEmptyLines:false,
-      complete:r=>res(r.data),error:rej});
-  });
+  return new Promise((res,rej)=>{ Papa.parse(url,{download:true,header:false,skipEmptyLines:false,complete:r=>res(r.data),error:rej}); });
 }
 
-/* ── Normaliza status ── */
 function normStatus(raw){
   const n=norm(raw);
   if(n==='lido'||n==='read'||n==='concluído'||n==='concluido') return 'lido';
@@ -561,17 +527,11 @@ function normStatus(raw){
   return n;
 }
 
-/*
-  findDataStart: detecta onde começam os dados reais.
-  A planilha tem cabeçalhos nas linhas 0 e possivelmente 1.
-  Procura a primeira linha onde col B (idx 1) pareça um título de livro
-  e col W (idx 22) pareça um status reconhecível ou vazio.
-*/
 function findDataStart(raw){
   for(let i=1;i<=4;i++){
     const row=raw[i]||[];
-    const b=norm(cv(row,1)); // col B = Título
-    const w=norm(cv(row,22));// col W = LIDO
+    const b=norm(cv(row,1));
+    const w=norm(cv(row,22));
     if(b && b!=='título' && b!=='titulo' && b!=='title'){
       if(!w||w==='lido'||w==='lendo'||w.includes('não')||w.includes('nao')||w==='tbr'||w==='true'||w==='false') return i;
     }
@@ -579,37 +539,21 @@ function findDataStart(raw){
   return 2;
 }
 
-/*
-  findSumRow: procura a linha de totais/meta.
-  Na planilha, essa linha fica após os dados de leitura.
-  A governança cita "Linha 49 (raw[48])" assumindo start=1,
-  mas com start variável buscamos a linha onde col B contém
-  um número (a meta) e col C contém o total de páginas.
-  Fallback: raw[start + 47].
-*/
 function findSumRow(raw, start){
-  // Tenta encontrar pela heurística: col B é número inteiro (meta anual)
   for(let i=start+40; i<=start+55 && i<raw.length; i++){
     const row=raw[i]||[];
     const b=cv(row,1);
-    const w=cv(row,22);
-    // Linha de meta: col B tem número razoável (20–500) e col W tem número
-    if(/^\d+$/.test(b) && parseInt(b)>=20 && parseInt(b)<=500){
-      return row;
-    }
+    if(/^\d+$/.test(b) && parseInt(b)>=20 && parseInt(b)<=500) return row;
   }
-  // Fallback original
   return raw[start+47]||raw[48]||[];
 }
 
-/* ═══════════════ INIT ═══════════════════════════════════════ */
 async function init(){
   const raw=await fetchRaw(CSV);
   H=(raw[0]||[]).map(h=>h.trim());
   const start=findDataStart(raw);
   ROWS=raw.slice(start,start+47).filter(r=>{
     const t=cv(r,1);
-    // Exclui linhas vazias, linhas de resumo/gráfico e linhas onde col B é só número (linha de meta/totais)
     if(!t) return false;
     if(t.toLowerCase().includes('(gráfico)')||t.toLowerCase().includes('grafico')) return false;
     if(/^\d+$/.test(t.trim())) return false;
@@ -624,9 +568,7 @@ async function init(){
   renderTable();
 }
 
-/* ═══════════════ STATS ═════════════════════════════════════ */
 function buildStats(){
-  // SUMROW: col B=meta, col C=páginas totais, col D=horas totais, col W=lidos
   const metaVal  = cv(SUMROW,1);
   const pagsVal  = cv(SUMROW,2);
   const horasVal = cv(SUMROW,3);
@@ -640,7 +582,6 @@ function buildStats(){
   const hNum   = parseH(horasVal);
   const horasStr= hNum>0?Math.round(hNum)+'h':(horasVal||'—');
 
-  // Páginas: somar de todos os livros que têm páginas preenchidas (lidos + lendo)
   const pagsCalc  = ROWS.reduce((s,r)=>{const p=parseInt(cv(r,I.paginas));return s+(isNaN(p)?0:p);},0);
   const pagsDisplay = pagsCalc>0 ? pagsCalc.toLocaleString('pt-BR') : (pagsVal?parseInt(pagsVal).toLocaleString('pt-BR'):'—');
 
@@ -671,7 +612,7 @@ function buildStats(){
   }
 }
 
-/* ═══════════════ GRÁFICOS ══════════════════════════════════ */
+/* ── OPÇÕES DE GRÁFICO ── */
 function optBar(axis){
   const h=axis==='y';
   return {
@@ -681,18 +622,20 @@ function optBar(axis){
       legend:{display:false},
       datalabels:{
         display:true,anchor:'end',align:h?'end':'top',offset:5,
-        color:BLACK,font:{family:'DM Sans',size:11,weight:'500'},
+        color:'#333',font:{family:'DM Sans',size:11,weight:'500'},
         formatter:v=>v>0?v:'',clamp:false,clip:false
       }
     },
     scales:{
       x:{grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{family:'DM Sans',size:10},color:MUTED}},
-      y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{family:'DM Sans',size:10},color:MUTED,
-        maxTicksLimit:h?14:6}}
+      y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{family:'DM Sans',size:10},color:MUTED,maxTicksLimit:h?14:6}}
     }
   };
 }
 
+/* ── PIE/DONUT — padrão governança ── */
+/* Legenda: Rótulo (%), posição bottom, DM Sans 11, cor #333, padding 12, boxWidth/Height 12 */
+/* Datalabels: exibir se fatia ≥ 8%, cor #fff, DM Sans 11 bold */
 function optPie(){
   return {
     maintainAspectRatio:false,
@@ -703,15 +646,24 @@ function optPie(){
         align:'center',
         labels:{
           font:{family:'DM Sans',size:11},
-          color:BLACK,
+          color:'#333',
           padding:12,
           boxWidth:12,
           boxHeight:12,
           generateLabels(chart){
-            return Chart.defaults.plugins.legend.labels.generateLabels(chart).map(l=>{
-              const txt=String(l.text||'');
-              if(txt.length>26) l.text=txt.substring(0,24)+'…';
-              return l;
+            const data=chart.data;
+            const total=data.datasets[0].data.reduce((a,b)=>a+b,0);
+            return data.labels.map((lbl,i)=>{
+              const val=data.datasets[0].data[i];
+              const pct=total>0?Math.round(val/total*100):0;
+              return {
+                text:lbl+' ('+pct+'%)',
+                fillStyle:data.datasets[0].backgroundColor[i],
+                strokeStyle:'#fff',
+                lineWidth:1,
+                index:i,
+                hidden:false
+              };
             });
           }
         }
@@ -719,14 +671,14 @@ function optPie(){
       datalabels:{
         display:ctx=>{
           const tot=ctx.dataset.data.reduce((a,b)=>a+b,0);
-          return tot>0&&ctx.dataset.data[ctx.dataIndex]/tot>=0.05;
+          return tot>0 && (ctx.dataset.data[ctx.dataIndex]/tot)>=0.08;
         },
         formatter:(v,ctx)=>{
           const tot=ctx.dataset.data.reduce((a,b)=>a+b,0);
           return Math.round(v/tot*100)+'%';
         },
         color:'#fff',
-        font:{family:'DM Sans',size:11,weight:'600'}
+        font:{family:'DM Sans',size:11,weight:'700'}
       }
     }
   };
@@ -738,88 +690,59 @@ function mkBar(id,labels,data,colors,axis){
   new Chart(el,{
     type:'bar',
     plugins:[ChartDataLabels],
-    data:{labels:safeLabels,datasets:[{data,
-      backgroundColor:data.map((_,i)=>palGet(i)),
-      borderRadius:4,borderWidth:0}]},
+    data:{labels:safeLabels,datasets:[{data,backgroundColor:data.map((_,i)=>palGet(i)),borderRadius:4,borderWidth:0}]},
     options:optBar(axis)
   });
 }
 
 function mkPie(id,countObj){
   const el=document.getElementById(id); if(!el) return;
-  const entries=Object.entries(countObj)
-    .filter(([k,v])=>v>0&&k&&k!=='undefined'&&k!=='null'&&k.trim()!=='');
+  const entries=Object.entries(countObj).filter(([k,v])=>v>0&&k&&k!=='undefined'&&k!=='null'&&k.trim()!=='');
   if(!entries.length) return;
   new Chart(el,{
     type:'doughnut',
+    plugins:[ChartDataLabels],
     data:{
       labels:entries.map(e=>String(e[0])),
-      datasets:[{
-        data:entries.map(e=>e[1]),
-        backgroundColor:entries.map((_,i)=>palGet(i)),
-        borderWidth:2,
-        borderColor:'#fff'
-      }]
+      datasets:[{data:entries.map(e=>e[1]),backgroundColor:entries.map((_,i)=>palGet(i)),borderWidth:2,borderColor:'#fff'}]
     },
-    options:{
-      ...optPie(),
-      plugins:{
-        ...optPie().plugins,
-        datalabels:{display:false}  // garante que DataLabels não interfere nos donuts
-      }
-    }
+    options:optPie()
   });
 }
 
 function buildCharts(){
   const lidos=ROWS.filter(r=>normStatus(cv(r,I.status))==='lido');
 
-  /* 1. Gêneros — barras horizontais, largura total */
   const gnT=topN(cntIdx(lidos,I.genero),12);
-  if(gnT.length)
-    mkBar('c-generos',gnT.map(e=>e[0]),gnT.map(e=>e[1]),null,'y');
+  if(gnT.length) mkBar('c-generos',gnT.map(e=>e[0]),gnT.map(e=>e[1]),null,'y');
 
-  /* 2. Cor dos autores — donut */
   mkPie('c-cor', cntIdx(lidos,I.cor));
 
-  /* 3. Gênero dos autores — barras horizontais */
   const gaT=topN(cntIdx(lidos,I.generoAut),8);
-  if(gaT.length)
-    mkBar('c-genero-autor',gaT.map(e=>e[0]),gaT.map(e=>e[1]),null,'y');
+  if(gaT.length) mkBar('c-genero-autor',gaT.map(e=>e[0]),gaT.map(e=>e[1]),null,'y');
 
-  /* 4. Idioma original — donut */
   mkPie('c-idioma', cntIdx(lidos,I.idioma));
 
-  /* 5. Formato — barras horizontais */
   const fmT=topN(cntIdx(lidos,I.formato),8);
-  if(fmT.length)
-    mkBar('c-formato',fmT.map(e=>e[0]),fmT.map(e=>e[1]),null,'y');
+  if(fmT.length) mkBar('c-formato',fmT.map(e=>e[0]),fmT.map(e=>e[1]),null,'y');
 
-  /* 6. Avaliações (estrelas) — barras verticais */
   const st={1:0,2:0,3:0,4:0,5:0};
   lidos.forEach(r=>{const s=parseInt(cv(r,I.estrelas));if(s>=1&&s<=5)st[s]++;});
   if(Object.values(st).some(v=>v>0))
     mkBar('c-estrelas',['★','★★','★★★','★★★★','★★★★★'],Object.values(st),null,'x');
 
-  /* 7. Série ou único — donut */
   mkPie('c-serie', cntIdx(lidos,I.serie));
-
-  /* 8. Faixa etária — pizza */
   mkPie('c-faixa', cntIdx(lidos,I.faixaEtaria));
 
-  /* 9. Autore novo ou já conhecido — donut */
   const novosN=lidos.filter(r=>isT(cv(r,I.autorNovo))).length;
   const jaConN=lidos.length-novosN;
-  if(novosN+jaConN>0)
-    mkPie('c-autor-novo',{'Autore novo':novosN,'Já conhecia':Math.max(0,jaConN)});
+  if(novosN+jaConN>0) mkPie('c-autor-novo',{'Autore novo':novosN,'Já conhecia':Math.max(0,jaConN)});
 
-  /* 10. Por que li? — barras horizontais */
   const pqT=topN(cntIdx(lidos,I.porqueL),8);
-  if(pqT.length)
-    mkBar('c-porquel',pqT.map(e=>e[0]),pqT.map(e=>e[1]),null,'y');
+  if(pqT.length) mkBar('c-porquel',pqT.map(e=>e[0]),pqT.map(e=>e[1]),null,'y');
 }
 
-/* ═══════════════ MAPA ═══════════════════════════════════════ */
+/* ── MAPA ── */
 const COORDS={
   'Brasil':[-15.8,-47.9],'EUA':[37.1,-95.7],'Estados Unidos':[37.1,-95.7],
   'Reino Unido':[51.5,-0.1],'Japão':[35.7,139.7],'França':[46.2,2.2],
@@ -870,7 +793,6 @@ const COORDS={
 function buildMap(){
   const map=L.map('map-2026',{scrollWheelZoom:false}).setView([20,10],2);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map);
-  // Usa apenas livros lidos para o mapa (autores por país)
   const lidos=ROWS.filter(r=>normStatus(cv(r,I.status))==='lido');
   const byPais=cntIdx(lidos,I.pais);
   Object.entries(byPais).forEach(([pais,qtd])=>{
@@ -881,19 +803,16 @@ function buildMap(){
   });
 }
 
-/* ═══════════════ FILTROS ════════════════════════════════════ */
+/* ── FILTROS ── */
 function buildFilters(){
-  /* Gênero */
   const gns=[...new Set(ROWS.map(r=>cv(r,I.genero)).filter(Boolean))].sort();
   const sg=document.getElementById('f-genero');
   gns.forEach(g=>{const o=document.createElement('option');o.value=g;o.textContent=g;sg.appendChild(o);});
 
-  /* Formato */
   const fmts=[...new Set(ROWS.map(r=>cv(r,I.formato)).filter(Boolean))].sort();
   const sf=document.getElementById('f-formato');
   fmts.forEach(f=>{const o=document.createElement('option');o.value=f;o.textContent=f;sf.appendChild(o);});
 
-  /* Status */
   const statusSet=[...new Set(ROWS.map(r=>cv(r,I.status)).filter(Boolean))];
   const sf2=document.getElementById('f-status');
   sf2.innerHTML='<option value="">Todos os status</option>';
@@ -942,7 +861,7 @@ function applyFilters(){
   page=1; renderTable();
 }
 
-/* ═══════════════ TABELA ═════════════════════════════════════ */
+/* ── TABELA ── */
 function renderTable(){
   const start=(page-1)*PER;
   const pg=filtered.slice(start,start+PER);
@@ -968,18 +887,12 @@ function renderTable(){
     const status  =cv(r,I.status)  ||'—';
     const ns      =normStatus(status);
     const bc      =ns==='lido'?'badge-lido':ns==='lendo'?'badge-lendo':'badge-nao';
-
     const sv=parseInt(cv(r,I.estrelas));
     const starsHtml=(sv>=1&&sv<=5)?'<span class="stars">'+'★'.repeat(sv)+'</span>':'—';
-
     return `<tr>
       <td><strong>${titulo}</strong></td>
-      <td>${autor}</td>
-      <td>${genero}</td>
-      <td>${paginas}</td>
-      <td>${horasD}</td>
-      <td>${formato}</td>
-      <td>${pais}</td>
+      <td>${autor}</td><td>${genero}</td><td>${paginas}</td>
+      <td>${horasD}</td><td>${formato}</td><td>${pais}</td>
       <td><span class="badge ${bc}">${status}</span></td>
       <td>${starsHtml}</td>
     </tr>`;
@@ -998,7 +911,6 @@ function renderTable(){
   }
 }
 
-/* ── Hamburger ── */
 document.getElementById('nav-hamburger').addEventListener('click',()=>{
   document.getElementById('nav-ul').classList.toggle('open');
 });
