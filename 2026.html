@@ -126,11 +126,14 @@ section.page-section { max-width: 1180px; margin: 0 auto; padding: 3rem 2rem 1re
 .chart-card-header .card-dots span { width: 7px; height: 7px; background: #bbb; }
 .chart-card-title { font-size: .72rem; letter-spacing: .08em; color: var(--muted); margin-left: .3rem; }
 
-/* ── DECISÃO #004: max-height no canvas, sem classes de altura fixa ── */
+/* ── DECISÃO #004: max-height no canvas ── */
 .chart-body { padding: 1.4rem; position: relative; }
-.chart-body canvas { max-height: 200px; }
-.chart-body.tall canvas { max-height: 340px; }
-.chart-body.medium canvas { max-height: 240px; }
+.chart-body canvas { max-height: 220px; }
+.chart-body.tall canvas { max-height: 460px; }
+.chart-body.medium canvas { max-height: 260px; }
+/* Altura mínima dos cards para o canvas ter espaço real */
+.charts-grid-2 .chart-card,
+.charts-grid-3 .chart-card { min-height: 240px; }
 
 /* ── PROGRESS ── */
 .progress-big-card {
@@ -327,15 +330,8 @@ footer p { color: var(--white); font-size: .72rem; letter-spacing: .06em; text-t
     </div>
   </div>
 
-  <!-- LINHA 2: Status + Cor autores + Gênero autores -->
-  <div class="charts-grid-3" style="margin-bottom:1rem">
-    <div class="chart-card">
-      <div class="chart-card-header">
-        <div class="card-dots"><span></span><span></span><span></span></div>
-        <span class="chart-card-title">Status de leitura</span>
-      </div>
-      <div class="chart-body"><canvas id="c-status"></canvas></div>
-    </div>
+  <!-- LINHA 2: Cor autores + Gênero autores -->
+  <div class="charts-grid-2" style="margin-bottom:1rem">
     <div class="chart-card">
       <div class="chart-card-header">
         <div class="card-dots"><span></span><span></span><span></span></div>
@@ -366,14 +362,14 @@ footer p { color: var(--white); font-size: .72rem; letter-spacing: .06em; text-t
         <div class="card-dots"><span></span><span></span><span></span></div>
         <span class="chart-card-title">Formato</span>
       </div>
-      <div class="chart-body"><canvas id="c-formato"></canvas></div>
+      <div class="chart-body medium"><canvas id="c-formato"></canvas></div>
     </div>
     <div class="chart-card">
       <div class="chart-card-header">
         <div class="card-dots"><span></span><span></span><span></span></div>
         <span class="chart-card-title">Avaliações (estrelas)</span>
       </div>
-      <div class="chart-body"><canvas id="c-estrelas"></canvas></div>
+      <div class="chart-body medium"><canvas id="c-estrelas"></canvas></div>
     </div>
   </div>
 
@@ -391,7 +387,7 @@ footer p { color: var(--white); font-size: .72rem; letter-spacing: .06em; text-t
         <div class="card-dots"><span></span><span></span><span></span></div>
         <span class="chart-card-title">Faixa etária</span>
       </div>
-      <div class="chart-body"><canvas id="c-faixa"></canvas></div>
+      <div class="chart-body medium"><canvas id="c-faixa"></canvas></div>
     </div>
     <div class="chart-card">
       <div class="chart-card-header">
@@ -476,7 +472,7 @@ footer p { color: var(--white); font-size: .72rem; letter-spacing: .06em; text-t
 
 <footer>
   <div class="footer-dots"><span></span><span></span><span></span></div>
-  <p>O Que Tem na Estante da Louise | Louise Victoria © 2026 | Dados via Google Sheets · Mapa via Leaflet · Gráficos via Chart.js</p>
+  <p>O Que Tem na Estante da Louise | Louise Victoria © 2026 | <span id="data-atualizacao">atualizado em 06 de junho de 2026</span></p>
 </footer>
 
 <script>
@@ -487,6 +483,7 @@ const CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZ
 const GREEN = '#849974', BLACK = '#000', MUTED = '#555';
 const PAL = ['#849974','#c9956c','#6b9db8','#c4a35a','#a07898',
              '#6aab8e','#d4816b','#7b8fa8','#b5935a','#c47a8a','#5a8a7b','#9b7a5a'];
+const palGet = i => PAL[i % PAL.length];
 
 /*
   ÍNDICES DAS COLUNAS — Planilha A (gid=537800862), aba LEITURAS 26
@@ -526,7 +523,11 @@ const PER = 20;
 let H=[], ROWS=[], SUMROW=[], filtered=[], page=1, sortIdx=-1, sortAsc=true, activeTag='';
 
 /* ── Helpers ── */
-const cv   = (row,i) => (i>=0 && row[i]!=null ? String(row[i]) : '').trim();
+const cv   = (row,i) => {
+  if(i<0||row==null||row[i]==null) return '';
+  const s=String(row[i]).trim();
+  return (s==='undefined'||s==='null')?'':s;
+};
 const norm = s => (s||'').trim().toLowerCase().replace(/\s+/g,' ');
 const isT  = val => {
   const s=(val||'').trim();
@@ -639,9 +640,13 @@ function buildStats(){
   const hNum   = parseH(horasVal);
   const horasStr= hNum>0?Math.round(hNum)+'h':(horasVal||'—');
 
+  // Páginas: somar de todos os livros que têm páginas preenchidas (lidos + lendo)
+  const pagsCalc  = ROWS.reduce((s,r)=>{const p=parseInt(cv(r,I.paginas));return s+(isNaN(p)?0:p);},0);
+  const pagsDisplay = pagsCalc>0 ? pagsCalc.toLocaleString('pt-BR') : (pagsVal?parseInt(pagsVal).toLocaleString('pt-BR'):'—');
+
   setText('s-meta',    metaVal||'—');
   setText('s-lidos',   lidosVal||String(lidosN)||'—');
-  setText('s-paginas', pagsVal?parseInt(pagsVal).toLocaleString('pt-BR'):'—');
+  setText('s-paginas', pagsDisplay);
   setText('s-horas',   horasStr);
   setText('s-autores', novos||'—');
   setText('s-paises',  paisSet.size||'—');
@@ -691,15 +696,21 @@ function optBar(axis){
 function optPie(){
   return {
     maintainAspectRatio:false,
-    layout:{padding:8},
+    layout:{padding:{top:6,left:6,right:6,bottom:0}},
     plugins:{
       legend:{
         position:'bottom',
+        align:'center',
         labels:{
-          font:{family:'DM Sans',size:11},color:BLACK,padding:10,boxWidth:12,
+          font:{family:'DM Sans',size:11},
+          color:BLACK,
+          padding:12,
+          boxWidth:12,
+          boxHeight:12,
           generateLabels(chart){
             return Chart.defaults.plugins.legend.labels.generateLabels(chart).map(l=>{
-              if(l.text&&l.text.length>22) l.text=l.text.substring(0,20)+'…';
+              const txt=String(l.text||'');
+              if(txt.length>26) l.text=txt.substring(0,24)+'…';
               return l;
             });
           }
@@ -708,13 +719,14 @@ function optPie(){
       datalabels:{
         display:ctx=>{
           const tot=ctx.dataset.data.reduce((a,b)=>a+b,0);
-          return tot>0&&ctx.dataset.data[ctx.dataIndex]/tot>0.04;
+          return tot>0&&ctx.dataset.data[ctx.dataIndex]/tot>=0.05;
         },
         formatter:(v,ctx)=>{
           const tot=ctx.dataset.data.reduce((a,b)=>a+b,0);
           return Math.round(v/tot*100)+'%';
         },
-        color:'#fff',font:{family:'DM Sans',size:11,weight:'600'}
+        color:'#fff',
+        font:{family:'DM Sans',size:11,weight:'600'}
       }
     }
   };
@@ -722,72 +734,83 @@ function optPie(){
 
 function mkBar(id,labels,data,colors,axis){
   const el=document.getElementById(id); if(!el) return;
+  // Garante que labels é sempre array de strings
+  const safeLabels=labels.map(l=>String(l||''));
   new Chart(el,{type:'bar',
-    data:{labels,datasets:[{data,
-      backgroundColor:Array.isArray(colors)?colors:data.map(()=>colors),
+    data:{labels:safeLabels,datasets:[{data,
+      backgroundColor:data.map((_,i)=>palGet(i)),
       borderRadius:4,borderWidth:0}]},
     options:optBar(axis)});
 }
 
 function mkPie(id,countObj){
   const el=document.getElementById(id); if(!el) return;
-  const entries=Object.entries(countObj).filter(([,v])=>v>0);
+  // Filtra chaves vazias, 'undefined', 'null' e valores zero
+  const entries=Object.entries(countObj)
+    .filter(([k,v])=>v>0&&k&&k!=='undefined'&&k!=='null'&&k.trim()!=='');
   if(!entries.length) return;
   new Chart(el,{type:'doughnut',
-    data:{labels:entries.map(e=>e[0]),
-      datasets:[{data:entries.map(e=>e[1]),
-        backgroundColor:PAL.slice(0,entries.length),
-        borderWidth:2,borderColor:'#fff'}]},
-    options:optPie()});
+    data:{
+      labels:entries.map(e=>String(e[0])),
+      datasets:[{
+        data:entries.map(e=>e[1]),
+        backgroundColor:entries.map((_,i)=>palGet(i)),
+        borderWidth:2,
+        borderColor:'#fff'
+      }]
+    },
+    options:optPie()
+  });
 }
 
 function buildCharts(){
   const lidos=ROWS.filter(r=>normStatus(cv(r,I.status))==='lido');
 
-  /* 1. Gêneros — barras horizontais, destaque total */
+  /* 1. Gêneros — barras horizontais, largura total */
   const gnT=topN(cntIdx(lidos,I.genero),12);
   if(gnT.length)
-    mkBar('c-generos',gnT.map(e=>e[0]),gnT.map(e=>e[1]),
-      gnT.map((_,i)=>PAL[i%PAL.length]),'y');
+    mkBar('c-generos',gnT.map(e=>e[0]),gnT.map(e=>e[1]),null,'y');
 
-  /* 2. Status — donut */
-  const nL=lidos.length;
-  const nE=ROWS.filter(r=>normStatus(cv(r,I.status))==='lendo').length;
-  const nN=ROWS.filter(r=>normStatus(cv(r,I.status))==='não lido').length;
-  const stObj={'Lido':nL,'Lendo':nE,'Não lido':nN};
-  mkPie('c-status',stObj);
+  /* 2. Cor dos autores — donut */
+  mkPie('c-cor', cntIdx(lidos,I.cor));
 
-  /* 3–5. Donuts identidade autores */
-  mkPie('c-cor',         cntIdx(lidos,I.cor));
-  mkPie('c-genero-autor',cntIdx(lidos,I.generoAut));
-  mkPie('c-idioma',      cntIdx(lidos,I.idioma));
+  /* 3. Gênero dos autores — barras horizontais */
+  const gaT=topN(cntIdx(lidos,I.generoAut),8);
+  if(gaT.length)
+    mkBar('c-genero-autor',gaT.map(e=>e[0]),gaT.map(e=>e[1]),null,'y');
 
-  /* 6. Formato */
-  mkPie('c-formato',cntIdx(ROWS,I.formato));
+  /* 4. Idioma original — donut */
+  mkPie('c-idioma', cntIdx(lidos,I.idioma));
 
-  /* 7. Estrelas (col V = NOTA) */
+  /* 5. Formato — barras horizontais */
+  const fmT=topN(cntIdx(lidos,I.formato),8);
+  if(fmT.length)
+    mkBar('c-formato',fmT.map(e=>e[0]),fmT.map(e=>e[1]),null,'y');
+
+  /* 6. Avaliações (estrelas) — barras verticais */
   const st={1:0,2:0,3:0,4:0,5:0};
   lidos.forEach(r=>{const s=parseInt(cv(r,I.estrelas));if(s>=1&&s<=5)st[s]++;});
   if(Object.values(st).some(v=>v>0))
-    mkBar('c-estrelas',['★','★★','★★★','★★★★','★★★★★'],Object.values(st),
-      ['#c9956c','#c4a35a','#a8bb96','#849974','#6b7e5e'],'x');
+    mkBar('c-estrelas',['★','★★','★★★','★★★★','★★★★★'],Object.values(st),null,'x');
 
-  /* 8. Série ou único */
-  mkPie('c-serie',cntIdx(lidos,I.serie));
+  /* 7. Série ou único — donut */
+  mkPie('c-serie', cntIdx(lidos,I.serie));
 
-  /* 9. Faixa etária */
-  mkPie('c-faixa',cntIdx(lidos,I.faixaEtaria));
+  /* 8. Faixa etária — barras horizontais */
+  const fxT=topN(cntIdx(lidos,I.faixaEtaria),8);
+  if(fxT.length)
+    mkBar('c-faixa',fxT.map(e=>e[0]),fxT.map(e=>e[1]),null,'y');
+
+  /* 9. Autore novo ou já conhecido — donut */
+  const novosN=lidos.filter(r=>isT(cv(r,I.autorNovo))).length;
+  const jaConN=lidos.length-novosN;
+  if(novosN+jaConN>0)
+    mkPie('c-autor-novo',{'Autore novo':novosN,'Já conhecia':Math.max(0,jaConN)});
 
   /* 10. Por que li? — barras horizontais */
   const pqT=topN(cntIdx(lidos,I.porqueL),8);
   if(pqT.length)
-    mkBar('c-porquel',pqT.map(e=>e[0]),pqT.map(e=>e[1]),
-      pqT.map((_,i)=>PAL[i%PAL.length]),'y');
-
-  /* 11. Autores novos x já conhecidos */
-  const novos=ROWS.filter(r=>isT(cv(r,I.autorNovo))).length;
-  const jaCon=lidos.length-ROWS.filter(r=>normStatus(cv(r,I.status))==='lido'&&isT(cv(r,I.autorNovo))).length;
-  mkPie('c-autor-novo',{'Autore novo':novos,'Já conhecia':Math.max(0,jaCon)});
+    mkBar('c-porquel',pqT.map(e=>e[0]),pqT.map(e=>e[1]),null,'y');
 }
 
 /* ═══════════════ MAPA ═══════════════════════════════════════ */
