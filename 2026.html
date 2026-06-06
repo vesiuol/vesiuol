@@ -126,14 +126,14 @@ section.page-section { max-width: 1180px; margin: 0 auto; padding: 3rem 2rem 1re
 .chart-card-header .card-dots span { width: 7px; height: 7px; background: #bbb; }
 .chart-card-title { font-size: .72rem; letter-spacing: .08em; color: var(--muted); margin-left: .3rem; }
 
-/* ── DECISÃO #004: max-height no canvas ── */
-.chart-body { padding: 1.4rem; position: relative; }
-.chart-body canvas { max-height: 220px; }
-.chart-body.tall canvas { max-height: 460px; }
-.chart-body.medium canvas { max-height: 260px; }
-/* Altura mínima dos cards para o canvas ter espaço real */
+/* ── DECISÃO #004: altura fixa no chart-body, canvas preenche tudo ── */
+.chart-body { padding: 1rem 1.2rem 1.2rem; position: relative; height: 280px; }
+.chart-body canvas { height: 100% !important; width: 100% !important; }
+.chart-body.tall { height: 480px; }
+.chart-body.medium { height: 320px; }
+/* Cards de gráfico sem min-height — o chart-body já define a altura */
 .charts-grid-2 .chart-card,
-.charts-grid-3 .chart-card { min-height: 240px; }
+.charts-grid-3 .chart-card { overflow: hidden; }
 
 /* ── PROGRESS ── */
 .progress-big-card {
@@ -387,7 +387,7 @@ footer p { color: var(--white); font-size: .72rem; letter-spacing: .06em; text-t
         <div class="card-dots"><span></span><span></span><span></span></div>
         <span class="chart-card-title">Faixa etária</span>
       </div>
-      <div class="chart-body medium"><canvas id="c-faixa"></canvas></div>
+      <div class="chart-body"><canvas id="c-faixa"></canvas></div>
     </div>
     <div class="chart-card">
       <div class="chart-card-header">
@@ -476,7 +476,7 @@ footer p { color: var(--white); font-size: .72rem; letter-spacing: .06em; text-t
 </footer>
 
 <script>
-Chart.register(ChartDataLabels);
+// ChartDataLabels NÃO registrado globalmente — passado por chart nos mkBar
 
 const CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub?gid=537800862&single=true&output=csv';
 
@@ -734,22 +734,24 @@ function optPie(){
 
 function mkBar(id,labels,data,colors,axis){
   const el=document.getElementById(id); if(!el) return;
-  // Garante que labels é sempre array de strings
   const safeLabels=labels.map(l=>String(l||''));
-  new Chart(el,{type:'bar',
+  new Chart(el,{
+    type:'bar',
+    plugins:[ChartDataLabels],
     data:{labels:safeLabels,datasets:[{data,
       backgroundColor:data.map((_,i)=>palGet(i)),
       borderRadius:4,borderWidth:0}]},
-    options:optBar(axis)});
+    options:optBar(axis)
+  });
 }
 
 function mkPie(id,countObj){
   const el=document.getElementById(id); if(!el) return;
-  // Filtra chaves vazias, 'undefined', 'null' e valores zero
   const entries=Object.entries(countObj)
     .filter(([k,v])=>v>0&&k&&k!=='undefined'&&k!=='null'&&k.trim()!=='');
   if(!entries.length) return;
-  new Chart(el,{type:'doughnut',
+  new Chart(el,{
+    type:'doughnut',
     data:{
       labels:entries.map(e=>String(e[0])),
       datasets:[{
@@ -759,7 +761,13 @@ function mkPie(id,countObj){
         borderColor:'#fff'
       }]
     },
-    options:optPie()
+    options:{
+      ...optPie(),
+      plugins:{
+        ...optPie().plugins,
+        datalabels:{display:false}  // garante que DataLabels não interfere nos donuts
+      }
+    }
   });
 }
 
@@ -796,10 +804,8 @@ function buildCharts(){
   /* 7. Série ou único — donut */
   mkPie('c-serie', cntIdx(lidos,I.serie));
 
-  /* 8. Faixa etária — barras horizontais */
-  const fxT=topN(cntIdx(lidos,I.faixaEtaria),8);
-  if(fxT.length)
-    mkBar('c-faixa',fxT.map(e=>e[0]),fxT.map(e=>e[1]),null,'y');
+  /* 8. Faixa etária — pizza */
+  mkPie('c-faixa', cntIdx(lidos,I.faixaEtaria));
 
   /* 9. Autore novo ou já conhecido — donut */
   const novosN=lidos.filter(r=>isT(cv(r,I.autorNovo))).length;
