@@ -6,7 +6,7 @@
 <title>Estante — Meus Livros</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Lora:ital,wght@0,400;0,600;1,400&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Lora:ital,wght@0,400;0,600;1,400&family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
@@ -29,12 +29,10 @@ nav{position:sticky;top:0;z-index:100;background:var(--white);padding:0 2rem;dis
 .nav-logo{display:flex;gap:6px;align-items:center;}
 .nav-dot{width:11px;height:11px;border-radius:50%;background:var(--black);}
 nav ul{list-style:none;display:flex;gap:2rem;margin-left:auto;align-items:center;}
-nav ul a{color:var(--black);text-decoration:none;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;font-weight:500;padding:.3rem .6rem;transition:color .2s;}
-nav ul a:hover{color:var(--green);}
-nav ul a.active{background:var(--green);color:var(--white);padding:.28rem .7rem;border-radius:3px;font-weight:700;}
-nav ul a.active:hover{color:var(--white);}
-.nav-year-link{font-size:.78rem!important;letter-spacing:.12em!important;font-weight:500!important;color:var(--black)!important;padding:.3rem .6rem!important;}
-.nav-year-link:hover{color:var(--green)!important;}
+nav ul li a{color:var(--black);text-decoration:none;font-family:'DM Sans',sans-serif;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;transition:color .2s;font-weight:500;}
+nav ul li a:hover{color:var(--green);}
+nav ul li a.active{background:var(--green);color:var(--white);padding:.28rem .7rem;border-radius:3px;font-weight:700;}
+nav ul li a.active:hover{color:var(--white);}
 .nav-hamburger{display:none;background:none;border:none;color:var(--black);font-size:1.4rem;cursor:pointer;margin-left:auto;padding:.2rem .4rem;}
 
 .intro-section{padding:2.5rem 2rem 0;max-width:1200px;margin:0 auto;}
@@ -150,9 +148,9 @@ footer span{font-size:.60rem;letter-spacing:.1em;color:rgba(255,255,255,.85);tex
     <div class="nav-dot"></div>
     <div class="nav-dot" style="background:var(--green)"></div>
   </div>
-  <ul>
+  <ul id="nav-menu">
     <li><a href="index.html" data-page="index">Início</a></li>
-    <li><a href="2026.html" data-page="2026" class="nav-year-link">2026</a></li>
+    <li><a href="2026.html" data-page="2026">2026</a></li>
     <li><a href="estante.html" data-page="estante">Estante</a></li>
     <li><a href="historico.html" data-page="historico">Histórico</a></li>
     <li><a href="desafio.html" data-page="desafio">Desafio</a></li>
