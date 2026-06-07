@@ -492,7 +492,7 @@ const WHITE       = '#ffffff';
 const CORES10 = ['#849974','#6b7d5e','#b5c9a8','#4a5c40','#d4e3cc','#3a4c32','#c8d8bf','#91a882','#cedac5','#e8f0e4'];
 
 const TODOS_ANOS  = ['2013','2014','2015','2016','2017','2018','2019','2020','2021','2022','2023','2024','2025','2026'];
-const ANOS_FILTRO = ['2020','2021','2022','2023','2024','2025','2026'];
+const ANOS_FILTRO = ['2013','2014','2015','2016','2017','2018','2019','2020','2021','2022','2023','2024','2025','2026'];
 
 const CAT_COR    = ['Branco','Negro','Asiáticos','Diversos','Outros'];
 const CAT_GENERO = ['Feminino','Masculino','M. Trans','Não binário','Outros'];
