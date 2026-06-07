@@ -1,0 +1,92 @@
+diff --git a/desafio.html b/desafio.html
+--- desafio.html
++++ desafio.html
+@@ -35,13 +35,13 @@
+ }
+ .nav-logo{display:flex;gap:6px;align-items:center;}
+ .nav-dot{width:11px;height:11px;border-radius:50%;background:var(--black);}
+ nav ul{list-style:none;display:flex;gap:2rem;margin-left:auto;align-items:center;}
+-nav ul li a{color:var(--black);text-decoration:none;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;transition:color .2s;font-family:'DM Sans',sans-serif;font-weight:500;}
++nav ul li a{color:var(--black);text-decoration:none;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;transition:color .2s;font-weight:400;}
+ nav ul li a:hover{color:var(--green);}
+ nav ul li a.active{
+   background:var(--green);color:var(--white);
+-  padding:.28rem .7rem;border-radius:3px;font-weight:700;}
++  padding:.28rem .7rem;border-radius:3px;
+ }
+ .nav-hamburger{display:none;background:none;border:none;color:var(--black);font-size:1.4rem;cursor:pointer;margin-left:auto;}
+ 
+ /* ── WINDOW CARD ── */
+@@ -227,9 +227,9 @@
+   padding:.35rem .9rem;border:1.5px solid var(--border);background:transparent;
+   font-family:'DM Sans',sans-serif;font-size:.78rem;border-radius:100px;
+   cursor:pointer;transition:all .18s;color:var(--muted);font-weight:400;
+ }
+-.filter-pill:hover{background:var(--green);border-color:var(--green);color:var(--white);}
++.filter-pill:hover{border-color:var(--green);color:var(--green);}
+ .filter-pill.active{background:var(--green);border-color:var(--green);color:var(--white);font-weight:500;}
+ 
+ /* capa miniatura */
+ .book-cover{width:28px;height:40px;object-fit:cover;border-radius:2px;display:block;}
+@@ -275,21 +275,21 @@
+ .page-btn{
+   width:30px;height:30px;border:1px solid var(--border);
+   background:transparent;cursor:pointer;font-size:.8rem;border-radius:4px;transition:all .15s;
+ }
+-.page-btn.active{background:var(--green);color:var(--white);border-color:var(--green);}
+-.page-btn:hover:not(.active){border-color:var(--green);}
++.page-btn.active{background:var(--black);color:var(--white);border-color:var(--black);}
++.page-btn:hover:not(.active){border-color:var(--black);}
+ 
+ /* ── FOOTER ── */
+ footer{
+   background:var(--green);padding:1.2rem 2rem;
+   display:flex;align-items:center;gap:1rem;
+ }
+ .footer-dots{display:flex;gap:6px;}
+-.footer-dot{width:11px;height:11px;border-radius:50%;background:var(--white);}
++.footer-dot{width:11px;height:11px;border-radius:50%;background:rgba(255,255,255,.7);}
+ .footer-text{
+-  font-size:.60rem;letter-spacing:.1em;text-transform:uppercase;
+-  color:var(--white);font-weight:500;}
++  font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;
++  color:rgba(255,255,255,.8);
+ }
+ 
+ @media(max-width:900px){
+   .stats-bar{grid-template-columns:repeat(3,1fr);}
+@@ -436,10 +436,10 @@
+ <!-- ── NAVIGATION ── -->
+ <nav>
+   <div class="nav-logo">
+     <div class="nav-dot"></div>
+-<div class="nav-dot"></div>
+-<div class="nav-dot" style="background:var(--green)"></div>
++    <div class="nav-dot"></div>
++    <div class="nav-dot"></div>
+   </div>
+   <ul>
+     <li><a href="index.html" data-page="index">Início</a></li>
+     <li><a href="2026.html" data-page="2026">2026</a></li>
+@@ -777,9 +777,9 @@
+ <footer>
+   <div class="footer-dots">
+     <div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div>
+   </div>
+-<span class="footer-text">O que tem na estante da Louise &nbsp;|&nbsp; Louise Victoria &nbsp;|&nbsp; © 2026 &nbsp;|&nbsp; atualizado em <span id="data-atualizacao">6 de junho de 2026</span>
++  <span class="footer-text">O que tem na estante da Louise &nbsp;|&nbsp; Louise Victoria &nbsp;|&nbsp; © 2026 &nbsp;|&nbsp; Dados via Google Sheets &nbsp;·&nbsp; Mapa via Leaflet &nbsp;·&nbsp; Gráficos via Chart.js</span>
+ </footer>
+ 
+ <script>
+ Chart.register(ChartDataLabels);
+@@ -1091,9 +1091,9 @@
+   const notionLidos    = NOTION_DATA.filter(n=>n.status_notion==='Concluído').length;
+   const notionMapeados2 = NOTION_DATA.filter(n=>n.livro&&n.livro.trim()&&n.status_notion!=='Concluído').length;
+   const notionNao      = NOTION_DATA.filter(n=>!n.livro||!n.livro.trim()).length;
+   new Chart(document.getElementById('c-status'),{type:'doughnut',
+-    data:{labels:['Lido','Mapeado','Sem livro'],datasets:[{data:[notionLidos,notionMapeados2,notionNao],backgroundColor:[GREEN,GREEN_LIGHT,'#9b7fa6'],borderWidth:0}]},
++    data:{labels:['Lido','Mapeado','Sem livro'],datasets:[{data:[notionLidos,notionMapeados2,notionNao],backgroundColor:[GREEN,GREEN_LIGHT,'#a0a0a0'],borderWidth:0}]},
+     options:chartPie()});
+ 
+   // ── 2–4. Diversidade (todos os anos LPM) ────────────────────────────────────
+   donut('c-cor',        countField(allLPM,['Cor','cor do autor','raça','Raça']));
