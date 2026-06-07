@@ -149,7 +149,6 @@ nav ul a.active {
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
   min-height: 110px;
-  box-shadow: 2px 2px 0 var(--green-dark);
 }
 .stat-num {
   font-family: 'Cormorant Garamond', serif;
@@ -192,7 +191,6 @@ nav ul a.active {
   border: 1.5px solid var(--border);
   border-radius: 14px; padding: 1.5rem 2rem;
   background: var(--white);
-  box-shadow: 2px 2px 0 var(--border);
 }
 .chart-card-header {
   display: flex; align-items: center;
@@ -209,6 +207,7 @@ nav ul a.active {
 }
 .chart-wrap { position: relative; height: 240px; }
 .chart-wrap.tall { height: 320px; }
+.chart-wrap.pie  { height: 280px; }
 .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 
 /* ─── MAP ────────────────────────────────────────────── */
@@ -313,6 +312,7 @@ footer {
   .charts-col { gap: .8rem; }
   .two-col { grid-template-columns: 1fr; gap: .8rem; }
   .chart-wrap { height: 200px; }
+  .chart-wrap.pie { height: 260px; }
   .chart-wrap.tall { height: 260px; }
 
   /* Mapa */
@@ -447,15 +447,15 @@ footer {
   <div class="two-col">
     <div class="chart-card">
       <div class="chart-card-header"><div class="chart-card-dots"><span></span><span></span><span></span></div><span class="chart-card-title" id="chart-title-cor">Cor dos autores</span></div>
-      <div class="chart-wrap"><canvas id="ac-cor"></canvas></div>
+      <div class="chart-wrap pie"><canvas id="ac-cor"></canvas></div>
     </div>
     <div class="chart-card">
       <div class="chart-card-header"><div class="chart-card-dots"><span></span><span></span><span></span></div><span class="chart-card-title" id="chart-title-genero">Gênero dos autores</span></div>
-      <div class="chart-wrap"><canvas id="ac-ga"></canvas></div>
+      <div class="chart-wrap pie"><canvas id="ac-ga"></canvas></div>
     </div>
     <div class="chart-card">
       <div class="chart-card-header"><div class="chart-card-dots"><span></span><span></span><span></span></div><span class="chart-card-title">Idioma</span></div>
-      <div class="chart-wrap"><canvas id="ac-idioma"></canvas></div>
+      <div class="chart-wrap pie"><canvas id="ac-idioma"></canvas></div>
     </div>
     <div class="chart-card">
       <div class="chart-card-header"><div class="chart-card-dots"><span></span><span></span><span></span></div><span class="chart-card-title">Gêneros literários</span></div>
@@ -607,15 +607,19 @@ function topN(obj, n) {
 
 // KPIs globais calculados direto da VIS
 function calcKpisGlobais() {
-  const livRow = getRow('Livros');
-  const pagRow = getRow('Páginas');
-  const totalLivros = vals(livRow, TODOS_ANOS, '').reduce((a,b)=>a+b, 0);
-  const totalPags   = vals(pagRow, TODOS_ANOS, '').reduce((a,b)=>a+b, 0);
-  const idSet  = getIdiomas(null);
-  const pSet   = getPaises(null);
+  const livRow    = getRow('Livros');
+  const pagRow    = getRow('Páginas');
+  const autorRow  = getRow('Autores lidos pela 1º vez');
+  const totalLivros  = vals(livRow,   TODOS_ANOS, '').reduce((a,b)=>a+b, 0);
+  const totalPags    = vals(pagRow,   TODOS_ANOS, '').reduce((a,b)=>a+b, 0);
+  // Soma dos autores novos por ano = total de autores únicos lidos na história
+  // (cada autor só é contado no primeiro ano em que aparece)
+  const totalAutores = vals(autorRow, TODOS_ANOS, '').reduce((a,b)=>a+b, 0);
+  const idSet     = getIdiomas(null);
+  const pSet      = getPaises(null);
   const notasAcum = subVals(CAT_NOTAS, null);
-  const c5     = notasAcum['5'] || 0;
-  return { totalLivros, totalPags, idiomas: Object.keys(idSet).length, paises: Object.keys(pSet).length, c5 };
+  const c5        = notasAcum['5'] || 0;
+  return { totalLivros, totalPags, totalAutores, idiomas: Object.keys(idSet).length, paises: Object.keys(pSet).length, c5 };
 }
 
 // ── Chart factories ───────────────────────────────────────────────
@@ -682,6 +686,7 @@ function mkPie(id, labels, data) {
     data: { labels, datasets: [{ data, backgroundColor: CORES10, borderWidth: 0 }] },
     options: {
       maintainAspectRatio: false,
+      layout: { padding: { top: 8, bottom: 8 } },
       plugins: {
         legend: {
           position: 'bottom',
@@ -763,7 +768,7 @@ function buildStats() {
   set('stat-total',     k.totalLivros > 0 ? k.totalLivros : '—');
   set('stat-paginas',   k.totalPags   > 0 ? fmt(k.totalPags) : '—');
   set('stat-idiomas',   k.idiomas     > 0 ? k.idiomas : '—');
-  set('stat-autores',   '—');
+  set('stat-autores',   k.totalAutores > 0 ? k.totalAutores : '—');
   set('stat-paises',    k.paises      > 0 ? k.paises : '—');
   set('stat-5estrelas', k.c5          > 0 ? k.c5 : '—');
 }
@@ -855,10 +860,13 @@ function renderAno(ano) {
   const notasD = subVals(CAT_NOTAS, ano==='todos' ? null : ano);
   const c5     = notasD['5'] || 0;
 
+  const autorRow = getRow('Autores lidos pela 1º vez');
+  const autorTot = vals(autorRow, anos, '').reduce((a,b)=>a+b, 0);
+
   set('a-livros',    livTot > 0 ? livTot : '—');
   set('a-paginas',   pagTot > 0 ? fmt(pagTot) : '—');
   set('a-idiomas',   Object.keys(idSet).length > 0 ? Object.keys(idSet).length : '—');
-  set('a-autores',   '—');
+  set('a-autores',   autorTot > 0 ? autorTot : '—');
   set('a-paises',    Object.keys(pSet).length  > 0 ? Object.keys(pSet).length : '—');
   set('a-5estrelas', c5 > 0 ? c5 : '—');
 
