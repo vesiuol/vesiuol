@@ -82,7 +82,8 @@ nav ul li a.active:hover{color:var(--white);}
 .chart-title{font-size:.63rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:6px 14px 10px;font-weight:500;}
 .chart-wrap{position:relative;padding:0 1.2rem 1.2rem;}
 .chart-wrap canvas{width:100%!important;}
-.h220{height:220px;} .h260{height:260px;} .h180{height:180px;} .h300{height:300px;} .h160{height:160px;} .h320{height:320px;} .h400{height:400px;} .h340{height:340px;}
+.chart-wrap canvas { max-height: 180px; }
+.chart-wrap.tall canvas { max-height: 300px; }
 
 #map{height:460px;border-radius:8px;border:1.5px solid var(--border);}
 .map-wrapper{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:2px 2px 0 #c8c8c8;}
@@ -197,51 +198,51 @@ footer span{font-size:.60rem;letter-spacing:.1em;color:rgba(255,255,255,.85);tex
   <div class="chart-card full" style="margin-bottom:1.2rem;">
     <div class="chart-card-dots"><div class="chart-card-dot"></div><div class="chart-card-dot"></div><div class="chart-card-dot"></div></div>
     <div class="chart-title">Gêneros literários — todos os livros lidos</div>
-    <div class="chart-wrap h400"><canvas id="c-generos"></canvas></div>
+    <div class="chart-wrap tall"><canvas id="c-generos"></canvas></div>
   </div>
 
   <div class="charts-grid">
     <div class="chart-card">
       <div class="chart-card-dots"><div class="chart-card-dot"></div><div class="chart-card-dot"></div><div class="chart-card-dot"></div></div>
       <div class="chart-title">Cor dos autores</div>
-      <div class="chart-wrap h340"><canvas id="c-cor"></canvas></div>
+      <div class="chart-wrap"><canvas id="c-cor"></canvas></div>
     </div>
     <div class="chart-card">
       <div class="chart-card-dots"><div class="chart-card-dot"></div><div class="chart-card-dot"></div><div class="chart-card-dot"></div></div>
       <div class="chart-title">Gênero dos autores</div>
-      <div class="chart-wrap h340"><canvas id="c-ga"></canvas></div>
+      <div class="chart-wrap"><canvas id="c-ga"></canvas></div>
     </div>
     <div class="chart-card">
       <div class="chart-card-dots"><div class="chart-card-dot"></div><div class="chart-card-dot"></div><div class="chart-card-dot"></div></div>
       <div class="chart-title">Idioma original</div>
-      <div class="chart-wrap h340"><canvas id="c-idioma"></canvas></div>
+      <div class="chart-wrap"><canvas id="c-idioma"></canvas></div>
     </div>
     <div class="chart-card">
       <div class="chart-card-dots"><div class="chart-card-dot"></div><div class="chart-card-dot"></div><div class="chart-card-dot"></div></div>
       <div class="chart-title">Formato</div>
-      <div class="chart-wrap h340"><canvas id="c-formato"></canvas></div>
+      <div class="chart-wrap"><canvas id="c-formato"></canvas></div>
     </div>
     <div class="chart-card">
       <div class="chart-card-dots"><div class="chart-card-dot"></div><div class="chart-card-dot"></div><div class="chart-card-dot"></div></div>
       <div class="chart-title">Faixa etária</div>
-      <div class="chart-wrap h340"><canvas id="c-faixa"></canvas></div>
+      <div class="chart-wrap"><canvas id="c-faixa"></canvas></div>
     </div>
     <div class="chart-card">
       <div class="chart-card-dots"><div class="chart-card-dot"></div><div class="chart-card-dot"></div><div class="chart-card-dot"></div></div>
       <div class="chart-title">Série ou livro único</div>
-      <div class="chart-wrap h340"><canvas id="c-serie"></canvas></div>
+      <div class="chart-wrap"><canvas id="c-serie"></canvas></div>
     </div>
     <!-- Avaliações full width -->
     <div class="chart-card full">
       <div class="chart-card-dots"><div class="chart-card-dot"></div><div class="chart-card-dot"></div><div class="chart-card-dot"></div></div>
       <div class="chart-title">Avaliações (⭐ dos lidos)</div>
-      <div class="chart-wrap h200" style="height:200px;"><canvas id="c-estrelas"></canvas></div>
+      <div class="chart-wrap"><canvas id="c-estrelas"></canvas></div>
     </div>
     <!-- Diversidade full width -->
     <div class="chart-card full">
       <div class="chart-card-dots"><div class="chart-card-dot"></div><div class="chart-card-dot"></div><div class="chart-card-dot"></div></div>
       <div class="chart-title">Diversidade e representatividade</div>
-      <div class="chart-wrap h200" style="height:200px;"><canvas id="c-diversidade"></canvas></div>
+      <div class="chart-wrap"><canvas id="c-diversidade"></canvas></div>
     </div>
   </div>
 </div>
