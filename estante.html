@@ -22,7 +22,7 @@
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--body-bg);color:var(--text);font-family:'Montserrat',sans-serif;font-weight:400;}
-
+ 
 /* ── NAV ── */
 /* Governança #008: border-bottom #c5c5a0, font-size .78rem, letter-spacing .12em, gap 2rem */
 nav{position:sticky;top:0;z-index:100;background:var(--white);padding:0 2rem;display:flex;align-items:center;gap:1.5rem;height:52px;border-bottom:1.5px solid #c5c5a0;}
@@ -34,7 +34,7 @@ nav ul li a:hover{color:var(--green);}
 nav ul li a.active{background:var(--green);color:var(--white);padding:.28rem .7rem;border-radius:3px;font-weight:700;}
 nav ul li a.active:hover{color:var(--white);}
 .nav-hamburger{display:none;background:none;border:none;color:var(--black);font-size:1.4rem;cursor:pointer;margin-left:auto;padding:.2rem .4rem;}
-
+ 
 .intro-section{padding:2.5rem 2rem 0;max-width:1200px;margin:0 auto;}
 .card-window{border:1.5px solid var(--border);border-radius:12px;background:var(--white);overflow:hidden;box-shadow:2px 2px 0 #c8c8c8;}
 .card-dots{display:flex;gap:5px;padding:10px 14px 0;align-items:center;}
@@ -44,7 +44,7 @@ nav ul li a.active:hover{color:var(--white);}
 .card-body-text{font-size:.9rem;line-height:1.8;color:var(--text);margin-bottom:.9rem;}
 .card-footer-bar{border-top:1px solid var(--border);padding:.8rem 2rem;display:flex;justify-content:space-between;align-items:center;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
 .card-footer-bar a{color:var(--text);text-decoration:none;font-size:1.1rem;}
-
+ 
 /* ── STAT BOX ── */
 /* Governança: 6 colunas desktop → 3 tablet → 2 celular */
 .stats-row{
@@ -68,12 +68,12 @@ nav ul li a.active:hover{color:var(--white);}
   font-size:.68rem;letter-spacing:.06em;text-transform:capitalize;
   color:rgba(255,255,255,.85);display:block;
 }
-
+ 
 .page-section{max-width:1200px;margin:0 auto;padding:2.5rem 2rem 0;}
 .section-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;padding-bottom:.7rem;border-bottom:1px solid var(--border);}
 .section-tag{background:var(--green);color:var(--white);font-size:.8rem;font-weight:700;padding:.25rem .7rem;font-family:'Lora',serif;}
 .section-sub{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);}
-
+ 
 .charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-bottom:2.5rem;}
 .chart-card{border:1.5px solid var(--border);border-radius:12px;background:var(--white);overflow:hidden;box-shadow:2px 2px 0 #c8c8c8;}
 .chart-card.full{grid-column:1/-1;}
@@ -82,25 +82,24 @@ nav ul li a.active:hover{color:var(--white);}
 .chart-title{font-size:.63rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:6px 14px 10px;font-weight:500;}
 .chart-wrap{position:relative;padding:0 1.2rem 1.2rem;}
 .chart-wrap canvas{width:100%!important;}
-.chart-wrap canvas { max-height: 180px; }
-.chart-wrap.tall canvas { max-height: 300px; }
-
+.h220{height:220px;} .h260{height:260px;} .h180{height:180px;} .h300{height:300px;} .h160{height:160px;} .h320{height:320px;} .h400{height:400px;} .h340{height:340px;}
+ 
 #map{height:460px;border-radius:8px;border:1.5px solid var(--border);}
 .map-wrapper{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:2px 2px 0 #c8c8c8;}
-
+ 
 .table-controls{display:flex;gap:.7rem;flex-wrap:wrap;margin-bottom:.8rem;align-items:center;}
 .search-wrap{flex:1;min-width:180px;position:relative;}
 .search-wrap input{width:100%;padding:.55rem 1rem .55rem 2rem;border:1.5px solid var(--border);background:var(--white);font-family:'Montserrat',sans-serif;font-size:.83rem;border-radius:6px;outline:none;color:var(--text);}
 .search-wrap::before{content:'⌕';position:absolute;left:.65rem;top:50%;transform:translateY(-50%);color:var(--muted);}
 .filter-select{padding:.55rem .85rem;border:1.5px solid var(--border);background:var(--white);font-family:'Montserrat',sans-serif;font-size:.78rem;border-radius:6px;color:var(--text);cursor:pointer;outline:none;}
-
+ 
 /* ── TAG BUTTONS ── */
 /* Governança #007: hover = fundo sólido verde, borda verde, texto branco */
 .tag-filters{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.8rem;}
 .tag-btn{padding:.28rem .75rem;border:1.5px solid var(--border);background:transparent;font-family:'Montserrat',sans-serif;font-size:.7rem;letter-spacing:.05em;border-radius:100px;cursor:pointer;transition:all .2s;color:var(--muted);}
 .tag-btn:hover{background:var(--green);border-color:var(--green);color:var(--white);}
 .tag-btn.active{background:var(--green);border-color:var(--green);color:var(--white);}
-
+ 
 table{width:100%;border-collapse:collapse;font-size:.82rem;}
 thead tr{border-bottom:2px solid var(--black);}
 th{padding:.55rem .75rem;text-align:left;font-size:.63rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);white-space:nowrap;cursor:pointer;user-select:none;font-weight:600;}
@@ -114,13 +113,13 @@ tr:hover td{background:rgba(132,153,116,.06);}
 .stars{color:var(--green);}
 .table-footer{padding:.7rem 0;color:var(--muted);font-size:.78rem;display:flex;justify-content:space-between;align-items:center;}
 .pagination{display:flex;gap:.3rem;flex-wrap:wrap;}
-
+ 
 /* ── PAGE-BTN ── */
 /* Governança: active = green, hover = borda green */
 .page-btn{width:28px;height:28px;border:1.5px solid var(--border);background:transparent;cursor:pointer;font-size:.75rem;border-radius:4px;transition:all .2s;font-family:'Montserrat',sans-serif;}
 .page-btn.active{background:var(--green);color:var(--white);border-color:var(--green);}
 .page-btn:hover:not(.active){border-color:var(--green);}
-
+ 
 /* ── FOOTER ── */
 /* Governança #006 #009: .60rem, formato "Nome | Autora | © Ano | atualizado em DD de mês de AAAA" */
 /* Seletor desta página: footer span */
@@ -128,7 +127,7 @@ footer{background:var(--green);padding:1.2rem 2rem;display:flex;align-items:cent
 .foot-dots{display:flex;gap:5px;align-items:center;}
 .foot-dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.6);}
 footer span{font-size:.60rem;letter-spacing:.1em;color:rgba(255,255,255,.85);text-transform:uppercase;font-weight:500;}
-
+ 
 @media(max-width:900px){
   .charts-grid{grid-template-columns:1fr;}
   .stats-row{grid-template-columns:repeat(3,1fr);}
@@ -142,7 +141,7 @@ footer span{font-size:.60rem;letter-spacing:.1em;color:rgba(255,255,255,.85);tex
 </style>
 </head>
 <body>
-
+ 
 <nav>
   <div class="nav-logo">
     <div class="nav-dot"></div>
@@ -159,7 +158,7 @@ footer span{font-size:.60rem;letter-spacing:.1em;color:rgba(255,255,255,.85);tex
   </ul>
   <button class="nav-hamburger" onclick="document.querySelector('nav ul').classList.toggle('open')">☰</button>
 </nav>
-
+ 
 <div class="intro-section">
   <div class="card-window">
     <div class="card-dots">
@@ -178,7 +177,7 @@ footer span{font-size:.60rem;letter-spacing:.1em;color:rgba(255,255,255,.85);tex
     </div>
   </div>
 </div>
-
+ 
 <div class="stats-row">
   <div class="stat-box"><span class="stat-number" id="s-total">—</span><span class="stat-label">Livros na estante</span></div>
   <div class="stat-box"><span class="stat-number" id="s-lidos">—</span><span class="stat-label">Lidos</span></div>
@@ -187,66 +186,66 @@ footer span{font-size:.60rem;letter-spacing:.1em;color:rgba(255,255,255,.85);tex
   <div class="stat-box"><span class="stat-number" id="s-paises">—</span><span class="stat-label">Países</span></div>
   <div class="stat-box"><span class="stat-number" id="s-idiomas">—</span><span class="stat-label">Idiomas</span></div>
 </div>
-
+ 
 <div class="page-section" id="graficos">
   <div class="section-header">
     <div class="section-tag">Estante em dados</div>
     <span class="section-sub">Dados completos</span>
   </div>
-
+ 
   <!-- Gêneros — full width, tall -->
   <div class="chart-card full" style="margin-bottom:1.2rem;">
     <div class="chart-card-dots"><div class="chart-card-dot"></div><div class="chart-card-dot"></div><div class="chart-card-dot"></div></div>
     <div class="chart-title">Gêneros literários — todos os livros lidos</div>
     <div class="chart-wrap h400"><canvas id="c-generos"></canvas></div>
   </div>
-
+ 
   <div class="charts-grid">
     <div class="chart-card">
       <div class="chart-card-dots"><div class="chart-card-dot"></div><div class="chart-card-dot"></div><div class="chart-card-dot"></div></div>
       <div class="chart-title">Cor dos autores</div>
-      <div class="chart-wrap"><canvas id="c-cor"></canvas></div>
+      <div class="chart-wrap h340"><canvas id="c-cor"></canvas></div>
     </div>
     <div class="chart-card">
       <div class="chart-card-dots"><div class="chart-card-dot"></div><div class="chart-card-dot"></div><div class="chart-card-dot"></div></div>
       <div class="chart-title">Gênero dos autores</div>
-      <div class="chart-wrap"><canvas id="c-ga"></canvas></div>
+      <div class="chart-wrap h340"><canvas id="c-ga"></canvas></div>
     </div>
     <div class="chart-card">
       <div class="chart-card-dots"><div class="chart-card-dot"></div><div class="chart-card-dot"></div><div class="chart-card-dot"></div></div>
       <div class="chart-title">Idioma original</div>
-      <div class="chart-wrap"><canvas id="c-idioma"></canvas></div>
+      <div class="chart-wrap h340"><canvas id="c-idioma"></canvas></div>
     </div>
     <div class="chart-card">
       <div class="chart-card-dots"><div class="chart-card-dot"></div><div class="chart-card-dot"></div><div class="chart-card-dot"></div></div>
       <div class="chart-title">Formato</div>
-      <div class="chart-wrap"><canvas id="c-formato"></canvas></div>
+      <div class="chart-wrap h340"><canvas id="c-formato"></canvas></div>
     </div>
     <div class="chart-card">
       <div class="chart-card-dots"><div class="chart-card-dot"></div><div class="chart-card-dot"></div><div class="chart-card-dot"></div></div>
       <div class="chart-title">Faixa etária</div>
-      <div class="chart-wrap"><canvas id="c-faixa"></canvas></div>
+      <div class="chart-wrap h340"><canvas id="c-faixa"></canvas></div>
     </div>
     <div class="chart-card">
       <div class="chart-card-dots"><div class="chart-card-dot"></div><div class="chart-card-dot"></div><div class="chart-card-dot"></div></div>
       <div class="chart-title">Série ou livro único</div>
-      <div class="chart-wrap"><canvas id="c-serie"></canvas></div>
+      <div class="chart-wrap h340"><canvas id="c-serie"></canvas></div>
     </div>
     <!-- Avaliações full width -->
     <div class="chart-card full">
       <div class="chart-card-dots"><div class="chart-card-dot"></div><div class="chart-card-dot"></div><div class="chart-card-dot"></div></div>
       <div class="chart-title">Avaliações (⭐ dos lidos)</div>
-      <div class="chart-wrap"><canvas id="c-estrelas"></canvas></div>
+      <div class="chart-wrap h200" style="height:200px;"><canvas id="c-estrelas"></canvas></div>
     </div>
     <!-- Diversidade full width -->
     <div class="chart-card full">
       <div class="chart-card-dots"><div class="chart-card-dot"></div><div class="chart-card-dot"></div><div class="chart-card-dot"></div></div>
       <div class="chart-title">Diversidade e representatividade</div>
-      <div class="chart-wrap"><canvas id="c-diversidade"></canvas></div>
+      <div class="chart-wrap h200" style="height:200px;"><canvas id="c-diversidade"></canvas></div>
     </div>
   </div>
 </div>
-
+ 
 <div class="page-section" id="mapa">
   <div class="section-header">
     <div class="section-tag">De onde vem meus livros?</div>
@@ -257,7 +256,7 @@ footer span{font-size:.60rem;letter-spacing:.1em;color:rgba(255,255,255,.85);tex
     <div id="map"></div>
   </div>
 </div>
-
+ 
 <div class="page-section" id="lista" style="padding-bottom:3rem;">
   <div class="section-header">
     <div class="section-tag">Todos os livros</div>
@@ -296,7 +295,7 @@ footer span{font-size:.60rem;letter-spacing:.1em;color:rgba(255,255,255,.85);tex
     </div>
   </div>
 </div>
-
+ 
 <!-- FOOTER -->
 <!-- Governança: formato "Nome do site | Louise Victoria | © Ano | atualizado em DD de mês de AAAA" -->
 <!-- Seletor desta página: footer span (.60rem) -->
@@ -304,20 +303,20 @@ footer span{font-size:.60rem;letter-spacing:.1em;color:rgba(255,255,255,.85);tex
   <div class="foot-dots"><div class="foot-dot"></div><div class="foot-dot"></div><div class="foot-dot"></div></div>
   <span>O que tem na estante da Louise &nbsp;|&nbsp; Louise Victoria &nbsp;|&nbsp; © 2026 &nbsp;|&nbsp; atualizado em <span id="data-atualizacao">6 de junho de 2026</span></span>
 </footer>
-
+ 
 <script>
 Chart.register(ChartDataLabels);
-
+ 
 // ── URLs ──────────────────────────────────────────────────────────────────────
 const CSV_ESTANTE  = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQWGv70Tc2vz-YUKxwU_0_H8F7UuHom1tCJQlE2Tfi8AMNem2c5X3WSs6z4CPjoTb2AaFKmJ8bihlPV/pub?gid=0&single=true&output=csv';
 const CSV_RESUMO   = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQWGv70Tc2vz-YUKxwU_0_H8F7UuHom1tCJQlE2Tfi8AMNem2c5X3WSs6z4CPjoTb2AaFKmJ8bihlPV/pub?gid=96920357&single=true&output=csv';
-
+ 
 // ── PALETA ────────────────────────────────────────────────────────────────────
 const PALETTE = [
   '#7a9e7e','#c4a882','#6b8e9f','#b5835a','#8a9a5b','#9b7fa6',
   '#4e7c5f','#c4855a','#7ba3a8','#a07850','#849974','#b09080',
 ];
-
+ 
 const COORDS = {
   'Brasil':[-15.8,-47.9],'EUA':[37.1,-95.7],'Estados Unidos':[37.1,-95.7],
   'Reino Unido':[51.5,-0.1],'Japão':[35.7,139.7],'França':[46.2,2.2],
@@ -341,23 +340,23 @@ const COORDS = {
   'Índia Britânica':[28.6,77.2],'Gâmbia':[13.5,-15.6],'Serra Leoa':[8.5,-13.2],
   'Congo':[-4.3,15.3],'Namíbia':[-22.6,17.1],'Tanzânia':[-6.4,34.9],
 };
-
+ 
 // ── HELPERS ───────────────────────────────────────────────────────────────────
 function norm(s){ return (s||'').trim().toLowerCase(); }
-
+ 
 function isTrue(v){
   if(v === true) return true;
   const s = (v||'').toString().trim().toLowerCase();
   return ['sim','yes','true','1','✓','x','verdadeiro','true'].includes(s);
 }
-
+ 
 function isDataRow(b){
   const t = norm(b['Livros']||b[Object.keys(b)[0]]||'');
   if(!t) return false;
   if(t.includes('(resumo)') || t.includes('(gráfico)') || t.includes('(grafico)')) return false;
   return true;
 }
-
+ 
 function fetchCSV(url){
   return new Promise((res,rej)=>{
     Papa.parse(url,{download:true,header:true,skipEmptyLines:true,
@@ -376,7 +375,7 @@ function count(arr,key){
 function topN(obj,n){
   return Object.entries(obj).sort((a,b)=>b[1]-a[1]).slice(0,n);
 }
-
+ 
 // ── GRÁFICO CONFIG ─────────────────────────────────────────────────────────────
 function barOpts(horizontal=false){
   return {
@@ -401,7 +400,7 @@ function barOpts(horizontal=false){
     ...(horizontal ? {indexAxis:'y'} : {})
   };
 }
-
+ 
 function pieOpts(){
   return {
     maintainAspectRatio:false,
@@ -439,9 +438,9 @@ function pieOpts(){
     }
   };
 }
-
+ 
 let COL_LGBTQIA = '', COL_DIV = '', COL_OWN = '', COL_PSICO = '';
-
+ 
 function detectTagColumns(books){
   if(!books.length) return;
   const headers = Object.keys(books[0]);
@@ -459,7 +458,7 @@ function detectTagColumns(books){
   if(!COL_PSICO   && headers[18]) COL_PSICO=headers[18];
   console.log('Tag columns mapped:', {COL_LGBTQIA,COL_DIV,COL_OWN,COL_PSICO});
 }
-
+ 
 function getTagVals(b){
   const pVal = b[COL_LGBTQIA] || b['Protagonista LGBTQIA+?'] || b['LGBTQIA+'] || b['LGBT'] || '';
   const qVal = b[COL_DIV] || b['Diversidade étnica/racial ?'] || b['Diversidade étnica'] || b['Diversidade'] || '';
@@ -467,19 +466,19 @@ function getTagVals(b){
   const sVal = b[COL_PSICO] || b['Questões psicológicas'] || b['Psicologicas'] || b['Psicológicas'] || '';
   return {pVal,qVal,rVal,sVal};
 }
-
+ 
 const PER=20;
 let allBooks=[], filtered=[], activeTag='', page=1;
-
+ 
 async function init(){
   let resumoRows = [];
   try { resumoRows = await fetchCSV(CSV_RESUMO); } catch(e){}
-
+ 
   try { allBooks = await fetchCSV(CSV_ESTANTE); } catch(e){ console.error(e); return; }
-
+ 
   allBooks = allBooks.filter(isDataRow);
   detectTagColumns(allBooks);
-
+ 
   const statsMap = {};
   resumoRows.forEach(row => {
     const vals = Object.values(row);
@@ -493,23 +492,23 @@ async function init(){
       if(l) statsMap[l] = nextVal;
     });
   });
-
+ 
   const lidos = allBooks.filter(b=>norm(b['Lido/Não Lido'])==='lido');
-
+ 
   const totalNaEstante = allBooks.length;
   const totalLidos = lidos.length;
   const totalPaginas = lidos.reduce((s,b)=>s+(parseInt((b['Páginas']||'').replace(/\D/g,''))||0),0);
   const autoresUnicos = new Set(allBooks.map(b=>b['Nome']).filter(Boolean)).size;
   const paisesUnicos = new Set(allBooks.map(b=>b['País']).filter(Boolean)).size;
   const idiomasUnicos = new Set(lidos.map(b=>b['Idioma']).filter(Boolean)).size;
-
+ 
   document.getElementById('s-total').textContent = totalNaEstante;
   document.getElementById('s-lidos').textContent = totalLidos;
   document.getElementById('s-paginas').textContent = totalPaginas.toLocaleString('pt-BR');
   document.getElementById('s-autores').textContent = autoresUnicos;
   document.getElementById('s-paises').textContent = paisesUnicos;
   document.getElementById('s-idiomas').textContent = idiomasUnicos;
-
+ 
   buildCharts(lidos, allBooks);
   buildMap(allBooks);
   buildFilters();
@@ -519,13 +518,13 @@ async function init(){
     if(a.getAttribute('data-page')==='estante') a.classList.add('active');
   });
 }
-
+ 
 function buildCharts(lidos, all){
   const gnObj = count(lidos,'Gênero');
   const gnAll = Object.entries(gnObj).sort((a,b)=>b[1]-a[1]);
   const gnCard = document.getElementById('c-generos').parentElement;
   gnCard.style.height = Math.max(300, gnAll.length * 28 + 60) + 'px';
-
+ 
   new Chart(document.getElementById('c-generos'),{
     type:'bar',
     data:{
@@ -544,49 +543,49 @@ function buildCharts(lidos, all){
       }
     }
   });
-
+ 
   const cor=count(lidos,'Cor');
   new Chart(document.getElementById('c-cor'),{
     type:'doughnut',
     data:{labels:Object.keys(cor),datasets:[{data:Object.values(cor),backgroundColor:PALETTE.slice(0,Object.keys(cor).length),borderWidth:2,borderColor:'#fff'}]},
     options:pieOpts()
   });
-
+ 
   const ga=count(lidos,'Se identifica como...');
   new Chart(document.getElementById('c-ga'),{
     type:'doughnut',
     data:{labels:Object.keys(ga),datasets:[{data:Object.values(ga),backgroundColor:PALETTE.slice(0,Object.keys(ga).length),borderWidth:2,borderColor:'#fff'}]},
     options:pieOpts()
   });
-
+ 
   const id=count(lidos,'Idioma');
   new Chart(document.getElementById('c-idioma'),{
     type:'doughnut',
     data:{labels:Object.keys(id),datasets:[{data:Object.values(id),backgroundColor:PALETTE.slice(0,Object.keys(id).length),borderWidth:2,borderColor:'#fff'}]},
     options:pieOpts()
   });
-
+ 
   const fm=count(all,'Formato');
   new Chart(document.getElementById('c-formato'),{
     type:'doughnut',
     data:{labels:Object.keys(fm),datasets:[{data:Object.values(fm),backgroundColor:PALETTE.slice(0,Object.keys(fm).length),borderWidth:2,borderColor:'#fff'}]},
     options:pieOpts()
   });
-
+ 
   const fa=count(all,'Faixa etária');
   new Chart(document.getElementById('c-faixa'),{
     type:'doughnut',
     data:{labels:Object.keys(fa),datasets:[{data:Object.values(fa),backgroundColor:PALETTE.slice(0,Object.keys(fa).length),borderWidth:2,borderColor:'#fff'}]},
     options:pieOpts()
   });
-
+ 
   const se=count(all,'Série ou único?');
   new Chart(document.getElementById('c-serie'),{
     type:'doughnut',
     data:{labels:Object.keys(se),datasets:[{data:Object.values(se),backgroundColor:PALETTE.slice(0,Object.keys(se).length),borderWidth:2,borderColor:'#fff'}]},
     options:pieOpts()
   });
-
+ 
   const stCount = {1:0,2:0,3:0,4:0,5:0,'Favorito':0};
   lidos.forEach(b=>{
     const keys = Object.keys(b);
@@ -596,7 +595,7 @@ function buildCharts(lidos, all){
     const n = parseInt(nota);
     if(n>=1&&n<=5) stCount[n]++;
   });
-
+ 
   new Chart(document.getElementById('c-estrelas'),{
     type:'bar',
     data:{
@@ -619,7 +618,7 @@ function buildCharts(lidos, all){
       }
     }
   });
-
+ 
   let cntLGBT=0, cntDiv=0, cntOwn=0, cntPsico=0;
   lidos.forEach(b=>{
     const {pVal,qVal,rVal,sVal}=getTagVals(b);
@@ -628,7 +627,7 @@ function buildCharts(lidos, all){
     if(isTrue(rVal)) cntOwn++;
     if(isTrue(sVal)) cntPsico++;
   });
-
+ 
   new Chart(document.getElementById('c-diversidade'),{
     type:'bar',
     data:{
@@ -652,7 +651,7 @@ function buildCharts(lidos, all){
     }
   });
 }
-
+ 
 function buildMap(books){
   const map=L.map('map').setView([20,10],2);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map);
@@ -663,7 +662,7 @@ function buildMap(books){
      .addTo(map).bindPopup('<strong>'+p+'</strong><br>'+q+' livro'+(q>1?'s':''));
   });
 }
-
+ 
 function buildFilters(){
   ['Gênero','Idioma','Cor'].forEach((col,i)=>{
     const ids=['f-genero','f-idioma','f-cor'];
@@ -680,14 +679,14 @@ function buildFilters(){
     btn.classList.add('active');activeTag=btn.dataset.tag;applyFilters();
   }));
 }
-
+ 
 function applyFilters(){
   const q=document.getElementById('search').value.toLowerCase();
   const st=document.getElementById('f-status').value;
   const gn=document.getElementById('f-genero').value;
   const id=document.getElementById('f-idioma').value;
   const cor=document.getElementById('f-cor').value;
-
+ 
   filtered=allBooks.filter(b=>{
     if(q&&!((b['Livros']||'')+(b['Nome']||'')).toLowerCase().includes(q))return false;
     if(st&&norm(b['Lido/Não Lido'])!==norm(st))return false;
@@ -705,7 +704,7 @@ function applyFilters(){
   });
   page=1;renderTable();
 }
-
+ 
 function renderTable(){
   const start=(page-1)*PER;
   const pg=filtered.slice(start,start+PER);
@@ -752,7 +751,7 @@ function renderTable(){
     pag.appendChild(btn);
   }
 }
-
+ 
 init();
 </script>
 </body>
