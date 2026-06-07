@@ -138,9 +138,13 @@ nav ul li a.active{
 .post-card:hover{transform:translateY(-1px);box-shadow:2px 2px 0 #c8c8c8;}
 .post-winbar{padding:.45rem .9rem;display:flex;align-items:center;gap:5px;border-bottom:1px solid #e0e0e0;}
 .post-body{padding:1.3rem 1.3rem 1rem;flex:1;display:flex;flex-direction:column;gap:.6rem;}
-/* post-title-bg - fundo verde, DM Sans igual aos outros labels do site */
-.post-title-bg{background:var(--green);display:block;padding:.3rem .6rem;line-height:1.3;}
-.post-title-bg h3{font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:600;font-style:normal;letter-spacing:.04em;color:var(--white);line-height:1.4;}
+.post-title-wrap{display:flex;}
+.post-title-bg{
+  background:var(--green);display:inline;padding:.05rem .5rem;
+  font-family:'Playfair Display',serif;font-size:1rem;font-weight:400;font-style:normal;
+  color:var(--white);line-height:1.4;
+  box-decoration-break:clone;-webkit-box-decoration-break:clone;
+}
 .post-desc{font-size:.86rem;line-height:1.6;color:var(--muted);flex:1;}
 .post-footer-row{
   border-top:1px solid #e0e0e0;padding:.7rem 1.3rem;
@@ -489,7 +493,7 @@ canvas#c-evolucao-barras{display:block;height:220px!important;max-height:220px!i
     <a class="post-card" href="https://medium.com/@vesiuol/desafio-livros-pelo-mundo-d8e01e80812f" target="_blank" rel="noopener">
       <div class="post-winbar"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div></div>
       <div class="post-body">
-        <div class="post-title-bg"><h3>Desafio Livros pelo Mundo</h3></div>
+        <div class="post-title-wrap"><span class="post-title-bg">Desafio Livros pelo Mundo</span></div>
         <p class="post-desc">Iniciando uma jornada de um livro para cada país — motivação, regras e o que espero aprender.</p>
       </div>
       <div class="post-footer-row">
@@ -500,7 +504,7 @@ canvas#c-evolucao-barras{display:block;height:220px!important;max-height:220px!i
     <a class="post-card" href="https://medium.com/@vesiuol/estruturando-a-nossa-rota-1-ac374720227f" target="_blank" rel="noopener">
       <div class="post-winbar"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div></div>
       <div class="post-body">
-        <div class="post-title-bg"><h3>Estruturando a nossa rota #1</h3></div>
+        <div class="post-title-wrap"><span class="post-title-bg">Estruturando a nossa rota #1</span></div>
         <p class="post-desc">Como montar a estrutura no Notion, lista dos países da ONU e modelo de planilha para duplicar.</p>
       </div>
       <div class="post-footer-row">
@@ -511,7 +515,7 @@ canvas#c-evolucao-barras{display:block;height:220px!important;max-height:220px!i
     <a class="post-card" href="https://medium.com/@vesiuol/montando-a-nossa-rota-2-c98c5bcf7a20" target="_blank" rel="noopener">
       <div class="post-winbar"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div></div>
       <div class="post-body">
-        <div class="post-title-bg"><h3>Montando a nossa rota #2</h3></div>
+        <div class="post-title-wrap"><span class="post-title-bg">Montando a nossa rota #2</span></div>
         <p class="post-desc">Aprofundando a organização dos países e das escolhas de livros para a jornada.</p>
       </div>
       <div class="post-footer-row">
@@ -522,7 +526,7 @@ canvas#c-evolucao-barras{display:block;height:220px!important;max-height:220px!i
     <a class="post-card" href="https://medium.com/@vesiuol/visualização-da-minha-planilha-no-nopor-onde-já-viajei-acaf251c4985" target="_blank" rel="noopener">
       <div class="post-winbar"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div></div>
       <div class="post-body">
-        <div class="post-title-bg"><h3>Visualização da minha planilha</h3></div>
+        <div class="post-title-wrap"><span class="post-title-bg">Visualização da minha planilha</span></div>
         <p class="post-desc">Como visualizar no Notion os países por onde já "viajei" — mapas, dados e configurações.</p>
       </div>
       <div class="post-footer-row">
