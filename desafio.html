@@ -168,8 +168,8 @@ nav ul li a.active{
   border-radius:14px;overflow:hidden;
 }
 .notion-cta-body{padding:2rem 2.5rem;}
-.notion-cta-title-bg{background:rgba(255,255,255,.15);display:inline-block;padding:.04rem .4rem;margin-bottom:.5rem;}
-.notion-cta-title-bg h2{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:400;color:var(--white);}
+.notion-cta-title-bg{background:rgba(255,255,255,.15);display:inline-block;padding:.2rem .6rem;margin-bottom:.5rem;}
+.notion-cta-title-bg h2{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:600;color:var(--white);}
 .notion-cta-body p{font-size:.93rem;line-height:1.8;color:rgba(255,255,255,.9);margin-bottom:.7rem;}
 .notion-cta-footer{
   border-top:1px solid rgba(255,255,255,.25);padding:1.1rem 2.5rem;
@@ -1091,7 +1091,7 @@ function buildCharts(allLPM){
   const notionMapeados2 = NOTION_DATA.filter(n=>n.livro&&n.livro.trim()&&n.status_notion!=='Concluído').length;
   const notionNao      = NOTION_DATA.filter(n=>!n.livro||!n.livro.trim()).length;
   new Chart(document.getElementById('c-status'),{type:'doughnut',
-    data:{labels:['Lido','Mapeado','Sem livro'],datasets:[{data:[notionLidos,notionMapeados2,notionNao],backgroundColor:[GREEN,GREEN_LIGHT,'#9b7fa6'],borderWidth:0}]},
+    data:{labels:['Lido','Mapeado','Sem livro'],datasets:[{data:[notionLidos,notionMapeados2,notionNao],backgroundColor:[GREEN,GREEN_LIGHT,'#c8c8c8'],borderWidth:0}]},
     options:chartPie()});
 
   // ── 2–4. Diversidade (todos os anos LPM) ────────────────────────────────────
