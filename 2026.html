@@ -30,7 +30,7 @@ body {
   font-family: 'DM Sans', sans-serif;
   font-weight: 300;
 }
-
+ 
 /* ── NAV ── */
 /* Governança #008: border-bottom #c5c5a0, gap 2rem, letter-spacing .12em, font-size .78rem, DM Sans explícito */
 nav {
@@ -60,7 +60,7 @@ nav ul li a.active {
   background: none; border: none; font-size: 1.4rem;
   cursor: pointer; color: var(--black); padding: .2rem .4rem;
 }
-
+ 
 /* ── HERO ── */
 .hero-section { padding: 3rem 2rem 2rem; max-width: 1180px; margin: 0 auto; }
 .hero-card {
@@ -83,7 +83,7 @@ nav ul li a.active {
 }
 .hero-link-label { font-size: .7rem; letter-spacing: .15em; text-transform: uppercase; color: var(--muted); }
 .hero-arrow { font-size: 1.3rem; color: var(--black); }
-
+ 
 /* ── STATS GRID ── */
 /* Governança: 6 colunas desktop → 3 tablet → 2 celular, border var(--green-dark) */
 .stats-grid {
@@ -102,7 +102,7 @@ nav ul li a.active {
   font-weight: 400; line-height: 1; color: var(--white); display: block;
 }
 .stat-label { font-size: .68rem; letter-spacing: .06em; color: rgba(255,255,255,.85); margin-top: .35rem; display: block; }
-
+ 
 /* ── SECTION ── */
 .sec-header {
   display: flex; align-items: center; gap: .8rem;
@@ -115,7 +115,7 @@ nav ul li a.active {
 }
 .sec-subtitle { font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
 section.page-section { max-width: 1180px; margin: 0 auto; padding: 3rem 2rem 1rem; }
-
+ 
 /* ── CHART CARD ── */
 .chart-card {
   border: 1.5px solid var(--border); border-radius: 12px;
@@ -129,7 +129,7 @@ section.page-section { max-width: 1180px; margin: 0 auto; padding: 3rem 2rem 1re
 .chart-card-header .card-dots { margin-bottom: 0; }
 .chart-card-header .card-dots span { width: 7px; height: 7px; background: #bbb; }
 .chart-card-title { font-size: .72rem; letter-spacing: .08em; color: var(--muted); margin-left: .3rem; }
-
+ 
 /* ── CHART BODY ── */
 .chart-body { padding: 1rem 1.2rem 1.2rem; position: relative; height: 280px; }
 .chart-body canvas { height: 100% !important; width: 100% !important; }
@@ -137,7 +137,7 @@ section.page-section { max-width: 1180px; margin: 0 auto; padding: 3rem 2rem 1re
 .chart-body.medium { height: 320px; }
 .charts-grid-2 .chart-card,
 .charts-grid-3 .chart-card { overflow: hidden; }
-
+ 
 /* ── PROGRESS ── */
 .progress-big-card {
   border: 1.5px solid var(--border); border-radius: 12px;
@@ -157,17 +157,17 @@ section.page-section { max-width: 1180px; margin: 0 auto; padding: 3rem 2rem 1re
 .pstat:last-child { border-bottom: none; }
 .pstat-label { font-size: .82rem; color: var(--muted); }
 .pstat-val { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 400; }
-
+ 
 /* ── CHARTS GRID ── */
 .charts-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
 .charts-grid-2 .full { grid-column: 1 / -1; }
 .charts-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
 .charts-grid-2 .chart-card,
 .charts-grid-3 .chart-card { min-height: 220px; }
-
+ 
 /* ── MAP ── */
 #map-2026 { height: 420px; border-radius: 0 0 10px 10px; z-index: 1; }
-
+ 
 /* ── TABLE ── */
 .table-controls { display: flex; gap: .8rem; flex-wrap: wrap; margin-bottom: 1rem; align-items: center; }
 .search-wrap { flex: 1; min-width: 200px; position: relative; }
@@ -183,7 +183,7 @@ section.page-section { max-width: 1180px; margin: 0 auto; padding: 3rem 2rem 1re
   background: var(--white); font-family: 'DM Sans', sans-serif;
   font-size: .82rem; border-radius: 6px; color: var(--text); cursor: pointer; outline: none;
 }
-
+ 
 /* ── TAG BUTTONS ── */
 /* Governança #007: hover = fundo sólido verde, borda verde, texto branco */
 .tag-filters { display: flex; gap: .4rem; flex-wrap: wrap; margin-bottom: 1rem; }
@@ -195,7 +195,7 @@ section.page-section { max-width: 1180px; margin: 0 auto; padding: 3rem 2rem 1re
 }
 .tag-btn:hover { background: var(--green); border-color: var(--green); color: var(--white); }
 .tag-btn.active { background: var(--green); border-color: var(--green); color: var(--white); }
-
+ 
 table { width: 100%; border-collapse: collapse; font-size: .83rem; }
 thead tr { border-bottom: 2px solid var(--black); }
 th {
@@ -213,20 +213,20 @@ tr:hover td { background: rgba(132,153,116,.07); }
 .stars { color: var(--green); }
 .table-footer { padding: .8rem 0; color: var(--muted); font-size: .8rem; display: flex; justify-content: space-between; align-items: center; }
 .pagination { display: flex; gap: .3rem; flex-wrap: wrap; }
-
+ 
 /* ── PAGE-BTN ── */
 /* Governança: active = green, hover = borda green */
 .page-btn { width: 30px; height: 30px; border: 1.5px solid var(--border); background: transparent; cursor: pointer; font-size: .8rem; border-radius: 4px; transition: all .2s; }
 .page-btn.active { background: var(--green); color: var(--white); border-color: var(--green); }
 .page-btn:hover:not(.active) { border-color: var(--green); }
-
+ 
 /* ── AUDIO NOTE ── */
 .audio-note {
   font-size: .78rem; color: var(--muted); padding: .4rem .8rem;
   background: #f5f9f3; border-left: 3px solid var(--green);
   border-radius: 0 4px 4px 0; margin-bottom: 1rem;
 }
-
+ 
 /* ── FOOTER ── */
 /* Governança #006 #009: .60rem, formato "Nome | Autora | © Ano | atualizado em DD de mês de AAAA" */
 /* Seletor desta página: footer p */
@@ -240,7 +240,7 @@ footer p {
   color: var(--white); font-size: .60rem;
   letter-spacing: .1em; text-transform: uppercase; font-weight: 500;
 }
-
+ 
 /* ── RESPONSIVE ── */
 @media(max-width: 900px) {
   .stats-grid { grid-template-columns: repeat(3,1fr); }
@@ -261,7 +261,7 @@ footer p {
 </style>
 </head>
 <body>
-
+ 
 <nav>
   <div class="nav-logo"><span></span><span></span><span></span></div>
   <ul id="nav-ul">
@@ -274,7 +274,7 @@ footer p {
   </ul>
   <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu">☰</button>
 </nav>
-
+ 
 <!-- HERO -->
 <div class="hero-section">
   <div class="hero-card">
@@ -289,7 +289,7 @@ footer p {
     </div>
   </div>
 </div>
-
+ 
 <!-- STATS -->
 <div class="stats-grid">
   <div class="stat-box"><span class="stat-number" id="s-meta">—</span><span class="stat-label">Meta do ano</span></div>
@@ -299,7 +299,7 @@ footer p {
   <div class="stat-box"><span class="stat-number" id="s-autores">—</span><span class="stat-label">Autores novos</span></div>
   <div class="stat-box"><span class="stat-number" id="s-paises">—</span><span class="stat-label">Países</span></div>
 </div>
-
+ 
 <!-- META -->
 <section class="page-section">
   <div class="sec-header">
@@ -326,14 +326,14 @@ footer p {
     </div>
   </div>
 </section>
-
+ 
 <!-- GRÁFICOS -->
 <section class="page-section" style="padding-top:1rem">
   <div class="sec-header">
     <span class="sec-tag">Leituras em dados</span>
     <span class="sec-subtitle">Dados específicos do ano</span>
   </div>
-
+ 
   <div class="charts-grid-2" style="margin-bottom:1rem">
     <div class="chart-card full">
       <div class="chart-card-header">
@@ -343,7 +343,7 @@ footer p {
       <div class="chart-body tall"><canvas id="c-generos"></canvas></div>
     </div>
   </div>
-
+ 
   <div class="charts-grid-2" style="margin-bottom:1rem">
     <div class="chart-card">
       <div class="chart-card-header">
@@ -360,7 +360,7 @@ footer p {
       <div class="chart-body"><canvas id="c-genero-autor"></canvas></div>
     </div>
   </div>
-
+ 
   <div class="charts-grid-3" style="margin-bottom:1rem">
     <div class="chart-card">
       <div class="chart-card-header">
@@ -384,7 +384,7 @@ footer p {
       <div class="chart-body medium"><canvas id="c-estrelas"></canvas></div>
     </div>
   </div>
-
+ 
   <div class="charts-grid-3" style="margin-bottom:1rem">
     <div class="chart-card">
       <div class="chart-card-header">
@@ -408,7 +408,7 @@ footer p {
       <div class="chart-body"><canvas id="c-autor-novo"></canvas></div>
     </div>
   </div>
-
+ 
   <div class="charts-grid-2" style="margin-bottom:1rem">
     <div class="chart-card full">
       <div class="chart-card-header">
@@ -419,7 +419,7 @@ footer p {
     </div>
   </div>
 </section>
-
+ 
 <!-- MAPA -->
 <section class="page-section" style="padding-top:1rem">
   <div class="sec-header">
@@ -433,18 +433,18 @@ footer p {
     <div id="map-2026"></div>
   </div>
 </section>
-
+ 
 <!-- TABELA -->
 <section class="page-section" style="padding-top:2rem">
   <div class="sec-header">
     <span class="sec-tag">Livros de 2026</span>
     <span class="sec-subtitle" id="lista-count">— livros</span>
   </div>
-
+ 
   <div class="audio-note" id="audio-note" style="display:none">
     📢 <strong id="audio-count">—</strong> audiobooks nesta lista · horas ouvidas incluídas nas estatísticas
   </div>
-
+ 
   <div class="table-controls">
     <div class="search-wrap"><input type="text" id="search" placeholder="Buscar título ou autor…"></div>
     <select class="filter-select" id="f-status"><option value="">Todos os status</option></select>
@@ -479,7 +479,7 @@ footer p {
     <div class="pagination" id="pagination"></div>
   </div>
 </section>
-
+ 
 <!-- FOOTER -->
 <!-- Governança: formato "Nome do site | Louise Victoria | © Ano | atualizado em DD de mês de AAAA" -->
 <!-- Seletor desta página: footer p (.60rem) -->
@@ -487,25 +487,25 @@ footer p {
   <div class="footer-dots"><span></span><span></span><span></span></div>
   <p>O que tem na estante da Louise &nbsp;|&nbsp; Louise Victoria &nbsp;|&nbsp; © 2026 &nbsp;|&nbsp; atualizado em <span id="data-atualizacao">6 de junho de 2026</span></p>
 </footer>
-
+ 
 <script>
 const CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub?gid=537800862&single=true&output=csv';
-
+ 
 const GREEN = '#849974', MUTED = '#555';
 const PAL = ['#849974','#c9956c','#6b9db8','#c4a35a','#a07898',
              '#6aab8e','#d4816b','#7b8fa8','#b5935a','#c47a8a','#5a8a7b','#9b7a5a'];
 const palGet = i => PAL[i % PAL.length];
-
+ 
 const I = {
   titulo:1, autor:13, paginas:2, horas:3, genero:4, faixaEtaria:5,
   formato:6, editora:7, idioma:8, serie:9, porqueL:10,
   pais:14, cor:15, generoAut:16, autorNovo:17,
   lgbtqia:18, divers:19, ownvoices:20, estrelas:21, status:22
 };
-
+ 
 const PER = 20;
 let H=[], ROWS=[], SUMROW=[], filtered=[], page=1, sortIdx=-1, sortAsc=true, activeTag='';
-
+ 
 const cv   = (row,i) => { if(i<0||row==null||row[i]==null) return ''; const s=String(row[i]).trim(); return (s==='undefined'||s==='null')?'':s; };
 const norm = s => (s||'').trim().toLowerCase().replace(/\s+/g,' ');
 const isT  = val => { const s=(val||'').trim(); return s==='TRUE'||s==='true'||s==='1'||s==='VERDADEIRO'||['sim','yes','verdadeiro','✓'].includes(s.toLowerCase()); };
@@ -514,11 +514,11 @@ const isAudio = row => parseH(cv(row,I.horas))>0;
 const setText = (id,v) => { const el=document.getElementById(id); if(el) el.textContent=v; };
 const cntIdx  = (rows,idx) => { const m={}; rows.forEach(r=>{const v=cv(r,idx);if(v)m[v]=(m[v]||0)+1;}); return m; };
 const topN    = (o,n) => Object.entries(o).sort((a,b)=>b[1]-a[1]).slice(0,n);
-
+ 
 function fetchRaw(url){
   return new Promise((res,rej)=>{ Papa.parse(url,{download:true,header:false,skipEmptyLines:false,complete:r=>res(r.data),error:rej}); });
 }
-
+ 
 function normStatus(raw){
   const n=norm(raw);
   if(n==='lido'||n==='read'||n==='concluído'||n==='concluido') return 'lido';
@@ -526,7 +526,7 @@ function normStatus(raw){
   if(n.includes('não lido')||n.includes('nao lido')||n==='tbr'||n==='a ler') return 'não lido';
   return n;
 }
-
+ 
 function findDataStart(raw){
   for(let i=1;i<=4;i++){
     const row=raw[i]||[];
@@ -538,7 +538,7 @@ function findDataStart(raw){
   }
   return 2;
 }
-
+ 
 function findSumRow(raw, start){
   for(let i=start+40; i<=start+55 && i<raw.length; i++){
     const row=raw[i]||[];
@@ -547,7 +547,7 @@ function findSumRow(raw, start){
   }
   return raw[start+47]||raw[48]||[];
 }
-
+ 
 async function init(){
   const raw=await fetchRaw(CSV);
   H=(raw[0]||[]).map(h=>h.trim());
@@ -567,13 +567,13 @@ async function init(){
   filtered=[...ROWS];
   renderTable();
 }
-
+ 
 function buildStats(){
   const metaVal  = cv(SUMROW,1);
   const pagsVal  = cv(SUMROW,2);
   const horasVal = cv(SUMROW,3);
   const lidosVal = cv(SUMROW,22);
-
+ 
   const metaN  = parseInt(metaVal)||0;
   const lidosN = parseInt(lidosVal)||ROWS.filter(r=>normStatus(cv(r,I.status))==='lido').length;
   const pct    = metaN>0?Math.min(100,Math.round(lidosN/metaN*100)):0;
@@ -581,22 +581,22 @@ function buildStats(){
   const paisSet= new Set(ROWS.filter(r=>normStatus(cv(r,I.status))==='lido').map(r=>cv(r,I.pais)).filter(Boolean));
   const hNum   = parseH(horasVal);
   const horasStr= hNum>0?Math.round(hNum)+'h':(horasVal||'—');
-
+ 
   const pagsCalc  = ROWS.reduce((s,r)=>{const p=parseInt(cv(r,I.paginas));return s+(isNaN(p)?0:p);},0);
   const pagsDisplay = pagsCalc>0 ? pagsCalc.toLocaleString('pt-BR') : (pagsVal?parseInt(pagsVal).toLocaleString('pt-BR'):'—');
-
+ 
   setText('s-meta',    metaVal||'—');
   setText('s-lidos',   lidosVal||String(lidosN)||'—');
   setText('s-paginas', pagsDisplay);
   setText('s-horas',   horasStr);
   setText('s-autores', novos||'—');
   setText('s-paises',  paisSet.size||'—');
-
+ 
   const lendo   = ROWS.filter(r=>normStatus(cv(r,I.status))==='lendo').length;
   const naoLido = ROWS.filter(r=>normStatus(cv(r,I.status))==='não lido').length;
   const lidosR  = ROWS.filter(r=>normStatus(cv(r,I.status))==='lido');
   const topG    = Object.entries(cntIdx(lidosR,I.genero)).sort((a,b)=>b[1]-a[1])[0];
-
+ 
   setText('prog-texto',lidosN+' lidos de '+metaN+' planejados');
   document.getElementById('prog-bar').style.width=pct+'%';
   setText('prog-pct',pct+'% concluído');
@@ -604,14 +604,14 @@ function buildStats(){
   setText('p-lendo', lendo);
   setText('p-nao',   naoLido);
   setText('p-genero',topG?topG[0]:'—');
-
+ 
   const audios=ROWS.filter(isAudio);
   if(audios.length>0){
     document.getElementById('audio-note').style.display='block';
     setText('audio-count',audios.length);
   }
 }
-
+ 
 /* ── OPÇÕES DE GRÁFICO ── */
 function optBar(axis){
   const h=axis==='y';
@@ -632,7 +632,7 @@ function optBar(axis){
     }
   };
 }
-
+ 
 /* ── PIE/DONUT — padrão governança ── */
 /* Legenda: Rótulo (%), posição bottom, DM Sans 11, cor #333, padding 12, boxWidth/Height 12 */
 /* Datalabels: exibir se fatia ≥ 8%, cor #fff, DM Sans 11 bold */
@@ -683,7 +683,7 @@ function optPie(){
     }
   };
 }
-
+ 
 function mkBar(id,labels,data,colors,axis){
   const el=document.getElementById(id); if(!el) return;
   const safeLabels=labels.map(l=>String(l||''));
@@ -694,7 +694,7 @@ function mkBar(id,labels,data,colors,axis){
     options:optBar(axis)
   });
 }
-
+ 
 function mkPie(id,countObj){
   const el=document.getElementById(id); if(!el) return;
   const entries=Object.entries(countObj).filter(([k,v])=>v>0&&k&&k!=='undefined'&&k!=='null'&&k.trim()!=='');
@@ -709,39 +709,39 @@ function mkPie(id,countObj){
     options:optPie()
   });
 }
-
+ 
 function buildCharts(){
   const lidos=ROWS.filter(r=>normStatus(cv(r,I.status))==='lido');
-
+ 
   const gnT=topN(cntIdx(lidos,I.genero),12);
   if(gnT.length) mkBar('c-generos',gnT.map(e=>e[0]),gnT.map(e=>e[1]),null,'y');
-
+ 
   mkPie('c-cor', cntIdx(lidos,I.cor));
-
+ 
   const gaT=topN(cntIdx(lidos,I.generoAut),8);
   if(gaT.length) mkBar('c-genero-autor',gaT.map(e=>e[0]),gaT.map(e=>e[1]),null,'y');
-
+ 
   mkPie('c-idioma', cntIdx(lidos,I.idioma));
-
+ 
   const fmT=topN(cntIdx(lidos,I.formato),8);
   if(fmT.length) mkBar('c-formato',fmT.map(e=>e[0]),fmT.map(e=>e[1]),null,'y');
-
+ 
   const st={1:0,2:0,3:0,4:0,5:0};
   lidos.forEach(r=>{const s=parseInt(cv(r,I.estrelas));if(s>=1&&s<=5)st[s]++;});
   if(Object.values(st).some(v=>v>0))
     mkBar('c-estrelas',['★','★★','★★★','★★★★','★★★★★'],Object.values(st),null,'x');
-
+ 
   mkPie('c-serie', cntIdx(lidos,I.serie));
   mkPie('c-faixa', cntIdx(lidos,I.faixaEtaria));
-
+ 
   const novosN=lidos.filter(r=>isT(cv(r,I.autorNovo))).length;
   const jaConN=lidos.length-novosN;
   if(novosN+jaConN>0) mkPie('c-autor-novo',{'Autore novo':novosN,'Já conhecia':Math.max(0,jaConN)});
-
+ 
   const pqT=topN(cntIdx(lidos,I.porqueL),8);
   if(pqT.length) mkBar('c-porquel',pqT.map(e=>e[0]),pqT.map(e=>e[1]),null,'y');
 }
-
+ 
 /* ── MAPA ── */
 const COORDS={
   'Brasil':[-15.8,-47.9],'EUA':[37.1,-95.7],'Estados Unidos':[37.1,-95.7],
@@ -789,7 +789,7 @@ const COORDS={
   'Paraguai':[-23.4,-58.4],'Papua Nova Guiné':[-6.3,143.9],
   'Guiana':[4.9,-58.9],'Trinidad e Tobago':[10.7,-61.2],'Suriname':[4.0,-56.0]
 };
-
+ 
 function buildMap(){
   const map=L.map('map-2026',{scrollWheelZoom:false}).setView([20,10],2);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map);
@@ -802,32 +802,32 @@ function buildMap(){
       .addTo(map).bindPopup(`<b>${pais}</b><br>${qtd} livro${qtd>1?'s':''}`);
   });
 }
-
+ 
 /* ── FILTROS ── */
 function buildFilters(){
   const gns=[...new Set(ROWS.map(r=>cv(r,I.genero)).filter(Boolean))].sort();
   const sg=document.getElementById('f-genero');
   gns.forEach(g=>{const o=document.createElement('option');o.value=g;o.textContent=g;sg.appendChild(o);});
-
+ 
   const fmts=[...new Set(ROWS.map(r=>cv(r,I.formato)).filter(Boolean))].sort();
   const sf=document.getElementById('f-formato');
   fmts.forEach(f=>{const o=document.createElement('option');o.value=f;o.textContent=f;sf.appendChild(o);});
-
+ 
   const statusSet=[...new Set(ROWS.map(r=>cv(r,I.status)).filter(Boolean))];
   const sf2=document.getElementById('f-status');
   sf2.innerHTML='<option value="">Todos os status</option>';
   statusSet.forEach(s=>{const o=document.createElement('option');o.value=s;o.textContent=s;sf2.appendChild(o);});
-
+ 
   document.getElementById('search').addEventListener('input',applyFilters);
   sf2.addEventListener('change',applyFilters);
   document.getElementById('f-genero').addEventListener('change',applyFilters);
   document.getElementById('f-formato').addEventListener('change',applyFilters);
-
+ 
   document.querySelectorAll('.tag-btn').forEach(btn=>btn.addEventListener('click',()=>{
     document.querySelectorAll('.tag-btn').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active'); activeTag=btn.dataset.tag; applyFilters();
   }));
-
+ 
   document.querySelectorAll('th[data-colidx]').forEach(th=>th.addEventListener('click',()=>{
     const i=parseInt(th.dataset.colidx); if(isNaN(i)) return;
     if(sortIdx===i) sortAsc=!sortAsc; else{sortIdx=i;sortAsc=true;}
@@ -840,13 +840,13 @@ function buildFilters(){
     page=1; renderTable();
   }));
 }
-
+ 
 function applyFilters(){
   const q =document.getElementById('search').value.toLowerCase();
   const st=document.getElementById('f-status').value;
   const gn=document.getElementById('f-genero').value;
   const fm=document.getElementById('f-formato').value;
-
+ 
   filtered=ROWS.filter(r=>{
     if(q&&!(cv(r,I.titulo)+' '+cv(r,I.autor)).toLowerCase().includes(q)) return false;
     if(st&&cv(r,I.status)!==st) return false;
@@ -860,21 +860,21 @@ function applyFilters(){
   });
   page=1; renderTable();
 }
-
+ 
 /* ── TABELA ── */
 function renderTable(){
   const start=(page-1)*PER;
   const pg=filtered.slice(start,start+PER);
   const tbody=document.getElementById('tbody');
   setText('lista-count',filtered.length+' livros');
-
+ 
   if(!filtered.length){
     tbody.innerHTML='<tr><td colspan="9" style="text-align:center;padding:2rem;color:var(--muted)">Nenhum livro encontrado.</td></tr>';
     setText('t-info','');
     document.getElementById('pagination').innerHTML='';
     return;
   }
-
+ 
   tbody.innerHTML=pg.map(r=>{
     const titulo  =cv(r,I.titulo)  ||'—';
     const autor   =cv(r,I.autor)   ||'—';
@@ -897,9 +897,9 @@ function renderTable(){
       <td>${starsHtml}</td>
     </tr>`;
   }).join('');
-
+ 
   setText('t-info',(start+1)+'–'+Math.min(start+PER,filtered.length)+' de '+filtered.length);
-
+ 
   const pages=Math.ceil(filtered.length/PER);
   const pag=document.getElementById('pagination'); pag.innerHTML='';
   for(let i=1;i<=pages;i++){
@@ -910,11 +910,11 @@ function renderTable(){
     pag.appendChild(btn);
   }
 }
-
+ 
 document.getElementById('nav-hamburger').addEventListener('click',()=>{
   document.getElementById('nav-ul').classList.toggle('open');
 });
-
+ 
 init();
 </script>
 </body>
