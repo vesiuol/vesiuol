@@ -435,20 +435,19 @@ canvas#c-evolucao-barras{display:block;height:220px!important;max-height:220px!i
 
 <!-- ── NAVIGATION ── -->
 <nav>
-  <a href="index.html" class="nav-logo" style="text-decoration:none">
-    <div class="nav-dot"></div>
-    <div class="nav-dot"></div>
-    <div class="nav-dot" style="background:var(--green)"></div>
-  </div>
-  <ul>
-    <li><a href="index.html" data-page="index">Início</a></li>
+
+  <a href="index.html" class="nav-logo" style="text-decoration:none"><span></span><span></span><span></span></div>
+  <ul id="nav-ul">
+
+    <li><a href="index.html">Início</a></li>
     <li><a href="2026.html" data-page="2026">2026</a></li>
-    <li><a href="estante.html" data-page="estante">Estante</a></li>
-    <li><a href="historico.html" data-page="historico">Histórico</a></li>
+    <li><a href="estante.html">Estante</a></li>
+    <li><a href="historico.html">Histórico</a></li>
     <li><a href="desafio.html" data-page="desafio" class="active">Desafio</a></li>
-    <li><a href="sobre.html" data-page="sobre">Sobre</a></li>
+    <li><a href="sobre.html">Sobre</a></li>
   </ul>
-  <button class="nav-hamburger" onclick="document.querySelector('nav ul').classList.toggle('open')">☰</button>
+  <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu">☰</button>
+
 </nav>
 
 <!-- ── HERO ── -->
