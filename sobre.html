@@ -134,7 +134,7 @@ nav ul li a.active{
   display:flex;align-items:center;justify-content:space-between;gap:1rem;
   border-top:1px solid rgba(255,255,255,.35);
 }
-.insp-tag{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--white);font-weight:600;}
+.insp-tag{font-size:.60rem;letter-spacing:.1em;text-transform:uppercase;color:var(--white);font-weight:600;}
 /* BOTÃO bloco verde — texto branco negrito, hover: fundo branco + texto verde */
 .insp-link{
   display:inline-block;padding:.4rem .95rem;
@@ -153,7 +153,7 @@ footer{
 .footer-dot{width:11px;height:11px;border-radius:50%;background:var(--white);}
 /* Footer mais legível — branco sólido + peso 500 */
 .footer-text{
-  font-size:.60rem;letter-spacing:.1em;text-transform:uppercase;
+  font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;
   color:var(--white);font-weight:500;
 }
 
@@ -162,7 +162,7 @@ footer{
 }
 @media(max-width:600px){
   nav ul{display:none;position:absolute;top:52px;left:0;right:0;z-index:99;background:var(--white);flex-direction:column;padding:1rem 2rem;gap:1rem;border-bottom:1px solid #ccc;}
-nav ul.open{display:flex;}
+  nav ul.open{display:flex;}
   .nav-hamburger{display:block;}
   .hero-divider{flex-direction:column;align-items:flex-start;gap:.6rem;}
 }
@@ -280,8 +280,10 @@ nav ul.open{display:flex;}
 
 <!-- ── FOOTER ── -->
 <footer>
-  <div class="footer-dots"><div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div></div>
-  <span class="footer-text">O que tem na estante da Louise &nbsp;|&nbsp; Louise Victoria &nbsp;|&nbsp; © 2026 &nbsp;|&nbsp; Atualizado em <span class="footer-atualizacao">6 de junho de 2026</span></span>
+  <div class="footer-dots">
+    <div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div>
+  </div>
+  <span class="footer-text">O que tem na estante da Louise &nbsp;|&nbsp; Louise Victoria &nbsp;|&nbsp; © 2026 &nbsp;|&nbsp; <span id="data-atualizacao">atualizado em 06 de junho de 2026</span>
 </footer>
 
 <script>
