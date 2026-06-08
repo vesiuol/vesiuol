@@ -1354,7 +1354,7 @@ function renderNotion(){
            onerror="this.outerHTML='<div class=\\'cover-broken\\' title=\\'URL com erro: ${n.capa.replace(/'/g,'').slice(0,60)}\\'>⚠</div>';window._capaErros=window._capaErros||[];window._capaErros.push({pais:'${n.pais}',livro:'${(n.livro||'').replace(/'/g,'')}',url:'${n.capa.replace(/'/g,'').slice(0,80)}'});">`
       : `<div class="cover-placeholder" title="Sem URL de capa">—</div>`;
     const livroText = n.livro
-      ? `<span style="font-weight:500">${n.livro}</span>`
+      ? `<strong>${n.livro}</strong>`
       : '<span style="color:#aaa">—</span>';
     return `<tr style="${rowBg}">
       <td>${capa}</td>
