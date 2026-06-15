@@ -375,13 +375,15 @@ tr:hover td { background: rgba(132,153,116,.05); }
 .notion-cta-foot { border-top: 1px solid rgba(255,255,255,.2); padding: 1rem 2.4rem; display: flex; align-items: center; justify-content: space-between; }
 .notion-btn {
   display: inline-flex; align-items: center; gap: .5rem;
-  background: var(--black); color: var(--white);
-  font-size: .78rem; letter-spacing: .12em; text-transform: uppercase;
-  font-weight: 500; padding: .7rem 1.6rem;
-  border-radius: 6px; transition: opacity .15s, transform .1s;
+  background: transparent; color: var(--white);
+  font-size: .82rem; letter-spacing: .1em; text-transform: uppercase;
+  font-weight: 700; padding: .65rem 1.8rem;
+  border-radius: 100px;
+  border: 1.5px solid rgba(255,255,255,.7);
+  transition: background .18s, border-color .18s, color .18s;
   font-family: Arial, sans-serif;
 }
-.notion-btn:hover { opacity: .85; transform: translateY(-1px); }
+.notion-btn:hover { background: var(--white); border-color: var(--white); color: var(--green); }
 
 /* ── FOOTER (governança) ── */
 footer {
@@ -521,7 +523,7 @@ footer {
 
     <!-- INTRO EDITORIAL -->
     <section>
-      <h1 class="intro-headline"><span class="intro-hl-bg">Uma viagem rumo à</span> <em>diversidade literária</em></h1>
+      <h1 class="intro-headline"><span class="intro-hl-bg">Uma viagem rumo à diversidade literária</span></h1>
       <p class="intro-body">
         Meu projeto de ler ao menos um livro de cada país do mundo nasceu do desejo de <strong>ampliar horizontes</strong> e sair do automático. Depois de reencontrar meu amor pelos livros, descobri criadores de conteúdo literário que me fizeram refletir sobre diversidade, representatividade e pluralidade nas leituras.
       </p>
@@ -767,7 +769,7 @@ footer {
   <div class="footer-dots">
     <div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div>
   </div>
-  <span class="footer-text">O que tem na estante da Louise &nbsp;|&nbsp; Louise Victoria &nbsp;|&nbsp; © 2026 &nbsp;|&nbsp; atualizado em <span id="data-atualizacao">08 de junho de 2026</span></span>
+  <span class="footer-text">O que tem na estante da Louise &nbsp;|&nbsp; Louise Victoria &nbsp;|&nbsp; © 2026 &nbsp;|&nbsp; atualizado em <span id="data-atualizacao">15 de junho de 2026</span></span>
 </footer>
 
 <script>
