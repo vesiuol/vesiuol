@@ -6,197 +6,249 @@
 <title>Sobre — Meus Livros</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --white: #ffffff;
-  --black: #000000;
-  --green: #849974;
-  --green-dark: #6b7e5e;
-  --green-light: #a8bb96;
-  --border: #c8c8c8;
-  --text: #1a1a1a;
-  --muted: #555;
-  --bg: #ffffff;
+  --white:       #ffffff;
+  --black:       #000000;
+  --green:       #849974;
+  --green-dark:  #6b7e5e;
+  --green-light: #c8d4b8;
+  --border:      #c8c8c8;
+  --border-soft: #e0e0e0;
+  --text:        #1a1a1a;
+  --muted:       #555;
+  --bg:          #ffffff;
+  --surface:     #f9f8f5;
 }
-*{margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--white);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:400;}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { -webkit-font-smoothing: antialiased; }
+body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 400; }
+a { color: inherit; text-decoration: none; }
 
 /* ── NAV ── */
-nav{
-  position:sticky;top:0;z-index:100;background:var(--white);
-  padding:0 2rem;display:flex;align-items:center;height:52px;
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--white); height: 52px;
+  padding: 0 2rem; display: flex; align-items: center; gap: 1.5rem;
   border-bottom: 1.5px solid #c5c5a0;
 }
-.nav-logo{display:flex;gap:6px;align-items:center;}
-.nav-dot{width:11px;height:11px;border-radius:50%;background:var(--black);}
-nav ul{list-style:none;display:flex;gap:2rem;margin-left:auto;align-items:center;}
-nav ul li a{color:var(--black);text-decoration:none;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;transition:color .2s;font-weight:500;}
-nav ul li a:hover{color:var(--green);}
-nav ul li a.active{
-  background:var(--green);color:var(--white);
-  padding:.28rem .7rem;border-radius:3px;font-weight:700;
+.nav-logo { display: flex; gap: 5px; align-items: center; }
+.nav-dot  { width: 10px; height: 10px; border-radius: 50%; background: var(--black); }
+nav ul { list-style: none; display: flex; gap: 2rem; margin-left: auto; align-items: center; }
+nav ul li a {
+  color: var(--black); font-size: .78rem; letter-spacing: .12em;
+  text-transform: uppercase; font-weight: 500; transition: color .2s;
 }
-.nav-hamburger{display:none;background:none;border:none;color:var(--black);font-size:1.4rem;cursor:pointer;margin-left:auto;}
+nav ul li a:hover { color: var(--green); }
+nav ul li a.active {
+  background: var(--green); color: var(--white);
+  padding: .28rem .7rem; border-radius: 3px; font-weight: 700;
+}
+.nav-hamburger {
+  display: none; background: none; border: none;
+  color: var(--black); font-size: 1.4rem; cursor: pointer; margin-left: auto;
+}
 
 /* ── WINDOW CARD ── */
-.window-card{
-  background:var(--white);
-  border:1.5px solid #b0b090;
-  border-radius:16px;
-  overflow:hidden;
+.wcard {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 14px; overflow: hidden;
+  box-shadow: 2px 2px 0 var(--border);
 }
-.window-bar{
-  padding:.55rem 1rem;
-  display:flex;align-items:center;gap:6px;
-  border-bottom:1px solid #ddd;
+.wbar {
+  padding: .5rem 1rem;
+  display: flex; align-items: center; gap: 5px;
+  border-bottom: 1px solid var(--border-soft);
 }
-.win-dot{width:9px;height:9px;border-radius:50%;background:#bbb;}
+.wdot { width: 8px; height: 8px; border-radius: 50%; background: #bbb; }
+.wtitle {
+  font-size: .68rem; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--muted); margin-left: .4rem;
+}
 
 /* ── HERO ── */
-.hero-section{max-width:1100px;margin:3rem auto 2rem;padding:0 2rem;}
-.hero-card{padding:2.5rem 2.5rem 0;}
-.hero-title-bg{
-  background:var(--green);display:inline-block;
-  padding:.3rem .7rem;margin-bottom:1.2rem;
+.hero-section { max-width: 1100px; margin: 3rem auto 2rem; padding: 0 2.5rem; }
+.hero-card { padding: 2.5rem 3rem 0; }
+
+.intro-eyebrow {
+  font-size: .72rem; font-weight: 500;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--green); margin-bottom: 1rem;
 }
-.hero-title-bg h1{
-  font-family:'Playfair Display',serif;
-  font-size:clamp(2rem,4vw,3rem);
-  font-weight:400;color:var(--white);line-height:1.1;
+/* Título hero com faixa verde no comprimento */
+.hero-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.4rem, 4vw, 3.8rem);
+  font-weight: 600; line-height: 1.1;
+  display: inline;
+  background: var(--green);
+  color: var(--white);
+  padding: .06em .28em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  margin-bottom: 1.4rem;
 }
-.hero-card p{
-  font-size:.95rem;line-height:1.85;color:var(--text);
-  max-width:900px;margin-bottom:.9rem;
+.hero-name-wrap { margin-bottom: 1.4rem; }
+
+.hero-card p {
+  font-size: .93rem; line-height: 1.85; color: var(--muted);
+  margin-bottom: .9rem;
+}
+.hero-card p strong { color: var(--text); font-weight: 500; }
+
+/* Botões pílula */
+.hero-links { display: flex; gap: .6rem; flex-wrap: wrap; margin: 1.4rem 0 .4rem; }
+.hero-link {
+  display: inline-block; padding: .4rem 1.1rem;
+  border: 1.5px solid var(--border); border-radius: 100px;
+  font-size: .80rem; font-weight: 400;
+  color: var(--muted); background: transparent;
+  transition: all .2s;
+}
+.hero-link:hover { background: var(--green); border-color: var(--green); color: var(--white); }
+
+.hero-divider {
+  margin-top: 2rem; border-top: 1px solid var(--border);
+  padding: 1rem 3rem;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.hero-tagline {
+  font-size: .68rem; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--muted); font-weight: 500;
+}
+.hero-arrow { font-size: 1.1rem; color: var(--black); }
+
+/* ── SEÇÕES ── */
+.page-section { max-width: 1100px; margin: 0 auto; padding: 0 2.5rem 3.5rem; }
+.section-gap { margin-top: 2.5rem; }
+
+.section-head {
+  display: flex; align-items: baseline; gap: .8rem;
+  margin-bottom: 1.4rem;
+  border-bottom: 1px solid var(--border-soft); padding-bottom: .7rem;
+}
+/* Títulos de seção com faixa verde no comprimento — igual ao publicado */
+.section-h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.35rem; font-weight: 600;
+  display: inline;
+  background: var(--green);
+  color: var(--white);
+  padding: .08em .4em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.section-sub {
+  font-size: .72rem; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--muted);
 }
 
-/* BOTÕES HERO — texto preto (verde era fraco), negrito, hover verde sólido */
-.hero-links{display:flex;gap:.7rem;flex-wrap:wrap;margin:1.4rem 0 .4rem;}
-.hero-link{
-  display:inline-block;padding:.5rem 1.15rem;
-  border:1.5px solid var(--green);border-radius:50px;
-  font-size:.82rem;font-weight:700;letter-spacing:.04em;
-  text-decoration:none;color:var(--black);background:transparent;
-  transition:all .2s;
-}
-.hero-link:hover{background:var(--green);border-color:var(--green);color:var(--white);}
-
-.hero-divider{
-  margin-top:2rem;border-top:1px solid #ccc;
-  padding:1rem 2.5rem;
-  display:flex;align-items:center;justify-content:space-between;
-}
-.hero-tagline{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:500;}
-.hero-arrow{font-size:1.1rem;color:var(--black);}
-
-/* ── SECTION LAYOUT ── */
-.page-section{max-width:1100px;margin:0 auto;padding:0 2rem 3.5rem;}
-.section-header{
-  display:flex;align-items:baseline;gap:1.2rem;
-  margin-bottom:1.8rem;border-bottom:1px solid #ccc;padding-bottom:.7rem;
-}
-.section-header .sh-label{
-  background:var(--green);padding:.25rem .75rem;
-  font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:500;color:var(--white);
-}
-.section-header .sh-sub{
-  font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:500;
+.text-block {
+  font-size: .93rem; line-height: 1.85; color: var(--text);
+  margin-bottom: 1.1rem;
 }
 
-.text-block{
-  font-size:.95rem;line-height:1.85;color:var(--text);
-  margin-bottom:1.1rem;max-width:900px;
+/* ── INSPIRATION CARDS ── */
+.inspiration-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.inspiration-card {
+  border: 1.5px solid var(--green-dark);
+  border-radius: 14px; overflow: hidden;
+  display: flex; flex-direction: column;
+  box-shadow: 2px 2px 0 var(--green-dark);
 }
-
-/* ── INSPIRATION CARDS — fundo verde com tipografia acessível ── */
-.inspiration-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
-.inspiration-card{
-  border:1.5px solid var(--green-dark);
-  border-radius:14px;overflow:hidden;
-  display:flex;flex-direction:column;
+.insp-winbar {
+  padding: .5rem .9rem; display: flex; align-items: center; gap: 5px;
+  border-bottom: 1px solid rgba(255,255,255,.3);
+  background: var(--green);
 }
-.insp-winbar{
-  padding:.5rem .9rem;display:flex;align-items:center;gap:5px;
-  border-bottom:1px solid rgba(255,255,255,.35);
-  background:var(--green);
+.insp-winbar .wdot { background: rgba(255,255,255,.7); }
+.insp-body {
+  background: var(--green); padding: 1.4rem 1.4rem 1.1rem;
+  flex: 1; display: flex; flex-direction: column; gap: .7rem;
 }
-.insp-winbar .win-dot{background:rgba(255,255,255,.75);}
-.insp-body{
-  background:var(--green);padding:1.4rem 1.4rem 1.1rem;
-  flex:1;display:flex;flex-direction:column;gap:.7rem;
+.insp-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem; font-weight: 700;
+  color: var(--white); margin-bottom: .2rem;
 }
-.insp-title-bg{background:var(--green-dark);display:inline-block;padding:.2rem .6rem;align-self:flex-start;}
-.insp-title-bg h3{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:600;color:var(--white);}
-/* Texto branco SÓLIDO + peso 500 para acessibilidade no fundo verde */
-.insp-text{font-size:.9rem;line-height:1.7;color:var(--white);font-weight:500;}
-.insp-footer{
-  background:var(--green);padding:.85rem 1.4rem;
-  display:flex;align-items:center;justify-content:space-between;gap:1rem;
-  border-top:1px solid rgba(255,255,255,.35);
+.insp-text { font-size: .90rem; line-height: 1.7; color: var(--white); font-weight: 500; }
+.insp-footer {
+  background: var(--green); padding: .85rem 1.4rem;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  border-top: 1px solid rgba(255,255,255,.25);
 }
-.insp-tag{font-size:.60rem;letter-spacing:.1em;text-transform:uppercase;color:var(--white);font-weight:600;}
-/* BOTÃO bloco verde — texto branco negrito, hover: fundo branco + texto verde */
-.insp-link{
-  display:inline-block;padding:.4rem .95rem;
-  border:1.5px solid var(--white);border-radius:50px;
-  font-size:.74rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
-  text-decoration:none;color:var(--white);background:transparent;transition:all .2s;
+.insp-tag {
+  font-size: .65rem; letter-spacing: .1em;
+  text-transform: uppercase; color: rgba(255,255,255,.8); font-weight: 500;
 }
-.insp-link:hover{background:var(--white);border-color:var(--white);color:var(--green);}
+.insp-link {
+  display: inline-block; padding: .35rem .9rem;
+  border: 1.5px solid var(--white); border-radius: 100px;
+  font-size: .74rem; font-weight: 500; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--white);
+  background: transparent; transition: all .2s;
+}
+.insp-link:hover { background: var(--white); border-color: var(--white); color: var(--green); }
 
 /* ── FOOTER ── */
-footer{
-  background:var(--green);padding:1.2rem 2rem;
-  display:flex;align-items:center;gap:1rem;
+footer {
+  background: var(--green); padding: 1rem 2rem;
+  display: flex; align-items: center; gap: 1rem;
+  border-top: 1.5px solid var(--green-dark);
 }
-.footer-dots{display:flex;gap:6px;}
-.footer-dot{width:11px;height:11px;border-radius:50%;background:var(--white);}
-/* Footer mais legível — branco sólido + peso 500 */
-.footer-text{
-  font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--white);font-weight:500;
+.footer-dots { display: flex; gap: 5px; }
+.footer-dot  { width: 10px; height: 10px; border-radius: 50%; background: var(--white); }
+.footer-text {
+  font-size: .60rem; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--white); font-weight: 500; font-family: 'DM Sans', sans-serif;
 }
 
-@media(max-width:900px){
-  .inspiration-grid{grid-template-columns:1fr;}
+@media (max-width: 900px) {
+  .inspiration-grid { grid-template-columns: 1fr; }
 }
-@media(max-width:600px){
-  nav ul{display:none;position:absolute;top:52px;left:0;right:0;z-index:99;background:var(--white);flex-direction:column;padding:1rem 2rem;gap:1rem;border-bottom:1px solid #ccc;}
-  nav ul.open{display:flex;}
-  .nav-hamburger{display:block;}
-  .hero-divider{flex-direction:column;align-items:flex-start;gap:.6rem;}
+@media (max-width: 600px) {
+  nav ul { display: none; position: absolute; top: 52px; left: 0; right: 0; z-index: 99;
+    background: var(--white); flex-direction: column; padding: 1rem 2rem;
+    gap: 1rem; border-bottom: 1px solid var(--border); }
+  nav ul.open { display: flex; }
+  .nav-hamburger { display: block; }
+  .hero-section { padding: 0 1rem; margin-top: 1.5rem; }
+  .hero-card { padding: 1.2rem 1.2rem 0; }
+  .hero-divider { flex-direction: column; align-items: flex-start; gap: .6rem; padding: 1rem 1.2rem; }
+  .page-section { padding: 0 1rem 2.5rem; }
+  .section-head { flex-wrap: wrap; gap: .5rem; }
+  footer { padding: 1rem; flex-wrap: wrap; gap: .5rem; }
 }
 </style>
 </head>
 <body>
 
-<!-- ── NAVIGATION ── -->
 <nav>
   <a href="index.html" class="nav-logo" style="text-decoration:none">
     <div class="nav-dot"></div>
     <div class="nav-dot"></div>
     <div class="nav-dot" style="background:var(--green)"></div>
   </a>
-  <ul>
-    <li><a href="index.html" data-page="index">Início</a></li>
-    <li><a href="2026.html" data-page="2026">2026</a></li>
-    <li><a href="estante.html" data-page="estante">Estante</a></li>
-    <li><a href="historico.html" data-page="historico">Histórico</a></li>
-    <li><a href="desafio.html" data-page="desafio">Desafio</a></li>
-    <li><a href="sobre.html" data-page="sobre" class="active">Sobre</a></li>
+  <ul id="nav-ul">
+    <li><a href="index.html">Início</a></li>
+    <li><a href="2026.html">2026</a></li>
+    <li><a href="estante.html">Estante</a></li>
+    <li><a href="historico.html">Histórico</a></li>
+    <li><a href="desafio.html">Desafio</a></li>
+    <li><a href="sobre.html" class="active">Sobre</a></li>
   </ul>
-  <button class="nav-hamburger" onclick="document.querySelector('nav ul').classList.toggle('open')">☰</button>
+  <button class="nav-hamburger" onclick="document.getElementById('nav-ul').classList.toggle('open')">☰</button>
 </nav>
 
-<!-- ── HERO ── -->
+<!-- HERO -->
 <div class="hero-section">
-  <div class="window-card">
-    <div class="window-bar">
-      <div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div>
-    </div>
+  <div class="wcard">
+    <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div></div>
     <div class="hero-card">
-      <div class="hero-title-bg">
-        <h1>Louise Victoria</h1>
+      <div class="hero-name-wrap">
+        <h1 class="hero-name">Louise Victoria</h1>
       </div>
       <p>Jornalista que sempre atuou com marketing, trabalho com comunicação, experiência do cliente e análise / apresentação de dados. Também leio bastante e tenho uma certa fascinação por acompanhar, organizar e analisar esse hobby.</p>
       <div class="hero-links">
@@ -206,42 +258,36 @@ footer{
       </div>
     </div>
     <div class="hero-divider">
-      <span class="hero-tagline">Um acervo literário pessoal: organizar, analisar e compartilhar a minha relação com os livros.</span>
+      <span class="hero-tagline">Um acervo literário pessoal — organizar, analisar e compartilhar a minha relação com os livros.</span>
       <span class="hero-arrow">→</span>
     </div>
   </div>
 </div>
 
-<!-- ── POR QUE ESSE SITE EXISTE ── -->
-<div class="page-section">
-  <div class="section-header">
-    <span class="sh-label">Por que esse site existe?</span>
-    <span class="sh-sub">Da planilha ao site</span>
+<!-- POR QUE ESSE SITE EXISTE -->
+<div class="page-section section-gap">
+  <div class="section-head">
+    <h2 class="section-h2">Por que esse site existe?</h2>
+    <span class="section-sub">Da planilha ao site</span>
   </div>
-
   <p class="text-block">Já falei bastante sobre minha relação com os livros e sobre como acho fascinante descobrir coisas que vão muito além do que a sinopse pode contar. E eu adoro pensar que posso compartilhar essa maluquice com outras pessoas. E que fique claro: eu não sou criadora de conteúdo literário e nem aspiro ser. Só gosto de imaginar que talvez existam outras pessoas nesse universo da internet que também se interessem por esse tipo de fascinação.</p>
-
   <p class="text-block">Durante a pandemia, comecei a catalogar meus livros através de uma planilha de Excel que foi compartilhada por uma maravilhosa criadora de conteúdo literário. Era um modelo pronto para duplicar e preencher com os dados dos próprios livros, essa planilha abriu um baú dos tesouros na minha cabeça. Hoje, tenho duas planilhas: uma dedicada aos livros da minha estante e outra ao histórico das minhas leituras. Mais tarde, comecei a me aventurar no Notion. Foi um certo desafio, mas me recusei a aceitar que não conseguiria aprender e, aos poucos, migrei minha organização para lá também.</p>
-
   <p class="text-block">Isso significa que abandonei o Excel? Nãooo. Continuo usando as duas planilhas e talvez isso me torne um pouquinho maluca da organização. Também já perdi boas horas buscando informações retroativas, montando visualmente minhas páginas no Notion e atualizando dados que provavelmente só eu mesma consultaria com tanta frequência.</p>
-
   <p class="text-block">Mas, afinal, por que criar esse site? Um belo dia, vi nos stories do Instagram uma pessoa compartilhando o site de uma amiga que catalogava todos os shows em que já tinha ido. Achei incrível. Era bonito, interativo, criativo e cheio de informações sobre algo que ela claramente amava.</p>
-
   <p class="text-block">E pensei: por que não fazer um para mim também? Afinal, se tem uma coisa que eu já deixei claro, é que tenho dados suficientes para isso. Bem-vindo ao meu pequeno universo de catalogação literária ou, como gosto de pensar, ao meu acervo literário pessoal.</p>
 </div>
 
-<!-- ── EM QUEM ME INSPIREI ── -->
+<!-- EM QUEM ME INSPIREI -->
 <div class="page-section">
-  <div class="section-header">
-    <span class="sh-label">Em quem me inspirei</span>
-    <span class="sh-sub">Referências e agradecimentos</span>
+  <div class="section-head">
+    <h2 class="section-h2">Em quem me inspirei</h2>
+    <span class="section-sub">Referências e agradecimentos</span>
   </div>
-
   <div class="inspiration-grid">
     <div class="inspiration-card">
-      <div class="insp-winbar"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div></div>
+      <div class="insp-winbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div></div>
       <div class="insp-body">
-        <div class="insp-title-bg"><h3>Bruna Miranda</h3></div>
+        <div class="insp-name">Bruna Miranda</div>
         <p class="insp-text">A Bruna é booktuber e criadora de conteúdo literário, além de ter participado do podcast Wine About It, que eu adorava. Hoje já não encontro mais o link da planilha, mas ainda assim queria deixar meu agradecimento.</p>
         <p class="insp-text">A planilha que ela criou foi o ponto de partida para esse meu hobby de catalogação literária. Foi através dela que comecei a organizar meus livros e, com o tempo, adaptar tudo para uma versão com a minha cara.</p>
       </div>
@@ -250,11 +296,10 @@ footer{
         <a class="insp-link" href="https://www.instagram.com/brunaestalendo/" target="_blank" rel="noopener">Instagram →</a>
       </div>
     </div>
-
     <div class="inspiration-card">
-      <div class="insp-winbar"><div class="win-dot"></div><div class="win-dot"></div><div class="win-dot"></div></div>
+      <div class="insp-winbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div></div>
       <div class="insp-body">
-        <div class="insp-title-bg"><h3>Bianca Muniz</h3></div>
+        <div class="insp-name">Bianca Muniz</div>
         <p class="insp-text">A Bianca me mostrou que todo esse projeto era possível, algo que até então eu nem imaginava como fazer ou tinha referências. Ao descobrir o site dela, percebi que também poderia planejar e construir um espaço parecido para mim.</p>
         <p class="insp-text">Ela acabou sendo uma referência visual e um ponto de partida importante, me ajudando com ideias, estrutura e até no entendimento de como começar. A meta é que, assim como minhas planilhas, este site também vá sendo cada vez mais personalizado.</p>
       </div>
@@ -266,28 +311,23 @@ footer{
   </div>
 </div>
 
-<!-- ── NÃO VOU PARAR POR AQUI ── -->
+<!-- NÃO VOU PARAR POR AQUI -->
 <div class="page-section">
-  <div class="section-header">
-    <span class="sh-label">Não vou parar por aqui</span>
-    <span class="sh-sub">Próximos passos</span>
+  <div class="section-head">
+    <h2 class="section-h2">Não vou parar por aqui</h2>
+    <span class="section-sub">Próximos passos</span>
   </div>
-
   <p class="text-block">Como já falei, a ideia é deixar este espaço cada vez mais com a minha cara. Neste primeiro momento, quis colocar no ar a estrutura do que já existia nas minhas planilhas e organizações pessoais. Aos poucos, a intenção é personalizar mais, aprofundar os dados e expandir as possibilidades do que pode existir por aqui.</p>
-
   <p class="text-block">Ainda há muita coisa que quero fazer com essas informações. Meu desafio literário continua, novos textos no Medium talvez voltem a aparecer e um novo desafio já está engatinhando para, em breve, ganhar espaço neste site também. As leituras do ano podem render reflexões sobre a experiência, novas metas podem surgir a partir dos dados e, conforme os números mudam, os cenários também mudam junto comigo.</p>
 </div>
 
-<!-- ── FOOTER ── -->
+<!-- FOOTER -->
 <footer>
   <div class="footer-dots">
     <div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div>
   </div>
-  <span class="footer-text">O que tem na estante da Louise &nbsp;|&nbsp; Louise Victoria &nbsp;|&nbsp; © 2026 &nbsp;|&nbsp; <span id="data-atualizacao">atualizado em 06 de junho de 2026</span>
+  <span class="footer-text">O que tem na estante da Louise&nbsp;&nbsp;|&nbsp;&nbsp;Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">06 de junho de 2026</span></span>
 </footer>
 
-<script>
-  document.querySelectorAll('nav ul a[data-page="sobre"]').forEach(a => a.classList.add('active'));
-</script>
 </body>
 </html>
