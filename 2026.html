@@ -5,265 +5,194 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>2026 — O Que Tem na Estante da Louise</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <style>
+/* ── TOKENS (governança) ── */
 :root {
-  --white: #ffffff;
-  --black: #000000;
-  --green: #849974;
-  --green-dark: #6b7e5e;
-  --green-light: #a8bb96;
-  --border: #c8c8c8;
-  --text: #1a1a1a;
-  --muted: #555;
+  --white:#ffffff; --black:#000000;
+  --green:#849974; --green-dark:#6b7e5e; --green-light:#c8d4b8;
+  --border:#c8c8c8; --border-soft:#e0e0e0;
+  --text:#1a1a1a; --muted:#555;
+  --surface:#f9f8f5;
+  --sidebar-w:272px; --header-h:52px;
 }
-* { margin:0; padding:0; box-sizing:border-box; }
-body {
-  background: var(--white);
-  color: var(--text);
-  font-family: 'DM Sans', sans-serif;
-  font-weight: 300;
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--white);color:var(--text);font-family:Arial,sans-serif;font-weight:400;display:flex;flex-direction:column;min-height:100vh;}
+a{color:inherit;text-decoration:none;}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:200;height:var(--header-h);background:var(--white);border-bottom:1.5px solid #c5c5a0;display:flex;align-items:center;padding:0 2rem;gap:1.5rem;flex-shrink:0;}
+.nav-logo{display:flex;gap:5px;align-items:center;}
+.nav-dot{width:10px;height:10px;border-radius:50%;background:var(--black);}
+nav ul{list-style:none;display:flex;gap:2rem;margin-left:auto;align-items:center;}
+nav ul li a{color:var(--black);font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;font-weight:500;}
+nav ul li a.active{background:var(--green);color:var(--white);padding:.28rem .7rem;border-radius:3px;font-weight:700;}
+
+/* LAYOUT */
+.page-wrap{display:grid;grid-template-columns:var(--sidebar-w) 1fr;flex:1;}
+
+/* SIDEBAR */
+.sidebar{border-right:1.5px solid var(--border);background:var(--surface);position:sticky;top:var(--header-h);height:calc(100vh - var(--header-h));overflow-y:auto;padding:2rem 1.4rem;display:flex;flex-direction:column;gap:1.6rem;align-self:start;}
+.sb-label{font-size:.68rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem;}
+
+/* KPI grid */
+.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;}
+.kpi-card{background:var(--white);border:1.5px solid var(--border);border-radius:10px;padding:.85rem .8rem;}
+.kpi-card.accent{background:var(--green);border-color:var(--green-dark);grid-column:span 2;}
+.kpi-card.span2{grid-column:span 2;}
+.kpi-num{font-family:Georgia,serif;font-size:1.9rem;font-weight:400;line-height:1;color:var(--text);}
+.kpi-card.accent .kpi-num{color:var(--white);font-size:2.2rem;}
+.kpi-lbl{font-size:.68rem;color:var(--muted);margin-top:.25rem;line-height:1.3;}
+.kpi-card.accent .kpi-lbl{color:rgba(255,255,255,.75);}
+
+/* Progresso sidebar */
+.prog-block{display:flex;flex-direction:column;gap:.75rem;}
+.prog-meta{display:flex;justify-content:space-between;font-size:.78rem;color:var(--muted);margin-bottom:.3rem;}
+.prog-meta b{color:var(--text);font-weight:500;}
+.prog-track{height:6px;background:var(--border);border-radius:4px;overflow:hidden;}
+.prog-fill{height:100%;background:var(--green);border-radius:4px;}
+
+/* Meta stats na sidebar */
+.meta-stats{display:flex;flex-direction:column;gap:0;}
+.meta-row{display:flex;justify-content:space-between;align-items:center;padding:.55rem 0;border-bottom:1px solid var(--border-soft);font-size:.82rem;}
+.meta-row:last-child{border-bottom:none;}
+.meta-lbl{color:var(--muted);}
+.meta-val{font-family:Georgia,serif;font-size:1.1rem;font-weight:400;color:var(--text);}
+.meta-val.highlight{color:var(--green);}
+
+/* Nav pills sidebar */
+.sb-nav-pills{display:flex;flex-direction:column;gap:.4rem;}
+.sb-nav-pill{display:flex;align-items:center;gap:.6rem;padding:.5rem .75rem;border:1.5px solid var(--border);border-radius:50px;background:transparent;color:var(--muted);font-size:.74rem;cursor:pointer;text-align:left;transition:background .18s,color .18s,border-color .18s,transform .12s;}
+.sb-nav-pill:hover{background:var(--green);border-color:var(--green);color:var(--white);transform:translateX(3px);}
+.sb-nav-pill .pill-dot{width:22px;height:22px;border-radius:50%;background:var(--green);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.6rem;color:var(--white);}
+.sb-nav-pill:hover .pill-dot{background:var(--white);color:var(--green);}
+
+/* Filter pills sidebar */
+.filter-pills{display:flex;flex-wrap:wrap;gap:.3rem;}
+.fpill{font-size:.72rem;padding:.3rem .75rem;border-radius:100px;border:1.5px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:background .18s,color .18s,border-color .18s;}
+.fpill:hover:not(.active){background:var(--green);border-color:var(--green);color:var(--white);}
+.fpill.active{background:var(--green);border-color:var(--green);color:var(--white);font-weight:500;}
+
+/* Mobile */
+@media(max-width:768px){
+  :root{--sidebar-w:0px;}
+  .page-wrap{grid-template-columns:1fr;}
+  .sidebar{display:none;}
+  .main{padding:1.6rem 1.2rem 2rem;}
+  .intro-headline{font-size:1.8rem;}
+  .perfil-text-grid{grid-template-columns:1fr 1fr;}
+  .div-cards{grid-template-columns:1fr;}
+  .charts-2col{grid-template-columns:1fr;}
+  nav{padding:0 1rem;gap:.8rem;}
+  nav ul{gap:.8rem;}
+  nav ul li a{font-size:.7rem;}
+  .table-controls{flex-direction:column;align-items:stretch;}
+  .search-wrap{max-width:100%;}
+  table{font-size:.75rem;}
+  td,th{padding:.45rem .5rem;}
 }
 
-/* ── NAV ── */
-/* Governança #008: border-bottom #c5c5a0, gap 2rem, letter-spacing .12em, font-size .78rem, DM Sans explícito */
-nav {
-  position: sticky; top: 0; z-index: 100;
-  background: var(--white);
-  border-bottom: 1.5px solid #c5c5a0;
-  padding: 0 2rem;
-  display: flex; align-items: center; gap: 2rem; height: 52px;
-}
-.nav-logo { display: flex; gap: 6px; align-items: center; }
-.nav-logo span { width: 10px; height: 10px; border-radius: 50%; background: #bbb; display: inline-block; }
-.nav-logo span:last-child { background: var(--green); }
-nav ul { list-style: none; display: flex; gap: 2rem; margin-left: auto; }
-nav ul li a {
-  color: var(--black); text-decoration: none;
-  font-family: 'DM Sans', sans-serif;
-  font-size: .78rem; letter-spacing: .12em;
-  text-transform: uppercase; font-weight: 500; transition: color .2s;
-}
-nav ul li a:hover { color: var(--green); }
-nav ul li a.active {
-  background: var(--green); color: var(--white);
-  padding: .28rem .7rem; border-radius: 3px; font-weight: 700;
-}
-.nav-hamburger {
-  display: none; margin-left: auto;
-  background: none; border: none; font-size: 1.4rem;
-  cursor: pointer; color: var(--black); padding: .2rem .4rem;
-}
+/* MAIN */
+.main{padding:2.8rem 3rem 3rem;}
 
-/* ── HERO ── */
-.hero-section { padding: 3rem 2rem 2rem; max-width: 1180px; margin: 0 auto; }
-.hero-card {
-  border: 1.5px solid var(--border); border-radius: 14px;
-  padding: 2.5rem 2.5rem 2rem; background: var(--white);
-  box-shadow: 2px 2px 0 var(--border);
-}
-.card-dots { display: flex; gap: 5px; margin-bottom: 1.2rem; }
-.card-dots span { width: 9px; height: 9px; border-radius: 50%; background: #bbb; display: inline-block; }
-.hero-title {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(2rem, 4vw, 3rem); font-weight: 400; line-height: 1.1;
-  margin-bottom: 1rem; background: var(--green); color: var(--white);
-  display: inline-block; padding: .1rem .4rem; border-radius: 4px;
-}
-.hero-desc { color: var(--text); font-size: .95rem; line-height: 1.75; max-width: 820px; margin-bottom: 1.5rem; }
-.hero-link-row {
-  display: flex; align-items: center; justify-content: space-between;
-  border-top: 1px solid var(--border); padding-top: 1rem; margin-top: .5rem;
-}
-.hero-link-label { font-size: .7rem; letter-spacing: .15em; text-transform: uppercase; color: var(--muted); }
-.hero-arrow { font-size: 1.3rem; color: var(--black); }
+/* Intro editorial */
+.intro-eyebrow{font-size:.72rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--green);margin-bottom:1rem;}
+.intro-headline{font-family:Georgia,serif;font-size:clamp(2.2rem,3.8vw,3.2rem);font-weight:400;line-height:1.2;margin-bottom:1.4rem;}
+.intro-headline-band{display:inline;background:var(--green);color:var(--white);padding:.35rem .9rem;border-radius:3px;font-family:Georgia,serif;}
+.intro-headline-band em{font-style:italic;font-family:Georgia,serif;}
+.intro-body{font-size:1rem;line-height:1.8;color:var(--muted);}
+.intro-body strong{color:var(--text);}
 
-/* ── STATS GRID ── */
-/* Governança: 6 colunas desktop → 3 tablet → 2 celular, border var(--green-dark) */
-.stats-grid {
-  display: grid; grid-template-columns: repeat(6,1fr);
-  gap: .8rem; max-width: 1180px; margin: 1.5rem auto 0; padding: 0 2rem;
-}
-.stat-box {
-  border: 1.5px solid var(--green-dark); border-radius: 12px;
-  padding: 1.4rem 1rem; text-align: center;
-  background: var(--green); display: flex; flex-direction: column;
-  align-items: center; justify-content: center; min-height: 110px;
-}
-.stat-number {
-  font-family: 'Playfair Display', serif; font-size: 2rem;
-  font-weight: 400; line-height: 1; color: var(--white); display: block;
-}
-.stat-label { font-size: .68rem; letter-spacing: .06em; color: rgba(255,255,255,.85); margin-top: .35rem; display: block; }
+/* Section */
+.section-gap{margin-top:3rem;}
+.section-hr{border:none;border-top:1px solid var(--border-soft);margin-bottom:1.6rem;}
+.section-head{display:flex;align-items:center;gap:.8rem;margin-bottom:1.4rem;flex-wrap:wrap;}
+.section-h2{font-family:Georgia,serif;font-size:1.15rem;font-weight:400;color:var(--white);background:var(--green);padding:.35rem .9rem;border-radius:3px;display:inline-block;}
+.section-sub{font-size:.72rem;color:var(--muted);letter-spacing:.04em;}
 
-/* ── SECTION ── */
-.sec-header {
-  display: flex; align-items: center; gap: .8rem;
-  margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: .8rem;
-}
-.sec-tag {
-  background: var(--green); color: var(--white);
-  font-family: 'Playfair Display', serif; font-size: 1rem;
-  padding: .15rem .5rem; border-radius: 4px; white-space: nowrap;
-}
-.sec-subtitle { font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
-section.page-section { max-width: 1180px; margin: 0 auto; padding: 3rem 2rem 1rem; }
+/* Window card */
+.wcard{background:var(--white);border:1.5px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:2px 2px 0 var(--border);}
+.wbar{padding:.5rem 1rem;display:flex;gap:5px;align-items:center;border-bottom:1px solid var(--border-soft);}
+.wdot{width:8px;height:8px;border-radius:50%;background:#bbb;}
+.wtitle{font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-left:.4rem;}
 
-/* ── CHART CARD ── */
-.chart-card {
-  border: 1.5px solid var(--border); border-radius: 12px;
-  padding: 0; overflow: hidden; background: var(--white);
-  box-shadow: 2px 2px 0 #c8c8c8;
-}
-.chart-card-header {
-  display: flex; align-items: center; gap: .5rem;
-  padding: .7rem 1rem; border-bottom: 1px solid var(--border);
-}
-.chart-card-header .card-dots { margin-bottom: 0; }
-.chart-card-header .card-dots span { width: 7px; height: 7px; background: #bbb; }
-.chart-card-title { font-size: .72rem; letter-spacing: .08em; color: var(--muted); margin-left: .3rem; }
+/* Perfil grid texto */
+.perfil-text-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1.5px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:.8rem;}
+.ptg-cell{background:var(--white);padding:1rem 1.1rem;}
+.ptg-label{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem;}
+.ptg-val{font-size:.95rem;font-weight:500;color:var(--text);}
+.ptg-sub{font-size:.72rem;color:var(--muted);margin-top:.15rem;}
 
-/* ── CHART BODY ── */
-.chart-body { padding: 1rem 1.2rem 1.2rem; position: relative; height: 280px; }
-.chart-body canvas { height: 100% !important; width: 100% !important; }
-.chart-body.tall { height: 480px; }
-.chart-body.medium { height: 320px; }
-.charts-grid-2 .chart-card,
-.charts-grid-3 .chart-card { overflow: hidden; }
+/* Diversity cards */
+.div-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin-bottom:.8rem;}
+.div-card{border:1.5px solid var(--border);border-radius:12px;padding:1rem .9rem;background:var(--white);}
+.div-num{font-family:Georgia,serif;font-size:1.8rem;font-weight:400;color:var(--green);line-height:1;margin-bottom:.3rem;}
+.div-lbl{font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);}
+.div-sub{font-size:.78rem;color:var(--muted);margin-top:.3rem;}
+.div-track{height:4px;background:var(--border);border-radius:2px;overflow:hidden;margin-top:.5rem;}
+.div-fill{height:100%;background:var(--green);border-radius:2px;}
 
-/* ── PROGRESS ── */
-.progress-big-card {
-  border: 1.5px solid var(--border); border-radius: 12px;
-  overflow: hidden; background: var(--white);
-  margin-bottom: 2rem; box-shadow: 2px 2px 0 #c8c8c8;
-}
-.progress-body {
-  padding: 2rem 2.5rem; display: grid;
-  grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start;
-}
-.progress-meta-label { font-family: 'Playfair Display', serif; font-size: 1.1rem; margin-bottom: .4rem; }
-.progress-sub { font-size: .85rem; color: var(--muted); margin-bottom: .9rem; }
-.progress-bar-wrap { background: var(--border); height: 6px; border-radius: 4px; overflow: hidden; margin-bottom: .4rem; }
-.progress-bar-fill { height: 100%; background: var(--green); border-radius: 4px; transition: width 1s ease; }
-.progress-pct { font-size: .74rem; color: var(--muted); }
-.pstat { display: flex; justify-content: space-between; align-items: center; padding: .55rem 0; border-bottom: 1px solid var(--border); }
-.pstat:last-child { border-bottom: none; }
-.pstat-label { font-size: .82rem; color: var(--muted); }
-.pstat-val { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 400; }
+/* Rank */
+.charts-2col{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:.8rem;}
+.rank-list{display:flex;flex-direction:column;gap:.6rem;}
+.rank-item{}
+.rank-header{display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:.3rem;}
+.rank-pos{color:var(--muted);font-size:.72rem;margin-right:.4rem;}
+.rank-val{color:var(--green);font-weight:500;}
+.rank-track{height:5px;background:var(--border);border-radius:3px;overflow:hidden;}
+.rank-fill{height:100%;background:var(--green);border-radius:3px;}
+.rank-fill.light{background:var(--green-light);}
 
-/* ── CHARTS GRID ── */
-.charts-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
-.charts-grid-2 .full { grid-column: 1 / -1; }
-.charts-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
-.charts-grid-2 .chart-card,
-.charts-grid-3 .chart-card { min-height: 220px; }
+/* Chart body */
+.chart-body{padding:1rem 1.2rem;position:relative;}
+.chart-body canvas{max-height:200px;}
+.chart-body.barh canvas{max-height:240px;}
 
-/* ── MAP ── */
-#map-2026 { height: 420px; border-radius: 0 0 10px 10px; z-index: 1; }
+/* Mapa */
+#map-2026{height:380px;border-radius:0 0 12px 12px;}
+.map-legend{display:flex;gap:1.2rem;flex-wrap:wrap;margin-top:.8rem;font-size:.78rem;color:var(--muted);}
+.legend-dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:4px;vertical-align:middle;}
 
-/* ── TABLE ── */
-.table-controls { display: flex; gap: .8rem; flex-wrap: wrap; margin-bottom: 1rem; align-items: center; }
-.search-wrap { flex: 1; min-width: 200px; position: relative; }
-.search-wrap input {
-  width: 100%; padding: .55rem 1rem .55rem 2rem;
-  border: 1.5px solid var(--border); background: var(--white);
-  font-family: 'DM Sans', sans-serif; font-size: .85rem;
-  border-radius: 6px; outline: none; color: var(--text);
-}
-.search-wrap::before { content: '⌕'; position: absolute; left: .65rem; top: 50%; transform: translateY(-50%); color: var(--muted); }
-.filter-select {
-  padding: .55rem .9rem; border: 1.5px solid var(--border);
-  background: var(--white); font-family: 'DM Sans', sans-serif;
-  font-size: .82rem; border-radius: 6px; color: var(--text); cursor: pointer; outline: none;
-}
+/* Lista */
+.tag-filters{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.8rem;}
+.tag-btn{padding:.3rem .8rem;border:1.5px solid var(--border);background:transparent;font-size:.72rem;letter-spacing:.06em;border-radius:100px;cursor:pointer;color:var(--muted);transition:background .18s,color .18s,border-color .18s,transform .12s;}
+.tag-btn:hover:not(.active){background:var(--green);border-color:var(--green);color:var(--white);transform:translateY(-1px);}
+.tag-btn.active{background:var(--green);border-color:var(--green);color:var(--white);}
+.table-controls{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:.8rem;align-items:center;}
+.search-wrap{flex:1;min-width:180px;max-width:240px;position:relative;}
+.search-wrap input{width:100%;padding:.45rem 1rem .45rem 2rem;border:1.5px solid var(--border);border-radius:6px;font-size:.82rem;color:var(--text);outline:none;}
+.search-wrap::before{content:'⌕';position:absolute;left:.6rem;top:50%;transform:translateY(-50%);color:var(--muted);}
+.filter-select{padding:.45rem .8rem;border:1.5px solid var(--border);border-radius:6px;font-size:.78rem;color:var(--text);background:var(--white);}
+table{width:100%;border-collapse:collapse;font-size:.83rem;}
+thead tr{border-bottom:2px solid var(--black);}
+th{padding:.55rem .8rem;text-align:left;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);white-space:nowrap;cursor:pointer;}
+td{padding:.6rem .8rem;border-bottom:1px solid #eee;vertical-align:middle;}
+tr:hover td{background:rgba(132,153,116,.05);}
+.badge{display:inline-block;padding:.18rem .55rem;border-radius:100px;font-size:.68rem;font-weight:500;}
+.badge-lido{background:#d4edd4;color:#1a5c1a;}
+.badge-lendo{background:#fef3cd;color:#7a5c00;}
+.badge-nao{background:#f5e4e4;color:#7a2020;}
+.stars{color:var(--green);}
+.table-footer{padding:.7rem 0;display:flex;justify-content:space-between;align-items:center;font-size:.78rem;color:var(--muted);}
+.pagination{display:flex;gap:.3rem;}
+.page-btn{width:28px;height:28px;border:1.5px solid var(--border);background:transparent;cursor:pointer;font-size:.8rem;border-radius:4px;transition:background .18s,color .18s,border-color .18s;}
+.page-btn.active{background:var(--green);color:var(--white);border-color:var(--green);}
+.page-btn:hover:not(.active){background:var(--green);color:var(--white);border-color:var(--green);}
 
-/* ── TAG BUTTONS ── */
-/* Governança #007: hover = fundo sólido verde, borda verde, texto branco */
-.tag-filters { display: flex; gap: .4rem; flex-wrap: wrap; margin-bottom: 1rem; }
-.tag-btn {
-  padding: .3rem .8rem; border: 1.5px solid var(--border);
-  background: transparent; font-family: 'DM Sans', sans-serif;
-  font-size: .72rem; letter-spacing: .06em; border-radius: 100px;
-  cursor: pointer; transition: all .2s; color: var(--muted);
-}
-.tag-btn:hover { background: var(--green); border-color: var(--green); color: var(--white); }
-.tag-btn.active { background: var(--green); border-color: var(--green); color: var(--white); }
-
-table { width: 100%; border-collapse: collapse; font-size: .83rem; }
-thead tr { border-bottom: 2px solid var(--black); }
-th {
-  padding: .55rem .8rem; text-align: left; font-size: .68rem;
-  letter-spacing: .1em; text-transform: uppercase; color: var(--muted);
-  white-space: nowrap; cursor: pointer; user-select: none;
-}
-th:hover { color: var(--black); }
-td { padding: .62rem .8rem; border-bottom: 1px solid var(--border); vertical-align: middle; }
-tr:hover td { background: rgba(132,153,116,.07); }
-.badge { display: inline-block; padding: .18rem .55rem; border-radius: 100px; font-size: .7rem; }
-.badge-lido { background: #d4edd4; color: #1a5c1a; }
-.badge-nao { background: #f5e4e4; color: #7a2020; }
-.badge-lendo { background: #fef3cd; color: #7a5c00; }
-.stars { color: var(--green); }
-.table-footer { padding: .8rem 0; color: var(--muted); font-size: .8rem; display: flex; justify-content: space-between; align-items: center; }
-.pagination { display: flex; gap: .3rem; flex-wrap: wrap; }
-
-/* ── PAGE-BTN ── */
-/* Governança: active = green, hover = borda green */
-.page-btn { width: 30px; height: 30px; border: 1.5px solid var(--border); background: transparent; cursor: pointer; font-size: .8rem; border-radius: 4px; transition: all .2s; }
-.page-btn.active { background: var(--green); color: var(--white); border-color: var(--green); }
-.page-btn:hover:not(.active) { border-color: var(--green); }
-
-/* ── AUDIO NOTE ── */
-.audio-note {
-  font-size: .78rem; color: var(--muted); padding: .4rem .8rem;
-  background: #f5f9f3; border-left: 3px solid var(--green);
-  border-radius: 0 4px 4px 0; margin-bottom: 1rem;
-}
-
-/* ── FOOTER ── */
-/* Governança #006 #009: .60rem, formato "Nome | Autora | © Ano | atualizado em DD de mês de AAAA" */
-/* Seletor desta página: footer p */
-footer {
-  background: var(--green); padding: 1.2rem 2rem;
-  display: flex; align-items: center; gap: .8rem; margin-top: 3rem;
-}
-.footer-dots { display: flex; gap: 5px; }
-.footer-dots span { width: 9px; height: 9px; border-radius: 50%; background: var(--white); display: inline-block; }
-footer p {
-  color: var(--white); font-size: .60rem;
-  letter-spacing: .1em; text-transform: uppercase; font-weight: 500;
-}
-
-/* ── RESPONSIVE ── */
-@media(max-width: 900px) {
-  .stats-grid { grid-template-columns: repeat(3,1fr); }
-  .charts-grid-2 { grid-template-columns: 1fr; }
-  .charts-grid-3 { grid-template-columns: 1fr; }
-  .progress-body { grid-template-columns: 1fr; gap: 1.5rem; }
-  nav ul { display: none; }
-  nav ul.open {
-    display: flex; flex-direction: column; position: absolute;
-    top: 52px; left: 0; right: 0; z-index: 99; background: var(--white);
-    border-bottom: 1.5px solid #c5c5a0; padding: 1rem 2rem; gap: 1rem; z-index: 99;
-  }
-  .nav-hamburger { display: block; }
-}
-@media(max-width: 600px) {
-  .stats-grid { grid-template-columns: repeat(2,1fr); }
-}
+/* Footer */
+footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center;gap:1rem;border-top:1.5px solid var(--green-dark);flex-shrink:0;}
+.footer-dots{display:flex;gap:5px;}
+.footer-dot{width:10px;height:10px;border-radius:50%;background:var(--white);}
+.footer-text{font-size:.60rem;letter-spacing:.1em;text-transform:uppercase;color:var(--white);font-weight:500;}
 </style>
 </head>
 <body>
 
 <nav>
-  <a href="index.html" class="nav-logo" style="text-decoration:none"><span></span><span></span><span></span></a>
-  <ul id="nav-ul">
+  <div class="nav-logo">
+    <div class="nav-dot"></div><div class="nav-dot"></div>
+    <div class="nav-dot" style="background:var(--green)"></div>
+  </div>
+  <ul>
     <li><a href="index.html">Início</a></li>
     <li><a href="2026.html" class="active">2026</a></li>
     <li><a href="estante.html">Estante</a></li>
@@ -271,650 +200,363 @@ footer p {
     <li><a href="desafio.html">Desafio</a></li>
     <li><a href="sobre.html">Sobre</a></li>
   </ul>
-  <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu">☰</button>
 </nav>
 
-<!-- HERO -->
-<div class="hero-section">
-  <div class="hero-card">
-    <div class="card-dots"><span></span><span></span><span></span></div>
-    <div class="hero-title">Leituras de 2026</div>
-    <p class="hero-desc">
-      A parte legal de acompanhar os dados das minhas leituras ao longo do ano é conseguir perceber se estou evoluindo no quesito diversidade (explorando novos gêneros, autores e países) e até mesmo se estou tendo boas leituras ou apenas passando por elas.
-    </p>
-    <div class="hero-link-row">
-      <span class="hero-link-label">Progresso da meta anual e os dados específicos dos livros lidos este ano</span>
-      <span class="hero-arrow">→</span>
+<div class="page-wrap">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <!-- KPIs -->
+    <div>
+      <div class="sb-label">Leituras de 2026</div>
+      <div class="kpi-grid">
+        <div class="kpi-card accent">
+          <div class="kpi-num">12</div>
+          <div class="kpi-lbl">livros lidos</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-num">40</div>
+          <div class="kpi-lbl">meta do ano</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-num">30%</div>
+          <div class="kpi-lbl">da meta concluída</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-num">3.241</div>
+          <div class="kpi-lbl">páginas lidas</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-num">42h</div>
+          <div class="kpi-lbl">horas ouvidas</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-num">8</div>
+          <div class="kpi-lbl">autores novos</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-num">7</div>
+          <div class="kpi-lbl">países</div>
+        </div>
+      </div>
     </div>
-  </div>
+
+    <!-- Meta progress -->
+    <div class="prog-block">
+      <div class="sb-label">Progresso da meta</div>
+      <div>
+        <div class="prog-meta"><span>Lidos</span><b>12 / 40</b></div>
+        <div class="prog-track"><div class="prog-fill" style="width:30%"></div></div>
+      </div>
+    </div>
+
+    <!-- Status meta -->
+    <div>
+      <div class="sb-label">Status atual</div>
+      <div class="meta-stats">
+        <div class="meta-row"><span class="meta-lbl">Lidos</span><span class="meta-val highlight">12</span></div>
+        <div class="meta-row"><span class="meta-lbl">Lendo agora</span><span class="meta-val">2</span></div>
+        <div class="meta-row"><span class="meta-lbl">Não lidos</span><span class="meta-val">26</span></div>
+        <div class="meta-row"><span class="meta-lbl">Gênero mais lido</span><span class="meta-val" style="font-size:.85rem;">Ficção</span></div>
+      </div>
+    </div>
+
+    <!-- Seções -->
+    <div>
+      <div class="sb-label">Ir para a seção</div>
+      <div class="sb-nav-pills">
+        <button class="sb-nav-pill" onclick="document.getElementById('sec-dados').scrollIntoView({behavior:'smooth'})"><span class="pill-dot">✦</span>Leituras em dados</button>
+        <button class="sb-nav-pill" onclick="document.getElementById('sec-mapa').scrollIntoView({behavior:'smooth'})"><span class="pill-dot">✦</span>De onde vieram?</button>
+        <button class="sb-nav-pill" onclick="document.getElementById('sec-lista').scrollIntoView({behavior:'smooth'})"><span class="pill-dot">✦</span>Livros de 2026</button>
+      </div>
+    </div>
+
+    <!-- Filtros tabela -->
+    <div>
+      <div class="sb-label">Filtrar lista</div>
+      <div class="filter-pills">
+        <button class="fpill active">Todos</button>
+        <button class="fpill">Lidos</button>
+        <button class="fpill">Lendo</button>
+        <button class="fpill">Não lido</button>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- INTRO -->
+    <section>
+      <div class="intro-eyebrow">Leituras de 2026</div>
+      <h2 class="intro-headline"><span class="intro-headline-band">O que li, aprendi <em>e descobri este ano</em></span></h2>
+      <p class="intro-body">
+        A parte legal de acompanhar os dados das minhas leituras ao longo do ano é conseguir perceber se estou <strong>evoluindo no quesito diversidade</strong> — explorando novos gêneros, autores e países — e até mesmo se estou tendo boas leituras ou apenas passando por elas.
+      </p>
+    </section>
+
+    <!-- PERFIL -->
+    <section class="section-gap" id="sec-dados">
+      <hr class="section-hr">
+      <div class="section-head">
+        <h2 class="section-h2">Leituras em dados</h2>
+        <span class="section-sub">Dados específicos do ano</span>
+      </div>
+
+      <!-- Grid texto -->
+      <div class="perfil-text-grid">
+        <div class="ptg-cell"><div class="ptg-label">Gênero mais lido</div><div class="ptg-val">Ficção contemp.</div><div class="ptg-sub">4 livros</div></div>
+        <div class="ptg-cell"><div class="ptg-label">Quem escreve</div><div class="ptg-val">Feminino</div><div class="ptg-sub">8 de 12 livros</div></div>
+        <div class="ptg-cell"><div class="ptg-label">Idioma mais lido</div><div class="ptg-val">Inglês</div><div class="ptg-sub">idioma original</div></div>
+        <div class="ptg-cell"><div class="ptg-label">Formato</div><div class="ptg-val">Físico</div><div class="ptg-sub">maioria</div></div>
+        <div class="ptg-cell"><div class="ptg-label">Faixa etária</div><div class="ptg-val">Adulto</div><div class="ptg-sub">público principal</div></div>
+        <div class="ptg-cell"><div class="ptg-label">Nota média</div><div class="ptg-val">4.1 ★</div><div class="ptg-sub">de 5 estrelas</div></div>
+      </div>
+
+      <!-- Diversidade cards -->
+      <div class="div-cards">
+        <div class="div-card">
+          <div class="div-num">42%</div>
+          <div class="div-lbl">Protagonista LGBTQ+</div>
+          <div class="div-sub">de 12 livros lidos</div>
+          <div class="div-track"><div class="div-fill" style="width:42%"></div></div>
+        </div>
+        <div class="div-card">
+          <div class="div-num">58%</div>
+          <div class="div-lbl">Diversidade étnica</div>
+          <div class="div-sub">de 12 livros lidos</div>
+          <div class="div-track"><div class="div-fill" style="width:58%"></div></div>
+        </div>
+        <div class="div-card">
+          <div class="div-num">67%</div>
+          <div class="div-lbl">#OwnVoices</div>
+          <div class="div-sub">de 12 livros lidos</div>
+          <div class="div-track"><div class="div-fill" style="width:67%"></div></div>
+        </div>
+      </div>
+
+      <!-- Rankings 2 col -->
+      <div class="charts-2col">
+        <div class="wcard">
+          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Gêneros literários</span></div>
+          <div class="chart-body">
+            <div class="rank-list">
+              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">01</span>Ficção contemporânea</span><span class="rank-val">4</span></div><div class="rank-track"><div class="rank-fill" style="width:100%"></div></div></div>
+              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">02</span>Não-ficção</span><span class="rank-val">3</span></div><div class="rank-track"><div class="rank-fill light" style="width:75%"></div></div></div>
+              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">03</span>Ficção histórica</span><span class="rank-val">2</span></div><div class="rank-track"><div class="rank-fill light" style="width:50%"></div></div></div>
+              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">04</span>Fantasia</span><span class="rank-val">2</span></div><div class="rank-track"><div class="rank-fill light" style="width:50%"></div></div></div>
+              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">05</span>Poesia</span><span class="rank-val">1</span></div><div class="rank-track"><div class="rank-fill light" style="width:25%"></div></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="wcard">
+          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Por que li?</span></div>
+          <div class="chart-body">
+            <div class="rank-list">
+              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">01</span>Curiosidade pessoal</span><span class="rank-val">5</span></div><div class="rank-track"><div class="rank-fill" style="width:100%"></div></div></div>
+              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">02</span>Indicação</span><span class="rank-val">4</span></div><div class="rank-track"><div class="rank-fill light" style="width:80%"></div></div></div>
+              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">03</span>Desafio LPM</span><span class="rank-val">2</span></div><div class="rank-track"><div class="rank-fill light" style="width:40%"></div></div></div>
+              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">04</span>Lista do ano</span><span class="rank-val">1</span></div><div class="rank-track"><div class="rank-fill light" style="width:20%"></div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Notas -->
+      <div class="charts-2col">
+        <div class="wcard">
+          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Distribuição de notas</span></div>
+          <div class="chart-body" style="display:flex;align-items:flex-end;gap:10px;height:160px;padding:1.2rem 1.4rem .8rem;">
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px"><span style="font-size:.75rem;font-weight:500;color:var(--text)">1</span><div style="width:100%;background:#c4a882;border-radius:3px 3px 0 0;height:20px"></div><span style="font-size:.68rem;color:var(--muted)">★</span></div>
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px"><span style="font-size:.75rem;font-weight:500;color:var(--text)">1</span><div style="width:100%;background:#b5835a;border-radius:3px 3px 0 0;height:20px"></div><span style="font-size:.68rem;color:var(--muted)">★★</span></div>
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px"><span style="font-size:.75rem;font-weight:500;color:var(--text)">2</span><div style="width:100%;background:#8a9a5b;border-radius:3px 3px 0 0;height:40px"></div><span style="font-size:.68rem;color:var(--muted)">★★★</span></div>
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px"><span style="font-size:.75rem;font-weight:500;color:var(--text)">5</span><div style="width:100%;background:var(--green-light);border-radius:3px 3px 0 0;height:100px"></div><span style="font-size:.68rem;color:var(--muted)">★★★★</span></div>
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px"><span style="font-size:.75rem;font-weight:500;color:var(--text)">3</span><div style="width:100%;background:var(--green);border-radius:3px 3px 0 0;height:60px"></div><span style="font-size:.68rem;color:var(--muted)">★★★★★</span></div>
+          </div>
+        </div>
+        <div class="wcard">
+          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Origem do livro</span></div>
+          <div class="chart-body">
+            <div class="rank-list">
+              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">01</span>Estante pessoal</span><span class="rank-val">6</span></div><div class="rank-track"><div class="rank-fill" style="width:100%"></div></div></div>
+              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">02</span>Comprado novo</span><span class="rank-val">3</span></div><div class="rank-track"><div class="rank-fill light" style="width:50%"></div></div></div>
+              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">03</span>Emprestado</span><span class="rank-val">2</span></div><div class="rank-track"><div class="rank-fill light" style="width:33%"></div></div></div>
+              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">04</span>E-book</span><span class="rank-val">1</span></div><div class="rank-track"><div class="rank-fill light" style="width:17%"></div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VARIEDADE — dados completos -->
+      <div style="margin-top:.8rem;">
+        <div style="font-size:.68rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.7rem;padding-top:.4rem;border-top:1px solid var(--border-soft);">Dados dos escritores</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin-bottom:.8rem;">
+
+          <!-- Gênero dos autores -->
+          <div class="wcard">
+            <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Gênero dos autores</span></div>
+            <div class="chart-body">
+              <div class="rank-list">
+                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">01</span>Feminino</span><span class="rank-val">8</span></div><div class="rank-track"><div class="rank-fill" style="width:100%"></div></div></div>
+                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">02</span>Masculino</span><span class="rank-val">3</span></div><div class="rank-track"><div class="rank-fill light" style="width:37%"></div></div></div>
+                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">03</span>Trans / não-binário</span><span class="rank-val">1</span></div><div class="rank-track"><div class="rank-fill light" style="width:12%"></div></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cor / raça dos autores -->
+          <div class="wcard">
+            <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Cor / raça dos autores</span></div>
+            <div class="chart-body">
+              <div class="rank-list">
+                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">01</span>Negra</span><span class="rank-val">5</span></div><div class="rank-track"><div class="rank-fill" style="width:100%"></div></div></div>
+                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">02</span>Branca</span><span class="rank-val">4</span></div><div class="rank-track"><div class="rank-fill light" style="width:80%"></div></div></div>
+                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">03</span>Latina</span><span class="rank-val">2</span></div><div class="rank-track"><div class="rank-fill light" style="width:40%"></div></div></div>
+                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">04</span>Asiática</span><span class="rank-val">1</span></div><div class="rank-track"><div class="rank-fill light" style="width:20%"></div></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Autore novo ou já conhecido -->
+          <div class="wcard">
+            <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Autore novo ou já conhecido</span></div>
+            <div class="chart-body">
+              <div class="rank-list">
+                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">01</span>Autore novo</span><span class="rank-val">8</span></div><div class="rank-track"><div class="rank-fill" style="width:100%"></div></div></div>
+                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">02</span>Já conhecia</span><span class="rank-val">4</span></div><div class="rank-track"><div class="rank-fill light" style="width:50%"></div></div></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div style="font-size:.68rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.7rem;padding-top:.4rem;border-top:1px solid var(--border-soft);">Variedade dos livros</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;">
+
+          <!-- Idioma original -->
+          <div class="wcard">
+            <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Idioma original</span></div>
+            <div class="chart-body">
+              <div class="rank-list">
+                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">01</span>Inglês</span><span class="rank-val">6</span></div><div class="rank-track"><div class="rank-fill" style="width:100%"></div></div></div>
+                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">02</span>Português</span><span class="rank-val">3</span></div><div class="rank-track"><div class="rank-fill light" style="width:50%"></div></div></div>
+                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">03</span>Espanhol</span><span class="rank-val">2</span></div><div class="rank-track"><div class="rank-fill light" style="width:33%"></div></div></div>
+                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">04</span>Japonês</span><span class="rank-val">1</span></div><div class="rank-track"><div class="rank-fill light" style="width:17%"></div></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Formato de leitura -->
+          <div class="wcard">
+            <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Formato de leitura</span></div>
+            <div class="chart-body">
+              <div class="rank-list">
+                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">01</span>Físico</span><span class="rank-val">7</span></div><div class="rank-track"><div class="rank-fill" style="width:100%"></div></div></div>
+                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">02</span>Audiobook</span><span class="rank-val">3</span></div><div class="rank-track"><div class="rank-fill light" style="width:43%"></div></div></div>
+                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">03</span>E-book</span><span class="rank-val">2</span></div><div class="rank-track"><div class="rank-fill light" style="width:29%"></div></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Faixa etária -->
+          <div class="wcard">
+            <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Faixa etária</span></div>
+            <div class="chart-body">
+              <div class="rank-list">
+                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">01</span>Adulto</span><span class="rank-val">9</span></div><div class="rank-track"><div class="rank-fill" style="width:100%"></div></div></div>
+                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">02</span>Young Adult</span><span class="rank-val">2</span></div><div class="rank-track"><div class="rank-fill light" style="width:22%"></div></div></div>
+                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">03</span>Infantil</span><span class="rank-val">1</span></div><div class="rank-track"><div class="rank-fill light" style="width:11%"></div></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Série ou livro único -->
+          <div class="wcard">
+            <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Série ou livro único</span></div>
+            <div class="chart-body">
+              <div class="rank-list">
+                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">01</span>Livro único</span><span class="rank-val">9</span></div><div class="rank-track"><div class="rank-fill" style="width:100%"></div></div></div>
+                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">02</span>Série</span><span class="rank-val">3</span></div><div class="rank-track"><div class="rank-fill light" style="width:33%"></div></div></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- MAPA -->
+    <section class="section-gap" id="sec-mapa">
+      <hr class="section-hr">
+      <div class="section-head">
+        <h2 class="section-h2">De onde vieram minhas leituras?</h2>
+        <span class="section-sub">Autores por país</span>
+      </div>
+      <div class="wcard">
+        <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Mapa 2026</span></div>
+        <div style="height:380px;background:#f0ede8;display:flex;align-items:center;justify-content:center;font-size:.9rem;color:#bbb;">Mapa interativo · Leaflet</div>
+      </div>
+      <div class="map-legend" style="margin-top:.8rem;">
+        <span><span class="legend-dot" style="background:var(--green)"></span>Lido</span>
+        <span><span class="legend-dot" style="background:#ccc"></span>Sem leitura</span>
+      </div>
+    </section>
+
+    <!-- TABELA -->
+    <section class="section-gap" id="sec-lista">
+      <hr class="section-hr">
+      <div class="section-head">
+        <h2 class="section-h2">Livros de 2026</h2>
+        <span class="section-sub">12 livros · 3 audiobooks</span>
+      </div>
+      <div class="tag-filters">
+        <button class="tag-btn active">Todos</button>
+        <button class="tag-btn">LGBTQIA+</button>
+        <button class="tag-btn">Diversidade étnica</button>
+        <button class="tag-btn">#OwnVoices</button>
+        <button class="tag-btn">Audiobook</button>
+      </div>
+      <div class="table-controls">
+        <div class="search-wrap"><input type="text" placeholder="Buscar título ou autor…"></div>
+        <select class="filter-select"><option>Todos os status</option><option>Lido</option><option>Lendo</option><option>Não lido</option></select>
+        <select class="filter-select"><option>Todos os gêneros</option></select>
+        <select class="filter-select"><option>Todos os formatos</option></select>
+      </div>
+      <div style="overflow-x:auto">
+        <table>
+          <thead><tr>
+            <th>Título ↕</th><th>Autor/a ↕</th><th>Gênero ↕</th>
+            <th>Pág. ↕</th><th>Áudio ↕</th><th>País ↕</th>
+            <th>Status ↕</th><th>⭐</th>
+          </tr></thead>
+          <tbody>
+            <tr><td><strong>Cem anos de solidão</strong></td><td>G. García Márquez</td><td>Realismo mágico</td><td>432</td><td>—</td><td>Colômbia</td><td><span class="badge badge-lido">Lido</span></td><td><span class="stars">★★★★★</span></td></tr>
+            <tr><td><strong>Tudo sobre o amor</strong></td><td>Bell Hooks</td><td>Não-ficção</td><td>256</td><td>—</td><td>EUA</td><td><span class="badge badge-lido">Lido</span></td><td><span class="stars">★★★★★</span></td></tr>
+            <tr><td><strong>A vegetariana</strong></td><td>Han Kang</td><td>Ficção contemp.</td><td>188</td><td>—</td><td>Coreia do Sul</td><td><span class="badge badge-lido">Lido</span></td><td><span class="stars">★★★★</span></td></tr>
+            <tr><td><strong>Mar da tranquilidade</strong></td><td>Emily St. J. Mandel</td><td>Ficção científica</td><td>272</td><td>4h30</td><td>Canadá</td><td><span class="badge badge-lido">Lido</span></td><td><span class="stars">★★★★</span></td></tr>
+            <tr><td><strong>O vento sabe o meu nome</strong></td><td>Isabel Allende</td><td>Ficção histórica</td><td>296</td><td>—</td><td>Chile</td><td><span class="badge badge-lendo">Lendo</span></td><td>—</td></tr>
+            <tr><td><strong>Páradais</strong></td><td>Fernanda Melchor</td><td>Ficção contemp.</td><td>128</td><td>—</td><td>México</td><td><span class="badge badge-nao">Não lido</span></td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="table-footer">
+        <span>1–6 de 12</span>
+        <div class="pagination">
+          <button class="page-btn active">1</button>
+          <button class="page-btn">2</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
 </div>
 
-<!-- STATS -->
-<div class="stats-grid">
-  <div class="stat-box"><span class="stat-number" id="s-meta">—</span><span class="stat-label">Meta do ano</span></div>
-  <div class="stat-box"><span class="stat-number" id="s-lidos">—</span><span class="stat-label">Lidos</span></div>
-  <div class="stat-box"><span class="stat-number" id="s-paginas">—</span><span class="stat-label">Páginas lidas</span></div>
-  <div class="stat-box"><span class="stat-number" id="s-horas">—</span><span class="stat-label">Horas ouvidas</span></div>
-  <div class="stat-box"><span class="stat-number" id="s-autores">—</span><span class="stat-label">Autores novos</span></div>
-  <div class="stat-box"><span class="stat-number" id="s-paises">—</span><span class="stat-label">Países</span></div>
-</div>
-
-<!-- META -->
-<section class="page-section">
-  <div class="sec-header">
-    <span class="sec-tag">Meta 2026</span>
-    <span class="sec-subtitle">Progresso</span>
-  </div>
-  <div class="progress-big-card">
-    <div class="chart-card-header">
-      <div class="card-dots"><span></span><span></span><span></span></div>
-    </div>
-    <div class="progress-body">
-      <div>
-        <div class="progress-meta-label">Meta de leitura</div>
-        <div class="progress-sub" id="prog-texto">— lidos de — planejados</div>
-        <div class="progress-bar-wrap"><div class="progress-bar-fill" id="prog-bar" style="width:0%"></div></div>
-        <div class="progress-pct" id="prog-pct">0% concluído</div>
-      </div>
-      <div>
-        <div class="pstat"><span class="pstat-label">Lidos</span><span class="pstat-val" id="p-lidos">—</span></div>
-        <div class="pstat"><span class="pstat-label">Lendo agora</span><span class="pstat-val" id="p-lendo">—</span></div>
-        <div class="pstat"><span class="pstat-label">Não lidos</span><span class="pstat-val" id="p-nao">—</span></div>
-        <div class="pstat"><span class="pstat-label">Gênero mais lido</span><span class="pstat-val" id="p-genero">—</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- GRÁFICOS -->
-<section class="page-section" style="padding-top:1rem">
-  <div class="sec-header">
-    <span class="sec-tag">Leituras em dados</span>
-    <span class="sec-subtitle">Dados específicos do ano</span>
-  </div>
-
-  <div class="charts-grid-2" style="margin-bottom:1rem">
-    <div class="chart-card full">
-      <div class="chart-card-header">
-        <div class="card-dots"><span></span><span></span><span></span></div>
-        <span class="chart-card-title">Gêneros literários</span>
-      </div>
-      <div class="chart-body tall"><canvas id="c-generos"></canvas></div>
-    </div>
-  </div>
-
-  <div class="charts-grid-2" style="margin-bottom:1rem">
-    <div class="chart-card">
-      <div class="chart-card-header">
-        <div class="card-dots"><span></span><span></span><span></span></div>
-        <span class="chart-card-title">Cor dos autores</span>
-      </div>
-      <div class="chart-body"><canvas id="c-cor"></canvas></div>
-    </div>
-    <div class="chart-card">
-      <div class="chart-card-header">
-        <div class="card-dots"><span></span><span></span><span></span></div>
-        <span class="chart-card-title">Gênero dos autores</span>
-      </div>
-      <div class="chart-body"><canvas id="c-genero-autor"></canvas></div>
-    </div>
-  </div>
-
-  <div class="charts-grid-3" style="margin-bottom:1rem">
-    <div class="chart-card">
-      <div class="chart-card-header">
-        <div class="card-dots"><span></span><span></span><span></span></div>
-        <span class="chart-card-title">Idioma original</span>
-      </div>
-      <div class="chart-body"><canvas id="c-idioma"></canvas></div>
-    </div>
-    <div class="chart-card">
-      <div class="chart-card-header">
-        <div class="card-dots"><span></span><span></span><span></span></div>
-        <span class="chart-card-title">Formato</span>
-      </div>
-      <div class="chart-body medium"><canvas id="c-formato"></canvas></div>
-    </div>
-    <div class="chart-card">
-      <div class="chart-card-header">
-        <div class="card-dots"><span></span><span></span><span></span></div>
-        <span class="chart-card-title">Avaliações (estrelas)</span>
-      </div>
-      <div class="chart-body medium"><canvas id="c-estrelas"></canvas></div>
-    </div>
-  </div>
-
-  <div class="charts-grid-3" style="margin-bottom:1rem">
-    <div class="chart-card">
-      <div class="chart-card-header">
-        <div class="card-dots"><span></span><span></span><span></span></div>
-        <span class="chart-card-title">Série ou livro único</span>
-      </div>
-      <div class="chart-body"><canvas id="c-serie"></canvas></div>
-    </div>
-    <div class="chart-card">
-      <div class="chart-card-header">
-        <div class="card-dots"><span></span><span></span><span></span></div>
-        <span class="chart-card-title">Faixa etária</span>
-      </div>
-      <div class="chart-body"><canvas id="c-faixa"></canvas></div>
-    </div>
-    <div class="chart-card">
-      <div class="chart-card-header">
-        <div class="card-dots"><span></span><span></span><span></span></div>
-        <span class="chart-card-title">Autore novo ou já conhecido</span>
-      </div>
-      <div class="chart-body"><canvas id="c-autor-novo"></canvas></div>
-    </div>
-  </div>
-
-  <div class="charts-grid-2" style="margin-bottom:1rem">
-    <div class="chart-card full">
-      <div class="chart-card-header">
-        <div class="card-dots"><span></span><span></span><span></span></div>
-        <span class="chart-card-title">Por que li?</span>
-      </div>
-      <div class="chart-body medium"><canvas id="c-porquel"></canvas></div>
-    </div>
-  </div>
-</section>
-
-<!-- MAPA -->
-<section class="page-section" style="padding-top:1rem">
-  <div class="sec-header">
-    <span class="sec-tag">De onde vieram minhas leituras?</span>
-    <span class="sec-subtitle">Autores por País</span>
-  </div>
-  <div class="chart-card">
-    <div class="chart-card-header">
-      <div class="card-dots"><span></span><span></span><span></span></div>
-    </div>
-    <div id="map-2026"></div>
-  </div>
-</section>
-
-<!-- TABELA -->
-<section class="page-section" style="padding-top:2rem">
-  <div class="sec-header">
-    <span class="sec-tag">Livros de 2026</span>
-    <span class="sec-subtitle" id="lista-count">— livros</span>
-  </div>
-
-  <div class="audio-note" id="audio-note" style="display:none">
-    📢 <strong id="audio-count">—</strong> audiobooks nesta lista · horas ouvidas incluídas nas estatísticas
-  </div>
-
-  <div class="table-controls">
-    <div class="search-wrap"><input type="text" id="search" placeholder="Buscar título ou autor…"></div>
-    <select class="filter-select" id="f-status"><option value="">Todos os status</option></select>
-    <select class="filter-select" id="f-genero"><option value="">Todos os gêneros</option></select>
-    <select class="filter-select" id="f-formato"><option value="">Todos os formatos</option></select>
-  </div>
-  <div class="tag-filters">
-    <button class="tag-btn active" data-tag="">Todos</button>
-    <button class="tag-btn" data-tag="lgbtqia">LGBTQIA+</button>
-    <button class="tag-btn" data-tag="diversidade">Diversidade étnica</button>
-    <button class="tag-btn" data-tag="ownvoices">#OwnVoices</button>
-    <button class="tag-btn" data-tag="audiobook">Audiobook</button>
-  </div>
-  <div style="overflow-x:auto">
-    <table>
-      <thead><tr>
-        <th data-colidx="1">Título ↕</th>
-        <th data-colidx="13">Autor/a ↕</th>
-        <th data-colidx="4">Gênero ↕</th>
-        <th data-colidx="2">Pág. ↕</th>
-        <th data-colidx="3">Áudio ↕</th>
-        <th data-colidx="6">Formato ↕</th>
-        <th data-colidx="14">País ↕</th>
-        <th data-colidx="22">Status ↕</th>
-        <th data-colidx="21">⭐</th>
-      </tr></thead>
-      <tbody id="tbody"></tbody>
-    </table>
-  </div>
-  <div class="table-footer">
-    <span id="t-info">—</span>
-    <div class="pagination" id="pagination"></div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<!-- Governança: formato "Nome do site | Louise Victoria | © Ano | atualizado em DD de mês de AAAA" -->
-<!-- Seletor desta página: footer p (.60rem) -->
 <footer>
-  <div class="footer-dots"><span></span><span></span><span></span></div>
-  <p>O que tem na estante da Louise &nbsp;|&nbsp; Louise Victoria &nbsp;|&nbsp; © 2026 &nbsp;|&nbsp; atualizado em <span id="data-atualizacao">6 de junho de 2026</span></p>
+  <div class="footer-dots"><div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div></div>
+  <span class="footer-text">O que tem na estante da Louise &nbsp;|&nbsp; Louise Victoria &nbsp;|&nbsp; © 2026 &nbsp;|&nbsp; atualizado em 08 de junho de 2026</span>
 </footer>
 
-<script>
-const CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub?gid=537800862&single=true&output=csv';
-
-const GREEN = '#849974', MUTED = '#555';
-const PAL = ['#849974','#c9956c','#6b9db8','#c4a35a','#a07898',
-             '#6aab8e','#d4816b','#7b8fa8','#b5935a','#c47a8a','#5a8a7b','#9b7a5a'];
-const palGet = i => PAL[i % PAL.length];
-
-const I = {
-  titulo:1, autor:13, paginas:2, horas:3, genero:4, faixaEtaria:5,
-  formato:6, editora:7, idioma:8, serie:9, porqueL:10,
-  pais:14, cor:15, generoAut:16, autorNovo:17,
-  lgbtqia:18, divers:19, ownvoices:20, estrelas:21, status:22
-};
-
-const PER = 20;
-let H=[], ROWS=[], SUMROW=[], filtered=[], page=1, sortIdx=-1, sortAsc=true, activeTag='';
-
-const cv   = (row,i) => { if(i<0||row==null||row[i]==null) return ''; const s=String(row[i]).trim(); return (s==='undefined'||s==='null')?'':s; };
-const norm = s => (s||'').trim().toLowerCase().replace(/\s+/g,' ');
-const isT  = val => { const s=(val||'').trim(); return s==='TRUE'||s==='true'||s==='1'||s==='VERDADEIRO'||['sim','yes','verdadeiro','✓'].includes(s.toLowerCase()); };
-const parseH = s => { if(!s) return 0; s=s.trim(); if(!s||s==='00:00:00'||s==='00:00:00.000') return 0; const p=s.split(':'); return p.length>=2?(parseFloat(p[0])||0)+(parseFloat(p[1])||0)/60+(parseFloat(p[2])||0)/3600:0; };
-const isAudio = row => parseH(cv(row,I.horas))>0;
-const setText = (id,v) => { const el=document.getElementById(id); if(el) el.textContent=v; };
-const cntIdx  = (rows,idx) => { const m={}; rows.forEach(r=>{const v=cv(r,idx);if(v)m[v]=(m[v]||0)+1;}); return m; };
-const topN    = (o,n) => Object.entries(o).sort((a,b)=>b[1]-a[1]).slice(0,n);
-
-function fetchRaw(url){
-  return new Promise((res,rej)=>{ Papa.parse(url,{download:true,header:false,skipEmptyLines:false,complete:r=>res(r.data),error:rej}); });
-}
-
-function normStatus(raw){
-  const n=norm(raw);
-  if(n==='lido'||n==='read'||n==='concluído'||n==='concluido') return 'lido';
-  if(n==='lendo'||n==='reading'||n==='em leitura') return 'lendo';
-  if(n.includes('não lido')||n.includes('nao lido')||n==='tbr'||n==='a ler') return 'não lido';
-  return n;
-}
-
-function findDataStart(raw){
-  for(let i=1;i<=4;i++){
-    const row=raw[i]||[];
-    const b=norm(cv(row,1));
-    const w=norm(cv(row,22));
-    if(b && b!=='título' && b!=='titulo' && b!=='title'){
-      if(!w||w==='lido'||w==='lendo'||w.includes('não')||w.includes('nao')||w==='tbr'||w==='true'||w==='false') return i;
-    }
-  }
-  return 2;
-}
-
-function findSumRow(raw, start){
-  for(let i=start+40; i<=start+55 && i<raw.length; i++){
-    const row=raw[i]||[];
-    const b=cv(row,1);
-    if(/^\d+$/.test(b) && parseInt(b)>=20 && parseInt(b)<=500) return row;
-  }
-  return raw[start+47]||raw[48]||[];
-}
-
-async function init(){
-  const raw=await fetchRaw(CSV);
-  H=(raw[0]||[]).map(h=>h.trim());
-  const start=findDataStart(raw);
-  ROWS=raw.slice(start,start+47).filter(r=>{
-    const t=cv(r,1);
-    if(!t) return false;
-    if(t.toLowerCase().includes('(gráfico)')||t.toLowerCase().includes('grafico')) return false;
-    if(/^\d+$/.test(t.trim())) return false;
-    return r.some(c=>c&&String(c).trim()!=='');
-  });
-  SUMROW=findSumRow(raw,start);
-  buildStats();
-  buildCharts();
-  buildMap();
-  buildFilters();
-  filtered=[...ROWS];
-  renderTable();
-}
-
-function buildStats(){
-  const metaVal  = cv(SUMROW,1);
-  const pagsVal  = cv(SUMROW,2);
-  const horasVal = cv(SUMROW,3);
-  const lidosVal = cv(SUMROW,22);
-
-  const metaN  = parseInt(metaVal)||0;
-  const lidosN = parseInt(lidosVal)||ROWS.filter(r=>normStatus(cv(r,I.status))==='lido').length;
-  const pct    = metaN>0?Math.min(100,Math.round(lidosN/metaN*100)):0;
-  const novos  = ROWS.filter(r=>isT(cv(r,I.autorNovo))).length;
-  const paisSet= new Set(ROWS.filter(r=>normStatus(cv(r,I.status))==='lido').map(r=>cv(r,I.pais)).filter(Boolean));
-  const hNum   = parseH(horasVal);
-  const horasStr= hNum>0?Math.round(hNum)+'h':(horasVal||'—');
-
-  const pagsCalc  = ROWS.reduce((s,r)=>{const p=parseInt(cv(r,I.paginas));return s+(isNaN(p)?0:p);},0);
-  const pagsDisplay = pagsCalc>0 ? pagsCalc.toLocaleString('pt-BR') : (pagsVal?parseInt(pagsVal).toLocaleString('pt-BR'):'—');
-
-  setText('s-meta',    metaVal||'—');
-  setText('s-lidos',   lidosVal||String(lidosN)||'—');
-  setText('s-paginas', pagsDisplay);
-  setText('s-horas',   horasStr);
-  setText('s-autores', novos||'—');
-  setText('s-paises',  paisSet.size||'—');
-
-  const lendo   = ROWS.filter(r=>normStatus(cv(r,I.status))==='lendo').length;
-  const naoLido = ROWS.filter(r=>normStatus(cv(r,I.status))==='não lido').length;
-  const lidosR  = ROWS.filter(r=>normStatus(cv(r,I.status))==='lido');
-  const topG    = Object.entries(cntIdx(lidosR,I.genero)).sort((a,b)=>b[1]-a[1])[0];
-
-  setText('prog-texto',lidosN+' lidos de '+metaN+' planejados');
-  document.getElementById('prog-bar').style.width=pct+'%';
-  setText('prog-pct',pct+'% concluído');
-  setText('p-lidos', lidosN);
-  setText('p-lendo', lendo);
-  setText('p-nao',   naoLido);
-  setText('p-genero',topG?topG[0]:'—');
-
-  const audios=ROWS.filter(isAudio);
-  if(audios.length>0){
-    document.getElementById('audio-note').style.display='block';
-    setText('audio-count',audios.length);
-  }
-}
-
-/* ── OPÇÕES DE GRÁFICO ── */
-function optBar(axis){
-  const h=axis==='y';
-  return {
-    maintainAspectRatio:false, indexAxis:axis,
-    layout:{padding:{right:h?64:8,top:h?4:28,left:h?4:4,bottom:4}},
-    plugins:{
-      legend:{display:false},
-      datalabels:{
-        display:true,anchor:'end',align:h?'end':'top',offset:5,
-        color:'#333',font:{family:'DM Sans',size:11,weight:'500'},
-        formatter:v=>v>0?v:'',clamp:false,clip:false
-      }
-    },
-    scales:{
-      x:{grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{family:'DM Sans',size:10},color:MUTED}},
-      y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{family:'DM Sans',size:10},color:MUTED,maxTicksLimit:h?14:6}}
-    }
-  };
-}
-
-/* ── PIE/DONUT — padrão governança ── */
-/* Legenda: Rótulo (%), posição bottom, DM Sans 11, cor #333, padding 12, boxWidth/Height 12 */
-/* Datalabels: exibir se fatia ≥ 8%, cor #fff, DM Sans 11 bold */
-function optPie(){
-  return {
-    maintainAspectRatio:false,
-    layout:{padding:{top:6,left:6,right:6,bottom:0}},
-    plugins:{
-      legend:{
-        position:'bottom',
-        align:'center',
-        labels:{
-          font:{family:'DM Sans',size:11},
-          color:'#333',
-          padding:12,
-          boxWidth:12,
-          boxHeight:12,
-          generateLabels(chart){
-            const data=chart.data;
-            const total=data.datasets[0].data.reduce((a,b)=>a+b,0);
-            return data.labels.map((lbl,i)=>{
-              const val=data.datasets[0].data[i];
-              const pct=total>0?Math.round(val/total*100):0;
-              return {
-                text:lbl+' ('+pct+'%)',
-                fillStyle:data.datasets[0].backgroundColor[i],
-                strokeStyle:'#fff',
-                lineWidth:1,
-                index:i,
-                hidden:false
-              };
-            });
-          }
-        }
-      },
-      datalabels:{
-        display:ctx=>{
-          const tot=ctx.dataset.data.reduce((a,b)=>a+b,0);
-          return tot>0 && (ctx.dataset.data[ctx.dataIndex]/tot)>=0.08;
-        },
-        formatter:(v,ctx)=>{
-          const tot=ctx.dataset.data.reduce((a,b)=>a+b,0);
-          return Math.round(v/tot*100)+'%';
-        },
-        color:'#fff',
-        font:{family:'DM Sans',size:11,weight:'700'}
-      }
-    }
-  };
-}
-
-function mkBar(id,labels,data,colors,axis){
-  const el=document.getElementById(id); if(!el) return;
-  const safeLabels=labels.map(l=>String(l||''));
-  new Chart(el,{
-    type:'bar',
-    plugins:[ChartDataLabels],
-    data:{labels:safeLabels,datasets:[{data,backgroundColor:data.map((_,i)=>palGet(i)),borderRadius:4,borderWidth:0}]},
-    options:optBar(axis)
-  });
-}
-
-function mkPie(id,countObj){
-  const el=document.getElementById(id); if(!el) return;
-  const entries=Object.entries(countObj).filter(([k,v])=>v>0&&k&&k!=='undefined'&&k!=='null'&&k.trim()!=='');
-  if(!entries.length) return;
-  new Chart(el,{
-    type:'doughnut',
-    plugins:[ChartDataLabels],
-    data:{
-      labels:entries.map(e=>String(e[0])),
-      datasets:[{data:entries.map(e=>e[1]),backgroundColor:entries.map((_,i)=>palGet(i)),borderWidth:2,borderColor:'#fff'}]
-    },
-    options:optPie()
-  });
-}
-
-function buildCharts(){
-  const lidos=ROWS.filter(r=>normStatus(cv(r,I.status))==='lido');
-
-  const gnT=topN(cntIdx(lidos,I.genero),12);
-  if(gnT.length) mkBar('c-generos',gnT.map(e=>e[0]),gnT.map(e=>e[1]),null,'y');
-
-  mkPie('c-cor', cntIdx(lidos,I.cor));
-
-  const gaT=topN(cntIdx(lidos,I.generoAut),8);
-  if(gaT.length) mkBar('c-genero-autor',gaT.map(e=>e[0]),gaT.map(e=>e[1]),null,'y');
-
-  mkPie('c-idioma', cntIdx(lidos,I.idioma));
-
-  const fmT=topN(cntIdx(lidos,I.formato),8);
-  if(fmT.length) mkBar('c-formato',fmT.map(e=>e[0]),fmT.map(e=>e[1]),null,'y');
-
-  const st={1:0,2:0,3:0,4:0,5:0};
-  lidos.forEach(r=>{const s=parseInt(cv(r,I.estrelas));if(s>=1&&s<=5)st[s]++;});
-  if(Object.values(st).some(v=>v>0))
-    mkBar('c-estrelas',['★','★★','★★★','★★★★','★★★★★'],Object.values(st),null,'x');
-
-  mkPie('c-serie', cntIdx(lidos,I.serie));
-  mkPie('c-faixa', cntIdx(lidos,I.faixaEtaria));
-
-  const novosN=lidos.filter(r=>isT(cv(r,I.autorNovo))).length;
-  const jaConN=lidos.length-novosN;
-  if(novosN+jaConN>0) mkPie('c-autor-novo',{'Autore novo':novosN,'Já conhecia':Math.max(0,jaConN)});
-
-  const pqT=topN(cntIdx(lidos,I.porqueL),8);
-  if(pqT.length) mkBar('c-porquel',pqT.map(e=>e[0]),pqT.map(e=>e[1]),null,'y');
-}
-
-/* ── MAPA ── */
-const COORDS={
-  'Brasil':[-15.8,-47.9],'EUA':[37.1,-95.7],'Estados Unidos':[37.1,-95.7],
-  'Reino Unido':[51.5,-0.1],'Japão':[35.7,139.7],'França':[46.2,2.2],
-  'Canadá':[56.1,-106.3],'Argentina':[-34.6,-58.4],'Portugal':[38.7,-9.1],
-  'Alemanha':[52.5,13.4],'Espanha':[40.4,-3.7],'Itália':[41.9,12.5],
-  'México':[19.4,-99.1],'Colômbia':[4.7,-74.1],'Chile':[-33.4,-70.6],
-  'Índia':[28.6,77.2],'China':[39.9,116.4],'Rússia':[55.8,37.6],
-  'Austrália':[-35.3,149.1],'Nigéria':[9.1,7.5],'África do Sul':[-25.7,28.2],
-  'Zâmbia':[-15.4,28.3],'Camarões':[3.9,11.5],'Irã':[35.7,51.4],
-  'Noruega':[59.9,10.7],'Holanda':[52.4,4.9],'Países Baixos':[52.4,4.9],
-  'Cuba':[23.1,-82.4],'Ucrânia':[50.5,30.5],'Nova Zelândia':[-41.3,174.8],
-  'Uruguai':[-34.9,-56.2],'Bolívia':[-16.5,-68.1],'Ruanda':[-1.9,30.1],
-  'Somália':[2.0,45.3],'República Tcheca':[50.1,14.4],'Bélgica':[50.8,4.4],
-  'Coreia do Sul':[37.6,127.0],'Vietnã':[21.0,105.8],'Polônia':[52.2,21.0],
-  'Suécia':[59.3,18.1],'Grécia':[37.9,23.7],'Turquia':[39.9,32.9],
-  'Egito':[30.1,31.2],'Marrocos':[34.0,-6.8],'Etiópia':[9.0,38.7],
-  'Quênia':[-1.3,36.8],'Gana':[5.6,-0.2],'Senegal':[14.7,-17.4],
-  'Peru':[-12.0,-77.0],'Venezuela':[10.5,-66.9],'Paquistão':[33.7,73.1],
-  'Bangladesh':[23.7,90.4],'Israel':[31.8,35.2],'Iraque':[33.3,44.4],
-  'Síria':[33.5,36.3],'Angola':[-8.8,13.2],'Moçambique':[-18.7,35.5],
-  'Zimbabwe':[-17.8,31.1],'Uganda':[0.3,32.6],'Gâmbia':[13.5,-15.6],
-  'Serra Leoa':[8.5,-13.2],'Congo':[-4.3,15.3],
-  'República Democrática do Congo':[-4.3,15.3],
-  'Namíbia':[-22.6,17.1],'Tanzânia':[-6.4,34.9],'Costa do Marfim':[6.8,-5.3],
-  'Indonésia':[-6.2,106.8],'Filipinas':[14.6,121.0],'Afeganistão':[34.5,69.2],
-  'Suíça':[46.8,8.2],'Áustria':[48.2,16.4],'Irlanda':[53.3,-6.3],
-  'Escócia':[56.5,-4.2],'Islândia':[64.1,-21.9],'Finlândia':[60.2,24.9],
-  'Dinamarca':[55.7,12.6],'Hungria':[47.5,19.0],'Romênia':[44.4,26.1],
-  'Bulgária':[42.7,23.3],'Sérvia':[44.8,20.5],'Croácia':[45.8,16.0],
-  'Lituânia':[55.2,23.9],'Letônia':[56.9,24.1],'Estônia':[59.4,24.7],
-  'Geórgia':[41.7,44.8],'Armênia':[40.2,44.5],'Azerbaijão':[40.4,49.9],
-  'Cazaquistão':[51.2,71.5],'Mongólia':[47.9,106.9],'Tailândia':[13.8,100.5],
-  'Malásia':[3.1,101.7],'Cingapura':[1.3,103.8],'Nepal':[28.0,84.1],
-  'Sri Lanka':[7.9,80.8],'Kuwait':[29.4,47.6],'Arábia Saudita':[24.7,46.7],
-  'Emirados Árabes Unidos':[24.5,54.4],'Emirados Árabes':[24.5,54.4],
-  'Jordânia':[30.6,36.1],'Líbano':[33.9,35.5],'Iêmen':[15.6,48.5],
-  'Sudão':[15.6,32.5],'Sudão do Sul':[4.9,31.3],'Líbia':[26.3,17.2],
-  'Tunísia':[36.8,10.2],'Argélia':[28.0,1.7],'Mali':[17.6,-2.0],
-  'Níger':[17.6,8.1],'Tchad':[15.5,18.7],'Madagascar':[-20.0,47.0],
-  'Guatemala':[15.8,-90.2],'Honduras':[15.2,-86.2],'El Salvador':[13.8,-88.9],
-  'Nicarágua':[12.9,-85.2],'Costa Rica':[9.7,-83.7],'Panamá':[8.9,-79.5],
-  'Jamaica':[18.1,-77.3],'Haiti':[19.0,-72.3],
-  'República Dominicana':[18.7,-70.2],'Equador':[-1.8,-78.2],
-  'Paraguai':[-23.4,-58.4],'Papua Nova Guiné':[-6.3,143.9],
-  'Guiana':[4.9,-58.9],'Trinidad e Tobago':[10.7,-61.2],'Suriname':[4.0,-56.0]
-};
-
-function buildMap(){
-  const map=L.map('map-2026',{scrollWheelZoom:false}).setView([20,10],2);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map);
-  const lidos=ROWS.filter(r=>normStatus(cv(r,I.status))==='lido');
-  const byPais=cntIdx(lidos,I.pais);
-  Object.entries(byPais).forEach(([pais,qtd])=>{
-    const co=COORDS[pais]; if(!co) return;
-    const r=Math.max(8,Math.min(30,8+qtd*5));
-    L.circleMarker(co,{radius:r,fillColor:GREEN,color:'#fff',weight:2,opacity:1,fillOpacity:.8})
-      .addTo(map).bindPopup(`<b>${pais}</b><br>${qtd} livro${qtd>1?'s':''}`);
-  });
-}
-
-/* ── FILTROS ── */
-function buildFilters(){
-  const gns=[...new Set(ROWS.map(r=>cv(r,I.genero)).filter(Boolean))].sort();
-  const sg=document.getElementById('f-genero');
-  gns.forEach(g=>{const o=document.createElement('option');o.value=g;o.textContent=g;sg.appendChild(o);});
-
-  const fmts=[...new Set(ROWS.map(r=>cv(r,I.formato)).filter(Boolean))].sort();
-  const sf=document.getElementById('f-formato');
-  fmts.forEach(f=>{const o=document.createElement('option');o.value=f;o.textContent=f;sf.appendChild(o);});
-
-  const statusSet=[...new Set(ROWS.map(r=>cv(r,I.status)).filter(Boolean))];
-  const sf2=document.getElementById('f-status');
-  sf2.innerHTML='<option value="">Todos os status</option>';
-  statusSet.forEach(s=>{const o=document.createElement('option');o.value=s;o.textContent=s;sf2.appendChild(o);});
-
-  document.getElementById('search').addEventListener('input',applyFilters);
-  sf2.addEventListener('change',applyFilters);
-  document.getElementById('f-genero').addEventListener('change',applyFilters);
-  document.getElementById('f-formato').addEventListener('change',applyFilters);
-
-  document.querySelectorAll('.tag-btn').forEach(btn=>btn.addEventListener('click',()=>{
-    document.querySelectorAll('.tag-btn').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active'); activeTag=btn.dataset.tag; applyFilters();
-  }));
-
-  document.querySelectorAll('th[data-colidx]').forEach(th=>th.addEventListener('click',()=>{
-    const i=parseInt(th.dataset.colidx); if(isNaN(i)) return;
-    if(sortIdx===i) sortAsc=!sortAsc; else{sortIdx=i;sortAsc=true;}
-    filtered.sort((a,b)=>{
-      const av=cv(a,i),bv=cv(b,i);
-      const an=parseFloat(av),bn=parseFloat(bv);
-      if(!isNaN(an)&&!isNaN(bn)) return sortAsc?an-bn:bn-an;
-      return sortAsc?av.localeCompare(bv,'pt'):bv.localeCompare(av,'pt');
-    });
-    page=1; renderTable();
-  }));
-}
-
-function applyFilters(){
-  const q =document.getElementById('search').value.toLowerCase();
-  const st=document.getElementById('f-status').value;
-  const gn=document.getElementById('f-genero').value;
-  const fm=document.getElementById('f-formato').value;
-
-  filtered=ROWS.filter(r=>{
-    if(q&&!(cv(r,I.titulo)+' '+cv(r,I.autor)).toLowerCase().includes(q)) return false;
-    if(st&&cv(r,I.status)!==st) return false;
-    if(gn&&cv(r,I.genero)!==gn) return false;
-    if(fm&&cv(r,I.formato)!==fm) return false;
-    if(activeTag==='lgbtqia'    &&!isT(cv(r,I.lgbtqia)))   return false;
-    if(activeTag==='diversidade'&&!isT(cv(r,I.divers)))    return false;
-    if(activeTag==='ownvoices'  &&!isT(cv(r,I.ownvoices))) return false;
-    if(activeTag==='audiobook'  &&!isAudio(r))             return false;
-    return true;
-  });
-  page=1; renderTable();
-}
-
-/* ── TABELA ── */
-function renderTable(){
-  const start=(page-1)*PER;
-  const pg=filtered.slice(start,start+PER);
-  const tbody=document.getElementById('tbody');
-  setText('lista-count',filtered.length+' livros');
-
-  if(!filtered.length){
-    tbody.innerHTML='<tr><td colspan="9" style="text-align:center;padding:2rem;color:var(--muted)">Nenhum livro encontrado.</td></tr>';
-    setText('t-info','');
-    document.getElementById('pagination').innerHTML='';
-    return;
-  }
-
-  tbody.innerHTML=pg.map(r=>{
-    const titulo  =cv(r,I.titulo)  ||'—';
-    const autor   =cv(r,I.autor)   ||'—';
-    const genero  =cv(r,I.genero)  ||'—';
-    const paginas =cv(r,I.paginas) ||'—';
-    const horas   =cv(r,I.horas)   ||'';
-    const horasD  =parseH(horas)>0?horas.substring(0,5):'—';
-    const formato =cv(r,I.formato) ||'—';
-    const pais    =cv(r,I.pais)    ||'—';
-    const status  =cv(r,I.status)  ||'—';
-    const ns      =normStatus(status);
-    const bc      =ns==='lido'?'badge-lido':ns==='lendo'?'badge-lendo':'badge-nao';
-    const sv=parseInt(cv(r,I.estrelas));
-    const starsHtml=(sv>=1&&sv<=5)?'<span class="stars">'+'★'.repeat(sv)+'</span>':'—';
-    return `<tr>
-      <td><strong>${titulo}</strong></td>
-      <td>${autor}</td><td>${genero}</td><td>${paginas}</td>
-      <td>${horasD}</td><td>${formato}</td><td>${pais}</td>
-      <td><span class="badge ${bc}">${status}</span></td>
-      <td>${starsHtml}</td>
-    </tr>`;
-  }).join('');
-
-  setText('t-info',(start+1)+'–'+Math.min(start+PER,filtered.length)+' de '+filtered.length);
-
-  const pages=Math.ceil(filtered.length/PER);
-  const pag=document.getElementById('pagination'); pag.innerHTML='';
-  for(let i=1;i<=pages;i++){
-    const btn=document.createElement('button');
-    btn.className='page-btn'+(i===page?' active':'');
-    btn.textContent=i;
-    btn.onclick=()=>{page=i;renderTable();};
-    pag.appendChild(btn);
-  }
-}
-
-document.getElementById('nav-hamburger').addEventListener('click',()=>{
-  document.getElementById('nav-ul').classList.toggle('open');
-});
-
-init();
-</script>
 </body>
 </html>
