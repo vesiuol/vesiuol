@@ -30,8 +30,8 @@
   --header-h:     52px;
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { font-size: 14px; -webkit-font-smoothing: antialiased; }
-body { background: var(--white); color: var(--text); font-family: Arial, sans-serif; font-weight: 400; }
+html { -webkit-font-smoothing: antialiased; }
+body { background: var(--white); color: var(--text); font-family: Arial, sans-serif; font-weight: 500; }
 a { color: inherit; text-decoration: none; }
 
 /* ── NAV (governança: sobre.html) ── */
@@ -49,7 +49,7 @@ nav ul { list-style: none; display: flex; gap: 2rem; margin-left: auto; align-it
 nav ul li a {
   color: var(--black); font-size: .78rem; letter-spacing: .12em;
   text-transform: uppercase; transition: color .2s;
-  font-weight: 500;
+  font-family: 'DM Sans', sans-serif; font-weight: 500;
 }
 nav ul li a:hover { color: var(--green); }
 nav ul li a.active {
@@ -64,6 +64,9 @@ nav ul li a.active {
   grid-template-columns: var(--sidebar-w) 1fr;
   align-items: start;
 }
+
+/* Intro mobile — só aparece no mobile, antes da sidebar/dados */
+.intro-mobile { display: none; }
 
 /* ── SIDEBAR ── */
 .sidebar {
@@ -102,10 +105,10 @@ nav ul li a.active {
 }
 .kpi-num {
   font-family: Georgia, serif;
-  font-size: 1.9rem; font-weight: 400; line-height: 1;
-  color: var(--text);
+  font-size: clamp(1.15rem, 4.5vw, 1.65rem); font-weight: 400; line-height: 1;
+  color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;
 }
-.kpi-card.accent .kpi-num { color: var(--white); font-size: 2.2rem; }
+.kpi-card.accent .kpi-num { color: var(--white); font-size: clamp(1.3rem, 5vw, 1.9rem); }
 .kpi-lbl { font-size: .68rem; color: var(--muted); line-height: 1.3; }
 .kpi-card.accent .kpi-lbl { color: rgba(255,255,255,.75); }
 
@@ -131,12 +134,12 @@ nav ul li a.active {
   background: transparent;
   color: var(--muted);
   font-size: .74rem;
-  font-family: Arial, sans-serif;
+  font-family: 'DM Sans', sans-serif;
   cursor: pointer;
-  transition: all .18s;
+  transition: all .2s;
   text-align: left;
 }
-.sb-nav-pill:hover { border-color: var(--green); color: var(--green); background: rgba(132,153,116,.06); }
+.sb-nav-pill:hover { background: var(--green); border-color: var(--green); color: var(--white); }
 .sb-nav-pill .pill-dot {
   width: 22px; height: 22px; border-radius: 50%;
   background: var(--green); flex-shrink: 0;
@@ -150,10 +153,10 @@ nav ul li a.active {
   font-size: .72rem; padding: .3rem .75rem;
   border-radius: 100px; border: 1.5px solid var(--border);
   background: transparent; color: var(--muted);
-  cursor: pointer; transition: all .15s;
-  font-family: Arial, sans-serif;
+  cursor: pointer; transition: all .2s;
+  font-family: 'DM Sans', sans-serif;
 }
-.fpill:hover { border-color: var(--green); color: var(--green); }
+.fpill:hover:not(.active) { background: var(--green); border-color: var(--green); color: var(--white); }
 .fpill.active { background: var(--green); border-color: var(--green); color: var(--white); font-weight: 500; }
 
 /* ── MAIN ── */
@@ -161,17 +164,16 @@ nav ul li a.active {
 
 /* Intro editorial */
 .intro-headline {
-  font-family: Georgia, serif;
-  font-size: clamp(2.6rem, 4.5vw, 3.8rem);
-  font-weight: 400; line-height: 1.25;
-  color: var(--text); margin-bottom: 1.4rem;
-}
-.intro-headline em { font-style: italic; color: var(--green); display: inline; }
-.intro-hl-bg {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.4rem, 4vw, 3.8rem);
+  font-weight: 600; line-height: 1.1;
+  display: inline;
   background: var(--green); color: var(--white);
-  display: inline; padding: .05rem .45rem; line-height: 1.4;
+  padding: .06em .28em;
   box-decoration-break: clone; -webkit-box-decoration-break: clone;
+  margin-bottom: 1.4rem;
 }
+.intro-headline-wrap { margin-bottom: 1.4rem; }
 .intro-body {
   font-size: 1.05rem; line-height: 1.85;
   color: var(--muted);
@@ -188,7 +190,11 @@ nav ul li a.active {
 }
 .section-h2 {
   font-family: Georgia, serif;
-  font-size: 1.15rem; font-weight: 400; color: var(--text);
+  font-size: 1.15rem; font-weight: 400;
+  display: inline;
+  background: var(--green); color: var(--white);
+  padding: .08em .4em;
+  box-decoration-break: clone; -webkit-box-decoration-break: clone;
 }
 .section-sub { font-size: .72rem; color: var(--muted); letter-spacing: .04em; }
 
@@ -330,8 +336,8 @@ nav ul li a.active {
   font-size: .78rem; padding: .35rem .9rem;
   border-radius: 100px; border: 1.5px solid var(--border);
   background: transparent; color: var(--muted);
-  cursor: pointer; transition: all .18s;
-  font-family: Arial, sans-serif;
+  cursor: pointer; transition: all .2s;
+  font-family: 'DM Sans', sans-serif;
 }
 .filter-pill:hover { background: var(--green); border-color: var(--green); color: var(--white); }
 .filter-pill.active { background: var(--green); border-color: var(--green); color: var(--white); font-weight: 500; }
@@ -375,15 +381,13 @@ tr:hover td { background: rgba(132,153,116,.05); }
 .notion-cta-foot { border-top: 1px solid rgba(255,255,255,.2); padding: 1rem 2.4rem; display: flex; align-items: center; justify-content: space-between; }
 .notion-btn {
   display: inline-flex; align-items: center; gap: .5rem;
-  background: transparent; color: var(--white);
-  font-size: .82rem; letter-spacing: .1em; text-transform: uppercase;
-  font-weight: 700; padding: .65rem 1.8rem;
-  border-radius: 100px;
-  border: 1.5px solid rgba(255,255,255,.7);
-  transition: background .18s, border-color .18s, color .18s;
+  background: var(--black); color: var(--white);
+  font-size: .78rem; letter-spacing: .12em; text-transform: uppercase;
+  font-weight: 500; padding: .7rem 1.6rem;
+  border-radius: 6px; transition: opacity .15s, transform .1s;
   font-family: Arial, sans-serif;
 }
-.notion-btn:hover { background: var(--white); border-color: var(--white); color: var(--green); }
+.notion-btn:hover { opacity: .85; transform: translateY(-1px); }
 
 /* ── FOOTER (governança) ── */
 footer {
@@ -395,13 +399,16 @@ footer {
 .footer-dot  { width: 10px; height: 10px; border-radius: 50%; background: var(--white); }
 .footer-text {
   font-size: .60rem; letter-spacing: .1em; text-transform: uppercase;
-  color: var(--white); font-weight: 500; font-family: Arial, sans-serif;
+  color: var(--white); font-weight: 500; font-family: 'DM Sans', sans-serif;
 }
 
 /* ── RESPONSIVE ── */
 @media (max-width: 900px) {
   .page-wrap { grid-template-columns: 1fr; }
-  .sidebar { position: static; height: auto; border-right: none; border-bottom: 1.5px solid var(--border); }
+  .sidebar { position: static; height: auto; width: 100%; min-width: 0; border-right: none; border-bottom: 1.5px solid var(--border); }
+  .main { min-width: 0; }
+  .kpi-grid { min-width: 0; }
+  .kpi-card { min-width: 0; overflow: hidden; }
   .posts-grid, .charts-2col, .desafio-charts { grid-template-columns: 1fr; }
   .div-cards { grid-template-columns: 1fr 1fr; }
   .perfil-text-grid { grid-template-columns: 1fr 1fr; }
@@ -411,7 +418,11 @@ footer {
   nav ul { display: none; position: absolute; top: 52px; left: 0; right: 0; background: var(--white); flex-direction: column; padding: 1rem 2rem; gap: 1rem; border-bottom: 1px solid var(--border); }
   nav ul.open { display: flex; }
   .nav-hamburger { display: block; }
-  .main { padding: 1.5rem 1rem 2rem; }
+  /* Mobile: intro (título + texto de apoio) aparece antes da sidebar/dados */
+  .intro-mobile { display: block; padding: 1.4rem 1.2rem 0; }
+  .intro-desktop { display: none; }
+  .main { padding: 0 0 2rem; min-width: 0; }
+  .main section.section-gap { padding: 0 1.2rem; }
   .div-cards, .perfil-text-grid { grid-template-columns: 1fr; }
   .graf-4col { grid-template-columns: 1fr 1fr; }
   .kpi-grid  { grid-template-columns: 1fr 1fr; }
@@ -437,6 +448,17 @@ footer {
   </ul>
   <button class="nav-hamburger" onclick="document.getElementById('nav-menu').classList.toggle('open')">☰</button>
 </nav>
+
+<!-- INTRO MOBILE: título + texto de apoio aparecem antes da sidebar/dados no mobile -->
+<div class="intro-mobile">
+  <h1 class="intro-headline">Uma viagem rumo à diversidade literária</h1>
+  <p class="intro-body">
+    Meu projeto de ler ao menos um livro de cada país do mundo nasceu do desejo de <strong>ampliar horizontes</strong> e sair do automático. Depois de reencontrar meu amor pelos livros, descobri criadores de conteúdo literário que me fizeram refletir sobre diversidade, representatividade e pluralidade nas leituras.
+  </p>
+  <p class="intro-body" style="margin-bottom:1.2rem;">
+    Passei a perceber que ampliar minhas leituras era também uma forma de <strong>ampliar meu mundo</strong> — e de construir, aos poucos, a pessoa que quero ser. A jornada vai muito além da leitura em si: envolve pesquisa, organização, descobertas e, às vezes, bastante paciência para encontrar livros de certos países.
+  </p>
+</div>
 
 <div class="page-wrap">
 
@@ -522,8 +544,8 @@ footer {
   <main class="main">
 
     <!-- INTRO EDITORIAL -->
-    <section>
-      <h1 class="intro-headline"><span class="intro-hl-bg">Uma viagem rumo à diversidade literária</span></h1>
+    <section class="intro-desktop">
+      <h1 class="intro-headline">Uma viagem rumo à diversidade literária</h1>
       <p class="intro-body">
         Meu projeto de ler ao menos um livro de cada país do mundo nasceu do desejo de <strong>ampliar horizontes</strong> e sair do automático. Depois de reencontrar meu amor pelos livros, descobri criadores de conteúdo literário que me fizeram refletir sobre diversidade, representatividade e pluralidade nas leituras.
       </p>
@@ -769,7 +791,7 @@ footer {
   <div class="footer-dots">
     <div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div>
   </div>
-  <span class="footer-text">O que tem na estante da Louise &nbsp;|&nbsp; Louise Victoria &nbsp;|&nbsp; © 2026 &nbsp;|&nbsp; atualizado em <span id="data-atualizacao">15 de junho de 2026</span></span>
+  <span class="footer-text">O que tem na estante da Louise &nbsp;|&nbsp; Louise Victoria &nbsp;|&nbsp; © 2026 &nbsp;|&nbsp; atualizado em <span id="data-atualizacao">18 de junho de 2026</span></span>
 </footer>
 
 <script>
