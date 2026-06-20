@@ -74,12 +74,13 @@ nav ul li a.active {
   background: var(--surface);
   position: sticky;
   top: var(--header-h);
-  height: calc(100vh - var(--header-h));
+  max-height: calc(100vh - var(--header-h));
   overflow-y: auto; overflow-x: hidden;
   padding: 2rem 1.4rem;
   display: flex; flex-direction: column; gap: 1.6rem;
   scrollbar-width: thin;
   scrollbar-color: var(--border) transparent;
+  align-self: start;
 }
 
 /* bloco label */
@@ -171,9 +172,8 @@ nav ul li a.active {
   background: var(--green); color: var(--white);
   padding: .06em .28em;
   box-decoration-break: clone; -webkit-box-decoration-break: clone;
-  margin-bottom: 1.4rem;
 }
-.intro-headline-wrap { margin-bottom: 1.4rem; }
+.intro-headline-wrap { margin-bottom: 1.6rem; display: block; }
 .intro-body {
   font-size: 1.05rem; line-height: 1.85;
   color: var(--muted);
@@ -226,9 +226,13 @@ nav ul li a.active {
 .post-title {
   font-family: Georgia, serif;
   font-size: .95rem; font-weight: 400;
-  color: var(--text); line-height: 1.35;
+  line-height: 1.5;
+  display: inline;
+  background: var(--green); color: var(--white);
+  padding: .1em .35em;
+  box-decoration-break: clone; -webkit-box-decoration-break: clone;
 }
-.post-desc { font-size: .82rem; line-height: 1.6; color: var(--muted); flex: 1; }
+.post-desc { font-size: .82rem; line-height: 1.6; color: var(--muted); flex: 1; margin-top: .5rem; }
 .post-foot {
   border-top: 1px solid var(--border-soft);
   padding: .55rem 1.1rem;
@@ -303,9 +307,9 @@ nav ul li a.active {
   border-radius: 14px; overflow: hidden;
   box-shadow: 2px 2px 0 var(--border);
 }
-.desafio-intro { padding: 1.4rem 1.6rem 0; font-size: .88rem; line-height: 1.75; color: var(--muted); max-width: 540px; }
+.desafio-intro { padding: 1.4rem 1.6rem 0; font-size: 1.05rem; line-height: 1.85; color: var(--muted); max-width: 540px; }
 .ev-cards-wrap { padding: 1.4rem 1.6rem; }
-.graf-4col { display: grid; grid-template-columns: repeat(4, 1fr); gap: .6rem; }
+.graf-4col { display: grid; grid-template-columns: repeat(4, 1fr); gap: .6rem; margin-bottom: 1.2rem; }
 .evolucao-card {
   background: var(--surface);
   border: 1.5px solid var(--border);
@@ -451,7 +455,9 @@ footer {
 
 <!-- INTRO MOBILE: título + texto de apoio aparecem antes da sidebar/dados no mobile -->
 <div class="intro-mobile">
-  <h1 class="intro-headline">Uma viagem rumo à diversidade literária</h1>
+  <div class="intro-headline-wrap">
+    <h1 class="intro-headline">Uma viagem rumo à diversidade literária</h1>
+  </div>
   <p class="intro-body">
     Meu projeto de ler ao menos um livro de cada país do mundo nasceu do desejo de <strong>ampliar horizontes</strong> e sair do automático. Depois de reencontrar meu amor pelos livros, descobri criadores de conteúdo literário que me fizeram refletir sobre diversidade, representatividade e pluralidade nas leituras.
   </p>
@@ -545,7 +551,9 @@ footer {
 
     <!-- INTRO EDITORIAL -->
     <section class="intro-desktop">
-      <h1 class="intro-headline">Uma viagem rumo à diversidade literária</h1>
+      <div class="intro-headline-wrap">
+        <h1 class="intro-headline">Uma viagem rumo à diversidade literária</h1>
+      </div>
       <p class="intro-body">
         Meu projeto de ler ao menos um livro de cada país do mundo nasceu do desejo de <strong>ampliar horizontes</strong> e sair do automático. Depois de reencontrar meu amor pelos livros, descobri criadores de conteúdo literário que me fizeram refletir sobre diversidade, representatividade e pluralidade nas leituras.
       </p>
@@ -1150,4 +1158,4 @@ renderNotion();
 init();
 </script>
 </body>
-</html>
+  </html>
