@@ -41,7 +41,7 @@ nav ul li a.active{background:var(--green);color:var(--white);padding:.28rem .7r
 .intro-mobile{display:none;}
 
 /* ── SIDEBAR ── */
-.sidebar{border-right:1.5px solid var(--border);background:var(--surface);position:sticky;top:var(--header-h);height:calc(100vh - var(--header-h));overflow-y:auto;overflow-x:hidden;padding:2rem 1.4rem;display:flex;flex-direction:column;gap:1.6rem;scrollbar-width:thin;scrollbar-color:var(--border) transparent;}
+.sidebar{border-right:1.5px solid var(--border);background:var(--surface);position:sticky;top:var(--header-h);max-height:calc(100vh - var(--header-h));overflow-y:auto;overflow-x:hidden;padding:2rem 1.4rem;display:flex;flex-direction:column;gap:1.6rem;scrollbar-width:thin;scrollbar-color:var(--border) transparent;align-self:start;}
 .sb-label{font-size:.68rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem;}
 
 /* KPI */
@@ -255,13 +255,13 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
           <div class="kpi-num" id="s-total">—</div>
           <div class="kpi-lbl">livros na estante</div>
         </div>
+        <div class="kpi-card accent">
+          <div class="kpi-num" id="s-paginas">—</div>
+          <div class="kpi-lbl">páginas lidas</div>
+        </div>
         <div class="kpi-card">
           <div class="kpi-num" id="s-lidos">—</div>
           <div class="kpi-lbl">lidos</div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-num" id="s-paginas">—</div>
-          <div class="kpi-lbl">páginas lidas</div>
         </div>
         <div class="kpi-card">
           <div class="kpi-num" id="s-autores">—</div>
@@ -791,4 +791,4 @@ function renderTable(){
 init();
 </script>
 </body>
-</html>
+                                                                        </html>
