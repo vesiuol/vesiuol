@@ -75,12 +75,13 @@ nav ul li a.active {
   background: var(--surface);
   position: sticky;
   top: var(--header-h);
-  height: calc(100vh - var(--header-h));
+  max-height: calc(100vh - var(--header-h));
   overflow-y: auto; overflow-x: hidden;
   padding: 2rem 1.4rem;
   display: flex; flex-direction: column; gap: 1.6rem;
   scrollbar-width: thin;
   scrollbar-color: var(--border) transparent;
+  align-self: start;
 }
 .sb-label {
   font-size: .68rem; font-weight: 500;
