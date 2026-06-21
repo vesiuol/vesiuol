@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Desafio Livros pelo Mundo</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='38' fill='%23849974'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
@@ -268,7 +268,7 @@ nav ul li a.active {
 .rank-header { display: flex; justify-content: space-between; font-size: .82rem; margin-bottom: .3rem; }
 .rank-pos { color: var(--muted); font-size: .72rem; margin-right: .4rem; }
 .rank-name { color: var(--text); }
-.rank-val  { color: var(--green); font-weight: 500; }
+.rank-val  { color: var(--green-dark); font-weight: 500; }
 .rank-track { height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
 .rank-fill  { height: 100%; background: var(--green); border-radius: 3px; }
 .rank-fill.light { background: var(--green-light); }
@@ -375,24 +375,33 @@ tr:hover td { background: rgba(132,153,116,.05); }
 .page-btn.active { background: var(--green); color: var(--white); border-color: var(--green); }
 .page-btn:hover:not(.active) { border-color: var(--green); }
 
-/* ── CTA NOTION no main ── */
+/* ── CTA NOTION (compacto, abaixo dos blogs) ── */
 .notion-cta {
   background: var(--green); border: 1.5px solid var(--green-dark);
-  border-radius: 14px; overflow: hidden; margin-top: 3rem;
+  border-radius: 14px; padding: 1.1rem 1.4rem;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  margin-top: 1.2rem;
 }
-.notion-cta-body { padding: 2rem 2.4rem; }
-.notion-cta-body h3 { font-family: Georgia, serif; font-size: 1.45rem; font-weight: 400; color: var(--white); margin-bottom: .85rem; }
-.notion-cta-body p  { font-size: 1rem; line-height: 1.85; color: rgba(255,255,255,.9); margin-bottom: .65rem; }
-.notion-cta-foot { border-top: 1px solid rgba(255,255,255,.2); padding: 1rem 2.4rem; display: flex; align-items: center; justify-content: space-between; }
+.notion-cta p {
+  color: var(--white); font-size: .92rem; line-height: 1.6; margin: 0;
+  max-width: 480px; flex: 1;
+}
 .notion-btn {
-  display: inline-flex; align-items: center; gap: .5rem;
-  background: var(--black); color: var(--white);
-  font-size: .78rem; letter-spacing: .12em; text-transform: uppercase;
-  font-weight: 500; padding: .7rem 1.6rem;
-  border-radius: 6px; transition: opacity .15s, transform .1s;
-  font-family: Arial, sans-serif;
+  flex-shrink: 0;
+  display: inline-block;
+  background: transparent; border: 1.5px solid var(--white); color: var(--white);
+  font-size: .74rem; letter-spacing: .1em; text-transform: uppercase;
+  font-weight: 500; padding: .55rem 1.2rem;
+  border-radius: 100px; white-space: nowrap;
+  font-family: 'DM Sans', sans-serif;
+  transition: all .2s;
 }
-.notion-btn:hover { opacity: .85; transform: translateY(-1px); }
+.notion-btn:hover { background: var(--white); color: var(--green); }
+@media (max-width: 600px) {
+  .notion-cta { flex-direction: column; align-items: flex-start; }
+  .notion-cta p { max-width: 100%; }
+  .notion-btn { width: 100%; text-align: center; }
+}
 
 /* ── FOOTER (governança) ── */
 footer {
@@ -604,6 +613,12 @@ footer {
           <div class="post-foot"><span>Apresentação</span><span>→</span></div>
         </a>
       </div>
+
+      <!-- CTA NOTION -->
+      <div class="notion-cta">
+        <p>Toda a organização do desafio começa antes da leitura. Veja a planilha-modelo completa com países, livros e progresso.</p>
+        <a class="notion-btn" href="https://app.notion.com/p/vesiuol/679c7c463b784b75b645ca16b283cb64?v=091d4f4f0139433383dc3bfb1855ef48&source=copy_link" target="_blank" rel="noopener">Abrir no Notion →</a>
+      </div>
     </section>
 
     <!-- PERFIL DO DESAFIO — sem donut, 4 modelos alternativos -->
@@ -780,18 +795,6 @@ footer {
       </div>
     </section>
 
-    <!-- CTA NOTION -->
-    <div class="notion-cta">
-      <div class="notion-cta-body">
-        <h3>Ver lista completa no Notion</h3>
-        <p>Toda a organização do desafio começa antes da leitura — começa na estrutura. Essa planilha-modelo reúne os países, os livros mapeados, o progresso e as descobertas pelo caminho.</p>
-        <p>Espero que sirva como empurrão inicial para quem também quer explorar o mundo através dos livros.</p>
-      </div>
-      <div class="notion-cta-foot">
-        <a class="notion-btn" href="https://app.notion.com/p/vesiuol/679c7c463b784b75b645ca16b283cb64?v=091d4f4f0139433383dc3bfb1855ef48&source=copy_link" target="_blank" rel="noopener">Abrir no Notion →</a>
-      </div>
-    </div>
-
   </main>
 </div>
 
@@ -800,7 +803,7 @@ footer {
   <div class="footer-dots">
     <div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div>
   </div>
-  <span class="footer-text">O que tem na estante da Louise &nbsp;|&nbsp; Louise Victoria &nbsp;|&nbsp; © 2026 &nbsp;|&nbsp; atualizado em <span id="data-atualizacao">20 de junho de 2026</span></span>
+  <span class="footer-text">O que tem na estante da Louise &nbsp;|&nbsp; Louise Victoria &nbsp;|&nbsp; © 2026 &nbsp;|&nbsp; atualizado em <span id="data-atualizacao">21 de junho de 2026</span></span>
 </footer>
 
 <script>
