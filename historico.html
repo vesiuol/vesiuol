@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Histórico — Vida de Leitora</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='38' fill='%23849974'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
@@ -216,7 +216,7 @@ nav ul li a.active {
 .rank-row-header { display: flex; justify-content: space-between; font-size: .82rem; margin-bottom: .25rem; }
 .rank-pos  { color: var(--muted); font-size: .72rem; margin-right: .35rem; }
 .rank-name { color: var(--text); }
-.rank-val  { color: var(--green); font-weight: 500; }
+.rank-val  { color: var(--green-dark); font-weight: 500; }
 .rank-track { height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
 .rank-fill  { height: 100%; background: var(--green); border-radius: 3px; }
 .rank-fill.light { background: var(--green-light); }
@@ -416,7 +416,7 @@ footer {
       <div class="charts-2col" style="margin-bottom:.8rem">
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Gêneros literários</span></div>
-          <div class="chart-body tall"><canvas id="c-generos"></canvas></div>
+          <div style="padding:1rem 1.4rem 1.2rem"><div class="rank-list" id="c-generos"></div></div>
         </div>
         <div style="display:flex;flex-direction:column;gap:.8rem">
           <div class="wcard">
@@ -522,7 +522,7 @@ footer {
         </div>
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Gêneros literários</span></div>
-          <div class="chart-body tall"><canvas id="ac-generos"></canvas></div>
+          <div style="padding:1rem 1.4rem 1.2rem"><div class="rank-list" id="ac-generos"></div></div>
         </div>
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">País de origem dos autores</span></div>
@@ -542,7 +542,7 @@ footer {
   <div class="footer-dots">
     <div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div>
   </div>
-  <span class="footer-text">O que tem na estante da Louise&nbsp;&nbsp;|&nbsp;&nbsp;Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">20 de junho de 2026</span></span>
+  <span class="footer-text">O que tem na estante da Louise&nbsp;&nbsp;|&nbsp;&nbsp;Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">21 de junho de 2026</span></span>
 </footer>
 
 <script>
@@ -676,6 +676,22 @@ function mkBar(id, labels, data, horizontal=false, highlight=true) {
   });
 }
 
+// Lista ranqueada (texto + barra de progresso) — usada no lugar de gráfico de barras
+function buildRankList(containerId, labels, data) {
+  const el = document.getElementById(containerId); if (!el) return;
+  const entries = labels.map((l,i)=>[l, data[i]]).filter(([,v])=>v>0);
+  if (!entries.length) { el.innerHTML = ''; return; }
+  const max = entries[0][1] || 1;
+  el.innerHTML = entries.map(([nome,val],i)=>`
+    <div>
+      <div class="rank-row-header">
+        <span><span class="rank-pos">${i+1}.</span><span class="rank-name">${nome}</span></span>
+        <span class="rank-val">${val}</span>
+      </div>
+      <div class="rank-track"><div class="rank-fill${i>0?' light':''}" style="width:${Math.round(val/max*100)}%"></div></div>
+    </div>`).join('');
+}
+
 function mkBarFmt(id, labels, data, fmtFn, highlight=true) {
   const el=document.getElementById(id); if(!el) return null;
   const bg = highlight
@@ -774,7 +790,7 @@ function buildGerais() {
 
   // Gêneros
   const genE = topN(getGenLivro(null),10);
-  mkBar('c-generos', genE.map(e=>e[0]), genE.map(e=>e[1]), true, false);
+  buildRankList('c-generos', genE.map(e=>e[0]), genE.map(e=>e[1]));
 
   // Idioma — cards
   const idTop = topN(getIdiomas(null), 4);
@@ -918,7 +934,7 @@ function renderAno(ano) {
 
   // Gêneros literários
   const glE = topN(getGenLivro(aFiltro),10);
-  if(glE.length) anoCharts['ac-generos']=mkBar('ac-generos',glE.map(e=>e[0]),glE.map(e=>e[1]),true,false);
+  buildRankList('ac-generos', glE.map(e=>e[0]), glE.map(e=>e[1]));
 
   // Países
   const pE = topN(getPaises(aFiltro),10);
