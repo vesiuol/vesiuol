@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Estante — Meus Livros</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='38' fill='%23849974'/></svg>">
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
@@ -77,7 +77,7 @@ nav ul li a.active{background:var(--green);color:var(--white);padding:.28rem .7r
 
 /* Intro editorial */
 .intro-headline-wrap{margin-bottom:1.4rem;}
-.intro-headline{font-family:'Cormorant Garamond',serif;font-size:clamp(2.4rem,4vw,3.8rem);font-weight:600;line-height:1.1;display:inline;background:var(--green);color:var(--white);padding:.06em .28em;box-decoration-break:clone;-webkit-box-decoration-break:clone;}
+.intro-headline{font-family:'Cormorant Garamond',serif;font-size:clamp(2.4rem,4vw,3.8rem);font-weight:600;line-height:1.35;display:inline;background:var(--green);color:var(--white);padding:.12em .28em;box-decoration-break:clone;-webkit-box-decoration-break:clone;}
 .intro-body{font-size:.93rem;line-height:1.85;color:var(--muted);}
 .intro-body+.intro-body{margin-top:.9rem;}
 .intro-body strong{color:var(--text);}
@@ -124,7 +124,7 @@ nav ul li a.active{background:var(--green);color:var(--white);padding:.28rem .7r
 .rank-item{}
 .rank-header{display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:.3rem;}
 .rank-pos{color:var(--muted);font-size:.72rem;margin-right:.4rem;}
-.rank-val{color:var(--green);font-weight:500;}
+.rank-val{color:var(--green-dark);font-weight:500;}
 .rank-track{height:5px;background:var(--border);border-radius:3px;overflow:hidden;}
 .rank-fill{height:100%;background:var(--green);border-radius:3px;}
 .rank-fill.light{background:var(--green-light);}
@@ -514,7 +514,7 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
 <!-- FOOTER -->
 <footer>
   <div class="footer-dots"><div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div></div>
-  <span class="footer-text">O que tem na estante da Louise &nbsp;|&nbsp; Louise Victoria &nbsp;|&nbsp; © 2026 &nbsp;|&nbsp; atualizado em <span id="data-atualizacao">20 de junho de 2026</span></span>
+  <span class="footer-text">O que tem na estante da Louise &nbsp;|&nbsp; Louise Victoria &nbsp;|&nbsp; © 2026 &nbsp;|&nbsp; atualizado em <span id="data-atualizacao">21 de junho de 2026</span></span>
 </footer>
 
 <script>
@@ -791,4 +791,4 @@ function renderTable(){
 init();
 </script>
 </body>
-                                                                        </html>
+</html>
