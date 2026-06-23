@@ -175,8 +175,8 @@ nav ul li a.active {
 }
 .intro-headline-wrap { margin-bottom: 1.6rem; display: block; }
 .intro-body {
-  font-size: 1.05rem; line-height: 1.85;
-  color: var(--muted);
+  font-size: .93rem; line-height: 1.85;
+  color: var(--text);
 }
 .intro-body + .intro-body { margin-top: .9rem; }
 .intro-body strong { color: var(--text); font-weight: 500; }
@@ -256,13 +256,13 @@ nav ul li a.active {
   background: var(--white);
   padding: 1rem 1.1rem;
 }
-.ptg-label { font-size: .65rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: .4rem; }
+.ptg-label { font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: .4rem; }
 .ptg-val   { font-size: .95rem; font-weight: 500; color: var(--text); }
 .ptg-sub   { font-size: .72rem; color: var(--muted); margin-top: .15rem; }
 
 /* 2. Ranking com barras de texto (regiões, gêneros) */
 .rank-block { margin-bottom: .8rem; }
-.rank-eyebrow { font-size: .65rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: .75rem; }
+.rank-eyebrow { font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: .75rem; }
 .rank-list { display: flex; flex-direction: column; gap: .6rem; }
 .rank-item {}
 .rank-header { display: flex; justify-content: space-between; font-size: .82rem; margin-bottom: .3rem; }
@@ -317,7 +317,7 @@ nav ul li a.active {
   border-radius: 10px; padding: 1rem .8rem; text-align: center;
 }
 .evolucao-card.destaque { background: var(--green); border-color: var(--green-dark); }
-.ev-ano { font-size: .65rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: .25rem; }
+.ev-ano { font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: .25rem; }
 .ev-num { font-family: Georgia, serif; font-size: 1.75rem; font-weight: 400; color: var(--green); line-height: 1.1; }
 .ev-sub { font-size: .7rem; color: var(--muted); margin-top: .2rem; }
 .evolucao-card.destaque .ev-ano { color: rgba(255,255,255,.65); }
@@ -358,7 +358,7 @@ nav ul li a.active {
 .search-wrap::before { content: '⌕'; position: absolute; left: .6rem; top: 50%; transform: translateY(-50%); color: var(--muted); }
 table { width: 100%; border-collapse: collapse; font-size: .85rem; }
 thead tr { border-bottom: 2px solid var(--black); }
-th { padding: .55rem .8rem; text-align: left; font-size: .65rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); white-space: nowrap; cursor: pointer; user-select: none; }
+th { padding: .55rem .8rem; text-align: left; font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); white-space: nowrap; cursor: pointer; user-select: none; }
 th:hover { color: var(--text); }
 td { padding: .65rem .8rem; border-bottom: 1px solid #eee; vertical-align: middle; }
 tr:hover td { background: rgba(132,153,116,.05); }
@@ -378,13 +378,13 @@ tr:hover td { background: rgba(132,153,116,.05); }
 /* ── CTA NOTION (compacto, abaixo dos blogs) ── */
 .notion-cta {
   background: var(--green); border: 1.5px solid var(--green-dark);
-  border-radius: 14px; padding: 1.1rem 1.4rem;
-  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  border-radius: 14px; padding: 1.1rem 1.6rem;
+  display: flex; align-items: center; justify-content: center; gap: 2rem;
   margin-top: 1.2rem;
 }
 .notion-cta p {
   color: var(--white); font-size: .92rem; line-height: 1.6; margin: 0;
-  max-width: 480px; flex: 1;
+  flex: 0 1 auto; text-align: center;
 }
 .notion-btn {
   flex-shrink: 0;
@@ -419,7 +419,7 @@ footer {
 /* ── RESPONSIVE ── */
 @media (max-width: 900px) {
   .page-wrap { grid-template-columns: 1fr; }
-  .sidebar { position: static; height: auto; width: 100%; min-width: 0; border-right: none; border-bottom: 1.5px solid var(--border); }
+  .sidebar { position: static; height: auto; max-height: none; overflow: visible; width: 100%; min-width: 0; border-right: none; border-bottom: 1.5px solid var(--border); }
   .main { min-width: 0; }
   .kpi-grid { min-width: 0; }
   .kpi-card { min-width: 0; overflow: hidden; }
@@ -803,7 +803,7 @@ footer {
   <div class="footer-dots">
     <div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div>
   </div>
-  <span class="footer-text">O que tem na estante da Louise &nbsp;|&nbsp; Louise Victoria &nbsp;|&nbsp; © 2026 &nbsp;|&nbsp; atualizado em <span id="data-atualizacao">21 de junho de 2026</span></span>
+  <span class="footer-text">O que tem na estante da Louise &nbsp;|&nbsp; Louise Victoria &nbsp;|&nbsp; © 2026 &nbsp;|&nbsp; atualizado em <span id="data-atualizacao">20 de junho de 2026</span></span>
 </footer>
 
 <script>
