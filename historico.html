@@ -16,9 +16,9 @@
 :root {
   --white:       #ffffff;
   --black:       #000000;
-  --green:       #849974;
-  --green-dark:  #6b7e5e;
-  --green-light: #c8d4b8;
+  --green:       #6b8f5e;
+  --green-dark:  #4f6b45;
+  --green-light: #a8c49a;
   --border:      #c8c8c8;
   --border-soft: #e0e0e0;
   --text:        #1a1a1a;
@@ -552,9 +552,9 @@ const PROXY   = 'https://corsproxy.io/?url=';
 const BASE    = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub';
 const URL_VIS = PROXY + encodeURIComponent(BASE + '?gid=700848757&single=true&output=csv');
 
-const GREEN       = '#849974';
-const GREEN_DARK  = '#6b7e5e';
-const GREEN_LIGHT = '#c8d4b8';
+const GREEN       = '#6b8f5e';
+const GREEN_DARK  = '#4f6b45';
+const GREEN_LIGHT = '#a8c49a';
 const BLACK       = '#1a1a1a';
 const WHITE       = '#ffffff';
 const MUTED       = '#555';
@@ -655,6 +655,7 @@ const SC = {
   x:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:MUTED},border:{display:false}},
   y:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:MUTED},border:{display:false},beginAtZero:true}
 };
+const SC_LAYOUT = { padding: { top: 22 } };
 
 function mkBar(id, labels, data, horizontal=false, highlight=true) {
   const el=document.getElementById(id); if(!el) return null;
@@ -666,6 +667,7 @@ function mkBar(id, labels, data, horizontal=false, highlight=true) {
     data:{labels, datasets:[{data, backgroundColor:bg, borderRadius:3, borderSkipped:false}]},
     options:{
       maintainAspectRatio:false, indexAxis:horizontal?'y':'x',
+      layout: horizontal ? {} : SC_LAYOUT,
       plugins:{
         legend:{display:false},
         datalabels:{display:true, anchor:'end', align:horizontal?'end':'top', clamp:true,
@@ -793,7 +795,7 @@ function buildGerais() {
   buildRankList('c-generos', genE.map(e=>e[0]), genE.map(e=>e[1]));
 
   // Idioma — cards
-  const idTop = topN(getIdiomas(null), 4);
+  const idTop = topN(getIdiomas(null), 8);
   mkDistCards('dist-idioma', idTop);
 
   // Estrelas
@@ -929,7 +931,7 @@ function renderAno(ano) {
   mkDistCards('ac-ga', gaE);
 
   // Idioma — cards
-  const idTop = topN(getIdiomas(aFiltro), 4);
+  const idTop = topN(getIdiomas(aFiltro), 8);
   mkDistCards('ac-idioma', idTop);
 
   // Gêneros literários
@@ -938,7 +940,11 @@ function renderAno(ano) {
 
   // Países
   const pE = topN(getPaises(aFiltro),10);
-  if(pE.length) anoCharts['ac-paises-ano']=mkBar('ac-paises-ano',pE.map(e=>e[0]),pE.map(e=>e[1]),true,false);
+  if(pE.length) {
+    const panesEl = document.getElementById('ac-paises-ano');
+    if(panesEl) panesEl.parentElement.style.height = Math.max(200, pE.length * 36 + 40) + 'px';
+    anoCharts['ac-paises-ano']=mkBar('ac-paises-ano',pE.map(e=>e[0]),pE.map(e=>e[1]),true,false);
+  }
 
   // Estrelas
   const notaD = subVals(CAT_NOTAS, aFiltro);
