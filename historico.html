@@ -16,9 +16,9 @@
 :root {
   --white:       #ffffff;
   --black:       #000000;
-  --green:       #6b8f5e;
-  --green-dark:  #4f6b45;
-  --green-light: #a8c49a;
+  --green:       #849974;
+  --green-dark:  #6b7e5e;
+  --green-light: #c8d4b8;
   --border:      #c8c8c8;
   --border-soft: #e0e0e0;
   --text:        #1a1a1a;
@@ -431,7 +431,7 @@ footer {
       </div>
       <div class="wcard">
         <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Top países de origem dos autores</span></div>
-        <div style="padding:1rem 1.4rem 1.2rem"><div class="rank-list" id="rank-paises"></div></div>
+        <div style="padding:1rem 1.4rem 1.2rem;max-height:320px;overflow-y:auto;"><div class="rank-list" id="rank-paises"></div></div>
       </div>
     </section>
 
@@ -526,7 +526,7 @@ footer {
         </div>
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">País de origem dos autores</span></div>
-          <div class="chart-body tall"><canvas id="ac-paises-ano"></canvas></div>
+          <div style="padding:1rem 1.4rem 1.2rem;max-height:320px;overflow-y:auto;"><div class="rank-list" id="ac-paises-ano"></div></div>
         </div>
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Avaliação (estrelas)</span></div>
@@ -542,7 +542,7 @@ footer {
   <div class="footer-dots">
     <div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div>
   </div>
-  <span class="footer-text">O que tem na estante da Louise&nbsp;&nbsp;|&nbsp;&nbsp;Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">20 de junho de 2026</span></span>
+  <span class="footer-text">O que tem na estante da Louise&nbsp;&nbsp;|&nbsp;&nbsp;Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">25 de junho de 2026</span></span>
 </footer>
 
 <script>
@@ -552,9 +552,9 @@ const PROXY   = 'https://corsproxy.io/?url=';
 const BASE    = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub';
 const URL_VIS = PROXY + encodeURIComponent(BASE + '?gid=700848757&single=true&output=csv');
 
-const GREEN       = '#6b8f5e';
-const GREEN_DARK  = '#4f6b45';
-const GREEN_LIGHT = '#a8c49a';
+const GREEN       = '#849974';
+const GREEN_DARK  = '#6b7e5e';
+const GREEN_LIGHT = '#c8d4b8';
 const BLACK       = '#1a1a1a';
 const WHITE       = '#ffffff';
 const MUTED       = '#555';
@@ -714,9 +714,10 @@ function mkBarFmt(id, labels, data, fmtFn, highlight=true) {
 // Cards número grande + barrinha — sem donut/pizza
 function mkDistCards(containerId, entries) {
   const el = document.getElementById(containerId); if(!el) return;
-  const total = entries.reduce((s,[,v])=>s+v, 0);
-  const max   = entries[0]?.[1] || 1;
-  el.innerHTML = entries.map(([label, val], i) => {
+  const filtered = entries.filter(([,v]) => v > 0);
+  const total = filtered.reduce((s,[,v])=>s+v, 0);
+  const max   = filtered[0]?.[1] || 1;
+  el.innerHTML = filtered.map(([label, val], i) => {
     const pct  = total > 0 ? Math.round(val/total*100) : 0;
     const barW = Math.round(val/max*100);
     return `<div class="dist-card">
@@ -795,7 +796,7 @@ function buildGerais() {
   buildRankList('c-generos', genE.map(e=>e[0]), genE.map(e=>e[1]));
 
   // Idioma — cards
-  const idTop = topN(getIdiomas(null), 8);
+  const idTop = topN(getIdiomas(null), 4);
   mkDistCards('dist-idioma', idTop);
 
   // Estrelas
@@ -803,7 +804,7 @@ function buildGerais() {
   mkBar('c-stars', CAT_NOTAS, CAT_NOTAS.map(k=>notasD[k]||0), false, false);
 
   // Países ranking
-  const pTop = topN(getPaises(null),8);
+  const pTop = topN(getPaises(null),30);
   const maxP = pTop[0]?.[1]||1;
   const el   = document.getElementById('rank-paises');
   if (el) el.innerHTML = pTop.map(([nome,val],i)=>`
@@ -931,7 +932,7 @@ function renderAno(ano) {
   mkDistCards('ac-ga', gaE);
 
   // Idioma — cards
-  const idTop = topN(getIdiomas(aFiltro), 8);
+  const idTop = topN(getIdiomas(aFiltro), 4);
   mkDistCards('ac-idioma', idTop);
 
   // Gêneros literários
@@ -939,12 +940,9 @@ function renderAno(ano) {
   buildRankList('ac-generos', glE.map(e=>e[0]), glE.map(e=>e[1]));
 
   // Países
-  const pE = topN(getPaises(aFiltro),10);
-  if(pE.length) {
-    const panesEl = document.getElementById('ac-paises-ano');
-    if(panesEl) panesEl.parentElement.style.height = Math.max(200, pE.length * 36 + 40) + 'px';
-    anoCharts['ac-paises-ano']=mkBar('ac-paises-ano',pE.map(e=>e[0]),pE.map(e=>e[1]),true,false);
-  }
+  // Países por ano
+  const pE = topN(getPaises(aFiltro),30);
+  buildRankList('ac-paises-ano', pE.map(e=>e[0]), pE.map(e=>e[1]));
 
   // Estrelas
   const notaD = subVals(CAT_NOTAS, aFiltro);
