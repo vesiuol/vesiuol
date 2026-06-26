@@ -290,6 +290,17 @@ footer {
   #hist-map  { height: 240px; }
   footer { padding: 1rem; flex-wrap: wrap; gap: .5rem; }
 }
+
+/* Lollipop chart */
+.lollipop-wrap { padding: 1rem 1.4rem 1.2rem; display: flex; flex-direction: column; gap: .55rem; }
+.lollipop-row  { display: flex; align-items: center; gap: .6rem; }
+.lollipop-lbl  { font-size: .72rem; color: var(--muted); width: 2.4rem; flex-shrink: 0; text-align: right; }
+.lollipop-track{ flex: 1; height: 2px; background: var(--border); border-radius: 1px; position: relative; }
+.lollipop-line { height: 2px; background: var(--green-light); border-radius: 1px; }
+.lollipop-dot  { width: 11px; height: 11px; border-radius: 50%; background: var(--green);
+                  border: 2px solid var(--white); box-shadow: 0 0 0 1.5px var(--green);
+                  position: absolute; top: 50%; transform: translateY(-50%); margin-left: -5.5px; }
+.lollipop-val  { font-size: .72rem; color: var(--text); font-weight: 500; width: 1.4rem; flex-shrink: 0; }
 </style>
 </head>
 <body>
@@ -522,7 +533,7 @@ footer {
         </div>
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Gêneros literários</span></div>
-          <div style="padding:1rem 1.4rem 1.2rem"><div class="rank-list" id="ac-generos"></div></div>
+          <div style="padding:1rem 1.4rem 1.2rem;max-height:320px;overflow-y:auto;"><div class="rank-list" id="ac-generos"></div></div>
         </div>
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">País de origem dos autores</span></div>
@@ -530,7 +541,7 @@ footer {
         </div>
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Avaliação (estrelas)</span></div>
-          <div class="chart-body"><canvas id="ac-stars"></canvas></div>
+          <div class="lollipop-wrap" id="ac-stars-wrap"></div>
         </div>
       </div>
     </section>
@@ -542,7 +553,7 @@ footer {
   <div class="footer-dots">
     <div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div>
   </div>
-  <span class="footer-text">O que tem na estante da Louise&nbsp;&nbsp;|&nbsp;&nbsp;Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">25 de junho de 2026</span></span>
+  <span class="footer-text">O que tem na estante da Louise&nbsp;&nbsp;|&nbsp;&nbsp;Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">26 de junho de 2026</span></span>
 </footer>
 
 <script>
@@ -643,9 +654,18 @@ function getGenLivro(ano) {
 function getPaises(ano) {
   const res = {};
   if (!ano) {
-    VIS.forEach(r=>{ const p=(r['Países']||'').trim(),v=pi(r['Total']); if(p&&v>0) res[p]=v; });
+    // Somar todos os anos (col '2013_2'..'2026_2' — 3ª ocorrência do cabeçalho de ano no CSV)
+    VIS.forEach(r=>{
+      const p=(r['Países']||'').trim(); if(!p) return;
+      const tot = TODOS_ANOS.reduce((s,a)=>s+pi(r[a+'_2']),0);
+      if(tot>0) res[p]=(res[p]||0)+tot;
+    });
   } else {
-    VIS.forEach(r=>{ const p=(r['Países']||'').trim(),v=pi(r[ano+'_2']); if(p&&v>0) res[p]=v; });
+    VIS.forEach(r=>{
+      const p=(r['Países']||'').trim(); if(!p) return;
+      const v=pi(r[ano+'_2']);
+      if(v>0) res[p]=(res[p]||0)+v;
+    });
   }
   return res;
 }
@@ -655,7 +675,7 @@ const SC = {
   x:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:MUTED},border:{display:false}},
   y:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:MUTED},border:{display:false},beginAtZero:true}
 };
-const SC_LAYOUT = { padding: { top: 22 } };
+const SC_LAYOUT = { padding: { top: 30 } };
 
 function mkBar(id, labels, data, horizontal=false, highlight=true) {
   const el=document.getElementById(id); if(!el) return null;
@@ -728,6 +748,24 @@ function mkDistCards(containerId, entries) {
   }).join('');
 }
 
+// Lollipop chart para avaliações
+function buildLollipop(containerId, labels, data) {
+  const el = document.getElementById(containerId); if (!el) return;
+  const max = Math.max(...data, 1);
+  el.innerHTML = labels.map((lbl, i) => {
+    const val = data[i] || 0;
+    const pct = Math.round(val / max * 100);
+    return `<div class="lollipop-row">
+      <span class="lollipop-lbl">${lbl}★</span>
+      <div class="lollipop-track">
+        <div class="lollipop-line" style="width:${pct}%"></div>
+        <div class="lollipop-dot" style="left:${pct}%"></div>
+      </div>
+      <span class="lollipop-val">${val > 0 ? val : ''}</span>
+    </div>`;
+  }).join('');
+}
+
 let VIS=[], anoCharts={}, leafMap=null;
 
 async function init() {
@@ -782,7 +820,7 @@ function buildGerais() {
     const el=document.getElementById(id); if(!el||!row) return;
     new Chart(el,{type:'bar',
       data:{labels:TODOS_ANOS,datasets:[{data:vals(row,TODOS_ANOS,''),backgroundColor:hl,borderRadius:3}]},
-      options:{maintainAspectRatio:false,
+      options:{maintainAspectRatio:false,layout:SC_LAYOUT,
         plugins:{legend:{display:false},datalabels:{display:true,anchor:'end',align:'top',clamp:true,
           color:BLACK,font:{family:'DM Sans',size:10,weight:'500'},formatter:fmtFn||(v=>v>0?v:'')}},
         scales:SC}});
@@ -837,7 +875,7 @@ function buildDiversidade() {
     const el=document.getElementById(id); if(!el||!row) return;
     new Chart(el,{type:'bar',
       data:{labels:TODOS_ANOS,datasets:[{data:vals(row,TODOS_ANOS,''),backgroundColor:hl,borderRadius:3}]},
-      options:{maintainAspectRatio:false,
+      options:{maintainAspectRatio:false,layout:SC_LAYOUT,
         plugins:{legend:{display:false},datalabels:{display:true,anchor:'end',align:'top',clamp:true,
           color:BLACK,font:{family:'DM Sans',size:9,weight:'500'},formatter:v=>v>0?v:''}},
         scales:SC}});
@@ -926,27 +964,26 @@ function renderAno(ano) {
   const corE = Object.entries(corD).filter(e=>e[1]>0).sort((a,b)=>b[1]-a[1]);
   mkDistCards('ac-cor', corE);
 
-  // Gênero dos autores — cards
+  // Gênero dos autores — cards (filtrar zeros)
   const gaD = subVals(CAT_GENERO, aFiltro);
   const gaE = Object.entries(gaD).filter(e=>e[1]>0).sort((a,b)=>b[1]-a[1]);
   mkDistCards('ac-ga', gaE);
 
-  // Idioma — cards
-  const idTop = topN(getIdiomas(aFiltro), 4);
+  // Idioma — top 3 (igual ao Perfil de leitura)
+  const idTop = topN(getIdiomas(aFiltro), 3);
   mkDistCards('ac-idioma', idTop);
 
   // Gêneros literários
   const glE = topN(getGenLivro(aFiltro),10);
   buildRankList('ac-generos', glE.map(e=>e[0]), glE.map(e=>e[1]));
 
-  // Países
   // Países por ano
   const pE = topN(getPaises(aFiltro),30);
   buildRankList('ac-paises-ano', pE.map(e=>e[0]), pE.map(e=>e[1]));
 
-  // Estrelas
+  // Avaliação — lollipop
   const notaD = subVals(CAT_NOTAS, aFiltro);
-  anoCharts['ac-stars']=mkBar('ac-stars',CAT_NOTAS,CAT_NOTAS.map(k=>notaD[k]||0),false,false);
+  buildLollipop('ac-stars-wrap', CAT_NOTAS, CAT_NOTAS.map(k=>notaD[k]||0));
 }
 
 init();
