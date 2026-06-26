@@ -195,7 +195,7 @@ nav ul li a.active {
 
 /* Cards número grande + barrinha (cor / gênero / idioma) */
 .dist-grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  display: grid; grid-template-columns: 1fr 1fr;
   gap: .5rem; padding: .9rem 1rem 1rem;
 }
 .dist-card {
@@ -290,22 +290,6 @@ footer {
   #hist-map  { height: 240px; }
   footer { padding: 1rem; flex-wrap: wrap; gap: .5rem; }
 }
-
-/* Bubble chart — avaliação estrelas */
-.bubble-wrap {
-  padding: 1.2rem 1.4rem 1.4rem;
-  display: flex; gap: .4rem; align-items: flex-end; justify-content: space-around;
-}
-.bubble-col { display: flex; flex-direction: column; align-items: center; gap: .4rem; flex: 1; }
-.bubble-dot {
-  border-radius: 50%; background: var(--green); flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-  color: var(--white); font-family: 'DM Sans', sans-serif; font-weight: 500;
-  transition: transform .15s;
-}
-.bubble-dot.empty { background: var(--border-soft); border: 1.5px solid var(--border); }
-.bubble-lbl { font-size: .63rem; color: var(--muted); text-align: center; white-space: nowrap; }
-.bubble-val { font-size: .68rem; color: var(--green-dark); font-weight: 500; min-height: .9rem; }
 </style>
 </head>
 <body>
@@ -432,7 +416,7 @@ footer {
       <div class="charts-2col" style="margin-bottom:.8rem">
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Gêneros literários</span></div>
-          <div style="padding:1rem 1.4rem 1.2rem;max-height:340px;overflow-y:auto;"><div class="rank-list" id="c-generos"></div></div>
+          <div style="padding:1rem 1.4rem 1.2rem"><div class="rank-list" id="c-generos"></div></div>
         </div>
         <div style="display:flex;flex-direction:column;gap:.8rem">
           <div class="wcard">
@@ -538,7 +522,7 @@ footer {
         </div>
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Gêneros literários</span></div>
-          <div style="padding:1rem 1.4rem 1.2rem;max-height:320px;overflow-y:auto;"><div class="rank-list" id="ac-generos"></div></div>
+          <div style="padding:1rem 1.4rem 1.2rem"><div class="rank-list" id="ac-generos"></div></div>
         </div>
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">País de origem dos autores</span></div>
@@ -546,7 +530,7 @@ footer {
         </div>
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Avaliação (estrelas)</span></div>
-          <div class="bubble-wrap" id="ac-stars-wrap"></div>
+          <div class="chart-body"><canvas id="ac-stars"></canvas></div>
         </div>
       </div>
     </section>
@@ -558,7 +542,7 @@ footer {
   <div class="footer-dots">
     <div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div>
   </div>
-  <span class="footer-text">O que tem na estante da Louise&nbsp;&nbsp;|&nbsp;&nbsp;Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">26 de junho de 2026</span></span>
+  <span class="footer-text">O que tem na estante da Louise&nbsp;&nbsp;|&nbsp;&nbsp;Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">25 de junho de 2026</span></span>
 </footer>
 
 <script>
@@ -659,18 +643,9 @@ function getGenLivro(ano) {
 function getPaises(ano) {
   const res = {};
   if (!ano) {
-    // Somar todos os anos (col '2013_2'..'2026_2' — 3ª ocorrência do cabeçalho de ano no CSV)
-    VIS.forEach(r=>{
-      const p=(r['Países']||'').trim(); if(!p) return;
-      const tot = TODOS_ANOS.reduce((s,a)=>s+pi(r[a+'_2']),0);
-      if(tot>0) res[p]=(res[p]||0)+tot;
-    });
+    VIS.forEach(r=>{ const p=(r['Países']||'').trim(),v=pi(r['Total']); if(p&&v>0) res[p]=v; });
   } else {
-    VIS.forEach(r=>{
-      const p=(r['Países']||'').trim(); if(!p) return;
-      const v=pi(r[ano+'_2']);
-      if(v>0) res[p]=(res[p]||0)+v;
-    });
+    VIS.forEach(r=>{ const p=(r['Países']||'').trim(),v=pi(r[ano+'_2']); if(p&&v>0) res[p]=v; });
   }
   return res;
 }
@@ -680,7 +655,7 @@ const SC = {
   x:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:MUTED},border:{display:false}},
   y:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:MUTED},border:{display:false},beginAtZero:true}
 };
-const SC_LAYOUT = { padding: { top: 30 } };
+const SC_LAYOUT = { padding: { top: 22 } };
 
 function mkBar(id, labels, data, horizontal=false, highlight=true) {
   const el=document.getElementById(id); if(!el) return null;
@@ -753,24 +728,6 @@ function mkDistCards(containerId, entries) {
   }).join('');
 }
 
-// Bubble chart para avaliações — círculos proporcionais ao valor
-function buildBubble(containerId, labels, data) {
-  const el = document.getElementById(containerId); if (!el) return;
-  const max = Math.max(...data, 1);
-  // tamanho: min 14px (vazio), max 46px
-  const MIN_S = 14, MAX_S = 46;
-  el.innerHTML = labels.map((lbl, i) => {
-    const val = data[i] || 0;
-    const size = val > 0 ? Math.round(MIN_S + (val / max) * (MAX_S - MIN_S)) : MIN_S;
-    const fs   = Math.max(8, Math.round(size * 0.28));
-    return `<div class="bubble-col">
-      <span class="bubble-val">${val > 0 ? val : ''}</span>
-      <div class="bubble-dot${val === 0 ? ' empty' : ''}" style="width:${size}px;height:${size}px;font-size:${fs}px"></div>
-      <span class="bubble-lbl">${lbl}★</span>
-    </div>`;
-  }).join('');
-}
-
 let VIS=[], anoCharts={}, leafMap=null;
 
 async function init() {
@@ -825,7 +782,7 @@ function buildGerais() {
     const el=document.getElementById(id); if(!el||!row) return;
     new Chart(el,{type:'bar',
       data:{labels:TODOS_ANOS,datasets:[{data:vals(row,TODOS_ANOS,''),backgroundColor:hl,borderRadius:3}]},
-      options:{maintainAspectRatio:false,layout:SC_LAYOUT,
+      options:{maintainAspectRatio:false,
         plugins:{legend:{display:false},datalabels:{display:true,anchor:'end',align:'top',clamp:true,
           color:BLACK,font:{family:'DM Sans',size:10,weight:'500'},formatter:fmtFn||(v=>v>0?v:'')}},
         scales:SC}});
@@ -880,7 +837,7 @@ function buildDiversidade() {
     const el=document.getElementById(id); if(!el||!row) return;
     new Chart(el,{type:'bar',
       data:{labels:TODOS_ANOS,datasets:[{data:vals(row,TODOS_ANOS,''),backgroundColor:hl,borderRadius:3}]},
-      options:{maintainAspectRatio:false,layout:SC_LAYOUT,
+      options:{maintainAspectRatio:false,
         plugins:{legend:{display:false},datalabels:{display:true,anchor:'end',align:'top',clamp:true,
           color:BLACK,font:{family:'DM Sans',size:9,weight:'500'},formatter:v=>v>0?v:''}},
         scales:SC}});
@@ -969,26 +926,27 @@ function renderAno(ano) {
   const corE = Object.entries(corD).filter(e=>e[1]>0).sort((a,b)=>b[1]-a[1]);
   mkDistCards('ac-cor', corE);
 
-  // Gênero dos autores — cards (filtrar zeros)
+  // Gênero dos autores — cards
   const gaD = subVals(CAT_GENERO, aFiltro);
   const gaE = Object.entries(gaD).filter(e=>e[1]>0).sort((a,b)=>b[1]-a[1]);
   mkDistCards('ac-ga', gaE);
 
-  // Idioma — top 3 (igual ao Perfil de leitura)
-  const idTop = topN(getIdiomas(aFiltro), 3);
+  // Idioma — cards
+  const idTop = topN(getIdiomas(aFiltro), 4);
   mkDistCards('ac-idioma', idTop);
 
   // Gêneros literários
   const glE = topN(getGenLivro(aFiltro),10);
   buildRankList('ac-generos', glE.map(e=>e[0]), glE.map(e=>e[1]));
 
+  // Países
   // Países por ano
   const pE = topN(getPaises(aFiltro),30);
   buildRankList('ac-paises-ano', pE.map(e=>e[0]), pE.map(e=>e[1]));
 
-  // Avaliação — bubble chart
+  // Estrelas
   const notaD = subVals(CAT_NOTAS, aFiltro);
-  buildBubble('ac-stars-wrap', CAT_NOTAS, CAT_NOTAS.map(k=>notaD[k]||0));
+  anoCharts['ac-stars']=mkBar('ac-stars',CAT_NOTAS,CAT_NOTAS.map(k=>notaD[k]||0),false,false);
 }
 
 init();
