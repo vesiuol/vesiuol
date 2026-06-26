@@ -195,7 +195,7 @@ nav ul li a.active {
 
 /* Cards número grande + barrinha (cor / gênero / idioma) */
 .dist-grid {
-  display: grid; grid-template-columns: 1fr 1fr;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
   gap: .5rem; padding: .9rem 1rem 1rem;
 }
 .dist-card {
@@ -291,16 +291,21 @@ footer {
   footer { padding: 1rem; flex-wrap: wrap; gap: .5rem; }
 }
 
-/* Lollipop chart */
-.lollipop-wrap { padding: 1rem 1.4rem 1.2rem; display: flex; flex-direction: column; gap: .55rem; }
-.lollipop-row  { display: flex; align-items: center; gap: .6rem; }
-.lollipop-lbl  { font-size: .72rem; color: var(--muted); width: 2.4rem; flex-shrink: 0; text-align: right; }
-.lollipop-track{ flex: 1; height: 2px; background: var(--border); border-radius: 1px; position: relative; }
-.lollipop-line { height: 2px; background: var(--green-light); border-radius: 1px; }
-.lollipop-dot  { width: 11px; height: 11px; border-radius: 50%; background: var(--green);
-                  border: 2px solid var(--white); box-shadow: 0 0 0 1.5px var(--green);
-                  position: absolute; top: 50%; transform: translateY(-50%); margin-left: -5.5px; }
-.lollipop-val  { font-size: .72rem; color: var(--text); font-weight: 500; width: 1.4rem; flex-shrink: 0; }
+/* Bubble chart — avaliação estrelas */
+.bubble-wrap {
+  padding: 1.2rem 1.4rem 1.4rem;
+  display: flex; gap: .4rem; align-items: flex-end; justify-content: space-around;
+}
+.bubble-col { display: flex; flex-direction: column; align-items: center; gap: .4rem; flex: 1; }
+.bubble-dot {
+  border-radius: 50%; background: var(--green); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--white); font-family: 'DM Sans', sans-serif; font-weight: 500;
+  transition: transform .15s;
+}
+.bubble-dot.empty { background: var(--border-soft); border: 1.5px solid var(--border); }
+.bubble-lbl { font-size: .63rem; color: var(--muted); text-align: center; white-space: nowrap; }
+.bubble-val { font-size: .68rem; color: var(--green-dark); font-weight: 500; min-height: .9rem; }
 </style>
 </head>
 <body>
@@ -427,7 +432,7 @@ footer {
       <div class="charts-2col" style="margin-bottom:.8rem">
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Gêneros literários</span></div>
-          <div style="padding:1rem 1.4rem 1.2rem"><div class="rank-list" id="c-generos"></div></div>
+          <div style="padding:1rem 1.4rem 1.2rem;max-height:340px;overflow-y:auto;"><div class="rank-list" id="c-generos"></div></div>
         </div>
         <div style="display:flex;flex-direction:column;gap:.8rem">
           <div class="wcard">
@@ -541,7 +546,7 @@ footer {
         </div>
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Avaliação (estrelas)</span></div>
-          <div class="lollipop-wrap" id="ac-stars-wrap"></div>
+          <div class="bubble-wrap" id="ac-stars-wrap"></div>
         </div>
       </div>
     </section>
@@ -748,20 +753,20 @@ function mkDistCards(containerId, entries) {
   }).join('');
 }
 
-// Lollipop chart para avaliações
-function buildLollipop(containerId, labels, data) {
+// Bubble chart para avaliações — círculos proporcionais ao valor
+function buildBubble(containerId, labels, data) {
   const el = document.getElementById(containerId); if (!el) return;
   const max = Math.max(...data, 1);
+  // tamanho: min 14px (vazio), max 46px
+  const MIN_S = 14, MAX_S = 46;
   el.innerHTML = labels.map((lbl, i) => {
     const val = data[i] || 0;
-    const pct = Math.round(val / max * 100);
-    return `<div class="lollipop-row">
-      <span class="lollipop-lbl">${lbl}★</span>
-      <div class="lollipop-track">
-        <div class="lollipop-line" style="width:${pct}%"></div>
-        <div class="lollipop-dot" style="left:${pct}%"></div>
-      </div>
-      <span class="lollipop-val">${val > 0 ? val : ''}</span>
+    const size = val > 0 ? Math.round(MIN_S + (val / max) * (MAX_S - MIN_S)) : MIN_S;
+    const fs   = Math.max(8, Math.round(size * 0.28));
+    return `<div class="bubble-col">
+      <span class="bubble-val">${val > 0 ? val : ''}</span>
+      <div class="bubble-dot${val === 0 ? ' empty' : ''}" style="width:${size}px;height:${size}px;font-size:${fs}px"></div>
+      <span class="bubble-lbl">${lbl}★</span>
     </div>`;
   }).join('');
 }
@@ -981,9 +986,9 @@ function renderAno(ano) {
   const pE = topN(getPaises(aFiltro),30);
   buildRankList('ac-paises-ano', pE.map(e=>e[0]), pE.map(e=>e[1]));
 
-  // Avaliação — lollipop
+  // Avaliação — bubble chart
   const notaD = subVals(CAT_NOTAS, aFiltro);
-  buildLollipop('ac-stars-wrap', CAT_NOTAS, CAT_NOTAS.map(k=>notaD[k]||0));
+  buildBubble('ac-stars-wrap', CAT_NOTAS, CAT_NOTAS.map(k=>notaD[k]||0));
 }
 
 init();
