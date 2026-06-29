@@ -30,7 +30,7 @@
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { -webkit-font-smoothing: antialiased; }
-body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 400; }
+body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 500; }
 a { color: inherit; text-decoration: none; }
 
 /* ── NAV ── */
@@ -95,12 +95,13 @@ nav ul li a.active {
   background: var(--surface);
   position: sticky;
   top: var(--header-h);
-  height: calc(100vh - var(--header-h));
+  max-height: calc(100vh - var(--header-h));
   overflow-y: auto; overflow-x: hidden;
   padding: 2rem 1.4rem;
   display: flex; flex-direction: column; gap: 1.6rem;
   scrollbar-width: thin;
   scrollbar-color: var(--border) transparent;
+  align-self: start;
 }
 .sb-label {
   font-size: .68rem; font-weight: 500;
@@ -118,7 +119,8 @@ nav ul li a.active {
 .kpi-card.accent { background: var(--green); border-color: var(--green-dark); grid-column: span 2; }
 .kpi-num {
   font-family: 'Playfair Display', serif;
-  font-size: 1.9rem; font-weight: 400; line-height: 1; color: var(--text);
+  font-size: clamp(1.15rem,4.5vw,1.65rem); font-weight: 600; line-height: 1; color: var(--text);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 .kpi-card.accent .kpi-num { color: var(--white); font-size: 2.2rem; }
 .kpi-lbl { font-size: .68rem; color: var(--muted); line-height: 1.3; }
@@ -164,12 +166,12 @@ nav ul li a.active {
 /* ── MAIN ── */
 .main { padding: 2.8rem 3rem 3rem; min-width: 0; min-height: calc(100vh - var(--header-h)); }
 
-/* Título hero — Cormorant Garamond com faixa verde no comprimento */
+/* Título hero — Cormorant Garamond com faixa verde */
 .intro-title-wrap { margin-bottom: 1.6rem; }
 .intro-headline {
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(2.4rem, 4vw, 3.8rem);
-  font-weight: 600; line-height: 1.1;
+  font-weight: 600; line-height: 1.5;
   display: inline;
   background: var(--green);
   color: var(--white);
@@ -177,7 +179,6 @@ nav ul li a.active {
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
 }
-.intro-eyebrow { display: none; }
 .intro-body { font-size: .95rem; line-height: 1.85; color: var(--text); }
 .intro-body + .intro-body { margin-top: .9rem; }
 .intro-body strong { color: var(--text); font-weight: 500; }
@@ -186,8 +187,13 @@ nav ul li a.active {
 .section-hr  { border: none; border-top: 1px solid var(--border-soft); margin-bottom: 1.6rem; }
 .section-head { display: flex; align-items: baseline; gap: .8rem; margin-bottom: 1.4rem; }
 .section-h2 {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.15rem; font-weight: 400; color: var(--text);
+  font-family: Georgia, serif;
+  font-size: 1.15rem; font-weight: 400;
+  background: var(--green); color: var(--white);
+  padding: .06em .28em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  display: inline;
 }
 .section-sub { font-size: .72rem; color: var(--muted); }
 
@@ -208,7 +214,7 @@ nav ul li a.active {
 .chart-body.tall canvas { max-height: 300px; }
 .chart-body.sm canvas { max-height: 150px; }
 
-/* Cards número grande + barrinha (cor / gênero / idioma) */
+/* Cards número grande + barrinha */
 .dist-grid {
   display: grid; grid-template-columns: 1fr 1fr;
   gap: .5rem; padding: .9rem 1rem 1rem;
@@ -219,7 +225,7 @@ nav ul li a.active {
 }
 .dist-num {
   font-family: 'Playfair Display', serif;
-  font-size: 1.55rem; font-weight: 400; color: var(--green); line-height: 1; margin-bottom: .2rem;
+  font-size: 1.55rem; font-weight: 600; color: var(--green); line-height: 1; margin-bottom: .2rem;
 }
 .dist-lbl { font-size: .68rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: .4rem; }
 .dist-track { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
@@ -228,18 +234,11 @@ nav ul li a.active {
 
 /* Ranking texto */
 .rank-list { display: flex; flex-direction: column; gap: .6rem; }
-.rank-row-header { display: flex; justify-content: space-between; font-size: .82rem; margin-bottom: .25rem; }
-.rank-pos  { color: var(--muted); font-size: .72rem; margin-right: .35rem; }
-.rank-name { color: var(--text); }
-.rank-val  { color: var(--green); font-weight: 500; }
-.rank-track { height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
-.rank-fill  { height: 100%; background: var(--green); border-radius: 3px; }
-.rank-fill.light { background: var(--green-light); }
 
 /* Cards diversidade */
 .div-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: .6rem; margin-bottom: .8rem; }
 .div-card { border: 1.5px solid var(--border); border-radius: 12px; padding: 1rem .9rem; background: var(--white); }
-.div-card-num { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 400; color: var(--green); line-height: 1; margin-bottom: .3rem; }
+.div-card-num { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 600; color: var(--green); line-height: 1; margin-bottom: .3rem; }
 .div-card-label { font-size: .68rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 .div-card-sub   { font-size: .78rem; color: var(--muted); margin-top: .3rem; }
 .div-card-track { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; margin-top: .5rem; }
@@ -257,7 +256,7 @@ nav ul li a.active {
 .year-btn.selected { background: var(--green); border-color: var(--green); color: var(--white); }
 .year-btn:focus { outline: none; }
 
-/* KPIs detalhe ano — 6 colunas igual ao publicado */
+/* KPIs detalhe ano — 6 colunas */
 .ano-kpis { display: grid; grid-template-columns: repeat(6, 1fr); gap: .5rem; margin-bottom: 1rem; }
 
 /* Mapa */
@@ -279,7 +278,10 @@ footer {
 /* ── RESPONSIVE ── */
 @media (max-width: 900px) {
   .page-wrap { grid-template-columns: 1fr; }
-  .sidebar { position: static; height: auto; border-right: none; border-bottom: 1.5px solid var(--border); width: 100%; }
+  .sidebar {
+    position: static; max-height: none; overflow: visible;
+    border-right: none; border-bottom: 1.5px solid var(--border); width: 100%;
+  }
   .charts-2col { grid-template-columns: 1fr; }
   .div-cards { grid-template-columns: 1fr 1fr; }
   .ano-kpis { grid-template-columns: repeat(3, 1fr); }
@@ -422,7 +424,7 @@ footer {
       <div class="charts-2col" style="margin-bottom:.8rem">
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Gêneros literários</span></div>
-          <div class="chart-body tall"><canvas id="c-generos"></canvas></div>
+          <div style="padding:1rem 1.4rem 1.2rem;max-height:320px;overflow-y:auto;"><div class="rank-list" id="rank-generos"></div></div>
         </div>
         <div style="display:flex;flex-direction:column;gap:.8rem">
           <div class="wcard">
@@ -436,8 +438,8 @@ footer {
         </div>
       </div>
       <div class="wcard">
-        <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Top países de origem dos autores</span></div>
-        <div style="padding:1rem 1.4rem 1.2rem;max-height:320px;overflow-y:auto;"><div class="rank-list" id="rank-paises"></div></div>
+        <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Top 10 países de origem dos autores</span></div>
+        <div style="padding:1rem 1.4rem 1.2rem;"><div class="rank-list" id="rank-paises"></div></div>
       </div>
     </section>
 
@@ -548,7 +550,7 @@ footer {
   <div class="footer-dots">
     <div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div>
   </div>
-  <span class="footer-text">O que tem na estante da Louise&nbsp;&nbsp;|&nbsp;&nbsp;Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">28 de junho de 2026</span></span>
+  <span class="footer-text">O que tem na estante da Louise&nbsp;&nbsp;|&nbsp;&nbsp;Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">29 de junho de 2026</span></span>
 </footer>
 
 <script>
@@ -674,7 +676,7 @@ function mkBar(id, labels, data, horizontal=false, highlight=true) {
       maintainAspectRatio:false, indexAxis:horizontal?'y':'x',
       plugins:{
         legend:{display:false},
-        datalabels:{display:true, anchor:'end', align:horizontal?'end':'top', clamp:true,
+        datalabels:{display:true, anchor:'center', align:'center', clamp:true,
           color:BLACK, font:{family:'DM Sans',size:10,weight:'500'}, formatter:v=>v>0?v:''}
       },
       scales:SC
@@ -692,7 +694,7 @@ function mkBarFmt(id, labels, data, fmtFn, highlight=true) {
     data:{labels,datasets:[{data,backgroundColor:bg,borderRadius:3}]},
     options:{
       maintainAspectRatio:false,
-      plugins:{legend:{display:false},datalabels:{display:true,anchor:'end',align:'top',clamp:true,
+      plugins:{legend:{display:false},datalabels:{display:true,anchor:'center',align:'center',clamp:true,
         color:BLACK,font:{family:'DM Sans',size:10,weight:'500'},formatter:fmtFn||(v=>v>0?v:'')}},
       scales:SC
     }
@@ -724,10 +726,11 @@ function mkDistCards(containerId, entries) {
   const total = filtered.reduce((s,[,v])=>s+v, 0);
   const max   = filtered[0]?.[1] || 1;
   el.innerHTML = filtered.map(([label, val], i) => {
-    const pct  = total > 0 ? Math.round(val/total*100) : 0;
+    const pct  = total > 0 ? (val/total*100) : 0;
+    const pctDisplay = pct < 1 && pct > 0 ? pct.toFixed(1)+'%' : Math.round(pct)+'%';
     const barW = Math.round(val/max*100);
     return `<div class="dist-card">
-      <div class="dist-num">${pct}%</div>
+      <div class="dist-num">${pctDisplay}</div>
       <div class="dist-lbl">${label}</div>
       <div class="dist-track"><div class="dist-fill${i>0?' light':''}" style="width:${barW}%"></div></div>
     </div>`;
@@ -789,7 +792,7 @@ function buildGerais() {
     new Chart(el,{type:'bar',
       data:{labels:TODOS_ANOS,datasets:[{data:vals(row,TODOS_ANOS,''),backgroundColor:hl,borderRadius:3}]},
       options:{maintainAspectRatio:false,
-        plugins:{legend:{display:false},datalabels:{display:true,anchor:'end',align:'top',clamp:true,
+        plugins:{legend:{display:false},datalabels:{display:true,anchor:'center',align:'center',clamp:true,
           color:BLACK,font:{family:'DM Sans',size:10,weight:'500'},formatter:fmtFn||(v=>v>0?v:'')}},
         scales:SC}});
   }
@@ -797,9 +800,9 @@ function buildGerais() {
   mkBarHL('c-paginas', pagRow, v=>v>0?v.toLocaleString('pt-BR'):'');
   mkBarHL('c-novos',   autRow);
 
-  // Gêneros
-  const genE = topN(getGenLivro(null),10);
-  mkBar('c-generos', genE.map(e=>e[0]), genE.map(e=>e[1]), true, false);
+  // Gêneros — rank-list com scroll (substitui gráfico de barras achatado)
+  const genE = topN(getGenLivro(null), 20);
+  buildRankList('rank-generos', genE.map(e=>e[0]), genE.map(e=>e[1]));
 
   // Idioma — cards
   const idTop = topN(getIdiomas(null), 4);
@@ -809,8 +812,8 @@ function buildGerais() {
   const notasD = subVals(CAT_NOTAS,null);
   mkBar('c-stars', CAT_NOTAS, CAT_NOTAS.map(k=>notasD[k]||0), false, false);
 
-  // Países ranking
-  const pTop = topN(getPaises(null),50);
+  // Países ranking — top 10
+  const pTop = topN(getPaises(null),10);
   buildRankList('rank-paises', pTop.map(e=>e[0]), pTop.map(e=>e[1]));
 }
 
@@ -835,7 +838,7 @@ function buildDiversidade() {
     new Chart(el,{type:'bar',
       data:{labels:TODOS_ANOS,datasets:[{data:vals(row,TODOS_ANOS,''),backgroundColor:hl,borderRadius:3}]},
       options:{maintainAspectRatio:false,
-        plugins:{legend:{display:false},datalabels:{display:true,anchor:'end',align:'top',clamp:true,
+        plugins:{legend:{display:false},datalabels:{display:true,anchor:'center',align:'center',clamp:true,
           color:BLACK,font:{family:'DM Sans',size:9,weight:'500'},formatter:v=>v>0?v:''}},
         scales:SC}});
   }
@@ -923,7 +926,7 @@ function renderAno(ano) {
   const corE = Object.entries(corD).filter(e=>e[1]>0).sort((a,b)=>b[1]-a[1]);
   mkDistCards('ac-cor', corE);
 
-  // Gênero dos autores — cards
+  // Gênero dos autores — cards (mostra "Não binário" com decimal se < 1%)
   const gaD = subVals(CAT_GENERO, aFiltro);
   const gaE = Object.entries(gaD).filter(e=>e[1]>0).sort((a,b)=>b[1]-a[1]);
   mkDistCards('ac-ga', gaE);
@@ -936,7 +939,7 @@ function renderAno(ano) {
   const glE = topN(getGenLivro(aFiltro), 20);
   buildRankList('ac-generos', glE.map(e=>e[0]), glE.map(e=>e[1]));
 
-  // Países — rank-list com scroll, todos
+  // Países — rank-list com scroll
   const pE = topN(getPaises(aFiltro), 50);
   buildRankList('ac-paises-ano', pE.map(e=>e[0]), pE.map(e=>e[1]));
 
