@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Histórico — Vida de Leitora</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E📚%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
@@ -30,7 +30,7 @@
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { -webkit-font-smoothing: antialiased; }
-body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 500; }
+body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 400; }
 a { color: inherit; text-decoration: none; }
 
 /* ── NAV ── */
@@ -104,7 +104,7 @@ nav ul li a.active {
   align-self: start;
 }
 .sb-label {
-  font-size: .68rem; font-weight: 500;
+  font-size: .68rem; font-weight: 400;
   letter-spacing: .1em; text-transform: uppercase;
   color: var(--muted); margin-bottom: .6rem;
 }
@@ -119,22 +119,22 @@ nav ul li a.active {
 .kpi-card.accent { background: var(--green); border-color: var(--green-dark); grid-column: span 2; }
 .kpi-num {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(1.15rem,4.5vw,1.65rem); font-weight: 600; line-height: 1; color: var(--text);
+  font-size: clamp(1.15rem,4.5vw,1.65rem); font-weight: 400; line-height: 1; color: var(--text);
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
-.kpi-card.accent .kpi-num { color: var(--white); font-size: 2.2rem; }
+.kpi-card.accent .kpi-num { color: var(--white); font-size: 2.2rem; font-weight: 700; }
 .kpi-lbl { font-size: .68rem; color: var(--muted); line-height: 1.3; }
 .kpi-card.accent .kpi-lbl { color: rgba(255,255,255,.75); }
 
 /* Progresso sidebar */
 .prog-row { margin-bottom: .5rem; }
 .prog-meta { display: flex; justify-content: space-between; font-size: .78rem; color: var(--muted); margin-bottom: .3rem; }
-.prog-meta b { color: var(--text); font-weight: 500; }
+.prog-meta b { color: var(--text); font-weight: 400; }
 .prog-track { height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
 .prog-fill  { height: 100%; background: var(--green); border-radius: 3px; }
 
 /* Nav pills sidebar */
-.sb-nav-title { font-size: .68rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: .7rem; }
+.sb-nav-title { font-size: .68rem; font-weight: 400; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: .7rem; }
 .sb-nav-pills { display: flex; flex-direction: column; gap: .4rem; }
 .sb-nav-pill {
   display: flex; align-items: center; gap: .6rem;
@@ -166,7 +166,7 @@ nav ul li a.active {
 /* ── MAIN ── */
 .main { padding: 2.8rem 3rem 3rem; min-width: 0; min-height: calc(100vh - var(--header-h)); }
 
-/* Título hero — Cormorant Garamond com faixa verde */
+/* Título hero */
 .intro-title-wrap { margin-bottom: 1.6rem; }
 .intro-headline {
   font-family: 'Cormorant Garamond', serif;
@@ -181,21 +181,20 @@ nav ul li a.active {
 }
 .intro-body { font-size: .95rem; line-height: 1.85; color: var(--text); }
 .intro-body + .intro-body { margin-top: .9rem; }
-.intro-body strong { color: var(--text); font-weight: 500; }
 
 .section-gap { margin-top: 3rem; }
 .section-hr  { border: none; border-top: 1px solid var(--border-soft); margin-bottom: 1.6rem; }
 .section-head { display: flex; align-items: baseline; gap: .8rem; margin-bottom: 1.4rem; }
 .section-h2 {
   font-family: Georgia, serif;
-  font-size: 1.15rem; font-weight: 400;
+  font-size: 1.15rem; font-weight: 600;
   background: var(--green); color: var(--white);
   padding: .06em .28em;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
   display: inline;
 }
-.section-sub { font-size: .72rem; color: var(--muted); }
+.section-sub { font-size: .72rem; color: var(--muted); font-weight: 400; font-family: 'DM Sans', sans-serif; }
 
 /* Window card */
 .wcard {
@@ -217,7 +216,7 @@ nav ul li a.active {
 /* Cards número grande + barrinha */
 .dist-grid {
   display: grid; grid-template-columns: 1fr 1fr;
-  gap: .5rem; padding: .9rem 1rem 1rem;
+  gap: .5rem; padding: .9rem 1rem;
 }
 .dist-card {
   border: 1.5px solid var(--border-soft); border-radius: 10px;
@@ -225,7 +224,7 @@ nav ul li a.active {
 }
 .dist-num {
   font-family: 'Playfair Display', serif;
-  font-size: 1.55rem; font-weight: 600; color: var(--green); line-height: 1; margin-bottom: .2rem;
+  font-size: 1.55rem; font-weight: 700; color: var(--green); line-height: 1; margin-bottom: .2rem;
 }
 .dist-lbl { font-size: .68rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: .4rem; }
 .dist-track { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
@@ -238,7 +237,7 @@ nav ul li a.active {
 /* Cards diversidade */
 .div-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: .6rem; margin-bottom: .8rem; }
 .div-card { border: 1.5px solid var(--border); border-radius: 12px; padding: 1rem .9rem; background: var(--white); }
-.div-card-num { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 600; color: var(--green); line-height: 1; margin-bottom: .3rem; }
+.div-card-num { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; color: var(--green); line-height: 1; margin-bottom: .3rem; }
 .div-card-label { font-size: .68rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 .div-card-sub   { font-size: .78rem; color: var(--muted); margin-top: .3rem; }
 .div-card-track { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; margin-top: .5rem; }
@@ -253,10 +252,10 @@ nav ul li a.active {
   cursor: pointer; color: var(--muted); transition: all .2s;
 }
 .year-btn:hover { background: var(--green); border-color: var(--green); color: var(--white); }
-.year-btn.selected { background: var(--green); border-color: var(--green); color: var(--white); }
+.year-btn.selected { background: var(--green); border-color: var(--green); color: var(--white); font-weight: 700; }
 .year-btn:focus { outline: none; }
 
-/* KPIs detalhe ano — 6 colunas */
+/* KPIs detalhe ano */
 .ano-kpis { display: grid; grid-template-columns: repeat(6, 1fr); gap: .5rem; margin-bottom: 1rem; }
 
 /* Mapa */
@@ -272,7 +271,7 @@ footer {
 .footer-dot  { width: 10px; height: 10px; border-radius: 50%; background: var(--white); }
 .footer-text {
   font-size: .60rem; letter-spacing: .1em; text-transform: uppercase;
-  color: var(--white); font-weight: 500; font-family: 'DM Sans', sans-serif;
+  color: var(--white); font-weight: 700; font-family: 'DM Sans', sans-serif;
 }
 
 /* ── RESPONSIVE ── */
@@ -421,25 +420,27 @@ footer {
         <h2 class="section-h2">Perfil de leitura</h2>
         <span class="section-sub">todos os anos</span>
       </div>
+      <!-- linha 1: Gêneros + Idioma -->
       <div class="charts-2col" style="margin-bottom:.8rem">
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Gêneros literários</span></div>
           <div style="padding:1rem 1.4rem 1.2rem;max-height:320px;overflow-y:auto;"><div class="rank-list" id="rank-generos"></div></div>
         </div>
-        <div style="display:flex;flex-direction:column;gap:.8rem">
-          <div class="wcard">
-            <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Idioma original</span></div>
-            <div class="dist-grid" id="dist-idioma"></div>
-          </div>
-          <div class="wcard">
-            <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Avaliações (estrelas)</span></div>
-            <div class="chart-body sm"><canvas id="c-stars"></canvas></div>
-          </div>
+        <div class="wcard">
+          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Idioma original</span></div>
+          <div class="dist-grid" id="dist-idioma"></div>
         </div>
       </div>
-      <div class="wcard">
-        <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Top 10 países de origem dos autores</span></div>
-        <div style="padding:1rem 1.4rem 1.2rem;"><div class="rank-list" id="rank-paises"></div></div>
+      <!-- linha 2: Avaliações + Países -->
+      <div class="charts-2col">
+        <div class="wcard">
+          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Avaliações (estrelas)</span></div>
+          <div class="chart-body"><canvas id="c-stars"></canvas></div>
+        </div>
+        <div class="wcard">
+          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Top 10 países de origem</span></div>
+          <div style="padding:1rem 1.4rem 1.2rem;max-height:320px;overflow-y:auto;"><div class="rank-list" id="rank-paises"></div></div>
+        </div>
       </div>
     </section>
 
@@ -669,6 +670,7 @@ function mkBar(id, labels, data, horizontal=false, highlight=true) {
   const bg = highlight
     ? labels.map((_,i)=> horizontal ? GREEN_LIGHT : (i===labels.length-1 ? GREEN : GREEN_LIGHT))
     : Array(labels.length).fill(GREEN_LIGHT);
+  const maxVal = Math.max(...data);
   return new Chart(el, {
     type:'bar',
     data:{labels, datasets:[{data, backgroundColor:bg, borderRadius:3, borderSkipped:false}]},
@@ -676,8 +678,14 @@ function mkBar(id, labels, data, horizontal=false, highlight=true) {
       maintainAspectRatio:false, indexAxis:horizontal?'y':'x',
       plugins:{
         legend:{display:false},
-        datalabels:{display:true, anchor:'center', align:'center', clamp:true,
-          color:BLACK, font:{family:'DM Sans',size:10,weight:'500'}, formatter:v=>v>0?v:''}
+        datalabels:{
+          display: ctx => ctx.dataset.data[ctx.dataIndex] > 0,
+          anchor: ctx => (ctx.dataset.data[ctx.dataIndex] / maxVal) < 0.25 ? 'end' : 'center',
+          align:  ctx => (ctx.dataset.data[ctx.dataIndex] / maxVal) < 0.25 ? 'top'  : 'center',
+          clamp:true,
+          color: ctx => (ctx.dataset.data[ctx.dataIndex] / maxVal) < 0.25 ? BLACK : WHITE,
+          font:{family:'DM Sans',size:10,weight:'500'}, formatter:v=>v>0?v:''
+        }
       },
       scales:SC
     }
@@ -689,19 +697,24 @@ function mkBarFmt(id, labels, data, fmtFn, highlight=true) {
   const bg = highlight
     ? labels.map((_,i)=>i===labels.length-1?GREEN:GREEN_LIGHT)
     : Array(labels.length).fill(GREEN_LIGHT);
+  const maxVal = Math.max(...data);
   return new Chart(el,{
     type:'bar',
     data:{labels,datasets:[{data,backgroundColor:bg,borderRadius:3}]},
     options:{
       maintainAspectRatio:false,
-      plugins:{legend:{display:false},datalabels:{display:true,anchor:'center',align:'center',clamp:true,
-        color:BLACK,font:{family:'DM Sans',size:10,weight:'500'},formatter:fmtFn||(v=>v>0?v:'')}},
+      plugins:{legend:{display:false},datalabels:{
+        display: ctx => ctx.dataset.data[ctx.dataIndex] > 0,
+        anchor: ctx => (ctx.dataset.data[ctx.dataIndex] / maxVal) < 0.25 ? 'end' : 'center',
+        align:  ctx => (ctx.dataset.data[ctx.dataIndex] / maxVal) < 0.25 ? 'top'  : 'center',
+        clamp:true,
+        color: ctx => (ctx.dataset.data[ctx.dataIndex] / maxVal) < 0.25 ? BLACK : WHITE,
+        font:{family:'DM Sans',size:10,weight:'500'},formatter:fmtFn||(v=>v>0?v:'')}},
       scales:SC
     }
   });
 }
 
-// Cards número grande + barrinha — sem donut/pizza
 function buildRankList(containerId, labels, data) {
   const el = document.getElementById(containerId); if (!el) return;
   const entries = labels.map((l,i)=>[l,data[i]]).filter(([,v])=>v>0);
@@ -722,9 +735,12 @@ function buildRankList(containerId, labels, data) {
 function mkDistCards(containerId, entries) {
   const el = document.getElementById(containerId); if(!el) return;
   const filtered = entries.filter(([,v]) => v > 0);
-  if (!filtered.length) { el.innerHTML = ''; return; }
+  if (!filtered.length) { el.innerHTML = '<div style="padding:.5rem 0;font-size:.8rem;color:#999">Sem dados</div>'; return; }
   const total = filtered.reduce((s,[,v])=>s+v, 0);
   const max   = filtered[0]?.[1] || 1;
+  // Grid adapta ao número de items: 1 item = span total, 2+ = 2 col
+  const cols = filtered.length === 1 ? '1fr' : '1fr 1fr';
+  el.style.gridTemplateColumns = cols;
   el.innerHTML = filtered.map(([label, val], i) => {
     const pct  = total > 0 ? (val/total*100) : 0;
     const pctDisplay = pct < 1 && pct > 0 ? pct.toFixed(1)+'%' : Math.round(pct)+'%';
@@ -786,21 +802,29 @@ function buildGerais() {
   const pagRow = getRow('Páginas');
   const autRow = getRow('Autores lidos pela 1º vez');
   const hl = TODOS_ANOS.map((_,i)=>i===TODOS_ANOS.length-1?GREEN:GREEN_LIGHT);
+  const maxData = (row) => Math.max(...vals(row, TODOS_ANOS,''));
 
   function mkBarHL(id, row, fmtFn) {
     const el=document.getElementById(id); if(!el||!row) return;
+    const data = vals(row,TODOS_ANOS,'');
+    const maxV = Math.max(...data);
     new Chart(el,{type:'bar',
-      data:{labels:TODOS_ANOS,datasets:[{data:vals(row,TODOS_ANOS,''),backgroundColor:hl,borderRadius:3}]},
+      data:{labels:TODOS_ANOS,datasets:[{data,backgroundColor:hl,borderRadius:3}]},
       options:{maintainAspectRatio:false,
-        plugins:{legend:{display:false},datalabels:{display:true,anchor:'center',align:'center',clamp:true,
-          color:BLACK,font:{family:'DM Sans',size:10,weight:'500'},formatter:fmtFn||(v=>v>0?v:'')}},
+        plugins:{legend:{display:false},datalabels:{
+          display: ctx => ctx.dataset.data[ctx.dataIndex] > 0,
+          anchor: ctx => (ctx.dataset.data[ctx.dataIndex] / maxV) < 0.25 ? 'end' : 'center',
+          align:  ctx => (ctx.dataset.data[ctx.dataIndex] / maxV) < 0.25 ? 'top'  : 'center',
+          clamp:true,
+          color: ctx => (ctx.dataset.data[ctx.dataIndex] / maxV) < 0.25 ? BLACK : WHITE,
+          font:{family:'DM Sans',size:10,weight:'500'},formatter:fmtFn||(v=>v>0?v:'')}},
         scales:SC}});
   }
   mkBarHL('c-anos',    livRow);
   mkBarHL('c-paginas', pagRow, v=>v>0?v.toLocaleString('pt-BR'):'');
   mkBarHL('c-novos',   autRow);
 
-  // Gêneros — rank-list com scroll (substitui gráfico de barras achatado)
+  // Gêneros — rank-list
   const genE = topN(getGenLivro(null), 20);
   buildRankList('rank-generos', genE.map(e=>e[0]), genE.map(e=>e[1]));
 
@@ -808,7 +832,7 @@ function buildGerais() {
   const idTop = topN(getIdiomas(null), 4);
   mkDistCards('dist-idioma', idTop);
 
-  // Estrelas
+  // Avaliações — gráfico de barras
   const notasD = subVals(CAT_NOTAS,null);
   mkBar('c-stars', CAT_NOTAS, CAT_NOTAS.map(k=>notasD[k]||0), false, false);
 
@@ -835,11 +859,18 @@ function buildDiversidade() {
   const hl = TODOS_ANOS.map((_,i)=>i===TODOS_ANOS.length-1?GREEN:GREEN_LIGHT);
   function mkD(id, row) {
     const el=document.getElementById(id); if(!el||!row) return;
+    const data = vals(row,TODOS_ANOS,'');
+    const maxV = Math.max(...data) || 1;
     new Chart(el,{type:'bar',
-      data:{labels:TODOS_ANOS,datasets:[{data:vals(row,TODOS_ANOS,''),backgroundColor:hl,borderRadius:3}]},
+      data:{labels:TODOS_ANOS,datasets:[{data,backgroundColor:hl,borderRadius:3}]},
       options:{maintainAspectRatio:false,
-        plugins:{legend:{display:false},datalabels:{display:true,anchor:'center',align:'center',clamp:true,
-          color:BLACK,font:{family:'DM Sans',size:9,weight:'500'},formatter:v=>v>0?v:''}},
+        plugins:{legend:{display:false},datalabels:{
+          display: ctx => ctx.dataset.data[ctx.dataIndex] > 0,
+          anchor: ctx => (ctx.dataset.data[ctx.dataIndex] / maxV) < 0.25 ? 'end' : 'center',
+          align:  ctx => (ctx.dataset.data[ctx.dataIndex] / maxV) < 0.25 ? 'top'  : 'center',
+          clamp:true,
+          color: ctx => (ctx.dataset.data[ctx.dataIndex] / maxV) < 0.25 ? BLACK : WHITE,
+          font:{family:'DM Sans',size:9,weight:'500'},formatter:v=>v>0?v:''}},
         scales:SC}});
   }
   mkD('c-lgbtq', lgbtRow);
@@ -861,9 +892,7 @@ function buildMap() {
 }
 
 function buildFilters() {
-  // sidebar
   const sb = document.getElementById('sb-anos');
-  // main
   const mn = document.getElementById('main-year-filter');
 
   function selectAno(ano) {
@@ -904,7 +933,6 @@ function renderAno(ano) {
   set('ac-title-cor', 'Cor dos autores'+(isAll?'':' — '+ano));
   set('ac-title-ga',  'Gênero dos autores'+(isAll?'':' — '+ano));
 
-  // KPIs
   const livRow=getRow('Livros'), pagRow=getRow('Páginas'), autRow=getRow('Autores lidos pela 1º vez');
   const anos = isAll ? TODOS_ANOS : [ano];
   const livTot  = vals(livRow,  anos,'').reduce((a,b)=>a+b,0);
@@ -921,29 +949,23 @@ function renderAno(ano) {
   set('a-paises',    Object.keys(pSet).length>0?Object.keys(pSet).length:'—');
   set('a-5estrelas', c5an>0?c5an:'—');
 
-  // Cor dos autores — cards
   const corD = subVals(CAT_COR, aFiltro);
   const corE = Object.entries(corD).filter(e=>e[1]>0).sort((a,b)=>b[1]-a[1]);
   mkDistCards('ac-cor', corE);
 
-  // Gênero dos autores — cards (mostra "Não binário" com decimal se < 1%)
   const gaD = subVals(CAT_GENERO, aFiltro);
   const gaE = Object.entries(gaD).filter(e=>e[1]>0).sort((a,b)=>b[1]-a[1]);
   mkDistCards('ac-ga', gaE);
 
-  // Idioma — cards
   const idTop = topN(getIdiomas(aFiltro), 4);
   mkDistCards('ac-idioma', idTop);
 
-  // Gêneros literários — rank-list com scroll
   const glE = topN(getGenLivro(aFiltro), 20);
   buildRankList('ac-generos', glE.map(e=>e[0]), glE.map(e=>e[1]));
 
-  // Países — rank-list com scroll
   const pE = topN(getPaises(aFiltro), 50);
   buildRankList('ac-paises-ano', pE.map(e=>e[0]), pE.map(e=>e[1]));
 
-  // Estrelas — rank-list compacto
   const notaD = subVals(CAT_NOTAS, aFiltro);
   buildRankList('ac-stars', CAT_NOTAS, CAT_NOTAS.map(k=>notaD[k]||0));
 }
