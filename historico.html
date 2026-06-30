@@ -118,11 +118,11 @@ nav ul li a.active {
 }
 .kpi-card.accent { background: var(--green); border-color: var(--green-dark); grid-column: span 2; }
 .kpi-num {
-  font-family: 'Playfair Display', serif;
+  font-family: Georgia, serif;
   font-size: clamp(1.15rem,4.5vw,1.65rem); font-weight: 400; line-height: 1; color: var(--text);
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
-.kpi-card.accent .kpi-num { color: var(--white); font-size: 2.2rem; font-weight: 700; }
+.kpi-card.accent .kpi-num { color: var(--white); font-size: clamp(1.3rem, 5vw, 1.9rem); }
 .kpi-lbl { font-size: .68rem; color: var(--muted); line-height: 1.3; }
 .kpi-card.accent .kpi-lbl { color: rgba(255,255,255,.75); }
 
@@ -187,7 +187,7 @@ nav ul li a.active {
 .section-head { display: flex; align-items: baseline; gap: .8rem; margin-bottom: 1.4rem; }
 .section-h2 {
   font-family: Georgia, serif;
-  font-size: 1.15rem; font-weight: 600;
+  font-size: 1.15rem; font-weight: 400;
   background: var(--green); color: var(--white);
   padding: .06em .28em;
   box-decoration-break: clone;
@@ -211,20 +211,21 @@ nav ul li a.active {
 .chart-body { padding: 1rem 1.2rem; }
 .chart-body canvas { display: block; max-height: 220px; }
 .chart-body.tall canvas { max-height: 300px; }
-.chart-body.sm canvas { max-height: 150px; }
+.chart-body.sm canvas { max-height: 200px; }
 
 /* Cards número grande + barrinha */
 .dist-grid {
   display: grid; grid-template-columns: 1fr 1fr;
   gap: .5rem; padding: .9rem 1rem;
+  align-content: start;
 }
 .dist-card {
   border: 1.5px solid var(--border-soft); border-radius: 10px;
   padding: .75rem .85rem;
 }
 .dist-num {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.55rem; font-weight: 700; color: var(--green); line-height: 1; margin-bottom: .2rem;
+  font-family: Georgia, serif;
+  font-size: 1.55rem; font-weight: 400; color: var(--green); line-height: 1; margin-bottom: .2rem;
 }
 .dist-lbl { font-size: .68rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: .4rem; }
 .dist-track { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
@@ -237,7 +238,7 @@ nav ul li a.active {
 /* Cards diversidade */
 .div-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: .6rem; margin-bottom: .8rem; }
 .div-card { border: 1.5px solid var(--border); border-radius: 12px; padding: 1rem .9rem; background: var(--white); }
-.div-card-num { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; color: var(--green); line-height: 1; margin-bottom: .3rem; }
+.div-card-num { font-family: Georgia, serif; font-size: 1.8rem; font-weight: 400; color: var(--green); line-height: 1; margin-bottom: .3rem; }
 .div-card-label { font-size: .68rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 .div-card-sub   { font-size: .78rem; color: var(--muted); margin-top: .3rem; }
 .div-card-track { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; margin-top: .5rem; }
@@ -424,7 +425,7 @@ footer {
       <div class="charts-2col" style="margin-bottom:.8rem">
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Gêneros literários</span></div>
-          <div style="padding:1rem 1.4rem 1.2rem;max-height:320px;overflow-y:auto;"><div class="rank-list" id="rank-generos"></div></div>
+          <div style="padding:1rem 1.4rem 1.2rem;"><div class="rank-list" id="rank-generos"></div></div>
         </div>
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Idioma original</span></div>
@@ -439,7 +440,7 @@ footer {
         </div>
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Top 10 países de origem</span></div>
-          <div style="padding:1rem 1.4rem 1.2rem;max-height:320px;overflow-y:auto;"><div class="rank-list" id="rank-paises"></div></div>
+          <div style="padding:1rem 1.4rem 1.2rem;"><div class="rank-list" id="rank-paises"></div></div>
         </div>
       </div>
     </section>
@@ -680,10 +681,10 @@ function mkBar(id, labels, data, horizontal=false, highlight=true) {
         legend:{display:false},
         datalabels:{
           display: ctx => ctx.dataset.data[ctx.dataIndex] > 0,
-          anchor: ctx => (ctx.dataset.data[ctx.dataIndex] / maxVal) < 0.25 ? 'end' : 'center',
-          align:  ctx => (ctx.dataset.data[ctx.dataIndex] / maxVal) < 0.25 ? 'top'  : 'center',
+          anchor: ctx => (ctx.dataset.data[ctx.dataIndex] / maxVal) < 0.15 ? 'end' : 'center',
+          align:  ctx => (ctx.dataset.data[ctx.dataIndex] / maxVal) < 0.15 ? 'top'  : 'center',
           clamp:true,
-          color: ctx => (ctx.dataset.data[ctx.dataIndex] / maxVal) < 0.25 ? BLACK : WHITE,
+          color: ctx => (ctx.dataset.data[ctx.dataIndex] / maxVal) < 0.15 ? BLACK : WHITE,
           font:{family:'DM Sans',size:10,weight:'500'}, formatter:v=>v>0?v:''
         }
       },
@@ -705,10 +706,10 @@ function mkBarFmt(id, labels, data, fmtFn, highlight=true) {
       maintainAspectRatio:false,
       plugins:{legend:{display:false},datalabels:{
         display: ctx => ctx.dataset.data[ctx.dataIndex] > 0,
-        anchor: ctx => (ctx.dataset.data[ctx.dataIndex] / maxVal) < 0.25 ? 'end' : 'center',
-        align:  ctx => (ctx.dataset.data[ctx.dataIndex] / maxVal) < 0.25 ? 'top'  : 'center',
+        anchor: ctx => (ctx.dataset.data[ctx.dataIndex] / maxVal) < 0.15 ? 'end' : 'center',
+        align:  ctx => (ctx.dataset.data[ctx.dataIndex] / maxVal) < 0.15 ? 'top'  : 'center',
         clamp:true,
-        color: ctx => (ctx.dataset.data[ctx.dataIndex] / maxVal) < 0.25 ? BLACK : WHITE,
+        color: ctx => (ctx.dataset.data[ctx.dataIndex] / maxVal) < 0.15 ? BLACK : WHITE,
         font:{family:'DM Sans',size:10,weight:'500'},formatter:fmtFn||(v=>v>0?v:'')}},
       scales:SC
     }
@@ -813,10 +814,10 @@ function buildGerais() {
       options:{maintainAspectRatio:false,
         plugins:{legend:{display:false},datalabels:{
           display: ctx => ctx.dataset.data[ctx.dataIndex] > 0,
-          anchor: ctx => (ctx.dataset.data[ctx.dataIndex] / maxV) < 0.25 ? 'end' : 'center',
-          align:  ctx => (ctx.dataset.data[ctx.dataIndex] / maxV) < 0.25 ? 'top'  : 'center',
+          anchor: ctx => (ctx.dataset.data[ctx.dataIndex] / maxV) < 0.15 ? 'end' : 'center',
+          align:  ctx => (ctx.dataset.data[ctx.dataIndex] / maxV) < 0.15 ? 'top'  : 'center',
           clamp:true,
-          color: ctx => (ctx.dataset.data[ctx.dataIndex] / maxV) < 0.25 ? BLACK : WHITE,
+          color: ctx => (ctx.dataset.data[ctx.dataIndex] / maxV) < 0.15 ? BLACK : WHITE,
           font:{family:'DM Sans',size:10,weight:'500'},formatter:fmtFn||(v=>v>0?v:'')}},
         scales:SC}});
   }
@@ -832,9 +833,23 @@ function buildGerais() {
   const idTop = topN(getIdiomas(null), 4);
   mkDistCards('dist-idioma', idTop);
 
-  // Avaliações — gráfico de barras
+  // Avaliações — gráfico de linha
   const notasD = subVals(CAT_NOTAS,null);
-  mkBar('c-stars', CAT_NOTAS, CAT_NOTAS.map(k=>notasD[k]||0), false, false);
+  (function(){
+    const el=document.getElementById('c-stars'); if(!el) return;
+    const data = CAT_NOTAS.map(k=>notasD[k]||0);
+    new Chart(el,{type:'line',
+      data:{labels:CAT_NOTAS,datasets:[{data,borderColor:GREEN,backgroundColor:GREEN+'22',
+        borderWidth:2.5,pointRadius:5,pointBackgroundColor:GREEN,fill:true,tension:.35}]},
+      options:{maintainAspectRatio:false,
+        plugins:{legend:{display:false},datalabels:{display:ctx=>ctx.dataset.data[ctx.dataIndex]>0,
+          anchor:'end',align:'top',color:BLACK,font:{family:'DM Sans',size:10,weight:'500'},
+          formatter:v=>v>0?v:'',clamp:true}},
+        scales:{
+          x:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:MUTED},border:{display:false}},
+          y:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:MUTED},border:{display:false},beginAtZero:true}
+        }}});
+  })();
 
   // Países ranking — top 10
   const pTop = topN(getPaises(null),10);
@@ -866,10 +881,10 @@ function buildDiversidade() {
       options:{maintainAspectRatio:false,
         plugins:{legend:{display:false},datalabels:{
           display: ctx => ctx.dataset.data[ctx.dataIndex] > 0,
-          anchor: ctx => (ctx.dataset.data[ctx.dataIndex] / maxV) < 0.25 ? 'end' : 'center',
-          align:  ctx => (ctx.dataset.data[ctx.dataIndex] / maxV) < 0.25 ? 'top'  : 'center',
+          anchor: ctx => (ctx.dataset.data[ctx.dataIndex] / maxV) < 0.15 ? 'end' : 'center',
+          align:  ctx => (ctx.dataset.data[ctx.dataIndex] / maxV) < 0.15 ? 'top'  : 'center',
           clamp:true,
-          color: ctx => (ctx.dataset.data[ctx.dataIndex] / maxV) < 0.25 ? BLACK : WHITE,
+          color: ctx => (ctx.dataset.data[ctx.dataIndex] / maxV) < 0.15 ? BLACK : WHITE,
           font:{family:'DM Sans',size:9,weight:'500'},formatter:v=>v>0?v:''}},
         scales:SC}});
   }
