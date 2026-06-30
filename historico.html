@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Histórico — Vida de Leitora</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48dGV4dCB5PSIuOWVtIiBmb250LXNpemU9IjkwIj7wn5OaPC90ZXh0Pjwvc3ZnPg==">">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='38' fill='%23849974'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
@@ -110,8 +110,8 @@ nav ul.open { display: flex; }
 .kpi-card.accent { background: var(--green); border-color: var(--green-dark); grid-column: span 2; }
 .kpi-num {
   font-family: Georgia, serif;
-  font-size: clamp(1.15rem,4.5vw,1.65rem); font-weight: 400; line-height: 1; color: var(--text);
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;
+  font-size: clamp(1.15rem,4.5vw,1.65rem); font-weight: 400; line-height: 1.2; color: var(--text);
+  white-space: nowrap; overflow: visible; text-overflow: ellipsis; max-width: 100%;
 }
 .kpi-card.accent .kpi-num { color: var(--white); font-size: clamp(1.3rem,5vw,1.9rem); }
 .kpi-lbl { font-size: .68rem; color: var(--muted); line-height: 1.3; }
@@ -195,7 +195,7 @@ nav ul.open { display: flex; }
 .wtitle { font-size: .68rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-left: .4rem; }
 
 /* Grids */
-.charts-2col { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; }
+.charts-2col { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; align-items: start; }
 .chart-body { padding: 1rem 1.2rem; }
 .chart-body canvas { display: block; max-height: 220px; }
 .chart-body.tall canvas { max-height: 300px; }
@@ -387,7 +387,7 @@ footer {
       <hr class="section-hr">
       <div class="section-head">
         <h2 class="section-h2">Evolução ano a ano</h2>
-        <span class="section-sub" id="loading-note">carregando dados…</span>
+        <span class="section-sub" id="loading-note">Carregando dados…</span>
       </div>
       <div class="wcard" style="margin-bottom:.8rem">
         <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Livros lidos por ano</span></div>
@@ -410,7 +410,7 @@ footer {
       <hr class="section-hr">
       <div class="section-head">
         <h2 class="section-h2">Perfil de leitura</h2>
-        <span class="section-sub">todos os anos</span>
+        <span class="section-sub">Todos os anos</span>
       </div>
       <!-- Linha 1: Idioma (cards compactos) + Avaliações (linha) -->
       <div class="charts-2col" style="margin-bottom:.8rem">
@@ -429,9 +429,9 @@ footer {
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Gêneros literários</span></div>
           <div style="padding:1rem 1.4rem 1.2rem;overflow-y:auto;max-height:280px;flex:1"><div class="rank-list" id="rank-generos"></div></div>
         </div>
-        <div class="wcard" style="display:flex;flex-direction:column">
+        <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Top 10 países de origem</span></div>
-          <div style="padding:1rem 1.4rem 1.2rem;overflow-y:auto;max-height:280px;flex:1"><div class="rank-list" id="rank-paises"></div></div>
+          <div style="padding:1rem 1.4rem 1.2rem;"><div class="rank-list" id="rank-paises"></div></div>
         </div>
       </div>
     </section>
@@ -441,7 +441,7 @@ footer {
       <hr class="section-hr">
       <div class="section-head">
         <h2 class="section-h2">Diversidade nas leituras</h2>
-        <span class="section-sub">representatividade acumulada</span>
+        <span class="section-sub">Representatividade acumulada</span>
       </div>
       <div class="div-cards">
         <div class="div-card">
@@ -484,7 +484,7 @@ footer {
       <hr class="section-hr">
       <div class="section-head">
         <h2 class="section-h2">De onde vieram meus livros?</h2>
-        <span class="section-sub">autores por país de origem</span>
+        <span class="section-sub">Autores por país de origem</span>
       </div>
       <div class="wcard">
         <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Mapa de origens</span></div>
@@ -497,7 +497,7 @@ footer {
       <hr class="section-hr">
       <div class="section-head">
         <h2 class="section-h2">Detalhe por ano</h2>
-        <span class="section-sub" id="ano-sub-label">selecione um ano</span>
+        <span class="section-sub" id="ano-sub-label">Selecione um ano</span>
       </div>
       <div class="year-filter" id="main-year-filter"></div>
       <div class="ano-kpis">
@@ -531,7 +531,7 @@ footer {
         </div>
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Avaliação (estrelas)</span></div>
-          <div style="padding:1rem 1.2rem;"><div class="rank-list" id="ac-stars"></div></div>
+          <div class="chart-body"><canvas id="ac-stars"></canvas></div>
         </div>
       </div>
     </section>
@@ -822,10 +822,7 @@ function buildGerais() {
         plugins:{legend:{display:false},datalabels:{display:ctx=>ctx.dataset.data[ctx.dataIndex]>0,
           anchor:'end',align:'top',color:BLACK,font:{family:'DM Sans',size:10,weight:'500'},
           formatter:v=>v>0?v:'',clamp:true}},
-        scales:{
-          x:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:MUTED},border:{display:false}},
-          y:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:MUTED},border:{display:false},beginAtZero:true}
-        }}});
+        scales:SC}});
   })();
 
   // Países ranking — top 10
@@ -916,7 +913,7 @@ function renderAno(ano) {
 
   const isAll = ano==='todos';
   const aFiltro = isAll ? null : ano;
-  set('ano-sub-label', isAll ? 'todos os anos' : ano);
+  set('ano-sub-label', isAll ? 'Todos os anos' : ano);
   set('ac-title-cor', 'Cor dos autores'+(isAll?'':' — '+ano));
   set('ac-title-ga',  'Gênero dos autores'+(isAll?'':' — '+ano));
 
@@ -954,7 +951,18 @@ function renderAno(ano) {
   buildRankList('ac-paises-ano', pE.map(e=>e[0]), pE.map(e=>e[1]));
 
   const notaD = subVals(CAT_NOTAS, aFiltro);
-  buildRankList('ac-stars', CAT_NOTAS, CAT_NOTAS.map(k=>notaD[k]||0));
+  (function(){
+    const el=document.getElementById('ac-stars'); if(!el) return;
+    const data = CAT_NOTAS.map(k=>notaD[k]||0);
+    anoCharts.stars = new Chart(el,{type:'line',
+      data:{labels:CAT_NOTAS,datasets:[{data,borderColor:GREEN,backgroundColor:GREEN+'22',
+        borderWidth:2.5,pointRadius:5,pointBackgroundColor:GREEN,fill:true,tension:.35}]},
+      options:{maintainAspectRatio:false,
+        plugins:{legend:{display:false},datalabels:{display:ctx=>ctx.dataset.data[ctx.dataIndex]>0,
+          anchor:'end',align:'top',color:BLACK,font:{family:'DM Sans',size:10,weight:'500'},
+          formatter:v=>v>0?v:'',clamp:true}},
+        scales:SC}});
+  })();
 }
 
 // hamburger
