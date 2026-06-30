@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Histórico — Vida de Leitora</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E📚%3C/text%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48dGV4dCB5PSIuOWVtIiBmb250LXNpemU9IjkwIj7wn5OaPC90ZXh0Pjwvc3ZnPg==">">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
@@ -283,11 +283,11 @@ footer {
   .nav-hamburger { display: flex; }
   .intro-mobile { display: block; }
   .intro-desktop { display: none; }
-  .intro-desktop { display: none; }
   .main { padding: 0 0 2rem; min-width: 0; }
   .main section.section-gap { padding: 0 1.2rem; }
   .div-cards { grid-template-columns: 1fr; }
   .ano-kpis { grid-template-columns: repeat(2, 1fr); }
+  .chart-body canvas { max-height: 200px; min-height: 180px; }
   #hist-map  { height: 240px; }
   footer { padding: 1rem; flex-wrap: wrap; gap: .5rem; }
 }
@@ -405,33 +405,33 @@ footer {
       </div>
     </section>
 
-    <!-- PERFIL — 2x2 compacto: Gêneros+Idioma / Avaliações+Países -->
+    <!-- PERFIL — reagrupado por porte: Idioma+Avaliações (compactos) / Gêneros+Países (listas) -->
     <section class="section-gap" id="perfil">
       <hr class="section-hr">
       <div class="section-head">
         <h2 class="section-h2">Perfil de leitura</h2>
         <span class="section-sub">todos os anos</span>
       </div>
-      <!-- Linha 1: Gêneros (com scroll) + Idioma (cards compactos) -->
+      <!-- Linha 1: Idioma (cards compactos) + Avaliações (linha) -->
       <div class="charts-2col" style="margin-bottom:.8rem">
+        <div class="wcard">
+          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Idioma original</span></div>
+          <div class="dist-grid" id="dist-idioma"></div>
+        </div>
+        <div class="wcard">
+          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Avaliações (estrelas)</span></div>
+          <div class="chart-body"><canvas id="c-stars"></canvas></div>
+        </div>
+      </div>
+      <!-- Linha 2: Gêneros (lista scroll) + Países (lista) -->
+      <div class="charts-2col">
         <div class="wcard" style="display:flex;flex-direction:column">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Gêneros literários</span></div>
           <div style="padding:1rem 1.4rem 1.2rem;overflow-y:auto;max-height:280px;flex:1"><div class="rank-list" id="rank-generos"></div></div>
         </div>
         <div class="wcard" style="display:flex;flex-direction:column">
-          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Idioma original</span></div>
-          <div class="dist-grid" id="dist-idioma" style="flex:1;align-content:start"></div>
-        </div>
-      </div>
-      <!-- Linha 2: Avaliações (linha) + Países (rank) -->
-      <div class="charts-2col">
-        <div class="wcard">
-          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Avaliações (estrelas)</span></div>
-          <div class="chart-body"><canvas id="c-stars"></canvas></div>
-        </div>
-        <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Top 10 países de origem</span></div>
-          <div style="padding:1rem 1.4rem 1.2rem;"><div class="rank-list" id="rank-paises"></div></div>
+          <div style="padding:1rem 1.4rem 1.2rem;overflow-y:auto;max-height:280px;flex:1"><div class="rank-list" id="rank-paises"></div></div>
         </div>
       </div>
     </section>
@@ -653,7 +653,7 @@ function getPaises(ano) {
 const topN = (obj,n) => Object.entries(obj).sort((a,b)=>b[1]-a[1]).slice(0,n);
 
 const SC = {
-  x:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:MUTED},border:{display:false}},
+  x:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:MUTED,autoSkip:true,maxRotation:0,minRotation:0},border:{display:false}},
   y:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:MUTED},border:{display:false},beginAtZero:true}
 };
 
