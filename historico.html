@@ -551,7 +551,7 @@ footer {
   <div class="footer-dots">
     <div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div>
   </div>
-  <span class="footer-text">O que tem na estante da Louise&nbsp;&nbsp;|&nbsp;&nbsp;Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">29 de junho de 2026</span></span>
+  <span class="footer-text">O que tem na estante da Louise&nbsp;&nbsp;|&nbsp;&nbsp;Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">02 de julho de 2026</span></span>
 </footer>
 
 <script>
@@ -828,14 +828,7 @@ function buildGerais() {
     new Chart(el,{type:'line',
       data:{labels:CAT_NOTAS,datasets:[{data,borderColor:GREEN,backgroundColor:GREEN+'22',
         borderWidth:2.5,pointRadius:5,pointBackgroundColor:GREEN,fill:true,tension:.35}]},
-      options:{maintainAspectRatio:false,layout:{padding:{top:16}},
-        plugins:{legend:{display:false},datalabels:{display:ctx=>ctx.dataset.data[ctx.dataIndex]>0,
-          anchor:'end',align:'top',color:BLACK,font:{family:'DM Sans',size:10,weight:'500'},
-          formatter:v=>v>0?v:'',clamp:true}},
-        scales:SC}});
-  })();
-
-  // Países ranking — top 10
+      options:{maintainAspectRatio:false,layout:{padding:{top:22}},
   const pTop = topN(getPaises(null),10);
   buildRankList('rank-paises', pTop.map(e=>e[0]), pTop.map(e=>e[1]));
 }
@@ -861,7 +854,7 @@ function buildDiversidade() {
     const data = vals(row,TODOS_ANOS,'');
     new Chart(el,{type:'bar',
       data:{labels:TODOS_ANOS,datasets:[{data,backgroundColor:hl,borderRadius:3}]},
-      options:{maintainAspectRatio:false,layout:{padding:{top:14}},
+      options:{maintainAspectRatio:false,layout:{padding:{top:22}},
         plugins:{legend:{display:false},datalabels:{display:ctx=>ctx.dataset.data[ctx.dataIndex]>0,
           anchor:'end',align:'top',clamp:true,offset:2,
           color:BLACK,font:{family:'DM Sans',size:9,weight:'500'},formatter:v=>v>0?v:''}},
@@ -968,7 +961,7 @@ function renderAno(ano) {
     anoCharts.stars = new Chart(el,{type:'line',
       data:{labels:CAT_NOTAS,datasets:[{data,borderColor:GREEN,backgroundColor:GREEN+'22',
         borderWidth:2.5,pointRadius:5,pointBackgroundColor:GREEN,fill:true,tension:.35}]},
-      options:{maintainAspectRatio:false,layout:{padding:{top:16}},
+      options:{maintainAspectRatio:false,layout:{padding:{top:22}},
         plugins:{legend:{display:false},datalabels:{display:ctx=>ctx.dataset.data[ctx.dataIndex]>0,
           anchor:'end',align:'top',color:BLACK,font:{family:'DM Sans',size:10,weight:'500'},
           formatter:v=>v>0?v:'',clamp:true}},
