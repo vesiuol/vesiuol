@@ -196,9 +196,6 @@ nav ul.open { display: flex; }
 
 /* Grids */
 .charts-2col { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; align-items: start; }
-.charts-2col.eq-height { align-items: stretch; }
-.charts-2col.eq-height .wcard { display: flex; flex-direction: column; }
-.charts-2col.eq-height .wcard > div:last-child { flex: 1; }
 .chart-body { padding: 1rem 1.2rem; }
 .chart-body canvas { display: block; max-height: 220px; }
 .chart-body.tall canvas { max-height: 300px; }
@@ -416,7 +413,7 @@ footer {
         <span class="section-sub">Todos os anos</span>
       </div>
       <!-- Linha 1: Idioma (cards compactos) + Avaliações (linha) -->
-      <div class="charts-2col eq-height" style="margin-bottom:.8rem">
+      <div class="charts-2col" style="margin-bottom:.8rem">
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Idioma original</span></div>
           <div class="dist-grid" id="dist-idioma"></div>
@@ -426,15 +423,15 @@ footer {
           <div class="chart-body"><canvas id="c-stars"></canvas></div>
         </div>
       </div>
-      <!-- Linha 2: Gêneros (lista scroll) + Países (lista) -->
-      <div class="charts-2col eq-height">
-        <div class="wcard" style="display:flex;flex-direction:column">
+      <!-- Linha 2: Gêneros (lista scroll) + Países (lista scroll) — mesma altura fixa nos dois -->
+      <div class="charts-2col">
+        <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Gêneros literários</span></div>
-          <div style="padding:1rem 1.4rem 1.2rem;overflow-y:auto;max-height:280px;flex:1"><div class="rank-list" id="rank-generos"></div></div>
+          <div style="padding:1rem 1.4rem 1.2rem;overflow-y:auto;height:280px"><div class="rank-list" id="rank-generos"></div></div>
         </div>
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Top 10 países de origem</span></div>
-          <div style="padding:1rem 1.4rem 1.2rem;"><div class="rank-list" id="rank-paises"></div></div>
+          <div style="padding:1rem 1.4rem 1.2rem;overflow-y:auto;height:280px"><div class="rank-list" id="rank-paises"></div></div>
         </div>
       </div>
     </section>
@@ -525,16 +522,16 @@ footer {
           <div class="dist-grid" id="ac-idioma"></div>
         </div>
         <div class="wcard">
+          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Avaliação (estrelas)</span></div>
+          <div class="chart-body"><canvas id="ac-stars"></canvas></div>
+        </div>
+        <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Gêneros literários</span></div>
-          <div style="padding:1rem 1.2rem;max-height:260px;overflow-y:auto;"><div class="rank-list" id="ac-generos"></div></div>
+          <div style="padding:1rem 1.2rem;overflow-y:auto;height:280px"><div class="rank-list" id="ac-generos"></div></div>
         </div>
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">País de origem dos autores</span></div>
-          <div style="padding:1rem 1.2rem;max-height:320px;overflow-y:auto;"><div class="rank-list" id="ac-paises-ano"></div></div>
-        </div>
-        <div class="wcard">
-          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Avaliação (estrelas)</span></div>
-          <div class="chart-body"><canvas id="ac-stars"></canvas></div>
+          <div style="padding:1rem 1.2rem;overflow-y:auto;height:280px"><div class="rank-list" id="ac-paises-ano"></div></div>
         </div>
       </div>
     </section>
