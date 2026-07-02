@@ -162,10 +162,10 @@ nav ul.open { display: flex; }
 .intro-headline {
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(2.4rem, 4vw, 3.8rem);
-  font-weight: 600; line-height: 1.5;
+  font-weight: 600; line-height: 1.35;
   display: inline;
   background: var(--green); color: var(--white);
-  padding: .06em .28em;
+  padding: .12em .28em;
   box-decoration-break: clone; -webkit-box-decoration-break: clone;
 }
 .intro-body { font-size: .95rem; line-height: 1.85; color: var(--text); }
@@ -196,6 +196,9 @@ nav ul.open { display: flex; }
 
 /* Grids */
 .charts-2col { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; align-items: start; }
+.charts-2col.eq-height { align-items: stretch; }
+.charts-2col.eq-height .wcard { display: flex; flex-direction: column; }
+.charts-2col.eq-height .wcard > div:last-child { flex: 1; }
 .chart-body { padding: 1rem 1.2rem; }
 .chart-body canvas { display: block; max-height: 220px; }
 .chart-body.tall canvas { max-height: 300px; }
@@ -413,7 +416,7 @@ footer {
         <span class="section-sub">Todos os anos</span>
       </div>
       <!-- Linha 1: Idioma (cards compactos) + Avaliações (linha) -->
-      <div class="charts-2col" style="margin-bottom:.8rem">
+      <div class="charts-2col eq-height" style="margin-bottom:.8rem">
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Idioma original</span></div>
           <div class="dist-grid" id="dist-idioma"></div>
@@ -424,7 +427,7 @@ footer {
         </div>
       </div>
       <!-- Linha 2: Gêneros (lista scroll) + Países (lista) -->
-      <div class="charts-2col">
+      <div class="charts-2col eq-height">
         <div class="wcard" style="display:flex;flex-direction:column">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Gêneros literários</span></div>
           <div style="padding:1rem 1.4rem 1.2rem;overflow-y:auto;max-height:280px;flex:1"><div class="rank-list" id="rank-generos"></div></div>
@@ -668,6 +671,7 @@ function mkBar(id, labels, data, horizontal=false, highlight=true) {
     data:{labels, datasets:[{data, backgroundColor:bg, borderRadius:3, borderSkipped:false}]},
     options:{
       maintainAspectRatio:false, indexAxis:horizontal?'y':'x',
+      layout:{padding:{top:16}},
       plugins:{
         legend:{display:false},
         datalabels:{display:ctx=>ctx.dataset.data[ctx.dataIndex]>0,
@@ -690,6 +694,7 @@ function mkBarFmt(id, labels, data, fmtFn, highlight=true) {
     data:{labels,datasets:[{data,backgroundColor:bg,borderRadius:3}]},
     options:{
       maintainAspectRatio:false,
+      layout:{padding:{top:16}},
       plugins:{legend:{display:false},datalabels:{display:ctx=>ctx.dataset.data[ctx.dataIndex]>0,
           anchor:'end',align:'top',clamp:true,offset:2,
           color:BLACK,font:{family:'DM Sans',size:10,weight:'500'},formatter:fmtFn||(v=>v>0?v:'')}},
@@ -792,7 +797,7 @@ function buildGerais() {
     const data = vals(row,TODOS_ANOS,'');
     new Chart(el,{type:'bar',
       data:{labels:TODOS_ANOS,datasets:[{data,backgroundColor:hl,borderRadius:3}]},
-      options:{maintainAspectRatio:false,
+      options:{maintainAspectRatio:false,layout:{padding:{top:18}},
         plugins:{legend:{display:false},datalabels:{display:ctx=>ctx.dataset.data[ctx.dataIndex]>0,
           anchor:'end',align:'top',clamp:true,offset:2,
           color:BLACK,font:{family:'DM Sans',size:10,weight:'500'},formatter:fmtFn||(v=>v>0?v:'')}},
@@ -818,7 +823,7 @@ function buildGerais() {
     new Chart(el,{type:'line',
       data:{labels:CAT_NOTAS,datasets:[{data,borderColor:GREEN,backgroundColor:GREEN+'22',
         borderWidth:2.5,pointRadius:5,pointBackgroundColor:GREEN,fill:true,tension:.35}]},
-      options:{maintainAspectRatio:false,
+      options:{maintainAspectRatio:false,layout:{padding:{top:16}},
         plugins:{legend:{display:false},datalabels:{display:ctx=>ctx.dataset.data[ctx.dataIndex]>0,
           anchor:'end',align:'top',color:BLACK,font:{family:'DM Sans',size:10,weight:'500'},
           formatter:v=>v>0?v:'',clamp:true}},
@@ -851,7 +856,7 @@ function buildDiversidade() {
     const data = vals(row,TODOS_ANOS,'');
     new Chart(el,{type:'bar',
       data:{labels:TODOS_ANOS,datasets:[{data,backgroundColor:hl,borderRadius:3}]},
-      options:{maintainAspectRatio:false,
+      options:{maintainAspectRatio:false,layout:{padding:{top:14}},
         plugins:{legend:{display:false},datalabels:{display:ctx=>ctx.dataset.data[ctx.dataIndex]>0,
           anchor:'end',align:'top',clamp:true,offset:2,
           color:BLACK,font:{family:'DM Sans',size:9,weight:'500'},formatter:v=>v>0?v:''}},
@@ -957,7 +962,7 @@ function renderAno(ano) {
     anoCharts.stars = new Chart(el,{type:'line',
       data:{labels:CAT_NOTAS,datasets:[{data,borderColor:GREEN,backgroundColor:GREEN+'22',
         borderWidth:2.5,pointRadius:5,pointBackgroundColor:GREEN,fill:true,tension:.35}]},
-      options:{maintainAspectRatio:false,
+      options:{maintainAspectRatio:false,layout:{padding:{top:16}},
         plugins:{legend:{display:false},datalabels:{display:ctx=>ctx.dataset.data[ctx.dataIndex]>0,
           anchor:'end',align:'top',color:BLACK,font:{family:'DM Sans',size:10,weight:'500'},
           formatter:v=>v>0?v:'',clamp:true}},
