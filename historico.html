@@ -196,10 +196,10 @@ nav ul.open { display: flex; }
 
 /* Grids */
 .charts-2col { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; align-items: start; }
-/* Cor + Gênero em Detalhe por ano: só trava altura (menor se ajusta ao maior) quando um ano específico está selecionado */
-#row-cor-ga.year-locked { align-items: stretch; }
-#row-cor-ga.year-locked .wcard { display: flex; flex-direction: column; }
-#row-cor-ga.year-locked .wcard > div:last-child { flex: 1; }
+/* Detalhe por ano: Cor+Gênero e Idioma+Avaliação travam altura (menor se ajusta ao maior) só quando um ano específico está selecionado — nunca em "Todos" */
+.charts-2col.lockable.year-locked { align-items: stretch; }
+.charts-2col.lockable.year-locked .wcard { display: flex; flex-direction: column; }
+.charts-2col.lockable.year-locked .wcard > div:last-child { flex: 1; }
 .chart-body { padding: 1rem 1.2rem; }
 .chart-body canvas { display: block; max-height: 220px; }
 .chart-body.tall canvas { max-height: 300px; }
@@ -512,7 +512,7 @@ footer {
         <div class="kpi-card"><div class="kpi-num" id="a-paises">—</div><div class="kpi-lbl">países</div></div>
         <div class="kpi-card"><div class="kpi-num" id="a-5estrelas">—</div><div class="kpi-lbl">5 estrelas</div></div>
       </div>
-      <div class="charts-2col" id="row-cor-ga">
+      <div class="charts-2col lockable" id="row-cor-ga" style="margin-bottom:.8rem">
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle" id="ac-title-cor">Cor dos autores</span></div>
           <div class="dist-grid" id="ac-cor"></div>
@@ -522,7 +522,7 @@ footer {
           <div class="dist-grid" id="ac-ga"></div>
         </div>
       </div>
-      <div class="charts-2col">
+      <div class="charts-2col lockable" id="row-idioma-stars" style="margin-bottom:.8rem">
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Idioma</span></div>
           <div class="dist-grid" id="ac-idioma"></div>
@@ -531,6 +531,8 @@ footer {
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Avaliação (estrelas)</span></div>
           <div class="chart-body"><canvas id="ac-stars"></canvas></div>
         </div>
+      </div>
+      <div class="charts-2col">
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Gêneros literários</span></div>
           <div style="padding:1rem 1.2rem;overflow-y:auto;height:280px"><div class="rank-list" id="ac-generos"></div></div>
@@ -921,8 +923,7 @@ function renderAno(ano) {
 
   const isAll = ano==='todos';
   const aFiltro = isAll ? null : ano;
-  const rowCG = document.getElementById('row-cor-ga');
-  if (rowCG) rowCG.classList.toggle('year-locked', !isAll);
+  document.querySelectorAll('.lockable').forEach(el => el.classList.toggle('year-locked', !isAll));
   set('ano-sub-label', isAll ? 'Todos os anos' : ano);
   set('ac-title-cor', 'Cor dos autores'+(isAll?'':' — '+ano));
   set('ac-title-ga',  'Gênero dos autores'+(isAll?'':' — '+ano));
