@@ -329,7 +329,11 @@ nav ul li a.active {
 .prog-fill-lg  { height: 100%; background: var(--green); border-radius: 6px; transition: width 1.2s cubic-bezier(.4,0,.2,1); }
 .prog-labels   { display: flex; justify-content: space-between; font-size: .72rem; color: var(--muted); }
 
-.desafio-charts { padding: 0 1.6rem 1.4rem; display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; align-items: start; }
+.desafio-charts { padding: 0 1.6rem 1.4rem; display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; align-items: stretch; }
+.desafio-charts .wcard { display: flex; flex-direction: column; }
+.desafio-charts .wcard > .chart-body { flex: 1; display: flex; flex-direction: column; }
+.desafio-charts .wcard > .chart-body.tall { padding-bottom: 0; }
+.desafio-charts .wcard > .chart-body.tall canvas { flex: 1; max-height: none; width: 100% !important; height: 100% !important; }
 .proj-linha { display: flex; justify-content: space-between; align-items: center; padding: .55rem 0; border-bottom: 1px solid #eee; font-size: .85rem; }
 .proj-linha:last-child { border-bottom: none; }
 .proj-label { color: var(--muted); }
@@ -425,6 +429,10 @@ footer {
   .kpi-grid { min-width: 0; }
   .kpi-card { min-width: 0; overflow: hidden; }
   .posts-grid, .charts-2col, .desafio-charts { grid-template-columns: 1fr; }
+  .desafio-charts { align-items: start; }
+  .desafio-charts .wcard { display: block; }
+  .desafio-charts .wcard > .chart-body { display: block; }
+  .desafio-charts .wcard > .chart-body.tall canvas { max-height: 300px; height: auto !important; }
   .div-cards { grid-template-columns: 1fr 1fr; }
   .perfil-text-grid { grid-template-columns: 1fr 1fr; }
   .graf-4col { grid-template-columns: 1fr 1fr; }
