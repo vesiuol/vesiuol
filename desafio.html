@@ -330,10 +330,11 @@ nav ul li a.active {
 .prog-labels   { display: flex; justify-content: space-between; font-size: .72rem; color: var(--muted); }
 
 .desafio-charts { padding: 0 1.6rem 1.4rem; display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; align-items: stretch; }
-.desafio-charts .wcard { display: flex; flex-direction: column; }
-.desafio-charts .wcard > .chart-body { flex: 1; display: flex; flex-direction: column; }
-.desafio-charts .wcard > .chart-body.tall { padding-bottom: 0; }
-.desafio-charts .wcard > .chart-body.tall canvas { flex: 1; max-height: none; width: 100% !important; height: 100% !important; }
+.desafio-charts .wcard { display: flex; flex-direction: column; min-height: 0; }
+.desafio-charts .wcard > .chart-body { flex: 1; min-height: 0; }
+.desafio-charts .wcard > .chart-body.tall { display: flex; flex-direction: column; }
+.desafio-charts .chart-canvas-wrap { position: relative; flex: 1; min-height: 0; width: 100%; }
+.desafio-charts .chart-canvas-wrap canvas { position: absolute; top: 0; left: 0; width: 100% !important; height: 100% !important; max-height: none; }
 .proj-linha { display: flex; justify-content: space-between; align-items: center; padding: .55rem 0; border-bottom: 1px solid #eee; font-size: .85rem; }
 .proj-linha:last-child { border-bottom: none; }
 .proj-label { color: var(--muted); }
@@ -432,7 +433,8 @@ footer {
   .desafio-charts { align-items: start; }
   .desafio-charts .wcard { display: block; }
   .desafio-charts .wcard > .chart-body { display: block; }
-  .desafio-charts .wcard > .chart-body.tall canvas { max-height: 300px; height: auto !important; }
+  .desafio-charts .chart-canvas-wrap { position: static; height: auto; }
+  .desafio-charts .chart-canvas-wrap canvas { position: static; width: 100% !important; height: auto !important; max-height: 300px; }
   .div-cards { grid-template-columns: 1fr 1fr; }
   .perfil-text-grid { grid-template-columns: 1fr 1fr; }
   .graf-4col { grid-template-columns: 1fr 1fr; }
@@ -757,7 +759,7 @@ footer {
         <div class="desafio-charts">
           <div class="wcard">
             <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Países conquistados · 2024→2026</span></div>
-            <div class="chart-body tall"><canvas id="c-evolucao-linha"></canvas></div>
+            <div class="chart-body tall"><div class="chart-canvas-wrap"><canvas id="c-evolucao-linha"></canvas></div></div>
           </div>
           <div class="wcard">
             <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Projeção para 209 países</span></div>
