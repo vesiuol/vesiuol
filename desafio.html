@@ -6,7 +6,7 @@
 <title>Desafio Livros pelo Mundo</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='38' fill='%23849974'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
@@ -63,6 +63,7 @@ nav ul li a.active {
   display: grid;
   grid-template-columns: var(--sidebar-w) 1fr;
   align-items: start;
+  min-height: calc(100vh - var(--header-h) - 44px);
 }
 
 /* Intro mobile — só aparece no mobile, antes da sidebar/dados */
@@ -167,10 +168,10 @@ nav ul li a.active {
 .intro-headline {
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(2.4rem, 4vw, 3.8rem);
-  font-weight: 600; line-height: 1.5;
+  font-weight: 600; line-height: 1.35;
   display: inline;
   background: var(--green); color: var(--white);
-  padding: .14em .28em;
+  padding: .12em .28em;
   box-decoration-break: clone; -webkit-box-decoration-break: clone;
 }
 .intro-headline-wrap { margin-bottom: 1.6rem; display: block; }
@@ -328,7 +329,7 @@ nav ul li a.active {
 .prog-fill-lg  { height: 100%; background: var(--green); border-radius: 6px; transition: width 1.2s cubic-bezier(.4,0,.2,1); }
 .prog-labels   { display: flex; justify-content: space-between; font-size: .72rem; color: var(--muted); }
 
-.desafio-charts { padding: 0 1.6rem 1.4rem; display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; }
+.desafio-charts { padding: 0 1.6rem 1.4rem; display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; align-items: stretch; }
 .proj-linha { display: flex; justify-content: space-between; align-items: center; padding: .55rem 0; border-bottom: 1px solid #eee; font-size: .85rem; }
 .proj-linha:last-child { border-bottom: none; }
 .proj-label { color: var(--muted); }
@@ -685,17 +686,17 @@ footer {
         </div>
       </div>
 
-      <!-- Modelo 3: rankings com barras de texto lado a lado -->
+      <!-- Modelo 3: rankings com barras de texto lado a lado — agora com rolagem, sem limite de itens -->
       <div class="charts-2col">
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Regiões mais lidas</span></div>
-          <div class="chart-body">
+          <div style="padding:1rem 1.2rem;overflow-y:auto;height:280px">
             <div class="rank-list" id="rank-regioes"></div>
           </div>
         </div>
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Gêneros literários</span></div>
-          <div class="chart-body">
+          <div style="padding:1rem 1.2rem;overflow-y:auto;height:280px">
             <div class="rank-list" id="rank-generos"></div>
           </div>
         </div>
@@ -752,7 +753,7 @@ footer {
           </div>
           <div class="wcard">
             <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Projeção para 209 países</span></div>
-            <div class="chart-body" id="projecao-body" style="padding:1rem 1.2rem"></div>
+            <div class="chart-body" id="projecao-body"></div>
           </div>
         </div>
       </div>
@@ -987,8 +988,8 @@ function buildPerfil(allLPM){
 
   const rc={};
   allLPM.forEach(r=>{ const p=findField(r,['País','Pais']); const rg=REGIAO[p]||'Outros'; rc[rg]=(rc[rg]||0)+1; });
-  buildRank('rank-regioes', rc, 6);
-  buildRank('rank-generos', countField(allLPM,['Gênero','Genero','gênero literário']), 6);
+  buildRank('rank-regioes', rc, 999);
+  buildRank('rank-generos', countField(allLPM,['Gênero','Genero','gênero literário']), 999);
 
   /* ── Modelo 4: barras verticais notas ── */
   const notasEl = document.getElementById('c-notas');
