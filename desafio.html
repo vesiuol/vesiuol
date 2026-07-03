@@ -1066,7 +1066,7 @@ function buildEvolucao(r24,r25,r26){
     const labR=['2024','2025','2026'], dadR=[acum24,acum25,acum26];
     const ap=[]; let ac=total; let ay=2027;
     while(ac<TOTAL&&ay<=2040){ ap.push(ay); ac=Math.min(ac+Math.round(media),TOTAL); ay++; }
-    const lp=ap.slice(0,8), dp=lp.map((_,i)=>Math.min(total+Math.round(media*(i+1)),TOTAL));
+    const lp=ap, dp=lp.map((_,i)=>Math.min(total+Math.round(media*(i+1)),TOTAL));
     const allL=[...labR,...lp.map(String)];
     const allR=[...dadR,...Array(lp.length).fill(null)];
     const allP=[...Array(labR.length-1).fill(null),acum26,...dp];
