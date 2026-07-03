@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Histórico — Vida de Leitora</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='38' fill='%23849974'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
@@ -17,53 +17,44 @@
   --white:       #ffffff;
   --black:       #000000;
   --green:       #849974;
-  --green-dark:  #6b7d5e;
-  --green-light: #a8b99a;
+  --green-dark:  #6b7e5e;
+  --green-light: #c8d4b8;
   --border:      #c8c8c8;
-  --nav-border:  #c5c5a0;
-  --muted:       #555555;
+  --border-soft: #e0e0e0;
   --text:        #1a1a1a;
+  --muted:       #555;
+  --bg:          #ffffff;
+  --surface:     #f9f8f5;
+  --sidebar-w:   272px;
+  --header-h:    52px;
 }
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  background: var(--white);
-  color: var(--text);
-  font-family: 'DM Sans', sans-serif;
-  font-weight: 300;
-  line-height: 1.5;
-}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-font-smoothing: antialiased; }
+body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 400; }
+a { color: inherit; text-decoration: none; }
 
-/* ─── NAV ─────────────────────────────────────────────── */
+/* ── NAV ── */
 nav {
   position: sticky; top: 0; z-index: 200;
+  height: var(--header-h);
   background: var(--white);
-  border-bottom: 1.5px solid var(--nav-border);
-  padding: 0 2.5rem;
+  border-bottom: 1.5px solid #c5c5a0;
   display: flex; align-items: center;
-  height: 52px;
+  padding: 0 2rem; gap: 1.5rem;
 }
-.nav-dots { display: flex; gap: 6px; align-items: center; flex-shrink: 0; }
-.nav-dots span {
-  width: 10px; height: 10px; border-radius: 50%;
-  background: var(--border); display: block;
-}
-nav ul {
-  list-style: none; display: flex;
-  gap: 2rem; margin-left: auto;
-}
-nav ul a {
-  color: var(--black); text-decoration: none;
-  font-size: .78rem; letter-spacing: .12em;
-  text-transform: uppercase; font-weight: 500;
+.nav-logo { display: flex; gap: 5px; align-items: center; }
+.nav-dot  { width: 10px; height: 10px; border-radius: 50%; background: var(--black); }
+nav ul { list-style: none; display: flex; gap: 2rem; margin-left: auto; align-items: center; }
+nav ul li a {
+  color: var(--black); font-size: .78rem; letter-spacing: .12em;
+  text-transform: uppercase; font-family: 'DM Sans', sans-serif; font-weight: 500;
   transition: color .2s;
 }
-nav ul a:hover { opacity: .5; }
-nav ul a.active {
+nav ul li a:hover { color: var(--green); }
+nav ul li a.active {
   background: var(--green); color: var(--white);
   padding: .28rem .7rem; border-radius: 3px; font-weight: 700;
 }
-
-/* hamburger */
 .nav-hamburger {
   display: none; background: none; border: none;
   cursor: pointer; margin-left: auto; padding: .4rem;
@@ -71,268 +62,250 @@ nav ul a.active {
 }
 .nav-hamburger span {
   display: block; width: 22px; height: 2px;
-  background: var(--black); border-radius: 2px;
-  transition: all .25s;
+  background: var(--black); border-radius: 2px; transition: all .25s;
 }
+nav ul.open { display: flex; }
 
-/* menu mobile */
-.nav-mobile {
-  display: none; position: fixed;
-  top: 52px; left: 0; right: 0; bottom: 0;
-  background: var(--white); z-index: 199;
-  flex-direction: column; padding: 2rem 1.5rem; gap: 0;
-  border-top: 1px solid var(--border);
-}
-.nav-mobile.open { display: flex; }
-.nav-mobile a {
-  color: var(--black); text-decoration: none;
-  font-size: 1.1rem; letter-spacing: .1em; text-transform: uppercase;
-  font-weight: 400; padding: 1rem 0;
-  border-bottom: 1px solid var(--border); display: block;
-}
-.nav-mobile a.active { color: var(--green); font-weight: 500; }
-.nav-mobile a:last-child { border-bottom: none; }
+/* ── INTRO MOBILE (aparece antes da sidebar no mobile) ── */
+.intro-mobile { display: none; padding: 1.4rem 1.2rem 0; }
+.intro-desktop {}
 
-/* ─── HERO ────────────────────────────────────────────── */
-.hero-wrap {
-  padding: 3rem 2.5rem 1.5rem;
-  max-width: 1200px; margin: 0 auto;
-}
-.hero-card {
-  border: 1.5px solid var(--black);
-  border-radius: 14px; padding: 2.5rem 3rem;
-}
-.hero-card-dots { display: flex; gap: 5px; margin-bottom: 1.2rem; }
-.hero-card-dots span {
-  width: 9px; height: 9px; border-radius: 50%;
-  background: var(--border); display: block;
-}
-.hero-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(2.5rem, 5vw, 4rem);
-  font-weight: 600; line-height: 1.1;
-  display: inline-block;
-  background: var(--green); color: var(--white);
-  padding: .1em .3em; margin-bottom: 1.2rem;
-}
-.hero-desc {
-  font-size: .95rem; color: var(--text);
-  line-height: 1.75; max-width: 800px; margin-bottom: 2rem;
-}
-.hero-divider {
-  border: none; border-top: 1px solid var(--border);
-  margin: 1.5rem -3rem;
-}
-.hero-sub { display: flex; justify-content: space-between; align-items: center; }
-.hero-sub-text {
-  font-size: .68rem; letter-spacing: .16em;
-  text-transform: uppercase; color: var(--muted);
-}
-.hero-arrow { font-size: 1.4rem; color: var(--black); }
-
-/* ─── STAT CARDS ─────────────────────────────────────── */
-.stats-section {
-  padding: 1.5rem 2.5rem;
-  max-width: 1200px; margin: 0 auto;
-}
-.stats-grid {
+/* ── PAGE WRAP ── */
+.page-wrap {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: .6rem;
-}
-.stat-card {
-  border: 1.5px solid var(--green-dark);
-  border-radius: 10px;
-  background: var(--green);
-  padding: 1.5rem 1rem;
-  text-align: center;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  min-height: 110px;
-}
-.stat-num {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 2.4rem; font-weight: 600;
-  color: var(--white); line-height: 1;
-  display: block; margin-bottom: .4rem;
-}
-.stat-label {
-  font-size: .65rem; letter-spacing: .1em;
-  text-transform: uppercase;
-  color: var(--white); font-weight: 500;
+  grid-template-columns: var(--sidebar-w) 1fr;
+  align-items: start;
+  min-height: calc(100vh - var(--header-h) - 44px);
 }
 
-/* ─── SECTION HEADER ─────────────────────────────────── */
-.section-wrap {
-  max-width: 1200px; margin: 0 auto;
-  padding: 2.5rem 2.5rem 1.5rem;
+/* ── SIDEBAR ── */
+.sidebar {
+  width: var(--sidebar-w);
+  border-right: 1.5px solid var(--border);
+  background: var(--surface);
+  position: sticky;
+  top: var(--header-h);
+  max-height: calc(100vh - var(--header-h));
+  overflow-y: auto; overflow-x: hidden;
+  padding: 2rem 1.4rem;
+  display: flex; flex-direction: column; gap: 1.6rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+  align-self: start;
 }
-.section-header {
-  display: flex; align-items: center; gap: 1.2rem;
-  margin-bottom: 1.5rem;
-  border-bottom: 1px solid var(--border);
-  padding-bottom: 1rem;
+.sb-label {
+  font-size: .68rem; font-weight: 400;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: .6rem;
 }
-.section-label {
+
+/* KPI grid sidebar */
+.kpi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; }
+.kpi-card {
+  background: var(--white); border: 1.5px solid var(--border);
+  border-radius: 10px; padding: .85rem .8rem;
+  display: flex; flex-direction: column; gap: .25rem;
+  min-width: 0; overflow: hidden;
+}
+.kpi-card.accent { background: var(--green); border-color: var(--green-dark); grid-column: span 2; }
+.kpi-num {
+  font-family: Georgia, serif;
+  font-size: clamp(1.15rem,4.5vw,1.65rem); font-weight: 400; line-height: 1.2; color: var(--text);
+  white-space: nowrap; overflow: visible; text-overflow: ellipsis; max-width: 100%;
+}
+.kpi-card.accent .kpi-num { color: var(--white); font-size: clamp(1.3rem,5vw,1.9rem); }
+.kpi-lbl { font-size: .68rem; color: var(--muted); line-height: 1.3; }
+.kpi-card.accent .kpi-lbl { color: rgba(255,255,255,.75); }
+
+/* Progresso sidebar */
+.prog-row { margin-bottom: .5rem; }
+.prog-meta { display: flex; justify-content: space-between; font-size: .78rem; color: var(--muted); margin-bottom: .3rem; }
+.prog-meta b { color: var(--text); font-weight: 400; }
+.prog-track { height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.prog-fill  { height: 100%; background: var(--green); border-radius: 3px; }
+
+/* Nav pills sidebar */
+.sb-nav-title { font-size: .68rem; font-weight: 400; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: .7rem; }
+.sb-nav-pills { display: flex; flex-direction: column; gap: .4rem; }
+.sb-nav-pill {
+  display: flex; align-items: center; gap: .6rem;
+  padding: .5rem .75rem;
+  border: 1.5px solid var(--border); border-radius: 50px;
+  background: transparent; color: var(--muted);
+  font-size: .74rem; font-family: 'DM Sans', sans-serif;
+  cursor: pointer; transition: all .18s; text-align: left;
+}
+.sb-nav-pill:hover { border-color: var(--green); color: var(--white); background: var(--green); }
+.pill-dot {
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--green); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .6rem; color: var(--white);
+}
+
+/* Filtro pills sidebar */
+.filter-pills { display: flex; flex-wrap: wrap; gap: .3rem; }
+.fpill {
+  font-size: .72rem; padding: .3rem .75rem;
+  border-radius: 100px; border: 1.5px solid var(--border);
+  background: transparent; color: var(--muted);
+  cursor: pointer; transition: all .15s; font-family: 'DM Sans', sans-serif;
+}
+.fpill:hover { border-color: var(--green); color: var(--white); background: var(--green); }
+.fpill.active { background: var(--green); border-color: var(--green); color: var(--white); }
+
+/* ── MAIN ── */
+.main { padding: 2.8rem 3rem 3rem; min-width: 0; }
+
+/* Título hero */
+.intro-title-wrap { margin-bottom: 1.6rem; }
+.intro-headline {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.4rem, 4vw, 3.8rem);
+  font-weight: 600; line-height: 1.35;
+  display: inline;
   background: var(--green); color: var(--white);
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.2rem; font-weight: 600;
-  padding: .2rem .7rem; border-radius: 4px;
-  white-space: nowrap;
+  padding: .12em .28em;
+  box-decoration-break: clone; -webkit-box-decoration-break: clone;
 }
-.section-sub {
-  font-size: .72rem; letter-spacing: .14em;
-  text-transform: uppercase; color: var(--muted);
-}
+.intro-body { font-size: .95rem; line-height: 1.85; color: var(--text); }
+.intro-body + .intro-body { margin-top: .9rem; }
 
-/* ─── CHART CARDS ────────────────────────────────────── */
-.charts-col { display: flex; flex-direction: column; gap: 1rem; }
-.chart-card {
-  border: 1.5px solid var(--border);
-  border-radius: 14px; padding: 1.5rem 2rem;
-  background: var(--white);
+.section-gap { margin-top: 3rem; }
+.section-hr  { border: none; border-top: 1px solid var(--border-soft); margin-bottom: 1.6rem; }
+.section-head { display: flex; align-items: baseline; gap: .8rem; margin-bottom: 1.4rem; }
+.section-h2 {
+  font-family: Georgia, serif;
+  font-size: 1.15rem; font-weight: 400;
+  background: var(--green); color: var(--white);
+  padding: .08em .4em;
+  box-decoration-break: clone; -webkit-box-decoration-break: clone;
+  display: inline;
 }
-.chart-card-header {
-  display: flex; align-items: center;
-  gap: .6rem; margin-bottom: 1.2rem;
-}
-.chart-card-dots { display: flex; gap: 4px; }
-.chart-card-dots span {
-  width: 8px; height: 8px; border-radius: 50%;
-  background: var(--green-light); display: block;
-}
-.chart-card-title {
-  font-size: .75rem; letter-spacing: .12em;
-  text-transform: uppercase; color: var(--muted);
-}
-.chart-wrap { position: relative; height: 240px; }
-.chart-wrap.tall { height: 320px; }
-.chart-wrap.pie  { height: 280px; }
-.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.section-sub { font-size: .72rem; color: var(--muted); font-weight: 400; font-family: 'DM Sans', sans-serif; }
 
-/* ─── MAP ────────────────────────────────────────────── */
-#hist-map {
-  height: 440px; border-radius: 10px;
-  border: 1.5px solid var(--border);
+/* Window card */
+.wcard {
+  background: var(--white); border: 1.5px solid var(--border);
+  border-radius: 14px; overflow: hidden;
+  box-shadow: 2px 2px 0 var(--border);
 }
+.wbar { padding: .5rem 1rem; display: flex; gap: 5px; align-items: center; border-bottom: 1px solid var(--border-soft); }
+.wdot { width: 8px; height: 8px; border-radius: 50%; background: #bbb; }
+.wtitle { font-size: .68rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-left: .4rem; }
 
-/* ─── YEAR FILTER ────────────────────────────────────── */
-.year-filter {
-  display: flex; gap: .6rem;
-  flex-wrap: wrap; margin-bottom: 2rem;
+/* Grids */
+.charts-2col { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; align-items: start; }
+/* Detalhe por ano: Cor+Gênero e Idioma+Avaliação travam altura (menor se ajusta ao maior) só quando um ano específico está selecionado — nunca em "Todos" */
+.charts-2col.lockable.year-locked { align-items: stretch; }
+.charts-2col.lockable.year-locked .wcard { display: flex; flex-direction: column; }
+.charts-2col.lockable.year-locked .wcard > div:last-child { flex: 1; }
+.chart-body { padding: 1rem 1.2rem; }
+.chart-body canvas { display: block; max-height: 220px; }
+.chart-body.tall canvas { max-height: 300px; }
+
+/* Cards número grande + barrinha (Idioma, Cor, Gênero) */
+.dist-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: .5rem; padding: .9rem 1rem;
+  align-content: start;
 }
+.dist-card {
+  border: 1.5px solid var(--border-soft); border-radius: 10px;
+  padding: .75rem .85rem;
+}
+.dist-num {
+  font-family: Georgia, serif;
+  font-size: 1.55rem; font-weight: 400; color: var(--green); line-height: 1; margin-bottom: .2rem;
+}
+.dist-lbl { font-size: .68rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: .4rem; }
+.dist-track { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+.dist-fill { height: 100%; background: var(--green); border-radius: 2px; }
+.dist-fill.light { background: var(--green-light); }
+
+/* Ranking texto */
+.rank-list { display: flex; flex-direction: column; gap: .6rem; }
+
+/* Cards diversidade */
+.div-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: .6rem; margin-bottom: .8rem; }
+.div-card { border: 1.5px solid var(--border); border-radius: 12px; padding: 1rem .9rem; background: var(--white); }
+.div-card-num { font-family: Georgia, serif; font-size: 1.8rem; font-weight: 400; color: var(--green); line-height: 1; margin-bottom: .3rem; }
+.div-card-label { font-size: .68rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.div-card-sub   { font-size: .78rem; color: var(--muted); margin-top: .3rem; }
+.div-card-track { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; margin-top: .5rem; }
+.div-card-fill  { height: 100%; background: var(--green); border-radius: 2px; }
+
+/* Filtro ano */
+.year-filter { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1.4rem; }
 .year-btn {
-  padding: .4rem 1.1rem;
-  border: 1.5px solid var(--border);
-  background: transparent;
-  font-family: 'DM Sans', sans-serif;
-  font-size: .82rem; font-weight: 400;
-  border-radius: 100px; cursor: pointer;
-  color: var(--muted);
-  transition: all .2s;
+  padding: .35rem 1rem; border: 1.5px solid var(--border);
+  background: transparent; font-family: 'DM Sans', sans-serif;
+  font-size: .80rem; font-weight: 400; border-radius: 100px;
+  cursor: pointer; color: var(--muted); transition: all .2s;
 }
-.year-btn:hover {
-  background: var(--green);
-  border-color: var(--green);
-  color: var(--white);
-}
-.year-btn.selected {
-  background: var(--green);
-  border-color: var(--green);
-  color: var(--white);
-}
+.year-btn:hover { background: var(--green); border-color: var(--green); color: var(--white); }
+.year-btn.selected { background: var(--green); border-color: var(--green); color: var(--white); }
 .year-btn:focus { outline: none; }
 
-/* ─── ANO STATS GRID ─────────────────────────────────── */
-.ano-stats-grid {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: .6rem; margin-bottom: 1.5rem;
-}
+/* KPIs detalhe ano */
+.ano-kpis { display: grid; grid-template-columns: repeat(6, 1fr); gap: .5rem; margin-bottom: 1rem; }
 
-/* ─── FOOTER ─────────────────────────────────────────── */
+/* Mapa */
+#hist-map { height: 360px; border-radius: 0 0 12px 12px; }
+
+/* Footer */
 footer {
-  background: var(--green);
-  padding: 1.2rem 2.5rem;
+  background: var(--green); padding: 1rem 2rem;
   display: flex; align-items: center; gap: 1rem;
+  border-top: 1.5px solid var(--green-dark);
 }
-.footer-dots { display: flex; gap: 6px; }
-.footer-dots span {
-  width: 9px; height: 9px; border-radius: 50%;
-  background: var(--white); display: block;
-}
+.footer-dots { display: flex; gap: 5px; }
+.footer-dot  { width: 10px; height: 10px; border-radius: 50%; background: var(--white); }
 .footer-text {
-  font-size: .60rem; letter-spacing: .1em;
-  text-transform: uppercase; font-weight: 500;
-  color: var(--white);
+  font-size: .60rem; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--white); font-weight: 500; font-family: 'DM Sans', sans-serif;
 }
 
-/* ─── RESPONSIVE ─────────────────────────────────────── */
+/* ── RESPONSIVE ── */
 @media (max-width: 900px) {
-  .stats-grid, .ano-stats-grid { grid-template-columns: repeat(3, 1fr); }
-  .two-col { grid-template-columns: 1fr; }
-  .hero-card { padding: 1.5rem; }
-  .hero-divider { margin: 1.5rem -1.5rem; }
-}
-
-@media (max-width: 600px) {
-  body { overflow-x: hidden; }
-
-  /* Nav */
-  nav { padding: 0 1rem; }
-  nav ul { display: none; }
-  .nav-hamburger { display: flex; }
-  .nav-dots span { width: 8px; height: 8px; }
-
-  /* Hero */
-  .hero-wrap { padding: 1.2rem 1rem 1rem; }
-  .hero-card { padding: 1.2rem; border-radius: 10px; }
-  .hero-title { font-size: 2.2rem; }
-  .hero-desc { font-size: .88rem; margin-bottom: 1.2rem; }
-  .hero-sub-text { font-size: .6rem; }
-  .hero-divider { margin: 1rem -1.2rem; }
-
-  /* Stats */
-  .stats-section { padding: 1rem; }
-  .stats-grid, .ano-stats-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: .5rem;
+  .page-wrap { grid-template-columns: 1fr; }
+  .sidebar {
+    position: static; max-height: none; overflow: visible;
+    border-right: none; border-bottom: 1.5px solid var(--border);
+    width: 100%; min-width: 0;
   }
-  .stat-card { min-height: 90px; padding: 1rem .6rem; border-radius: 8px; }
-  .stat-num { font-size: 1.9rem; }
-  .stat-label { font-size: .6rem; }
-
-  /* Seções */
-  .section-wrap { padding: 1.5rem 1rem 1rem; }
-  .section-header { gap: .7rem; flex-wrap: wrap; }
-  .section-label { font-size: 1rem; }
-
-  /* Chart cards */
-  .chart-card { padding: 1rem; border-radius: 10px; }
-  .charts-col { gap: .8rem; }
-  .two-col { grid-template-columns: 1fr; gap: .8rem; }
-  .chart-wrap { height: 200px; }
-  .chart-wrap.pie { height: 260px; }
-  .chart-wrap.tall { height: 260px; }
-
-  /* Mapa */
-  #hist-map { height: 280px; border-radius: 8px; }
-
-  /* Filtro */
-  .year-filter { gap: .4rem; margin-bottom: 1.2rem; }
-  .year-btn { padding: .35rem .8rem; font-size: .76rem; }
-
-  /* Footer */
+  .kpi-grid { min-width: 0; }
+  .kpi-card { min-width: 0; overflow: hidden; }
+  .charts-2col { grid-template-columns: 1fr; }
+  .div-cards { grid-template-columns: 1fr 1fr; }
+  .ano-kpis { grid-template-columns: repeat(3, 1fr); }
+  .main { padding: 2rem 2rem 3rem; min-width: 0; }
+}
+@media (max-width: 600px) {
+  nav ul { display: none; position: absolute; top: var(--header-h); left: 0; right: 0; background: var(--white); flex-direction: column; padding: 1rem 2rem; gap: 1rem; border-bottom: 1px solid var(--border); }
+  nav ul.open { display: flex; }
+  .nav-hamburger { display: flex; }
+  .intro-mobile { display: block; }
+  .intro-desktop { display: none; }
+  .main { padding: 0 0 2rem; min-width: 0; }
+  .main section.section-gap { padding: 0 1.2rem; }
+  .div-cards { grid-template-columns: 1fr; }
+  .ano-kpis { grid-template-columns: repeat(2, 1fr); }
+  .chart-body canvas { max-height: 200px; min-height: 180px; }
+  #hist-map  { height: 240px; }
   footer { padding: 1rem; flex-wrap: wrap; gap: .5rem; }
 }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
-  <div class="nav-dots"><span></span><span></span><span></span></div>
-  <ul>
+  <a href="index.html" class="nav-logo" style="text-decoration:none">
+    <div class="nav-dot"></div>
+    <div class="nav-dot"></div>
+    <div class="nav-dot" style="background:var(--green)"></div>
+  </a>
+  <ul id="nav-menu">
     <li><a href="index.html">Início</a></li>
     <li><a href="2026.html">2026</a></li>
     <li><a href="estante.html">Estante</a></li>
@@ -340,142 +313,245 @@ footer {
     <li><a href="desafio.html">Desafio</a></li>
     <li><a href="sobre.html">Sobre</a></li>
   </ul>
-  <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu">
+  <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu" onclick="document.getElementById('nav-menu').classList.toggle('open')">
     <span></span><span></span><span></span>
   </button>
 </nav>
-<div class="nav-mobile" id="nav-mobile">
-  <a href="index.html">Início</a>
-  <a href="2026.html">2026</a>
-  <a href="estante.html">Estante</a>
-  <a href="historico.html" class="active">Histórico</a>
-  <a href="desafio.html">Desafio</a>
-  <a href="sobre.html">Sobre</a>
+
+<!-- INTRO MOBILE: aparece antes da sidebar no mobile (governança bug #3 e #4) -->
+<div class="intro-mobile">
+  <div class="intro-title-wrap">
+    <h1 class="intro-headline">Vida de Leitora</h1>
+  </div>
+  <p class="intro-body">A parte mais interessante de acompanhar meus dados de leitura ao longo dos anos é perceber como fui mudando, amadurecendo e ampliando meu mundo através dos livros. Mais do que números, isso conta a história de como a Louise se desenvolveu e de como as leituras também refletem quem sou hoje.</p>
 </div>
 
-<!-- HERO -->
-<div class="hero-wrap">
-  <div class="hero-card">
-    <div class="hero-card-dots"><span></span><span></span><span></span></div>
-    <div class="hero-title">Vida de Leitora</div>
-    <p class="hero-desc">A parte mais interessante de acompanhar meus dados de leitura ao longo dos anos é perceber como fui mudando, amadurecendo e ampliando meu mundo através dos livros. Mais do que números, isso conta a história de como a Louise se desenvolveu e de como as leituras também refletem quem sou hoje.</p>
-    <hr class="hero-divider">
-    <div class="hero-sub">
-      <span class="hero-sub-text">Histórico de leituras com evolução ano a ano. Gráficos gerais e filtro por ano específico.</span>
-      <span class="hero-arrow">→</span>
+<div class="page-wrap">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div>
+      <div class="sb-label">Resumo geral</div>
+      <div class="kpi-grid">
+        <div class="kpi-card accent">
+          <div class="kpi-num" id="s-total">—</div>
+          <div class="kpi-lbl">livros lidos</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-num" id="s-paginas">—</div>
+          <div class="kpi-lbl">total páginas</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-num" id="s-autores">—</div>
+          <div class="kpi-lbl">autores únicos</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-num" id="s-paises">—</div>
+          <div class="kpi-lbl">países</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-num" id="s-5estrelas">—</div>
+          <div class="kpi-lbl">avaliações 5★</div>
+        </div>
+      </div>
     </div>
-  </div>
+    <div>
+      <div class="sb-label">Média por ano</div>
+      <div id="sb-prog"></div>
+    </div>
+    <div>
+      <div class="sb-nav-title">Ir para a seção</div>
+      <div class="sb-nav-pills">
+        <button class="sb-nav-pill" onclick="goTo('evolucao')"><span class="pill-dot">✦</span>Evolução ano a ano</button>
+        <button class="sb-nav-pill" onclick="goTo('perfil')"><span class="pill-dot">✦</span>Perfil de leitura</button>
+        <button class="sb-nav-pill" onclick="goTo('diversidade')"><span class="pill-dot">✦</span>Diversidade</button>
+        <button class="sb-nav-pill" onclick="goTo('mapa')"><span class="pill-dot">✦</span>Mapa de origens</button>
+        <button class="sb-nav-pill" onclick="goTo('porano')"><span class="pill-dot">✦</span>Detalhe por ano</button>
+      </div>
+    </div>
+    <div>
+      <div class="sb-label">Filtrar por ano</div>
+      <div class="filter-pills" id="sb-anos"></div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- INTRO DESKTOP -->
+    <section class="intro-desktop">
+      <div class="intro-title-wrap">
+        <h1 class="intro-headline">Vida de Leitora</h1>
+      </div>
+      <p class="intro-body">A parte mais interessante de acompanhar meus dados de leitura ao longo dos anos é perceber como fui mudando, amadurecendo e ampliando meu mundo através dos livros. Mais do que números, isso conta a história de como a Louise se desenvolveu e de como as leituras também refletem quem sou hoje.</p>
+    </section>
+
+    <!-- EVOLUÇÃO -->
+    <section class="section-gap" id="evolucao">
+      <hr class="section-hr">
+      <div class="section-head">
+        <h2 class="section-h2">Evolução ano a ano</h2>
+        <span class="section-sub" id="loading-note">Carregando dados…</span>
+      </div>
+      <div class="wcard" style="margin-bottom:.8rem">
+        <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Livros lidos por ano</span></div>
+        <div class="chart-body"><canvas id="c-anos"></canvas></div>
+      </div>
+      <div class="charts-2col">
+        <div class="wcard">
+          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Páginas por ano</span></div>
+          <div class="chart-body"><canvas id="c-paginas"></canvas></div>
+        </div>
+        <div class="wcard">
+          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Autores novos por ano</span></div>
+          <div class="chart-body"><canvas id="c-novos"></canvas></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PERFIL — reagrupado por porte: Idioma+Avaliações (compactos) / Gêneros+Países (listas) -->
+    <section class="section-gap" id="perfil">
+      <hr class="section-hr">
+      <div class="section-head">
+        <h2 class="section-h2">Perfil de leitura</h2>
+        <span class="section-sub">Todos os anos</span>
+      </div>
+      <!-- Linha 1: Idioma (cards compactos) + Avaliações (linha) -->
+      <div class="charts-2col" style="margin-bottom:.8rem">
+        <div class="wcard">
+          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Idioma original</span></div>
+          <div class="dist-grid" id="dist-idioma"></div>
+        </div>
+        <div class="wcard">
+          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Avaliações (estrelas)</span></div>
+          <div class="chart-body"><canvas id="c-stars"></canvas></div>
+        </div>
+      </div>
+      <!-- Linha 2: Gêneros (lista scroll) + Países (lista scroll) — mesma altura fixa nos dois -->
+      <div class="charts-2col">
+        <div class="wcard">
+          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Gêneros literários</span></div>
+          <div style="padding:1rem 1.4rem 1.2rem;overflow-y:auto;height:280px"><div class="rank-list" id="rank-generos"></div></div>
+        </div>
+        <div class="wcard">
+          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Top 10 países de origem</span></div>
+          <div style="padding:1rem 1.4rem 1.2rem;overflow-y:auto;height:280px"><div class="rank-list" id="rank-paises"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DIVERSIDADE -->
+    <section class="section-gap" id="diversidade">
+      <hr class="section-hr">
+      <div class="section-head">
+        <h2 class="section-h2">Diversidade nas leituras</h2>
+        <span class="section-sub">Representatividade acumulada</span>
+      </div>
+      <div class="div-cards">
+        <div class="div-card">
+          <div class="div-card-num" id="d-lgbtq">—</div>
+          <div class="div-card-label">Protagonistas LGBTQIA+</div>
+          <div class="div-card-sub" id="d-lgbtq-sub">— livros</div>
+          <div class="div-card-track"><div class="div-card-fill" id="d-lgbtq-fill" style="width:0%"></div></div>
+        </div>
+        <div class="div-card">
+          <div class="div-card-num" id="d-etnia">—</div>
+          <div class="div-card-label">Rep. étnica / racial</div>
+          <div class="div-card-sub" id="d-etnia-sub">— livros</div>
+          <div class="div-card-track"><div class="div-card-fill" id="d-etnia-fill" style="width:0%"></div></div>
+        </div>
+        <div class="div-card">
+          <div class="div-card-num" id="d-own">—</div>
+          <div class="div-card-label">#OwnVoices</div>
+          <div class="div-card-sub" id="d-own-sub">— livros</div>
+          <div class="div-card-track"><div class="div-card-fill" id="d-own-fill" style="width:0%"></div></div>
+        </div>
+      </div>
+      <div class="charts-2col">
+        <div class="wcard">
+          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">LGBTQIA+ por ano</span></div>
+          <div class="chart-body"><canvas id="c-lgbtq"></canvas></div>
+        </div>
+        <div class="wcard">
+          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Rep. étnica / racial por ano</span></div>
+          <div class="chart-body"><canvas id="c-etnia"></canvas></div>
+        </div>
+        <div class="wcard" style="grid-column:span 2">
+          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">#OwnVoices por ano</span></div>
+          <div class="chart-body"><canvas id="c-own"></canvas></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MAPA -->
+    <section class="section-gap" id="mapa">
+      <hr class="section-hr">
+      <div class="section-head">
+        <h2 class="section-h2">De onde vieram meus livros?</h2>
+        <span class="section-sub">Autores por país de origem</span>
+      </div>
+      <div class="wcard">
+        <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Mapa de origens</span></div>
+        <div id="hist-map"></div>
+      </div>
+    </section>
+
+    <!-- DETALHE POR ANO -->
+    <section class="section-gap" id="porano">
+      <hr class="section-hr">
+      <div class="section-head">
+        <h2 class="section-h2">Detalhe por ano</h2>
+        <span class="section-sub" id="ano-sub-label">Selecione um ano</span>
+      </div>
+      <div class="year-filter" id="main-year-filter"></div>
+      <div class="ano-kpis">
+        <div class="kpi-card"><div class="kpi-num" id="a-livros">—</div><div class="kpi-lbl">livros lidos</div></div>
+        <div class="kpi-card"><div class="kpi-num" id="a-paginas">—</div><div class="kpi-lbl">total páginas</div></div>
+        <div class="kpi-card"><div class="kpi-num" id="a-idiomas">—</div><div class="kpi-lbl">idiomas</div></div>
+        <div class="kpi-card"><div class="kpi-num" id="a-autores">—</div><div class="kpi-lbl">autores únicos</div></div>
+        <div class="kpi-card"><div class="kpi-num" id="a-paises">—</div><div class="kpi-lbl">países</div></div>
+        <div class="kpi-card"><div class="kpi-num" id="a-5estrelas">—</div><div class="kpi-lbl">5 estrelas</div></div>
+      </div>
+      <div class="charts-2col lockable" id="row-cor-ga" style="margin-bottom:.8rem">
+        <div class="wcard">
+          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle" id="ac-title-cor">Cor dos autores</span></div>
+          <div class="dist-grid" id="ac-cor"></div>
+        </div>
+        <div class="wcard">
+          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle" id="ac-title-ga">Gênero dos autores</span></div>
+          <div class="dist-grid" id="ac-ga"></div>
+        </div>
+      </div>
+      <div class="charts-2col lockable" id="row-idioma-stars" style="margin-bottom:.8rem">
+        <div class="wcard">
+          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Idioma</span></div>
+          <div class="dist-grid" id="ac-idioma"></div>
+        </div>
+        <div class="wcard">
+          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Avaliação (estrelas)</span></div>
+          <div class="chart-body"><canvas id="ac-stars"></canvas></div>
+        </div>
+      </div>
+      <div class="charts-2col">
+        <div class="wcard">
+          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Gêneros literários</span></div>
+          <div style="padding:1rem 1.2rem;overflow-y:auto;height:280px"><div class="rank-list" id="ac-generos"></div></div>
+        </div>
+        <div class="wcard">
+          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">País de origem dos autores</span></div>
+          <div style="padding:1rem 1.2rem;overflow-y:auto;height:280px"><div class="rank-list" id="ac-paises-ano"></div></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
 </div>
 
-<!-- STAT CARDS GLOBAIS -->
-<div class="stats-section">
-  <div class="stats-grid" id="global-stats">
-    <div class="stat-card"><span class="stat-num" id="stat-total">—</span><span class="stat-label">Total lidos</span></div>
-    <div class="stat-card"><span class="stat-num" id="stat-paginas">—</span><span class="stat-label">Total páginas</span></div>
-    <div class="stat-card"><span class="stat-num" id="stat-idiomas">—</span><span class="stat-label">Idiomas</span></div>
-    <div class="stat-card"><span class="stat-num" id="stat-autores">—</span><span class="stat-label">Autores únicos</span></div>
-    <div class="stat-card"><span class="stat-num" id="stat-paises">—</span><span class="stat-label">Países</span></div>
-    <div class="stat-card"><span class="stat-num" id="stat-5estrelas">—</span><span class="stat-label">5 estrelas</span></div>
-  </div>
-</div>
-
-<!-- VISÃO GERAL -->
-<div class="section-wrap">
-  <div class="section-header">
-    <span class="section-label">Visão geral</span>
-    <span class="section-sub">Dados de todos os anos</span>
-  </div>
-  <div class="charts-col">
-    <div class="chart-card">
-      <div class="chart-card-header"><div class="chart-card-dots"><span></span><span></span><span></span></div><span class="chart-card-title">Livros lidos por ano</span></div>
-      <div class="chart-wrap"><canvas id="c-anos"></canvas></div>
-    </div>
-    <div class="chart-card">
-      <div class="chart-card-header"><div class="chart-card-dots"><span></span><span></span><span></span></div><span class="chart-card-title">Páginas lidas por ano</span></div>
-      <div class="chart-wrap"><canvas id="c-paginas"></canvas></div>
-    </div>
-  </div>
-  <div class="two-col" style="margin-top:1rem;">
-    <div class="chart-card">
-      <div class="chart-card-header"><div class="chart-card-dots"><span></span><span></span><span></span></div><span class="chart-card-title">Autores lidos pela 1ª vez</span></div>
-      <div class="chart-wrap"><canvas id="c-novos"></canvas></div>
-    </div>
-    <div class="chart-card">
-      <div class="chart-card-header"><div class="chart-card-dots"><span></span><span></span><span></span></div><span class="chart-card-title">Protagonistas LGBTQIA+ por ano</span></div>
-      <div class="chart-wrap"><canvas id="c-lgbtq"></canvas></div>
-    </div>
-    <div class="chart-card">
-      <div class="chart-card-header"><div class="chart-card-dots"><span></span><span></span><span></span></div><span class="chart-card-title">Representatividade étnica por ano</span></div>
-      <div class="chart-wrap"><canvas id="c-etnia"></canvas></div>
-    </div>
-    <div class="chart-card">
-      <div class="chart-card-header"><div class="chart-card-dots"><span></span><span></span><span></span></div><span class="chart-card-title">#OwnVoices por ano</span></div>
-      <div class="chart-wrap"><canvas id="c-own"></canvas></div>
-    </div>
-  </div>
-</div>
-
-<!-- MAPA -->
-<div class="section-wrap">
-  <div class="section-header">
-    <span class="section-label">De onde vieram meus livros?</span>
-    <span class="section-sub">Autores por país</span>
-  </div>
-  <div class="chart-card">
-    <div class="chart-card-header"><div class="chart-card-dots"><span></span><span></span><span></span></div></div>
-    <div id="hist-map"></div>
-  </div>
-</div>
-
-<!-- POR ANO -->
-<div class="section-wrap">
-  <div class="section-header">
-    <span class="section-label">Por ano</span>
-    <span class="section-sub">Filtro</span>
-  </div>
-  <div class="year-filter" id="year-filter"></div>
-
-  <div class="ano-stats-grid" id="ano-stats-grid">
-    <div class="stat-card"><span class="stat-num" id="a-livros">—</span><span class="stat-label">Livros lidos</span></div>
-    <div class="stat-card"><span class="stat-num" id="a-paginas">—</span><span class="stat-label">Total páginas</span></div>
-    <div class="stat-card"><span class="stat-num" id="a-idiomas">—</span><span class="stat-label">Idiomas</span></div>
-    <div class="stat-card"><span class="stat-num" id="a-autores">—</span><span class="stat-label">Autores únicos</span></div>
-    <div class="stat-card"><span class="stat-num" id="a-paises">—</span><span class="stat-label">Países</span></div>
-    <div class="stat-card"><span class="stat-num" id="a-5estrelas">—</span><span class="stat-label">5 estrelas</span></div>
-  </div>
-
-  <div class="two-col">
-    <div class="chart-card">
-      <div class="chart-card-header"><div class="chart-card-dots"><span></span><span></span><span></span></div><span class="chart-card-title" id="chart-title-cor">Cor dos autores</span></div>
-      <div class="chart-wrap pie"><canvas id="ac-cor"></canvas></div>
-    </div>
-    <div class="chart-card">
-      <div class="chart-card-header"><div class="chart-card-dots"><span></span><span></span><span></span></div><span class="chart-card-title" id="chart-title-genero">Gênero dos autores</span></div>
-      <div class="chart-wrap pie"><canvas id="ac-ga"></canvas></div>
-    </div>
-    <div class="chart-card">
-      <div class="chart-card-header"><div class="chart-card-dots"><span></span><span></span><span></span></div><span class="chart-card-title">Idioma</span></div>
-      <div class="chart-wrap pie"><canvas id="ac-idioma"></canvas></div>
-    </div>
-    <div class="chart-card">
-      <div class="chart-card-header"><div class="chart-card-dots"><span></span><span></span><span></span></div><span class="chart-card-title">Gêneros literários</span></div>
-      <div class="chart-wrap tall"><canvas id="ac-generos"></canvas></div>
-    </div>
-    <div class="chart-card">
-      <div class="chart-card-header"><div class="chart-card-dots"><span></span><span></span><span></span></div><span class="chart-card-title">País de origem dos autores</span></div>
-      <div class="chart-wrap"><canvas id="ac-paises-ano"></canvas></div>
-    </div>
-    <div class="chart-card">
-      <div class="chart-card-header"><div class="chart-card-dots"><span></span><span></span><span></span></div><span class="chart-card-title">Avaliação (estrelas)</span></div>
-      <div class="chart-wrap"><canvas id="ac-stars"></canvas></div>
-    </div>
-  </div>
-</div>
-
-<!-- FOOTER -->
 <footer>
-  <div class="footer-dots"><span></span><span></span><span></span></div>
-  <span class="footer-text">O QUE TEM NA ESTANTE DA LOUISE&nbsp;&nbsp;|&nbsp;&nbsp;LOUISE VICTORIA&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;ATUALIZADO EM <span id="data-atualizacao">07 DE JUNHO DE 2026</span></span>
+  <div class="footer-dots">
+    <div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div>
+  </div>
+  <span class="footer-text">O que tem na estante da Louise&nbsp;&nbsp;|&nbsp;&nbsp;Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">29 de junho de 2026</span></span>
 </footer>
 
 <script>
@@ -486,14 +562,13 @@ const BASE    = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kT
 const URL_VIS = PROXY + encodeURIComponent(BASE + '?gid=700848757&single=true&output=csv');
 
 const GREEN       = '#849974';
-const GREEN_LIGHT = '#a8b99a';
-const BLACK       = '#000000';
+const GREEN_DARK  = '#6b7e5e';
+const GREEN_LIGHT = '#c8d4b8';
+const BLACK       = '#1a1a1a';
 const WHITE       = '#ffffff';
-const CORES10 = ['#849974','#6b7d5e','#b5c9a8','#4a5c40','#d4e3cc','#3a4c32','#c8d8bf','#91a882','#cedac5','#e8f0e4'];
+const MUTED       = '#555';
 
-const TODOS_ANOS  = ['2013','2014','2015','2016','2017','2018','2019','2020','2021','2022','2023','2024','2025','2026'];
-const ANOS_FILTRO = ['2013','2014','2015','2016','2017','2018','2019','2020','2021','2022','2023','2024','2025','2026'];
-
+const TODOS_ANOS = ['2013','2014','2015','2016','2017','2018','2019','2020','2021','2022','2023','2024','2025','2026'];
 const CAT_COR    = ['Branco','Negro','Asiáticos','Diversos','Outros'];
 const CAT_GENERO = ['Feminino','Masculino','M. Trans','Não binário','Outros'];
 const CAT_NOTAS  = ['1','1,5','2','2,5','3','3,5','4','4,5','5'];
@@ -524,396 +599,391 @@ const COORDS = {
   ' Ilhas Virgens Americanas':[18.3,-64.9],'Senegal':[14.7,-17.4],
 };
 
-// ── helpers ───────────────────────────────────────────────────────
-const pi = v => parseInt(String(v||'').replace(/[^0-9]/g,'')) || 0;
+const pi  = v => parseInt(String(v||'').replace(/[^0-9]/g,'')) || 0;
+const set = (id, v) => { const el=document.getElementById(id); if(el) el.textContent=v; };
+const fmt = n => n>0 ? Number(n).toLocaleString('pt-BR') : '—';
+const goTo = id => { const el=document.getElementById(id); if(el) el.scrollIntoView({behavior:'smooth'}); };
 
 function fetchCSV(url) {
   return fetch(url)
     .then(r => { if (!r.ok) throw new Error('HTTP '+r.status); return r.text(); })
     .then(t  => Papa.parse(t.replace(/^\uFEFF/,''), {header:true, skipEmptyLines:true}).data)
-    .catch(e => { console.error('fetchCSV falhou:', e); return []; });
+    .catch(e => { console.error('fetchCSV:', e); return []; });
 }
 
-function getRow(label) {
-  return VIS.find(r => (r['']||'').trim() === label) || null;
-}
-
+function getRow(label) { return VIS.find(r => (r['']||'').trim()===label)||null; }
 function vals(row, anos, suffix) {
-  if (!row) return anos.map(() => 0);
+  if (!row) return anos.map(()=>0);
   return anos.map(a => pi(row[suffix ? a+suffix : a]));
 }
-
 function subVals(cats, ano) {
   const anos = ano ? [ano] : TODOS_ANOS;
-  const result = {};
+  const res = {};
   cats.forEach(cat => {
-    const row = VIS.find(r => (r['Idiomas']||'').trim() === cat);
+    const row = VIS.find(r => (r['Idiomas']||'').trim()===cat);
     if (!row) return;
-    result[cat] = anos.reduce((s,a) => s + pi(row[a+'_1']), 0);
+    res[cat] = anos.reduce((s,a) => s+pi(row[a+'_1']), 0);
   });
-  return result;
+  return res;
 }
-
 function getIdiomas(ano) {
   const anos = ano ? [ano] : TODOS_ANOS;
-  const result = {};
+  const res = {};
   VIS.forEach(r => {
     const lbl = (r['Idiomas']||'').trim();
-    if (!lbl) return;
-    if (CAT_IDIOMA_SKIP.includes(lbl)) return;
-    if ([...CAT_COR,...CAT_GENERO,...CAT_NOTAS].includes(lbl)) return;
-    const tot = anos.reduce((s,a) => s + pi(r[a+'_1']), 0);
-    if (tot > 0) result[lbl] = (result[lbl]||0) + tot;
+    if (!lbl||CAT_IDIOMA_SKIP.includes(lbl)||[...CAT_COR,...CAT_GENERO,...CAT_NOTAS].includes(lbl)) return;
+    const tot = anos.reduce((s,a)=>s+pi(r[a+'_1']),0);
+    if (tot>0) res[lbl]=(res[lbl]||0)+tot;
   });
-  return result;
+  return res;
 }
-
 function getGenLivro(ano) {
   const anos = ano ? [ano] : TODOS_ANOS;
-  const idx = VIS.findIndex(r => (r['']||'').trim() === 'Gêneros literários');
-  if (idx < 0) return {};
-  const result = {};
+  const idx = VIS.findIndex(r=>(r['']||'').trim()==='Gêneros literários');
+  if (idx<0) return {};
+  const res = {};
   VIS.slice(idx+1).forEach(r => {
-    const lbl = (r['']||'').trim();
-    if (!lbl) return;
-    const tot = anos.reduce((s,a) => s + pi(r[a]), 0);
-    if (tot > 0) result[lbl] = tot;
+    const lbl=(r['']||'').trim(); if(!lbl) return;
+    const tot=anos.reduce((s,a)=>s+pi(r[a]),0);
+    if(tot>0) res[lbl]=tot;
   });
-  return result;
+  return res;
 }
-
 function getPaises(ano) {
+  const res = {};
   if (!ano) {
-    const result = {};
-    VIS.forEach(r => {
-      const p = (r['Países']||'').trim();
-      const v = pi(r['Total']);
-      if (p && v > 0) result[p] = v;
-    });
-    return result;
+    VIS.forEach(r=>{ const p=(r['Países']||'').trim(),v=pi(r['Total']); if(p&&v>0) res[p]=v; });
+  } else {
+    VIS.forEach(r=>{ const p=(r['Países']||'').trim(),v=pi(r[ano+'_2']); if(p&&v>0) res[p]=v; });
   }
-  const result = {};
-  VIS.forEach(r => {
-    const p = (r['Países']||'').trim();
-    const v = pi(r[ano+'_2']);
-    if (p && v > 0) result[p] = v;
-  });
-  return result;
+  return res;
 }
+const topN = (obj,n) => Object.entries(obj).sort((a,b)=>b[1]-a[1]).slice(0,n);
 
-function topN(obj, n) {
-  return Object.entries(obj).sort((a,b)=>b[1]-a[1]).slice(0,n);
-}
+const SC = {
+  x:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:MUTED,autoSkip:true,maxRotation:0,minRotation:0},border:{display:false}},
+  y:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:MUTED},border:{display:false},beginAtZero:true}
+};
 
-// KPIs globais calculados direto da VIS
-function calcKpisGlobais() {
-  const livRow    = getRow('Livros');
-  const pagRow    = getRow('Páginas');
-  const autorRow  = getRow('Autores lidos pela 1º vez');
-  const totalLivros  = vals(livRow,   TODOS_ANOS, '').reduce((a,b)=>a+b, 0);
-  const totalPags    = vals(pagRow,   TODOS_ANOS, '').reduce((a,b)=>a+b, 0);
-  // Soma dos autores novos por ano = total de autores únicos lidos na história
-  // (cada autor só é contado no primeiro ano em que aparece)
-  const totalAutores = vals(autorRow, TODOS_ANOS, '').reduce((a,b)=>a+b, 0);
-  const idSet     = getIdiomas(null);
-  const pSet      = getPaises(null);
-  const notasAcum = subVals(CAT_NOTAS, null);
-  const c5        = notasAcum['5'] || 0;
-  return { totalLivros, totalPags, totalAutores, idiomas: Object.keys(idSet).length, paises: Object.keys(pSet).length, c5 };
-}
-
-// ── Chart factories ───────────────────────────────────────────────
-function mkBar(id, labels, data, horizontal=false) {
-  const el = document.getElementById(id); if (!el) return null;
+function mkBar(id, labels, data, horizontal=false, highlight=true) {
+  const el=document.getElementById(id); if(!el) return null;
+  const bg = highlight
+    ? labels.map((_,i)=> horizontal ? GREEN_LIGHT : (i===labels.length-1 ? GREEN : GREEN_LIGHT))
+    : Array(labels.length).fill(GREEN_LIGHT);
+  const maxVal = Math.max(...data);
   return new Chart(el, {
-    type: 'bar',
-    data: { labels, datasets: [{ data,
-      backgroundColor: labels.map((_,i) => i === labels.length-1 && !horizontal ? GREEN : GREEN_LIGHT),
-      borderRadius: 3, borderSkipped: false
-    }]},
-    options: {
-      maintainAspectRatio: false,
-      indexAxis: horizontal ? 'y' : 'x',
-      plugins: {
-        legend: { display: false },
-        datalabels: {
-          display: true, anchor: 'end', align: horizontal ? 'end' : 'top', clamp: true,
-          color: BLACK, font: { family:'DM Sans', size:10, weight:'500' },
-          formatter: v => v > 0 ? v : '',
-        }
+    type:'bar',
+    data:{labels, datasets:[{data, backgroundColor:bg, borderRadius:3, borderSkipped:false}]},
+    options:{
+      maintainAspectRatio:false, indexAxis:horizontal?'y':'x',
+      layout:{padding:{top:16}},
+      plugins:{
+        legend:{display:false},
+        datalabels:{display:ctx=>ctx.dataset.data[ctx.dataIndex]>0,
+          anchor:'end',align:'top',clamp:true,offset:2,
+          color:BLACK,font:{family:'DM Sans',size:10,weight:'500'},formatter:v=>v>0?v:''}
       },
-      scales: {
-        x: { grid:{color:'#eee',lineWidth:.7}, ticks:{font:{family:'DM Sans',size:10},color:'#666'}, border:{display:false} },
-        y: { grid:{color:'#eee',lineWidth:.7}, ticks:{font:{family:'DM Sans',size:10},color:'#666'}, border:{display:false} },
-      }
+      scales:SC
     }
   });
 }
 
-function mkLine(id, labels, data, fmt) {
-  const el = document.getElementById(id); if (!el) return null;
-  return new Chart(el, {
-    type: 'line',
-    data: { labels, datasets: [{ data,
-      borderColor: GREEN, backgroundColor: GREEN+'22',
-      borderWidth: 2.5, pointBackgroundColor: GREEN,
-      pointBorderColor: WHITE, pointBorderWidth: 2,
-      pointRadius: 5, fill: true, tension: .35
-    }]},
-    options: {
-      maintainAspectRatio: false,
-      plugins: {
-        legend: { display: false },
-        datalabels: {
-          display: true, anchor: 'end', align: 'top',
-          color: BLACK, font: { family:'DM Sans', size:9, weight:'500' },
-          formatter: fmt || (v => v > 0 ? v : ''),
-        }
-      },
-      scales: {
-        x: { grid:{color:'#eee',lineWidth:.7}, ticks:{font:{family:'DM Sans',size:10},color:'#666'}, border:{display:false} },
-        y: { grid:{color:'#eee',lineWidth:.7}, ticks:{font:{family:'DM Sans',size:10},color:'#666'}, border:{display:false}, beginAtZero:true },
-      }
+function mkBarFmt(id, labels, data, fmtFn, highlight=true) {
+  const el=document.getElementById(id); if(!el) return null;
+  const bg = highlight
+    ? labels.map((_,i)=>i===labels.length-1?GREEN:GREEN_LIGHT)
+    : Array(labels.length).fill(GREEN_LIGHT);
+  const maxVal = Math.max(...data);
+  return new Chart(el,{
+    type:'bar',
+    data:{labels,datasets:[{data,backgroundColor:bg,borderRadius:3}]},
+    options:{
+      maintainAspectRatio:false,
+      layout:{padding:{top:16}},
+      plugins:{legend:{display:false},datalabels:{display:ctx=>ctx.dataset.data[ctx.dataIndex]>0,
+          anchor:'end',align:'top',clamp:true,offset:2,
+          color:BLACK,font:{family:'DM Sans',size:10,weight:'500'},formatter:fmtFn||(v=>v>0?v:'')}},
+      scales:SC
     }
   });
 }
 
-// Pizza com generateLabels canônico (decisão #005)
-function mkPie(id, labels, data) {
-  const el = document.getElementById(id); if (!el) return null;
-  return new Chart(el, {
-    type: 'doughnut',
-    data: { labels, datasets: [{ data, backgroundColor: CORES10, borderWidth: 0 }] },
-    options: {
-      maintainAspectRatio: false,
-      layout: { padding: { top: 8, bottom: 8 } },
-      plugins: {
-        legend: {
-          position: 'bottom',
-          labels: {
-            font: { family: 'DM Sans', size: 11 },
-            color: '#333',
-            padding: 12,
-            boxWidth: 12,
-            boxHeight: 12,
-            generateLabels: function(chart) {
-              const d = chart.data;
-              const total = d.datasets[0].data.reduce((a,b) => a + (Number(b)||0), 0);
-              return d.labels.map((label, i) => {
-                const val = Number(d.datasets[0].data[i]) || 0;
-                const pct = total > 0 ? Math.round((val / total) * 100) : 0;
-                return {
-                  text: label + ' (' + pct + '%)',
-                  fillStyle: d.datasets[0].backgroundColor[i],
-                  strokeStyle: d.datasets[0].backgroundColor[i],
-                  lineWidth: 0,
-                  hidden: false,
-                  index: i
-                };
-              });
-            }
-          }
-        },
-        datalabels: {
-          display: ctx => {
-            const data = ctx.dataset.data;
-            const total = data.reduce((a,b) => a + (Number(b)||0), 0);
-            return total > 0 && (Number(data[ctx.dataIndex])||0) / total >= 0.08;
-          },
-          formatter: (v, ctx) => {
-            const total = ctx.dataset.data.reduce((a,b) => a + (Number(b)||0), 0);
-            return total > 0 ? Math.round((Number(v)||0) / total * 100) + '%' : '';
-          },
-          color: WHITE,
-          font: { family: 'DM Sans', size: 11, weight: 'bold' },
-        }
-      }
-    }
+function buildRankList(containerId, labels, data) {
+  const el = document.getElementById(containerId); if (!el) return;
+  const entries = labels.map((l,i)=>[l,data[i]]).filter(([,v])=>v>0);
+  if (!entries.length) { el.innerHTML = '<p style="font-size:.8rem;color:#999;padding:.5rem 0">Sem dados</p>'; return; }
+  const max = entries[0][1] || 1;
+  el.innerHTML = entries.map(([nome,val],i)=>`
+    <div style="margin-bottom:.55rem">
+      <div style="display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:.25rem">
+        <span><span style="color:var(--muted);font-size:.72rem;margin-right:.35rem">${i+1}.</span>${nome}</span>
+        <span style="color:var(--green-dark);font-weight:500">${val}</span>
+      </div>
+      <div style="height:5px;background:var(--border);border-radius:3px;overflow:hidden">
+        <div style="height:100%;background:${i===0?'var(--green)':'var(--green-light)'};border-radius:3px;width:${Math.round(val/max*100)}%"></div>
+      </div>
+    </div>`).join('');
+}
+
+function mkDistCards(containerId, entries) {
+  const el = document.getElementById(containerId); if(!el) return;
+  const filtered = entries.filter(([,v]) => v > 0);
+  if (!filtered.length) { el.innerHTML = '<div style="padding:.5rem 0;font-size:.8rem;color:#999">Sem dados</div>'; return; }
+  const total = filtered.reduce((s,[,v])=>s+v, 0);
+  const max   = filtered[0]?.[1] || 1;
+  // Grid adapta ao número de items: 1 item = span total, 2+ = 2 col
+  const cols = filtered.length === 1 ? '1fr' : '1fr 1fr';
+  el.style.gridTemplateColumns = cols;
+  el.innerHTML = filtered.map(([label, val], i) => {
+    const pct  = total > 0 ? (val/total*100) : 0;
+    const pctDisplay = pct < 1 && pct > 0 ? pct.toFixed(1)+'%' : Math.round(pct)+'%';
+    const barW = Math.round(val/max*100);
+    return `<div class="dist-card">
+      <div class="dist-num">${pctDisplay}</div>
+      <div class="dist-lbl">${label}</div>
+      <div class="dist-track"><div class="dist-fill${i>0?' light':''}" style="width:${barW}%"></div></div>
+    </div>`;
+  }).join('');
+}
+
+let VIS=[], anoCharts={}, leafMap=null;
+
+async function init() {
+  VIS = await fetchCSV(URL_VIS);
+  set('loading-note','');
+  buildSidebarKPIs();
+  buildGerais();
+  buildDiversidade();
+  buildMap();
+  buildFilters();
+  renderAno('todos');
+}
+
+function buildSidebarKPIs() {
+  const livRow  = getRow('Livros');
+  const pagRow  = getRow('Páginas');
+  const autRow  = getRow('Autores lidos pela 1º vez');
+  const total   = vals(livRow,  TODOS_ANOS,'').reduce((a,b)=>a+b,0);
+  const pags    = vals(pagRow,  TODOS_ANOS,'').reduce((a,b)=>a+b,0);
+  const autores = vals(autRow,  TODOS_ANOS,'').reduce((a,b)=>a+b,0);
+  const paises  = Object.keys(getPaises(null)).length;
+  const c5      = subVals(CAT_NOTAS,null)['5']||0;
+  set('s-total',     total>0?total:'—');
+  set('s-paginas',   pags>0?fmt(pags):'—');
+  set('s-autores',   autores>0?autores:'—');
+  set('s-paises',    paises>0?paises:'—');
+  set('s-5estrelas', c5>0?c5:'—');
+
+  const livData = vals(livRow, TODOS_ANOS,'');
+  const anosC   = livData.filter(v=>v>0).length || 1;
+  const medLiv  = Math.round(total/anosC);
+  const medPag  = Math.round(vals(pagRow,TODOS_ANOS,'').reduce((a,b)=>a+b,0)/anosC);
+  const prog = document.getElementById('sb-prog');
+  if (prog) prog.innerHTML=`
+    <div class="prog-row">
+      <div class="prog-meta"><span>Média livros/ano</span><b>${medLiv}</b></div>
+      <div class="prog-track"><div class="prog-fill" style="width:${Math.min(medLiv/80*100,100)}%"></div></div>
+    </div>
+    <div class="prog-row">
+      <div class="prog-meta"><span>Média páginas/ano</span><b>${medPag.toLocaleString('pt-BR')}</b></div>
+      <div class="prog-track"><div class="prog-fill" style="width:${Math.min(medPag/8000*100,100)}%"></div></div>
+    </div>`;
+}
+
+function buildGerais() {
+  const livRow = getRow('Livros');
+  const pagRow = getRow('Páginas');
+  const autRow = getRow('Autores lidos pela 1º vez');
+  const hl = TODOS_ANOS.map((_,i)=>i===TODOS_ANOS.length-1?GREEN:GREEN_LIGHT);
+  const maxData = (row) => Math.max(...vals(row, TODOS_ANOS,''));
+
+  function mkBarHL(id, row, fmtFn) {
+    const el=document.getElementById(id); if(!el||!row) return;
+    const data = vals(row,TODOS_ANOS,'');
+    new Chart(el,{type:'bar',
+      data:{labels:TODOS_ANOS,datasets:[{data,backgroundColor:hl,borderRadius:3}]},
+      options:{maintainAspectRatio:false,layout:{padding:{top:18}},
+        plugins:{legend:{display:false},datalabels:{display:ctx=>ctx.dataset.data[ctx.dataIndex]>0,
+          anchor:'end',align:'top',clamp:true,offset:2,
+          color:BLACK,font:{family:'DM Sans',size:10,weight:'500'},formatter:fmtFn||(v=>v>0?v:'')}},
+        scales:SC}});
+  }
+  mkBarHL('c-anos',    livRow);
+  mkBarHL('c-paginas', pagRow, v=>v>0?v.toLocaleString('pt-BR'):'');
+  mkBarHL('c-novos',   autRow);
+
+  // Gêneros — rank-list
+  const genE = topN(getGenLivro(null), 20);
+  buildRankList('rank-generos', genE.map(e=>e[0]), genE.map(e=>e[1]));
+
+  // Idioma — cards
+  const idTop = topN(getIdiomas(null), 4);
+  mkDistCards('dist-idioma', idTop);
+
+  // Avaliações — gráfico de linha
+  const notasD = subVals(CAT_NOTAS,null);
+  (function(){
+    const el=document.getElementById('c-stars'); if(!el) return;
+    const data = CAT_NOTAS.map(k=>notasD[k]||0);
+    new Chart(el,{type:'line',
+      data:{labels:CAT_NOTAS,datasets:[{data,borderColor:GREEN,backgroundColor:GREEN+'22',
+        borderWidth:2.5,pointRadius:5,pointBackgroundColor:GREEN,fill:true,tension:.35}]},
+      options:{maintainAspectRatio:false,layout:{padding:{top:22}},
+  const pTop = topN(getPaises(null),10);
+  buildRankList('rank-paises', pTop.map(e=>e[0]), pTop.map(e=>e[1]));
+}
+
+function buildDiversidade() {
+  const livRow  = getRow('Livros');
+  const lgbtRow = getRow('Protagonistas LGBTQIA+');
+  const etnRow  = getRow('Representatividade etnica/racial');
+  const ownRow  = getRow('#OwnVoices');
+  const total   = vals(livRow, TODOS_ANOS,'').reduce((a,b)=>a+b,0);
+  const lgbtTot = vals(lgbtRow,TODOS_ANOS,'').reduce((a,b)=>a+b,0);
+  const etnTot  = vals(etnRow, TODOS_ANOS,'').reduce((a,b)=>a+b,0);
+  const ownTot  = vals(ownRow, TODOS_ANOS,'').reduce((a,b)=>a+b,0);
+  const pct = (v,t) => t>0 ? Math.round(v/t*100)+'%' : '—';
+  const setPct = (id,v,t) => { const el=document.getElementById(id); if(el&&t>0) el.style.width=Math.round(v/t*100)+'%'; };
+  set('d-lgbtq',     pct(lgbtTot,total)); set('d-lgbtq-sub', lgbtTot+' livros'); setPct('d-lgbtq-fill',lgbtTot,total);
+  set('d-etnia',     pct(etnTot, total)); set('d-etnia-sub', etnTot+' livros');  setPct('d-etnia-fill',etnTot, total);
+  set('d-own',       pct(ownTot, total)); set('d-own-sub',   ownTot+' livros');  setPct('d-own-fill',  ownTot, total);
+
+  const hl = TODOS_ANOS.map((_,i)=>i===TODOS_ANOS.length-1?GREEN:GREEN_LIGHT);
+  function mkD(id, row) {
+    const el=document.getElementById(id); if(!el||!row) return;
+    const data = vals(row,TODOS_ANOS,'');
+    new Chart(el,{type:'bar',
+      data:{labels:TODOS_ANOS,datasets:[{data,backgroundColor:hl,borderRadius:3}]},
+      options:{maintainAspectRatio:false,layout:{padding:{top:22}},
+        plugins:{legend:{display:false},datalabels:{display:ctx=>ctx.dataset.data[ctx.dataIndex]>0,
+          anchor:'end',align:'top',clamp:true,offset:2,
+          color:BLACK,font:{family:'DM Sans',size:9,weight:'500'},formatter:v=>v>0?v:''}},
+        scales:SC}});
+  }
+  mkD('c-lgbtq', lgbtRow);
+  mkD('c-etnia', etnRow);
+  mkD('c-own',   ownRow);
+}
+
+function buildMap() {
+  if (leafMap) return;
+  leafMap = L.map('hist-map',{scrollWheelZoom:false}).setView([20,10],2);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+    {attribution:'© OpenStreetMap © CARTO',maxZoom:19}).addTo(leafMap);
+  Object.entries(getPaises(null)).forEach(([p,v])=>{
+    const c=COORDS[p]; if(!c) return;
+    L.circleMarker(c,{radius:Math.max(5,Math.sqrt(v)*3.5),
+      fillColor:GREEN,color:GREEN_DARK,weight:1.5,opacity:.9,fillOpacity:.7})
+     .bindPopup('<b>'+p+'</b><br>'+v+' livro'+(v>1?'s':'')).addTo(leafMap);
   });
 }
 
-// ── Hamburger ─────────────────────────────────────────────────────
+function buildFilters() {
+  const sb = document.getElementById('sb-anos');
+  const mn = document.getElementById('main-year-filter');
+
+  function selectAno(ano) {
+    document.querySelectorAll('.fpill').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.year-btn').forEach(x=>x.classList.remove('selected'));
+    document.querySelectorAll('[data-ano="'+ano+'"]').forEach(x=>{
+      x.classList.add(x.classList.contains('fpill') ? 'active' : 'selected');
+    });
+    renderAno(ano);
+  }
+
+  function mkSbBtn(label, ano) {
+    const b=document.createElement('button');
+    b.className='fpill'+(label==='Todos'?' active':'');
+    b.textContent=label; b.dataset.ano=ano;
+    b.onclick=()=>{ selectAno(ano); if(ano!=='todos') goTo('porano'); };
+    sb.appendChild(b);
+  }
+  function mkMnBtn(label, ano) {
+    const b=document.createElement('button');
+    b.className='year-btn'+(label==='Todos'?' selected':'');
+    b.textContent=label; b.dataset.ano=ano;
+    b.onclick=()=>selectAno(ano);
+    mn.appendChild(b);
+  }
+
+  mkSbBtn('Todos','todos'); mkMnBtn('Todos','todos');
+  [...TODOS_ANOS].reverse().forEach(a=>{ mkSbBtn(a,a); mkMnBtn(a,a); });
+}
+
+function renderAno(ano) {
+  Object.values(anoCharts).forEach(c=>{try{c.destroy();}catch(e){}});
+  anoCharts={};
+
+  const isAll = ano==='todos';
+  const aFiltro = isAll ? null : ano;
+  document.querySelectorAll('.lockable').forEach(el => el.classList.toggle('year-locked', !isAll));
+  set('ano-sub-label', isAll ? 'Todos os anos' : ano);
+  set('ac-title-cor', 'Cor dos autores'+(isAll?'':' — '+ano));
+  set('ac-title-ga',  'Gênero dos autores'+(isAll?'':' — '+ano));
+
+  const livRow=getRow('Livros'), pagRow=getRow('Páginas'), autRow=getRow('Autores lidos pela 1º vez');
+  const anos = isAll ? TODOS_ANOS : [ano];
+  const livTot  = vals(livRow,  anos,'').reduce((a,b)=>a+b,0);
+  const pagTot  = vals(pagRow,  anos,'').reduce((a,b)=>a+b,0);
+  const autTot  = vals(autRow,  anos,'').reduce((a,b)=>a+b,0);
+  const idSet   = getIdiomas(aFiltro);
+  const pSet    = getPaises(aFiltro);
+  const notasAn = subVals(CAT_NOTAS, aFiltro);
+  const c5an    = notasAn['5']||0;
+  set('a-livros',    livTot>0?livTot:'—');
+  set('a-paginas',   pagTot>0?fmt(pagTot):'—');
+  set('a-autores',   autTot>0?autTot:'—');
+  set('a-idiomas',   Object.keys(idSet).length>0?Object.keys(idSet).length:'—');
+  set('a-paises',    Object.keys(pSet).length>0?Object.keys(pSet).length:'—');
+  set('a-5estrelas', c5an>0?c5an:'—');
+
+  const corD = subVals(CAT_COR, aFiltro);
+  const corE = Object.entries(corD).filter(e=>e[1]>0).sort((a,b)=>b[1]-a[1]);
+  mkDistCards('ac-cor', corE);
+
+  const gaD = subVals(CAT_GENERO, aFiltro);
+  const gaE = Object.entries(gaD).filter(e=>e[1]>0).sort((a,b)=>b[1]-a[1]);
+  mkDistCards('ac-ga', gaE);
+
+  const idTop = topN(getIdiomas(aFiltro), 4);
+  mkDistCards('ac-idioma', idTop);
+
+  const glE = topN(getGenLivro(aFiltro), 999);
+  buildRankList('ac-generos', glE.map(e=>e[0]), glE.map(e=>e[1]));
+
+  const pE = topN(getPaises(aFiltro), 999);
+  buildRankList('ac-paises-ano', pE.map(e=>e[0]), pE.map(e=>e[1]));
+
+  const notaD = subVals(CAT_NOTAS, aFiltro);
+  (function(){
+    const el=document.getElementById('ac-stars'); if(!el) return;
+    const data = CAT_NOTAS.map(k=>notaD[k]||0);
+    anoCharts.stars = new Chart(el,{type:'line',
+      data:{labels:CAT_NOTAS,datasets:[{data,borderColor:GREEN,backgroundColor:GREEN+'22',
+        borderWidth:2.5,pointRadius:5,pointBackgroundColor:GREEN,fill:true,tension:.35}]},
+      options:{maintainAspectRatio:false,layout:{padding:{top:22}},
+        plugins:{legend:{display:false},datalabels:{display:ctx=>ctx.dataset.data[ctx.dataIndex]>0,
+          anchor:'end',align:'top',color:BLACK,font:{family:'DM Sans',size:10,weight:'500'},
+          formatter:v=>v>0?v:'',clamp:true}},
+        scales:SC}});
+  })();
+}
+
+// hamburger
 (function(){
   const btn=document.getElementById('nav-hamburger'), menu=document.getElementById('nav-mobile');
   if(!btn||!menu) return;
   btn.addEventListener('click',()=>{
     const open=menu.classList.toggle('open'), bars=btn.querySelectorAll('span');
-    bars[0].style.transform = open ? 'translateY(7px) rotate(45deg)' : '';
-    bars[1].style.opacity   = open ? '0' : '';
-    bars[2].style.transform = open ? 'translateY(-7px) rotate(-45deg)' : '';
+    bars[0].style.transform=open?'translateY(7px) rotate(45deg)':'';
+    bars[1].style.opacity  =open?'0':'';
+    bars[2].style.transform=open?'translateY(-7px) rotate(-45deg)':'';
   });
   menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
     menu.classList.remove('open');
-    btn.querySelectorAll('span').forEach(s=>{ s.style.transform=''; s.style.opacity=''; });
+    btn.querySelectorAll('span').forEach(s=>{s.style.transform='';s.style.opacity='';});
   }));
 })();
-
-// ── State ─────────────────────────────────────────────────────────
-let VIS=[], anoCharts={}, leafMap=null;
-
-// ── Init ──────────────────────────────────────────────────────────
-async function init() {
-  VIS = await fetchCSV(URL_VIS);
-  console.log('VIS linhas:', VIS.length);
-  buildStats();
-  buildGerais();
-  buildMap();
-  buildYearFilter();
-  renderAno('todos');
-}
-
-// ── Stats globais ─────────────────────────────────────────────────
-function buildStats() {
-  const k = calcKpisGlobais();
-  set('stat-total',     k.totalLivros > 0 ? k.totalLivros : '—');
-  set('stat-paginas',   k.totalPags   > 0 ? fmt(k.totalPags) : '—');
-  set('stat-idiomas',   k.idiomas     > 0 ? k.idiomas : '—');
-  set('stat-autores',   k.totalAutores > 0 ? k.totalAutores : '—');
-  set('stat-paises',    k.paises      > 0 ? k.paises : '—');
-  set('stat-5estrelas', k.c5          > 0 ? k.c5 : '—');
-}
-
-function set(id, v) { const el=document.getElementById(id); if(el) el.textContent=v; }
-function fmt(n) { return n>0 ? Number(n).toLocaleString('pt-BR') : '—'; }
-
-// ── Visão geral ───────────────────────────────────────────────────
-function buildGerais() {
-  const hl = TODOS_ANOS.map(a => a==='2026' ? GREEN : GREEN_LIGHT);
-  function mkBarVis(id, row, anos, fmtFn) {
-    const el=document.getElementById(id); if(!el) return;
-    const data = vals(row, anos, '');
-    new Chart(el, {
-      type:'bar',
-      data:{ labels:anos, datasets:[{data, backgroundColor:hl.slice(-anos.length), borderRadius:3}] },
-      options:{
-        maintainAspectRatio:false,
-        plugins:{
-          legend:{display:false},
-          datalabels:{
-            display:true, anchor:'end', align:'top', clamp:true,
-            color:BLACK, font:{family:'DM Sans',size:10,weight:'500'},
-            formatter: fmtFn || (v=>v>0?v:'')
-          }
-        },
-        scales:{
-          x:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:'#666'},border:{display:false}},
-          y:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:'#666'},border:{display:false}},
-        }
-      }
-    });
-  }
-  mkBarVis('c-anos',    getRow('Livros'),                           TODOS_ANOS);
-  mkBarVis('c-paginas', getRow('Páginas'),                          TODOS_ANOS, v=>v>0?v.toLocaleString('pt-BR'):'');
-  mkBarVis('c-novos',   getRow('Autores lidos pela 1º vez'),        TODOS_ANOS);
-  mkBarVis('c-lgbtq',   getRow('Protagonistas LGBTQIA+'),           TODOS_ANOS);
-  mkBarVis('c-etnia',   getRow('Representatividade etnica/racial'), TODOS_ANOS);
-  mkBarVis('c-own',     getRow('#OwnVoices'),                       TODOS_ANOS);
-}
-
-// ── Mapa ──────────────────────────────────────────────────────────
-function buildMap() {
-  if (leafMap) return;
-  leafMap = L.map('hist-map',{scrollWheelZoom:false}).setView([20,10],2);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{
-    attribution:'© OpenStreetMap contributors © CARTO', maxZoom:19
-  }).addTo(leafMap);
-  Object.entries(getPaises(null)).forEach(([p,v]) => {
-    const c=COORDS[p]; if(!c) return;
-    L.circleMarker(c,{
-      radius:Math.max(5,Math.sqrt(v)*3.5),
-      fillColor:GREEN, color:GREEN_LIGHT,
-      weight:1.5, opacity:.9, fillOpacity:.7
-    }).bindPopup(`<b>${p}</b><br>${v} livro${v>1?'s':''}`).addTo(leafMap);
-  });
-}
-
-// ── Filtro de anos ────────────────────────────────────────────────
-function buildYearFilter() {
-  const wrap=document.getElementById('year-filter'); wrap.innerHTML='';
-  function mkBtn(label, ano) {
-    const b=document.createElement('button');
-    b.className='year-btn'+(label==='Todos'?' selected':'');
-    b.textContent=label;
-    b.onclick=()=>{
-      document.querySelectorAll('.year-btn').forEach(x=>x.classList.remove('selected'));
-      b.classList.add('selected');
-      renderAno(ano);
-    };
-    wrap.appendChild(b);
-  }
-  mkBtn('Todos','todos');
-  ANOS_FILTRO.slice().reverse().forEach(a => mkBtn(a,a));
-}
-
-// ── Render ano ────────────────────────────────────────────────────
-function renderAno(ano) {
-  Object.values(anoCharts).forEach(c=>{ try{c.destroy();}catch(e){} });
-  anoCharts={};
-
-  const anos = ano==='todos' ? TODOS_ANOS : [ano];
-
-  const livRow = getRow('Livros'), pagRow = getRow('Páginas');
-  const livTot = vals(livRow, anos, '').reduce((a,b)=>a+b, 0);
-  const pagTot = vals(pagRow, anos, '').reduce((a,b)=>a+b, 0);
-  const idSet  = getIdiomas(ano==='todos' ? null : ano);
-  const pSet   = getPaises(ano==='todos' ? null : ano);
-  const notasD = subVals(CAT_NOTAS, ano==='todos' ? null : ano);
-  const c5     = notasD['5'] || 0;
-
-  const autorRow = getRow('Autores lidos pela 1º vez');
-  const autorTot = vals(autorRow, anos, '').reduce((a,b)=>a+b, 0);
-
-  set('a-livros',    livTot > 0 ? livTot : '—');
-  set('a-paginas',   pagTot > 0 ? fmt(pagTot) : '—');
-  set('a-idiomas',   Object.keys(idSet).length > 0 ? Object.keys(idSet).length : '—');
-  set('a-autores',   autorTot > 0 ? autorTot : '—');
-  set('a-paises',    Object.keys(pSet).length  > 0 ? Object.keys(pSet).length : '—');
-  set('a-5estrelas', c5 > 0 ? c5 : '—');
-
-  const t1=document.getElementById('chart-title-cor');
-  const t2=document.getElementById('chart-title-genero');
-  if(t1) t1.textContent = ano==='todos' ? 'Evolução — livros por ano'  : 'Cor do escritor';
-  if(t2) t2.textContent = ano==='todos' ? 'Evolução — páginas lidas'   : 'Gênero do escritor';
-
-  if (ano === 'todos') {
-    anoCharts['ac-cor'] = mkLine('ac-cor', TODOS_ANOS, vals(getRow('Livros'),  TODOS_ANOS, ''));
-    anoCharts['ac-ga']  = mkLine('ac-ga',  TODOS_ANOS, vals(getRow('Páginas'), TODOS_ANOS, ''),
-      v => v>0 ? v.toLocaleString('pt-BR') : '');
-
-    const idE = topN(idSet, 10);
-    anoCharts['ac-idioma'] = mkPie('ac-idioma', idE.map(e=>e[0]), idE.map(e=>e[1]));
-
-    const genE = topN(getGenLivro(null), 10);
-    anoCharts['ac-generos'] = mkBar('ac-generos', genE.map(e=>e[0]), genE.map(e=>e[1]), true);
-
-    const pE = topN(pSet, 10);
-    anoCharts['ac-paises-ano'] = mkBar('ac-paises-ano', pE.map(e=>e[0]), pE.map(e=>e[1]), true);
-
-    const notaAcum = subVals(CAT_NOTAS, null);
-    anoCharts['ac-stars'] = mkBar('ac-stars', CAT_NOTAS, CAT_NOTAS.map(k=>notaAcum[k]||0));
-
-  } else {
-    const corD = subVals(CAT_COR, ano);
-    const corE = Object.entries(corD).filter(e=>e[1]>0);
-    if (corE.length) anoCharts['ac-cor'] = mkPie('ac-cor', corE.map(e=>e[0]), corE.map(e=>e[1]));
-
-    const genD = subVals(CAT_GENERO, ano);
-    const genE0 = Object.entries(genD).filter(e=>e[1]>0);
-    if (genE0.length) anoCharts['ac-ga'] = mkPie('ac-ga', genE0.map(e=>e[0]), genE0.map(e=>e[1]));
-
-    const idE = topN(idSet, 10);
-    if (idE.length) anoCharts['ac-idioma'] = mkPie('ac-idioma', idE.map(e=>e[0]), idE.map(e=>e[1]));
-
-    const glE = topN(getGenLivro(ano), 10);
-    if (glE.length) anoCharts['ac-generos'] = mkBar('ac-generos', glE.map(e=>e[0]), glE.map(e=>e[1]), true);
-
-    const pE = topN(pSet, 10);
-    if (pE.length) anoCharts['ac-paises-ano'] = mkBar('ac-paises-ano', pE.map(e=>e[0]), pE.map(e=>e[1]), true);
-
-    const notaD = subVals(CAT_NOTAS, ano);
-    anoCharts['ac-stars'] = mkBar('ac-stars', CAT_NOTAS, CAT_NOTAS.map(k=>notaD[k]||0));
-  }
-}
 
 init();
 </script>
