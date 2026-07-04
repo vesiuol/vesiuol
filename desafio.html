@@ -60,10 +60,22 @@ nav ul li a.active {
 
 /* ── LAYOUT 2 COLUNAS ── */
 .page-wrap {
+  position: relative;
   display: grid;
   grid-template-columns: var(--sidebar-w) 1fr;
   align-items: start;
   min-height: calc(100vh - var(--header-h) - 44px);
+}
+/* Fundo + linha divisória da sidebar estendidos até o fim do conteúdo real da página —
+   a sidebar em si é sticky com altura própria (viewport), então seu fundo não alcançava
+   o fim do .page-wrap quando o conteúdo principal era mais alto que a tela. */
+.page-wrap::before {
+  content: '';
+  position: absolute; top: 0; left: 0;
+  width: var(--sidebar-w); height: 100%;
+  background: var(--surface);
+  border-right: 1.5px solid var(--border);
+  z-index: 0;
 }
 
 /* Intro mobile — só aparece no mobile, antes da sidebar/dados */
@@ -71,8 +83,8 @@ nav ul li a.active {
 
 /* ── SIDEBAR ── */
 .sidebar {
-  border-right: 1.5px solid var(--border);
-  background: var(--surface);
+  background: transparent;
+  border-right: none;
   position: sticky;
   top: var(--header-h);
   max-height: calc(100vh - var(--header-h));
@@ -82,6 +94,7 @@ nav ul li a.active {
   scrollbar-width: thin;
   scrollbar-color: var(--border) transparent;
   align-self: start;
+  z-index: 1;
 }
 
 /* bloco label */
@@ -425,7 +438,8 @@ footer {
 /* ── RESPONSIVE ── */
 @media (max-width: 900px) {
   .page-wrap { grid-template-columns: 1fr; }
-  .sidebar { position: static; height: auto; max-height: none; overflow: visible; width: 100%; min-width: 0; border-right: none; border-bottom: 1.5px solid var(--border); }
+  .page-wrap::before { display: none; }
+  .sidebar { position: static; height: auto; max-height: none; overflow: visible; width: 100%; min-width: 0; background: var(--surface); border-right: none; border-bottom: 1.5px solid var(--border); }
   .main { min-width: 0; }
   .kpi-grid { min-width: 0; }
   .kpi-card { min-width: 0; overflow: hidden; }
