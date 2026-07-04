@@ -829,6 +829,13 @@ function buildGerais() {
       data:{labels:CAT_NOTAS,datasets:[{data,borderColor:GREEN,backgroundColor:GREEN+'22',
         borderWidth:2.5,pointRadius:5,pointBackgroundColor:GREEN,fill:true,tension:.35}]},
       options:{maintainAspectRatio:false,layout:{padding:{top:22}},
+        plugins:{legend:{display:false},datalabels:{display:ctx=>ctx.dataset.data[ctx.dataIndex]>0,
+          anchor:'end',align:'top',color:BLACK,font:{family:'DM Sans',size:10,weight:'500'},
+          formatter:v=>v>0?v:'',clamp:true}},
+        scales:SC}});
+  })();
+
+  // Países — rank-list
   const pTop = topN(getPaises(null),10);
   buildRankList('rank-paises', pTop.map(e=>e[0]), pTop.map(e=>e[1]));
 }
