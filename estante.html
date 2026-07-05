@@ -463,7 +463,7 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
         </div>
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Países dos autores</span></div>
-          <div class="chart-body" style="height:280px;overflow-y:auto"><div class="rank-list" id="rank-paises"></div></div>
+          <div class="chart-body" id="paises-chart-body" style="overflow-y:auto"><div class="rank-list" id="rank-paises"></div></div>
         </div>
       </div>
 
@@ -689,6 +689,24 @@ async function init(){
 
   const sub=document.getElementById('dados-sub');
   if(sub) sub.textContent=total+' livros catalogados';
+
+  // Governança 2026-07-05: box "Países dos autores" não pode ser mais comprido que o de
+  // "Distribuição de notas". Em vez de travar uma altura fixa "no olho" (ex.: 280px), medimos
+  // a altura real renderizada do box de notas (sem alterá-lo) e aplicamos essa mesma altura no
+  // box de países — garante alinhamento exato mesmo se o gráfico de notas mudar de tamanho.
+  function syncPaisesHeightToNotas(){
+    const notasBody  = document.getElementById('c-notas-estante')?.closest('.chart-body');
+    const paisesBody = document.getElementById('paises-chart-body');
+    if(notasBody && paisesBody){
+      paisesBody.style.height = notasBody.getBoundingClientRect().height + 'px';
+    }
+  }
+  requestAnimationFrame(()=>requestAnimationFrame(syncPaisesHeightToNotas));
+  let paisesResizeTimer;
+  window.addEventListener('resize', ()=>{
+    clearTimeout(paisesResizeTimer);
+    paisesResizeTimer=setTimeout(syncPaisesHeightToNotas,150);
+  });
 
   buildMap(allBooks);
   buildFilters();
