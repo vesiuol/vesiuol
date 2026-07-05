@@ -5,8 +5,11 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>2026 — Meus Livros</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='38' fill='%23849974'/></svg>">
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -228,7 +231,7 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
   <div class="intro-eyebrow">Leituras de 2026</div>
   <h2 class="intro-headline"><span class="intro-headline-band">O que li, aprendi e descobri este ano</span></h2>
   <p class="intro-body">
-    A parte legal de acompanhar os dados das minhas leituras ao longo do ano é conseguir perceber se estou <strong>evoluindo no quesito diversidade</strong> — explorando novos gêneros, autores e países — e até mesmo se estou tendo boas leituras ou apenas passando por elas.
+    A parte legal de acompanhar os dados das minhas leituras ao longo do ano é conseguir perceber se estou evoluindo no quesito diversidade — explorando novos gêneros, autores e países — e até mesmo se estou tendo boas leituras ou apenas passando por elas.
   </p>
 </div>
 
@@ -241,31 +244,31 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
     <div>
       <div class="kpi-grid">
         <div class="kpi-card accent">
-          <div class="kpi-num">12</div>
+          <div class="kpi-num" id="kpi-lidos">—</div>
           <div class="kpi-lbl">livros lidos</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-num">40</div>
+          <div class="kpi-num" id="kpi-meta">—</div>
           <div class="kpi-lbl">meta do ano</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-num">30%</div>
+          <div class="kpi-num" id="kpi-pct">—</div>
           <div class="kpi-lbl">da meta concluída</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-num">3.241</div>
+          <div class="kpi-num" id="kpi-paginas">—</div>
           <div class="kpi-lbl">páginas lidas</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-num">42h</div>
+          <div class="kpi-num" id="kpi-horas">—</div>
           <div class="kpi-lbl">horas ouvidas</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-num">8</div>
+          <div class="kpi-num" id="kpi-autores-novos">—</div>
           <div class="kpi-lbl">autores novos</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-num">7</div>
+          <div class="kpi-num" id="kpi-paises">—</div>
           <div class="kpi-lbl">países</div>
         </div>
       </div>
@@ -275,8 +278,8 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
     <div class="prog-block">
       <div class="sb-label">Progresso da meta</div>
       <div>
-        <div class="prog-meta"><span>Lidos</span><b>12 / 40</b></div>
-        <div class="prog-track"><div class="prog-fill" style="width:30%"></div></div>
+        <div class="prog-meta"><span>Lidos</span><b id="prog-lidos-txt">— / —</b></div>
+        <div class="prog-track"><div class="prog-fill" id="prog-lidos-fill" style="width:0%"></div></div>
       </div>
     </div>
 
@@ -284,10 +287,10 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
     <div>
       <div class="sb-label">Status atual</div>
       <div class="meta-stats">
-        <div class="meta-row"><span class="meta-lbl">Lidos</span><span class="meta-val highlight">12</span></div>
-        <div class="meta-row"><span class="meta-lbl">Lendo agora</span><span class="meta-val">2</span></div>
-        <div class="meta-row"><span class="meta-lbl">Não lidos</span><span class="meta-val">26</span></div>
-        <div class="meta-row"><span class="meta-lbl">Gênero mais lido</span><span class="meta-val" style="font-size:.85rem;">Ficção</span></div>
+        <div class="meta-row"><span class="meta-lbl">Lidos</span><span class="meta-val highlight" id="st-lidos">—</span></div>
+        <div class="meta-row"><span class="meta-lbl">Lendo agora</span><span class="meta-val" id="st-lendo">—</span></div>
+        <div class="meta-row"><span class="meta-lbl">Não lidos</span><span class="meta-val" id="st-naolidos">—</span></div>
+        <div class="meta-row"><span class="meta-lbl">Gênero mais lido</span><span class="meta-val" id="st-genero" style="font-size:.85rem;">—</span></div>
       </div>
     </div>
 
@@ -322,7 +325,7 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
       <div class="intro-eyebrow">Leituras de 2026</div>
       <h2 class="intro-headline"><span class="intro-headline-band">O que li, aprendi e descobri este ano</span></h2>
       <p class="intro-body">
-        A parte legal de acompanhar os dados das minhas leituras ao longo do ano é conseguir perceber se estou <strong>evoluindo no quesito diversidade</strong> — explorando novos gêneros, autores e países — e até mesmo se estou tendo boas leituras ou apenas passando por elas.
+        A parte legal de acompanhar os dados das minhas leituras ao longo do ano é conseguir perceber se estou evoluindo no quesito diversidade — explorando novos gêneros, autores e países — e até mesmo se estou tendo boas leituras ou apenas passando por elas.
       </p>
     </section>
 
@@ -336,33 +339,33 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
 
       <!-- Grid texto -->
       <div class="perfil-text-grid">
-        <div class="ptg-cell"><div class="ptg-label">Gênero mais lido</div><div class="ptg-val">Ficção contemp.</div><div class="ptg-sub">4 livros</div></div>
-        <div class="ptg-cell"><div class="ptg-label">Quem escreve</div><div class="ptg-val">Feminino</div><div class="ptg-sub">8 de 12 livros</div></div>
-        <div class="ptg-cell"><div class="ptg-label">Idioma mais lido</div><div class="ptg-val">Inglês</div><div class="ptg-sub">idioma original</div></div>
-        <div class="ptg-cell"><div class="ptg-label">Formato</div><div class="ptg-val">Físico</div><div class="ptg-sub">maioria</div></div>
-        <div class="ptg-cell"><div class="ptg-label">Faixa etária</div><div class="ptg-val">Adulto</div><div class="ptg-sub">público principal</div></div>
-        <div class="ptg-cell"><div class="ptg-label">Nota média</div><div class="ptg-val">4.1 ★</div><div class="ptg-sub">de 5 estrelas</div></div>
+        <div class="ptg-cell"><div class="ptg-label">Gênero mais lido</div><div class="ptg-val" id="pg-genero">—</div><div class="ptg-sub" id="pg-genero-sub">—</div></div>
+        <div class="ptg-cell"><div class="ptg-label">Quem escreve</div><div class="ptg-val" id="pg-autorgen">—</div><div class="ptg-sub" id="pg-autorgen-sub">—</div></div>
+        <div class="ptg-cell"><div class="ptg-label">Idioma mais lido</div><div class="ptg-val" id="pg-idioma">—</div><div class="ptg-sub">idioma original</div></div>
+        <div class="ptg-cell"><div class="ptg-label">Formato</div><div class="ptg-val" id="pg-formato">—</div><div class="ptg-sub">maioria</div></div>
+        <div class="ptg-cell"><div class="ptg-label">Faixa etária</div><div class="ptg-val" id="pg-faixa">—</div><div class="ptg-sub">público principal</div></div>
+        <div class="ptg-cell"><div class="ptg-label">Nota média</div><div class="ptg-val" id="pg-nota">—</div><div class="ptg-sub">de 5 estrelas</div></div>
       </div>
 
       <!-- Diversidade cards -->
       <div class="div-cards">
         <div class="div-card">
-          <div class="div-num">42%</div>
+          <div class="div-num" id="dc-lgbtq">—</div>
           <div class="div-lbl">Protagonista LGBTQ+</div>
-          <div class="div-sub">de 12 livros lidos</div>
-          <div class="div-track"><div class="div-fill" style="width:42%"></div></div>
+          <div class="div-sub" id="dc-lgbtq-sub">—</div>
+          <div class="div-track"><div class="div-fill" id="dc-lgbtq-bar" style="width:0%"></div></div>
         </div>
         <div class="div-card">
-          <div class="div-num">58%</div>
+          <div class="div-num" id="dc-etnia">—</div>
           <div class="div-lbl">Diversidade étnica</div>
-          <div class="div-sub">de 12 livros lidos</div>
-          <div class="div-track"><div class="div-fill" style="width:58%"></div></div>
+          <div class="div-sub" id="dc-etnia-sub">—</div>
+          <div class="div-track"><div class="div-fill" id="dc-etnia-bar" style="width:0%"></div></div>
         </div>
         <div class="div-card">
-          <div class="div-num">67%</div>
+          <div class="div-num" id="dc-own">—</div>
           <div class="div-lbl">#OwnVoices</div>
-          <div class="div-sub">de 12 livros lidos</div>
-          <div class="div-track"><div class="div-fill" style="width:67%"></div></div>
+          <div class="div-sub" id="dc-own-sub">—</div>
+          <div class="div-track"><div class="div-fill" id="dc-own-bar" style="width:0%"></div></div>
         </div>
       </div>
 
@@ -371,23 +374,23 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Gêneros literários</span></div>
           <div class="chart-body">
-            <div class="rank-list">
-              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">01</span>Ficção contemporânea</span><span class="rank-val">4</span></div><div class="rank-track"><div class="rank-fill" style="width:100%"></div></div></div>
-              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">02</span>Não-ficção</span><span class="rank-val">3</span></div><div class="rank-track"><div class="rank-fill light" style="width:75%"></div></div></div>
-              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">03</span>Ficção histórica</span><span class="rank-val">2</span></div><div class="rank-track"><div class="rank-fill light" style="width:50%"></div></div></div>
-              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">04</span>Fantasia</span><span class="rank-val">2</span></div><div class="rank-track"><div class="rank-fill light" style="width:50%"></div></div></div>
-              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">05</span>Poesia</span><span class="rank-val">1</span></div><div class="rank-track"><div class="rank-fill light" style="width:25%"></div></div></div>
+            <div class="rank-list" id="rank-generos">
+              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">1.</span>Ficção contemporânea</span><span class="rank-val">4</span></div><div class="rank-track"><div class="rank-fill" style="width:100%"></div></div></div>
+              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">2.</span>Não-ficção</span><span class="rank-val">3</span></div><div class="rank-track"><div class="rank-fill light" style="width:75%"></div></div></div>
+              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">3.</span>Ficção histórica</span><span class="rank-val">2</span></div><div class="rank-track"><div class="rank-fill light" style="width:50%"></div></div></div>
+              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">4.</span>Fantasia</span><span class="rank-val">2</span></div><div class="rank-track"><div class="rank-fill light" style="width:50%"></div></div></div>
+              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">5.</span>Poesia</span><span class="rank-val">1</span></div><div class="rank-track"><div class="rank-fill light" style="width:25%"></div></div></div>
             </div>
           </div>
         </div>
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Por que li?</span></div>
           <div class="chart-body">
-            <div class="rank-list">
-              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">01</span>Curiosidade pessoal</span><span class="rank-val">5</span></div><div class="rank-track"><div class="rank-fill" style="width:100%"></div></div></div>
-              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">02</span>Indicação</span><span class="rank-val">4</span></div><div class="rank-track"><div class="rank-fill light" style="width:80%"></div></div></div>
-              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">03</span>Desafio LPM</span><span class="rank-val">2</span></div><div class="rank-track"><div class="rank-fill light" style="width:40%"></div></div></div>
-              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">04</span>Lista do ano</span><span class="rank-val">1</span></div><div class="rank-track"><div class="rank-fill light" style="width:20%"></div></div></div>
+            <div class="rank-list" id="rank-porque">
+              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">1.</span>Curiosidade pessoal</span><span class="rank-val">5</span></div><div class="rank-track"><div class="rank-fill" style="width:100%"></div></div></div>
+              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">2.</span>Indicação</span><span class="rank-val">4</span></div><div class="rank-track"><div class="rank-fill light" style="width:80%"></div></div></div>
+              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">3.</span>Desafio LPM</span><span class="rank-val">2</span></div><div class="rank-track"><div class="rank-fill light" style="width:40%"></div></div></div>
+              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">4.</span>Lista do ano</span><span class="rank-val">1</span></div><div class="rank-track"><div class="rank-fill light" style="width:20%"></div></div></div>
             </div>
           </div>
         </div>
@@ -402,11 +405,11 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Origem do livro</span></div>
           <div class="chart-body">
-            <div class="rank-list">
-              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">01</span>Estante pessoal</span><span class="rank-val">6</span></div><div class="rank-track"><div class="rank-fill" style="width:100%"></div></div></div>
-              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">02</span>Comprado novo</span><span class="rank-val">3</span></div><div class="rank-track"><div class="rank-fill light" style="width:50%"></div></div></div>
-              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">03</span>Emprestado</span><span class="rank-val">2</span></div><div class="rank-track"><div class="rank-fill light" style="width:33%"></div></div></div>
-              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">04</span>E-book</span><span class="rank-val">1</span></div><div class="rank-track"><div class="rank-fill light" style="width:17%"></div></div></div>
+            <div class="rank-list" id="rank-origem">
+              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">1.</span>Estante pessoal</span><span class="rank-val">6</span></div><div class="rank-track"><div class="rank-fill" style="width:100%"></div></div></div>
+              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">2.</span>Comprado novo</span><span class="rank-val">3</span></div><div class="rank-track"><div class="rank-fill light" style="width:50%"></div></div></div>
+              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">3.</span>Emprestado</span><span class="rank-val">2</span></div><div class="rank-track"><div class="rank-fill light" style="width:33%"></div></div></div>
+              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">4.</span>E-book</span><span class="rank-val">1</span></div><div class="rank-track"><div class="rank-fill light" style="width:17%"></div></div></div>
             </div>
           </div>
         </div>
@@ -421,10 +424,10 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
           <div class="wcard">
             <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Gênero dos autores</span></div>
             <div class="chart-body">
-              <div class="rank-list">
-                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">01</span>Feminino</span><span class="rank-val">8</span></div><div class="rank-track"><div class="rank-fill" style="width:100%"></div></div></div>
-                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">02</span>Masculino</span><span class="rank-val">3</span></div><div class="rank-track"><div class="rank-fill light" style="width:37%"></div></div></div>
-                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">03</span>Trans / não-binário</span><span class="rank-val">1</span></div><div class="rank-track"><div class="rank-fill light" style="width:12%"></div></div></div>
+              <div class="rank-list" id="rank-genero-autores">
+                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">1.</span>Feminino</span><span class="rank-val">8</span></div><div class="rank-track"><div class="rank-fill" style="width:100%"></div></div></div>
+                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">2.</span>Masculino</span><span class="rank-val">3</span></div><div class="rank-track"><div class="rank-fill light" style="width:37%"></div></div></div>
+                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">3.</span>Trans / não-binário</span><span class="rank-val">1</span></div><div class="rank-track"><div class="rank-fill light" style="width:12%"></div></div></div>
               </div>
             </div>
           </div>
@@ -433,11 +436,11 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
           <div class="wcard">
             <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Cor / raça dos autores</span></div>
             <div class="chart-body">
-              <div class="rank-list">
-                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">01</span>Negra</span><span class="rank-val">5</span></div><div class="rank-track"><div class="rank-fill" style="width:100%"></div></div></div>
-                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">02</span>Branca</span><span class="rank-val">4</span></div><div class="rank-track"><div class="rank-fill light" style="width:80%"></div></div></div>
-                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">03</span>Latina</span><span class="rank-val">2</span></div><div class="rank-track"><div class="rank-fill light" style="width:40%"></div></div></div>
-                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">04</span>Asiática</span><span class="rank-val">1</span></div><div class="rank-track"><div class="rank-fill light" style="width:20%"></div></div></div>
+              <div class="rank-list" id="rank-cor-autores">
+                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">1.</span>Negra</span><span class="rank-val">5</span></div><div class="rank-track"><div class="rank-fill" style="width:100%"></div></div></div>
+                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">2.</span>Branca</span><span class="rank-val">4</span></div><div class="rank-track"><div class="rank-fill light" style="width:80%"></div></div></div>
+                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">3.</span>Latina</span><span class="rank-val">2</span></div><div class="rank-track"><div class="rank-fill light" style="width:40%"></div></div></div>
+                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">4.</span>Asiática</span><span class="rank-val">1</span></div><div class="rank-track"><div class="rank-fill light" style="width:20%"></div></div></div>
               </div>
             </div>
           </div>
@@ -446,9 +449,9 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
           <div class="wcard">
             <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Autore novo ou já conhecido</span></div>
             <div class="chart-body">
-              <div class="rank-list">
-                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">01</span>Autore novo</span><span class="rank-val">8</span></div><div class="rank-track"><div class="rank-fill" style="width:100%"></div></div></div>
-                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">02</span>Já conhecia</span><span class="rank-val">4</span></div><div class="rank-track"><div class="rank-fill light" style="width:50%"></div></div></div>
+              <div class="rank-list" id="rank-autor-novo">
+                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">1.</span>Autore novo</span><span class="rank-val">8</span></div><div class="rank-track"><div class="rank-fill" style="width:100%"></div></div></div>
+                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">2.</span>Já conhecia</span><span class="rank-val">4</span></div><div class="rank-track"><div class="rank-fill light" style="width:50%"></div></div></div>
               </div>
             </div>
           </div>
@@ -462,11 +465,11 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
           <div class="wcard">
             <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Idioma original</span></div>
             <div class="chart-body">
-              <div class="rank-list">
-                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">01</span>Inglês</span><span class="rank-val">6</span></div><div class="rank-track"><div class="rank-fill" style="width:100%"></div></div></div>
-                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">02</span>Português</span><span class="rank-val">3</span></div><div class="rank-track"><div class="rank-fill light" style="width:50%"></div></div></div>
-                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">03</span>Espanhol</span><span class="rank-val">2</span></div><div class="rank-track"><div class="rank-fill light" style="width:33%"></div></div></div>
-                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">04</span>Japonês</span><span class="rank-val">1</span></div><div class="rank-track"><div class="rank-fill light" style="width:17%"></div></div></div>
+              <div class="rank-list" id="rank-idioma">
+                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">1.</span>Inglês</span><span class="rank-val">6</span></div><div class="rank-track"><div class="rank-fill" style="width:100%"></div></div></div>
+                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">2.</span>Português</span><span class="rank-val">3</span></div><div class="rank-track"><div class="rank-fill light" style="width:50%"></div></div></div>
+                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">3.</span>Espanhol</span><span class="rank-val">2</span></div><div class="rank-track"><div class="rank-fill light" style="width:33%"></div></div></div>
+                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">4.</span>Japonês</span><span class="rank-val">1</span></div><div class="rank-track"><div class="rank-fill light" style="width:17%"></div></div></div>
               </div>
             </div>
           </div>
@@ -475,10 +478,10 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
           <div class="wcard">
             <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Formato de leitura</span></div>
             <div class="chart-body">
-              <div class="rank-list">
-                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">01</span>Físico</span><span class="rank-val">7</span></div><div class="rank-track"><div class="rank-fill" style="width:100%"></div></div></div>
-                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">02</span>Audiobook</span><span class="rank-val">3</span></div><div class="rank-track"><div class="rank-fill light" style="width:43%"></div></div></div>
-                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">03</span>E-book</span><span class="rank-val">2</span></div><div class="rank-track"><div class="rank-fill light" style="width:29%"></div></div></div>
+              <div class="rank-list" id="rank-formato">
+                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">1.</span>Físico</span><span class="rank-val">7</span></div><div class="rank-track"><div class="rank-fill" style="width:100%"></div></div></div>
+                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">2.</span>Audiobook</span><span class="rank-val">3</span></div><div class="rank-track"><div class="rank-fill light" style="width:43%"></div></div></div>
+                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">3.</span>E-book</span><span class="rank-val">2</span></div><div class="rank-track"><div class="rank-fill light" style="width:29%"></div></div></div>
               </div>
             </div>
           </div>
@@ -487,10 +490,10 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
           <div class="wcard">
             <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Faixa etária</span></div>
             <div class="chart-body">
-              <div class="rank-list">
-                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">01</span>Adulto</span><span class="rank-val">9</span></div><div class="rank-track"><div class="rank-fill" style="width:100%"></div></div></div>
-                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">02</span>Young Adult</span><span class="rank-val">2</span></div><div class="rank-track"><div class="rank-fill light" style="width:22%"></div></div></div>
-                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">03</span>Infantil</span><span class="rank-val">1</span></div><div class="rank-track"><div class="rank-fill light" style="width:11%"></div></div></div>
+              <div class="rank-list" id="rank-faixa">
+                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">1.</span>Adulto</span><span class="rank-val">9</span></div><div class="rank-track"><div class="rank-fill" style="width:100%"></div></div></div>
+                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">2.</span>Young Adult</span><span class="rank-val">2</span></div><div class="rank-track"><div class="rank-fill light" style="width:22%"></div></div></div>
+                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">3.</span>Infantil</span><span class="rank-val">1</span></div><div class="rank-track"><div class="rank-fill light" style="width:11%"></div></div></div>
               </div>
             </div>
           </div>
@@ -499,9 +502,9 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
           <div class="wcard">
             <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Série ou livro único</span></div>
             <div class="chart-body">
-              <div class="rank-list">
-                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">01</span>Livro único</span><span class="rank-val">9</span></div><div class="rank-track"><div class="rank-fill" style="width:100%"></div></div></div>
-                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">02</span>Série</span><span class="rank-val">3</span></div><div class="rank-track"><div class="rank-fill light" style="width:33%"></div></div></div>
+              <div class="rank-list" id="rank-serie">
+                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">1.</span>Livro único</span><span class="rank-val">9</span></div><div class="rank-track"><div class="rank-fill" style="width:100%"></div></div></div>
+                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">2.</span>Série</span><span class="rank-val">3</span></div><div class="rank-track"><div class="rank-fill light" style="width:33%"></div></div></div>
               </div>
             </div>
           </div>
@@ -515,11 +518,11 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
       <hr class="section-hr">
       <div class="section-head">
         <h2 class="section-h2">De onde vieram minhas leituras?</h2>
-        <span class="section-sub">Autores por país</span>
+        <span class="section-sub" id="mapa-sub">Autores por país</span>
       </div>
       <div class="wcard">
         <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Mapa 2026</span></div>
-        <div style="height:380px;background:#f0ede8;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;font-size:.9rem;color:#bbb;">Mapa interativo · Leaflet</div>
+        <div id="map-2026"></div>
       </div>
       <div class="map-legend" style="margin-top:.8rem;">
         <span><span class="legend-dot" style="background:var(--green)"></span>Lido</span>
@@ -532,20 +535,20 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
       <hr class="section-hr">
       <div class="section-head">
         <h2 class="section-h2">Livros de 2026</h2>
-        <span class="section-sub">12 livros · 3 audiobooks</span>
+        <span class="section-sub" id="lista-count">— livros</span>
       </div>
       <div class="tag-filters">
-        <button class="tag-btn active">Todos</button>
-        <button class="tag-btn">LGBTQIA+</button>
-        <button class="tag-btn">Diversidade étnica</button>
-        <button class="tag-btn">#OwnVoices</button>
-        <button class="tag-btn">Audiobook</button>
+        <button class="tag-btn active" data-tag="">Todos</button>
+        <button class="tag-btn" data-tag="lgbtqia">LGBTQIA+</button>
+        <button class="tag-btn" data-tag="diversidade">Diversidade étnica</button>
+        <button class="tag-btn" data-tag="ownvoices">#OwnVoices</button>
+        <button class="tag-btn" data-tag="audiobook">Audiobook</button>
       </div>
       <div class="table-controls">
-        <div class="search-wrap"><input type="text" placeholder="Buscar título ou autor…"></div>
-        <select class="filter-select"><option>Todos os status</option><option>Lido</option><option>Lendo</option><option>Não lido</option></select>
-        <select class="filter-select"><option>Todos os gêneros</option></select>
-        <select class="filter-select"><option>Todos os formatos</option></select>
+        <div class="search-wrap"><input type="text" id="search" placeholder="Buscar título ou autor…"></div>
+        <select class="filter-select" id="f-status"><option value="">Todos os status</option><option value="lido">Lido</option><option value="lendo">Lendo</option><option value="não lido">Não lido</option></select>
+        <select class="filter-select" id="f-genero"><option value="">Todos os gêneros</option></select>
+        <select class="filter-select" id="f-formato"><option value="">Todos os formatos</option></select>
       </div>
       <div style="overflow-x:auto">
         <table>
@@ -554,22 +557,15 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
             <th>Pág. ↕</th><th>Áudio ↕</th><th>País ↕</th>
             <th>Status ↕</th><th>⭐</th>
           </tr></thead>
-          <tbody>
-            <tr><td><strong>Cem anos de solidão</strong></td><td>G. García Márquez</td><td>Realismo mágico</td><td>432</td><td>—</td><td>Colômbia</td><td><span class="badge badge-lido">Lido</span></td><td><span class="stars">★★★★★</span></td></tr>
-            <tr><td><strong>Tudo sobre o amor</strong></td><td>Bell Hooks</td><td>Não-ficção</td><td>256</td><td>—</td><td>EUA</td><td><span class="badge badge-lido">Lido</span></td><td><span class="stars">★★★★★</span></td></tr>
-            <tr><td><strong>A vegetariana</strong></td><td>Han Kang</td><td>Ficção contemp.</td><td>188</td><td>—</td><td>Coreia do Sul</td><td><span class="badge badge-lido">Lido</span></td><td><span class="stars">★★★★</span></td></tr>
-            <tr><td><strong>Mar da tranquilidade</strong></td><td>Emily St. J. Mandel</td><td>Ficção científica</td><td>272</td><td>4h30</td><td>Canadá</td><td><span class="badge badge-lido">Lido</span></td><td><span class="stars">★★★★</span></td></tr>
-            <tr><td><strong>O vento sabe o meu nome</strong></td><td>Isabel Allende</td><td>Ficção histórica</td><td>296</td><td>—</td><td>Chile</td><td><span class="badge badge-lendo">Lendo</span></td><td>—</td></tr>
-            <tr><td><strong>Páradais</strong></td><td>Fernanda Melchor</td><td>Ficção contemp.</td><td>128</td><td>—</td><td>México</td><td><span class="badge badge-nao">Não lido</span></td><td>—</td></tr>
+          <tbody id="tbody">
+            <tr><td colspan="8" style="text-align:center;padding:2rem;color:var(--muted)">Carregando…</td></tr>
           </tbody>
         </table>
       </div>
+      <!-- Decisão: tamanho de página = 20 itens (mesmo padrão de PER usado em estante.html) -->
       <div class="table-footer">
-        <span>1–6 de 12</span>
-        <div class="pagination">
-          <button class="page-btn active">1</button>
-          <button class="page-btn">2</button>
-        </div>
+        <span id="t-info"></span>
+        <div class="pagination" id="pagination"></div>
       </div>
     </section>
 
@@ -583,24 +579,263 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
 
 <script>
 Chart.register(ChartDataLabels);
-(function(){
-  const GREEN='#849974', BLACK='#1a1a1a', MUTED='#555';
-  const el=document.getElementById('c-notas-2026'); if(!el) return;
-  const labels=['★','★★','★★★','★★★★','★★★★★'];
-  const data=[1,1,2,5,3]; // ilustrativo — página ainda é mockup, sem JS de dados (ver Governança)
-  new Chart(el,{type:'line',
-    data:{labels,datasets:[{data,borderColor:GREEN,backgroundColor:GREEN+'22',
-      borderWidth:2.5,pointRadius:5,pointBackgroundColor:GREEN,fill:true,tension:.35}]},
-    options:{maintainAspectRatio:false,layout:{padding:{top:22}},
-      plugins:{legend:{display:false},datalabels:{display:ctx=>ctx.dataset.data[ctx.dataIndex]>0,
-        anchor:'end',align:'top',color:BLACK,font:{family:'DM Sans',size:10,weight:'500'},
-        formatter:v=>v>0?v:'',clamp:true}},
-      scales:{
-        x:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:MUTED,autoSkip:true,maxRotation:0,minRotation:0},border:{display:false}},
-        y:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:MUTED},border:{display:false},beginAtZero:true}
-      }}
+
+// Planilha A — Leituras anuais (Governança: gid=537800862, aba L E I T U R A S 26)
+const PROXY = 'https://corsproxy.io/?url=';
+const BASE  = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub';
+const URL_2026 = PROXY + encodeURIComponent(BASE + '?gid=537800862&single=true&output=csv');
+
+const GREEN='#849974', GREEN_DARK='#6b7e5e', GREEN_LIGHT='#c8d4b8', BLACK='#1a1a1a', MUTED='#555';
+// Meta do ano = total de livros na lista (todas as linhas da planilha, independente do status).
+// Louise vai adicionando livros na planilha ao longo do ano, então a meta cresce dinamicamente com a lista.
+
+const COORDS = {
+  'Brasil':[-15.8,-47.9],'EUA':[37.1,-95.7],'Estados Unidos':[37.1,-95.7],'Reino Unido':[51.5,-0.1],'Japão':[35.7,139.7],'França':[46.2,2.2],'Canadá':[56.1,-106.3],'Argentina':[-34.6,-58.4],'Portugal':[38.7,-9.1],'Alemanha':[52.5,13.4],'Espanha':[40.4,-3.7],'Itália':[41.9,12.5],'México':[19.4,-99.1],'Colômbia':[4.7,-74.1],'Chile':[-33.4,-70.6],'Índia':[28.6,77.2],'China':[39.9,116.4],'Rússia':[55.8,37.6],'Austrália':[-35.3,149.1],'Nigéria':[9.1,7.5],'África do Sul':[-25.7,28.2],'Noruega':[59.9,10.7],'Holanda':[52.4,4.9],'Cuba':[23.1,-82.4],'Suécia':[59.3,18.1],'Irlanda':[53.3,-6.3],'Grécia':[37.9,23.7],'Polônia':[52.2,21.0],'Turquia':[39.9,32.9],'Egito':[30.1,31.2],'Marrocos':[34.0,-6.8],'Coreia do Sul':[37.6,127.0],'Indonésia':[-6.2,106.8],'Suíça':[46.8,8.2],'Áustria':[48.2,16.4],'Bélgica':[50.8,4.4],'República Tcheca':[50.1,14.4],
+};
+
+function norm(s){ return (s||'').toString().trim().toLowerCase(); }
+function isTrue(v){ return ['sim','yes','true','1','✓','x','verdadeiro'].includes(norm(v)); }
+function pi(v){ return parseInt(String(v||'').replace(/[^0-9]/g,'')) || 0; }
+
+function fetchCSV(url){
+  return fetch(url)
+    .then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.text(); })
+    .then(t=>Papa.parse(t.replace(/^\uFEFF/,''), {header:true, skipEmptyLines:true}).data)
+    .catch(e=>{ console.error('fetchCSV:', e); return []; });
+}
+
+function countField(arr, key){
+  const c={};
+  arr.forEach(b=>{ const v=(b[key]||'').trim(); if(v) c[v]=(c[v]||0)+1; });
+  return c;
+}
+function topN(obj,n){ return Object.entries(obj).sort((a,b)=>b[1]-a[1]).slice(0,n); }
+
+function buildRank(elId, obj, maxItems){
+  const el=document.getElementById(elId); if(!el) return;
+  const pairs=topN(obj, maxItems);
+  if(!pairs.length){ el.innerHTML='<div style="font-size:.78rem;color:var(--muted)">Sem dados</div>'; return; }
+  const max=pairs[0][1];
+  el.innerHTML=pairs.map(([label,val],i)=>`
+    <div class="rank-item">
+      <div class="rank-header">
+        <span><span class="rank-pos">${i+1}.</span>${label}</span>
+        <span class="rank-val">${val}</span>
+      </div>
+      <div class="rank-track"><div class="rank-fill${i>0?' light':''}" style="width:${Math.round(val/max*100)}%"></div></div>
+    </div>`).join('');
+}
+
+let allRows=[], lidos=[], filtered=[], activeTag='', page=1;
+const PER=20;
+
+async function init(){
+  allRows = await fetchCSV(URL_2026);
+  allRows = allRows.filter(r => (r['Título']||'').trim());
+  lidos   = allRows.filter(r => isTrue(r['LIDO']));
+
+  // Status de cada linha, tolerante a diferentes valores no campo LIDO
+  const lendo   = allRows.filter(r => norm(r['LIDO']).includes('lendo'));
+  const naoLido = allRows.filter(r => !isTrue(r['LIDO']) && !norm(r['LIDO']).includes('lendo'));
+
+  const totalPaginas = lidos.reduce((s,b)=>s+pi(b['Páginas']),0);
+  const totalHoras   = lidos.reduce((s,b)=>s+pi(b['Horas']),0);
+  const autoresNovos = lidos.filter(b=>isTrue(b['Primeira vez lendo autore'])).length;
+  const paises        = new Set(lidos.map(b=>b['País']).filter(Boolean)).size;
+  const totalMeta = allRows.length;
+  const pctMeta = totalMeta>0 ? Math.round(lidos.length/totalMeta*100) : 0;
+
+  document.getElementById('kpi-lidos').textContent = lidos.length;
+  document.getElementById('kpi-meta').textContent = totalMeta;
+  document.getElementById('kpi-pct').textContent = pctMeta+'%';
+  document.getElementById('kpi-paginas').textContent = totalPaginas.toLocaleString('pt-BR');
+  document.getElementById('kpi-horas').textContent = totalHoras+'h';
+  document.getElementById('kpi-autores-novos').textContent = autoresNovos;
+  document.getElementById('kpi-paises').textContent = paises;
+
+  document.getElementById('prog-lidos-txt').textContent = lidos.length+' / '+totalMeta;
+  setTimeout(()=>{ document.getElementById('prog-lidos-fill').style.width = Math.min(pctMeta,100)+'%'; }, 300);
+
+  document.getElementById('st-lidos').textContent = lidos.length;
+  document.getElementById('st-lendo').textContent = lendo.length;
+  document.getElementById('st-naolidos').textContent = naoLido.length;
+
+  const gnObj = countField(lidos,'Gênero');
+  const topGn = topN(gnObj,1)[0];
+  if(topGn){ document.getElementById('st-genero').textContent = topGn[0]; document.getElementById('pg-genero').textContent = topGn[0]; document.getElementById('pg-genero-sub').textContent = topGn[1]+' livros'; }
+
+  const gaObj = countField(lidos,'Se identifica como...');
+  const topGa = topN(gaObj,1)[0];
+  if(topGa){ document.getElementById('pg-autorgen').textContent = topGa[0]; document.getElementById('pg-autorgen-sub').textContent = topGa[1]+' de '+lidos.length+' livros'; }
+
+  const idObj = countField(lidos,'Idioma');
+  const topId = topN(idObj,1)[0];
+  if(topId) document.getElementById('pg-idioma').textContent = topId[0];
+
+  const fmObj = countField(lidos,'Formato');
+  const topFm = topN(fmObj,1)[0];
+  if(topFm) document.getElementById('pg-formato').textContent = topFm[0];
+
+  const fxObj = countField(lidos,'Faixa etária');
+  const topFx = topN(fxObj,1)[0];
+  if(topFx) document.getElementById('pg-faixa').textContent = topFx[0];
+
+  const notas = lidos.map(b=>parseFloat((b['NOTA']||'').replace(',','.'))).filter(n=>n>0);
+  const notaMedia = notas.length ? (notas.reduce((a,b)=>a+b,0)/notas.length) : 0;
+  document.getElementById('pg-nota').textContent = notas.length ? notaMedia.toFixed(1)+' ★' : '—';
+
+  // Diversidade
+  function pctSim(arr, col){ const tot=arr.length; const sim=arr.filter(b=>isTrue(b[col])).length; return {pct:tot>0?Math.round(sim/tot*100):0, n:sim, tot}; }
+  function setDiv(prefix, data){
+    document.getElementById('dc-'+prefix).textContent = data.pct+'%';
+    document.getElementById('dc-'+prefix+'-sub').textContent = 'de '+data.tot+' livros lidos';
+    setTimeout(()=>{ document.getElementById('dc-'+prefix+'-bar').style.width = data.pct+'%'; }, 300);
+  }
+  setDiv('lgbtq', pctSim(lidos,'Protagonista LGBTQ+'));
+  setDiv('etnia', pctSim(lidos,'Diversidade etnica/racial'));
+  setDiv('own',   pctSim(lidos,'#OwnVoices?'));
+
+  // Rankings
+  buildRank('rank-generos',        gnObj, 999);
+  buildRank('rank-porque',         countField(lidos,'Por que li?'), 999);
+  buildRank('rank-origem',         countField(lidos,'Origem do livro?'), 999);
+  buildRank('rank-genero-autores', gaObj, 999);
+  buildRank('rank-cor-autores',    countField(lidos,'Cor'), 999);
+  const autorNovoObj = {};
+  lidos.forEach(b=>{ const v=isTrue(b['Primeira vez lendo autore'])?'Autore novo':'Já conhecia'; autorNovoObj[v]=(autorNovoObj[v]||0)+1; });
+  buildRank('rank-autor-novo', autorNovoObj, 999);
+  buildRank('rank-idioma',  idObj, 999);
+  buildRank('rank-formato', fmObj, 999);
+  buildRank('rank-faixa',   fxObj, 999);
+  buildRank('rank-serie',   countField(lidos,'Série ou único?'), 999);
+
+  // Distribuição de notas — linha/área (padrão estante.html/historico.html)
+  const notasLabels=['1','2','3','4','5'];
+  const notasVals=[0,0,0,0,0];
+  lidos.forEach(b=>{
+    const n=Math.round(parseFloat((b['NOTA']||'').replace(',','.')));
+    if(n>=1&&n<=5) notasVals[n-1]++;
   });
-})();
+  const notasEl=document.getElementById('c-notas-2026');
+  if(notasEl){
+    new Chart(notasEl,{type:'line',
+      data:{labels:notasLabels.map(n=>'★'.repeat(n)),datasets:[{data:notasVals,borderColor:GREEN,backgroundColor:GREEN+'22',
+        borderWidth:2.5,pointRadius:5,pointBackgroundColor:GREEN,fill:true,tension:.35}]},
+      options:{maintainAspectRatio:false,layout:{padding:{top:22}},
+        plugins:{legend:{display:false},datalabels:{display:ctx=>ctx.dataset.data[ctx.dataIndex]>0,
+          anchor:'end',align:'top',color:BLACK,font:{family:'DM Sans',size:10,weight:'500'},
+          formatter:v=>v>0?v:'',clamp:true}},
+        scales:{
+          x:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:MUTED},border:{display:false}},
+          y:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:MUTED},border:{display:false},beginAtZero:true}
+        }}});
+  }
+
+  buildMap(lidos);
+  document.getElementById('mapa-sub').textContent = paises+' país'+(paises!==1?'es':'')+' · '+lidos.length+' livros';
+
+  buildFilters();
+  filtered=[...lidos];
+  renderTable();
+}
+
+function buildMap(books){
+  const mapEl=document.getElementById('map-2026'); if(!mapEl || !window.L) return;
+  const map=L.map('map-2026',{scrollWheelZoom:false}).setView([20,10],2);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map);
+  const pc=countField(books,'País');
+  Object.entries(pc).forEach(([p,q])=>{
+    const c=COORDS[p]; if(!c) return;
+    L.circleMarker(c,{radius:Math.max(6,Math.min(22,6+Math.sqrt(q)*4)),fillColor:GREEN,color:'#fff',weight:1.5,fillOpacity:.8})
+      .addTo(map).bindPopup('<strong>'+p+'</strong><br>'+q+' livro'+(q>1?'s':''));
+  });
+}
+
+function buildFilters(){
+  ['Gênero'].forEach(col=>{
+    const sel=document.getElementById('f-genero');
+    [...new Set(lidos.map(b=>b[col]).filter(Boolean))].sort().forEach(v=>{
+      const o=document.createElement('option'); o.value=v; o.textContent=v; sel.appendChild(o);
+    });
+  });
+  ['Formato'].forEach(col=>{
+    const sel=document.getElementById('f-formato');
+    [...new Set(lidos.map(b=>b[col]).filter(Boolean))].sort().forEach(v=>{
+      const o=document.createElement('option'); o.value=v; o.textContent=v; sel.appendChild(o);
+    });
+  });
+  ['search','f-status','f-genero','f-formato'].forEach(id=>{
+    document.getElementById(id).addEventListener(id==='search'?'input':'change', applyFilters);
+  });
+  document.querySelectorAll('.tag-btn').forEach(btn=>btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tag-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active'); activeTag=btn.dataset.tag; applyFilters();
+  }));
+}
+
+function applyFilters(){
+  const q=norm(document.getElementById('search').value);
+  const st=document.getElementById('f-status').value;
+  const gn=document.getElementById('f-genero').value;
+  const fm=document.getElementById('f-formato').value;
+  filtered=lidos.filter(b=>{
+    if(q && !((b['Título']||'')+(b['Nome']||'')).toLowerCase().includes(q)) return false;
+    if(st==='lido' && !isTrue(b['LIDO'])) return false;
+    if(st==='lendo' && !norm(b['LIDO']).includes('lendo')) return false;
+    if(st==='não lido' && (isTrue(b['LIDO'])||norm(b['LIDO']).includes('lendo'))) return false;
+    if(gn && b['Gênero']!==gn) return false;
+    if(fm && b['Formato']!==fm) return false;
+    if(activeTag==='lgbtqia' && !isTrue(b['Protagonista LGBTQ+'])) return false;
+    if(activeTag==='diversidade' && !isTrue(b['Diversidade etnica/racial'])) return false;
+    if(activeTag==='ownvoices' && !isTrue(b['#OwnVoices?'])) return false;
+    if(activeTag==='audiobook' && !norm(b['Formato']).includes('audio')) return false;
+    return true;
+  });
+  page=1; renderTable();
+}
+
+function renderTable(){
+  const start=(page-1)*PER;
+  const pg=filtered.slice(start,start+PER);
+  const tbody=document.getElementById('tbody');
+  document.getElementById('lista-count').textContent=filtered.length+' livro'+(filtered.length!==1?'s':'');
+  if(!filtered.length){
+    tbody.innerHTML='<tr><td colspan="8" style="text-align:center;padding:2rem;color:var(--muted)">Nenhum encontrado.</td></tr>';
+    document.getElementById('t-info').textContent='';
+    document.getElementById('pagination').innerHTML='';
+    return;
+  }
+  tbody.innerHTML=pg.map(b=>{
+    const isLendo = norm(b['LIDO']).includes('lendo');
+    const st = isTrue(b['LIDO']) ? 'Lido' : (isLendo ? 'Lendo' : 'Não lido');
+    const bc = isTrue(b['LIDO']) ? 'badge-lido' : (isLendo ? 'badge-lendo' : 'badge-nao');
+    const nota = pi(b['NOTA']);
+    const starsHtml = nota>0 ? '<span class="stars">'+'★'.repeat(Math.min(nota,5))+'</span>' : '—';
+    const audio = norm(b['Formato']).includes('audio') && pi(b['Horas'])>0 ? pi(b['Horas'])+'h' : '—';
+    return `<tr>
+      <td><strong>${b['Título']||'—'}</strong></td>
+      <td>${b['Nome']||'—'}</td>
+      <td>${b['Gênero']||'—'}</td>
+      <td>${b['Páginas']||'—'}</td>
+      <td>${audio}</td>
+      <td>${b['País']||'—'}</td>
+      <td><span class="badge ${bc}">${st}</span></td>
+      <td>${starsHtml}</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('t-info').textContent=(start+1)+'–'+Math.min(start+PER,filtered.length)+' de '+filtered.length;
+  const pages=Math.ceil(filtered.length/PER);
+  const pag=document.getElementById('pagination'); pag.innerHTML='';
+  for(let i=1;i<=pages;i++){
+    const btn=document.createElement('button');
+    btn.className='page-btn'+(i===page?' active':'');
+    btn.textContent=i;
+    btn.onclick=()=>{ page=i; renderTable(); };
+    pag.appendChild(btn);
+  }
+}
+
+init();
 </script>
 </body>
 </html>
