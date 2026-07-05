@@ -31,7 +31,7 @@
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { -webkit-font-smoothing: antialiased; }
-body { background: var(--white); color: var(--text); font-family: Arial, sans-serif; font-weight: 500; }
+body { background: var(--white); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 500; }
 a { color: inherit; text-decoration: none; }
 
 /* ── NAV (governança: sobre.html) ── */
@@ -828,7 +828,7 @@ footer {
   <div class="footer-dots">
     <div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div>
   </div>
-  <span class="footer-text">Louise Victoria &nbsp;|&nbsp; © 2026 &nbsp;|&nbsp; Atualizado em <span id="data-atualizacao">04 de julho de 2026</span></span>
+  <span class="footer-text">Louise Victoria &nbsp;|&nbsp; © 2026 &nbsp;|&nbsp; Atualizado em <span id="data-atualizacao">05 de julho de 2026</span></span>
 </footer>
 
 <script>
@@ -1003,7 +1003,7 @@ function buildPerfil(allLPM){
     el.innerHTML = pairs.map(([label,val],i)=>`
       <div class="rank-item">
         <div class="rank-header">
-          <span><span class="rank-pos">0${i+1}</span><span class="rank-name">${label}</span></span>
+          <span><span class="rank-pos">${i+1}.</span><span class="rank-name">${label}</span></span>
           <span class="rank-val">${val}</span>
         </div>
         <div class="rank-track"><div class="rank-fill${i>0?' light':''}" style="width:${Math.round(val/max*100)}%"></div></div>
