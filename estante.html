@@ -127,6 +127,14 @@ nav ul li a.active{background:var(--green);color:var(--white);padding:.28rem .7r
 /* Charts grids */
 .charts-2col{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:.8rem;}
 .charts-3col{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin-bottom:.8rem;}
+/* Governança 2026-07-05: no desktop, o grid .charts-2col não define align-items e usa o padrão
+   'stretch' — isso fazia o card "Distribuição de notas" ser esticado para acompanhar a altura do
+   card vizinho ("Países dos autores"), sobrando espaço vazio abaixo do canvas (que tem max-height
+   fixo e não cresce). Trava aplicada apenas no desktop; no mobile o grid já vira 1 coluna e o
+   problema não existe. */
+@media(min-width:901px){
+  #dados .charts-2col{align-items:start;}
+}
 .chart-body{padding:1rem 1.2rem;position:relative;}
 .chart-body canvas{max-height:220px;}
 .chart-body.tall canvas{max-height:340px;}
@@ -455,7 +463,7 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
         </div>
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Países dos autores</span></div>
-          <div class="chart-body" style="height:252px;overflow-y:auto"><div class="rank-list" id="rank-paises"></div></div>
+          <div class="chart-body" style="height:280px;overflow-y:auto"><div class="rank-list" id="rank-paises"></div></div>
         </div>
       </div>
 
@@ -554,7 +562,7 @@ function buildRank(elId, obj, maxItems){
   el.innerHTML = pairs.map(([label,val],i) => `
     <div class="rank-item">
       <div class="rank-header">
-        <span><span class="rank-pos">0${i+1}</span>${label}</span>
+        <span><span class="rank-pos">${i+1}.</span>${label}</span>
         <span class="rank-val">${val}</span>
       </div>
       <div class="rank-track"><div class="rank-fill${i>0?' light':''}" style="width:${Math.round(val/max*100)}%"></div></div>
