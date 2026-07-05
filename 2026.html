@@ -206,6 +206,10 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
 .footer-dots{display:flex;gap:5px;}
 .footer-dot{width:10px;height:10px;border-radius:50%;background:var(--white);}
 .footer-text{font-family:'DM Sans',sans-serif;font-size:.60rem;letter-spacing:.1em;text-transform:uppercase;color:var(--white);font-weight:500;}
+
+/* Aviso de erro de carregamento (novo) */
+.data-error{display:none;background:#f5e4e4;border:1.5px solid #e0b3b3;color:#7a2020;border-radius:10px;padding:.85rem 1rem;font-family:'DM Sans',sans-serif;font-size:.82rem;margin-bottom:.8rem;line-height:1.5;}
+.data-error.show{display:block;}
 </style>
 </head>
 <body>
@@ -239,6 +243,11 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
 
   <!-- SIDEBAR -->
   <aside class="sidebar">
+
+    <!-- Aviso de erro -->
+    <div class="data-error" id="data-error">
+      Não foi possível carregar os dados da planilha agora. Verifique sua conexão e recarregue a página. Se o problema continuar, abra o Console do navegador (F12) para ver o erro exato.
+    </div>
 
     <!-- KPIs -->
     <div>
@@ -374,24 +383,13 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Gêneros literários</span></div>
           <div class="chart-body">
-            <div class="rank-list" id="rank-generos">
-              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">1.</span>Ficção contemporânea</span><span class="rank-val">4</span></div><div class="rank-track"><div class="rank-fill" style="width:100%"></div></div></div>
-              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">2.</span>Não-ficção</span><span class="rank-val">3</span></div><div class="rank-track"><div class="rank-fill light" style="width:75%"></div></div></div>
-              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">3.</span>Ficção histórica</span><span class="rank-val">2</span></div><div class="rank-track"><div class="rank-fill light" style="width:50%"></div></div></div>
-              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">4.</span>Fantasia</span><span class="rank-val">2</span></div><div class="rank-track"><div class="rank-fill light" style="width:50%"></div></div></div>
-              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">5.</span>Poesia</span><span class="rank-val">1</span></div><div class="rank-track"><div class="rank-fill light" style="width:25%"></div></div></div>
-            </div>
+            <div class="rank-list" id="rank-generos"></div>
           </div>
         </div>
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Por que li?</span></div>
           <div class="chart-body">
-            <div class="rank-list" id="rank-porque">
-              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">1.</span>Curiosidade pessoal</span><span class="rank-val">5</span></div><div class="rank-track"><div class="rank-fill" style="width:100%"></div></div></div>
-              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">2.</span>Indicação</span><span class="rank-val">4</span></div><div class="rank-track"><div class="rank-fill light" style="width:80%"></div></div></div>
-              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">3.</span>Desafio LPM</span><span class="rank-val">2</span></div><div class="rank-track"><div class="rank-fill light" style="width:40%"></div></div></div>
-              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">4.</span>Lista do ano</span><span class="rank-val">1</span></div><div class="rank-track"><div class="rank-fill light" style="width:20%"></div></div></div>
-            </div>
+            <div class="rank-list" id="rank-porque"></div>
           </div>
         </div>
       </div>
@@ -405,12 +403,7 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Origem do livro</span></div>
           <div class="chart-body">
-            <div class="rank-list" id="rank-origem">
-              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">1.</span>Estante pessoal</span><span class="rank-val">6</span></div><div class="rank-track"><div class="rank-fill" style="width:100%"></div></div></div>
-              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">2.</span>Comprado novo</span><span class="rank-val">3</span></div><div class="rank-track"><div class="rank-fill light" style="width:50%"></div></div></div>
-              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">3.</span>Emprestado</span><span class="rank-val">2</span></div><div class="rank-track"><div class="rank-fill light" style="width:33%"></div></div></div>
-              <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">4.</span>E-book</span><span class="rank-val">1</span></div><div class="rank-track"><div class="rank-fill light" style="width:17%"></div></div></div>
-            </div>
+            <div class="rank-list" id="rank-origem"></div>
           </div>
         </div>
       </div>
@@ -424,11 +417,7 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
           <div class="wcard">
             <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Gênero dos autores</span></div>
             <div class="chart-body">
-              <div class="rank-list" id="rank-genero-autores">
-                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">1.</span>Feminino</span><span class="rank-val">8</span></div><div class="rank-track"><div class="rank-fill" style="width:100%"></div></div></div>
-                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">2.</span>Masculino</span><span class="rank-val">3</span></div><div class="rank-track"><div class="rank-fill light" style="width:37%"></div></div></div>
-                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">3.</span>Trans / não-binário</span><span class="rank-val">1</span></div><div class="rank-track"><div class="rank-fill light" style="width:12%"></div></div></div>
-              </div>
+              <div class="rank-list" id="rank-genero-autores"></div>
             </div>
           </div>
 
@@ -436,12 +425,7 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
           <div class="wcard">
             <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Cor / raça dos autores</span></div>
             <div class="chart-body">
-              <div class="rank-list" id="rank-cor-autores">
-                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">1.</span>Negra</span><span class="rank-val">5</span></div><div class="rank-track"><div class="rank-fill" style="width:100%"></div></div></div>
-                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">2.</span>Branca</span><span class="rank-val">4</span></div><div class="rank-track"><div class="rank-fill light" style="width:80%"></div></div></div>
-                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">3.</span>Latina</span><span class="rank-val">2</span></div><div class="rank-track"><div class="rank-fill light" style="width:40%"></div></div></div>
-                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">4.</span>Asiática</span><span class="rank-val">1</span></div><div class="rank-track"><div class="rank-fill light" style="width:20%"></div></div></div>
-              </div>
+              <div class="rank-list" id="rank-cor-autores"></div>
             </div>
           </div>
 
@@ -449,10 +433,7 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
           <div class="wcard">
             <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Autore novo ou já conhecido</span></div>
             <div class="chart-body">
-              <div class="rank-list" id="rank-autor-novo">
-                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">1.</span>Autore novo</span><span class="rank-val">8</span></div><div class="rank-track"><div class="rank-fill" style="width:100%"></div></div></div>
-                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">2.</span>Já conhecia</span><span class="rank-val">4</span></div><div class="rank-track"><div class="rank-fill light" style="width:50%"></div></div></div>
-              </div>
+              <div class="rank-list" id="rank-autor-novo"></div>
             </div>
           </div>
 
@@ -465,12 +446,7 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
           <div class="wcard">
             <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Idioma original</span></div>
             <div class="chart-body">
-              <div class="rank-list" id="rank-idioma">
-                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">1.</span>Inglês</span><span class="rank-val">6</span></div><div class="rank-track"><div class="rank-fill" style="width:100%"></div></div></div>
-                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">2.</span>Português</span><span class="rank-val">3</span></div><div class="rank-track"><div class="rank-fill light" style="width:50%"></div></div></div>
-                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">3.</span>Espanhol</span><span class="rank-val">2</span></div><div class="rank-track"><div class="rank-fill light" style="width:33%"></div></div></div>
-                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">4.</span>Japonês</span><span class="rank-val">1</span></div><div class="rank-track"><div class="rank-fill light" style="width:17%"></div></div></div>
-              </div>
+              <div class="rank-list" id="rank-idioma"></div>
             </div>
           </div>
 
@@ -478,11 +454,7 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
           <div class="wcard">
             <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Formato de leitura</span></div>
             <div class="chart-body">
-              <div class="rank-list" id="rank-formato">
-                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">1.</span>Físico</span><span class="rank-val">7</span></div><div class="rank-track"><div class="rank-fill" style="width:100%"></div></div></div>
-                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">2.</span>Audiobook</span><span class="rank-val">3</span></div><div class="rank-track"><div class="rank-fill light" style="width:43%"></div></div></div>
-                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">3.</span>E-book</span><span class="rank-val">2</span></div><div class="rank-track"><div class="rank-fill light" style="width:29%"></div></div></div>
-              </div>
+              <div class="rank-list" id="rank-formato"></div>
             </div>
           </div>
 
@@ -490,11 +462,7 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
           <div class="wcard">
             <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Faixa etária</span></div>
             <div class="chart-body">
-              <div class="rank-list" id="rank-faixa">
-                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">1.</span>Adulto</span><span class="rank-val">9</span></div><div class="rank-track"><div class="rank-fill" style="width:100%"></div></div></div>
-                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">2.</span>Young Adult</span><span class="rank-val">2</span></div><div class="rank-track"><div class="rank-fill light" style="width:22%"></div></div></div>
-                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">3.</span>Infantil</span><span class="rank-val">1</span></div><div class="rank-track"><div class="rank-fill light" style="width:11%"></div></div></div>
-              </div>
+              <div class="rank-list" id="rank-faixa"></div>
             </div>
           </div>
 
@@ -502,10 +470,7 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
           <div class="wcard">
             <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Série ou livro único</span></div>
             <div class="chart-body">
-              <div class="rank-list" id="rank-serie">
-                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">1.</span>Livro único</span><span class="rank-val">9</span></div><div class="rank-track"><div class="rank-fill" style="width:100%"></div></div></div>
-                <div class="rank-item"><div class="rank-header"><span><span class="rank-pos">2.</span>Série</span><span class="rank-val">3</span></div><div class="rank-track"><div class="rank-fill light" style="width:33%"></div></div></div>
-              </div>
+              <div class="rank-list" id="rank-serie"></div>
             </div>
           </div>
 
@@ -581,9 +546,15 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
 Chart.register(ChartDataLabels);
 
 // Planilha A — Leituras anuais (Governança: gid=537800862, aba L E I T U R A S 26)
-const PROXY = 'https://corsproxy.io/?url=';
 const BASE  = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub';
-const URL_2026 = PROXY + encodeURIComponent(BASE + '?gid=537800862&single=true&output=csv');
+const SHEET_URL_2026 = BASE + '?gid=537800862&single=true&output=csv';
+// Cadeia de proxies CORS — corsproxy.io falha silenciosamente para algumas abas (ver decisão
+// "KPIs globais do histórico..." na Governança), então tentamos um segundo proxy como fallback
+// antes de desistir e mostrar o aviso de erro na tela.
+const PROXIES = [
+  url => 'https://corsproxy.io/?url=' + encodeURIComponent(url),
+  url => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url),
+];
 
 const GREEN='#849974', GREEN_DARK='#6b7e5e', GREEN_LIGHT='#c8d4b8', BLACK='#1a1a1a', MUTED='#555';
 // Meta do ano = total de livros na lista (todas as linhas da planilha, independente do status).
@@ -597,11 +568,37 @@ function norm(s){ return (s||'').toString().trim().toLowerCase(); }
 function isTrue(v){ return ['sim','yes','true','1','✓','x','verdadeiro'].includes(norm(v)); }
 function pi(v){ return parseInt(String(v||'').replace(/[^0-9]/g,'')) || 0; }
 
-function fetchCSV(url){
-  return fetch(url)
-    .then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.text(); })
-    .then(t=>Papa.parse(t.replace(/^\uFEFF/,''), {header:true, skipEmptyLines:true}).data)
-    .catch(e=>{ console.error('fetchCSV:', e); return []; });
+// Tenta cada proxy da lista em sequência. Só desiste (retorna []) se TODOS falharem
+// ou se a resposta não tiver cara de CSV — em vez de engolir o erro em silêncio,
+// registra no console e marca dataLoadFailed para exibir o aviso na tela.
+let dataLoadFailed = false;
+
+async function fetchCSV(targetUrl){
+  for(const buildProxyUrl of PROXIES){
+    const proxied = buildProxyUrl(targetUrl);
+    try{
+      const r = await fetch(proxied);
+      if(!r.ok) throw new Error('HTTP '+r.status+' via '+proxied);
+      const t = await r.text();
+      const clean = t.replace(/^\uFEFF/,'');
+      const parsed = Papa.parse(clean, {header:true, skipEmptyLines:true});
+      if(parsed.errors && parsed.errors.length){
+        console.warn('Papa.parse warnings for', proxied, parsed.errors);
+      }
+      // Se o proxy devolveu uma página de erro em HTML em vez do CSV, os cabeçalhos
+      // não terão "Título" — tratamos isso como falha e tentamos o próximo proxy.
+      const headers = parsed.meta && parsed.meta.fields ? parsed.meta.fields : [];
+      if(!headers.includes('Título')){
+        console.warn('CSV inesperado (sem coluna Título) via', proxied, '— tentando próximo proxy. Cabeçalhos recebidos:', headers);
+        continue;
+      }
+      return parsed.data;
+    }catch(e){
+      console.error('fetchCSV falhou via', proxied, e);
+    }
+  }
+  dataLoadFailed = true;
+  return [];
 }
 
 function countField(arr, key){
@@ -629,114 +626,131 @@ function buildRank(elId, obj, maxItems){
 let allRows=[], lidos=[], filtered=[], activeTag='', page=1;
 const PER=20;
 
+function showDataError(){
+  const el=document.getElementById('data-error');
+  if(el) el.classList.add('show');
+  document.getElementById('tbody').innerHTML =
+    '<tr><td colspan="8" style="text-align:center;padding:2rem;color:var(--muted)">Não foi possível carregar os dados agora. Recarregue a página.</td></tr>';
+}
+
 async function init(){
-  allRows = await fetchCSV(URL_2026);
-  allRows = allRows.filter(r => (r['Título']||'').trim());
-  lidos   = allRows.filter(r => isTrue(r['LIDO']));
+  try{
+    allRows = await fetchCSV(SHEET_URL_2026);
+    allRows = allRows.filter(r => (r['Título']||'').trim());
+    lidos   = allRows.filter(r => isTrue(r['LIDO']));
 
-  // Status de cada linha, tolerante a diferentes valores no campo LIDO
-  const lendo   = allRows.filter(r => norm(r['LIDO']).includes('lendo'));
-  const naoLido = allRows.filter(r => !isTrue(r['LIDO']) && !norm(r['LIDO']).includes('lendo'));
+    if(dataLoadFailed){
+      showDataError();
+      return;
+    }
 
-  const totalPaginas = lidos.reduce((s,b)=>s+pi(b['Páginas']),0);
-  const totalHoras   = lidos.reduce((s,b)=>s+pi(b['Horas']),0);
-  const autoresNovos = lidos.filter(b=>isTrue(b['Primeira vez lendo autore'])).length;
-  const paises        = new Set(lidos.map(b=>b['País']).filter(Boolean)).size;
-  const totalMeta = allRows.length;
-  const pctMeta = totalMeta>0 ? Math.round(lidos.length/totalMeta*100) : 0;
+    // Status de cada linha, tolerante a diferentes valores no campo LIDO
+    const lendo   = allRows.filter(r => norm(r['LIDO']).includes('lendo'));
+    const naoLido = allRows.filter(r => !isTrue(r['LIDO']) && !norm(r['LIDO']).includes('lendo'));
 
-  document.getElementById('kpi-lidos').textContent = lidos.length;
-  document.getElementById('kpi-meta').textContent = totalMeta;
-  document.getElementById('kpi-pct').textContent = pctMeta+'%';
-  document.getElementById('kpi-paginas').textContent = totalPaginas.toLocaleString('pt-BR');
-  document.getElementById('kpi-horas').textContent = totalHoras+'h';
-  document.getElementById('kpi-autores-novos').textContent = autoresNovos;
-  document.getElementById('kpi-paises').textContent = paises;
+    const totalPaginas = lidos.reduce((s,b)=>s+pi(b['Páginas']),0);
+    const totalHoras   = lidos.reduce((s,b)=>s+pi(b['Horas']),0);
+    const autoresNovos = lidos.filter(b=>isTrue(b['Primeira vez lendo autore'])).length;
+    const paises        = new Set(lidos.map(b=>b['País']).filter(Boolean)).size;
+    const totalMeta = allRows.length;
+    const pctMeta = totalMeta>0 ? Math.round(lidos.length/totalMeta*100) : 0;
 
-  document.getElementById('prog-lidos-txt').textContent = lidos.length+' / '+totalMeta;
-  setTimeout(()=>{ document.getElementById('prog-lidos-fill').style.width = Math.min(pctMeta,100)+'%'; }, 300);
+    document.getElementById('kpi-lidos').textContent = lidos.length;
+    document.getElementById('kpi-meta').textContent = totalMeta;
+    document.getElementById('kpi-pct').textContent = pctMeta+'%';
+    document.getElementById('kpi-paginas').textContent = totalPaginas.toLocaleString('pt-BR');
+    document.getElementById('kpi-horas').textContent = totalHoras+'h';
+    document.getElementById('kpi-autores-novos').textContent = autoresNovos;
+    document.getElementById('kpi-paises').textContent = paises;
 
-  document.getElementById('st-lidos').textContent = lidos.length;
-  document.getElementById('st-lendo').textContent = lendo.length;
-  document.getElementById('st-naolidos').textContent = naoLido.length;
+    document.getElementById('prog-lidos-txt').textContent = lidos.length+' / '+totalMeta;
+    setTimeout(()=>{ document.getElementById('prog-lidos-fill').style.width = Math.min(pctMeta,100)+'%'; }, 300);
 
-  const gnObj = countField(lidos,'Gênero');
-  const topGn = topN(gnObj,1)[0];
-  if(topGn){ document.getElementById('st-genero').textContent = topGn[0]; document.getElementById('pg-genero').textContent = topGn[0]; document.getElementById('pg-genero-sub').textContent = topGn[1]+' livros'; }
+    document.getElementById('st-lidos').textContent = lidos.length;
+    document.getElementById('st-lendo').textContent = lendo.length;
+    document.getElementById('st-naolidos').textContent = naoLido.length;
 
-  const gaObj = countField(lidos,'Se identifica como...');
-  const topGa = topN(gaObj,1)[0];
-  if(topGa){ document.getElementById('pg-autorgen').textContent = topGa[0]; document.getElementById('pg-autorgen-sub').textContent = topGa[1]+' de '+lidos.length+' livros'; }
+    const gnObj = countField(lidos,'Gênero');
+    const topGn = topN(gnObj,1)[0];
+    if(topGn){ document.getElementById('st-genero').textContent = topGn[0]; document.getElementById('pg-genero').textContent = topGn[0]; document.getElementById('pg-genero-sub').textContent = topGn[1]+' livros'; }
 
-  const idObj = countField(lidos,'Idioma');
-  const topId = topN(idObj,1)[0];
-  if(topId) document.getElementById('pg-idioma').textContent = topId[0];
+    const gaObj = countField(lidos,'Se identifica como...');
+    const topGa = topN(gaObj,1)[0];
+    if(topGa){ document.getElementById('pg-autorgen').textContent = topGa[0]; document.getElementById('pg-autorgen-sub').textContent = topGa[1]+' de '+lidos.length+' livros'; }
 
-  const fmObj = countField(lidos,'Formato');
-  const topFm = topN(fmObj,1)[0];
-  if(topFm) document.getElementById('pg-formato').textContent = topFm[0];
+    const idObj = countField(lidos,'Idioma');
+    const topId = topN(idObj,1)[0];
+    if(topId) document.getElementById('pg-idioma').textContent = topId[0];
 
-  const fxObj = countField(lidos,'Faixa etária');
-  const topFx = topN(fxObj,1)[0];
-  if(topFx) document.getElementById('pg-faixa').textContent = topFx[0];
+    const fmObj = countField(lidos,'Formato');
+    const topFm = topN(fmObj,1)[0];
+    if(topFm) document.getElementById('pg-formato').textContent = topFm[0];
 
-  const notas = lidos.map(b=>parseFloat((b['NOTA']||'').replace(',','.'))).filter(n=>n>0);
-  const notaMedia = notas.length ? (notas.reduce((a,b)=>a+b,0)/notas.length) : 0;
-  document.getElementById('pg-nota').textContent = notas.length ? notaMedia.toFixed(1)+' ★' : '—';
+    const fxObj = countField(lidos,'Faixa etária');
+    const topFx = topN(fxObj,1)[0];
+    if(topFx) document.getElementById('pg-faixa').textContent = topFx[0];
 
-  // Diversidade
-  function pctSim(arr, col){ const tot=arr.length; const sim=arr.filter(b=>isTrue(b[col])).length; return {pct:tot>0?Math.round(sim/tot*100):0, n:sim, tot}; }
-  function setDiv(prefix, data){
-    document.getElementById('dc-'+prefix).textContent = data.pct+'%';
-    document.getElementById('dc-'+prefix+'-sub').textContent = 'de '+data.tot+' livros lidos';
-    setTimeout(()=>{ document.getElementById('dc-'+prefix+'-bar').style.width = data.pct+'%'; }, 300);
+    const notas = lidos.map(b=>parseFloat((b['NOTA']||'').replace(',','.'))).filter(n=>n>0);
+    const notaMedia = notas.length ? (notas.reduce((a,b)=>a+b,0)/notas.length) : 0;
+    document.getElementById('pg-nota').textContent = notas.length ? notaMedia.toFixed(1)+' ★' : '—';
+
+    // Diversidade
+    function pctSim(arr, col){ const tot=arr.length; const sim=arr.filter(b=>isTrue(b[col])).length; return {pct:tot>0?Math.round(sim/tot*100):0, n:sim, tot}; }
+    function setDiv(prefix, data){
+      document.getElementById('dc-'+prefix).textContent = data.pct+'%';
+      document.getElementById('dc-'+prefix+'-sub').textContent = 'de '+data.tot+' livros lidos';
+      setTimeout(()=>{ document.getElementById('dc-'+prefix+'-bar').style.width = data.pct+'%'; }, 300);
+    }
+    setDiv('lgbtq', pctSim(lidos,'Protagonista LGBTQ+'));
+    setDiv('etnia', pctSim(lidos,'Diversidade etnica/racial'));
+    setDiv('own',   pctSim(lidos,'#OwnVoices?'));
+
+    // Rankings
+    buildRank('rank-generos',        gnObj, 999);
+    buildRank('rank-porque',         countField(lidos,'Por que li?'), 999);
+    buildRank('rank-origem',         countField(lidos,'Origem do livro?'), 999);
+    buildRank('rank-genero-autores', gaObj, 999);
+    buildRank('rank-cor-autores',    countField(lidos,'Cor'), 999);
+    const autorNovoObj = {};
+    lidos.forEach(b=>{ const v=isTrue(b['Primeira vez lendo autore'])?'Autore novo':'Já conhecia'; autorNovoObj[v]=(autorNovoObj[v]||0)+1; });
+    buildRank('rank-autor-novo', autorNovoObj, 999);
+    buildRank('rank-idioma',  idObj, 999);
+    buildRank('rank-formato', fmObj, 999);
+    buildRank('rank-faixa',   fxObj, 999);
+    buildRank('rank-serie',   countField(lidos,'Série ou único?'), 999);
+
+    // Distribuição de notas — linha/área (padrão estante.html/historico.html)
+    const notasLabels=['1','2','3','4','5'];
+    const notasVals=[0,0,0,0,0];
+    lidos.forEach(b=>{
+      const n=Math.round(parseFloat((b['NOTA']||'').replace(',','.')));
+      if(n>=1&&n<=5) notasVals[n-1]++;
+    });
+    const notasEl=document.getElementById('c-notas-2026');
+    if(notasEl){
+      new Chart(notasEl,{type:'line',
+        data:{labels:notasLabels.map(n=>'★'.repeat(n)),datasets:[{data:notasVals,borderColor:GREEN,backgroundColor:GREEN+'22',
+          borderWidth:2.5,pointRadius:5,pointBackgroundColor:GREEN,fill:true,tension:.35}]},
+        options:{maintainAspectRatio:false,layout:{padding:{top:22}},
+          plugins:{legend:{display:false},datalabels:{display:ctx=>ctx.dataset.data[ctx.dataIndex]>0,
+            anchor:'end',align:'top',color:BLACK,font:{family:'DM Sans',size:10,weight:'500'},
+            formatter:v=>v>0?v:'',clamp:true}},
+          scales:{
+            x:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:MUTED},border:{display:false}},
+            y:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:MUTED},border:{display:false},beginAtZero:true}
+          }}});
+    }
+
+    buildMap(lidos);
+    document.getElementById('mapa-sub').textContent = paises+' país'+(paises!==1?'es':'')+' · '+lidos.length+' livros';
+
+    buildFilters();
+    filtered=[...lidos];
+    renderTable();
+  }catch(e){
+    console.error('init() falhou:', e);
+    showDataError();
   }
-  setDiv('lgbtq', pctSim(lidos,'Protagonista LGBTQ+'));
-  setDiv('etnia', pctSim(lidos,'Diversidade etnica/racial'));
-  setDiv('own',   pctSim(lidos,'#OwnVoices?'));
-
-  // Rankings
-  buildRank('rank-generos',        gnObj, 999);
-  buildRank('rank-porque',         countField(lidos,'Por que li?'), 999);
-  buildRank('rank-origem',         countField(lidos,'Origem do livro?'), 999);
-  buildRank('rank-genero-autores', gaObj, 999);
-  buildRank('rank-cor-autores',    countField(lidos,'Cor'), 999);
-  const autorNovoObj = {};
-  lidos.forEach(b=>{ const v=isTrue(b['Primeira vez lendo autore'])?'Autore novo':'Já conhecia'; autorNovoObj[v]=(autorNovoObj[v]||0)+1; });
-  buildRank('rank-autor-novo', autorNovoObj, 999);
-  buildRank('rank-idioma',  idObj, 999);
-  buildRank('rank-formato', fmObj, 999);
-  buildRank('rank-faixa',   fxObj, 999);
-  buildRank('rank-serie',   countField(lidos,'Série ou único?'), 999);
-
-  // Distribuição de notas — linha/área (padrão estante.html/historico.html)
-  const notasLabels=['1','2','3','4','5'];
-  const notasVals=[0,0,0,0,0];
-  lidos.forEach(b=>{
-    const n=Math.round(parseFloat((b['NOTA']||'').replace(',','.')));
-    if(n>=1&&n<=5) notasVals[n-1]++;
-  });
-  const notasEl=document.getElementById('c-notas-2026');
-  if(notasEl){
-    new Chart(notasEl,{type:'line',
-      data:{labels:notasLabels.map(n=>'★'.repeat(n)),datasets:[{data:notasVals,borderColor:GREEN,backgroundColor:GREEN+'22',
-        borderWidth:2.5,pointRadius:5,pointBackgroundColor:GREEN,fill:true,tension:.35}]},
-      options:{maintainAspectRatio:false,layout:{padding:{top:22}},
-        plugins:{legend:{display:false},datalabels:{display:ctx=>ctx.dataset.data[ctx.dataIndex]>0,
-          anchor:'end',align:'top',color:BLACK,font:{family:'DM Sans',size:10,weight:'500'},
-          formatter:v=>v>0?v:'',clamp:true}},
-        scales:{
-          x:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:MUTED},border:{display:false}},
-          y:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:MUTED},border:{display:false},beginAtZero:true}
-        }}});
-  }
-
-  buildMap(lidos);
-  document.getElementById('mapa-sub').textContent = paises+' país'+(paises!==1?'es':'')+' · '+lidos.length+' livros';
-
-  buildFilters();
-  filtered=[...lidos];
-  renderTable();
 }
 
 function buildMap(books){
