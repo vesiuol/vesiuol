@@ -451,11 +451,11 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
       <div class="charts-2col">
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Distribuição de notas</span></div>
-          <div class="chart-body" style="padding-bottom:.5rem;"><canvas id="c-notas-estante"></canvas></div>
+          <div class="chart-body"><canvas id="c-notas-estante"></canvas></div>
         </div>
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Países dos autores</span></div>
-          <div class="chart-body"><div class="rank-list" id="rank-paises"></div></div>
+          <div class="chart-body" style="height:252px;overflow-y:auto"><div class="rank-list" id="rank-paises"></div></div>
         </div>
       </div>
 
@@ -519,7 +519,7 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
 <!-- FOOTER -->
 <footer>
   <div class="footer-dots"><div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div></div>
-  <span class="footer-text">Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">04 de julho de 2026</span></span>
+  <span class="footer-text">Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">05 de julho de 2026</span></span>
 </footer>
 
 <script>
@@ -653,7 +653,7 @@ async function init(){
   buildRank('rank-idioma',  idObj, 6);
   buildRank('rank-formato', fmObj, 6);
   buildRank('rank-faixa',   fxObj, 6);
-  buildRank('rank-paises',  countField(allBooks,'País'), 6);
+  buildRank('rank-paises',  countField(allBooks,'País'), 999);
 
   // Distribuição de notas — padronizado no formato de linha/área usado em historico.html (Governança, decisão de padronização 2026-07-04)
   const notasLabels=['★','★★','★★★','★★★★','★★★★★','❤️'];
