@@ -75,6 +75,8 @@ nav ul li a.active{background:var(--green);color:var(--white);padding:.28rem .7r
   .charts-2col{grid-template-columns:1fr;}
   .div-cards{grid-template-columns:1fr 1fr;}
   .perfil-text-grid{grid-template-columns:1fr 1fr;}
+  .writers-grid{grid-template-columns:1fr 1fr;}
+  .variety-grid{grid-template-columns:1fr 1fr;}
 }
 @media(max-width:600px){
   nav ul{display:none;position:absolute;top:52px;left:0;right:0;background:var(--white);flex-direction:column;padding:1rem 2rem;gap:1rem;border-bottom:1px solid var(--border);z-index:99;}
@@ -86,6 +88,8 @@ nav ul li a.active{background:var(--green);color:var(--white);padding:.28rem .7r
   .main section.section-gap{padding:0 1.2rem;}
   .div-cards{grid-template-columns:1fr 1fr;}
   .perfil-text-grid{grid-template-columns:1fr;}
+  .writers-grid{grid-template-columns:1fr;}
+  .variety-grid{grid-template-columns:1fr 1fr;}
   .table-controls{flex-direction:column;align-items:stretch;}
   .search-wrap{max-width:100%;}
   table{font-size:.75rem;}
@@ -120,6 +124,8 @@ nav ul li a.active{background:var(--green);color:var(--white);padding:.28rem .7r
 .div-track{height:4px;background:var(--border);border-radius:2px;overflow:hidden;margin-top:.5rem;}
 .div-fill{height:100%;background:var(--green);border-radius:2px;}
 .charts-2col{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:.8rem;}
+.writers-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin-bottom:.8rem;}
+.variety-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;}
 .rank-list{display:flex;flex-direction:column;gap:.6rem;max-height:280px;overflow-y:auto;padding-right:.3rem;}
 .rank-header{display:flex;justify-content:space-between;font-family:'DM Sans',sans-serif;font-size:.82rem;margin-bottom:.3rem;}
 .rank-pos{color:var(--muted);font-size:.72rem;margin-right:.4rem;}
@@ -346,7 +352,7 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
 
       <div style="margin-top:.8rem;">
         <div style="font-family:'DM Sans',sans-serif;font-size:.68rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.7rem;padding-top:.4rem;border-top:1px solid var(--border-soft);">Dados dos escritores</div>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin-bottom:.8rem;">
+        <div class="writers-grid">
 
           <div class="wcard">
             <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Gênero dos autores</span></div>
@@ -372,7 +378,7 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
         </div>
 
         <div style="font-family:'DM Sans',sans-serif;font-size:.68rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.7rem;padding-top:.4rem;border-top:1px solid var(--border-soft);">Variedade dos livros</div>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;">
+        <div class="variety-grid">
 
           <div class="wcard">
             <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Idioma original</span></div>
@@ -464,7 +470,7 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
 
 <footer>
   <div class="footer-dots"><div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div></div>
-  <span class="footer-text">Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">05 de julho de 2026</span></span>
+  <span class="footer-text">Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">06 de julho de 2026</span></span>
 </footer>
 
 <script>
