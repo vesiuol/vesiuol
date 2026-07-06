@@ -496,6 +496,10 @@ const COORDS = {
 
 function norm(s){ return (s||'').toString().trim().toLowerCase(); }
 function isTrue(v){ return ['sim','yes','true','1','✓','x','verdadeiro'].includes(norm(v)); }
+// Coluna LIDO é um menu suspenso com 3 valores exatos: "Lido", "Lendo", "Não lido".
+// isLido() reconhece especificamente o valor "Lido" (e só ele) dessa coluna.
+function isLido(v){ return norm(v) === 'lido'; }
+function isLendo(v){ return norm(v).includes('lendo'); }
 function pi(v){ return parseInt(String(v||'').replace(/[^0-9]/g,'')) || 0; }
 
 let dataLoadFailed = false;
@@ -584,15 +588,15 @@ async function init(){
   try{
     allRows = await fetchCSV(SHEET_URL_2026);
     allRows = allRows.filter(r => (r['Título']||'').trim());
-    lidos   = allRows.filter(r => isTrue(r['LIDO']));
+    lidos   = allRows.filter(r => isLido(r['LIDO']));
 
     if(dataLoadFailed){
       showDataError();
       return;
     }
 
-    const lendo   = allRows.filter(r => norm(r['LIDO']).includes('lendo'));
-    const naoLido = allRows.filter(r => !isTrue(r['LIDO']) && !norm(r['LIDO']).includes('lendo'));
+    const lendo   = allRows.filter(r => isLendo(r['LIDO']));
+    const naoLido = allRows.filter(r => !isLido(r['LIDO']) && !isLendo(r['LIDO']));
 
     const totalPaginas = lidos.reduce((s,b)=>s+pi(b['Páginas']),0);
     const totalHoras   = lidos.reduce((s,b)=>s+pi(b['Horas']),0);
@@ -737,9 +741,9 @@ function applyFilters(){
   const fm=document.getElementById('f-formato').value;
   filtered=lidos.filter(b=>{
     if(q && !((b['Título']||'')+(b['Nome']||'')).toLowerCase().includes(q)) return false;
-    if(st==='lido' && !isTrue(b['LIDO'])) return false;
-    if(st==='lendo' && !norm(b['LIDO']).includes('lendo')) return false;
-    if(st==='não lido' && (isTrue(b['LIDO'])||norm(b['LIDO']).includes('lendo'))) return false;
+    if(st==='lido' && !isLido(b['LIDO'])) return false;
+    if(st==='lendo' && !isLendo(b['LIDO'])) return false;
+    if(st==='não lido' && (isLido(b['LIDO'])||isLendo(b['LIDO']))) return false;
     if(gn && b['Gênero']!==gn) return false;
     if(fm && b['Formato']!==fm) return false;
     if(activeTag==='lgbtqia' && !isTrue(b['Protagonista LGBTQ+'])) return false;
@@ -763,9 +767,9 @@ function renderTable(){
     return;
   }
   tbody.innerHTML=pg.map(b=>{
-    const isLendo = norm(b['LIDO']).includes('lendo');
-    const st = isTrue(b['LIDO']) ? 'Lido' : (isLendo ? 'Lendo' : 'Não lido');
-    const bc = isTrue(b['LIDO']) ? 'badge-lido' : (isLendo ? 'badge-lendo' : 'badge-nao');
+    const linhaLendo = isLendo(b['LIDO']);
+    const st = isLido(b['LIDO']) ? 'Lido' : (linhaLendo ? 'Lendo' : 'Não lido');
+    const bc = isLido(b['LIDO']) ? 'badge-lido' : (linhaLendo ? 'badge-lendo' : 'badge-nao');
     const nota = pi(b['NOTA']);
     const starsHtml = nota>0 ? '<span class="stars">'+'★'.repeat(Math.min(nota,5))+'</span>' : '—';
     const audio = norm(b['Formato']).includes('audio') && pi(b['Horas'])>0 ? pi(b['Horas'])+'h' : '—';
