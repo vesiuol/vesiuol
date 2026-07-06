@@ -470,7 +470,7 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
 
 <footer>
   <div class="footer-dots"><div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div></div>
-  <span class="footer-text">Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">06 de julho de 2026</span></span>
+  <span class="footer-text">Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">05 de julho de 2026</span></span>
 </footer>
 
 <script>
@@ -507,6 +507,18 @@ function isTrue(v){ return ['sim','yes','true','1','✓','x','verdadeiro'].inclu
 function isLido(v){ return norm(v) === 'lido'; }
 function isLendo(v){ return norm(v).includes('lendo'); }
 function pi(v){ return parseInt(String(v||'').replace(/[^0-9]/g,'')) || 0; }
+// Formata horas de audiobook (que podem vir com decimais, tipo "5,5" ou "5.5")
+// como "Xh Ymin" em vez de truncar/arredondar tudo pra um número inteiro de horas.
+function formatHorasMin(v){
+  const num = parseFloat(String(v||'').replace(',', '.').trim());
+  if(!isFinite(num) || num<=0) return null;
+  const totalMin = Math.round(num*60);
+  const h = Math.floor(totalMin/60);
+  const m = totalMin%60;
+  if(h>0 && m>0) return h+'h '+m+'min';
+  if(h>0) return h+'h';
+  return m+'min';
+}
 
 let dataLoadFailed = false;
 
@@ -605,7 +617,10 @@ async function init(){
     const naoLido = allRows.filter(r => !isLido(r['LIDO']) && !isLendo(r['LIDO']));
 
     const totalPaginas = lidos.reduce((s,b)=>s+pi(b['Páginas']),0);
-    const totalHoras   = lidos.reduce((s,b)=>s+pi(b['Horas']),0);
+    const totalHorasNum = lidos.reduce((s,b)=>{
+      const n = parseFloat(String(b['Horas']||'').replace(',', '.').trim());
+      return s + (isFinite(n) ? n : 0);
+    }, 0);
     const autoresNovos = lidos.filter(b=>isTrue(b['Primeira vez lendo autore'])).length;
     const paises        = new Set(lidos.map(b=>b['País']).filter(Boolean)).size;
     const totalMeta = allRows.length;
@@ -615,7 +630,7 @@ async function init(){
     document.getElementById('kpi-meta').textContent = totalMeta;
     document.getElementById('kpi-pct').textContent = pctMeta+'%';
     document.getElementById('kpi-paginas').textContent = totalPaginas.toLocaleString('pt-BR');
-    document.getElementById('kpi-horas').textContent = totalHoras+'h';
+    document.getElementById('kpi-horas').textContent = formatHorasMin(totalHorasNum) || '0h';
     document.getElementById('kpi-autores-novos').textContent = autoresNovos;
     document.getElementById('kpi-paises').textContent = paises;
 
@@ -778,7 +793,7 @@ function renderTable(){
     const bc = isLido(b['LIDO']) ? 'badge-lido' : (linhaLendo ? 'badge-lendo' : 'badge-nao');
     const nota = pi(b['NOTA']);
     const starsHtml = nota>0 ? '<span class="stars">'+'★'.repeat(Math.min(nota,5))+'</span>' : '—';
-    const audio = norm(b['Formato']).includes('audio') && pi(b['Horas'])>0 ? pi(b['Horas'])+'h' : '—';
+    const audio = norm(b['Formato']).includes('audio') ? (formatHorasMin(b['Horas']) || '—') : '—';
     return `<tr>
       <td><strong>${b['Título']||'—'}</strong></td>
       <td>${b['Nome']||'—'}</td>
