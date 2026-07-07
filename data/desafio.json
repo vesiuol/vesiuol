@@ -1,0 +1,1883 @@
+[
+  {
+    "pais": "Guadalupe",
+    "livro": "",
+    "autor": "Maryse Conde",
+    "ga": "Feminino",
+    "status_notion": "Não iniciada",
+    "tenho": "Não",
+    "capa": "https://m.media-amazon.com/images/I/81OMSeNLE6L._SY466_.jpg"
+  },
+  {
+    "pais": "Países baixos",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Norte da Macedônia",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Dominicana",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Belarus",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Ilhas Salomão",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Porto Rico***",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Polinésia Francesa",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Ilhas Virgens",
+    "livro": "King e as libélulas",
+    "autor": "Kacen Callender",
+    "ga": "Trans",
+    "status_notion": "Concluído",
+    "tenho": "Sim",
+    "capa": "https://m.media-amazon.com/images/I/61qNJZl4o0L._SY466_.jpg"
+  },
+  {
+    "pais": "Ilhas Marshall\t",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Groenlândia**",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Curaçao**",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Aruba***",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Vietnã",
+    "livro": "A menina da foto",
+    "autor": "Phan Thị Kim Phúc",
+    "ga": "Feminino",
+    "status_notion": "Concluído",
+    "tenho": "Não",
+    "capa": "https://m.media-amazon.com/images/I/41B8CVh-6uL._SY445_SX342_.jpg"
+  },
+  {
+    "pais": "Zâmbia",
+    "livro": "Assando bolos em Kigali",
+    "autor": "Gaile Parkin",
+    "ga": "Feminino",
+    "status_notion": "Concluído",
+    "tenho": "Sim",
+    "capa": "https://a-static.mlcdn.com.br/470x352/assando-bolos-em-kigali/biruta/289744/3cebf783ea7ee8d9aa964cb6a2139acb.jpeg"
+  },
+  {
+    "pais": "Zimbábue",
+    "livro": "As Lágrimas da Girafa",
+    "autor": "Alexander McCall Smith",
+    "ga": "Masculino",
+    "status_notion": "Concluído",
+    "tenho": "Sim",
+    "capa": "https://m.media-amazon.com/images/I/91SzxuEeSQL._SY425_.jpg"
+  },
+  {
+    "pais": "Tunísia",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Venezuela",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Uzbequistão",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Vaticano**",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Ucrânia",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Uruguai",
+    "livro": "O Livro dos Abraços",
+    "autor": "Eduardo Galeano ",
+    "ga": "Masculino",
+    "status_notion": "Concluído",
+    "tenho": "Não",
+    "capa": "https://m.media-amazon.com/images/I/81TLZQ4DlxL._SY466_.jpg"
+  },
+  {
+    "pais": "Turquia",
+    "livro": "A casa do silêncio",
+    "autor": " Elif Shafak ",
+    "ga": "Feminino",
+    "status_notion": "Não iniciada",
+    "tenho": "Não",
+    "capa": "https://m.media-amazon.com/images/I/816biVSrVDL._SY466_.jpg"
+  },
+  {
+    "pais": "Tuvalu",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Uganda",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Vanuatu",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Turcomenistão",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Tanzânia",
+    "livro": "",
+    "autor": "Abdulrazak Gurnah",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Togo",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Suíça",
+    "livro": "Pílulas azuis",
+    "autor": "Frederik Peeters",
+    "ga": "Masculino",
+    "status_notion": "Não iniciada",
+    "tenho": "Não",
+    "capa": "https://m.media-amazon.com/images/I/81SksFX50mL._SY466_.jpg"
+  },
+  {
+    "pais": "Tajiquistão",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Tonga",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Trinidad e Tobago",
+    "livro": "Menino de ouro",
+    "autor": "Claire Adam",
+    "ga": "Feminino",
+    "status_notion": "Em andamento",
+    "tenho": "Sim",
+    "capa": "https://m.media-amazon.com/images/I/91sNbK-KzvL._SY466_.jpg"
+  },
+  {
+    "pais": "Timor-Leste",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Tailândia",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "República Tcheca",
+    "livro": "A insustentável leveza do ser",
+    "autor": "Milan Kundera",
+    "ga": "Masculino",
+    "status_notion": "Concluído",
+    "tenho": "Sim",
+    "capa": "https://m.media-amazon.com/images/I/818ShC1u68L._SL1500_.jpg"
+  },
+  {
+    "pais": "Suriname",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Taiwan**",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Suécia",
+    "livro": "Um homem chamado Ove",
+    "autor": "Fredrik Backman",
+    "ga": "Masculino",
+    "status_notion": "Concluído",
+    "tenho": "Sim",
+    "capa": "https://m.media-amazon.com/images/I/51K-O9uzclL.jpg"
+  },
+  {
+    "pais": "Sudão",
+    "livro": "Tempo De Migrar Para O Norte ",
+    "autor": "Tayeb Salih",
+    "ga": "Masculino",
+    "status_notion": "Não iniciada",
+    "tenho": "Não",
+    "capa": "https://m.media-amazon.com/images/I/51O4mU0B3gL._SY466_.jpg"
+  },
+  {
+    "pais": "Sudão do Sul",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Sri Lanka",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Sérvia",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Singapura",
+    "livro": "",
+    "autor": "Jesse Q. Sutanto",
+    "ga": "Feminino",
+    "status_notion": "Não iniciada",
+    "tenho": "Não",
+    "capa": ""
+  },
+  {
+    "pais": "Seychelles",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Senegal",
+    "livro": "A greve dos mendigos",
+    "autor": "Aminata Sow Fall",
+    "ga": "Feminino",
+    "status_notion": "Não iniciada",
+    "tenho": "Não",
+    "capa": "https://m.media-amazon.com/images/I/81Cxpl3a2+L._SY466_.jpg"
+  },
+  {
+    "pais": "Serra Leoa",
+    "livro": "O brilho do amanhã",
+    "autor": "Ishmael Beah",
+    "ga": "Masculino",
+    "status_notion": "Não iniciada",
+    "tenho": "Sim",
+    "capa": "https://m.media-amazon.com/images/I/91kBeCnZ4YL._SY425_.jpg"
+  },
+  {
+    "pais": "Somália",
+    "livro": "Infiel ",
+    "autor": "Ayaan Hirsi Ali",
+    "ga": "Feminino",
+    "status_notion": "Não iniciada",
+    "tenho": "Sim",
+    "capa": "https://m.media-amazon.com/images/I/91UtcPIPByL._SY466_.jpg"
+  },
+  {
+    "pais": "Síria",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "São Vicente e Granadinas",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "São Tomé e Príncipe",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Rússia",
+    "livro": "A Morte de Ivan Ilitch",
+    "autor": "Liev Tolstói",
+    "ga": "Masculino",
+    "status_notion": "Concluído",
+    "tenho": "Não",
+    "capa": "https://m.media-amazon.com/images/I/81U5uhi2vML._UF1000,1000_QL80_.jpg"
+  },
+  {
+    "pais": "República Democrática do Congo**",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "República do Congo",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Samoa",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Ruanda",
+    "livro": "Um belo diploma",
+    "autor": "Scholastique Mukasonga",
+    "ga": "Feminino",
+    "status_notion": "Concluído",
+    "tenho": "Sim",
+    "capa": "https://m.media-amazon.com/images/I/71kxBKomPML._SY466_.jpg"
+  },
+  {
+    "pais": "Santa Lúcia",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "São Marino",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "República Dominicana",
+    "livro": "A Fantástica Vida Breve de Oscar Wao",
+    "autor": "Junot Díaz",
+    "ga": "Masculino",
+    "status_notion": "Não iniciada",
+    "tenho": "Não",
+    "capa": "https://m.media-amazon.com/images/I/71MjVW+tRmL._SY466_.jpg"
+  },
+  {
+    "pais": "Romênia",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "República Centro-Africana**",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Reino Unido",
+    "livro": "O Priorado da Laranjeira",
+    "autor": "Samantha Shannon",
+    "ga": "Feminino",
+    "status_notion": "Concluído",
+    "tenho": "Sim",
+    "capa": "https://m.media-amazon.com/images/I/71wQ7qes-XL._SL1000_.jpg"
+  },
+  {
+    "pais": "Quirguistão",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Papua-Nova Guiné",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Portugal",
+    "livro": "Vamos comprar um poeta",
+    "autor": "Afonso Cruz",
+    "ga": "Feminino",
+    "status_notion": "Concluído",
+    "tenho": "Não",
+    "capa": "https://static.skeelo.com/remote/320/480/100/https://skoob.s3.amazonaws.com/livros/608779/VAMOS_COMPRAR_UM_POETA_1656275729608779SK-V11656275730B.jpg"
+  },
+  {
+    "pais": "Polônia",
+    "livro": "Solaris ",
+    "autor": "Stanisław Lem",
+    "ga": "Masculino",
+    "status_notion": "Não iniciada",
+    "tenho": "Não",
+    "capa": "https://m.media-amazon.com/images/I/61wluSJ2bjL._AC_UY218_.jpg"
+  },
+  {
+    "pais": "Paraguai",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Paquistão",
+    "livro": "O último homem branco",
+    "autor": "Mohsin Hamid",
+    "ga": "Masculino",
+    "status_notion": "Concluído",
+    "tenho": "Sim",
+    "capa": "https://m.media-amazon.com/images/I/61q+S9pZioL._SY466_.jpg"
+  },
+  {
+    "pais": "Quênia",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Peru",
+    "livro": "Matei um cachorro na Romênia",
+    "autor": "Claudia Ulloa",
+    "ga": "Feminino",
+    "status_notion": "Não iniciada",
+    "tenho": "Não",
+    "capa": "https://m.media-amazon.com/images/I/61r+-p70SEL._SY466_.jpg"
+  },
+  {
+    "pais": "Omã",
+    "livro": "Damas da lua",
+    "autor": "Jokha Alharthi",
+    "ga": "Feminino",
+    "status_notion": "Não iniciada",
+    "tenho": "Não",
+    "capa": "https://m.media-amazon.com/images/I/813ZrKq5TiL._SY466_.jpg"
+  },
+  {
+    "pais": "Palau",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "País de Gales",
+    "livro": "A Fabulosa Casa com Pernas",
+    "autor": " Sophie Anderson",
+    "ga": "Feminino",
+    "status_notion": "Não iniciada",
+    "tenho": "Não",
+    "capa": "https://m.media-amazon.com/images/I/81olQWTv5lL._SY466_.jpg"
+  },
+  {
+    "pais": "Panamá",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Noruega",
+    "livro": "Tudo que Deixamos Para Trás",
+    "autor": "Maja Lunde",
+    "ga": "Feminino",
+    "status_notion": "Não iniciada",
+    "tenho": "Não",
+    "capa": "https://m.media-amazon.com/images/I/61yLCMQ3V1L._SY466_.jpg"
+  },
+  {
+    "pais": "Namíbia",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Níger",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Nova Zelândia",
+    "livro": "O Jogo do Assassino",
+    "autor": "Ngaio Marsh",
+    "ga": "Feminino",
+    "status_notion": "Não iniciada",
+    "tenho": "Não",
+    "capa": "https://m.media-amazon.com/images/I/61XtKla65VL._SX445_.jpg"
+  },
+  {
+    "pais": "Nicarágua",
+    "livro": "O país das mulheres",
+    "autor": "Gioconda Belli",
+    "ga": "Feminino",
+    "status_notion": "Não iniciada",
+    "tenho": "Não",
+    "capa": "https://m.media-amazon.com/images/I/71WJQenuTWL._SY466_.jpg"
+  },
+  {
+    "pais": "Nepal",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Nigéria",
+    "livro": "A garota que não se calou",
+    "autor": "Abi Daré",
+    "ga": "Feminino",
+    "status_notion": "Não iniciada",
+    "tenho": "Não",
+    "capa": "https://m.media-amazon.com/images/I/91tzCiK7ozL._SY466_.jpg"
+  },
+  {
+    "pais": "Nauru",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "México",
+    "livro": "Páradais ",
+    "autor": "Fernanda Melchor",
+    "ga": "Feminino",
+    "status_notion": "Não iniciada",
+    "tenho": "Não",
+    "capa": "https://m.media-amazon.com/images/I/51nqEy57vVL._SY466_.jpg"
+  },
+  {
+    "pais": "Micronésia",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Montenegro",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Mônaco",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Moçambique",
+    "livro": "O mapeador de ausências",
+    "autor": "Mia Couto",
+    "ga": "Masculino",
+    "status_notion": "Não iniciada",
+    "tenho": "Não",
+    "capa": "https://m.media-amazon.com/images/I/71d1x8XT4GL._SY466_.jpg"
+  },
+  {
+    "pais": "Moldávia",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Mongólia",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Mauritânia",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Mianmar",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Madagascar",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Maldivas",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Malásia",
+    "livro": "",
+    "autor": "",
+    "ga": "Feminino",
+    "status_notion": "Não iniciada",
+    "tenho": "Não",
+    "capa": ""
+  },
+  {
+    "pais": "Luxemburgo",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Marrocos",
+    "livro": "O hotel dos sonhos",
+    "autor": "Laila Lalami",
+    "ga": "Feminino",
+    "status_notion": "Não iniciada",
+    "tenho": "Não",
+    "capa": "https://m.media-amazon.com/images/I/71b890mPU5L._SY425_.jpg"
+  },
+  {
+    "pais": "Mali",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Malta",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Lituânia",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Maurício",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Liechtenstein",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Malawi",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Líbia",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Kuwait",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Lesoto",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Libéria",
+    "livro": "Ela Seria o Rei",
+    "autor": "Wayétu Moore",
+    "ga": "Feminino",
+    "status_notion": "Não iniciada",
+    "tenho": "Não",
+    "capa": "https://m.media-amazon.com/images/I/81MkXxUG6NL._SL1500_.jpg"
+  },
+  {
+    "pais": "Kiribati\t",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Laos",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Líbano",
+    "livro": "Samarcanda ",
+    "autor": "Amin Maalouf",
+    "ga": "Masculino",
+    "status_notion": "Não iniciada",
+    "tenho": "Não",
+    "capa": "https://m.media-amazon.com/images/I/71+jkvhgFVL._SY466_.jpg"
+  },
+  {
+    "pais": "Letônia",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Jamaica",
+    "livro": "Só nós",
+    "autor": "Claudia Rankine",
+    "ga": "Feminino",
+    "status_notion": "Não iniciada",
+    "tenho": "Não",
+    "capa": "https://m.media-amazon.com/images/I/41dg-o5iXcS.jpg"
+  },
+  {
+    "pais": "Japão",
+    "livro": "Diario dos Gatos Yon & Mu",
+    "autor": "Junji Ito",
+    "ga": "Masculino",
+    "status_notion": "Concluído",
+    "tenho": "Sim",
+    "capa": "https://m.media-amazon.com/images/I/51y+Ul4umeL._SY425_.jpg"
+  },
+  {
+    "pais": "Jordânia",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Israel",
+    "livro": "A propriedade",
+    "autor": "Rutu Modan",
+    "ga": "Masculino",
+    "status_notion": "Não iniciada",
+    "tenho": "Não",
+    "capa": "https://m.media-amazon.com/images/I/51N39cvcL8L.jpg"
+  },
+  {
+    "pais": "Itália",
+    "livro": "A amiga genial",
+    "autor": "Elena Ferrante",
+    "ga": "Feminino",
+    "status_notion": "Não iniciada",
+    "tenho": "Não",
+    "capa": "https://m.media-amazon.com/images/I/71ssdjzNbXL._SL1500_.jpg"
+  },
+  {
+    "pais": "Islândia",
+    "livro": "Rosa cândida",
+    "autor": "Auður Ava Ólafsdóttir",
+    "ga": "Feminino",
+    "status_notion": "Não iniciada",
+    "tenho": "Não",
+    "capa": "https://m.media-amazon.com/images/I/81QXOavKKbL._SY466_.jpg"
+  },
+  {
+    "pais": "Irlanda",
+    "livro": "Rugido",
+    "autor": "Cecelia Ahern",
+    "ga": "Feminino",
+    "status_notion": "Concluído",
+    "tenho": "Sim",
+    "capa": "https://m.media-amazon.com/images/I/81XDzrd6jxL._SY466_.jpg"
+  },
+  {
+    "pais": "Iraque",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Inglaterra",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Irã",
+    "livro": "Lendo Lolita em Teerã",
+    "autor": "Azar Nafisi",
+    "ga": "Feminino",
+    "status_notion": "Não iniciada",
+    "tenho": "Sim",
+    "capa": "https://m.media-amazon.com/images/I/81LQST9hn6L._SL1500_.jpg"
+  },
+  {
+    "pais": "Indonésia",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Iêmen",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Índia",
+    "livro": "O monge endinheirado mulher do bandido e outras histórias de um rio indiano",
+    "autor": "Gita Mehta",
+    "ga": "Feminino",
+    "status_notion": "Em andamento",
+    "tenho": "Sim",
+    "capa": "https://m.media-amazon.com/images/I/917ynGrPvVL._SY425_.jpg"
+  },
+  {
+    "pais": "Hungria",
+    "livro": "A Porta",
+    "autor": " Magda Szabó",
+    "ga": "Feminino",
+    "status_notion": "Não iniciada",
+    "tenho": "Não",
+    "capa": "https://m.media-amazon.com/images/I/51xTVPNfLIL._SY466_.jpg"
+  },
+  {
+    "pais": "Honduras",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Haiti",
+    "livro": "A Cor do Amanhecer",
+    "autor": "Yanick Lahens",
+    "ga": "Feminino",
+    "status_notion": "Não iniciada",
+    "tenho": "Não",
+    "capa": "https://m.media-amazon.com/images/I/61TsY-o+++L._SY466_.jpg"
+  },
+  {
+    "pais": "Holanda",
+    "livro": "Táxi!",
+    "autor": "Aimée de Jongh",
+    "ga": "Feminino",
+    "status_notion": "Não iniciada",
+    "tenho": "Não",
+    "capa": "https://m.media-amazon.com/images/I/41hg5ZoZ2bL.jpg"
+  },
+  {
+    "pais": "Guiné",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Guiné Equatorial",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Guiné-Bissau",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Guiana",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Grenada",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Guatemala",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Gana",
+    "livro": "O imenso azul entre nós",
+    "autor": "Ayesha Harruna Attah",
+    "ga": "Feminino",
+    "status_notion": "Não iniciada",
+    "tenho": "Não",
+    "capa": "https://m.media-amazon.com/images/I/81gT6tf0k0L._SY466_.jpg"
+  },
+  {
+    "pais": "Geórgia",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Grécia",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Gabão",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Gâmbia",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Filipinas",
+    "livro": "Espelhos de água",
+    "autor": " Samantha Sotto Yambao ",
+    "ga": "Feminino",
+    "status_notion": "Não iniciada",
+    "tenho": "Não",
+    "capa": "https://m.media-amazon.com/images/I/71yG3+3+2qL._SY425_.jpg"
+  },
+  {
+    "pais": "Finlândia",
+    "livro": "Maresi",
+    "autor": "Maria Turtschaninoff ",
+    "ga": "Feminino",
+    "status_notion": "Não iniciada",
+    "tenho": "Não",
+    "capa": "https://m.media-amazon.com/images/I/71S+pufvpWL._SL1447_.jpg"
+  },
+  {
+    "pais": "França",
+    "livro": "O Baile das Loucas",
+    "autor": "Victoria Mas",
+    "ga": "Feminino",
+    "status_notion": "Não iniciada",
+    "tenho": "Não",
+    "capa": "https://m.media-amazon.com/images/I/81FSZu-pIGS._SY425_.jpg"
+  },
+  {
+    "pais": "Fiji",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Etiópia",
+    "livro": "O décimo primeiro mandamento",
+    "autor": "Abraham Verghese",
+    "ga": "Masculino",
+    "status_notion": "Não iniciada",
+    "tenho": "Sim",
+    "capa": "https://m.media-amazon.com/images/I/91L7fuzfm4S._SY466_.jpg"
+  },
+  {
+    "pais": "Estônia",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Estados Federados da Micronésia***",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Estados Unidos",
+    "livro": "Tudo sobre o amor",
+    "autor": "Bell Hooks",
+    "ga": "Feminino",
+    "status_notion": "Concluído",
+    "tenho": "Sim",
+    "capa": "https://img.skoob.com.br/O9nCofU9GN6-KYpbFAFOXABwqSE=/200x/center/top/smart/filters:format(jpeg)/https://skoob.s3.amazonaws.com/livros/11723773/TUDO_SOBRE_O_AMOR_172214208911723773SK-V11722142090B.jpg"
+  },
+  {
+    "pais": "Eswatini",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Equador",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Eslovênia",
+    "livro": "Alamut ",
+    "autor": "Vladimir Barto",
+    "ga": "Masculino",
+    "status_notion": "Não iniciada",
+    "tenho": "Não",
+    "capa": "https://m.media-amazon.com/images/I/91fk9rfFqTL._SY466_.jpg"
+  },
+  {
+    "pais": "Eritreia",
+    "livro": "As consequências do amor",
+    "autor": "Sulaiman Addonia",
+    "ga": "Masculino",
+    "status_notion": "Não iniciada",
+    "tenho": "Não",
+    "capa": "https://m.media-amazon.com/images/I/71cTrCZc+HL._SY466_.jpg"
+  },
+  {
+    "pais": "Escócia**",
+    "livro": "",
+    "autor": "cherlock holmes",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Espanha",
+    "livro": "Dom Quixote",
+    "autor": "Miguel Cervantes",
+    "ga": "Masculino",
+    "status_notion": "Não iniciada",
+    "tenho": "Sim",
+    "capa": "https://m.media-amazon.com/images/I/81k74t+lqyL._SY466_.jpg"
+  },
+  {
+    "pais": "Eslováquia",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "El Salvador",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Egito",
+    "livro": "Noites das mil e uma noites",
+    "autor": "Naguib Mahfouz ",
+    "ga": "Masculino",
+    "status_notion": "Não iniciada",
+    "tenho": "Não",
+    "capa": "https://m.media-amazon.com/images/I/81lxBn+MHrL._SY466_.jpg"
+  },
+  {
+    "pais": "Emirados Árabes Unidos",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Dominica",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Djibouti",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Dinamarca",
+    "livro": "Os funcionários ",
+    "autor": "Olga Ravn",
+    "ga": "Feminino",
+    "status_notion": "Não iniciada",
+    "tenho": "Não",
+    "capa": "https://m.media-amazon.com/images/I/71NNwTzLGSL._SY466_.jpg"
+  },
+  {
+    "pais": "Cuba",
+    "livro": "Cartas para a minha mãe",
+    "autor": "Teresa Cárdenas",
+    "ga": "Feminino",
+    "status_notion": "Concluído",
+    "tenho": "Sim",
+    "capa": "https://m.media-amazon.com/images/I/61YbM0CxNIL._SY466_.jpg"
+  },
+  {
+    "pais": "Costa do Marfim",
+    "livro": "",
+    "autor": "Marguerite Abouet",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Coreia do Sul",
+    "livro": "Castella",
+    "autor": "Min-gyu Park",
+    "ga": "Masculino",
+    "status_notion": "Não iniciada",
+    "tenho": "Não",
+    "capa": "https://m.media-amazon.com/images/I/51nSOhvSFoL.jpg"
+  },
+  {
+    "pais": "Costa Rica",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Congo",
+    "livro": "O involuntário ato de respirar",
+    "autor": "JJ Bola",
+    "ga": "Masculino",
+    "status_notion": "Não iniciada",
+    "tenho": "Sim",
+    "capa": "https://m.media-amazon.com/images/I/51FLeh+dBrL.jpg"
+  },
+  {
+    "pais": "Croácia",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Coreia do Norte",
+    "livro": "A Acusação: Histórias proibidas vindas da Coreia do Norte",
+    "autor": "Bandi",
+    "ga": "Desconhecide",
+    "status_notion": "Não iniciada",
+    "tenho": "Não",
+    "capa": "https://m.media-amazon.com/images/I/81Zb5YuQWxS._SL1500_.jpg"
+  },
+  {
+    "pais": "Chile",
+    "livro": "O vento sabe o meu nome",
+    "autor": "Isabel Allende",
+    "ga": "Feminino",
+    "status_notion": "Concluído",
+    "tenho": "Sim",
+    "capa": "https://m.media-amazon.com/images/I/919QiNB2-6L._SY466_.jpg"
+  },
+  {
+    "pais": "Chipre",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "China",
+    "livro": "Expiração ",
+    "autor": "Ted Chiang ",
+    "ga": "Masculino",
+    "status_notion": "Não iniciada",
+    "tenho": "Não",
+    "capa": "https://m.media-amazon.com/images/I/61pmdZryUyS._SL1500_.jpg"
+  },
+  {
+    "pais": "Comores",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Colômbia",
+    "livro": "Cem anos de solidão",
+    "autor": "Gabriel García Márquez",
+    "ga": "Masculino",
+    "status_notion": "Não iniciada",
+    "tenho": "Sim",
+    "capa": "https://m.media-amazon.com/images/I/817esPahlrL._SY466_.jpg"
+  },
+  {
+    "pais": "Canadá",
+    "livro": "Mar da tranquilidade",
+    "autor": "Emily St. John Mandel",
+    "ga": "Feminino",
+    "status_notion": "Concluído",
+    "tenho": "Sim",
+    "capa": "https://m.media-amazon.com/images/I/41nuwM6VUSL._SY445_SX342_ML2_.jpg"
+  },
+  {
+    "pais": "Chade",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Cazaquistão",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Camarões",
+    "livro": "Aqui estão os sonhadores",
+    "autor": "Imbolo Mbue",
+    "ga": "Feminino",
+    "status_notion": "Concluído",
+    "tenho": "Sim",
+    "capa": "https://m.media-amazon.com/images/I/51pFP4T4XEL.jpg"
+  },
+  {
+    "pais": "Camboja",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Qatar",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Cabo Verde",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Butão",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Burundi",
+    "livro": "Meu Pequeno Pais",
+    "autor": " Gaël Faye",
+    "ga": "Masculino",
+    "status_notion": "Não iniciada",
+    "tenho": "Não",
+    "capa": "https://m.media-amazon.com/images/I/71jBut2DyML._SY466_.jpg"
+  },
+  {
+    "pais": "Bulgária",
+    "livro": "Onde estão as flores?",
+    "autor": "Ilko Minev",
+    "ga": "Masculino",
+    "status_notion": "Concluído",
+    "tenho": "Sim",
+    "capa": "https://m.media-amazon.com/images/I/81gEa09B+nL._SY466_.jpg"
+  },
+  {
+    "pais": "Burkina Faso",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Brunei",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Brasil",
+    "livro": "Vidas Secas",
+    "autor": "Graciliano Ramos",
+    "ga": "Feminino",
+    "status_notion": "Concluído",
+    "tenho": "Sim",
+    "capa": "https://m.media-amazon.com/images/I/618-b9Im6dL._SY425_.jpg"
+  },
+  {
+    "pais": "Benim",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Bielorrússia",
+    "livro": "Vozes De Tchernóbil ",
+    "autor": "Svetlana Alexijevich",
+    "ga": "Feminino",
+    "status_notion": "Concluído",
+    "tenho": "Sim",
+    "capa": "https://m.media-amazon.com/images/I/91RcGh5EDaL._SL1500_.jpg"
+  },
+  {
+    "pais": "Botsuana",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Bolívia",
+    "livro": "Os afetos",
+    "autor": "Rodrigo Hasbún ",
+    "ga": "Masculino",
+    "status_notion": "Concluído",
+    "tenho": "Sim",
+    "capa": "https://m.media-amazon.com/images/I/61zbEahX4+L._SY466_.jpg"
+  },
+  {
+    "pais": "Bósnia e Herzegovina",
+    "livro": "Como o soldado conserta o gramofone",
+    "autor": "Saša Stanišić",
+    "ga": "Masculino",
+    "status_notion": "Não iniciada",
+    "tenho": "Sim",
+    "capa": "https://m.media-amazon.com/images/I/91nrIr1awJL._SY466_.jpg"
+  },
+  {
+    "pais": "Belize",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Barbados",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Bahrein",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Bangladesh",
+    "livro": "Uma era de ouro",
+    "autor": " Talmina Anam ",
+    "ga": "Feminino",
+    "status_notion": "Não iniciada",
+    "tenho": "Não",
+    "capa": "https://m.media-amazon.com/images/I/91lWcKAzBNL._SY466_.jpg"
+  },
+  {
+    "pais": "Bélgica",
+    "livro": "Eu que nunca conheci os homens",
+    "autor": "Jacqueline Harpman",
+    "ga": "Feminino",
+    "status_notion": "Concluído",
+    "tenho": "Sim",
+    "capa": "https://m.media-amazon.com/images/I/81IKyAwkU7L._SY466_.jpg"
+  },
+  {
+    "pais": "Bahamas",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Áustria",
+    "livro": "24 Horas na Vida de uma Mulher",
+    "autor": "Stefan Zweig",
+    "ga": "Masculino",
+    "status_notion": "Concluído",
+    "tenho": "Sim",
+    "capa": "https://m.media-amazon.com/images/I/71PkeoTg8+L._AC_UF1000,1000_QL80_.jpg"
+  },
+  {
+    "pais": "Azerbaijão",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Austrália",
+    "livro": "The Husband's Secret",
+    "autor": "Liane Moriarty",
+    "ga": "Feminino",
+    "status_notion": "Não iniciada",
+    "tenho": "Sim",
+    "capa": "https://m.media-amazon.com/images/I/61Zgm1zfwBL._SY466_.jpg"
+  },
+  {
+    "pais": "Argentina",
+    "livro": "Sou uma tola por te querer",
+    "autor": "Camila Sosa Villada",
+    "ga": "Trans",
+    "status_notion": "Concluído",
+    "tenho": "Não",
+    "capa": "https://m.media-amazon.com/images/I/81cp3Fo+HWL._SY425_.jpg"
+  },
+  {
+    "pais": "Armênia",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Argélia",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Arábia Saudita",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Antígua e Barbuda",
+    "livro": "A autobiografia da minha mãe",
+    "autor": "Jamaica Kincaid",
+    "ga": "Feminino",
+    "status_notion": "Não iniciada",
+    "tenho": "Não",
+    "capa": "https://m.media-amazon.com/images/I/71fbcgEr6fL._SY466_.jpg"
+  },
+  {
+    "pais": "Angola",
+    "livro": "Os transparentes",
+    "autor": "Ondjaki",
+    "ga": "Masculino",
+    "status_notion": "Não iniciada",
+    "tenho": "Não",
+    "capa": "https://m.media-amazon.com/images/I/91el+MIrHCL._SY466_.jpg"
+  },
+  {
+    "pais": "Andorra",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "Alemanha",
+    "livro": "A intérprete",
+    "autor": "Annette Hess",
+    "ga": "Feminino",
+    "status_notion": "Não iniciada",
+    "tenho": "Não",
+    "capa": "https://m.media-amazon.com/images/I/81FjbMeOVfL._SL1500_.jpg"
+  },
+  {
+    "pais": "Albânia",
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "Não iniciada",
+    "tenho": "",
+    "capa": ""
+  },
+  {
+    "pais": "África do Sul",
+    "livro": "Nascido do crime",
+    "autor": "Trevor Noah",
+    "ga": "Masculino",
+    "status_notion": "Concluído",
+    "tenho": "Sim",
+    "capa": "https://site.taglivros.com/static/11c78ed3732ef3826fa87fb9266ced83/94cf1/ine_2020_01_cover_7964d44ba5.webp"
+  },
+  {
+    "pais": "Afeganistão",
+    "livro": "O segredo do meu turbante",
+    "autor": "Nadia Ghulam",
+    "ga": "Feminino",
+    "status_notion": "Não iniciada",
+    "tenho": "Não",
+    "capa": "https://m.media-amazon.com/images/I/A10nRwdDrQL._SY466_.jpg"
+  }
+]
