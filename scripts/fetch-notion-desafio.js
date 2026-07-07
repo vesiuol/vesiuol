@@ -1,4 +1,4 @@
-const DB_ID = '0fabd297-2f79-4777-a26e-6966b479d779';
+const DB_ID = 'dec695e0-12bd-4252-b328-0c7d4de3e911';
 const TOKEN = process.env.NOTION_TOKEN;
 
 function getText(prop) {
