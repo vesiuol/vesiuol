@@ -303,7 +303,7 @@ footer {
 <!-- STATS -->
 <div class="stats-section">
   <div class="stats-grid">
-    <div class="stat-card"><span class="stat-num" id="s-total">—</span><span class="stat-lbl">Livros na estante</span></div>
+    <div class="stat-card"><span class="stat-num" id="s-horas">—</span><span class="stat-lbl">Horas ouvidas</span></div>
     <div class="stat-card"><span class="stat-num" id="s-lidos">—</span><span class="stat-lbl">Lidos</span></div>
     <div class="stat-card"><span class="stat-num" id="s-paginas">—</span><span class="stat-lbl">Páginas lidas</span></div>
     <div class="stat-card"><span class="stat-num" id="s-cinco">—</span><span class="stat-lbl">Livros 5 estrelas</span></div>
@@ -383,22 +383,68 @@ footer {
   });
 })();
 
-const CSV_ESTANTE = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQWGv70Tc2vz-YUKxwU_0_H8F7UuHom1tCJQlE2Tfi8AMNem2c5X3WSs6z4CPjoTb2AaFKmJ8bihlPV/pub?gid=0&single=true&output=csv';
-function norm(s){ return (s||'').trim().toLowerCase(); }
+// Planilha A — aba VISÃO GERAL LEITURAS (Governança: gid=700848757).
+// Mesma aba e mesma lógica de leitura já usadas e comprovadas em historico.html —
+// reaproveitada aqui para que a home cruze Estante + Leituras de todos os anos,
+// em vez de contar só o status "Lido/Não Lido" da planilha da Estante.
+const PROXY = 'https://corsproxy.io/?url=';
+const BASE_LEITURAS = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub';
+const URL_VIS = PROXY + encodeURIComponent(BASE_LEITURAS + '?gid=700848757&single=true&output=csv');
+
+const TODOS_ANOS = ['2013','2014','2015','2016','2017','2018','2019','2020','2021','2022','2023','2024','2025','2026'];
+const CAT_NOTAS  = ['1','1,5','2','2,5','3','3,5','4','4,5','5'];
+
+const pi = v => parseInt(String(v||'').replace(/[^0-9]/g,'')) || 0;
+
 function fetchCSV(url){
-  return new Promise((res,rej)=>{ Papa.parse(url,{download:true,header:true,skipEmptyLines:true,complete:r=>res(r.data),error:rej}); });
+  return fetch(url)
+    .then(r => { if (!r.ok) throw new Error('HTTP '+r.status); return r.text(); })
+    .then(t => Papa.parse(t.replace(/^\uFEFF/,''), {header:true, skipEmptyLines:true}).data)
+    .catch(e => { console.error('fetchCSV:', e); return []; });
 }
+
+// getRow/vals/subVals/getPaises: idênticos ao que historico.html já usa com sucesso
+// para ler essa mesma aba VISÃO GERAL LEITURAS.
+function getRow(VIS, label) { return VIS.find(r => (r['']||'').trim()===label) || null; }
+function vals(row, anos) { if (!row) return anos.map(()=>0); return anos.map(a => pi(row[a])); }
+function subVals(VIS, cats, ano) {
+  const anos = ano ? [ano] : TODOS_ANOS;
+  const res = {};
+  cats.forEach(cat => {
+    const row = VIS.find(r => (r['Idiomas']||'').trim()===cat);
+    if (!row) return;
+    res[cat] = anos.reduce((s,a) => s+pi(row[a+'_1']), 0);
+  });
+  return res;
+}
+function getPaises(VIS) {
+  const res = {};
+  VIS.forEach(r => { const p=(r['Países']||'').trim(), v=pi(r['Total']); if (p && v>0) res[p]=v; });
+  return res;
+}
+
 async function init(){
   try {
-    const estante = await fetchCSV(CSV_ESTANTE);
-    const lidos   = estante.filter(b => norm(b['Lido/Não Lido']) === 'lido');
-    document.getElementById('s-total').textContent   = estante.length;
-    document.getElementById('s-lidos').textContent   = lidos.length;
-    const pag = lidos.reduce((s,b) => s+(parseInt(b['Páginas'])||0), 0);
-    document.getElementById('s-paginas').textContent = pag.toLocaleString('pt-BR');
-    document.getElementById('s-cinco').textContent   = lidos.filter(b=>(b['Estrelas']||'').trim()==='5').length;
-    document.getElementById('s-autores').textContent = new Set(estante.map(b=>(b['Nome']||'').trim()).filter(Boolean)).size;
-    document.getElementById('s-paises').textContent  = new Set(estante.map(b=>(b['País']||'').trim()).filter(Boolean)).size;
+    const VIS = await fetchCSV(URL_VIS);
+
+    const livRow   = getRow(VIS, 'Livros');
+    const pagRow   = getRow(VIS, 'Páginas');
+    const autRow   = getRow(VIS, 'Autores lidos pela 1º vez');
+    const horasRow = getRow(VIS, 'Horas ouvidas'); // confirmado: coluna A linha 8, dados a partir de 2026 (coluna O)
+
+    const totalLidos   = vals(livRow, TODOS_ANOS).reduce((a,b)=>a+b, 0);
+    const totalPaginas = vals(pagRow, TODOS_ANOS).reduce((a,b)=>a+b, 0);
+    const totalAutores = vals(autRow, TODOS_ANOS).reduce((a,b)=>a+b, 0);
+    const totalHoras   = horasRow ? vals(horasRow, TODOS_ANOS).reduce((a,b)=>a+b, 0) : 0;
+    const total5       = subVals(VIS, CAT_NOTAS, null)['5'] || 0;
+    const totalPaises  = Object.keys(getPaises(VIS)).length;
+
+    document.getElementById('s-horas').textContent   = horasRow ? totalHoras+'h' : '—';
+    document.getElementById('s-lidos').textContent   = totalLidos   > 0 ? totalLidos   : '—';
+    document.getElementById('s-paginas').textContent = totalPaginas > 0 ? totalPaginas.toLocaleString('pt-BR') : '—';
+    document.getElementById('s-cinco').textContent   = total5      > 0 ? total5      : '—';
+    document.getElementById('s-autores').textContent = totalAutores> 0 ? totalAutores: '—';
+    document.getElementById('s-paises').textContent  = totalPaises > 0 ? totalPaises : '—';
   } catch(e) { console.error('Erro:', e); }
 }
 init();
