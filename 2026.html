@@ -524,7 +524,7 @@ let dataLoadFailed = false;
 
 function parseCSVText(t){
   const clean = t.replace(/^\uFEFF/,'');
-  const parsed = Papa.parse(clean, {header:true, skipEmptyLines:true});
+  const parsed = Papa.parse(clean, {header:true, skipEmptyLines:'greedy'});
   const headers = parsed.meta && parsed.meta.fields ? parsed.meta.fields : [];
   if(!headers.includes('Título')) return null;
   return parsed.data;
@@ -605,7 +605,12 @@ function showDataError(){
 async function init(){
   try{
     allRows = await fetchCSV(SHEET_URL_2026);
-    allRows = allRows.filter(r => (r['Título']||'').trim());
+    allRows = allRows.filter(r => {
+      const t = (r['Título']||'').trim();
+      // Descarta linhas vazias e linhas cujo "Título" é só número — isso acontece quando
+      // uma célula de fórmula (ex: contagem de livros) vaza pra mesma coluna no CSV exportado.
+      return t && !/^\d+([.,]\d+)?$/.test(t);
+    });
     lidos   = allRows.filter(r => isLido(r['LIDO']));
 
     if(dataLoadFailed){
