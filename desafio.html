@@ -66,9 +66,6 @@ nav ul li a.active {
   align-items: start;
   min-height: calc(100vh - var(--header-h) - 44px);
 }
-/* Fundo + linha divisória da sidebar estendidos até o fim do conteúdo real da página —
-   a sidebar em si é sticky com altura própria (viewport), então seu fundo não alcançava
-   o fim do .page-wrap quando o conteúdo principal era mais alto que a tela. */
 .page-wrap::before {
   content: '';
   position: absolute; top: 0; left: 0;
@@ -78,7 +75,6 @@ nav ul li a.active {
   z-index: 0;
 }
 
-/* Intro mobile — só aparece no mobile, antes da sidebar/dados */
 .intro-mobile { display: none; }
 
 /* ── SIDEBAR ── */
@@ -97,14 +93,12 @@ nav ul li a.active {
   z-index: 1;
 }
 
-/* bloco label */
 .sb-label {
   font-size: .68rem; font-weight: 500;
   letter-spacing: .1em; text-transform: uppercase;
   color: var(--muted); margin-bottom: .6rem;
 }
 
-/* KPI grid — todos os 5 KPIs */
 .kpi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; }
 .kpi-card {
   background: var(--white);
@@ -127,7 +121,6 @@ nav ul li a.active {
 .kpi-lbl { font-size: .68rem; color: var(--muted); line-height: 1.3; }
 .kpi-card.accent .kpi-lbl { color: rgba(255,255,255,.75); }
 
-/* Progresso */
 .prog-block { display: flex; flex-direction: column; gap: .75rem; }
 .prog-row {}
 .prog-meta {
@@ -138,7 +131,6 @@ nav ul li a.active {
 .prog-track { height: 6px; background: var(--border); border-radius: 4px; overflow: hidden; }
 .prog-fill  { height: 100%; background: var(--green); border-radius: 4px; transition: width .8s cubic-bezier(.4,0,.2,1); }
 
-/* Botões redondos de navegação entre seções */
 .sb-nav-title { font-size: .68rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: .7rem; }
 .sb-nav-pills { display: flex; flex-direction: column; gap: .4rem; }
 .sb-nav-pill {
@@ -162,7 +154,6 @@ nav ul li a.active {
   font-size: .6rem; color: var(--white);
 }
 
-/* Filtro lateral */
 .filter-pills { display: flex; flex-wrap: wrap; gap: .3rem; }
 .fpill {
   font-size: .72rem; padding: .3rem .75rem;
@@ -177,7 +168,6 @@ nav ul li a.active {
 /* ── MAIN ── */
 .main { padding: 2.8rem 3rem 3rem; }
 
-/* Intro editorial */
 .intro-headline {
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(2.4rem, 4vw, 3.8rem);
@@ -195,7 +185,6 @@ nav ul li a.active {
 .intro-body + .intro-body { margin-top: .9rem; }
 .intro-body strong { color: var(--text); font-weight: 500; }
 
-/* Divisor de seção */
 .section-gap { margin-top: 3rem; }
 .section-hr  { border: none; border-top: 1px solid var(--border-soft); margin-bottom: 1.6rem; }
 .section-head {
@@ -212,7 +201,6 @@ nav ul li a.active {
 }
 .section-sub { font-size: .72rem; color: var(--muted); letter-spacing: .04em; }
 
-/* Window card */
 .wcard {
   background: var(--white);
   border: 1.5px solid var(--border);
@@ -224,7 +212,7 @@ nav ul li a.active {
 .wdot { width: 8px; height: 8px; border-radius: 50%; background: #bbb; }
 .wtitle { font-size: .68rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-left: .4rem; }
 
-/* ── BLOGS — sem barra verde, estilo governança ── */
+/* ── BLOGS ── */
 .posts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; }
 .post-card {
   border: 1.5px solid var(--border);
@@ -256,9 +244,7 @@ nav ul li a.active {
   text-transform: uppercase; color: var(--muted);
 }
 
-/* ── PERFIL — sem donut, 4 modelos alternativos ── */
-
-/* 1. Grid texto (dados principais) */
+/* ── PERFIL ── */
 .perfil-text-grid {
   display: grid; grid-template-columns: repeat(3, 1fr);
   gap: 1px; background: var(--border);
@@ -274,7 +260,6 @@ nav ul li a.active {
 .ptg-val   { font-size: .95rem; font-weight: 500; color: var(--text); }
 .ptg-sub   { font-size: .72rem; color: var(--muted); margin-top: .15rem; }
 
-/* 2. Ranking com barras de texto (regiões, gêneros) */
 .rank-block { margin-bottom: .8rem; }
 .rank-eyebrow { font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: .75rem; }
 .rank-list { display: flex; flex-direction: column; gap: .6rem; }
@@ -287,7 +272,6 @@ nav ul li a.active {
 .rank-fill  { height: 100%; background: var(--green); border-radius: 3px; }
 .rank-fill.light { background: var(--green-light); }
 
-/* 3. Cards com número grande + % (diversidade) */
 .div-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: .6rem; margin-bottom: .8rem; }
 .div-card {
   border: 1.5px solid var(--border);
@@ -304,7 +288,6 @@ nav ul li a.active {
 .div-card-track { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; margin-top: .5rem; }
 .div-card-fill  { height: 100%; background: var(--green); border-radius: 2px; }
 
-/* 4. Gráfico de barras verticais (notas) — via Chart.js, não donut */
 .charts-2col { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; margin-bottom: .8rem; }
 .chart-body { padding: 1rem 1.2rem; position: relative; }
 .chart-body canvas { max-height: 200px; }
@@ -315,7 +298,7 @@ nav ul li a.active {
 .map-legend { display: flex; gap: 1.2rem; flex-wrap: wrap; margin-top: .8rem; font-size: .78rem; color: var(--muted); }
 .legend-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 4px; vertical-align: middle; }
 
-/* ── EVOLUÇÃO — estrutura original preservada ── */
+/* ── EVOLUÇÃO ── */
 .desafio-wrap {
   background: var(--white);
   border: 1.5px solid var(--border);
@@ -354,7 +337,7 @@ nav ul li a.active {
 .proj-val   { font-weight: 500; }
 .proj-dest  { color: var(--green); font-weight: 600; font-family: Georgia, serif; font-size: 1rem; }
 
-/* ── LISTA DE PAÍSES — estrutura original preservada ── */
+/* ── LISTA DE PAÍSES ── */
 .lista-filters { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; margin-bottom: 1rem; }
 .filter-pill {
   font-size: .78rem; padding: .35rem .9rem;
@@ -394,7 +377,7 @@ tr:hover td { background: rgba(132,153,116,.05); }
 .page-btn.active { background: var(--green); color: var(--white); border-color: var(--green); }
 .page-btn:hover:not(.active) { border-color: var(--green); }
 
-/* ── CTA NOTION (compacto, abaixo dos blogs) ── */
+/* ── CTA NOTION ── */
 .notion-cta {
   background: var(--green); border: 1.5px solid var(--green-dark);
   border-radius: 14px; padding: 1.1rem 1.6rem;
@@ -457,7 +440,6 @@ footer {
   nav ul { display: none; position: absolute; top: 52px; left: 0; right: 0; background: var(--white); flex-direction: column; padding: 1rem 2rem; gap: 1rem; border-bottom: 1px solid var(--border); }
   nav ul.open { display: flex; }
   .nav-hamburger { display: block; }
-  /* Mobile: intro (título + texto de apoio) aparece antes da sidebar/dados */
   .intro-mobile { display: block; padding: 1.4rem 1.2rem 0; }
   .intro-desktop { display: none; }
   .main { padding: 0 0 2rem; min-width: 0; }
@@ -488,7 +470,7 @@ footer {
   <button class="nav-hamburger" onclick="document.getElementById('nav-menu').classList.toggle('open')">☰</button>
 </nav>
 
-<!-- INTRO MOBILE: título + texto de apoio aparecem antes da sidebar/dados no mobile -->
+<!-- INTRO MOBILE -->
 <div class="intro-mobile">
   <div class="intro-headline-wrap">
     <h1 class="intro-headline">Uma viagem rumo à diversidade literária</h1>
@@ -506,7 +488,6 @@ footer {
   <!-- SIDEBAR -->
   <aside class="sidebar">
 
-    <!-- KPIs — todos os 5 -->
     <div>
       <div class="sb-label">Resumo geral</div>
       <div class="kpi-grid">
@@ -533,7 +514,6 @@ footer {
       </div>
     </div>
 
-    <!-- Progresso -->
     <div class="prog-block">
       <div class="sb-label">Progresso do desafio</div>
       <div class="prog-row">
@@ -546,7 +526,6 @@ footer {
       </div>
     </div>
 
-    <!-- Navegação por seções — botões redondos -->
     <div>
       <div class="sb-nav-title">Ir para a seção</div>
       <div class="sb-nav-pills">
@@ -568,7 +547,6 @@ footer {
       </div>
     </div>
 
-    <!-- Filtro rápido para lista -->
     <div>
       <div class="sb-label">Filtrar lista</div>
       <div class="filter-pills">
@@ -584,7 +562,6 @@ footer {
   <!-- MAIN -->
   <main class="main">
 
-    <!-- INTRO EDITORIAL -->
     <section class="intro-desktop">
       <div class="intro-headline-wrap">
         <h1 class="intro-headline">Uma viagem rumo à diversidade literária</h1>
@@ -639,14 +616,13 @@ footer {
         </a>
       </div>
 
-      <!-- CTA NOTION -->
       <div class="notion-cta">
         <p>Toda a organização do desafio começa antes da leitura. Veja a planilha-modelo completa com países, livros e progresso.</p>
         <a class="notion-btn" href="https://app.notion.com/p/vesiuol/679c7c463b784b75b645ca16b283cb64?v=091d4f4f0139433383dc3bfb1855ef48&source=copy_link" target="_blank" rel="noopener">Abrir no Notion →</a>
       </div>
     </section>
 
-    <!-- PERFIL DO DESAFIO — sem donut, 4 modelos alternativos -->
+    <!-- PERFIL DO DESAFIO -->
     <section class="section-gap" id="perfil">
       <hr class="section-hr">
       <div class="section-head">
@@ -654,7 +630,6 @@ footer {
         <span class="section-sub" id="charts-loading">carregando dados…</span>
       </div>
 
-      <!-- Modelo 1: grid de texto (quem escreve, idioma, formato) -->
       <div class="perfil-text-grid">
         <div class="ptg-cell">
           <div class="ptg-label">Quem escreve</div>
@@ -688,7 +663,6 @@ footer {
         </div>
       </div>
 
-      <!-- Modelo 2: cards com número grande + barra (diversidade) -->
       <div class="div-cards">
         <div class="div-card">
           <div class="div-card-num" id="dc-lgbtq">—</div>
@@ -710,7 +684,6 @@ footer {
         </div>
       </div>
 
-      <!-- Modelo 3: rankings com barras de texto lado a lado — agora com rolagem, sem limite de itens -->
       <div class="charts-2col">
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Regiões mais lidas</span></div>
@@ -726,7 +699,6 @@ footer {
         </div>
       </div>
 
-      <!-- Modelo 4: barras verticais para notas + barras horizontais para origem -->
       <div class="charts-2col">
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Distribuição de notas</span></div>
@@ -757,7 +729,7 @@ footer {
       </div>
     </section>
 
-    <!-- EVOLUÇÃO — estrutura original preservada -->
+    <!-- EVOLUÇÃO -->
     <section class="section-gap" id="evolucao">
       <hr class="section-hr">
       <div class="section-head">
@@ -895,6 +867,12 @@ function findField(row, candidates){
 function filterLPM(rows){
   return rows.filter(r=>Object.values(r).some(v=>norm(v||'').includes('desafio lpm')));
 }
+/* Considera concluído apenas o que tem LIDO exato na coluna (2025/2026).
+   2024 não tem essa coluna na planilha — todas as linhas lá já são leituras fechadas. */
+function isFinished(row, hasLidoCol){
+  if(!hasLidoCol) return true;
+  return (findField(row,['LIDO'])||'').trim() === 'LIDO';
+}
 function countField(rows, candidates){
   const c={};
   rows.forEach(r=>{ const v=findField(r,candidates); if(v) c[v]=(c[v]||0)+1; });
@@ -911,8 +889,8 @@ async function init(){
   try{
     const [r24,r25,r26] = await Promise.all([fetchCSV(CSV_2024), fetchCSV(CSV_2025), fetchCSV(CSV_DESAFIO)]);
     rows2024 = filterLPM(r24);
-    rows2025 = filterLPM(r25);
-    rows2026 = filterLPM(r26);
+    rows2025 = filterLPM(r25).filter(r=>isFinished(r,true));
+    rows2026 = filterLPM(r26).filter(r=>isFinished(r,true));
   } catch(e){ console.warn('CSV error',e); }
 
   const allLPM = [...rows2024,...rows2025,...rows2026];
@@ -1031,7 +1009,7 @@ function buildPerfil(allLPM){
     if(pairs.length){
       origEl.style.maxHeight='200px';
       const opts={maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false},datalabels:{display:true,anchor:'end',align:'end',color:DARK,font:{family:'DM Sans',size:10,weight:'500'},formatter:v=>v>0?v:'',clip:false,clamp:false,offset:6}},scales:{x:{grid:{color:'#eee'},ticks:{font:{family:'DM Sans',size:11},color:MUTED},stepSize:1},y:{grid:{color:'#eee'},ticks:{font:{family:'DM Sans',size:11},color:MUTED}}}};
-      new Chart(origEl,{type:'bar',data:{labels:pairs.map(e=>e[0]),datasets:[{data:pairs.map(e=>e[1]),backgroundColor:GREEN_LIGHT,borderRadius:3}]},options:opts});
+      new Chart(origEl,{type:'bar',data:{labels:pairs.map(e=>e[0]),datasets:[{data:pairs.map(e=>e[1]),backgroundColor:GREEN,borderRadius:3}]},options:opts});
     }
   }
 }
@@ -1109,8 +1087,9 @@ function buildEvolucao(r24,r25,r26){
 
 /* ── Tabela Notion ── */
 let NOTION_DATA = [];
-let notionData=[...NOTION_DATA.map(r=>({...r}))];
-let notionFiltered=[...notionData];
+
+let notionData=[];
+let notionFiltered=[];
 let notionSortKey='pais', notionSortDir=1;
 let notionPage=1, pillFilter='todos';
 const NOTION_PAGE=15;
@@ -1183,12 +1162,16 @@ function renderNotion(){
     pg.appendChild(btn);
   }
 }
+
+/* Carrega os dados do desafio a partir do JSON gerado pelo GitHub Action
+   (data/desafio.json), que busca a database do Notion automaticamente. */
 async function loadNotionData(){
   try{
     const res = await fetch('data/desafio.json');
     NOTION_DATA = await res.json();
   }catch(e){
     console.warn('Erro ao carregar data/desafio.json', e);
+    NOTION_DATA = [];
   }
   notionData = NOTION_DATA.map(r=>({...r}));
   notionFiltered = [...notionData];
