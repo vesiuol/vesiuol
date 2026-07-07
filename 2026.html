@@ -487,7 +487,7 @@ Chart.register(ChartDataLabels);
 //
 // Se o arquivo local ainda não existir (ex: antes da primeira execução
 // do Action), o código tenta os proxies antigos como último recurso.
-const LOCAL_CSV_URL = 'data/2026.csv';
+// const LOCAL_CSV_URL — substituída por URL absoluta + cache-busting dentro de fetchCSV() (ver abaixo)
 const BASE  = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub';
 const SHEET_URL_2026 = BASE + '?gid=537800862&single=true&output=csv';
 const PROXIES = [
@@ -534,7 +534,11 @@ function parseCSVText(t){
 async function fetchCSV(targetUrl){
   // 1) Arquivo local primeiro (mesma origem do site, sem CORS, sem proxy).
   try{
-    const r = await fetch(LOCAL_CSV_URL, {cache:'no-store'});
+    // URL absoluta (baseada na página atual, não relativa) + timestamp pra evitar
+    // que o CDN do GitHub Pages sirva um 404 antigo em cache (mais comum no mobile,
+    // que às vezes bate num servidor de borda diferente do desktop).
+    const localUrl = new URL('data/2026.csv', window.location.href).href + '?v=' + Date.now();
+    const r = await fetch(localUrl, {cache:'no-store'});
     if(r.ok){
       const t = await r.text();
       const data = parseCSVText(t);
