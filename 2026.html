@@ -65,37 +65,6 @@ nav ul li a.active{background:var(--green);color:var(--white);padding:.28rem .7r
 .fpill{font-family:'DM Sans',sans-serif;font-size:.72rem;padding:.3rem .75rem;border-radius:100px;border:1.5px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all .2s;}
 .fpill:hover:not(.active){background:var(--green);border-color:var(--green);color:var(--white);}
 .fpill.active{background:var(--green);border-color:var(--green);color:var(--white);font-weight:500;}
-@media(max-width:900px){
-  :root{--sidebar-w:0px;}
-  .page-wrap{grid-template-columns:1fr;}
-  .sidebar{position:static;height:auto;max-height:none;overflow:visible;width:100%;min-width:0;background:var(--surface);border-right:none;border-bottom:1.5px solid var(--border);}
-  .main{min-width:0;padding:2rem 2rem 3rem;}
-  .kpi-grid{min-width:0;}
-  .kpi-card{min-width:0;overflow:hidden;}
-  .charts-2col{grid-template-columns:1fr;}
-  .div-cards{grid-template-columns:1fr 1fr;}
-  .perfil-text-grid{grid-template-columns:1fr 1fr;}
-  .writers-grid{grid-template-columns:1fr 1fr;}
-  .variety-grid{grid-template-columns:1fr 1fr;}
-}
-@media(max-width:600px){
-  nav ul{display:none;position:absolute;top:52px;left:0;right:0;background:var(--white);flex-direction:column;padding:1rem 2rem;gap:1rem;border-bottom:1px solid var(--border);z-index:99;}
-  nav ul.open{display:flex;}
-  .nav-hamburger{display:block;}
-  .intro-mobile{display:block;padding:1.4rem 1.2rem 0;}
-  .main > section.intro-desktop{display:none;}
-  .main{padding:0 0 2rem;}
-  .main section.section-gap{padding:0 1.2rem;}
-  .div-cards{grid-template-columns:1fr 1fr;}
-  .perfil-text-grid{grid-template-columns:1fr;}
-  .writers-grid{grid-template-columns:1fr;}
-  .variety-grid{grid-template-columns:1fr 1fr;}
-  .table-controls{flex-direction:column;align-items:stretch;}
-  .search-wrap{max-width:100%;}
-  table{font-size:.75rem;}
-  td,th{padding:.45rem .5rem;}
-  footer{padding:1rem;flex-wrap:wrap;gap:.5rem;}
-}
 .main{padding:2.8rem 3rem 3rem;}
 .intro-eyebrow{font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--green-dark);margin-bottom:1rem;}
 .intro-headline{margin-bottom:1.4rem;}
@@ -169,6 +138,37 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
 .footer-text{font-family:'DM Sans',sans-serif;font-size:.60rem;letter-spacing:.1em;text-transform:uppercase;color:var(--white);font-weight:500;}
 .data-error{display:none;background:#f5e4e4;border:1.5px solid #e0b3b3;color:#7a2020;border-radius:10px;padding:.85rem 1rem;font-family:'DM Sans',sans-serif;font-size:.82rem;margin-bottom:.8rem;line-height:1.5;}
 .data-error.show{display:block;}
+@media(max-width:900px){
+  :root{--sidebar-w:0px;}
+  .page-wrap{grid-template-columns:1fr;}
+  .sidebar{position:static;height:auto;max-height:none;overflow:visible;width:100%;min-width:0;background:var(--surface);border-right:none;border-bottom:1.5px solid var(--border);}
+  .main{min-width:0;padding:2rem 2rem 3rem;}
+  .kpi-grid{min-width:0;}
+  .kpi-card{min-width:0;overflow:hidden;}
+  .charts-2col{grid-template-columns:1fr;}
+  .div-cards{grid-template-columns:1fr 1fr;}
+  .perfil-text-grid{grid-template-columns:1fr 1fr;}
+  .writers-grid{grid-template-columns:1fr 1fr;}
+  .variety-grid{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:600px){
+  nav ul{display:none;position:absolute;top:52px;left:0;right:0;background:var(--white);flex-direction:column;padding:1rem 2rem;gap:1rem;border-bottom:1px solid var(--border);z-index:99;}
+  nav ul.open{display:flex;}
+  .nav-hamburger{display:block;}
+  .intro-mobile{display:block;padding:1.4rem 1.2rem 0;}
+  .main > section.intro-desktop{display:none;}
+  .main{padding:0 0 2rem;}
+  .main section.section-gap{padding:0 1.2rem;}
+  .div-cards{grid-template-columns:1fr 1fr;}
+  .perfil-text-grid{grid-template-columns:1fr;}
+  .writers-grid{grid-template-columns:1fr;}
+  .variety-grid{grid-template-columns:1fr 1fr;}
+  .table-controls{flex-direction:column;align-items:stretch;}
+  .search-wrap{max-width:100%;}
+  table{font-size:.75rem;}
+  td,th{padding:.45rem .5rem;}
+  footer{padding:1rem;flex-wrap:wrap;gap:.5rem;}
+}
 </style>
 </head>
 <body>
@@ -607,9 +607,13 @@ async function init(){
     allRows = await fetchCSV(SHEET_URL_2026);
     allRows = allRows.filter(r => {
       const t = (r['Título']||'').trim();
-      // Descarta linhas vazias e linhas cujo "Título" é só número — isso acontece quando
+      // Descarta linhas vazias, linhas cujo "Título" é só número, e linhas de totais/gráfico
+      // (ex: linha de resumo com "(gráfico)"/"(resumo)" em várias colunas) — isso acontece quando
       // uma célula de fórmula (ex: contagem de livros) vaza pra mesma coluna no CSV exportado.
-      return t && !/^\d+([.,]\d+)?$/.test(t);
+      if(!t || /^\d+([.,]\d+)?$/.test(t)) return false;
+      const valoresLinha = Object.values(r).join(' ').toLowerCase();
+      if(valoresLinha.includes('(gráfico)') || valoresLinha.includes('(resumo)')) return false;
+      return true;
     });
     lidos   = allRows.filter(r => isLido(r['LIDO']));
 
