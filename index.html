@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>O que tem na estante da Louise</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='38' fill='%23849974'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
@@ -25,7 +25,7 @@
 }
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 html { -webkit-font-smoothing: antialiased; }
-body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 400; }
+body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 500; }
 a { color: inherit; text-decoration: none; }
 
 /* ── NAV ── */
@@ -107,10 +107,10 @@ nav ul li a.active {
 }
 
 .hero-card p {
-  font-size: .93rem; line-height: 1.85; color: var(--muted);
+  font-size: .93rem; line-height: 1.85; color: var(--text);
   margin-bottom: .9rem;
 }
-.hero-card p strong { color: var(--text); font-weight: 500; }
+.hero-card p strong { color: var(--text); font-weight: 700; }
 
 .hero-divider {
   margin-top: 2rem; border-top: 1px solid var(--border);
@@ -283,7 +283,7 @@ footer {
     </div>
     <div class="hero-divider">
       <div class="hero-meta">
-        <div>por <strong>LOUISE VICTORIA</strong> · <span id="data-atualizacao">atualizado em 21 de junho de 2026</span></div>
+        <div>por <strong>LOUISE VICTORIA</strong> · <span id="data-atualizacao">atualizado em 06 de julho de 2026</span></div>
         <div>BASE DE DADOS DA QUASE BIBLIOTECA PESSOAL LV</div>
       </div>
       <a href="sobre.html" class="hero-arrow">→</a>
@@ -342,6 +342,14 @@ footer {
       </div>
       <div class="vc-footer"><span class="vc-tag">Um livro para cada país</span><span class="vc-arrow">→</span></div>
     </a>
+    <a href="sobre.html" class="vitrine-card">
+      <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div></div>
+      <div class="vc-body">
+        <div class="vc-title">Sobre o projeto</div>
+        <p class="vc-desc">Como essa paixão por catalogar leituras começou, por que compartilher em um site e em quem me inspirei.</p>
+      </div>
+      <div class="vc-footer"><span class="vc-tag">Quem faz esse site</span><span class="vc-arrow">→</span></div>
+    </a>
   </div>
 </div>
 
@@ -350,7 +358,7 @@ footer {
   <div class="footer-dots">
     <div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div>
   </div>
-  <span class="footer-text">O que tem na estante da Louise&nbsp;&nbsp;|&nbsp;&nbsp;Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span class="footer-atualizacao">21 de junho de 2026</span></span>
+  <span class="footer-text">O que tem na estante da Louise&nbsp;&nbsp;|&nbsp;&nbsp;Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span class="footer-atualizacao">06 de julho de 2026</span></span>
 </footer>
 
 <script>
