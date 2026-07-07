@@ -3,428 +3,215 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Desafio Livros pelo Mundo</title>
+<title>O que tem na estante da Louise</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='38' fill='%23849974'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <style>
-/* ── TOKENS (governança) ── */
 :root {
-  --white:        #ffffff;
-  --black:        #000000;
-  --green:        #849974;
-  --green-dark:   #6b7e5e;
-  --green-light:  #c8d4b8;
-  --border:       #c8c8c8;
-  --border-soft:  #e0e0e0;
-  --text:         #1a1a1a;
-  --muted:        #555;
-  --bg:           #ffffff;
-  --surface:      #f9f8f5;
-  --sidebar-w:    272px;
-  --header-h:     52px;
+  --white:       #ffffff;
+  --black:       #000000;
+  --green:       #849974;
+  --green-dark:  #6b7e5e;
+  --green-light: #c8d4b8;
+  --border:      #c8c8c8;
+  --border-soft: #e0e0e0;
+  --text:        #1a1a1a;
+  --muted:       #555;
+  --bg:          #ffffff;
+  --surface:     #f9f8f5;
+  --header-h:    52px;
 }
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 html { -webkit-font-smoothing: antialiased; }
-body { background: var(--white); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 500; }
+body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 500; }
 a { color: inherit; text-decoration: none; }
 
-/* ── NAV (governança: sobre.html) ── */
+/* ── NAV ── */
 nav {
   position: sticky; top: 0; z-index: 200;
-  height: var(--header-h);
-  background: var(--white);
+  background: var(--white); height: var(--header-h);
+  padding: 0 2.5rem; display: flex; align-items: center; gap: 1.5rem;
   border-bottom: 1.5px solid #c5c5a0;
-  display: flex; align-items: center;
-  padding: 0 2rem; gap: 1.5rem;
 }
 .nav-logo { display: flex; gap: 5px; align-items: center; }
 .nav-dot  { width: 10px; height: 10px; border-radius: 50%; background: var(--black); }
 nav ul { list-style: none; display: flex; gap: 2rem; margin-left: auto; align-items: center; }
 nav ul li a {
   color: var(--black); font-size: .78rem; letter-spacing: .12em;
-  text-transform: uppercase; transition: color .2s;
-  font-family: 'DM Sans', sans-serif; font-weight: 500;
+  text-transform: uppercase; font-weight: 500; transition: color .2s;
 }
 nav ul li a:hover { color: var(--green); }
 nav ul li a.active {
   background: var(--green); color: var(--white);
   padding: .28rem .7rem; border-radius: 3px; font-weight: 700;
 }
-.nav-hamburger { display: none; background: none; border: none; color: var(--black); font-size: 1.4rem; cursor: pointer; margin-left: auto; }
+.nav-hamburger {
+  display: none; background: none; border: none;
+  cursor: pointer; margin-left: auto; padding: .4rem;
+  flex-direction: column; gap: 5px;
+}
+.nav-hamburger span {
+  display: block; width: 22px; height: 2px;
+  background: var(--black); border-radius: 2px; transition: all .25s;
+}
+.nav-mobile {
+  display: none; position: fixed; z-index: 199;
+  top: var(--header-h); left: 0; right: 0; bottom: 0;
+  background: var(--white); flex-direction: column;
+  padding: 2rem 1.5rem; gap: 0; border-top: 1px solid var(--border);
+}
+.nav-mobile.open { display: flex; }
+.nav-mobile a {
+  color: var(--black); font-size: 1.1rem; letter-spacing: .1em;
+  text-transform: uppercase; font-weight: 400;
+  padding: 1rem 0; border-bottom: 1px solid var(--border); display: block;
+}
+.nav-mobile a.active { color: var(--green); font-weight: 500; }
+.nav-mobile a:last-child { border-bottom: none; }
 
-/* ── LAYOUT 2 COLUNAS ── */
-.page-wrap {
-  position: relative;
-  display: grid;
-  grid-template-columns: var(--sidebar-w) 1fr;
-  align-items: start;
-  min-height: calc(100vh - var(--header-h) - 44px);
+/* ── HERO ── */
+.hero-section {
+  padding: 3rem 2.5rem 1.5rem;
+  max-width: 1200px; margin: 0 auto;
 }
-/* Fundo + linha divisória da sidebar estendidos até o fim do conteúdo real da página —
-   a sidebar em si é sticky com altura própria (viewport), então seu fundo não alcançava
-   o fim do .page-wrap quando o conteúdo principal era mais alto que a tela. */
-.page-wrap::before {
-  content: '';
-  position: absolute; top: 0; left: 0;
-  width: var(--sidebar-w); height: 100%;
-  background: var(--surface);
-  border-right: 1.5px solid var(--border);
-  z-index: 0;
-}
-
-/* Intro mobile — só aparece no mobile, antes da sidebar/dados */
-.intro-mobile { display: none; }
-
-/* ── SIDEBAR ── */
-.sidebar {
-  background: transparent;
-  border-right: none;
-  position: sticky;
-  top: var(--header-h);
-  max-height: calc(100vh - var(--header-h));
-  overflow-y: auto; overflow-x: hidden;
-  padding: 2rem 1.4rem;
-  display: flex; flex-direction: column; gap: 1.6rem;
-  scrollbar-width: thin;
-  scrollbar-color: var(--border) transparent;
-  align-self: start;
-  z-index: 1;
-}
-
-/* bloco label */
-.sb-label {
-  font-size: .68rem; font-weight: 500;
-  letter-spacing: .1em; text-transform: uppercase;
-  color: var(--muted); margin-bottom: .6rem;
-}
-
-/* KPI grid — todos os 5 KPIs */
-.kpi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; }
-.kpi-card {
-  background: var(--white);
-  border: 1.5px solid var(--border);
-  border-radius: 10px;
-  padding: .85rem .8rem;
-  display: flex; flex-direction: column; gap: .25rem;
-}
-.kpi-card.accent {
-  background: var(--green);
-  border-color: var(--green-dark);
-  grid-column: span 2;
-}
-.kpi-num {
-  font-family: Georgia, serif;
-  font-size: clamp(1.15rem, 4.5vw, 1.65rem); font-weight: 400; line-height: 1;
-  color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;
-}
-.kpi-card.accent .kpi-num { color: var(--white); font-size: clamp(1.3rem, 5vw, 1.9rem); }
-.kpi-lbl { font-size: .68rem; color: var(--muted); line-height: 1.3; }
-.kpi-card.accent .kpi-lbl { color: rgba(255,255,255,.75); }
-
-/* Progresso */
-.prog-block { display: flex; flex-direction: column; gap: .75rem; }
-.prog-row {}
-.prog-meta {
-  display: flex; justify-content: space-between;
-  font-size: .78rem; color: var(--muted); margin-bottom: .3rem;
-}
-.prog-meta b { color: var(--text); font-weight: 500; }
-.prog-track { height: 6px; background: var(--border); border-radius: 4px; overflow: hidden; }
-.prog-fill  { height: 100%; background: var(--green); border-radius: 4px; transition: width .8s cubic-bezier(.4,0,.2,1); }
-
-/* Botões redondos de navegação entre seções */
-.sb-nav-title { font-size: .68rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: .7rem; }
-.sb-nav-pills { display: flex; flex-direction: column; gap: .4rem; }
-.sb-nav-pill {
-  display: flex; align-items: center; gap: .6rem;
-  padding: .5rem .75rem;
-  border: 1.5px solid var(--border);
-  border-radius: 50px;
-  background: transparent;
-  color: var(--muted);
-  font-size: .74rem;
-  font-family: 'DM Sans', sans-serif;
-  cursor: pointer;
-  transition: all .2s;
-  text-align: left;
-}
-.sb-nav-pill:hover { background: var(--green); border-color: var(--green); color: var(--white); }
-.sb-nav-pill .pill-dot {
-  width: 22px; height: 22px; border-radius: 50%;
-  background: var(--green); flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-  font-size: .6rem; color: var(--white);
-}
-
-/* Filtro lateral */
-.filter-pills { display: flex; flex-wrap: wrap; gap: .3rem; }
-.fpill {
-  font-size: .72rem; padding: .3rem .75rem;
-  border-radius: 100px; border: 1.5px solid var(--border);
-  background: transparent; color: var(--muted);
-  cursor: pointer; transition: all .2s;
-  font-family: 'DM Sans', sans-serif;
-}
-.fpill:hover:not(.active) { background: var(--green); border-color: var(--green); color: var(--white); }
-.fpill.active { background: var(--green); border-color: var(--green); color: var(--white); font-weight: 500; }
-
-/* ── MAIN ── */
-.main { padding: 2.8rem 3rem 3rem; }
-
-/* Intro editorial */
-.intro-headline {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(2.4rem, 4vw, 3.8rem);
-  font-weight: 600; line-height: 1.5;
-  display: inline;
-  background: var(--green); color: var(--white);
-  padding: .14em .28em;
-  box-decoration-break: clone; -webkit-box-decoration-break: clone;
-}
-.intro-headline-wrap { margin-bottom: 1.6rem; display: block; }
-.intro-body {
-  font-size: .93rem; line-height: 1.85;
-  color: var(--text);
-}
-.intro-body + .intro-body { margin-top: .9rem; }
-.intro-body strong { color: var(--text); font-weight: 500; }
-
-/* Divisor de seção */
-.section-gap { margin-top: 3rem; }
-.section-hr  { border: none; border-top: 1px solid var(--border-soft); margin-bottom: 1.6rem; }
-.section-head {
-  display: flex; align-items: baseline; gap: .8rem;
-  margin-bottom: 1.4rem;
-}
-.section-h2 {
-  font-family: Georgia, serif;
-  font-size: 1.15rem; font-weight: 400;
-  display: inline;
-  background: var(--green); color: var(--white);
-  padding: .08em .4em;
-  box-decoration-break: clone; -webkit-box-decoration-break: clone;
-}
-.section-sub { font-size: .72rem; color: var(--muted); letter-spacing: .04em; }
-
-/* Window card */
 .wcard {
   background: var(--white);
   border: 1.5px solid var(--border);
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow: 2px 2px 0 var(--border);
-}
-.wbar { padding: .5rem 1rem; display: flex; gap: 5px; align-items: center; border-bottom: 1px solid var(--border-soft); }
-.wdot { width: 8px; height: 8px; border-radius: 50%; background: #bbb; }
-.wtitle { font-size: .68rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-left: .4rem; }
-
-/* ── BLOGS — sem barra verde, estilo governança ── */
-.posts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; }
-.post-card {
-  border: 1.5px solid var(--border);
   border-radius: 14px; overflow: hidden;
-  display: flex; flex-direction: column;
-  transition: transform .18s, box-shadow .18s;
-  text-decoration: none; color: inherit;
   box-shadow: 2px 2px 0 var(--border);
 }
-.post-card:hover { transform: translateY(-2px); box-shadow: 2px 4px 0 var(--border); }
-.post-wbar { padding: .45rem .9rem; display: flex; gap: 4px; border-bottom: 1px solid var(--border-soft); }
-.post-body { padding: 1rem 1.1rem; flex: 1; display: flex; flex-direction: column; gap: .5rem; }
-.post-title {
-  font-family: Georgia, serif;
-  font-size: .95rem; font-weight: 400;
-  line-height: 1.5;
-  display: inline;
-  background: var(--green); color: var(--white);
-  padding: .1em .35em;
-  box-decoration-break: clone; -webkit-box-decoration-break: clone;
-  align-self: flex-start;
+.wbar {
+  padding: .5rem 1rem;
+  display: flex; align-items: center; gap: 5px;
+  border-bottom: 1px solid var(--border-soft);
 }
-.post-desc { font-size: .82rem; line-height: 1.6; color: var(--muted); flex: 1; margin-top: .5rem; }
-.post-foot {
-  border-top: 1px solid var(--border-soft);
-  padding: .55rem 1.1rem;
-  display: flex; align-items: center; justify-content: space-between;
-  font-size: .68rem; letter-spacing: .08em;
+.wdot { width: 8px; height: 8px; border-radius: 50%; background: #bbb; }
+
+.hero-card { padding: 2.5rem 3rem 0; }
+
+/* Faixa verde atrás do título — alinhada ao texto */
+.hero-title-wrap { margin-bottom: 1.4rem; }
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  font-weight: 400; line-height: 1.5;
+  display: inline;
+  background: var(--green);
+  color: var(--white);
+  /* padding pequeno nas pontas, faixa no comprimento da linha */
+  padding: .08em .28em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.hero-card p {
+  font-size: .93rem; line-height: 1.85; color: var(--text);
+  margin-bottom: .9rem;
+}
+.hero-card p strong { color: var(--text); font-weight: 500; }
+
+.hero-divider {
+  margin-top: 2rem; border-top: 1px solid var(--border);
+  padding: 1rem 3rem;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+}
+.hero-meta {
+  font-size: .68rem; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--muted); font-weight: 500; line-height: 1.7;
+}
+.hero-meta strong { color: var(--black); font-weight: 700; }
+.hero-arrow {
+  font-size: 1.3rem; color: var(--black);
+  transition: transform .2s; display: inline-block;
+}
+.hero-arrow:hover { transform: translateX(4px); }
+
+/* ── STAT CARDS ── */
+.stats-section {
+  padding: 1.5rem 2.5rem;
+  max-width: 1200px; margin: 0 auto;
+}
+.stats-grid {
+  display: grid; grid-template-columns: repeat(6, 1fr); gap: .6rem;
+}
+.stat-card {
+  background: var(--green); border: 1.5px solid var(--green-dark);
+  border-radius: 10px; padding: 1.5rem 1rem; text-align: center;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  min-height: 110px;
+}
+.stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem; font-weight: 400; color: var(--white); line-height: 1;
+  display: block; margin-bottom: .4rem;
+}
+.stat-lbl {
+  font-size: .65rem; letter-spacing: .08em;
+  text-transform: uppercase; color: rgba(255,255,255,.8); font-weight: 500;
+}
+
+/* ── SEÇÃO ── */
+.page-section {
+  max-width: 1200px; margin: 0 auto;
+  padding: 2rem 2.5rem 3.5rem;
+}
+.section-head {
+  display: flex; align-items: baseline; gap: .8rem;
+  margin-bottom: 1.4rem;
+  border-bottom: 1px solid var(--border-soft); padding-bottom: .7rem;
+}
+.section-h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem; font-weight: 400; color: var(--white);
+  background: var(--green);
+  padding: .08em .4em;
+  display: inline;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.section-sub {
+  font-size: .72rem; letter-spacing: .14em;
   text-transform: uppercase; color: var(--muted);
 }
 
-/* ── PERFIL — sem donut, 4 modelos alternativos ── */
-
-/* 1. Grid texto (dados principais) */
-.perfil-text-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 1px; background: var(--border);
-  border: 1.5px solid var(--border);
-  border-radius: 14px; overflow: hidden;
-  margin-bottom: .8rem;
-}
-.ptg-cell {
-  background: var(--white);
-  padding: 1rem 1.1rem;
-}
-.ptg-label { font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: .4rem; }
-.ptg-val   { font-size: .95rem; font-weight: 500; color: var(--text); }
-.ptg-sub   { font-size: .72rem; color: var(--muted); margin-top: .15rem; }
-
-/* 2. Ranking com barras de texto (regiões, gêneros) */
-.rank-block { margin-bottom: .8rem; }
-.rank-eyebrow { font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: .75rem; }
-.rank-list { display: flex; flex-direction: column; gap: .6rem; }
-.rank-item {}
-.rank-header { display: flex; justify-content: space-between; font-size: .82rem; margin-bottom: .3rem; }
-.rank-pos { color: var(--muted); font-size: .72rem; margin-right: .4rem; }
-.rank-name { color: var(--text); }
-.rank-val  { color: var(--green-dark); font-weight: 500; }
-.rank-track { height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
-.rank-fill  { height: 100%; background: var(--green); border-radius: 3px; }
-.rank-fill.light { background: var(--green-light); }
-
-/* 3. Cards com número grande + % (diversidade) */
-.div-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: .6rem; margin-bottom: .8rem; }
-.div-card {
-  border: 1.5px solid var(--border);
-  border-radius: 12px; padding: 1rem .9rem;
-  background: var(--white);
-}
-.div-card-num {
-  font-family: Georgia, serif;
-  font-size: 1.8rem; font-weight: 400; color: var(--green); line-height: 1;
-  margin-bottom: .3rem;
-}
-.div-card-label { font-size: .68rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
-.div-card-sub   { font-size: .78rem; color: var(--muted); margin-top: .3rem; }
-.div-card-track { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; margin-top: .5rem; }
-.div-card-fill  { height: 100%; background: var(--green); border-radius: 2px; }
-
-/* 4. Gráfico de barras verticais (notas) — via Chart.js, não donut */
-.charts-2col { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; margin-bottom: .8rem; }
-.chart-body { padding: 1rem 1.2rem; position: relative; }
-.chart-body canvas { max-height: 200px; }
-.chart-body.tall canvas { max-height: 300px; }
-
-/* ── MAPA ── */
-#dlm-map { height: 380px; border-radius: 0 0 12px 12px; }
-.map-legend { display: flex; gap: 1.2rem; flex-wrap: wrap; margin-top: .8rem; font-size: .78rem; color: var(--muted); }
-.legend-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 4px; vertical-align: middle; }
-
-/* ── EVOLUÇÃO — estrutura original preservada ── */
-.desafio-wrap {
-  background: var(--white);
-  border: 1.5px solid var(--border);
+/* ── VITRINE ── */
+.vitrine-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: .8rem; }
+.vitrine-card {
+  background: var(--white); border: 1.5px solid var(--border);
   border-radius: 14px; overflow: hidden;
   box-shadow: 2px 2px 0 var(--border);
+  display: flex; flex-direction: column;
+  transition: transform .2s, box-shadow .2s;
 }
-.desafio-intro { padding: 1.4rem 1.6rem 0; font-size: 1.05rem; line-height: 1.85; color: var(--muted); }
-.ev-cards-wrap { padding: 1.4rem 1.6rem; }
-.graf-4col { display: grid; grid-template-columns: repeat(4, 1fr); gap: .6rem; margin-bottom: 1.2rem; }
-.evolucao-card {
-  background: var(--surface);
-  border: 1.5px solid var(--border);
-  border-radius: 10px; padding: 1rem .8rem; text-align: center;
-}
-.evolucao-card.destaque { background: var(--green); border-color: var(--green-dark); }
-.ev-ano { font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: .25rem; }
-.ev-num { font-family: Georgia, serif; font-size: 1.75rem; font-weight: 400; color: var(--green); line-height: 1.1; }
-.ev-sub { font-size: .7rem; color: var(--muted); margin-top: .2rem; }
-.evolucao-card.destaque .ev-ano { color: rgba(255,255,255,.65); }
-.evolucao-card.destaque .ev-num { color: var(--white); }
-.evolucao-card.destaque .ev-sub { color: rgba(255,255,255,.75); }
+.vitrine-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,.08); }
+.vitrine-card.wide { grid-column: span 2; }
 
-.prog-track-lg { background: #eee; height: 10px; border-radius: 6px; overflow: hidden; margin: .5rem 0 .3rem; }
-.prog-fill-lg  { height: 100%; background: var(--green); border-radius: 6px; transition: width 1.2s cubic-bezier(.4,0,.2,1); }
-.prog-labels   { display: flex; justify-content: space-between; font-size: .72rem; color: var(--muted); }
-
-.desafio-charts { padding: 0 1.6rem 1.4rem; display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; align-items: stretch; }
-.desafio-charts .wcard { display: flex; flex-direction: column; min-height: 0; }
-.desafio-charts .wcard > .chart-body { flex: 1; min-height: 0; }
-.desafio-charts .wcard > .chart-body.tall { display: flex; flex-direction: column; }
-.desafio-charts .chart-canvas-wrap { position: relative; flex: 1; min-height: 0; width: 100%; }
-.desafio-charts .chart-canvas-wrap canvas { position: absolute; top: 0; left: 0; width: 100% !important; height: 100% !important; max-height: none; }
-.proj-linha { display: flex; justify-content: space-between; align-items: center; padding: .55rem 0; border-bottom: 1px solid #eee; font-size: .85rem; }
-.proj-linha:last-child { border-bottom: none; }
-.proj-label { color: var(--muted); }
-.proj-val   { font-weight: 500; }
-.proj-dest  { color: var(--green); font-weight: 600; font-family: Georgia, serif; font-size: 1rem; }
-
-/* ── LISTA DE PAÍSES — estrutura original preservada ── */
-.lista-filters { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; margin-bottom: 1rem; }
-.filter-pill {
-  font-size: .78rem; padding: .35rem .9rem;
-  border-radius: 100px; border: 1.5px solid var(--border);
-  background: transparent; color: var(--muted);
-  cursor: pointer; transition: all .2s;
-  font-family: 'DM Sans', sans-serif;
-}
-.filter-pill:hover { background: var(--green); border-color: var(--green); color: var(--white); }
-.filter-pill.active { background: var(--green); border-color: var(--green); color: var(--white); font-weight: 500; }
-.search-wrap { flex: 1; min-width: 180px; max-width: 240px; margin-left: auto; position: relative; }
-.search-wrap input {
-  width: 100%; padding: .45rem 1rem .45rem 2rem;
-  border: 1.5px solid var(--border); background: var(--white);
-  border-radius: 6px; font-family: Arial, sans-serif;
-  font-size: .82rem; color: var(--text); outline: none;
-  transition: border-color .15s;
-}
-.search-wrap input:focus { border-color: var(--green); }
-.search-wrap::before { content: '⌕'; position: absolute; left: .6rem; top: 50%; transform: translateY(-50%); color: var(--muted); }
-table { width: 100%; border-collapse: collapse; font-size: .85rem; }
-thead tr { border-bottom: 2px solid var(--black); }
-th { padding: .55rem .8rem; text-align: left; font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); white-space: nowrap; cursor: pointer; user-select: none; }
-th:hover { color: var(--text); }
-td { padding: .65rem .8rem; border-bottom: 1px solid #eee; vertical-align: middle; }
-tr:hover td { background: rgba(132,153,116,.05); }
-.book-cover { width: 26px; height: 38px; object-fit: cover; border-radius: 2px; display: block; }
-.cover-ph { width: 26px; height: 38px; background: #f0ede8; border: 1.5px dashed var(--border); border-radius: 2px; display: flex; align-items: center; justify-content: center; font-size: .55rem; color: #999; }
-.badge { display: inline-block; padding: .2rem .55rem; border-radius: 100px; font-size: .68rem; font-weight: 500; }
-.badge-lido    { background: #D4EDDA; color: #1A6631; }
-.badge-mapeado { background: #FFF3CD; color: #8A6200; }
-.badge-nao     { background: #f0f0f0; color: #666; }
-.badge-andamento { background: #E6F1FB; color: #185FA5; }
-.table-footer { padding: .7rem 0; display: flex; justify-content: space-between; align-items: center; font-size: .78rem; color: var(--muted); }
-.pagination { display: flex; gap: .3rem; flex-wrap: wrap; }
-.page-btn { width: 28px; height: 28px; border: 1.5px solid var(--border); background: transparent; cursor: pointer; font-size: .8rem; border-radius: 4px; transition: all .15s; display: flex; align-items: center; justify-content: center; }
-.page-btn.active { background: var(--green); color: var(--white); border-color: var(--green); }
-.page-btn:hover:not(.active) { border-color: var(--green); }
-
-/* ── CTA NOTION (compacto, abaixo dos blogs) ── */
-.notion-cta {
-  background: var(--green); border: 1.5px solid var(--green-dark);
-  border-radius: 14px; padding: 1.1rem 1.6rem;
-  display: flex; align-items: center; justify-content: center; gap: 2rem;
-  margin-top: 1.2rem;
-}
-.notion-cta p {
-  color: var(--white); font-size: .92rem; line-height: 1.6; margin: 0;
-  flex: 0 1 auto; text-align: center;
-}
-.notion-btn {
-  flex-shrink: 0;
+.vc-body { padding: 1.3rem 1.4rem 1rem; flex: 1; display: flex; flex-direction: column; gap: .6rem; }
+.vc-title {
+  font-family: 'Playfair Display', serif;
+  font-size: .95rem; font-weight: 400; color: var(--white);
+  background: var(--green);
   display: inline-block;
-  background: transparent; border: 1.5px solid var(--white); color: var(--white);
-  font-size: .74rem; letter-spacing: .1em; text-transform: uppercase;
-  font-weight: 500; padding: .55rem 1.2rem;
-  border-radius: 100px; white-space: nowrap;
-  font-family: 'DM Sans', sans-serif;
-  transition: all .2s;
+  padding: .2em .5em;
+  align-self: flex-start;
 }
-.notion-btn:hover { background: var(--white); color: var(--green); }
-@media (max-width: 600px) {
-  .notion-cta { flex-direction: column; align-items: flex-start; }
-  .notion-cta p { max-width: 100%; }
-  .notion-btn { width: 100%; text-align: center; }
-}
+.vc-desc { font-size: .88rem; line-height: 1.65; color: var(--muted); flex: 1; }
 
-/* ── FOOTER (governança) ── */
+.vc-footer {
+  border-top: 1px solid var(--border-soft); padding: .7rem 1.4rem;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.vc-tag {
+  font-size: .68rem; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--muted); font-weight: 500;
+}
+.vc-arrow { font-size: 1rem; color: var(--black); }
+
+/* ── FOOTER ── */
 footer {
-  background: var(--green); padding: 1rem 2rem;
+  background: var(--green); padding: 1rem 2.5rem;
   display: flex; align-items: center; gap: 1rem;
   border-top: 1.5px solid var(--green-dark);
 }
@@ -437,755 +224,249 @@ footer {
 
 /* ── RESPONSIVE ── */
 @media (max-width: 900px) {
-  .page-wrap { grid-template-columns: 1fr; }
-  .page-wrap::before { display: none; }
-  .sidebar { position: static; height: auto; max-height: none; overflow: visible; width: 100%; min-width: 0; background: var(--surface); border-right: none; border-bottom: 1.5px solid var(--border); }
-  .main { min-width: 0; }
-  .kpi-grid { min-width: 0; }
-  .kpi-card { min-width: 0; overflow: hidden; }
-  .posts-grid, .charts-2col, .desafio-charts { grid-template-columns: 1fr; }
-  .desafio-charts { align-items: start; }
-  .desafio-charts .wcard { display: block; }
-  .desafio-charts .wcard > .chart-body { display: block; }
-  .desafio-charts .chart-canvas-wrap { position: static; height: auto; }
-  .desafio-charts .chart-canvas-wrap canvas { position: static; width: 100% !important; height: auto !important; max-height: 300px; }
-  .div-cards { grid-template-columns: 1fr 1fr; }
-  .perfil-text-grid { grid-template-columns: 1fr 1fr; }
-  .graf-4col { grid-template-columns: 1fr 1fr; }
+  .stats-grid   { grid-template-columns: repeat(3, 1fr); }
+  .vitrine-grid { grid-template-columns: 1fr 1fr; }
+  .vitrine-card.wide { grid-column: span 2; }
+  .hero-card { padding: 1.5rem 1.5rem 0; }
+  .hero-divider { padding: 1rem 1.5rem; }
 }
 @media (max-width: 600px) {
-  nav ul { display: none; position: absolute; top: 52px; left: 0; right: 0; background: var(--white); flex-direction: column; padding: 1rem 2rem; gap: 1rem; border-bottom: 1px solid var(--border); }
-  nav ul.open { display: flex; }
-  .nav-hamburger { display: block; }
-  /* Mobile: intro (título + texto de apoio) aparece antes da sidebar/dados */
-  .intro-mobile { display: block; padding: 1.4rem 1.2rem 0; }
-  .intro-desktop { display: none; }
-  .main { padding: 0 0 2rem; min-width: 0; }
-  .main section.section-gap { padding: 0 1.2rem; }
-  .div-cards, .perfil-text-grid { grid-template-columns: 1fr; }
-  .graf-4col { grid-template-columns: 1fr 1fr; }
-  .kpi-grid  { grid-template-columns: 1fr 1fr; }
+  body { overflow-x: hidden; }
+  nav { padding: 0 1rem; }
+  nav ul { display: none; }
+  .nav-hamburger { display: flex; }
+  .hero-section { padding: 1.2rem 1rem 1rem; }
+  .hero-card { padding: 1.2rem 1.2rem 0; }
+  .hero-divider { flex-direction: column; align-items: flex-start; gap: .6rem; padding: 1rem 1.2rem; }
+  .stats-section { padding: 1rem; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: .5rem; }
+  .stat-card { min-height: 90px; padding: 1rem .6rem; }
+  .stat-num { font-size: 1.9rem; }
+  .page-section { padding: 1.5rem 1rem 2.5rem; }
+  .vitrine-grid { grid-template-columns: 1fr; }
+  .vitrine-card.wide { grid-column: span 1; }
+  footer { padding: 1rem; flex-wrap: wrap; gap: .5rem; }
 }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
-  <div class="nav-logo">
+  <a href="index.html" class="nav-logo" style="text-decoration:none">
     <div class="nav-dot"></div>
     <div class="nav-dot"></div>
     <div class="nav-dot" style="background:var(--green)"></div>
-  </div>
-  <ul id="nav-menu">
-    <li><a href="index.html">Início</a></li>
+  </a>
+  <ul>
+    <li><a href="index.html" class="active">Início</a></li>
     <li><a href="2026.html">2026</a></li>
     <li><a href="estante.html">Estante</a></li>
     <li><a href="historico.html">Histórico</a></li>
-    <li><a href="desafio.html" class="active">Desafio</a></li>
+    <li><a href="desafio.html">Desafio</a></li>
     <li><a href="sobre.html">Sobre</a></li>
   </ul>
-  <button class="nav-hamburger" onclick="document.getElementById('nav-menu').classList.toggle('open')">☰</button>
+  <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+<div class="nav-mobile" id="nav-mobile">
+  <a href="index.html" class="active">Início</a>
+  <a href="2026.html">2026</a>
+  <a href="estante.html">Estante</a>
+  <a href="historico.html">Histórico</a>
+  <a href="desafio.html">Desafio</a>
+  <a href="sobre.html">Sobre</a>
+</div>
 
-<!-- INTRO MOBILE: título + texto de apoio aparecem antes da sidebar/dados no mobile -->
-<div class="intro-mobile">
-  <div class="intro-headline-wrap">
-    <h1 class="intro-headline">Uma viagem rumo à diversidade literária</h1>
+<!-- HERO -->
+<div class="hero-section">
+  <div class="wcard">
+    <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div></div>
+    <div class="hero-card">
+      <div class="hero-title-wrap">
+        <h1 class="hero-title">O que tem na estante da Louise</h1>
+      </div>
+      <p>Um passeio completo pela minha estante, histórico mais antigo que possuo da minha vida literária, as leituras deste ano e o desafio literário que me propus!</p>
+      <p>Eu, que fui uma criança e pré-adolescente apaixonada por livros, reduzi meu consumo durante a faculdade, mas na pandemia da Covid em 2020 voltei ao mundo dos livros com força total. Nesse momento também descobri a bolha dos criadores de conteúdo literários e a grande maravilha que é a atividade de catalogação de livros.</p>
+      <p>Eu tenho duas planilhas de Excel e um Notion exclusivo para a minha catalogação, sem contar layout e textos no Notion sobre meu projeto literário. Tendo <strong>tantos dados assim</strong>, porque não compartilhar!</p>
+    </div>
+    <div class="hero-divider">
+      <div class="hero-meta">
+        <div>por <strong>LOUISE VICTORIA</strong> · <span id="data-atualizacao">atualizado em 07 de julho de 2026</span></div>
+        <div>BASE DE DADOS DA MINHA BIBLIOTECA PESSOAL LV</div>
+      </div>
+      <a href="sobre.html" class="hero-arrow">→</a>
+    </div>
   </div>
-  <p class="intro-body">
-    Meu projeto de ler ao menos um livro de cada país do mundo nasceu do desejo de <strong>ampliar horizontes</strong> e sair do automático. Depois de reencontrar meu amor pelos livros, descobri criadores de conteúdo literário que me fizeram refletir sobre diversidade, representatividade e pluralidade nas leituras.
-  </p>
-  <p class="intro-body" style="margin-bottom:1.2rem;">
-    Passei a perceber que ampliar minhas leituras era também uma forma de ampliar meu mundo e de construir, aos poucos, a pessoa que quero ser. A jornada vai muito além da leitura em si: envolve pesquisa, organização, descobertas e, às vezes, bastante paciência para encontrar livros de certos países.
-  </p>
 </div>
 
-<div class="page-wrap">
-
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-
-    <!-- KPIs — todos os 5 -->
-    <div>
-      <div class="sb-label">Resumo geral</div>
-      <div class="kpi-grid">
-        <div class="kpi-card accent">
-          <div class="kpi-num" id="s-paises">—</div>
-          <div class="kpi-lbl">países lidos</div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-num" id="s-mapeados">—</div>
-          <div class="kpi-lbl">países com livros</div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-num" id="s-pct">—</div>
-          <div class="kpi-lbl">% lidos</div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-num" id="s-novos">—</div>
-          <div class="kpi-lbl">páginas lidas</div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-num" id="s-cinco">—</div>
-          <div class="kpi-lbl">avaliações 5★</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Progresso -->
-    <div class="prog-block">
-      <div class="sb-label">Progresso do desafio</div>
-      <div class="prog-row">
-        <div class="prog-meta"><span>Países lidos</span><b id="prog-p-txt">— / 209</b></div>
-        <div class="prog-track"><div class="prog-fill" id="prog-p-fill" style="width:0%"></div></div>
-      </div>
-      <div class="prog-row">
-        <div class="prog-meta"><span>Livros mapeados</span><b id="prog-m-txt">— / 209</b></div>
-        <div class="prog-track"><div class="prog-fill" id="prog-m-fill" style="width:0%"></div></div>
-      </div>
-    </div>
-
-    <!-- Navegação por seções — botões redondos -->
-    <div>
-      <div class="sb-nav-title">Ir para a seção</div>
-      <div class="sb-nav-pills">
-        <button class="sb-nav-pill" onclick="document.getElementById('blogs').scrollIntoView({behavior:'smooth'})">
-          <span class="pill-dot">✦</span>Blogs sobre o desafio
-        </button>
-        <button class="sb-nav-pill" onclick="document.getElementById('perfil').scrollIntoView({behavior:'smooth'})">
-          <span class="pill-dot">✦</span>Perfil do desafio
-        </button>
-        <button class="sb-nav-pill" onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">
-          <span class="pill-dot">✦</span>De onde vieram meus livros?
-        </button>
-        <button class="sb-nav-pill" onclick="document.getElementById('evolucao').scrollIntoView({behavior:'smooth'})">
-          <span class="pill-dot">✦</span>Evolução do desafio
-        </button>
-        <button class="sb-nav-pill" onclick="document.getElementById('lista').scrollIntoView({behavior:'smooth'})">
-          <span class="pill-dot">✦</span>Lista de países
-        </button>
-      </div>
-    </div>
-
-    <!-- Filtro rápido para lista -->
-    <div>
-      <div class="sb-label">Filtrar lista</div>
-      <div class="filter-pills">
-        <button class="fpill active" data-f="todos"   onclick="setSidebarFilter('todos',this)">Todos</button>
-        <button class="fpill"        data-f="lido"    onclick="setSidebarFilter('lido',this)">Lidos</button>
-        <button class="fpill"        data-f="mapeado" onclick="setSidebarFilter('mapeado',this)">Mapeados</button>
-        <button class="fpill"        data-f="nao"     onclick="setSidebarFilter('nao',this)">Sem livro</button>
-      </div>
-    </div>
-
-  </aside>
-
-  <!-- MAIN -->
-  <main class="main">
-
-    <!-- INTRO EDITORIAL -->
-    <section class="intro-desktop">
-      <div class="intro-headline-wrap">
-        <h1 class="intro-headline">Uma viagem rumo à diversidade literária</h1>
-      </div>
-      <p class="intro-body">
-        Meu projeto de ler ao menos um livro de cada país do mundo nasceu do desejo de <strong>ampliar horizontes</strong> e sair do automático. Depois de reencontrar meu amor pelos livros, descobri criadores de conteúdo literário que me fizeram refletir sobre diversidade, representatividade e pluralidade nas leituras.
-      </p>
-      <p class="intro-body">
-        Passei a perceber que ampliar minhas leituras era também uma forma de <strong>ampliar meu mundo</strong> — e de construir, aos poucos, a pessoa que quero ser. A jornada vai muito além da leitura em si: envolve pesquisa, organização, descobertas e, às vezes, bastante paciência para encontrar livros de certos países.
-      </p>
-    </section>
-
-    <!-- BLOGS -->
-    <section class="section-gap" id="blogs">
-      <hr class="section-hr">
-      <div class="section-head">
-        <h2 class="section-h2">Blogs sobre o desafio</h2>
-        <span class="section-sub">Textos no Medium</span>
-      </div>
-      <div class="posts-grid">
-        <a class="post-card" href="https://medium.com/@vesiuol/desafio-livros-pelo-mundo-d8e01e80812f" target="_blank" rel="noopener">
-          <div class="post-wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div></div>
-          <div class="post-body">
-            <h3 class="post-title">Desafio Livros pelo Mundo</h3>
-            <p class="post-desc">Iniciando uma jornada de um livro para cada país — motivação, regras e o que espero aprender.</p>
-          </div>
-          <div class="post-foot"><span>Apresentação</span><span>→</span></div>
-        </a>
-        <a class="post-card" href="https://medium.com/@vesiuol/estruturando-a-nossa-rota-1-ac374720227f" target="_blank" rel="noopener">
-          <div class="post-wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div></div>
-          <div class="post-body">
-            <h3 class="post-title">Estruturando a nossa rota #1</h3>
-            <p class="post-desc">Como montar a estrutura no Notion, lista dos países da ONU e modelo de planilha para duplicar.</p>
-          </div>
-          <div class="post-foot"><span>Organização #1</span><span>→</span></div>
-        </a>
-        <a class="post-card" href="https://medium.com/@vesiuol/montando-a-nossa-rota-2-c98c5bcf7a20" target="_blank" rel="noopener">
-          <div class="post-wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div></div>
-          <div class="post-body">
-            <h3 class="post-title">Montando a nossa rota #2</h3>
-            <p class="post-desc">Aprofundando a organização dos países e das escolhas de livros para a jornada.</p>
-          </div>
-          <div class="post-foot"><span>Organização #2</span><span>→</span></div>
-        </a>
-        <a class="post-card" href="https://medium.com/@vesiuol/visualização-da-minha-planilha-no-nopor-onde-já-viajei-acaf251c4985" target="_blank" rel="noopener">
-          <div class="post-wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div></div>
-          <div class="post-body">
-            <h3 class="post-title">Visualização da minha planilha</h3>
-            <p class="post-desc">Como visualizar no Notion os países por onde já "viajei" — mapas, dados e configurações.</p>
-          </div>
-          <div class="post-foot"><span>Apresentação</span><span>→</span></div>
-        </a>
-      </div>
-
-      <!-- CTA NOTION -->
-      <div class="notion-cta">
-        <p>Toda a organização do desafio começa antes da leitura. Veja a planilha-modelo completa com países, livros e progresso.</p>
-        <a class="notion-btn" href="https://app.notion.com/p/vesiuol/679c7c463b784b75b645ca16b283cb64?v=091d4f4f0139433383dc3bfb1855ef48&source=copy_link" target="_blank" rel="noopener">Abrir no Notion →</a>
-      </div>
-    </section>
-
-    <!-- PERFIL DO DESAFIO — sem donut, 4 modelos alternativos -->
-    <section class="section-gap" id="perfil">
-      <hr class="section-hr">
-      <div class="section-head">
-        <h2 class="section-h2">Perfil do desafio</h2>
-        <span class="section-sub" id="charts-loading">carregando dados…</span>
-      </div>
-
-      <!-- Modelo 1: grid de texto (quem escreve, idioma, formato) -->
-      <div class="perfil-text-grid">
-        <div class="ptg-cell">
-          <div class="ptg-label">Quem escreve</div>
-          <div class="ptg-val" id="pg-genero">—</div>
-          <div class="ptg-sub" id="pg-genero-sub">dos autores</div>
-        </div>
-        <div class="ptg-cell">
-          <div class="ptg-label">Cor / raça</div>
-          <div class="ptg-val" id="pg-cor">—</div>
-          <div class="ptg-sub" id="pg-cor-sub">autores não-brancos</div>
-        </div>
-        <div class="ptg-cell">
-          <div class="ptg-label">Idioma mais lido</div>
-          <div class="ptg-val" id="pg-idioma">—</div>
-          <div class="ptg-sub">idioma original</div>
-        </div>
-        <div class="ptg-cell">
-          <div class="ptg-label">Formato</div>
-          <div class="ptg-val" id="pg-formato">—</div>
-          <div class="ptg-sub">modo de leitura</div>
-        </div>
-        <div class="ptg-cell">
-          <div class="ptg-label">Faixa etária</div>
-          <div class="ptg-val" id="pg-faixa">—</div>
-          <div class="ptg-sub">público principal</div>
-        </div>
-        <div class="ptg-cell">
-          <div class="ptg-label">Nota média</div>
-          <div class="ptg-val" id="pg-nota">—</div>
-          <div class="ptg-sub">de 5 estrelas</div>
-        </div>
-      </div>
-
-      <!-- Modelo 2: cards com número grande + barra (diversidade) -->
-      <div class="div-cards">
-        <div class="div-card">
-          <div class="div-card-num" id="dc-lgbtq">—</div>
-          <div class="div-card-label">Protagonista LGBTQ+</div>
-          <div class="div-card-sub" id="dc-lgbtq-sub">dos livros lidos</div>
-          <div class="div-card-track"><div class="div-card-fill" id="dc-lgbtq-bar" style="width:0%"></div></div>
-        </div>
-        <div class="div-card">
-          <div class="div-card-num" id="dc-div">—</div>
-          <div class="div-card-label">Diversidade étnica</div>
-          <div class="div-card-sub" id="dc-div-sub">dos livros lidos</div>
-          <div class="div-card-track"><div class="div-card-fill" id="dc-div-bar" style="width:0%"></div></div>
-        </div>
-        <div class="div-card">
-          <div class="div-card-num" id="dc-own">—</div>
-          <div class="div-card-label">#OwnVoices</div>
-          <div class="div-card-sub" id="dc-own-sub">dos livros lidos</div>
-          <div class="div-card-track"><div class="div-card-fill" id="dc-own-bar" style="width:0%"></div></div>
-        </div>
-      </div>
-
-      <!-- Modelo 3: rankings com barras de texto lado a lado — agora com rolagem, sem limite de itens -->
-      <div class="charts-2col">
-        <div class="wcard">
-          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Regiões mais lidas</span></div>
-          <div style="padding:1rem 1.2rem;overflow-y:auto;height:280px">
-            <div class="rank-list" id="rank-regioes"></div>
-          </div>
-        </div>
-        <div class="wcard">
-          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Gêneros literários</span></div>
-          <div style="padding:1rem 1.2rem;overflow-y:auto;height:280px">
-            <div class="rank-list" id="rank-generos"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Modelo 4: barras verticais para notas + barras horizontais para origem -->
-      <div class="charts-2col">
-        <div class="wcard">
-          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Distribuição de notas</span></div>
-          <div class="chart-body"><canvas id="c-notas"></canvas></div>
-        </div>
-        <div class="wcard">
-          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Origem do livro</span></div>
-          <div class="chart-body"><canvas id="c-origem" style="max-height:200px"></canvas></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- MAPA -->
-    <section class="section-gap" id="mapa">
-      <hr class="section-hr">
-      <div class="section-head">
-        <h2 class="section-h2">De onde vieram meus livros?</h2>
-        <span class="section-sub">Autores por país</span>
-      </div>
-      <div class="wcard">
-        <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Mapa do desafio</span></div>
-        <div id="dlm-map"></div>
-      </div>
-      <div class="map-legend">
-        <span><span class="legend-dot" style="background:#849974"></span>Lido</span>
-        <span><span class="legend-dot" style="background:#c8d4b8"></span>Livro mapeado</span>
-        <span><span class="legend-dot" style="background:#ccc"></span>Ainda não mapeado</span>
-      </div>
-    </section>
-
-    <!-- EVOLUÇÃO — estrutura original preservada -->
-    <section class="section-gap" id="evolucao">
-      <hr class="section-hr">
-      <div class="section-head">
-        <h2 class="section-h2">Evolução do desafio</h2>
-        <span class="section-sub">Os anos contados em números — do início até o fim</span>
-      </div>
-      <div class="desafio-wrap">
-        <p class="desafio-intro">Uma viagem contada em números. Cada ano um novo passo, cada livro um novo país descoberto.</p>
-        <div class="ev-cards-wrap">
-          <div class="graf-4col" id="evolucao-cards"></div>
-          <div id="barra-progresso-geral"></div>
-        </div>
-        <div class="desafio-charts">
-          <div class="wcard">
-            <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Países conquistados · 2024→2026</span></div>
-            <div class="chart-body tall"><div class="chart-canvas-wrap"><canvas id="c-evolucao-linha"></canvas></div></div>
-          </div>
-          <div class="wcard">
-            <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Projeção para 209 países</span></div>
-            <div class="chart-body" id="projecao-body"></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- LISTA DE PAÍSES -->
-    <section class="section-gap" id="lista">
-      <hr class="section-hr">
-      <div class="section-head">
-        <h2 class="section-h2">Lista de países</h2>
-        <span class="section-sub" id="lista-loading">carregando leituras…</span>
-      </div>
-      <div class="lista-filters">
-        <button class="filter-pill active" data-f="todos"   onclick="setPillFilter('todos',this)">Todos</button>
-        <button class="filter-pill"        data-f="lido"    onclick="setPillFilter('lido',this)">✓ Lidos</button>
-        <button class="filter-pill"        data-f="mapeado" onclick="setPillFilter('mapeado',this)">📚 Mapeados</button>
-        <button class="filter-pill"        data-f="nao"     onclick="setPillFilter('nao',this)">— Sem livro</button>
-        <div class="search-wrap">
-          <input type="text" id="search-notion" placeholder="Buscar país, livro ou autor…" oninput="renderNotion()">
-        </div>
-      </div>
-      <div style="overflow-x:auto">
-        <table id="notion-table">
-          <thead>
-            <tr>
-              <th style="width:34px"></th>
-              <th onclick="sortNotion('pais')">País ↕</th>
-              <th onclick="sortNotion('livro')">Livro ↕</th>
-              <th onclick="sortNotion('autor')">Autor/a ↕</th>
-              <th onclick="sortNotion('ga')">Gênero</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody id="notion-tbody"></tbody>
-        </table>
-      </div>
-      <div class="table-footer">
-        <span id="notion-count">—</span>
-        <div class="pagination" id="notion-pagination"></div>
-      </div>
-    </section>
-
-  </main>
+<!-- STATS -->
+<div class="stats-section">
+  <div class="stats-grid">
+    <div class="stat-card"><span class="stat-num" id="s-horas">—</span><span class="stat-lbl">Horas ouvidas</span></div>
+    <div class="stat-card"><span class="stat-num" id="s-lidos">—</span><span class="stat-lbl">Lidos</span></div>
+    <div class="stat-card"><span class="stat-num" id="s-paginas">—</span><span class="stat-lbl">Páginas lidas</span></div>
+    <div class="stat-card"><span class="stat-num" id="s-cinco">—</span><span class="stat-lbl">Livros 5 estrelas</span></div>
+    <div class="stat-card"><span class="stat-num" id="s-autores">—</span><span class="stat-lbl">Autores únicos</span></div>
+    <div class="stat-card"><span class="stat-num" id="s-paises">—</span><span class="stat-lbl">Países</span></div>
+  </div>
 </div>
 
-<!-- FOOTER (governança) -->
+<!-- VITRINE -->
+<div class="page-section">
+  <div class="section-head">
+    <h2 class="section-h2">Navegue pelo site</h2>
+    <span class="section-sub">Páginas</span>
+  </div>
+  <div class="vitrine-grid">
+    <a href="2026.html" class="vitrine-card">
+      <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div></div>
+      <div class="vc-body">
+        <div class="vc-title">Leituras de 2026</div>
+        <p class="vc-desc">Progresso da meta anual e os dados específicos dos livros lidos este ano.</p>
+      </div>
+      <div class="vc-footer"><span class="vc-tag">Ano atual</span><span class="vc-arrow">→</span></div>
+    </a>
+    <a href="estante.html" class="vitrine-card">
+      <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div></div>
+      <div class="vc-body">
+        <div class="vc-title">Livros na Estante</div>
+        <p class="vc-desc">Todos os livros catalogados desde 2013, com gráficos e filtros detalhados.</p>
+      </div>
+      <div class="vc-footer"><span class="vc-tag">Estante completa</span><span class="vc-arrow">→</span></div>
+    </a>
+    <a href="historico.html" class="vitrine-card">
+      <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div></div>
+      <div class="vc-body">
+        <div class="vc-title">Vida de Leitora</div>
+        <p class="vc-desc">Histórico de leituras com evolução ano a ano, gráficos gerais e filtro por ano específico.</p>
+      </div>
+      <div class="vc-footer"><span class="vc-tag">2013 → 2026</span><span class="vc-arrow">→</span></div>
+    </a>
+    <a href="desafio.html" class="vitrine-card wide">
+      <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div></div>
+      <div class="vc-body">
+        <div class="vc-title">Desafio Livros pelo Mundo</div>
+        <p class="vc-desc">Uma viagem rumo à diversidade: ler ao menos um livro de cada país do mundo. Cada leitura é um passo para ampliar perspectivas e conhecer histórias fora de um eixo automático.</p>
+      </div>
+      <div class="vc-footer"><span class="vc-tag">Um livro para cada país</span><span class="vc-arrow">→</span></div>
+    </a>
+    <a href="sobre.html" class="vitrine-card">
+      <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div></div>
+      <div class="vc-body">
+        <div class="vc-title">Sobre o projeto</div>
+        <p class="vc-desc">Quem é a Louise, como essa paixão por catalogar leituras começou e por que ela decidiu abrir todos esses dados para o mundo.</p>
+      </div>
+      <div class="vc-footer"><span class="vc-tag">Quem faz esse site</span><span class="vc-arrow">→</span></div>
+    </a>
+  </div>
+</div>
+
+<!-- FOOTER -->
 <footer>
   <div class="footer-dots">
     <div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div>
   </div>
-  <span class="footer-text">Louise Victoria &nbsp;|&nbsp; © 2026 &nbsp;|&nbsp; Atualizado em <span id="data-atualizacao">05 de julho de 2026</span></span>
+  <span class="footer-text">Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span class="footer-atualizacao">07 de julho de 2026</span></span>
 </footer>
 
 <script>
-Chart.register(ChartDataLabels);
-
-const CSV_DESAFIO = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub?gid=537800862&single=true&output=csv';
-const CSV_2024   = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub?gid=963475305&single=true&output=csv';
-const CSV_2025   = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub?gid=0&single=true&output=csv';
-
-const GREEN       = '#849974';
-const GREEN_DARK  = '#6b7e5e';
-const GREEN_LIGHT = '#c8d4b8';
-const DARK  = '#1a1a1a';
-const MUTED = '#555';
-const CORES = ['#7a9e7e','#c4a882','#6b8e9f','#b5835a','#8a9a5b','#9b7fa6','#4e7c5f','#c4855a','#7ba3a8','#a07850'];
-
-const REGIAO = {
-  'Brasil':'América do Sul','Argentina':'América do Sul','Chile':'América do Sul','Colômbia':'América do Sul','Peru':'América do Sul','Venezuela':'América do Sul','Uruguai':'América do Sul','Bolívia':'América do Sul',
-  'EUA':'América do Norte','Canadá':'América do Norte','Estados Unidos':'América do Norte','México':'América Central','Cuba':'Caribe',
-  'Reino Unido':'Europa','França':'Europa','Alemanha':'Europa','Espanha':'Europa','Itália':'Europa','Portugal':'Europa','Holanda':'Europa','Bélgica':'Europa','Suécia':'Europa','Noruega':'Europa','Polônia':'Europa','República Tcheca':'Europa','Grécia':'Europa','Áustria':'Europa','Suíça':'Europa','Irlanda':'Europa','Ucrânia':'Europa',
-  'Rússia':'Europa/Ásia',
-  'Japão':'Ásia','China':'Ásia','Índia':'Ásia','Coreia do Sul':'Ásia','Vietnã':'Ásia','Indonésia':'Ásia','Filipinas':'Ásia','Paquistão':'Ásia','Bangladesh':'Ásia','Cazaquistão':'Ásia',
-  'Israel':'Oriente Médio','Irã':'Oriente Médio','Iraque':'Oriente Médio','Síria':'Oriente Médio','Afeganistão':'Oriente Médio',
-  'Nigéria':'África','África do Sul':'África','Zâmbia':'África','Camarões':'África','Ruanda':'África','Somália':'África','Quênia':'África','Etiópia':'África','Gana':'África','Senegal':'África','Angola':'África','Moçambique':'África','Zimbabwe':'África','Uganda':'África',
-  'Marrocos':'África do Norte','Egito':'África do Norte',
-  'Austrália':'Oceania','Nova Zelândia':'Oceania',
-  'Bielorrússia':'Europa','Bulgária':'Europa','Ilhas Virgens':'Caribe','Zimbábue':'África',
-};
-
-const COORDS = {
-  'Brasil':[-15.8,-47.9],'EUA':[37.1,-95.7],'Estados Unidos':[37.1,-95.7],'Reino Unido':[51.5,-0.1],'Japão':[35.7,139.7],'França':[46.2,2.2],
-  'Canadá':[56.1,-106.3],'Argentina':[-34.6,-58.4],'Portugal':[38.7,-9.1],'Alemanha':[52.5,13.4],'Espanha':[40.4,-3.7],'Itália':[41.9,12.5],
-  'México':[19.4,-99.1],'Colômbia':[4.7,-74.1],'Chile':[-33.4,-70.6],'Índia':[28.6,77.2],'China':[39.9,116.4],'Rússia':[55.8,37.6],
-  'Austrália':[-35.3,149.1],'Nigéria':[9.1,7.5],'África do Sul':[-25.7,28.2],'Zâmbia':[-15.4,28.3],'Camarões':[3.9,11.5],'Irã':[35.7,51.4],
-  'Noruega':[59.9,10.7],'Holanda':[52.4,4.9],'Cuba':[23.1,-82.4],'Ucrânia':[50.5,30.5],'Nova Zelândia':[-41.3,174.8],'Uruguai':[-34.9,-56.2],
-  'Bolívia':[-16.5,-68.1],'Ruanda':[-1.9,30.1],'Somália':[2.0,45.3],'República Tcheca':[50.1,14.4],'Bélgica':[50.8,4.4],
-  'Coreia do Sul':[37.6,127.0],'Vietnã':[21.0,105.8],'Polônia':[52.2,21.0],'Suécia':[59.3,18.1],'Grécia':[37.9,23.7],
-  'Turquia':[39.9,32.9],'Egito':[30.1,31.2],'Marrocos':[34.0,-6.8],'Etiópia':[9.0,38.7],'Quênia':[-1.3,36.8],'Gana':[5.6,-0.2],
-  'Senegal':[14.7,-17.4],'Peru':[-12.0,-77.0],'Venezuela':[10.5,-66.9],'Paquistão':[33.7,73.1],'Bangladesh':[23.7,90.4],'Israel':[31.8,35.2],
-  'Iraque':[33.3,44.4],'Síria':[33.5,36.3],'Angola':[-8.8,13.2],'Moçambique':[-18.7,35.5],'Zimbabwe':[-17.8,31.1],'Uganda':[0.3,32.6],
-  'Indonésia':[-6.2,106.8],'Filipinas':[14.6,121.0],'Afeganistão':[34.5,69.2],'Cazaquistão':[51.2,71.4],
-  'Suíça':[46.8,8.2],'Áustria':[48.2,16.4],'Irlanda':[53.3,-6.3],
-};
-
-function norm(s){ return (s||'').trim().toLowerCase(); }
-function fetchCSV(url){
-  return new Promise((res,rej)=>{
-    Papa.parse(url,{download:true,header:true,skipEmptyLines:true,complete:r=>res(r.data),error:rej});
+// hamburger
+(function(){
+  const btn=document.getElementById('nav-hamburger'), menu=document.getElementById('nav-mobile');
+  if(!btn||!menu) return;
+  btn.addEventListener('click',()=>{
+    const open=menu.classList.toggle('open'), bars=btn.querySelectorAll('span');
+    bars[0].style.transform=open?'translateY(7px) rotate(45deg)':'';
+    bars[1].style.opacity  =open?'0':'';
+    bars[2].style.transform=open?'translateY(-7px) rotate(-45deg)':'';
   });
-}
-function topN(obj,n){ return Object.entries(obj).sort((a,b)=>b[1]-a[1]).slice(0,n); }
-function findField(row, candidates){
-  if(!row) return '';
-  const keys = Object.keys(row);
-  for(const cand of candidates){
-    const cn = norm(cand);
-    const exact = keys.find(k=>norm(k)===cn);
-    if(exact && row[exact] && row[exact].trim()) return row[exact].trim();
-    const partial = keys.find(k=>norm(k).includes(cn)||cn.includes(norm(k)));
-    if(partial && row[partial] && row[partial].trim()) return row[partial].trim();
-  }
-  return '';
-}
-function filterLPM(rows){
-  return rows.filter(r=>Object.values(r).some(v=>norm(v||'').includes('desafio lpm')));
-}
-function countField(rows, candidates){
-  const c={};
-  rows.forEach(r=>{ const v=findField(r,candidates); if(v) c[v]=(c[v]||0)+1; });
-  return c;
-}
-function scrollTo(id){
-  const el = document.getElementById(id);
-  if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+})();
+
+// Planilha A — aba VISÃO GERAL LEITURAS (Governança: gid=700848757).
+// Mesma aba e mesma lógica de leitura já usadas e comprovadas em historico.html —
+// reaproveitada aqui para que a home cruze Estante + Leituras de todos os anos,
+// em vez de contar só o status "Lido/Não Lido" da planilha da Estante.
+const PROXY = 'https://corsproxy.io/?url=';
+const BASE_LEITURAS = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub';
+const URL_VIS = PROXY + encodeURIComponent(BASE_LEITURAS + '?gid=700848757&single=true&output=csv');
+
+const TODOS_ANOS = ['2013','2014','2015','2016','2017','2018','2019','2020','2021','2022','2023','2024','2025','2026'];
+const CAT_NOTAS  = ['1','1,5','2','2,5','3','3,5','4','4,5','5'];
+
+const pi = v => parseInt(String(v||'').replace(/[^0-9]/g,'')) || 0;
+
+function fetchCSV(url){
+  return fetch(url)
+    .then(r => { if (!r.ok) throw new Error('HTTP '+r.status); return r.text(); })
+    .then(t => Papa.parse(t.replace(/^\uFEFF/,''), {header:true, skipEmptyLines:true}).data)
+    .catch(e => { console.error('fetchCSV:', e); return []; });
 }
 
-let rows2024=[], rows2025=[], rows2026=[];
+// getRow/vals/subVals/getPaises: idênticos ao que historico.html já usa com sucesso
+// para ler essa mesma aba VISÃO GERAL LEITURAS.
+function getRow(VIS, label) { return VIS.find(r => (r['']||'').trim()===label) || null; }
+function vals(row, anos) { if (!row) return anos.map(()=>0); return anos.map(a => pi(row[a])); }
+function subVals(VIS, cats, ano) {
+  const anos = ano ? [ano] : TODOS_ANOS;
+  const res = {};
+  cats.forEach(cat => {
+    const row = VIS.find(r => (r['Idiomas']||'').trim()===cat);
+    if (!row) return;
+    res[cat] = anos.reduce((s,a) => s+pi(row[a+'_1']), 0);
+  });
+  return res;
+}
+function getPaises(VIS) {
+  const res = {};
+  VIS.forEach(r => { const p=(r['Países']||'').trim(), v=pi(r['Total']); if (p && v>0) res[p]=v; });
+  return res;
+}
+
+// REGRA DE GOVERNANÇA (2026-07-07): toda página que exibir "horas ouvidas" deve
+// mostrar no formato H:MM (horas:minutos), nunca como número decimal + "h".
+// As células de horas na planilha vêm no formato H:MM:SS (ex: "92:08:00"), então
+// nunca usar pi()/parseInt direto nelas — isso concatena os dígitos e gera lixo.
+function parseDuracaoParaMinutos(v){
+  const s = String(v||'').trim();
+  if (!s) return 0;
+  if (s.includes(':')){
+    const [h=0, m=0] = s.split(':').map(p => parseInt(p,10) || 0);
+    return h*60 + m;
+  }
+  return Math.round((parseFloat(s.replace(',','.')) || 0) * 60);
+}
+function formatMinutosParaHoraMin(totalMin){
+  const h = Math.floor(totalMin/60), m = totalMin % 60;
+  return h + ':' + String(m).padStart(2,'0');
+}
 
 async function init(){
-  try{
-    const [r24,r25,r26] = await Promise.all([fetchCSV(CSV_2024), fetchCSV(CSV_2025), fetchCSV(CSV_DESAFIO)]);
-    rows2024 = filterLPM(r24);
-    rows2025 = filterLPM(r25);
-    rows2026 = filterLPM(r26);
-  } catch(e){ console.warn('CSV error',e); }
+  try {
+    const VIS = await fetchCSV(URL_VIS);
 
-  const allLPM = [...rows2024,...rows2025,...rows2026];
+    const livRow   = getRow(VIS, 'Livros');
+    const pagRow   = getRow(VIS, 'Páginas');
+    const autRow   = getRow(VIS, 'Autores lidos pela 1º vez');
+    const horasRow = getRow(VIS, 'Horas ouvidas'); // confirmado: coluna A linha 8, dados a partir de 2026 (coluna O)
 
-  /* KPIs sidebar */
-  const paisesLidos   = new Set(allLPM.map(r=>norm(findField(r,['País','Pais']))).filter(Boolean)).size;
-  const notionMapeados = NOTION_DATA.filter(n=>n.livro&&n.livro.trim()).length;
-  const totalPaginas   = allLPM.reduce((s,r)=>{ const p=parseInt(findField(r,['Páginas','Paginas'])||'0'); return s+(isNaN(p)?0:p); },0);
-  const cincoEst       = allLPM.filter(r=>(findField(r,['NOTA','Nota','nota'])||'').trim()==='5').length;
-  const pct            = Math.round((paisesLidos||allLPM.length||0)/209*100);
+    const totalLidos   = vals(livRow, TODOS_ANOS).reduce((a,b)=>a+b, 0);
+    const totalPaginas = vals(pagRow, TODOS_ANOS).reduce((a,b)=>a+b, 0);
+    const totalAutores = vals(autRow, TODOS_ANOS).reduce((a,b)=>a+b, 0);
+    const totalMinutosHoras = horasRow
+      ? TODOS_ANOS.reduce((s,a) => s + parseDuracaoParaMinutos(horasRow[a]), 0)
+      : 0;
+    const total5       = subVals(VIS, CAT_NOTAS, null)['5'] || 0;
+    const totalPaises  = Object.keys(getPaises(VIS)).length;
 
-  document.getElementById('s-paises').textContent   = paisesLidos||allLPM.length||'0';
-  document.getElementById('s-mapeados').textContent  = notionMapeados||'0';
-  document.getElementById('s-pct').textContent       = pct+'%';
-  document.getElementById('s-novos').textContent     = totalPaginas>0 ? totalPaginas.toLocaleString('pt-BR') : '0';
-  document.getElementById('s-cinco').textContent     = cincoEst||'0';
-
-  /* Progresso */
-  const mPct = Math.round(notionMapeados/209*100);
-  document.getElementById('prog-p-txt').textContent = (paisesLidos||allLPM.length||0)+' / 209';
-  document.getElementById('prog-m-txt').textContent = notionMapeados+' / 209';
-  setTimeout(()=>{
-    document.getElementById('prog-p-fill').style.width = pct+'%';
-    document.getElementById('prog-m-fill').style.width = mPct+'%';
-  },300);
-
-  buildPerfil(allLPM);
-  buildMap();
-  buildEvolucao(rows2024,rows2025,rows2026);
-  crossExcelIntoNotion(allLPM);
-
-  const cl = document.getElementById('charts-loading');
-  if(cl) cl.textContent = allLPM.length+' leituras LPM (2024·2025·2026)';
+    document.getElementById('s-horas').textContent   = horasRow ? formatMinutosParaHoraMin(totalMinutosHoras) : '—';
+    document.getElementById('s-lidos').textContent   = totalLidos   > 0 ? totalLidos   : '—';
+    document.getElementById('s-paginas').textContent = totalPaginas > 0 ? totalPaginas.toLocaleString('pt-BR') : '—';
+    document.getElementById('s-cinco').textContent   = total5      > 0 ? total5      : '—';
+    document.getElementById('s-autores').textContent = totalAutores> 0 ? totalAutores: '—';
+    document.getElementById('s-paises').textContent  = totalPaises > 0 ? totalPaises : '—';
+  } catch(e) { console.error('Erro:', e); }
 }
-
-function buildPerfil(allLPM){
-  /* ── Modelo 1: texto grid ── */
-  const gaCount  = countField(allLPM,['Se identifica como...','Gênero do autor','Gênero autor']);
-  const corCount = countField(allLPM,['Cor','cor do autor','raça','Raça']);
-  const idCount  = countField(allLPM,['Idioma','idioma original']);
-  const fmCount  = countField(allLPM,['Formato']);
-  const fxCount  = countField(allLPM,['Faixa etária','Faixa etaria','faixa']);
-
-  const topGa  = topN(gaCount,1)[0];
-  const topCor = topN(corCount,1)[0];
-  const topId  = topN(idCount,1)[0];
-  const topFm  = topN(fmCount,1)[0];
-  const topFx  = topN(fxCount,1)[0];
-
-  if(topGa)  { document.getElementById('pg-genero').textContent     = topGa[0]; document.getElementById('pg-genero-sub').textContent = topGa[1]+' livros'; }
-  if(topCor) { document.getElementById('pg-cor').textContent        = topCor[0]; document.getElementById('pg-cor-sub').textContent   = topCor[1]+' livros'; }
-  if(topId)  { document.getElementById('pg-idioma').textContent     = topId[0]; }
-  if(topFm)  { document.getElementById('pg-formato').textContent    = topFm[0]; }
-  if(topFx)  { document.getElementById('pg-faixa').textContent      = topFx[0]; }
-
-  const notas = [0,0,0,0,0];
-  allLPM.forEach(r=>{ const n=parseInt(findField(r,['NOTA','Nota','nota'])||'0'); if(n>=1&&n<=5) notas[n-1]++; });
-  const total = notas.reduce((a,b)=>a+b,0);
-  const media = total>0 ? (notas.reduce((a,v,i)=>a+v*(i+1),0)/total).toFixed(1) : '—';
-  document.getElementById('pg-nota').textContent = media+' ★';
-
-  /* ── Modelo 2: cards diversidade ── */
-  function pctSim(count){
-    const total = Object.values(count).reduce((a,b)=>a+b,0);
-    const sim   = Object.entries(count).filter(([k])=>/^(sim|true)$/i.test(k)).reduce((a,[,v])=>a+v,0);
-    return total>0 ? { pct: Math.round(sim/total*100), total } : { pct:0, total:0 };
-  }
-  const lgbtq = pctSim(countField(allLPM,['Protagonista LGBTQ+','lgbtq']));
-  const div   = pctSim(countField(allLPM,['Diversidade etnica/racial','Diversidade étnica/racial','diversidade']));
-  const own   = pctSim(countField(allLPM,['#OwnVoices?','OwnVoices','ownvoices']));
-
-  document.getElementById('dc-lgbtq').textContent     = lgbtq.pct+'%';
-  document.getElementById('dc-lgbtq-sub').textContent = 'de '+lgbtq.total+' livros lidos';
-  document.getElementById('dc-lgbtq-bar').style.width = lgbtq.pct+'%';
-  document.getElementById('dc-div').textContent       = div.pct+'%';
-  document.getElementById('dc-div-sub').textContent   = 'de '+div.total+' livros lidos';
-  document.getElementById('dc-div-bar').style.width   = div.pct+'%';
-  document.getElementById('dc-own').textContent       = own.pct+'%';
-  document.getElementById('dc-own-sub').textContent   = 'de '+own.total+' livros lidos';
-  document.getElementById('dc-own-bar').style.width   = own.pct+'%';
-
-  /* ── Modelo 3: rankings com barras de texto ── */
-  function buildRank(elId, obj, maxItems){
-    const el = document.getElementById(elId); if(!el) return;
-    const pairs = topN(obj, maxItems);
-    if(!pairs.length) return;
-    const max = pairs[0][1];
-    el.innerHTML = pairs.map(([label,val],i)=>`
-      <div class="rank-item">
-        <div class="rank-header">
-          <span><span class="rank-pos">${i+1}.</span><span class="rank-name">${label}</span></span>
-          <span class="rank-val">${val}</span>
-        </div>
-        <div class="rank-track"><div class="rank-fill${i>0?' light':''}" style="width:${Math.round(val/max*100)}%"></div></div>
-      </div>`).join('');
-  }
-
-  const rc={};
-  allLPM.forEach(r=>{ const p=findField(r,['País','Pais']); const rg=REGIAO[p]||'Outros'; rc[rg]=(rc[rg]||0)+1; });
-  buildRank('rank-regioes', rc, 999);
-  buildRank('rank-generos', countField(allLPM,['Gênero','Genero','gênero literário']), 999);
-
-  /* ── Modelo 4: notas — padronizado no formato de linha/área (Governança, decisão 2026-07-04) ── */
-  const notasEl = document.getElementById('c-notas');
-  if(notasEl){
-    const opts={maintainAspectRatio:false,layout:{padding:{top:22}},
-      plugins:{legend:{display:false},datalabels:{display:ctx=>ctx.dataset.data[ctx.dataIndex]>0,anchor:'end',align:'top',color:DARK,font:{family:'DM Sans',size:10,weight:'500'},formatter:v=>v>0?v:'',clamp:true}},
-      scales:{x:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:MUTED},border:{display:false}},y:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:MUTED},border:{display:false},beginAtZero:true}}};
-    new Chart(notasEl,{type:'line',data:{labels:['★','★★','★★★','★★★★','★★★★★'],datasets:[{data:notas,borderColor:GREEN,backgroundColor:GREEN+'22',borderWidth:2.5,pointRadius:5,pointBackgroundColor:GREEN,fill:true,tension:.35}]},options:opts});
-  }
-
-  /* barras horizontais origem */
-  const origEl = document.getElementById('c-origem');
-  if(origEl){
-    const pairs = topN(countField(allLPM,['Origem do livro?','Origem do livro']),6);
-    if(pairs.length){
-      origEl.style.maxHeight='200px';
-      const opts={maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false},datalabels:{display:true,anchor:'end',align:'end',color:DARK,font:{family:'DM Sans',size:10,weight:'500'},formatter:v=>v>0?v:'',clip:false,clamp:false,offset:6}},scales:{x:{grid:{color:'#eee'},ticks:{font:{family:'DM Sans',size:11},color:MUTED},stepSize:1},y:{grid:{color:'#eee'},ticks:{font:{family:'DM Sans',size:11},color:MUTED}}}};
-      new Chart(origEl,{type:'bar',data:{labels:pairs.map(e=>e[0]),datasets:[{data:pairs.map(e=>e[1]),backgroundColor:GREEN_LIGHT,borderRadius:3}]},options:opts});
-    }
-  }
-}
-
-function buildMap(){
-  const map=L.map('dlm-map').setView([20,10],2);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map);
-  NOTION_DATA.forEach(n=>{
-    const pais=n.pais.replace(/\*+$/,'').trim();
-    const c=COORDS[pais]; if(!c) return;
-    const sr=getStatusReal(n);
-    const color = sr==='lido' ? GREEN : n.livro ? GREEN_LIGHT : '#bbb';
-    L.circleMarker(c,{radius:7,fillColor:color,color:'#fff',weight:1.5,fillOpacity:.85}).addTo(map)
-      .bindPopup('<strong>'+n.pais+'</strong>'+(n.livro?'<br><em>'+n.livro+'</em>':'')+(n.autor?'<br>'+n.autor:''));
-  });
-}
-
-function buildEvolucao(r24,r25,r26){
-  const TOTAL=209;
-  const n24=r24.length, n25=r25.length, n26=r26.length;
-  const acum24=n24, acum25=n24+n25, acum26=n24+n25+n26, total=acum26;
-
-  /* Cards */
-  const cardEl=document.getElementById('evolucao-cards');
-  if(cardEl){
-    cardEl.innerHTML=[
-      {ano:'2024',num:n24,sub:acum24+' acumulado'},
-      {ano:'2025',num:n25,sub:acum25+' acumulado'},
-      {ano:'2026',num:n26,sub:acum26+' acumulado',dest:true},
-      {ano:'Faltam',num:TOTAL-total,sub:'de '+TOTAL+' países'},
-    ].map(c=>`<div class="evolucao-card${c.dest?' destaque':''}"><div class="ev-ano">${c.ano}</div><div class="ev-num">${c.num}</div><div class="ev-sub">${c.sub}</div></div>`).join('');
-  }
-
-  /* Barra progresso */
-  const progEl=document.getElementById('barra-progresso-geral');
-  if(progEl){
-    const pct=Math.round(total/TOTAL*100);
-    progEl.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;font-size:.88rem"><span><strong>${total}</strong> países lidos no desafio</span><span style="font-size:.72rem;color:var(--muted)">${pct}% de ${TOTAL}</span></div><div class="prog-track-lg"><div class="prog-fill-lg" style="width:0%" id="pfl"></div></div><div class="prog-labels"><span>0</span><span style="color:var(--green);font-weight:500">${total} ✓</span><span>${TOTAL}</span></div>`;
-    setTimeout(()=>{ const el=document.getElementById('pfl'); if(el) el.style.width=pct+'%'; },400);
-  }
-
-  /* Linha acumulada */
-  const linhaEl=document.getElementById('c-evolucao-linha');
-  if(linhaEl){
-    const mes=new Date().getMonth()+1;
-    const ritmo26=n26>0?Math.round(n26/mes*12):0;
-    const media=n24>0&&n25>0?Math.round((n24+n25+ritmo26)/3):Math.max(n24,n25,ritmo26)||1;
-    const labR=['2024','2025','2026'], dadR=[acum24,acum25,acum26];
-    const ap=[]; let ac=total; let ay=2027;
-    while(ac<TOTAL&&ay<=2040){ ap.push(ay); ac=Math.min(ac+Math.round(media),TOTAL); ay++; }
-    const lp=ap, dp=lp.map((_,i)=>Math.min(total+Math.round(media*(i+1)),TOTAL));
-    const allL=[...labR,...lp.map(String)];
-    const allR=[...dadR,...Array(lp.length).fill(null)];
-    const allP=[...Array(labR.length-1).fill(null),acum26,...dp];
-    new Chart(linhaEl,{type:'line',data:{labels:allL,datasets:[
-      {label:'Real',data:allR,borderColor:GREEN,backgroundColor:GREEN+'22',borderWidth:2.5,pointRadius:4,pointBackgroundColor:GREEN,fill:true,tension:.3,spanGaps:false},
-      {label:'Projeção',data:allP,borderColor:'#ccc',backgroundColor:'transparent',borderWidth:1.5,borderDash:[5,4],pointRadius:2,pointBackgroundColor:'#ccc',fill:false,tension:.3,spanGaps:false}
-    ]},options:{maintainAspectRatio:false,plugins:{legend:{display:true,labels:{font:{family:'DM Sans',size:10},color:DARK,boxWidth:10,padding:12}},datalabels:{display:ctx=>ctx.datasetIndex===0&&ctx.raw!==null,color:DARK,font:{family:'DM Sans',size:10,weight:'500'},anchor:'end',align:'top',formatter:v=>v!=null?v:''}},scales:{x:{grid:{color:'#eee'},ticks:{font:{family:'DM Sans',size:10},color:MUTED}},y:{grid:{color:'#eee'},ticks:{font:{family:'DM Sans',size:10},color:MUTED,stepSize:10},min:0,max:TOTAL}}}});
-
-    /* Projeção textual */
-    const projEl=document.getElementById('projecao-body');
-    if(projEl){
-      const ar=media>0?Math.ceil((TOTAL-total)/media):'—';
-      const ac2=media>0?2026+ar:'—';
-      projEl.innerHTML=`
-        <div class="proj-linha"><span class="proj-label">Ritmo médio (2024–2025)</span><span class="proj-val">${((n24+n25)/2).toFixed(1)}/ano</span></div>
-        <div class="proj-linha"><span class="proj-label">Ritmo 2026 (anualizado)</span><span class="proj-val">~${ritmo26}/ano</span></div>
-        <div class="proj-linha"><span class="proj-label">Total lido até hoje</span><span class="proj-val">${total} de ${TOTAL}</span></div>
-        <div class="proj-linha"><span class="proj-label">Ainda faltam</span><span class="proj-val">${TOTAL-total} países</span></div>
-        <div class="proj-linha" style="margin-top:6px;padding-top:8px;border-top:2px solid var(--green)"><span class="proj-label">Conclusão estimada</span><span class="proj-dest">${ac2}</span></div>
-        <p style="font-size:.72rem;color:var(--muted);margin-top:.8rem;line-height:1.5">Baseado no ritmo de ~${media} países/ano. 2026 estimado com base nos ${mes} meses decorridos.</p>`;
-    }
-  }
-}
-
-/* ── Tabela Notion ── */
-const NOTION_DATA = [{"pais":"Afeganistão","livro":"O segredo do meu turbante","autor":"Nadia Ghulam","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":""},{"pais":"África do Sul","livro":"Nascido do crime","autor":"Trevor Noah","ga":"Masculino","status_notion":"Concluído","tenho":"Sim","capa":"https://site.taglivros.com/static/11c78ed3732ef3826fa87fb9266ced83/94cf1/ine_2020_01_cover_7964d44ba5.webp"},{"pais":"Albânia","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Alemanha","livro":"A intérprete","autor":"Annette Hess","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/81FjbMeOVfL._SL1500_.jpg"},{"pais":"Andorra","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Angola","livro":"Os transparentes","autor":"Ondjaki","ga":"Masculino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/91el+MIrHCL._SY466_.jpg"},{"pais":"Antígua e Barbuda","livro":"A autobiografia da minha mãe","autor":"Jamaica Kincaid","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/71fbcgEr6fL._SY466_.jpg"},{"pais":"Arábia Saudita","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Argélia","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Argentina","livro":"Sou uma tola por te querer","autor":"","ga":"Trans","status_notion":"Concluído","tenho":"Não","capa":"https://m.media-amazon.com/images/I/81cp3Fo+HWL._SY425_.jpg"},{"pais":"Armênia","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Austrália","livro":"Nove desconhecidos","autor":"Liane Moriarty","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/71pFXoa6ESL._SY466_.jpg"},{"pais":"Áustria","livro":"24 Horas na Vida de uma Mulher","autor":"Stefan Zweig","ga":"Masculino","status_notion":"Concluído","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/71PkeoTg8+L._AC_UF1000,1000_QL80_.jpg"},{"pais":"Bangladesh","livro":"Uma era de ouro","autor":"Talmina Anam","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/91lWcKAzBNL._SY466_.jpg"},{"pais":"Bélgica","livro":"Eu que nunca conheci os homens","autor":"Jacqueline Harpman","ga":"Feminino","status_notion":"Concluído","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/81IKyAwkU7L._SY466_.jpg"},{"pais":"Bielorrússia","livro":"Vozes De Tchernóbil","autor":"Svetlana Alexijevich","ga":"Feminino","status_notion":"Concluído","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/91RcGh5EDaL._SL1500_.jpg"},{"pais":"Bolívia","livro":"Os afetos","autor":"Rodrigo Hasbún","ga":"Masculino","status_notion":"Concluído","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/61zbEahX4+L._SY466_.jpg"},{"pais":"Bósnia e Herzegovina","livro":"Como o soldado conserta o gramofone","autor":"Saša Stanišić","ga":"Masculino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/91nrIr1awJL._SY466_.jpg"},{"pais":"Brasil","livro":"A cabeça do santo","autor":"Socorro Acioli","ga":"Feminino","status_notion":"Não iniciada","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/71-YhujYUxS._SL1500_.jpg"},{"pais":"Bulgária","livro":"Onde estão as flores?","autor":"Ilko Minev","ga":"Masculino","status_notion":"Concluído","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/81gEa09B+nL._SY466_.jpg"},{"pais":"Burundi","livro":"Meu Pequeno Pais","autor":"Gaël Faye","ga":"Masculino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/71jBut2DyML._SY466_.jpg"},{"pais":"Camarões","livro":"Aqui estão os sonhadores","autor":"Imbolo Mbue","ga":"Feminino","status_notion":"Concluído","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/51pFP4T4XEL.jpg"},{"pais":"Canadá","livro":"Mar da tranquilidade","autor":"Emily St. John Mandel","ga":"Feminino","status_notion":"Concluído","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/41nuwM6VUSL._SY445_SX342_ML2_.jpg"},{"pais":"Chile","livro":"O vento sabe o meu nome","autor":"Isabel Allende","ga":"Feminino","status_notion":"Concluído","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/919QiNB2-6L._SY466_.jpg"},{"pais":"China","livro":"Expiração","autor":"Ted Chiang","ga":"Masculino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/61pmdZryUyS._SL1500_.jpg"},{"pais":"Colômbia","livro":"Cem anos de solidão","autor":"Gabriel García Márquez","ga":"Masculino","status_notion":"Não iniciada","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/817esPahlrL._SY466_.jpg"},{"pais":"Congo","livro":"O involuntário ato de respirar","autor":"JJ Bola","ga":"Masculino","status_notion":"Não iniciada","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/51FLeh+dBrL.jpg"},{"pais":"Coreia do Sul","livro":"Castella","autor":"Min-gyu Park","ga":"Masculino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/51nSOhvSFoL.jpg"},{"pais":"Cuba","livro":"Cartas para a minha mãe","autor":"Teresa Cárdenas","ga":"Feminino","status_notion":"Concluído","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/61YbM0CxNIL._SY466_.jpg"},{"pais":"Dinamarca","livro":"Os funcionários","autor":"Olga Ravn","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/71NNwTzLGSL._SY466_.jpg"},{"pais":"Egito","livro":"Noites das mil e uma noites","autor":"Naguib Mahfouz","ga":"Masculino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/81lxBn+MHrL._SY466_.jpg"},{"pais":"Eritreia","livro":"As consequências do amor","autor":"Sulaiman Addonia","ga":"Masculino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/71cTrCZc+HL._SY466_.jpg"},{"pais":"Eslovênia","livro":"Alamut","autor":"Vladimir Barto","ga":"Masculino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/91fk9rfFqTL._SY466_.jpg"},{"pais":"Espanha","livro":"Dom Quixote","autor":"Miguel Cervantes","ga":"Masculino","status_notion":"Não iniciada","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/81k74t+lqyL._SY466_.jpg"},{"pais":"Estados Unidos","livro":"Tudo sobre o amor","autor":"Bell Hooks","ga":"Feminino","status_notion":"Concluído","tenho":"Sim","capa":"https://img.skoob.com.br/O9nCofU9GN6-KYpbFAFOXABwqSE=/200x/center/top/smart/filters:format(jpeg)/https://skoob.s3.amazonaws.com/livros/11723773/TUDO_SOBRE_O_AMOR_172214208911723773SK-V11722142090B.jpg"},{"pais":"Etiópia","livro":"O décimo primeiro mandamento","autor":"Abraham Verghese","ga":"Masculino","status_notion":"Não iniciada","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/91L7fuzfm4S._SY466_.jpg"},{"pais":"Fiji","livro":"","autor":"","ga":"","status_notion":"Não iniciada","tenho":"","capa":""},{"pais":"Filipinas","livro":"Espelhos de água","autor":"Samantha Sotto Yambao","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/71yG3+3+2qL._SY425_.jpg"},{"pais":"Finlândia","livro":"Maresi","autor":"Maria Turtschaninoff","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/71S+pufvpWL._SL1447_.jpg"},{"pais":"França","livro":"O Baile das Loucas","autor":"Victoria Mas","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/81FSZu-pIGS._SY425_.jpg"},{"pais":"Gana","livro":"O imenso azul entre nós","autor":"Ayesha Harruna Attah","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/81gT6tf0k0L._SY466_.jpg"},{"pais":"Haiti","livro":"A Cor do Amanhecer","autor":"Yanick Lahens","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/61TsY-o+++L._SY466_.jpg"},{"pais":"Holanda","livro":"Táxi!","autor":"Aimée de Jongh","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/41hg5ZoZ2bL.jpg"},{"pais":"Hungria","livro":"A Porta","autor":"Magda Szabó","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/51xTVPNfLIL._SY466_.jpg"},{"pais":"Ilhas Virgens","livro":"King e as libélulas","autor":"Kacen Callender","ga":"Trans","status_notion":"Concluído","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/61qNJZl4o0L._SY466_.jpg"},{"pais":"Índia","livro":"O monge endinheirado","autor":"Gita Mehta","ga":"Feminino","status_notion":"Não iniciada","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/917ynGrPvVL._SY425_.jpg"},{"pais":"Irã","livro":"Lendo Lolita em Teerã","autor":"Azar Nafisi","ga":"Feminino","status_notion":"Não iniciada","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/81LQST9hn6L._SL1500_.jpg"},{"pais":"Irlanda","livro":"Rugido","autor":"Cecelia Ahern","ga":"Feminino","status_notion":"Concluído","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/81XDzrd6jxL._SY466_.jpg"},{"pais":"Islândia","livro":"Rosa cândida","autor":"Auður Ava Ólafsdóttir","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/81QXOavKKbL._SY466_.jpg"},{"pais":"Israel","livro":"A propriedade","autor":"Rutu Modan","ga":"Masculino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/51N39cvcL8L.jpg"},{"pais":"Itália","livro":"A amiga genial","autor":"Elena Ferrante","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/71ssdjzNbXL._SL1500_.jpg"},{"pais":"Jamaica","livro":"Só nós","autor":"Claudia Rankine","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/41dg-o5iXcS.jpg"},{"pais":"Japão","livro":"Diario dos Gatos Yon & Mu","autor":"Junji Ito","ga":"Masculino","status_notion":"Concluído","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/51y+Ul4umeL._SY425_.jpg"},{"pais":"Líbano","livro":"Samarcanda","autor":"Amin Maalouf","ga":"Masculino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/71+jkvhgFVL._SY466_.jpg"},{"pais":"Libéria","livro":"Ela Seria o Rei","autor":"Wayétu Moore","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/81MkXxUG6NL._SL1500_.jpg"},{"pais":"Malásia","livro":"O perfume da folha de chá","autor":"Dinah Jefferies","ga":"Feminino","status_notion":"Não iniciada","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/91RAvujgA9L._SL1500_.jpg"},{"pais":"Marrocos","livro":"O hotel dos sonhos","autor":"Laila Lalami","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/71b890mPU5L._SY425_.jpg"},{"pais":"México","livro":"Páradais","autor":"Fernanda Melchor","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/51nqEy57vVL._SY466_.jpg"},{"pais":"Moçambique","livro":"O mapeador de ausências","autor":"Mia Couto","ga":"Masculino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/71d1x8XT4GL._SY466_.jpg"},{"pais":"Nicarágua","livro":"O país das mulheres","autor":"Gioconda Belli","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/71WJQenuTWL._SY466_.jpg"},{"pais":"Nigéria","livro":"A garota que não se calou","autor":"Abi Daré","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/91tzCiK7ozL._SY466_.jpg"},{"pais":"Noruega","livro":"Tudo que Deixamos Para Trás","autor":"Maja Lunde","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/61yLCMQ3V1L._SY466_.jpg"},{"pais":"Nova Zelândia","livro":"O Jogo do Assassino","autor":"Ngaio Marsh","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/61XtKla65VL._SX445_.jpg"},{"pais":"Omã","livro":"Damas da lua","autor":"Jokha Alharthi","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/813ZrKq5TiL._SY466_.jpg"},{"pais":"Paquistão","livro":"O último homem branco","autor":"Mohsin Hamid","ga":"Masculino","status_notion":"Concluído","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/61q+S9pZioL._SY466_.jpg"},{"pais":"Peru","livro":"Matei um cachorro na Romênia","autor":"Claudia Ulloa","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/61r+-p70SEL._SY466_.jpg"},{"pais":"Polônia","livro":"Solaris","autor":"Stanisław Lem","ga":"Masculino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/61wluSJ2bjL._AC_UY218_.jpg"},{"pais":"Portugal","livro":"Vamos comprar um poeta","autor":"Afonso Cruz","ga":"Feminino","status_notion":"Concluído","tenho":"Não","capa":"https://static.skeelo.com/remote/320/480/100/https://skoob.s3.amazonaws.com/livros/608779/VAMOS_COMPRAR_UM_POETA_1656275729608779SK-V11656275730B.jpg"},{"pais":"Reino Unido","livro":"O Priorado da Laranjeira","autor":"Samantha Shannon","ga":"Feminino","status_notion":"Concluído","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/71wQ7qes-XL._SL1000_.jpg"},{"pais":"República Dominicana","livro":"A Fantástica Vida Breve de Oscar Wao","autor":"Junot Díaz","ga":"Masculino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/71MjVW+tRmL._SY466_.jpg"},{"pais":"República Tcheca","livro":"A insustentável leveza do ser","autor":"Milan Kundera","ga":"Masculino","status_notion":"Concluído","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/818ShC1u68L._SL1500_.jpg"},{"pais":"Ruanda","livro":"Um belo diploma","autor":"Scholastique Mukasonga","ga":"Feminino","status_notion":"Concluído","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/71kxBKomPML._SY466_.jpg"},{"pais":"Rússia","livro":"A Morte de Ivan Ilitch","autor":"Liev Tolstói","ga":"Masculino","status_notion":"Concluído","tenho":"Não","capa":"https://m.media-amazon.com/images/I/81U5uhi2vML._UF1000,1000_QL80_.jpg"},{"pais":"Senegal","livro":"A greve dos mendigos","autor":"Aminata Sow Fall","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":""},{"pais":"Serra Leoa","livro":"O brilho do amanhã","autor":"Ishmael Beah","ga":"Masculino","status_notion":"Não iniciada","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/91kBeCnZ4YL._SY425_.jpg"},{"pais":"Somália","livro":"Infiel","autor":"Ayaan Hirsi Ali","ga":"Feminino","status_notion":"Não iniciada","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/91UtcPIPByL._SY466_.jpg"},{"pais":"Sudão","livro":"Tempo De Migrar Para O Norte","autor":"Tayeb Salih","ga":"Masculino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/51O4mU0B3gL._SY466_.jpg"},{"pais":"Suécia","livro":"Um homem chamado Ove","autor":"Fredrik Backman","ga":"Masculino","status_notion":"Concluído","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/51K-O9uzclL.jpg"},{"pais":"Suíça","livro":"Pílulas azuis","autor":"Frederik Peeters","ga":"Masculino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/81SksFX50mL._SY466_.jpg"},{"pais":"Trinidad e Tobago","livro":"Menino de ouro","autor":"Claire Adam","ga":"Feminino","status_notion":"Em andamento","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/91sNbK-KzvL._SY466_.jpg"},{"pais":"Turquia","livro":"A casa do silêncio","autor":"Elif Shafak","ga":"Feminino","status_notion":"Não iniciada","tenho":"Não","capa":"https://m.media-amazon.com/images/I/816biVSrVDL._SY466_.jpg"},{"pais":"Uruguai","livro":"O Livro dos Abraços","autor":"Eduardo Galeano","ga":"Masculino","status_notion":"Concluído","tenho":"Não","capa":"https://m.media-amazon.com/images/I/81TLZQ4DlxL._SY466_.jpg"},{"pais":"Vietnã","livro":"A menina da foto","autor":"Phan Thị Kim Phúc","ga":"Feminino","status_notion":"Concluído","tenho":"Não","capa":"https://m.media-amazon.com/images/I/41B8CVh-6uL._SY445_SX342_.jpg"},{"pais":"Zâmbia","livro":"Assando bolos em Kigali","autor":"Gaile Parkin","ga":"Feminino","status_notion":"Concluído","tenho":"Sim","capa":"https://a-static.mlcdn.com.br/470x352/assando-bolos-em-kigali/biruta/289744/3cebf783ea7ee8d9aa964cb6a2139acb.jpeg"},{"pais":"Zimbábue","livro":"As Lágrimas da Girafa","autor":"Alexander McCall Smith","ga":"Masculino","status_notion":"Concluído","tenho":"Sim","capa":"https://m.media-amazon.com/images/I/91SzxuEeSQL._SY425_.jpg"}];
-
-let notionData=[...NOTION_DATA.map(r=>({...r}))];
-let notionFiltered=[...notionData];
-let notionSortKey='pais', notionSortDir=1;
-let notionPage=1, pillFilter='todos';
-const NOTION_PAGE=15;
-
-function getStatusReal(n){
-  if(n.status_real) return n.status_real;
-  if(n.status_notion==='Concluído') return 'lido';
-  if(n.status_notion==='Em andamento') return 'andamento';
-  if(n.livro&&n.livro.trim()) return 'mapeado';
-  return 'nao';
-}
-function crossExcelIntoNotion(allLPM){
-  const lidos=new Set();
-  allLPM.forEach(r=>{ const t=findField(r,['Livros','Título','Titulo','Livro','Book','Title']); if(t) lidos.add(norm(t)); });
-  notionData.forEach(n=>{ n.status_real = n.livro&&lidos.has(norm(n.livro)) ? 'lido' : getStatusReal(n); });
-  renderNotion();
-  const el=document.getElementById('lista-loading');
-  if(el) el.textContent=lidos.size+' livros lidos cruzados';
-}
-function setPillFilter(f,btn){
-  pillFilter=f;
-  document.querySelectorAll('.filter-pill').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.fpill').forEach(b=>{ if(b.dataset.f===f) b.classList.add('active'); else b.classList.remove('active'); });
-  notionPage=1; renderNotion();
-}
-function setSidebarFilter(f,btn){
-  pillFilter=f;
-  document.querySelectorAll('.fpill').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.filter-pill').forEach(b=>{ if(b.dataset.f===f) b.classList.add('active'); else b.classList.remove('active'); });
-  notionPage=1; renderNotion();
-  document.getElementById('lista').scrollIntoView({behavior:'smooth'});
-}
-function sortNotion(key){
-  if(notionSortKey===key) notionSortDir*=-1; else{notionSortKey=key;notionSortDir=1;}
-  renderNotion();
-}
-function renderNotion(){
-  const q=(document.getElementById('search-notion')?.value||'').toLowerCase();
-  notionFiltered=notionData.filter(n=>{
-    const sr=getStatusReal(n);
-    if(pillFilter==='lido'    && sr!=='lido') return false;
-    if(pillFilter==='mapeado' && sr!=='mapeado'&&sr!=='andamento') return false;
-    if(pillFilter==='nao'     && sr!=='nao') return false;
-    if(q&&!(n.pais+n.livro+n.autor).toLowerCase().includes(q)) return false;
-    return true;
-  });
-  notionFiltered.sort((a,b)=>(a[notionSortKey]||'').localeCompare(b[notionSortKey]||'')*notionSortDir);
-  const total=notionFiltered.length;
-  document.getElementById('notion-count').textContent=total+' países';
-  const pages=Math.ceil(total/NOTION_PAGE);
-  const start=(notionPage-1)*NOTION_PAGE;
-  const slice=notionFiltered.slice(start,start+NOTION_PAGE);
-  document.getElementById('notion-tbody').innerHTML=slice.map(n=>{
-    const sr=getStatusReal(n);
-    const rowBg=sr==='lido'?'background:rgba(132,153,116,.05)':'';
-    const badge=sr==='lido'?'<span class="badge badge-lido">Lido ✓</span>':sr==='andamento'?'<span class="badge badge-andamento">Lendo…</span>':sr==='mapeado'?'<span class="badge badge-mapeado">Mapeado</span>':'<span class="badge badge-nao">—</span>';
-    const capa=n.capa?`<img class="book-cover" src="${n.capa}" alt="${n.livro||''}" loading="lazy" onerror="this.outerHTML='<div class=\\'cover-ph\\'>—</div>'">`:`<div class="cover-ph">—</div>`;
-    const livroText=n.livro?`<span style="font-weight:500">${n.livro}</span>`:'<span style="color:#aaa">—</span>';
-    return `<tr style="${rowBg}"><td>${capa}</td><td><strong>${n.pais}</strong></td><td>${livroText}</td><td>${n.autor||'—'}</td><td>${n.ga||'—'}</td><td>${badge}</td></tr>`;
-  }).join('');
-  const pg=document.getElementById('notion-pagination');
-  pg.innerHTML='';
-  for(let i=1;i<=pages;i++){
-    const btn=document.createElement('button');
-    btn.className='page-btn'+(i===notionPage?' active':'');
-    btn.textContent=i;
-    btn.onclick=()=>{notionPage=i;renderNotion();document.getElementById('lista').scrollIntoView({behavior:'smooth'});};
-    pg.appendChild(btn);
-  }
-}
-notionData.forEach(n=>{ n.status_real=getStatusReal(n); });
-renderNotion();
 init();
 </script>
 </body>
