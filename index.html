@@ -293,7 +293,7 @@ footer {
     <div class="hero-divider">
       <div class="hero-meta">
         <div>por <strong>LOUISE VICTORIA</strong> · <span id="data-atualizacao">atualizado em 07 de julho de 2026</span></div>
-        <div>BASE DE DADOS DA BIBLIOTECA PESSOAL LV</div>
+        <div>BASE DE DADOS DA QUASE BIBLIOTECA PESSOAL LV</div>
       </div>
       <a href="sobre.html" class="hero-arrow">→</a>
     </div>
@@ -367,7 +367,7 @@ footer {
   <div class="footer-dots">
     <div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div>
   </div>
-  <span class="footer-text">Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span class="footer-atualizacao">07 de julho de 2026</span></span>
+  <span class="footer-text">O que tem na estante da Louise&nbsp;&nbsp;|&nbsp;&nbsp;Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span class="footer-atualizacao">07 de julho de 2026</span></span>
 </footer>
 
 <script>
@@ -423,6 +423,24 @@ function getPaises(VIS) {
   return res;
 }
 
+// REGRA DE GOVERNANÇA (2026-07-07): toda página que exibir "horas ouvidas" deve
+// mostrar no formato H:MM (horas:minutos), nunca como número decimal + "h".
+// As células de horas na planilha vêm no formato H:MM:SS (ex: "92:08:00"), então
+// nunca usar pi()/parseInt direto nelas — isso concatena os dígitos e gera lixo.
+function parseDuracaoParaMinutos(v){
+  const s = String(v||'').trim();
+  if (!s) return 0;
+  if (s.includes(':')){
+    const [h=0, m=0] = s.split(':').map(p => parseInt(p,10) || 0);
+    return h*60 + m;
+  }
+  return Math.round((parseFloat(s.replace(',','.')) || 0) * 60);
+}
+function formatMinutosParaHoraMin(totalMin){
+  const h = Math.floor(totalMin/60), m = totalMin % 60;
+  return h + ':' + String(m).padStart(2,'0');
+}
+
 async function init(){
   try {
     const VIS = await fetchCSV(URL_VIS);
@@ -435,11 +453,13 @@ async function init(){
     const totalLidos   = vals(livRow, TODOS_ANOS).reduce((a,b)=>a+b, 0);
     const totalPaginas = vals(pagRow, TODOS_ANOS).reduce((a,b)=>a+b, 0);
     const totalAutores = vals(autRow, TODOS_ANOS).reduce((a,b)=>a+b, 0);
-    const totalHoras   = horasRow ? vals(horasRow, TODOS_ANOS).reduce((a,b)=>a+b, 0) : 0;
+    const totalMinutosHoras = horasRow
+      ? TODOS_ANOS.reduce((s,a) => s + parseDuracaoParaMinutos(horasRow[a]), 0)
+      : 0;
     const total5       = subVals(VIS, CAT_NOTAS, null)['5'] || 0;
     const totalPaises  = Object.keys(getPaises(VIS)).length;
 
-    document.getElementById('s-horas').textContent   = horasRow ? totalHoras+'h' : '—';
+    document.getElementById('s-horas').textContent   = horasRow ? formatMinutosParaHoraMin(totalMinutosHoras) : '—';
     document.getElementById('s-lidos').textContent   = totalLidos   > 0 ? totalLidos   : '—';
     document.getElementById('s-paginas').textContent = totalPaginas > 0 ? totalPaginas.toLocaleString('pt-BR') : '—';
     document.getElementById('s-cinco').textContent   = total5      > 0 ? total5      : '—';
