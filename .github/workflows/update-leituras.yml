@@ -1,0 +1,22 @@
+name: Atualizar dados de LEITURAS (2024/2025/2026)
+
+on:
+  schedule:
+    - cron: '0 10 * * *'   # todo dia às 10h UTC (~7h Brasília), 1h depois do Desafio
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: node scripts/fetch-leituras.js
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/leituras-2024.json data/leituras-2025.json data/leituras-2026.json
+          git diff --staged --quiet || git commit -m "Atualiza dados de LEITURAS"
+          git push
