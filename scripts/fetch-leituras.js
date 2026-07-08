@@ -1,8 +1,8 @@
 const fs = require('fs');
 
 const SHEETS = {
-  '2024': 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub?gid=963475305&single=true&output=csv',
-  '2025': 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub?gid=0&single=true&output=csv',
+  '2024': 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub?gid=0&single=true&output=csv',
+  '2025': 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub?gid=963475305&single=true&output=csv',
   '2026': 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub?gid=537800862&single=true&output=csv'
 };
 
@@ -26,9 +26,17 @@ function parseCSV(text){
   }
   if(field.length || row.length){ row.push(field); rows.push(row); }
   const header = rows.shift();
+  const usedNames = {};
+  const uniqueHeader = header.map((h, i) => {
+    let name = h.trim();
+    if (!name) name = `_col${i}`; // preserva colunas sem cabeçalho em vez de perder o dado
+    if (usedNames[name] != null) { usedNames[name]++; name = `${name}_${usedNames[name]}`; }
+    else { usedNames[name] = 0; }
+    return name;
+  });
   return rows.filter(r=>r.some(v=>v && v.trim())).map(r=>{
     const obj = {};
-    header.forEach((h,i)=>{ obj[h.trim()] = (r[i]||'').trim(); });
+    uniqueHeader.forEach((h,i)=>{ obj[h] = (r[i]||'').trim(); });
     return obj;
   });
 }
