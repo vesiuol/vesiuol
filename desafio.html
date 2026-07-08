@@ -828,7 +828,7 @@ footer {
   <div class="footer-dots">
     <div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div>
   </div>
-  <span class="footer-text">Louise Victoria &nbsp;|&nbsp; © 2026 &nbsp;|&nbsp; Atualizado em <span id="data-atualizacao">05 de julho de 2026</span></span>
+  <span class="footer-text">Louise Victoria &nbsp;|&nbsp; © 2026 &nbsp;|&nbsp; Atualizado em <span id="data-atualizacao">07 de julho de 2026</span></span>
 </footer>
 
 <script>
@@ -895,6 +895,12 @@ function findField(row, candidates){
 function filterLPM(rows){
   return rows.filter(r=>Object.values(r).some(v=>norm(v||'').includes('desafio lpm')));
 }
+/* Considera concluído apenas o que tem LIDO exato na coluna (2025/2026).
+   2024 não tem essa coluna na planilha — todas as linhas lá já são leituras fechadas. */
+function isFinished(row, hasLidoCol){
+  if(!hasLidoCol) return true;
+  return (findField(row,['LIDO'])||'').trim() === 'LIDO';
+}
 function countField(rows, candidates){
   const c={};
   rows.forEach(r=>{ const v=findField(r,candidates); if(v) c[v]=(c[v]||0)+1; });
@@ -911,20 +917,21 @@ async function init(){
   try{
     const [r24,r25,r26] = await Promise.all([fetchCSV(CSV_2024), fetchCSV(CSV_2025), fetchCSV(CSV_DESAFIO)]);
     rows2024 = filterLPM(r24);
-    rows2025 = filterLPM(r25);
-    rows2026 = filterLPM(r26);
+    rows2025 = filterLPM(r25).filter(r=>isFinished(r,true));
+    rows2026 = filterLPM(r26).filter(r=>isFinished(r,true));
   } catch(e){ console.warn('CSV error',e); }
 
   const allLPM = [...rows2024,...rows2025,...rows2026];
 
-  /* KPIs sidebar */
-  const paisesLidos   = new Set(allLPM.map(r=>norm(findField(r,['País','Pais']))).filter(Boolean)).size;
+  /* KPIs sidebar — "países lidos", "% lidos" e "países com livros" vêm do Notion (autoridade por país).
+     Páginas lidas e 5★ vêm do Excel (só o Excel tem esse detalhe por livro). */
+  const notionLidos    = NOTION_DATA.filter(n=>n.status_notion==='Concluído').length;
   const notionMapeados = NOTION_DATA.filter(n=>n.livro&&n.livro.trim()).length;
   const totalPaginas   = allLPM.reduce((s,r)=>{ const p=parseInt(findField(r,['Páginas','Paginas'])||'0'); return s+(isNaN(p)?0:p); },0);
   const cincoEst       = allLPM.filter(r=>(findField(r,['NOTA','Nota','nota'])||'').trim()==='5').length;
-  const pct            = Math.round((paisesLidos||allLPM.length||0)/209*100);
+  const pct            = Math.round(notionLidos/209*100);
 
-  document.getElementById('s-paises').textContent   = paisesLidos||allLPM.length||'0';
+  document.getElementById('s-paises').textContent   = notionLidos||'0';
   document.getElementById('s-mapeados').textContent  = notionMapeados||'0';
   document.getElementById('s-pct').textContent       = pct+'%';
   document.getElementById('s-novos').textContent     = totalPaginas>0 ? totalPaginas.toLocaleString('pt-BR') : '0';
@@ -932,7 +939,7 @@ async function init(){
 
   /* Progresso */
   const mPct = Math.round(notionMapeados/209*100);
-  document.getElementById('prog-p-txt').textContent = (paisesLidos||allLPM.length||0)+' / 209';
+  document.getElementById('prog-p-txt').textContent = notionLidos+' / 209';
   document.getElementById('prog-m-txt').textContent = notionMapeados+' / 209';
   setTimeout(()=>{
     document.getElementById('prog-p-fill').style.width = pct+'%';
@@ -942,10 +949,12 @@ async function init(){
   buildPerfil(allLPM);
   buildMap();
   buildEvolucao(rows2024,rows2025,rows2026);
-  crossExcelIntoNotion(allLPM);
+  renderNotion();
 
   const cl = document.getElementById('charts-loading');
   if(cl) cl.textContent = allLPM.length+' leituras LPM (2024·2025·2026)';
+  const ll = document.getElementById('lista-loading');
+  if(ll) ll.textContent = notionLidos+' países lidos (Notion)';
 }
 
 function buildPerfil(allLPM){
@@ -1031,7 +1040,7 @@ function buildPerfil(allLPM){
     if(pairs.length){
       origEl.style.maxHeight='200px';
       const opts={maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false},datalabels:{display:true,anchor:'end',align:'end',color:DARK,font:{family:'DM Sans',size:10,weight:'500'},formatter:v=>v>0?v:'',clip:false,clamp:false,offset:6}},scales:{x:{grid:{color:'#eee'},ticks:{font:{family:'DM Sans',size:11},color:MUTED},stepSize:1},y:{grid:{color:'#eee'},ticks:{font:{family:'DM Sans',size:11},color:MUTED}}}};
-      new Chart(origEl,{type:'bar',data:{labels:pairs.map(e=>e[0]),datasets:[{data:pairs.map(e=>e[1]),backgroundColor:GREEN_LIGHT,borderRadius:3}]},options:opts});
+      new Chart(origEl,{type:'bar',data:{labels:pairs.map(e=>e[0]),datasets:[{data:pairs.map(e=>e[1]),backgroundColor:GREEN,borderRadius:3}]},options:opts});
     }
   }
 }
@@ -1109,26 +1118,18 @@ function buildEvolucao(r24,r25,r26){
 
 /* ── Tabela Notion ── */
 let NOTION_DATA = [];
-let notionData=[...NOTION_DATA.map(r=>({...r}))];
-let notionFiltered=[...notionData];
+
+let notionData=[];
+let notionFiltered=[];
 let notionSortKey='pais', notionSortDir=1;
 let notionPage=1, pillFilter='todos';
 const NOTION_PAGE=15;
 
 function getStatusReal(n){
-  if(n.status_real) return n.status_real;
   if(n.status_notion==='Concluído') return 'lido';
   if(n.status_notion==='Em andamento') return 'andamento';
   if(n.livro&&n.livro.trim()) return 'mapeado';
   return 'nao';
-}
-function crossExcelIntoNotion(allLPM){
-  const lidos=new Set();
-  allLPM.forEach(r=>{ const t=findField(r,['Livros','Título','Titulo','Livro','Book','Title']); if(t) lidos.add(norm(t)); });
-  notionData.forEach(n=>{ n.status_real = n.livro&&lidos.has(norm(n.livro)) ? 'lido' : getStatusReal(n); });
-  renderNotion();
-  const el=document.getElementById('lista-loading');
-  if(el) el.textContent=lidos.size+' livros lidos cruzados';
 }
 function setPillFilter(f,btn){
   pillFilter=f;
@@ -1183,16 +1184,19 @@ function renderNotion(){
     pg.appendChild(btn);
   }
 }
+
+/* Carrega os dados do desafio a partir do JSON gerado pelo GitHub Action
+   (data/desafio.json), que busca a database do Notion automaticamente. */
 async function loadNotionData(){
   try{
     const res = await fetch('data/desafio.json');
     NOTION_DATA = await res.json();
   }catch(e){
     console.warn('Erro ao carregar data/desafio.json', e);
+    NOTION_DATA = [];
   }
   notionData = NOTION_DATA.map(r=>({...r}));
   notionFiltered = [...notionData];
-  notionData.forEach(n=>{ n.status_real=getStatusReal(n); });
   renderNotion();
   init();
 }
