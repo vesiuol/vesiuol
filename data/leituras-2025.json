@@ -1,6 +1,6 @@
 [
   {
-    "": "3",
+    "_col0": "",
     "Título": "24 horas na vida de uma mulher",
     "Páginas": "107",
     "Gênero": "Romance",
@@ -19,13 +19,14 @@
     "Primeira vez lendo essu autore?": "FALSE",
     "Protagonista LGBTQIA+?": "FALSE",
     "Diversidade etnica/racial?": "FALSE",
-    "#OwnVoices?": "FALSE"
+    "#OwnVoices?": "FALSE",
+    "NOTA": "3"
   },
   {
-    "": "3",
+    "_col0": "",
     "Título": "Vidas Secas",
     "Páginas": "96",
-    "Gênero": "",
+    "Gênero": "Clássico",
     "Faixa etária": "Adulto",
     "Formato": "Brochura",
     "Editora": "",
@@ -41,14 +42,15 @@
     "Primeira vez lendo essu autore?": "FALSE",
     "Protagonista LGBTQIA+?": "FALSE",
     "Diversidade etnica/racial?": "FALSE",
-    "#OwnVoices?": "FALSE"
+    "#OwnVoices?": "FALSE",
+    "NOTA": "3"
   },
   {
-    "": "2,5",
+    "_col0": "",
     "Título": "Rugido",
-    "Páginas": "",
-    "Gênero": "",
-    "Faixa etária": "",
+    "Páginas": "336",
+    "Gênero": "Romance",
+    "Faixa etária": "Adulto",
     "Formato": "Brochura",
     "Editora": "",
     "Idioma": "Português",
@@ -63,10 +65,11 @@
     "Primeira vez lendo essu autore?": "TRUE",
     "Protagonista LGBTQIA+?": "FALSE",
     "Diversidade etnica/racial?": "FALSE",
-    "#OwnVoices?": "FALSE"
+    "#OwnVoices?": "FALSE",
+    "NOTA": "2,5"
   },
   {
-    "": "4",
+    "_col0": "",
     "Título": "O Homem Bicentenário",
     "Páginas": "160",
     "Gênero": "Ficção Científica",
@@ -85,10 +88,11 @@
     "Primeira vez lendo essu autore?": "FALSE",
     "Protagonista LGBTQIA+?": "FALSE",
     "Diversidade etnica/racial?": "TRUE",
-    "#OwnVoices?": "FALSE"
+    "#OwnVoices?": "FALSE",
+    "NOTA": "4"
   },
   {
-    "": "2",
+    "_col0": "",
     "Título": "Por que escrevo",
     "Páginas": "126",
     "Gênero": "Acadêmico",
@@ -107,10 +111,11 @@
     "Primeira vez lendo essu autore?": "FALSE",
     "Protagonista LGBTQIA+?": "FALSE",
     "Diversidade etnica/racial?": "FALSE",
-    "#OwnVoices?": "FALSE"
+    "#OwnVoices?": "FALSE",
+    "NOTA": "2"
   },
   {
-    "": "2",
+    "_col0": "",
     "Título": "Radio Silence",
     "Páginas": "",
     "Gênero": "Romance",
@@ -129,10 +134,11 @@
     "Primeira vez lendo essu autore?": "FALSE",
     "Protagonista LGBTQIA+?": "TRUE",
     "Diversidade etnica/racial?": "TRUE",
-    "#OwnVoices?": "FALSE"
+    "#OwnVoices?": "FALSE",
+    "NOTA": "2"
   },
   {
-    "": "5",
+    "_col0": "",
     "Título": "Just One Night",
     "Páginas": "40",
     "Gênero": "Romance romântico",
@@ -151,10 +157,11 @@
     "Primeira vez lendo essu autore?": "FALSE",
     "Protagonista LGBTQIA+?": "FALSE",
     "Diversidade etnica/racial?": "FALSE",
-    "#OwnVoices?": "FALSE"
+    "#OwnVoices?": "FALSE",
+    "NOTA": "5"
   },
   {
-    "": "2",
+    "_col0": "",
     "Título": "Radio Silence",
     "Páginas": "480",
     "Gênero": "Romance",
@@ -173,10 +180,11 @@
     "Primeira vez lendo essu autore?": "FALSE",
     "Protagonista LGBTQIA+?": "TRUE",
     "Diversidade etnica/racial?": "TRUE",
-    "#OwnVoices?": "FALSE"
+    "#OwnVoices?": "FALSE",
+    "NOTA": "2"
   },
   {
-    "": "5",
+    "_col0": "",
     "Título": "Orgulho e preconceito",
     "Páginas": "576",
     "Gênero": "Clássico",
@@ -195,10 +203,11 @@
     "Primeira vez lendo essu autore?": "TRUE",
     "Protagonista LGBTQIA+?": "FALSE",
     "Diversidade etnica/racial?": "FALSE",
-    "#OwnVoices?": "FALSE"
+    "#OwnVoices?": "FALSE",
+    "NOTA": "5"
   },
   {
-    "": "4",
+    "_col0": "",
     "Título": "Depois do Azul",
     "Páginas": "144",
     "Gênero": "Romance",
@@ -217,10 +226,11 @@
     "Primeira vez lendo essu autore?": "TRUE",
     "Protagonista LGBTQIA+?": "FALSE",
     "Diversidade etnica/racial?": "FALSE",
-    "#OwnVoices?": "FALSE"
+    "#OwnVoices?": "FALSE",
+    "NOTA": "4"
   },
   {
-    "": "4,5",
+    "_col0": "",
     "Título": "Antes que o café esfrie",
     "Páginas": "208",
     "Gênero": "Ficção",
@@ -239,10 +249,11 @@
     "Primeira vez lendo essu autore?": "TRUE",
     "Protagonista LGBTQIA+?": "FALSE",
     "Diversidade etnica/racial?": "FALSE",
-    "#OwnVoices?": "FALSE"
+    "#OwnVoices?": "FALSE",
+    "NOTA": "4,5"
   },
   {
-    "": "3",
+    "_col0": "",
     "Título": "Evidências de uma traição",
     "Páginas": "101",
     "Gênero": "Romance",
@@ -261,10 +272,11 @@
     "Primeira vez lendo essu autore?": "TRUE",
     "Protagonista LGBTQIA+?": "FALSE",
     "Diversidade etnica/racial?": "FALSE",
-    "#OwnVoices?": "FALSE"
+    "#OwnVoices?": "FALSE",
+    "NOTA": "3"
   },
   {
-    "": "3",
+    "_col0": "",
     "Título": "Cartas na Mesa",
     "Páginas": "216",
     "Gênero": "Investigação",
@@ -283,10 +295,11 @@
     "Primeira vez lendo essu autore?": "FALSE",
     "Protagonista LGBTQIA+?": "FALSE",
     "Diversidade etnica/racial?": "FALSE",
-    "#OwnVoices?": "FALSE"
+    "#OwnVoices?": "FALSE",
+    "NOTA": "3"
   },
   {
-    "": "2",
+    "_col0": "",
     "Título": "A insustentável leveza do ser",
     "Páginas": "312",
     "Gênero": "Romance",
@@ -305,10 +318,11 @@
     "Primeira vez lendo essu autore?": "TRUE",
     "Protagonista LGBTQIA+?": "FALSE",
     "Diversidade etnica/racial?": "FALSE",
-    "#OwnVoices?": "FALSE"
+    "#OwnVoices?": "FALSE",
+    "NOTA": "2"
   },
   {
-    "": "2,5",
+    "_col0": "",
     "Título": "Uma Dose Mortal",
     "Páginas": "148",
     "Gênero": "Investigação",
@@ -327,10 +341,11 @@
     "Primeira vez lendo essu autore?": "FALSE",
     "Protagonista LGBTQIA+?": "FALSE",
     "Diversidade etnica/racial?": "FALSE",
-    "#OwnVoices?": "FALSE"
+    "#OwnVoices?": "FALSE",
+    "NOTA": "2,5"
   },
   {
-    "": "3,5",
+    "_col0": "",
     "Título": "Os afetos",
     "Páginas": "128",
     "Gênero": "Romance",
@@ -349,10 +364,11 @@
     "Primeira vez lendo essu autore?": "FALSE",
     "Protagonista LGBTQIA+?": "FALSE",
     "Diversidade etnica/racial?": "TRUE",
-    "#OwnVoices?": "FALSE"
+    "#OwnVoices?": "FALSE",
+    "NOTA": "3,5"
   },
   {
-    "": "3",
+    "_col0": "",
     "Título": "1984",
     "Páginas": "440",
     "Gênero": "Clássico",
@@ -371,10 +387,11 @@
     "Primeira vez lendo essu autore?": "TRUE",
     "Protagonista LGBTQIA+?": "FALSE",
     "Diversidade etnica/racial?": "FALSE",
-    "#OwnVoices?": "FALSE"
+    "#OwnVoices?": "FALSE",
+    "NOTA": "3"
   },
   {
-    "": "3",
+    "_col0": "",
     "Título": "O Priorado da Laranjeira: A Maga",
     "Páginas": "544",
     "Gênero": "Fantasia",
@@ -387,16 +404,17 @@
     "Origem do livro?": "Ganhei de presente",
     "Como conheci?": "Booktube",
     "Nome": "Samantha Shannon",
-    "País": "Inglaterra",
+    "País": "Reino Unido",
     "Cor": "Branco",
     "Se identifica como...": "Feminino",
     "Primeira vez lendo essu autore?": "FALSE",
     "Protagonista LGBTQIA+?": "TRUE",
     "Diversidade etnica/racial?": "TRUE",
-    "#OwnVoices?": "FALSE"
+    "#OwnVoices?": "FALSE",
+    "NOTA": "3"
   },
   {
-    "": "5",
+    "_col0": "",
     "Título": "O Ódio Que Você Semeia",
     "Páginas": "376",
     "Gênero": "Ficção",
@@ -415,10 +433,11 @@
     "Primeira vez lendo essu autore?": "TRUE",
     "Protagonista LGBTQIA+?": "FALSE",
     "Diversidade etnica/racial?": "TRUE",
-    "#OwnVoices?": "TRUE"
+    "#OwnVoices?": "TRUE",
+    "NOTA": "5"
   },
   {
-    "": "3",
+    "_col0": "",
     "Título": "Cidade nas nuvens",
     "Páginas": "752",
     "Gênero": "Fantasia",
@@ -437,10 +456,11 @@
     "Primeira vez lendo essu autore?": "TRUE",
     "Protagonista LGBTQIA+?": "TRUE",
     "Diversidade etnica/racial?": "FALSE",
-    "#OwnVoices?": "FALSE"
+    "#OwnVoices?": "FALSE",
+    "NOTA": "3"
   },
   {
-    "": "3",
+    "_col0": "",
     "Título": "Forward",
     "Páginas": "304",
     "Gênero": "Ficção Científica",
@@ -459,10 +479,11 @@
     "Primeira vez lendo essu autore?": "FALSE",
     "Protagonista LGBTQIA+?": "TRUE",
     "Diversidade etnica/racial?": "FALSE",
-    "#OwnVoices?": "FALSE"
+    "#OwnVoices?": "FALSE",
+    "NOTA": "3"
   },
   {
-    "": "4",
+    "_col0": "",
     "Título": "Foundryside: às margens da Fundição",
     "Páginas": "640",
     "Gênero": "Fantasia",
@@ -481,10 +502,11 @@
     "Primeira vez lendo essu autore?": "FALSE",
     "Protagonista LGBTQIA+?": "TRUE",
     "Diversidade etnica/racial?": "FALSE",
-    "#OwnVoices?": "FALSE"
+    "#OwnVoices?": "FALSE",
+    "NOTA": "4"
   },
   {
-    "": "4",
+    "_col0": "",
     "Título": "Un Mapa de Sal Y Estrellas",
     "Páginas": "416",
     "Gênero": "Fantasia",
@@ -503,10 +525,11 @@
     "Primeira vez lendo essu autore?": "TRUE",
     "Protagonista LGBTQIA+?": "FALSE",
     "Diversidade etnica/racial?": "TRUE",
-    "#OwnVoices?": "FALSE"
+    "#OwnVoices?": "FALSE",
+    "NOTA": "4"
   },
   {
-    "": "4,5",
+    "_col0": "",
     "Título": "Tudo Sobre o Amor",
     "Páginas": "276",
     "Gênero": "Não ficção",
@@ -525,10 +548,11 @@
     "Primeira vez lendo essu autore?": "FALSE",
     "Protagonista LGBTQIA+?": "FALSE",
     "Diversidade etnica/racial?": "FALSE",
-    "#OwnVoices?": "TRUE"
+    "#OwnVoices?": "TRUE",
+    "NOTA": "4,5"
   },
   {
-    "": "3",
+    "_col0": "",
     "Título": "Por que ler os clássicos",
     "Páginas": "288",
     "Gênero": "Acadêmico",
@@ -547,10 +571,11 @@
     "Primeira vez lendo essu autore?": "TRUE",
     "Protagonista LGBTQIA+?": "FALSE",
     "Diversidade etnica/racial?": "FALSE",
-    "#OwnVoices?": "FALSE"
+    "#OwnVoices?": "FALSE",
+    "NOTA": "3"
   },
   {
-    "": "3,5",
+    "_col0": "",
     "Título": "Cartas para a minha mãe",
     "Páginas": "112",
     "Gênero": "Romance",
@@ -569,10 +594,11 @@
     "Primeira vez lendo essu autore?": "TRUE",
     "Protagonista LGBTQIA+?": "FALSE",
     "Diversidade etnica/racial?": "TRUE",
-    "#OwnVoices?": "FALSE"
+    "#OwnVoices?": "FALSE",
+    "NOTA": "3,5"
   },
   {
-    "": "4",
+    "_col0": "",
     "Título": "Kindred",
     "Páginas": "432",
     "Gênero": "Ficção Científica",
@@ -591,10 +617,11 @@
     "Primeira vez lendo essu autore?": "TRUE",
     "Protagonista LGBTQIA+?": "FALSE",
     "Diversidade etnica/racial?": "TRUE",
-    "#OwnVoices?": "TRUE"
+    "#OwnVoices?": "TRUE",
+    "NOTA": "4"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "27",
     "Páginas": "6.893",
     "Gênero": "(gráfico)",
@@ -613,6 +640,7 @@
     "Primeira vez lendo essu autore?": "(resumo)",
     "Protagonista LGBTQIA+?": "(resumo)",
     "Diversidade etnica/racial?": "(resumo)",
-    "#OwnVoices?": "(resumo)"
+    "#OwnVoices?": "(resumo)",
+    "NOTA": ""
   }
 ]

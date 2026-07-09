@@ -1,6 +1,6 @@
 [
   {
-    "": "",
+    "_col0": "",
     "Título": "O último homem branco",
     "Páginas": "134",
     "Gênero": "Romance",
@@ -24,7 +24,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "Cipestre Triste",
     "Páginas": "204",
     "Gênero": "Investigação",
@@ -48,7 +48,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "As lágrimas da girafa",
     "Páginas": "232",
     "Gênero": "Investigação",
@@ -72,7 +72,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "Onde estão as flores?",
     "Páginas": "256",
     "Gênero": "Autobiografia",
@@ -96,7 +96,31 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
+    "Título": "O vento sabe meu nome",
+    "Páginas": "224",
+    "Gênero": "Romance",
+    "Faixa etária": "Adulto",
+    "Formato": "Brochura",
+    "Editora": "Bertrand Brasil",
+    "Idioma": "Português",
+    "Série ou único?": "Livro único",
+    "Por que li?": "Desafio LPM",
+    "Origem do livro?": "Estava na estante",
+    "Como conheci?": "Outro",
+    "Nome": "Isabel Allende",
+    "País": "Chile",
+    "Cor": "Branco",
+    "Se identifica como...": "Feminino",
+    "Primeira vez lendo autore": "TRUE",
+    "Protagonista LGBTQ+": "FALSE",
+    "Diversidade etnica/racial": "FALSE",
+    "#OwnVoices?": "FALSE",
+    "NOTA": "",
+    "LIDO": "LIDO"
+  },
+  {
+    "_col0": "",
     "Título": "King e as libélulas",
     "Páginas": "208",
     "Gênero": "Ficção",
@@ -109,7 +133,7 @@
     "Origem do livro?": "Estava na estante",
     "Como conheci?": "Outro",
     "Nome": "Kacen Callender",
-    "País": "Ilhas Virgens Americanas",
+    "País": "Ilhas Virgens",
     "Cor": "Negro",
     "Se identifica como...": "Não binário",
     "Primeira vez lendo autore": "TRUE",
@@ -120,7 +144,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "Assassinato no Beco",
     "Páginas": "225",
     "Gênero": "Investigação",
@@ -144,7 +168,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "O aprendiz de assassino",
     "Páginas": "376",
     "Gênero": "Fantasia",
@@ -168,7 +192,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "E eu não sou uma mulher?",
     "Páginas": "320",
     "Gênero": "Não ficção",
@@ -192,7 +216,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "Assando bolos em Kigali",
     "Páginas": "320",
     "Gênero": "Romance",
@@ -216,7 +240,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "O clube da felicidade e da sorte",
     "Páginas": "311",
     "Gênero": "Romance",
@@ -240,7 +264,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "Nascido do Crime",
     "Páginas": "336",
     "Gênero": "Autobiografia",
@@ -264,7 +288,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "Vozes de Tchernóbil",
     "Páginas": "384",
     "Gênero": "Não ficção",
@@ -288,7 +312,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "Um homem chamado Ove",
     "Páginas": "320",
     "Gênero": "Romance",
@@ -312,7 +336,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "Aqui estão os sonhadores",
     "Páginas": "420",
     "Gênero": "Romance",
@@ -336,7 +360,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "O Priorado da Laranjeira 2",
     "Páginas": "532",
     "Gênero": "Fantasia",
@@ -360,7 +384,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "Shorefall",
     "Páginas": "608",
     "Gênero": "Fantasia",
@@ -384,7 +408,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "Como arruinar um casamento",
     "Páginas": "368",
     "Gênero": "Romance",
@@ -408,7 +432,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "Nimona",
     "Páginas": "272",
     "Gênero": "Quadrinhos",
@@ -432,9 +456,9 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "19",
-    "Páginas": "5.256",
+    "Páginas": "5.480",
     "Gênero": "(gráfico)",
     "Faixa etária": "(gráfico)",
     "Formato": "(gráfico)",
@@ -453,6 +477,6 @@
     "Diversidade etnica/racial": "(resumo)",
     "#OwnVoices?": "(resumo)",
     "NOTA": "",
-    "LIDO": "18"
+    "LIDO": "19"
   }
 ]

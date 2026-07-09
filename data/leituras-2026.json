@@ -1,6 +1,6 @@
 [
   {
-    "": "",
+    "_col0": "",
     "Título": "Hereges de Duna",
     "Páginas": "568",
     "Horas": "0:00:00",
@@ -25,7 +25,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "Menino de ouro",
     "Páginas": "272",
     "Horas": "0:00:00",
@@ -50,7 +50,7 @@
     "LIDO": "NÃO LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "Palavras de Radiância",
     "Páginas": "1328",
     "Horas": "0:00:00",
@@ -75,7 +75,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "Diário dos Gatos: Yon & Mu",
     "Páginas": "116",
     "Horas": "0:00:00",
@@ -100,7 +100,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "Impostora",
     "Páginas": "352",
     "Horas": "0:00:00",
@@ -125,7 +125,7 @@
     "LIDO": "NÃO LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "O brilho do amanhã",
     "Páginas": "267",
     "Horas": "0:00:00",
@@ -150,7 +150,7 @@
     "LIDO": "NÃO LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "Sou uma tola por te querer",
     "Páginas": "",
     "Horas": "02:45:00",
@@ -175,7 +175,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "Cem anos de solidão",
     "Páginas": "448",
     "Horas": "0:00:00",
@@ -200,7 +200,7 @@
     "LIDO": "NÃO LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "Warbreaker - O sopro dos deuses",
     "Páginas": "708",
     "Horas": "0:00:00",
@@ -225,7 +225,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "2001: Uma Odisseia no Espaço",
     "Páginas": "",
     "Horas": "4:30:00",
@@ -250,7 +250,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "O livro dos abraços",
     "Páginas": "",
     "Horas": "4:03:00",
@@ -275,7 +275,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "Razão e Sensibilidade",
     "Páginas": "",
     "Horas": "6:07:00",
@@ -300,7 +300,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "O alforje",
     "Páginas": "",
     "Horas": "4:20:00",
@@ -325,7 +325,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "Uma Chama Entre as Cinzas",
     "Páginas": "434",
     "Horas": "",
@@ -350,7 +350,7 @@
     "LIDO": "LENDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "An Ember in the Ashes",
     "Páginas": "480",
     "Horas": "0:00:00",
@@ -375,7 +375,7 @@
     "LIDO": "LENDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "An Ember in the Ashes",
     "Páginas": "",
     "Horas": "13:56:00",
@@ -400,7 +400,7 @@
     "LIDO": "LENDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "A Morte de Ivan Ilitch",
     "Páginas": "96",
     "Horas": "0:00:00",
@@ -410,7 +410,7 @@
     "Editora": "Principis",
     "Idioma": "Português",
     "Série ou único?": "Livro único",
-    "Por que li?": "Diversão",
+    "Por que li?": "Desafio LPM",
     "Origem do livro?": "Estava na estante",
     "Como conheci?": "Booktube",
     "Nome": "Liev Tolstói",
@@ -425,7 +425,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "Disney English Comics - Ed. 20",
     "Páginas": "96",
     "Horas": "0:00:00",
@@ -450,7 +450,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "O vício dos livros",
     "Páginas": "",
     "Horas": "00:53:00",
@@ -475,7 +475,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "A casa na Rua Mango",
     "Páginas": "",
     "Horas": "01:27:00",
@@ -500,7 +500,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "O monge endinheirado, a mulher do bandido e outras histórias de um rio indiano",
     "Páginas": "208",
     "Horas": "0:00:00",
@@ -525,7 +525,7 @@
     "LIDO": "LENDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "Locklands:Os abismos esquecidos",
     "Páginas": "704",
     "Horas": "0:00:00",
@@ -550,7 +550,7 @@
     "LIDO": "NÃO LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "Rainhas da Noite - As travestis que tinham São Paulo a seus pés",
     "Páginas": "",
     "Horas": "4:34:00",
@@ -575,7 +575,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "Eu que nunca conheci os homens",
     "Páginas": "192",
     "Horas": "0:00:00",
@@ -600,7 +600,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "Um belo diploma",
     "Páginas": "260",
     "Horas": "0:00:00",
@@ -625,7 +625,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "Mika na vida real",
     "Páginas": "368",
     "Horas": "0:00:00",
@@ -650,7 +650,7 @@
     "LIDO": "NÃO LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "Talvez você deva conversar com alguém",
     "Páginas": "",
     "Horas": "09:28:00",
@@ -675,7 +675,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "Ring Shout: Grito de Liberdade",
     "Páginas": "176",
     "Horas": "0:00:00",
@@ -700,7 +700,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "E eu não sou uma mulher?",
     "Páginas": "",
     "Horas": "2:25:00",
@@ -725,7 +725,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "Infiel - A história de uma mulher que desafiou o islã",
     "Páginas": "320",
     "Horas": "0:00:00",
@@ -750,7 +750,7 @@
     "LIDO": "NÃO LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "A morte de Arthur",
     "Páginas": "",
     "Horas": "2:12:00",
@@ -775,7 +775,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "O involuntário ato de respirar",
     "Páginas": "320",
     "Horas": "0:00:00",
@@ -800,7 +800,7 @@
     "LIDO": "NÃO LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "A Menina da Foto",
     "Páginas": "",
     "Horas": "05:22:00",
@@ -825,7 +825,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "A cabeça do santo",
     "Páginas": "176",
     "Horas": "0:00:00",
@@ -850,7 +850,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "Nihonjin",
     "Páginas": "",
     "Horas": "02:12:00",
@@ -875,7 +875,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "A Noite das Bruxas",
     "Páginas": "213",
     "Horas": "",
@@ -900,7 +900,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "Morte na Praia",
     "Páginas": "207",
     "Horas": "0:00:00",
@@ -925,7 +925,7 @@
     "LIDO": "NÃO LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "Se deus me chamar não vou",
     "Páginas": "",
     "Horas": "01:36:00",
@@ -950,7 +950,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "Holocausto Brasileiro",
     "Páginas": "280",
     "Horas": "0:00:00",
@@ -975,7 +975,7 @@
     "LIDO": "NÃO LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "Vamos comprar um poeta",
     "Páginas": "",
     "Horas": "1:24:00",
@@ -1000,7 +1000,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "A gente mira no amor e acerta na solidão",
     "Páginas": "",
     "Horas": "3:43:00",
@@ -1025,7 +1025,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "Jogos Vorazes",
     "Páginas": "",
     "Horas": "06:18:00",
@@ -1050,7 +1050,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "Em Chamas",
     "Páginas": "",
     "Horas": "06:18:00",
@@ -1075,7 +1075,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "A Esperança",
     "Páginas": "",
     "Horas": "06:18:00",
@@ -1100,7 +1100,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "Antes Que O Café Esfrie 4",
     "Páginas": "",
     "Horas": "2:17:00",
@@ -1125,7 +1125,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "A Murder at the Castle",
     "Páginas": "400",
     "Horas": "0:00:00",
@@ -1150,7 +1150,7 @@
     "LIDO": "NÃO LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "O retrato de Dorian Gray",
     "Páginas": "",
     "Horas": "",
@@ -1175,7 +1175,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "Mar da tranquilidade",
     "Páginas": "256",
     "Horas": "0:00:00",
@@ -1185,7 +1185,7 @@
     "Editora": "Intrínseca",
     "Idioma": "Português",
     "Série ou único?": "Livro único",
-    "Por que li?": "Diversão",
+    "Por que li?": "Desafio LPM",
     "Origem do livro?": "Estava na estante",
     "Como conheci?": "Booktube",
     "Nome": "Emily St. John Mandel",
@@ -1200,7 +1200,7 @@
     "LIDO": "LIDO"
   },
   {
-    "": "",
+    "_col0": "",
     "Título": "47",
     "Páginas": "9.245",
     "Horas": "92:08:00",
