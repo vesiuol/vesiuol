@@ -185,7 +185,7 @@ nav ul.open { display: flex; }
 .section-sub { font-size: .72rem; color: var(--muted); font-weight: 400; font-family: 'DM Sans', sans-serif; }
 
 /* Window card */
-. {
+.wcard {
   background: var(--white); border: 1.5px solid var(--border);
   border-radius: 14px; overflow: hidden;
   box-shadow: 2px 2px 0 var(--border);
@@ -277,6 +277,7 @@ footer {
   .kpi-grid { min-width: 0; }
   .kpi-card { min-width: 0; overflow: hidden; }
   .charts-2col { grid-template-columns: 1fr; }
+  .charts-2col [style*="grid-column"] { grid-column: 1 / -1 !important; }
   .div-cards { grid-template-columns: 1fr 1fr; }
   .ano-kpis { grid-template-columns: repeat(3, 1fr); }
   .main { padding: 2rem 2rem 3rem; min-width: 0; }
@@ -476,7 +477,7 @@ footer {
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Rep. étnica / racial por ano</span></div>
           <div class="chart-body"><canvas id="c-etnia"></canvas></div>
         </div>
-        <div class="wcard" style="grid-column:1 / -1">
+        <div class="wcard" style="grid-column:span 2">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">#OwnVoices por ano</span></div>
           <div class="chart-body"><canvas id="c-own"></canvas></div>
         </div>
