@@ -882,7 +882,7 @@ function fetchCSV(url){
 function topN(obj,n){ return Object.entries(obj).sort((a,b)=>b[1]-a[1]).slice(0,n); }
 function findField(row, candidates){
   if(!row) return '';
-  const keys = Object.keys(row);
+  const keys = Object.keys(row).filter(k=>norm(k)); // ignora colunas sem cabeçalho (ex: coluna solta na planilha)
   for(const cand of candidates){
     const cn = norm(cand);
     const exact = keys.find(k=>norm(k)===cn);
@@ -892,8 +892,13 @@ function findField(row, candidates){
   }
   return '';
 }
-function filterLPM(rows){
-  return rows.filter(r=>Object.values(r).some(v=>norm(v||'').includes('desafio lpm')));
+function filterLPM(rows, notionTitles){
+  return rows.filter(r=>{
+    if(Object.values(r).some(v=>norm(v||'').includes('desafio lpm'))) return true;
+    if(!notionTitles) return false;
+    const titulo = norm(findField(r,['Título','Titulo','Livro','Livros']));
+    return titulo && notionTitles.has(titulo);
+  });
 }
 /* Considera concluído apenas o que tem LIDO exato na coluna (2025/2026).
    2024 não tem essa coluna na planilha — todas as linhas lá já são leituras fechadas. */
@@ -914,11 +919,12 @@ function scrollTo(id){
 let rows2024=[], rows2025=[], rows2026=[];
 
 async function init(){
+  const notionTitles = new Set(NOTION_DATA.filter(n=>n.livro&&n.livro.trim()).map(n=>norm(n.livro)));
   try{
     const [r24,r25,r26] = await Promise.all([fetchCSV(CSV_2024), fetchCSV(CSV_2025), fetchCSV(CSV_DESAFIO)]);
-    rows2024 = filterLPM(r24);
-    rows2025 = filterLPM(r25).filter(r=>isFinished(r,true));
-    rows2026 = filterLPM(r26).filter(r=>isFinished(r,true));
+    rows2024 = filterLPM(r24, notionTitles);
+    rows2025 = filterLPM(r25, notionTitles).filter(r=>isFinished(r,true));
+    rows2026 = filterLPM(r26, notionTitles).filter(r=>isFinished(r,true));
   } catch(e){ console.warn('CSV error',e); }
 
   const allLPM = [...rows2024,...rows2025,...rows2026];
