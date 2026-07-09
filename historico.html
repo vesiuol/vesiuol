@@ -196,7 +196,11 @@ nav ul.open { display: flex; }
 
 /* Grids */
 .charts-2col { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; align-items: start; }
-/* Detalhe por ano: Cor+Gênero e Idioma+Avaliação travam altura (menor se ajusta ao maior) só quando um ano específico está selecionado — nunca em "Todos" */
+/* Trava de altura (menor se ajusta ao maior) — mesmo padrão já usado em desafio.html (.desafio-charts):
+   align-items:stretch no grid + wcard como flex column + último filho com flex:1.
+   Aplicado sempre que um wcard com conteúdo "canvas" fica ao lado de um wcard com conteúdo
+   "cards/lista" (naturalmente de altura diferente): Idioma×Avaliações (Perfil) e
+   Cor×Gênero / Idioma×Avaliação (Detalhe por ano) — nas duas seções, em qualquer ano, inclusive "Todos". */
 .charts-2col.lockable.year-locked { align-items: stretch; }
 .charts-2col.lockable.year-locked .wcard { display: flex; flex-direction: column; }
 .charts-2col.lockable.year-locked .wcard > div:last-child { flex: 1; }
@@ -417,8 +421,8 @@ footer {
         <h2 class="section-h2">Perfil de leitura</h2>
         <span class="section-sub">Todos os anos</span>
       </div>
-      <!-- Linha 1: Idioma (cards compactos) + Avaliações (linha) -->
-      <div class="charts-2col" style="margin-bottom:.8rem">
+      <!-- Linha 1: Idioma (cards compactos) + Avaliações (linha) — trava de altura (mesmo padrão de desafio.html) -->
+      <div class="charts-2col lockable year-locked" style="margin-bottom:.8rem">
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Idioma original</span></div>
           <div class="dist-grid" id="dist-idioma"></div>
@@ -924,7 +928,8 @@ function renderAno(ano) {
 
   const isAll = ano==='todos';
   const aFiltro = isAll ? null : ano;
-  document.querySelectorAll('.lockable').forEach(el => el.classList.toggle('year-locked', !isAll));
+  // Trava de altura sempre ativa (inclusive em "Todos") — mesmo padrão de desafio.html
+  document.querySelectorAll('.lockable').forEach(el => el.classList.add('year-locked'));
   set('ano-sub-label', isAll ? 'Todos os anos' : ano);
   set('ac-title-cor', 'Cor dos autores'+(isAll?'':' — '+ano));
   set('ac-title-ga',  'Gênero dos autores'+(isAll?'':' — '+ano));
