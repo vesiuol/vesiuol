@@ -47,29 +47,7 @@ nav ul li a.active {
   background: var(--green); color: var(--white);
   padding: .28rem .7rem; border-radius: 3px; font-weight: 700;
 }
-.nav-hamburger {
-  display: none; background: none; border: none;
-  cursor: pointer; margin-left: auto; padding: .4rem;
-  flex-direction: column; gap: 5px;
-}
-.nav-hamburger span {
-  display: block; width: 22px; height: 2px;
-  background: var(--black); border-radius: 2px; transition: all .25s;
-}
-.nav-mobile {
-  display: none; position: fixed; z-index: 199;
-  top: var(--header-h); left: 0; right: 0; bottom: 0;
-  background: var(--white); flex-direction: column;
-  padding: 2rem 1.5rem; gap: 0; border-top: 1px solid var(--border);
-}
-.nav-mobile.open { display: flex; }
-.nav-mobile a {
-  color: var(--black); font-size: 1.1rem; letter-spacing: .1em;
-  text-transform: uppercase; font-weight: 400;
-  padding: 1rem 0; border-bottom: 1px solid var(--border); display: block;
-}
-.nav-mobile a.active { color: var(--green); font-weight: 500; }
-.nav-mobile a:last-child { border-bottom: none; }
+.nav-hamburger { display: none; background: none; border: none; color: var(--black); font-size: 1.4rem; cursor: pointer; margin-left: auto; }
 
 /* ── HERO ── */
 .hero-section {
@@ -233,8 +211,9 @@ footer {
 @media (max-width: 600px) {
   body { overflow-x: hidden; }
   nav { padding: 0 1rem; }
-  nav ul { display: none; }
-  .nav-hamburger { display: flex; }
+  nav ul { display: none; position: absolute; top: 52px; left: 0; right: 0; background: var(--white); flex-direction: column; padding: 1rem 2rem; gap: 1rem; border-bottom: 1px solid var(--border); }
+  nav ul.open { display: flex; }
+  .nav-hamburger { display: block; }
   .hero-section { padding: 1.2rem 1rem 1rem; }
   .hero-card { padding: 1.2rem 1.2rem 0; }
   .hero-divider { flex-direction: column; align-items: flex-start; gap: .6rem; padding: 1rem 1.2rem; }
@@ -257,7 +236,7 @@ footer {
     <div class="nav-dot"></div>
     <div class="nav-dot" style="background:var(--green)"></div>
   </a>
-  <ul>
+  <ul id="nav-menu">
     <li><a href="index.html" class="active">Início</a></li>
     <li><a href="2026.html">2026</a></li>
     <li><a href="estante.html">Estante</a></li>
@@ -265,18 +244,8 @@ footer {
     <li><a href="desafio.html">Desafio</a></li>
     <li><a href="sobre.html">Sobre</a></li>
   </ul>
-  <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
+  <button class="nav-hamburger" onclick="document.getElementById('nav-menu').classList.toggle('open')">☰</button>
 </nav>
-<div class="nav-mobile" id="nav-mobile">
-  <a href="index.html" class="active">Início</a>
-  <a href="2026.html">2026</a>
-  <a href="estante.html">Estante</a>
-  <a href="historico.html">Histórico</a>
-  <a href="desafio.html">Desafio</a>
-  <a href="sobre.html">Sobre</a>
-</div>
 
 <!-- HERO -->
 <div class="hero-section">
@@ -371,18 +340,6 @@ footer {
 </footer>
 
 <script>
-// hamburger
-(function(){
-  const btn=document.getElementById('nav-hamburger'), menu=document.getElementById('nav-mobile');
-  if(!btn||!menu) return;
-  btn.addEventListener('click',()=>{
-    const open=menu.classList.toggle('open'), bars=btn.querySelectorAll('span');
-    bars[0].style.transform=open?'translateY(7px) rotate(45deg)':'';
-    bars[1].style.opacity  =open?'0':'';
-    bars[2].style.transform=open?'translateY(-7px) rotate(-45deg)':'';
-  });
-})();
-
 // Planilha A — aba VISÃO GERAL LEITURAS (Governança: gid=700848757).
 // Mesma aba e mesma lógica de leitura já usadas e comprovadas em historico.html —
 // reaproveitada aqui para que a home cruze Estante + Leituras de todos os anos,
