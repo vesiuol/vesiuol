@@ -134,6 +134,10 @@ nav ul li a.active{background:var(--green);color:var(--white);padding:.28rem .7r
    problema não existe. */
 @media(min-width:901px){
   #dados .charts-2col{align-items:start;}
+  /* Governança 2026-07-10: mesma trava aplicada ao charts-3col — sem isso, o grid esticava
+     todos os cards de uma linha (ex: Idioma/Formato/Faixa etária) para a altura do mais alto,
+     mesmo com max-height + conteúdo menor nos outros, sobrando espaço vazio embaixo. */
+  #dados .charts-3col{align-items:start;}
 }
 .chart-body{padding:1rem 1.2rem;position:relative;}
 .chart-body canvas{max-height:220px;}
@@ -430,16 +434,17 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
       <div class="charts-3col">
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Gêneros literários</span></div>
-          <!-- Governança: lista longa sem limite de itens (padrão "Países dos autores", decisão #013) -->
-          <div class="chart-body" style="height:280px;overflow-y:auto"><div class="rank-list" id="rank-generos"></div></div>
+          <!-- Governança: lista longa sem limite de itens (padrão "Países dos autores", decisão #013).
+               Teto maior que os outros rankings (380px) porque tem mais categorias cadastradas. -->
+          <div class="chart-body" style="max-height:380px;overflow-y:auto"><div class="rank-list" id="rank-generos"></div></div>
         </div>
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Cor / raça dos autores</span></div>
-          <div class="chart-body" style="height:280px;overflow-y:auto"><div class="rank-list" id="rank-cor"></div></div>
+          <div class="chart-body" style="max-height:280px;overflow-y:auto"><div class="rank-list" id="rank-cor"></div></div>
         </div>
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Gênero dos autores</span></div>
-          <div class="chart-body" style="height:280px;overflow-y:auto"><div class="rank-list" id="rank-ga"></div></div>
+          <div class="chart-body" style="max-height:280px;overflow-y:auto"><div class="rank-list" id="rank-ga"></div></div>
         </div>
       </div>
 
@@ -447,15 +452,15 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
       <div class="charts-3col">
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Idioma original</span></div>
-          <div class="chart-body" style="height:280px;overflow-y:auto"><div class="rank-list" id="rank-idioma"></div></div>
+          <div class="chart-body" style="max-height:280px;overflow-y:auto"><div class="rank-list" id="rank-idioma"></div></div>
         </div>
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Formato de leitura</span></div>
-          <div class="chart-body" style="height:280px;overflow-y:auto"><div class="rank-list" id="rank-formato"></div></div>
+          <div class="chart-body" style="max-height:280px;overflow-y:auto"><div class="rank-list" id="rank-formato"></div></div>
         </div>
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Faixa etária</span></div>
-          <div class="chart-body" style="height:280px;overflow-y:auto"><div class="rank-list" id="rank-faixa"></div></div>
+          <div class="chart-body" style="max-height:280px;overflow-y:auto"><div class="rank-list" id="rank-faixa"></div></div>
         </div>
       </div>
 
@@ -463,7 +468,11 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
       <div class="charts-2col">
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Distribuição de notas</span></div>
-          <div class="chart-body"><canvas id="c-notas-estante"></canvas></div>
+          <!-- Governança 2026-07-10: classe "tall" (já existente no CSS, max-height:340px) aplicada
+               para dar mais respiro ao gráfico — o box "Países dos autores" ao lado sincroniza a
+               própria altura com este card via JS, então aumentar este também resolve o visual
+               "achatado" da lista de países, sem quebrar o pareamento de altura entre os dois. -->
+          <div class="chart-body tall"><canvas id="c-notas-estante"></canvas></div>
         </div>
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Países dos autores</span></div>
