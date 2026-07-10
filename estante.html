@@ -223,6 +223,9 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
   table{font-size:.75rem;}
   td,th{padding:.45rem .5rem;}
   footer{padding:1rem;flex-wrap:wrap;gap:.5rem;}
+  /* Governança 2026-07-10: gráficos de barras (Cor/Gênero dos autores) mais baixos no mobile —
+     300px (padrão desktop) fica alto demais numa tela estreita com uma coluna só. */
+  .chart-body.barh canvas{max-height:220px;}
 }
 </style>
 </head>
@@ -456,17 +459,25 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
         </div>
       </div>
 
-      <!-- Rankings curtos: Cor, Gênero do autor, Idioma, Formato, Faixa etária — agrupados,
-           tamanhos parecidos entre si (grid de 3 colunas com 5 itens, quebra 3+2 automaticamente) -->
-      <div class="charts-3col">
+      <!-- Governança 2026-07-10: "Cor / raça dos autores" e "Gênero dos autores" (5 categorias
+           cada) viraram gráfico de barras horizontal — formato que acomoda melhor várias
+           categorias numa linha só, ocupando as 2 colunas juntas (classe .barh, já prevista no
+           CSS deste arquivo, 300px, decisão #004 da Governança para "barras com mais dados"). -->
+      <div class="charts-2col">
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Cor / raça dos autores</span></div>
-          <div class="chart-body" style="max-height:260px;overflow-y:auto"><div class="rank-list" id="rank-cor"></div></div>
+          <div class="chart-body barh"><canvas id="c-cor"></canvas></div>
         </div>
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Gênero dos autores</span></div>
-          <div class="chart-body" style="max-height:260px;overflow-y:auto"><div class="rank-list" id="rank-ga"></div></div>
+          <div class="chart-body barh"><canvas id="c-ga"></canvas></div>
         </div>
+      </div>
+
+      <!-- Idioma original desceu pra cá — junto de Formato e Faixa etária, os três com 3 itens
+           cada, tamanhos parecidos entre si (antes "Idioma" ficava sozinho, sobrando na 3ª coluna
+           da linha de cima, ao lado de listas de 5 itens — visual desequilibrado). -->
+      <div class="charts-3col">
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Idioma original</span></div>
           <div class="chart-body" style="max-height:260px;overflow-y:auto"><div class="rank-list" id="rank-idioma"></div></div>
@@ -583,6 +594,24 @@ function buildRank(elId, obj, maxItems){
     </div>`).join('');
 }
 
+// Governança 2026-07-10: "Cor / raça dos autores" e "Gênero dos autores" viraram gráfico de
+// barras horizontal (Chart.js) em vez de rank-list — mesmo padrão visual (verde, datalabels)
+// já usado no gráfico "Distribuição de notas" desta página.
+function buildBarChart(canvasId, obj){
+  const el = document.getElementById(canvasId); if(!el) return;
+  const pairs = topN(obj, 999);
+  if(!pairs.length) return;
+  new Chart(el,{type:'bar',
+    data:{labels:pairs.map(p=>p[0]), datasets:[{data:pairs.map(p=>p[1]), backgroundColor:GREEN, borderRadius:4, maxBarThickness:26}]},
+    options:{indexAxis:'y', maintainAspectRatio:false, layout:{padding:{right:26}},
+      plugins:{legend:{display:false},datalabels:{anchor:'end',align:'end',color:BLACK,
+        font:{family:'DM Sans',size:10,weight:'500'},formatter:v=>v}},
+      scales:{
+        x:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:'#555'},border:{display:false},beginAtZero:true},
+        y:{grid:{display:false},ticks:{font:{family:'DM Sans',size:11},color:'#1a1a1a'},border:{display:false}}
+      }}});
+}
+
 // detect tag columns
 let COL_LGBTQIA='', COL_DIV='', COL_OWN='', COL_PSICO='';
 function detectTagColumns(books){
@@ -673,8 +702,8 @@ async function init(){
   // container com altura fixa + scroll (ver CSS ".chart-body" dessas seções) e passar sem limite
   // de itens para buildRank(), igual ao padrão já aplicado em "Países dos autores" (decisão #013).
   buildRank('rank-generos', gnObj, 999);
-  buildRank('rank-cor',     countField(lidos,'Cor'), 999);
-  buildRank('rank-ga',      gaObj, 999);
+  buildBarChart('c-cor', countField(lidos,'Cor'));
+  buildBarChart('c-ga',  gaObj);
   buildRank('rank-idioma',  idObj, 999);
   buildRank('rank-formato', fmObj, 999);
   buildRank('rank-faixa',   fxObj, 999);
