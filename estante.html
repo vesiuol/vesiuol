@@ -203,7 +203,10 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
   nav ul{display:none;position:absolute;top:52px;left:0;right:0;background:var(--white);flex-direction:column;padding:1rem 2rem;gap:1rem;border-bottom:1px solid var(--border);z-index:99;}
   nav ul.open{display:flex;}
   .nav-hamburger{display:block;}
-  nav{padding:0 1rem;}
+  /* Governança 2026-07-09: padding horizontal da nav é sempre "0 2rem" em qualquer breakpoint —
+     a sobrescrita "nav{padding:0 1rem}" que existia aqui foi removida por desalinhar a logo
+     (nav-logo, três pontinhos) em relação às demais páginas do site no mobile. Ver Registro de
+     Decisões, "Regra: Padding horizontal da nav (posição da logo)". */
   /* Mobile: intro (título + texto de apoio) aparece antes dos dados */
   .intro-mobile{display:block;padding:1.4rem 1.2rem 0;}
   .main > section.intro-desktop{display:none;}
@@ -427,15 +430,16 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
       <div class="charts-3col">
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Gêneros literários</span></div>
-          <div class="chart-body"><div class="rank-list" id="rank-generos"></div></div>
+          <!-- Governança: lista longa sem limite de itens (padrão "Países dos autores", decisão #013) -->
+          <div class="chart-body" style="height:280px;overflow-y:auto"><div class="rank-list" id="rank-generos"></div></div>
         </div>
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Cor / raça dos autores</span></div>
-          <div class="chart-body"><div class="rank-list" id="rank-cor"></div></div>
+          <div class="chart-body" style="height:280px;overflow-y:auto"><div class="rank-list" id="rank-cor"></div></div>
         </div>
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Gênero dos autores</span></div>
-          <div class="chart-body"><div class="rank-list" id="rank-ga"></div></div>
+          <div class="chart-body" style="height:280px;overflow-y:auto"><div class="rank-list" id="rank-ga"></div></div>
         </div>
       </div>
 
@@ -443,15 +447,15 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
       <div class="charts-3col">
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Idioma original</span></div>
-          <div class="chart-body"><div class="rank-list" id="rank-idioma"></div></div>
+          <div class="chart-body" style="height:280px;overflow-y:auto"><div class="rank-list" id="rank-idioma"></div></div>
         </div>
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Formato de leitura</span></div>
-          <div class="chart-body"><div class="rank-list" id="rank-formato"></div></div>
+          <div class="chart-body" style="height:280px;overflow-y:auto"><div class="rank-list" id="rank-formato"></div></div>
         </div>
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Faixa etária</span></div>
-          <div class="chart-body"><div class="rank-list" id="rank-faixa"></div></div>
+          <div class="chart-body" style="height:280px;overflow-y:auto"><div class="rank-list" id="rank-faixa"></div></div>
         </div>
       </div>
 
@@ -655,12 +659,15 @@ async function init(){
   setDiv('psico', pctSim(lidos, COL_PSICO||'Questões psicológicas'));
 
   // Rankings
-  buildRank('rank-generos', gnObj, 8);
-  buildRank('rank-cor',     countField(lidos,'Cor'), 6);
-  buildRank('rank-ga',      gaObj, 6);
-  buildRank('rank-idioma',  idObj, 6);
-  buildRank('rank-formato', fmObj, 6);
-  buildRank('rank-faixa',   fxObj, 6);
+  // Governança: listas longas (gêneros, países, etc.) não devem ser truncadas em top-N — usar
+  // container com altura fixa + scroll (ver CSS ".chart-body" dessas seções) e passar sem limite
+  // de itens para buildRank(), igual ao padrão já aplicado em "Países dos autores" (decisão #013).
+  buildRank('rank-generos', gnObj, 999);
+  buildRank('rank-cor',     countField(lidos,'Cor'), 999);
+  buildRank('rank-ga',      gaObj, 999);
+  buildRank('rank-idioma',  idObj, 999);
+  buildRank('rank-formato', fmObj, 999);
+  buildRank('rank-faixa',   fxObj, 999);
   buildRank('rank-paises',  countField(allBooks,'País'), 999);
 
   // Distribuição de notas — padronizado no formato de linha/área usado em historico.html (Governança, decisão de padronização 2026-07-04)
