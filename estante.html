@@ -430,53 +430,54 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
         </div>
       </div>
 
-      <!-- Rankings 3 col: gêneros + cor/raça + quem escreve -->
-      <div class="charts-3col">
+      <!-- Governança 2026-07-10: blocos reorganizados por tamanho de lista, não mais por tema.
+           Antes, "Gêneros literários" (lista longa, 10 categorias) ficava na mesma linha de grid
+           que "Cor" e "Gênero dos autores" (5 itens cada) — o grid calculava a altura da linha
+           pela caixa mais alta, sobrando um vão enorme em branco abaixo das caixas curtas.
+           Agora: listas longas (Gêneros + Países) ficam juntas, mesma altura, ambas com rolagem.
+           Listas curtas (Cor, Gênero do autor, Idioma, Formato, Faixa etária) ficam juntas em
+           outro grupo, onde naturalmente têm alturas parecidas por terem poucos itens cada. -->
+
+      <!-- Distribuição de notas — linha própria, largura total -->
+      <div class="wcard" style="margin-bottom:.8rem">
+        <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Distribuição de notas</span></div>
+        <div class="chart-body tall"><canvas id="c-notas-estante"></canvas></div>
+      </div>
+
+      <!-- Rankings longos: Gêneros + Países, mesma altura, ambos com rolagem -->
+      <div class="charts-2col">
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Gêneros literários</span></div>
-          <!-- Governança: lista longa sem limite de itens (padrão "Países dos autores", decisão #013).
-               Teto maior que os outros rankings (380px) porque tem mais categorias cadastradas. -->
           <div class="chart-body" style="max-height:380px;overflow-y:auto"><div class="rank-list" id="rank-generos"></div></div>
         </div>
         <div class="wcard">
+          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Países dos autores</span></div>
+          <div class="chart-body" style="max-height:380px;overflow-y:auto"><div class="rank-list" id="rank-paises"></div></div>
+        </div>
+      </div>
+
+      <!-- Rankings curtos: Cor, Gênero do autor, Idioma, Formato, Faixa etária — agrupados,
+           tamanhos parecidos entre si (grid de 3 colunas com 5 itens, quebra 3+2 automaticamente) -->
+      <div class="charts-3col">
+        <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Cor / raça dos autores</span></div>
-          <div class="chart-body" style="max-height:280px;overflow-y:auto"><div class="rank-list" id="rank-cor"></div></div>
+          <div class="chart-body" style="max-height:260px;overflow-y:auto"><div class="rank-list" id="rank-cor"></div></div>
         </div>
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Gênero dos autores</span></div>
-          <div class="chart-body" style="max-height:280px;overflow-y:auto"><div class="rank-list" id="rank-ga"></div></div>
+          <div class="chart-body" style="max-height:260px;overflow-y:auto"><div class="rank-list" id="rank-ga"></div></div>
         </div>
-      </div>
-
-      <!-- Rankings 3 col: idioma + formato + faixa -->
-      <div class="charts-3col">
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Idioma original</span></div>
-          <div class="chart-body" style="max-height:280px;overflow-y:auto"><div class="rank-list" id="rank-idioma"></div></div>
+          <div class="chart-body" style="max-height:260px;overflow-y:auto"><div class="rank-list" id="rank-idioma"></div></div>
         </div>
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Formato de leitura</span></div>
-          <div class="chart-body" style="max-height:280px;overflow-y:auto"><div class="rank-list" id="rank-formato"></div></div>
+          <div class="chart-body" style="max-height:260px;overflow-y:auto"><div class="rank-list" id="rank-formato"></div></div>
         </div>
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Faixa etária</span></div>
-          <div class="chart-body" style="max-height:280px;overflow-y:auto"><div class="rank-list" id="rank-faixa"></div></div>
-        </div>
-      </div>
-
-      <!-- Notas + gráfico barras -->
-      <div class="charts-2col">
-        <div class="wcard">
-          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Distribuição de notas</span></div>
-          <!-- Governança 2026-07-10: classe "tall" (já existente no CSS, max-height:340px) aplicada
-               para dar mais respiro ao gráfico — o box "Países dos autores" ao lado sincroniza a
-               própria altura com este card via JS, então aumentar este também resolve o visual
-               "achatado" da lista de países, sem quebrar o pareamento de altura entre os dois. -->
-          <div class="chart-body tall"><canvas id="c-notas-estante"></canvas></div>
-        </div>
-        <div class="wcard">
-          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Países dos autores</span></div>
-          <div class="chart-body" id="paises-chart-body" style="overflow-y:auto"><div class="rank-list" id="rank-paises"></div></div>
+          <div class="chart-body" style="max-height:260px;overflow-y:auto"><div class="rank-list" id="rank-faixa"></div></div>
         </div>
       </div>
 
@@ -705,24 +706,6 @@ async function init(){
 
   const sub=document.getElementById('dados-sub');
   if(sub) sub.textContent=total+' livros catalogados';
-
-  // Governança 2026-07-05: box "Países dos autores" não pode ser mais comprido que o de
-  // "Distribuição de notas". Em vez de travar uma altura fixa "no olho" (ex.: 280px), medimos
-  // a altura real renderizada do box de notas (sem alterá-lo) e aplicamos essa mesma altura no
-  // box de países — garante alinhamento exato mesmo se o gráfico de notas mudar de tamanho.
-  function syncPaisesHeightToNotas(){
-    const notasBody  = document.getElementById('c-notas-estante')?.closest('.chart-body');
-    const paisesBody = document.getElementById('paises-chart-body');
-    if(notasBody && paisesBody){
-      paisesBody.style.height = notasBody.getBoundingClientRect().height + 'px';
-    }
-  }
-  requestAnimationFrame(()=>requestAnimationFrame(syncPaisesHeightToNotas));
-  let paisesResizeTimer;
-  window.addEventListener('resize', ()=>{
-    clearTimeout(paisesResizeTimer);
-    paisesResizeTimer=setTimeout(syncPaisesHeightToNotas,150);
-  });
 
   buildMap(allBooks);
   buildFilters();
