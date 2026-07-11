@@ -3,11 +3,34 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>O que tem na estante da Louise</title>
+<title>Início — Biblioteca Vesiuol</title>
+<meta name="description" content="Biblioteca Vesiuol é o acervo literário pessoal de Louise Victoria: estatísticas de leitura, estante completa, Desafio Livros pelo Mundo e histórico de leituras desde 2013.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='38' fill='%23849974'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  "name": "Biblioteca Vesiuol — Estatísticas de Leitura",
+  "description": "Conjunto de indicadores da biblioteca pessoal de Louise Victoria: horas ouvidas, livros lidos, páginas lidas, avaliações cinco estrelas, autores únicos e países representados.",
+  "url": "https://vesiuol.github.io/vesiuol/",
+  "creator": {
+    "@type": "Person",
+    "name": "Louise Victoria",
+    "sameAs": "https://vesiuol.github.io/vesiuol/sobre.html#louise-victoria"
+  },
+  "variableMeasured": [
+    { "@type": "PropertyValue", "name": "Horas ouvidas", "unitText": "horas:minutos" },
+    { "@type": "PropertyValue", "name": "Livros lidos", "unitText": "contagem" },
+    { "@type": "PropertyValue", "name": "Páginas lidas", "unitText": "contagem" },
+    { "@type": "PropertyValue", "name": "Livros com avaliação 5 estrelas", "unitText": "contagem" },
+    { "@type": "PropertyValue", "name": "Autores únicos", "unitText": "contagem" },
+    { "@type": "PropertyValue", "name": "Países representados", "unitText": "contagem" }
+  ]
+}
+</script>
 <style>
 :root {
   --white:       #ffffff;
@@ -78,7 +101,6 @@ nav ul li a.active {
   display: inline;
   background: var(--green);
   color: var(--white);
-  /* padding pequeno nas pontas, faixa no comprimento da linha */
   padding: .08em .28em;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
