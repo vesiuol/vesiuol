@@ -1195,7 +1195,7 @@ function renderNotion(){
    (data/desafio.json), que busca a database do Notion automaticamente. */
 async function loadNotionData(){
   try{
-    const res = await fetch('data/desafio.json');
+    const res = await fetch('data/desafio.json?t=' + Date.now());
     NOTION_DATA = await res.json();
   }catch(e){
     console.warn('Erro ao carregar data/desafio.json', e);
@@ -1209,4 +1209,4 @@ async function loadNotionData(){
 loadNotionData();
 </script>
 </body>
-</html>
+  </html>
