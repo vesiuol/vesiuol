@@ -521,8 +521,8 @@
     "Protagonista LGBTQ+": "FALSE",
     "Diversidade etnica/racial": "TRUE",
     "#OwnVoices?": "FALSE",
-    "NOTA": "",
-    "LIDO": "LENDO"
+    "NOTA": "4,5",
+    "LIDO": "LIDO"
   },
   {
     "_col0": "",
@@ -747,7 +747,7 @@
     "Diversidade etnica/racial": "TRUE",
     "#OwnVoices?": "TRUE",
     "NOTA": "",
-    "LIDO": "NÃO LIDO"
+    "LIDO": "LENDO"
   },
   {
     "_col0": "",
@@ -1222,6 +1222,6 @@
     "Diversidade etnica/racial": "(resumo)",
     "#OwnVoices?": "(resumo)",
     "NOTA": "(gráfico)",
-    "LIDO": "33"
+    "LIDO": "34"
   }
 ]
