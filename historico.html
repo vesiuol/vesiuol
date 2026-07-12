@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Histórico — Vida de Leitora</title>
+<title>Histórico — Biblioteca Vesiuol</title>
+<meta name="description" content="Histórico de leitura é o painel com a evolução ano a ano das leituras de Louise Victoria desde 2013, incluindo livros, páginas, autores e diversidade.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='38' fill='%23849974'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -12,6 +13,34 @@
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  "name": "Histórico de Leitura — Vida de Leitora",
+  "description": "Evolução ano a ano das leituras de Louise Victoria desde 2013, reunindo livros lidos, páginas, autores novos, idiomas, avaliações, gêneros literários, países de origem dos autores e indicadores de diversidade (protagonistas LGBTQIA+, representatividade étnico-racial e #OwnVoices).",
+  "url": "https://vesiuol.github.io/vesiuol/historico.html",
+  "creator": {
+    "@type": "Person",
+    "name": "Louise Victoria"
+  },
+  "variableMeasured": [
+    "Livros lidos por ano",
+    "Páginas lidas por ano",
+    "Autores novos por ano",
+    "Idioma original dos livros",
+    "Avaliações (estrelas)",
+    "Gêneros literários",
+    "País de origem dos autores",
+    "Cor dos autores",
+    "Gênero dos autores",
+    "Protagonistas LGBTQIA+",
+    "Representatividade étnico-racial",
+    "#OwnVoices"
+  ],
+  "temporalCoverage": "2013/2026"
+}
+</script>
 <style>
 :root {
   --white:       #ffffff;
