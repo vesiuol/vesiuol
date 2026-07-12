@@ -5,9 +5,19 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Sobre — Biblioteca Vesiuol</title>
 <meta name="description" content="Louise Victoria é jornalista e leitora que transforma seus dados de leitura em um acervo literário pessoal, reunindo estatísticas de livros desde 2020.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="Biblioteca Vesiuol">
+<meta property="og:title" content="Sobre — Biblioteca Vesiuol">
+<meta property="og:description" content="Louise Victoria é jornalista e leitora que transforma seus dados de leitura em um acervo literário pessoal, reunindo estatísticas de livros desde 2020.">
+<meta property="og:url" content="https://vesiuol.github.io/vesiuol/sobre.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Sobre — Biblioteca Vesiuol">
+<meta name="twitter:description" content="Louise Victoria é jornalista e leitora que transforma seus dados de leitura em um acervo literário pessoal, reunindo estatísticas de livros desde 2020.">
+<!-- og:image / twitter:image ainda não adicionados: o repositório não tem nenhuma imagem própria (ideal: 1200x630px). Assim que existir uma, basta acrescentar as duas tags. -->
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='38' fill='%23849974'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -32,6 +42,7 @@
   --green-light: #c8d4b8;
   --border:      #c8c8c8;
   --border-soft: #e0e0e0;
+  --border-interactive: #8f8f8f; /* contraste 3,23:1 vs branco — WCAG 1.4.11, só em bordas de elementos interativos */
   --text:        #1a1a1a;
   --muted:       #555;
   --bg:          #ffffff;
@@ -41,6 +52,15 @@
 html { -webkit-font-smoothing: antialiased; }
 body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 500; }
 a { color: inherit; text-decoration: none; }
+
+/* ── SKIP LINK (acessibilidade — só aparece com foco de teclado) ── */
+.skip-link {
+  position: absolute; left: -999px; top: 0; z-index: 200;
+  background: var(--green); color: var(--white);
+  padding: .6rem 1.2rem; font-family: 'DM Sans', sans-serif;
+  font-size: .8rem; font-weight: 600;
+}
+.skip-link:focus { left: 1rem; top: .6rem; }
 
 /* ── NAV ── */
 nav {
@@ -118,7 +138,7 @@ nav ul li a.active {
 .hero-links { display: flex; gap: .6rem; flex-wrap: wrap; margin: 1.4rem 0 .4rem; }
 .hero-link {
   display: inline-block; padding: .4rem 1.1rem;
-  border: 1.5px solid var(--border); border-radius: 100px;
+  border: 1.5px solid var(--border-interactive); border-radius: 100px;
   font-size: .80rem; font-weight: 500;
   color: var(--muted); background: transparent;
   transition: all .2s;
@@ -148,7 +168,7 @@ nav ul li a.active {
 /* Títulos de seção com faixa verde no comprimento — igual ao publicado */
 .section-h2 {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 1.35rem; font-weight: 600;
+  font-size: 1.35rem; font-weight: 700; /* era 600 — 700 (negrito real) + 1.35rem enquadra como "texto grande" no WCAG, então o limite de contraste cai pra 3:1 e o branco (3,09:1) já passa */
   display: inline;
   background: var(--green);
   color: var(--white);
@@ -185,7 +205,7 @@ nav ul li a.active {
   flex: 1; display: flex; flex-direction: column; gap: .7rem;
 }
 .insp-name {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cormorant Garamond', serif;
   font-size: 1.15rem; font-weight: 700;
   color: var(--white); margin-bottom: .2rem;
 }
@@ -241,6 +261,8 @@ footer {
 </head>
 <body>
 
+<a href="#conteudo-principal" class="skip-link">Pular para o conteúdo principal</a>
+
 <nav>
   <a href="index.html" class="nav-logo" style="text-decoration:none">
     <div class="nav-dot"></div>
@@ -255,11 +277,11 @@ footer {
     <li><a href="desafio.html">Desafio</a></li>
     <li><a href="sobre.html" class="active">Sobre</a></li>
   </ul>
-  <button class="nav-hamburger" onclick="document.getElementById('nav-ul').classList.toggle('open')">☰</button>
+  <button class="nav-hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-ul" onclick="const u=document.getElementById('nav-ul');u.classList.toggle('open');this.setAttribute('aria-expanded', u.classList.contains('open'));">☰</button>
 </nav>
 
 <!-- HERO -->
-<div class="hero-section">
+<div class="hero-section" id="conteudo-principal">
   <div class="wcard">
     <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div></div>
     <div class="hero-card">
