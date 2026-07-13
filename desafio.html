@@ -49,6 +49,7 @@
   --green-light:  #c8d4b8;
   --border:       #c8c8c8;
   --border-soft:  #e0e0e0;
+  --border-interactive: #8f8f8f;
   --text:         #1a1a1a;
   --muted:        #555;
   --bg:           #ffffff;
@@ -57,6 +58,8 @@
   --header-h:     52px;
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+.skip-link{position:absolute;left:-999px;top:0;z-index:200;background:var(--green);color:var(--white);padding:.6rem 1.2rem;font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:600;}
+.skip-link:focus{left:1rem;top:.6rem;}
 html { -webkit-font-smoothing: antialiased; }
 body { background: var(--white); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 500; }
 a { color: inherit; text-decoration: none; }
@@ -230,8 +233,8 @@ nav ul li a.active {
   margin-bottom: 1.4rem;
 }
 .section-h2 {
-  font-family: Georgia, serif;
-  font-size: 1.15rem; font-weight: 400;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.35rem; font-weight: 700;
   display: inline;
   background: var(--green); color: var(--white);
   padding: .08em .4em;
@@ -385,7 +388,7 @@ nav ul li a.active {
 .lista-filters { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; margin-bottom: 1rem; }
 .filter-pill {
   font-size: .78rem; padding: .35rem .9rem;
-  border-radius: 100px; border: 1.5px solid var(--border);
+  border-radius: 100px; border: 1.5px solid var(--border-interactive);
   background: transparent; color: var(--muted);
   cursor: pointer; transition: all .2s;
   font-family: 'DM Sans', sans-serif;
@@ -497,6 +500,8 @@ footer {
 </head>
 <body>
 
+<a href="#conteudo-principal" class="skip-link">Pular para o conteúdo principal</a>
+
 <!-- NAV -->
 <nav>
   <div class="nav-logo">
@@ -509,10 +514,10 @@ footer {
     <li><a href="2026.html">2026</a></li>
     <li><a href="estante.html">Estante</a></li>
     <li><a href="historico.html">Histórico</a></li>
-    <li><a href="desafio.html" class="active">Desafio</a></li>
+    <li><a href="desafio.html" class="active" aria-current="page">Desafio</a></li>
     <li><a href="sobre.html">Sobre</a></li>
   </ul>
-  <button class="nav-hamburger" onclick="document.getElementById('nav-menu').classList.toggle('open')">☰</button>
+  <button class="nav-hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-menu" onclick="const u=document.getElementById('nav-menu');u.classList.toggle('open');this.setAttribute('aria-expanded', u.classList.contains('open'));">☰</button>
 </nav>
 
 <!-- INTRO MOBILE: título + texto de apoio aparecem antes da sidebar/dados no mobile -->
@@ -612,7 +617,7 @@ footer {
   </aside>
 
   <!-- MAIN -->
-  <main class="main">
+  <main class="main" id="conteudo-principal">
 
     <!-- INTRO EDITORIAL -->
     <section class="intro-desktop">
@@ -639,7 +644,7 @@ footer {
       </div>
       <div class="posts-grid">
         <a class="post-card" href="https://medium.com/@vesiuol/desafio-livros-pelo-mundo-d8e01e80812f" target="_blank" rel="noopener">
-          <div class="post-wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div></div>
+          <div class="post-wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div></div>
           <div class="post-body">
             <h3 class="post-title">Desafio Livros pelo Mundo</h3>
             <p class="post-desc">Iniciando uma jornada de um livro para cada país — motivação, regras e o que espero aprender.</p>
@@ -647,7 +652,7 @@ footer {
           <div class="post-foot"><span>Apresentação</span><span>→</span></div>
         </a>
         <a class="post-card" href="https://medium.com/@vesiuol/estruturando-a-nossa-rota-1-ac374720227f" target="_blank" rel="noopener">
-          <div class="post-wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div></div>
+          <div class="post-wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div></div>
           <div class="post-body">
             <h3 class="post-title">Estruturando a nossa rota #1</h3>
             <p class="post-desc">Como montar a estrutura no Notion, lista dos países da ONU e modelo de planilha para duplicar.</p>
@@ -655,7 +660,7 @@ footer {
           <div class="post-foot"><span>Organização #1</span><span>→</span></div>
         </a>
         <a class="post-card" href="https://medium.com/@vesiuol/montando-a-nossa-rota-2-c98c5bcf7a20" target="_blank" rel="noopener">
-          <div class="post-wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div></div>
+          <div class="post-wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div></div>
           <div class="post-body">
             <h3 class="post-title">Montando a nossa rota #2</h3>
             <p class="post-desc">Aprofundando a organização dos países e das escolhas de livros para a jornada.</p>
@@ -663,7 +668,7 @@ footer {
           <div class="post-foot"><span>Organização #2</span><span>→</span></div>
         </a>
         <a class="post-card" href="https://medium.com/@vesiuol/visualização-da-minha-planilha-no-nopor-onde-já-viajei-acaf251c4985" target="_blank" rel="noopener">
-          <div class="post-wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div></div>
+          <div class="post-wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div></div>
           <div class="post-body">
             <h3 class="post-title">Visualização da minha planilha</h3>
             <p class="post-desc">Como visualizar no Notion os países por onde já "viajei" — mapas, dados e configurações.</p>
@@ -746,13 +751,13 @@ footer {
       <!-- Modelo 3: rankings com barras de texto lado a lado — agora com rolagem, sem limite de itens -->
       <div class="charts-2col">
         <div class="wcard">
-          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Regiões mais lidas</span></div>
+          <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Regiões mais lidas</span></div>
           <div style="padding:1rem 1.2rem;overflow-y:auto;height:280px">
             <div class="rank-list" id="rank-regioes"></div>
           </div>
         </div>
         <div class="wcard">
-          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Gêneros literários</span></div>
+          <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Gêneros literários</span></div>
           <div style="padding:1rem 1.2rem;overflow-y:auto;height:280px">
             <div class="rank-list" id="rank-generos"></div>
           </div>
@@ -762,12 +767,12 @@ footer {
       <!-- Modelo 4: barras verticais para notas + barras horizontais para origem -->
       <div class="charts-2col">
         <div class="wcard">
-          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Distribuição de notas</span></div>
-          <div class="chart-body"><canvas id="c-notas"></canvas></div>
+          <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Distribuição de notas</span></div>
+          <div class="chart-body"><canvas id="c-notas" role="img" aria-label="Gráfico de linha mostrando a quantidade de livros lidos por nota, de 1 a 5 estrelas, incluindo notas fracionadas."></canvas></div>
         </div>
         <div class="wcard">
-          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Origem do livro</span></div>
-          <div class="chart-body"><canvas id="c-origem" style="max-height:200px"></canvas></div>
+          <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Origem do livro</span></div>
+          <div class="chart-body"><canvas id="c-origem" style="max-height:200px" role="img" aria-label="Gráfico de barras horizontais mostrando a origem dos livros do desafio."></canvas></div>
         </div>
       </div>
     </section>
@@ -780,7 +785,7 @@ footer {
         <span class="section-sub">Autores por país</span>
       </div>
       <div class="wcard">
-        <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Mapa do desafio</span></div>
+        <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Mapa do desafio</span></div>
         <div id="dlm-map"></div>
       </div>
       <div class="map-legend">
@@ -805,11 +810,11 @@ footer {
         </div>
         <div class="desafio-charts">
           <div class="wcard">
-            <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Países conquistados · 2024→2026</span></div>
-            <div class="chart-body tall"><div class="chart-canvas-wrap"><canvas id="c-evolucao-linha"></canvas></div></div>
+            <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Países conquistados · 2024→2026</span></div>
+            <div class="chart-body tall"><div class="chart-canvas-wrap"><canvas id="c-evolucao-linha" role="img" aria-label="Gráfico de linha mostrando a evolução de países conquistados no desafio de 2024 a 2026."></canvas></div></div>
           </div>
           <div class="wcard">
-            <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Projeção para 209 países</span></div>
+            <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Projeção para 209 países</span></div>
             <div class="chart-body" id="projecao-body"></div>
           </div>
         </div>
@@ -944,6 +949,11 @@ function countField(rows, candidates){
   rows.forEach(r=>{ const v=findField(r,candidates); if(v) c[v]=(c[v]||0)+1; });
   return c;
 }
+function formatNota(v){
+  const n=parseFloat(String(v||'').replace(',','.'));
+  if(!n||n<=0) return null;
+  return (n%1===0) ? String(n) : String(n).replace('.',',');
+}
 function scrollTo(id){
   const el = document.getElementById(id);
   if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
@@ -1016,10 +1026,19 @@ function buildPerfil(allLPM){
   if(topFm)  { document.getElementById('pg-formato').textContent    = topFm[0]; }
   if(topFx)  { document.getElementById('pg-faixa').textContent      = topFx[0]; }
 
-  const notas = [0,0,0,0,0];
-  allLPM.forEach(r=>{ const n=parseInt(findField(r,['NOTA','Nota','nota'])||'0'); if(n>=1&&n<=5) notas[n-1]++; });
+  const notasLabels=['1','1,5','2','2,5','3','3,5','4','4,5','5'];
+  const notasValores=[1,1.5,2,2.5,3,3.5,4,4.5,5];
+  const notas = new Array(notasLabels.length).fill(0);
+  allLPM.forEach(r=>{
+    const n=parseFloat((findField(r,['NOTA','Nota','nota'])||'').replace(',','.'));
+    if(n>=1&&n<=5){
+      const key=(n%1===0)?String(n):String(n).replace('.',',');
+      const idx=notasLabels.indexOf(key);
+      if(idx>-1) notas[idx]++;
+    }
+  });
   const total = notas.reduce((a,b)=>a+b,0);
-  const media = total>0 ? (notas.reduce((a,v,i)=>a+v*(i+1),0)/total).toFixed(1) : '—';
+  const media = total>0 ? (notas.reduce((a,v,i)=>a+v*notasValores[i],0)/total).toFixed(1) : '—';
   document.getElementById('pg-nota').textContent = media+' ★';
 
   /* ── Modelo 2: cards diversidade ── */
@@ -1069,7 +1088,7 @@ function buildPerfil(allLPM){
     const opts={maintainAspectRatio:false,layout:{padding:{top:22}},
       plugins:{legend:{display:false},datalabels:{display:ctx=>ctx.dataset.data[ctx.dataIndex]>0,anchor:'end',align:'top',color:DARK,font:{family:'DM Sans',size:10,weight:'500'},formatter:v=>v>0?v:'',clamp:true}},
       scales:{x:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:MUTED},border:{display:false}},y:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:MUTED},border:{display:false},beginAtZero:true}}};
-    new Chart(notasEl,{type:'line',data:{labels:['★','★★','★★★','★★★★','★★★★★'],datasets:[{data:notas,borderColor:GREEN,backgroundColor:GREEN+'22',borderWidth:2.5,pointRadius:5,pointBackgroundColor:GREEN,fill:true,tension:.35}]},options:opts});
+    new Chart(notasEl,{type:'line',data:{labels:notasLabels,datasets:[{data:notas,borderColor:GREEN,backgroundColor:GREEN+'22',borderWidth:2.5,pointRadius:5,pointBackgroundColor:GREEN,fill:true,tension:.35}]},options:opts});
   }
 
   /* barras horizontais origem */
