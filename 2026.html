@@ -3,8 +3,53 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>2026 — Meus Livros</title>
+<title>2026 — Biblioteca Vesiuol</title>
+<meta name="description" content="2026 é a página de leituras do ano da Biblioteca Vesiuol, reunindo meta de livros, páginas, autores, países e diversidade das leituras de Louise Victoria.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='38' fill='%23849974'/></svg>">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  "name": "Leituras de 2026 — Biblioteca Vesiuol",
+  "description": "Conjunto de dados das leituras do ano de 2026 de Louise Victoria, incluindo progresso da meta de livros, páginas e horas lidas, perfil de gêneros e autores, e diversidade das obras.",
+  "url": "https://vesiuol.github.io/vesiuol/2026.html",
+  "temporalCoverage": "2026",
+  "inLanguage": "pt-BR",
+  "creator": {
+    "@type": "Person",
+    "name": "Louise Victoria",
+    "url": "https://vesiuol.github.io/vesiuol/",
+    "sameAs": [
+      "https://www.linkedin.com/in/louise-victoria/",
+      "https://www.instagram.com/vesiuol/",
+      "https://medium.com/@vesiuol",
+      "https://github.com/vesiuol"
+    ]
+  },
+  "variableMeasured": [
+    "Quantidade de livros lidos",
+    "Meta anual de livros",
+    "Percentual da meta concluída",
+    "Total de páginas lidas",
+    "Total de horas ouvidas em audiobook",
+    "Quantidade de autores novos",
+    "Quantidade de países de origem dos autores",
+    "Gênero literário mais lido",
+    "Gênero de identidade dos autores",
+    "Idioma original mais lido",
+    "Formato de leitura predominante",
+    "Faixa etária predominante",
+    "Nota média das leituras",
+    "Distribuição de notas por leitura, incluindo notas fracionadas",
+    "Percentual de protagonistas LGBTQIA+",
+    "Percentual de diversidade étnico-racial",
+    "Percentual de obras #OwnVoices",
+    "Motivo da leitura",
+    "Origem do livro",
+    "País de origem do autor por livro"
+  ]
+}
+</script>
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
@@ -284,7 +329,7 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
   <main class="main" id="conteudo-principal">
 
     <section class="intro-desktop">
-      <h2 class="intro-headline"><span class="intro-headline-band">O que li, aprendi e descobri este ano</span></h2>
+      <p class="intro-headline"><span class="intro-headline-band">O que li, aprendi e descobri este ano</span></p>
       <p class="intro-body">
         A parte legal de acompanhar os dados das minhas leituras ao longo do ano é conseguir perceber se estou evoluindo no quesito diversidade — explorando novos gêneros, autores e países — e até mesmo se estou tendo boas leituras ou apenas passando por elas.
       </p>
@@ -476,7 +521,7 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
 
 <footer>
   <div class="footer-dots"><div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div></div>
-  <span class="footer-text">Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">05 de julho de 2026</span></span>
+  <span class="footer-text">Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">13 de julho de 2026</span></span>
 </footer>
 
 <script>
