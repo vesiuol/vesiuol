@@ -326,6 +326,31 @@
   },
   {
     "_col0": "",
+    "Título": "O Pequeno Príncipe",
+    "Páginas": "",
+    "Horas": "0:58:00",
+    "Gênero": "Clássico",
+    "Faixa etária": "Infantil",
+    "Formato": "Audiolivro",
+    "Editora": "Agir",
+    "Idioma": "Português",
+    "Série ou único?": "Livro único",
+    "Por que li?": "Diversão",
+    "Origem do livro?": "Assinatura digital",
+    "Como conheci?": "Booktube",
+    "Nome": "Antoine de Saint-Exupéry",
+    "País": "França",
+    "Cor": "Branco",
+    "Se identifica como...": "Masculino",
+    "Primeira vez lendo autore": "TRUE",
+    "Protagonista LGBTQ+": "FALSE",
+    "Diversidade etnica/racial": "FALSE",
+    "#OwnVoices?": "FALSE",
+    "NOTA": "",
+    "LIDO": "LIDO"
+  },
+  {
+    "_col0": "",
     "Título": "Uma Chama Entre as Cinzas",
     "Páginas": "434",
     "Horas": "",
@@ -1201,9 +1226,9 @@
   },
   {
     "_col0": "",
-    "Título": "47",
+    "Título": "48",
     "Páginas": "9.245",
-    "Horas": "92:08:00",
+    "Horas": "93:06:00",
     "Gênero": "(gráfico)",
     "Faixa etária": "(gráfico)",
     "Formato": "(gráfico)",
@@ -1222,6 +1247,6 @@
     "Diversidade etnica/racial": "(resumo)",
     "#OwnVoices?": "(resumo)",
     "NOTA": "(gráfico)",
-    "LIDO": "34"
+    "LIDO": "35"
   }
 ]
