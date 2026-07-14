@@ -7,7 +7,7 @@
 <meta name="description" content="Histórico de leitura é o painel com a evolução ano a ano das leituras de Louise Victoria desde 2013, incluindo livros, páginas, autores e diversidade.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='38' fill='%23849974'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
@@ -57,6 +57,7 @@
   --green-light: #c8d4b8;
   --border:      #c8c8c8;
   --border-soft: #e0e0e0;
+  --border-interactive: #8f8f8f;
   --text:        #1a1a1a;
   --muted:       #555;
   --bg:          #ffffff;
@@ -65,6 +66,8 @@
   --header-h:    52px;
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+.skip-link{position:absolute;left:-999px;top:0;z-index:200;background:var(--green);color:var(--white);padding:.6rem 1.2rem;font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:600;}
+.skip-link:focus{left:1rem;top:.6rem;}
 html { -webkit-font-smoothing: antialiased; }
 body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 500; }
 a { color: inherit; text-decoration: none; }
@@ -166,7 +169,7 @@ nav ul.open { display: flex; }
 .sb-nav-pill {
   display: flex; align-items: center; gap: .6rem;
   padding: .5rem .75rem;
-  border: 1.5px solid var(--border); border-radius: 50px;
+  border: 1.5px solid var(--border-interactive); border-radius: 50px;
   background: transparent; color: var(--muted);
   font-size: .74rem; font-family: 'DM Sans', sans-serif;
   cursor: pointer; transition: all .18s; text-align: left;
@@ -183,7 +186,7 @@ nav ul.open { display: flex; }
 .filter-pills { display: flex; flex-wrap: wrap; gap: .3rem; }
 .fpill {
   font-size: .72rem; padding: .3rem .75rem;
-  border-radius: 100px; border: 1.5px solid var(--border);
+  border-radius: 100px; border: 1.5px solid var(--border-interactive);
   background: transparent; color: var(--muted);
   cursor: pointer; transition: all .15s; font-family: 'DM Sans', sans-serif;
 }
@@ -211,8 +214,8 @@ nav ul.open { display: flex; }
 .section-hr  { border: none; border-top: 1px solid var(--border-soft); margin-bottom: 1.6rem; }
 .section-head { display: flex; align-items: baseline; gap: .8rem; margin-bottom: 1.4rem; }
 .section-h2 {
-  font-family: Georgia, serif;
-  font-size: 1.15rem; font-weight: 400;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.35rem; font-weight: 700;
   background: var(--green); color: var(--white);
   padding: .08em .4em;
   box-decoration-break: clone; -webkit-box-decoration-break: clone;
@@ -278,7 +281,7 @@ nav ul.open { display: flex; }
 /* Filtro ano */
 .year-filter { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1.4rem; }
 .year-btn {
-  padding: .35rem 1rem; border: 1.5px solid var(--border);
+  padding: .35rem 1rem; border: 1.5px solid var(--border-interactive);
   background: transparent; font-family: 'DM Sans', sans-serif;
   font-size: .80rem; font-weight: 400; border-radius: 100px;
   cursor: pointer; color: var(--muted); transition: all .2s;
@@ -340,6 +343,8 @@ footer {
 </head>
 <body>
 
+<a href="#conteudo-principal" class="skip-link">Pular para o conteúdo principal</a>
+
 <nav>
   <a href="index.html" class="nav-logo" style="text-decoration:none">
     <div class="nav-dot"></div>
@@ -350,11 +355,11 @@ footer {
     <li><a href="index.html">Início</a></li>
     <li><a href="2026.html">2026</a></li>
     <li><a href="estante.html">Estante</a></li>
-    <li><a href="historico.html" class="active">Histórico</a></li>
+    <li><a href="historico.html" class="active" aria-current="page">Histórico</a></li>
     <li><a href="desafio.html">Desafio</a></li>
     <li><a href="sobre.html">Sobre</a></li>
   </ul>
-  <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu" onclick="document.getElementById('nav-menu').classList.toggle('open')">
+  <button class="nav-hamburger" id="nav-hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-menu">
     <span></span><span></span><span></span>
   </button>
 </nav>
@@ -417,7 +422,7 @@ footer {
   </aside>
 
   <!-- MAIN -->
-  <main class="main">
+  <main class="main" id="conteudo-principal">
 
     <!-- INTRO DESKTOP -->
     <section class="intro-desktop">
@@ -436,16 +441,16 @@ footer {
       </div>
       <div class="wcard" style="margin-bottom:.8rem">
         <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Livros lidos por ano</span></div>
-        <div class="chart-body"><canvas id="c-anos"></canvas></div>
+        <div class="chart-body"><canvas id="c-anos" role="img" aria-label="Gráfico de barras mostrando a quantidade de livros lidos por ano, de 2013 a 2026."></canvas></div>
       </div>
       <div class="charts-2col">
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Páginas por ano</span></div>
-          <div class="chart-body"><canvas id="c-paginas"></canvas></div>
+          <div class="chart-body"><canvas id="c-paginas" role="img" aria-label="Gráfico de barras mostrando a quantidade de páginas lidas por ano."></canvas></div>
         </div>
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Autores novos por ano</span></div>
-          <div class="chart-body"><canvas id="c-novos"></canvas></div>
+          <div class="chart-body"><canvas id="c-novos" role="img" aria-label="Gráfico de barras mostrando a quantidade de autores lidos pela primeira vez por ano."></canvas></div>
         </div>
       </div>
     </section>
@@ -465,7 +470,7 @@ footer {
         </div>
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Avaliações (estrelas)</span></div>
-          <div class="chart-body"><canvas id="c-stars"></canvas></div>
+          <div class="chart-body"><canvas id="c-stars" role="img" aria-label="Gráfico de linha mostrando a quantidade de livros lidos por nota, de 1 a 5 estrelas, incluindo notas fracionadas."></canvas></div>
         </div>
       </div>
       <!-- Linha 2: Gêneros (lista scroll) + Países (lista scroll) — mesma altura fixa nos dois -->
@@ -511,15 +516,15 @@ footer {
       <div class="charts-2col">
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">LGBTQIA+ por ano</span></div>
-          <div class="chart-body"><canvas id="c-lgbtq"></canvas></div>
+          <div class="chart-body"><canvas id="c-lgbtq" role="img" aria-label="Gráfico de barras mostrando a quantidade de livros com protagonistas LGBTQIA+ por ano."></canvas></div>
         </div>
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Rep. étnica / racial por ano</span></div>
-          <div class="chart-body"><canvas id="c-etnia"></canvas></div>
+          <div class="chart-body"><canvas id="c-etnia" role="img" aria-label="Gráfico de barras mostrando a quantidade de livros com representatividade étnico-racial por ano."></canvas></div>
         </div>
         <div class="wcard" style="grid-column:span 2">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">#OwnVoices por ano</span></div>
-          <div class="chart-body"><canvas id="c-own"></canvas></div>
+          <div class="chart-body"><canvas id="c-own" role="img" aria-label="Gráfico de barras mostrando a quantidade de livros #OwnVoices por ano."></canvas></div>
         </div>
       </div>
     </section>
@@ -570,7 +575,7 @@ footer {
         </div>
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Avaliação (estrelas)</span></div>
-          <div class="chart-body"><canvas id="ac-stars"></canvas></div>
+          <div class="chart-body"><canvas id="ac-stars" role="img" aria-label="Gráfico de linha mostrando a quantidade de livros lidos por nota no ano selecionado, de 1 a 5 estrelas, incluindo notas fracionadas."></canvas></div>
         </div>
       </div>
       <div class="charts-2col">
@@ -592,7 +597,7 @@ footer {
   <div class="footer-dots">
     <div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div>
   </div>
-  <span class="footer-text">Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">05 de julho de 2026</span></span>
+  <span class="footer-text">Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">14 de julho de 2026</span></span>
 </footer>
 
 <script>
@@ -640,7 +645,7 @@ const COORDS = {
   ' Ilhas Virgens Americanas':[18.3,-64.9],'Senegal':[14.7,-17.4],
 };
 
-const pi  = v => parseInt(String(v||'').replace(/[^0-9]/g,'')) || 0;
+const pi  = v => { const n = parseFloat(String(v||'').replace(',', '.')); return Number.isFinite(n) ? Math.trunc(n) : 0; };
 const set = (id, v) => { const el=document.getElementById(id); if(el) el.textContent=v; };
 const fmt = n => n>0 ? Number(n).toLocaleString('pt-BR') : '—';
 const goTo = id => { const el=document.getElementById(id); if(el) el.scrollIntoView({behavior:'smooth'}); };
@@ -1020,16 +1025,18 @@ function renderAno(ano) {
 
 // hamburger
 (function(){
-  const btn=document.getElementById('nav-hamburger'), menu=document.getElementById('nav-mobile');
+  const btn=document.getElementById('nav-hamburger'), menu=document.getElementById('nav-menu');
   if(!btn||!menu) return;
   btn.addEventListener('click',()=>{
     const open=menu.classList.toggle('open'), bars=btn.querySelectorAll('span');
+    btn.setAttribute('aria-expanded', open);
     bars[0].style.transform=open?'translateY(7px) rotate(45deg)':'';
     bars[1].style.opacity  =open?'0':'';
     bars[2].style.transform=open?'translateY(-7px) rotate(-45deg)':'';
   });
   menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
     menu.classList.remove('open');
+    btn.setAttribute('aria-expanded','false');
     btn.querySelectorAll('span').forEach(s=>{s.style.transform='';s.style.opacity='';});
   }));
 })();
