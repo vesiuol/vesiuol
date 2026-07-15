@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://vesiuol.github.io/vesiuol/sitemap.xml
