@@ -90,7 +90,7 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 .skip-link{position:absolute;left:-999px;top:0;z-index:200;background:var(--green);color:var(--white);padding:.6rem 1.2rem;font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:600;}
 .skip-link:focus{left:1rem;top:.6rem;}
-body{background:var(--white);color:var(--text);font-family:Arial,sans-serif;font-weight:500;display:flex;flex-direction:column;min-height:100vh;}
+body{background:var(--white);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:500;display:flex;flex-direction:column;min-height:100vh;}
 a{color:inherit;text-decoration:none;}
 nav{position:sticky;top:0;z-index:200;height:var(--header-h);background:var(--white);border-bottom:1.5px solid #c5c5a0;display:flex;align-items:center;padding:0 2rem;gap:1.5rem;flex-shrink:0;}
 .nav-logo{display:flex;gap:5px;align-items:center;}
@@ -102,7 +102,7 @@ nav ul li a.active{background:var(--green);color:var(--white);padding:.28rem .7r
 .nav-hamburger{display:none;background:none;border:none;color:var(--black);font-size:1.4rem;cursor:pointer;margin-left:auto;}
 .page-wrap{display:grid;grid-template-columns:var(--sidebar-w) 1fr;flex:1;}
 .intro-mobile{display:none;}
-.sidebar{min-width:0;border-right:1.5px solid var(--border);background:var(--surface);position:sticky;top:var(--header-h);padding:2rem 1.4rem;display:flex;flex-direction:column;gap:1.6rem;align-self:start;}
+.sidebar{min-width:0;border-right:1.5px solid var(--border);background:var(--surface);position:sticky;top:var(--header-h);padding:2rem 1.4rem 6rem;display:flex;flex-direction:column;gap:1.6rem;align-self:start;}
 .sb-label{font-family:'DM Sans',sans-serif;font-size:.68rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem;}
 .kpi-grid{min-width:0;display:grid;grid-template-columns:1fr 1fr;gap:.5rem;}
 .kpi-card{min-width:0;overflow:hidden;background:var(--white);border:1.5px solid var(--border);border-radius:10px;padding:.85rem .8rem;}
@@ -209,7 +209,7 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
 @media(max-width:900px){
   :root{--sidebar-w:0px;}
   .page-wrap{grid-template-columns:1fr;}
-  .sidebar{position:static;height:auto;max-height:none;overflow:visible;width:100%;min-width:0;background:var(--surface);border-right:none;border-bottom:1.5px solid var(--border);}
+  .sidebar{position:static;height:auto;max-height:none;overflow:visible;width:100%;min-width:0;background:var(--surface);border-right:none;border-bottom:1.5px solid var(--border);padding-bottom:2rem;}
   .main{min-width:0;padding:2rem 2rem 3rem;}
   .kpi-grid{min-width:0;}
   .kpi-card{min-width:0;overflow:hidden;}
@@ -337,10 +337,10 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
     <div>
       <div class="sb-label">Filtrar lista</div>
       <div class="filter-pills">
-        <button class="fpill active">Todos</button>
-        <button class="fpill">Lidos</button>
-        <button class="fpill">Lendo</button>
-        <button class="fpill">Não lido</button>
+        <button class="fpill active" data-status="">Todos</button>
+        <button class="fpill" data-status="lido">Lidos</button>
+        <button class="fpill" data-status="lendo">Lendo</button>
+        <button class="fpill" data-status="não lido">Não lido</button>
       </div>
     </div>
 
@@ -541,7 +541,7 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
 
 <footer>
   <div class="footer-dots"><div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div></div>
-  <span class="footer-text">Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">16 de julho de 2026</span></span>
+  <span class="footer-text">Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">17 de julho de 2026</span></span>
 </footer>
 
 <script>
@@ -846,6 +846,21 @@ function buildFilters(){
     document.querySelectorAll('.tag-btn').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active'); activeTag=btn.dataset.tag; applyFilters();
   }));
+
+  // Pills "Filtrar lista" da sidebar: controlam o mesmo filtro de status do
+  // select #f-status (Todos/Lido/Lendo/Não lido), mantendo os dois em sincronia
+  // nos dois sentidos, e levam o usuário até a lista pra ele ver o resultado.
+  document.querySelectorAll('.fpill').forEach(btn=>btn.addEventListener('click',()=>{
+    const status = btn.dataset.status;
+    document.getElementById('f-status').value = status;
+    document.querySelectorAll('.fpill').forEach(b=>b.classList.toggle('active', b===btn));
+    applyFilters();
+    document.getElementById('sec-lista').scrollIntoView({behavior:'smooth'});
+  }));
+  document.getElementById('f-status').addEventListener('change', ()=>{
+    const v = document.getElementById('f-status').value;
+    document.querySelectorAll('.fpill').forEach(b=>b.classList.toggle('active', b.dataset.status===v));
+  });
 }
 
 function applyFilters(){
