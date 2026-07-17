@@ -885,7 +885,7 @@ footer {
   <div class="footer-dots">
     <div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div>
   </div>
-  <span class="footer-text">Louise Victoria &nbsp;|&nbsp; © 2026 &nbsp;|&nbsp; Atualizado em <span id="data-atualizacao">15 de julho de 2026</span></span>
+  <span class="footer-text">Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">15 de julho de 2026</span></span>
 </footer>
 
 <script>
@@ -1175,7 +1175,7 @@ function buildEvolucao(r24,r25,r26){
     new Chart(linhaEl,{type:'line',data:{labels:allL,datasets:[
       {label:'Real',data:allR,borderColor:GREEN,backgroundColor:GREEN+'22',borderWidth:2.5,pointRadius:4,pointBackgroundColor:GREEN,fill:true,tension:.3,spanGaps:false},
       {label:'Projeção',data:allP,borderColor:'#ccc',backgroundColor:'transparent',borderWidth:1.5,borderDash:[5,4],pointRadius:2,pointBackgroundColor:'#ccc',fill:false,tension:.3,spanGaps:false}
-    ]},options:{maintainAspectRatio:false,plugins:{legend:{display:true,labels:{font:{family:'DM Sans',size:10},color:DARK,boxWidth:10,padding:12}},datalabels:{display:ctx=>ctx.datasetIndex===0&&ctx.raw!==null,color:DARK,font:{family:'DM Sans',size:10,weight:'500'},anchor:'end',align:'top',formatter:v=>v!=null?v:''}},scales:{x:{grid:{color:'#eee'},ticks:{font:{family:'DM Sans',size:10},color:MUTED}},y:{grid:{color:'#eee'},ticks:{font:{family:'DM Sans',size:10},color:MUTED,stepSize:10},min:0,max:TOTAL}}}});
+    ]},options:{maintainAspectRatio:false,layout:{padding:{top:22}},plugins:{legend:{display:true,labels:{font:{family:'DM Sans',size:10},color:DARK,boxWidth:10,padding:12}},datalabels:{display:ctx=>ctx.datasetIndex===0&&ctx.raw!==null,color:DARK,font:{family:'DM Sans',size:10,weight:'500'},anchor:'end',align:'top',formatter:v=>v!=null?v:''}},scales:{x:{grid:{color:'#eee'},ticks:{font:{family:'DM Sans',size:10},color:MUTED}},y:{grid:{color:'#eee'},ticks:{font:{family:'DM Sans',size:10},color:MUTED,stepSize:10},min:0,max:TOTAL}}}});
 
     /* Projeção textual */
     const projEl=document.getElementById('projecao-body');
