@@ -147,13 +147,14 @@ nav ul li a.active {
 /* Botões pílula */
 .hero-links { display: flex; gap: .6rem; flex-wrap: wrap; margin: 1.4rem 0 .4rem; }
 .hero-link {
-  display: inline-block; padding: .4rem 1.1rem;
+  display: inline-flex; align-items: center; gap: .3rem; padding: .4rem 1.1rem;
   border: 1.5px solid var(--border-interactive); border-radius: 100px;
   font-size: .80rem; font-weight: 500;
   color: var(--muted); background: transparent;
   transition: all .2s;
 }
 .hero-link:hover { background: var(--green); border-color: var(--green); color: var(--white); }
+.hero-link-icon { font-size: .72rem; }
 
 .hero-divider {
   margin-top: 2rem; border-top: 1px solid var(--border);
@@ -300,9 +301,9 @@ footer {
       </div>
       <p>Jornalista que sempre atuou com marketing. Trabalho com comunicação, experiência do cliente e nos últimos anos com análise e apresentação de dados. Também leio bastante e tenho uma certa fascinação por acompanhar, organizar e analisar esse hobby.</p>
       <div class="hero-links">
-        <a class="hero-link" href="https://www.linkedin.com/in/louise-victoria/" target="_blank" rel="noopener">LinkedIn</a>
-        <a class="hero-link" href="https://www.instagram.com/vesiuol/" target="_blank" rel="noopener">Instagram</a>
-        <a class="hero-link" href="https://medium.com/@vesiuol" target="_blank" rel="noopener">Medium</a>
+        <a class="hero-link" href="https://www.linkedin.com/in/louise-victoria/" target="_blank" rel="noopener">LinkedIn<span class="hero-link-icon" aria-hidden="true">↗</span></a>
+        <a class="hero-link" href="https://www.instagram.com/vesiuol/" target="_blank" rel="noopener">Instagram<span class="hero-link-icon" aria-hidden="true">↗</span></a>
+        <a class="hero-link" href="https://medium.com/@vesiuol" target="_blank" rel="noopener">Medium<span class="hero-link-icon" aria-hidden="true">↗</span></a>
       </div>
     </div>
     <div class="hero-divider">
@@ -374,7 +375,7 @@ footer {
   <div class="footer-dots">
     <div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div>
   </div>
- <span class="footer-text">Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">14 de julho de 2026</span></span></footer>
+ <span class="footer-text">Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">17 de julho de 2026</span></span></footer>
 
 </body>
 </html>
