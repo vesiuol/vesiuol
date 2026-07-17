@@ -128,10 +128,6 @@ nav ul li a.active{background:var(--green);color:var(--white);padding:.28rem .7r
 .sb-nav-pill:hover{background:var(--green);border-color:var(--green);color:var(--white);}
 .sb-nav-pill .pill-dot{width:22px;height:22px;border-radius:50%;background:var(--green);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.6rem;color:var(--white);}
 .sb-nav-pill:hover .pill-dot{background:var(--white);color:var(--green);}
-.filter-pills{display:flex;flex-wrap:wrap;gap:.3rem;}
-.fpill{font-family:'DM Sans',sans-serif;font-size:.72rem;padding:.3rem .75rem;border-radius:100px;border:1.5px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all .2s;}
-.fpill:hover:not(.active){background:var(--green);border-color:var(--green);color:var(--white);}
-.fpill.active{background:var(--green);border-color:var(--green);color:var(--white);font-weight:500;}
 .page-wrap{min-width:0;}
 .main{min-width:0;padding:2.8rem 3rem 3rem;}
 .intro-eyebrow{font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--green-dark);margin-bottom:1rem;}
@@ -331,16 +327,6 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
         <button class="sb-nav-pill" onclick="document.getElementById('sec-dados').scrollIntoView({behavior:'smooth'})"><span class="pill-dot">✦</span>Leituras em dados</button>
         <button class="sb-nav-pill" onclick="document.getElementById('sec-mapa').scrollIntoView({behavior:'smooth'})"><span class="pill-dot">✦</span>De onde vieram?</button>
         <button class="sb-nav-pill" onclick="document.getElementById('sec-lista').scrollIntoView({behavior:'smooth'})"><span class="pill-dot">✦</span>Livros de 2026</button>
-      </div>
-    </div>
-
-    <div>
-      <div class="sb-label">Filtrar lista</div>
-      <div class="filter-pills">
-        <button class="fpill active" data-status="">Todos</button>
-        <button class="fpill" data-status="lido">Lidos</button>
-        <button class="fpill" data-status="lendo">Lendo</button>
-        <button class="fpill" data-status="não lido">Não lido</button>
       </div>
     </div>
 
@@ -846,21 +832,6 @@ function buildFilters(){
     document.querySelectorAll('.tag-btn').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active'); activeTag=btn.dataset.tag; applyFilters();
   }));
-
-  // Pills "Filtrar lista" da sidebar: controlam o mesmo filtro de status do
-  // select #f-status (Todos/Lido/Lendo/Não lido), mantendo os dois em sincronia
-  // nos dois sentidos, e levam o usuário até a lista pra ele ver o resultado.
-  document.querySelectorAll('.fpill').forEach(btn=>btn.addEventListener('click',()=>{
-    const status = btn.dataset.status;
-    document.getElementById('f-status').value = status;
-    document.querySelectorAll('.fpill').forEach(b=>b.classList.toggle('active', b===btn));
-    applyFilters();
-    document.getElementById('sec-lista').scrollIntoView({behavior:'smooth'});
-  }));
-  document.getElementById('f-status').addEventListener('change', ()=>{
-    const v = document.getElementById('f-status').value;
-    document.querySelectorAll('.fpill').forEach(b=>b.classList.toggle('active', b.dataset.status===v));
-  });
 }
 
 function applyFilters(){
