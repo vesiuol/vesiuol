@@ -136,8 +136,6 @@ nav ul li a.active {
   border-right: none;
   position: sticky;
   top: var(--header-h);
-  max-height: calc(100vh - var(--header-h));
-  overflow-y: auto; overflow-x: hidden;
   padding: 2rem 1.4rem;
   display: flex; flex-direction: column; gap: 1.6rem;
   scrollbar-width: thin;
@@ -465,6 +463,17 @@ tr:hover td { background: rgba(132,153,116,.05); }
   transition: all .2s;
 }
 .notion-btn:hover { background: var(--white); color: var(--green); }
+
+/* Tabela de apoio para leitores de tela — alternativa textual aos gráficos Chart.js */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
 @media (max-width: 600px) {
   .notion-cta { flex-direction: column; align-items: flex-start; }
   .notion-cta p { max-width: 100%; }
@@ -608,7 +617,7 @@ footer {
           <span class="pill-dot">✦</span>Blogs sobre o desafio
         </button>
         <button class="sb-nav-pill" onclick="document.getElementById('perfil').scrollIntoView({behavior:'smooth'})">
-          <span class="pill-dot">✦</span>Perfil do desafio
+          <span class="pill-dot">✦</span>Perfil dos livros lidos
         </button>
         <button class="sb-nav-pill" onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">
           <span class="pill-dot">✦</span>De onde vieram meus livros?
@@ -707,7 +716,7 @@ footer {
     <section class="section-gap" id="perfil">
       <hr class="section-hr">
       <div class="section-head">
-        <h2 class="section-h2">Perfil do desafio</h2>
+        <h2 class="section-h2">Perfil dos livros lidos</h2>
         <span class="section-sub" id="charts-loading">carregando dados…</span>
       </div>
 
@@ -771,13 +780,13 @@ footer {
       <div class="charts-2col">
         <div class="wcard">
           <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Regiões mais lidas</span></div>
-          <div style="padding:1rem 1.2rem;overflow-y:auto;height:280px">
+          <div style="padding:1rem 1.2rem;overflow-y:auto;height:280px" tabindex="0" aria-label="Lista rolável de regiões mais lidas">
             <div class="rank-list" id="rank-regioes"></div>
           </div>
         </div>
         <div class="wcard">
           <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Gêneros literários</span></div>
-          <div style="padding:1rem 1.2rem;overflow-y:auto;height:280px">
+          <div style="padding:1rem 1.2rem;overflow-y:auto;height:280px" tabindex="0" aria-label="Lista rolável de gêneros literários">
             <div class="rank-list" id="rank-generos"></div>
           </div>
         </div>
@@ -788,10 +797,12 @@ footer {
         <div class="wcard">
           <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Distribuição de notas</span></div>
           <div class="chart-body"><canvas id="c-notas" role="img" aria-label="Gráfico de linha mostrando a quantidade de livros lidos por nota, de 1 a 5 estrelas, incluindo notas fracionadas."></canvas></div>
+          <div class="sr-only" id="c-notas-table"></div>
         </div>
         <div class="wcard">
           <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Origem do livro</span></div>
           <div class="chart-body"><canvas id="c-origem" style="max-height:200px" role="img" aria-label="Gráfico de barras horizontais mostrando a origem dos livros do desafio."></canvas></div>
+          <div class="sr-only" id="c-origem-table"></div>
         </div>
       </div>
     </section>
@@ -831,6 +842,7 @@ footer {
           <div class="wcard">
             <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Países conquistados · 2024→2026</span></div>
             <div class="chart-body tall"><div class="chart-canvas-wrap"><canvas id="c-evolucao-linha" role="img" aria-label="Gráfico de linha mostrando a evolução de países conquistados no desafio de 2024 a 2026."></canvas></div></div>
+            <div class="sr-only" id="c-evolucao-linha-table"></div>
           </div>
           <div class="wcard">
             <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Projeção para 209 países</span></div>
@@ -885,7 +897,7 @@ footer {
   <div class="footer-dots">
     <div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div>
   </div>
-  <span class="footer-text">Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">15 de julho de 2026</span></span>
+  <span class="footer-text">Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">18 de julho de 2026</span></span>
 </footer>
 
 <script>
@@ -1108,6 +1120,12 @@ function buildPerfil(allLPM){
       plugins:{legend:{display:false},datalabels:{display:ctx=>ctx.dataset.data[ctx.dataIndex]>0,anchor:'end',align:'top',color:DARK,font:{family:'DM Sans',size:10,weight:'500'},formatter:v=>v>0?v:'',clamp:true}},
       scales:{x:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:MUTED},border:{display:false}},y:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:MUTED},border:{display:false},beginAtZero:true}}};
     new Chart(notasEl,{type:'line',data:{labels:notasLabels,datasets:[{data:notas,borderColor:GREEN,backgroundColor:GREEN+'22',borderWidth:2.5,pointRadius:5,pointBackgroundColor:GREEN,fill:true,tension:.35}]},options:opts});
+    const notasTableEl=document.getElementById('c-notas-table');
+    if(notasTableEl){
+      notasTableEl.innerHTML='<table><caption>Quantidade de livros lidos por nota, de 1 a 5 estrelas</caption><thead><tr><th scope="col">Nota</th><th scope="col">Livros</th></tr></thead><tbody>'+
+        notasLabels.map((l,i)=>'<tr><td>'+l+' ★</td><td>'+notas[i]+'</td></tr>').join('')+
+        '</tbody></table>';
+    }
   }
 
   /* barras horizontais origem */
@@ -1118,6 +1136,12 @@ function buildPerfil(allLPM){
       origEl.style.maxHeight='200px';
       const opts={maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false},datalabels:{display:true,anchor:'end',align:'end',color:DARK,font:{family:'DM Sans',size:10,weight:'500'},formatter:v=>v>0?v:'',clip:false,clamp:false,offset:6}},scales:{x:{grid:{color:'#eee'},ticks:{font:{family:'DM Sans',size:11},color:MUTED},stepSize:1},y:{grid:{color:'#eee'},ticks:{font:{family:'DM Sans',size:11},color:MUTED}}}};
       new Chart(origEl,{type:'bar',data:{labels:pairs.map(e=>e[0]),datasets:[{data:pairs.map(e=>e[1]),backgroundColor:GREEN,borderRadius:3}]},options:opts});
+      const origTableEl=document.getElementById('c-origem-table');
+      if(origTableEl){
+        origTableEl.innerHTML='<table><caption>Origem dos livros do desafio</caption><thead><tr><th scope="col">Origem</th><th scope="col">Livros</th></tr></thead><tbody>'+
+          pairs.map(e=>'<tr><td>'+e[0]+'</td><td>'+e[1]+'</td></tr>').join('')+
+          '</tbody></table>';
+      }
     }
   }
 }
@@ -1176,6 +1200,13 @@ function buildEvolucao(r24,r25,r26){
       {label:'Real',data:allR,borderColor:GREEN,backgroundColor:GREEN+'22',borderWidth:2.5,pointRadius:4,pointBackgroundColor:GREEN,fill:true,tension:.3,spanGaps:false},
       {label:'Projeção',data:allP,borderColor:'#ccc',backgroundColor:'transparent',borderWidth:1.5,borderDash:[5,4],pointRadius:2,pointBackgroundColor:'#ccc',fill:false,tension:.3,spanGaps:false}
     ]},options:{maintainAspectRatio:false,layout:{padding:{top:22}},plugins:{legend:{display:true,labels:{font:{family:'DM Sans',size:10},color:DARK,boxWidth:10,padding:12}},datalabels:{display:ctx=>ctx.datasetIndex===0&&ctx.raw!==null,color:DARK,font:{family:'DM Sans',size:10,weight:'500'},anchor:'end',align:'top',formatter:v=>v!=null?v:''}},scales:{x:{grid:{color:'#eee'},ticks:{font:{family:'DM Sans',size:10},color:MUTED}},y:{grid:{color:'#eee'},ticks:{font:{family:'DM Sans',size:10},color:MUTED,stepSize:10},min:0,max:TOTAL}}}});
+
+    const evolTableEl=document.getElementById('c-evolucao-linha-table');
+    if(evolTableEl){
+      evolTableEl.innerHTML='<table><caption>Evolução de países conquistados no desafio, real e projeção</caption><thead><tr><th scope="col">Ano</th><th scope="col">Real</th><th scope="col">Projeção</th></tr></thead><tbody>'+
+        allL.map((l,i)=>'<tr><td>'+l+'</td><td>'+(allR[i]!=null?allR[i]:'—')+'</td><td>'+(allP[i]!=null?allP[i]:'—')+'</td></tr>').join('')+
+        '</tbody></table>';
+    }
 
     /* Projeção textual */
     const projEl=document.getElementById('projecao-body');
