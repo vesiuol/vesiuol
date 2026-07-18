@@ -26,7 +26,7 @@
 <meta name="twitter:description" content="Biblioteca Vesiuol é o acervo literário pessoal de Louise Victoria, com estante completa, estatísticas de leitura e Desafio Livros pelo Mundo desde 2013.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='38' fill='%23849974'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 <script type="application/ld+json">
 {
@@ -76,6 +76,15 @@ html { -webkit-font-smoothing: antialiased; }
 body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 500; }
 a { color: inherit; text-decoration: none; }
 
+/* ── SKIP LINK (acessibilidade — só aparece com foco de teclado) ── */
+.skip-link {
+  position: absolute; left: -999px; top: 0; z-index: 200;
+  background: var(--green); color: var(--white);
+  padding: .6rem 1.2rem; font-family: 'DM Sans', sans-serif;
+  font-size: .8rem; font-weight: 600;
+}
+.skip-link:focus { left: 1rem; top: .6rem; }
+
 /* ── NAV ── */
 nav {
   position: sticky; top: 0; z-index: 200;
@@ -120,7 +129,7 @@ nav ul li a.active {
 /* Faixa verde atrás do título — alinhada ao texto */
 .hero-title-wrap { margin-bottom: 1.4rem; }
 .hero-title {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cormorant Garamond', serif;
   font-size: clamp(2.2rem, 4vw, 3.4rem);
   font-weight: 400; line-height: 1.5;
   display: inline;
@@ -169,7 +178,7 @@ nav ul li a.active {
   min-height: 110px;
 }
 .stat-num {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cormorant Garamond', serif;
   font-size: 2.2rem; font-weight: 400; color: var(--white); line-height: 1;
   display: block; margin-bottom: .4rem;
 }
@@ -189,8 +198,8 @@ nav ul li a.active {
   border-bottom: 1px solid var(--border-soft); padding-bottom: .7rem;
 }
 .section-h2 {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.15rem; font-weight: 400; color: var(--white);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.35rem; font-weight: 700; color: var(--white);
   background: var(--green);
   padding: .08em .4em;
   display: inline;
@@ -216,7 +225,7 @@ nav ul li a.active {
 
 .vc-body { padding: 1.3rem 1.4rem 1rem; flex: 1; display: flex; flex-direction: column; gap: .6rem; }
 .vc-title {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cormorant Garamond', serif;
   font-size: .95rem; font-weight: 400; color: var(--white);
   background: var(--green);
   display: inline-block;
@@ -276,6 +285,7 @@ footer {
 </style>
 </head>
 <body>
+<a href="#conteudo-principal" class="skip-link">Pular para o conteúdo principal</a>
 
 <nav>
   <a href="index.html" class="nav-logo" style="text-decoration:none">
@@ -284,18 +294,18 @@ footer {
     <div class="nav-dot" style="background:var(--green)"></div>
   </a>
   <ul id="nav-menu">
-    <li><a href="index.html" class="active">Início</a></li>
+    <li><a href="index.html" class="active" aria-current="page">Início</a></li>
     <li><a href="2026.html">2026</a></li>
     <li><a href="estante.html">Estante</a></li>
     <li><a href="historico.html">Histórico</a></li>
     <li><a href="desafio.html">Desafio</a></li>
     <li><a href="sobre.html">Sobre</a></li>
   </ul>
-  <button class="nav-hamburger" onclick="document.getElementById('nav-menu').classList.toggle('open')">☰</button>
+  <button class="nav-hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-menu" onclick="const u=document.getElementById('nav-menu');u.classList.toggle('open');this.setAttribute('aria-expanded', u.classList.contains('open'));">☰</button>
 </nav>
 
 <!-- HERO -->
-<div class="hero-section">
+<main class="hero-section" id="conteudo-principal">
   <div class="wcard">
     <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div></div>
     <div class="hero-card">
@@ -313,7 +323,7 @@ footer {
       <a href="sobre.html" class="hero-arrow">→</a>
     </div>
   </div>
-</div>
+</main>
 
 <!-- STATS -->
 <div class="stats-section">
@@ -382,7 +392,7 @@ footer {
   <div class="footer-dots">
     <div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div>
   </div>
-  <span class="footer-text">Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span class="footer-atualizacao">10 de julho de 2026</span></span>
+  <span class="footer-text">Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span class="footer-atualizacao">18 de julho de 2026</span></span>
 </footer>
 
 <script>
