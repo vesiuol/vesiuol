@@ -136,6 +136,12 @@ nav ul li a.active {
   border-right: none;
   position: sticky;
   top: var(--header-h);
+  /* bottom junto do top (2026-07-19, pedido Louise): sem isso, a sidebar só "descolava" do topo
+     perto do fim de toda a página (que é bem mais alta que ela), então os últimos filtros só
+     apareciam quase no rodapé. Com top+bottom definidos, o navegador desliza a sidebar entre os
+     dois pontos assim que o espaço restante do conteúdo fica menor que a altura dela — revelando
+     o fim da sidebar bem antes do fim da página. */
+  bottom: 1.5rem;
   padding: 2rem 1.4rem;
   display: flex; flex-direction: column; gap: 1.6rem;
   scrollbar-width: thin;
@@ -369,11 +375,6 @@ nav ul li a.active {
 @media (max-width: 900px) { .perfil-mini-charts { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 600px) { .perfil-mini-charts { grid-template-columns: 1fr; } }
 
-/* 1b. Gráficos de barra para as 4 categorias de poucos valores (Quem escreve, Cor/raça,
-   Faixa etária, Formato) — uma linha só de 4, mesmo padrão de barra horizontal já usado
-   no gráfico "Origem do livro" desta seção. Nunca donut/pizza (proibido na Governança). */
-.charts-4col { display: grid; grid-template-columns: repeat(4, 1fr); gap: .8rem; margin-bottom: .8rem; }
-
 /* ── MAPA ── */
 #dlm-map { height: 380px; border-radius: 0 0 12px 12px; }
 .map-legend { display: flex; gap: 1.2rem; flex-wrap: wrap; margin-top: .8rem; font-size: .78rem; color: var(--muted); }
@@ -527,7 +528,6 @@ footer {
   .div-cards { grid-template-columns: 1fr 1fr; }
   .perfil-text-grid { grid-template-columns: 1fr 1fr; }
   .graf-4col { grid-template-columns: 1fr 1fr; }
-  .charts-4col { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 600px) {
   nav ul { display: none; position: absolute; top: 52px; left: 0; right: 0; background: var(--white); flex-direction: column; padding: 1rem 2rem; gap: 1rem; border-bottom: 1px solid var(--border); }
@@ -540,7 +540,6 @@ footer {
   .main section.section-gap { padding: 0 1.2rem; }
   .div-cards, .perfil-text-grid { grid-template-columns: 1fr; }
   .graf-4col { grid-template-columns: 1fr 1fr; }
-  .charts-4col { grid-template-columns: 1fr; }
   .kpi-grid  { grid-template-columns: 1fr 1fr; }
 }
 </style>
@@ -773,30 +772,6 @@ footer {
         </div>
       </div>
 
-      <!-- Modelo 1b: gráficos de barra para Quem escreve, Cor/raça, Faixa etária e Formato — uma linha só -->
-      <div class="charts-4col">
-        <div class="wcard">
-          <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Quem escreve</span></div>
-          <div class="chart-body"><canvas id="c-genero" style="max-height:190px" role="img" aria-label="Gráfico de barras horizontais mostrando a quantidade de livros por gênero do autor."></canvas></div>
-          <div class="sr-only" id="c-genero-table"></div>
-        </div>
-        <div class="wcard">
-          <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Cor / raça</span></div>
-          <div class="chart-body"><canvas id="c-cor" style="max-height:190px" role="img" aria-label="Gráfico de barras horizontais mostrando a quantidade de livros por cor/raça do autor."></canvas></div>
-          <div class="sr-only" id="c-cor-table"></div>
-        </div>
-        <div class="wcard">
-          <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Faixa etária</span></div>
-          <div class="chart-body"><canvas id="c-faixa" style="max-height:190px" role="img" aria-label="Gráfico de barras horizontais mostrando a quantidade de livros por faixa etária."></canvas></div>
-          <div class="sr-only" id="c-faixa-table"></div>
-        </div>
-        <div class="wcard">
-          <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Formato</span></div>
-          <div class="chart-body"><canvas id="c-formato" style="max-height:190px" role="img" aria-label="Gráfico de barras horizontais mostrando a quantidade de livros por formato de leitura."></canvas></div>
-          <div class="sr-only" id="c-formato-table"></div>
-        </div>
-      </div>
-
       <!-- Modelo 2: cards com número grande + barra (diversidade) -->
       <div class="div-cards">
         <div class="div-card">
@@ -835,9 +810,10 @@ footer {
         </div>
       </div>
 
-      <!-- Modelo 3b: linha de 4 mini-gráficos de barras horizontais — Quem escreve / Cor-raça / Faixa etária / Formato
+      <!-- Modelo 1b: linha de 4 gráficos de barras horizontais — Quem escreve / Cor-raça / Faixa etária / Formato
            (posicionados aqui, logo antes de Notas/Origem, a pedido da Louise 2026-07-19: junto dos outros gráficos,
-           não ao lado do grid de texto — evita repetir os mesmos rótulos duas vezes seguidas na página) -->
+           não ao lado do grid de texto. Este era o único bloco desses 4 gráficos — o duplicado que existia
+           logo após o grid de texto foi removido em 2026-07-19.) -->
       <div class="perfil-mini-charts">
         <div class="wcard">
           <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Quem escreve</span></div>
@@ -1185,10 +1161,9 @@ function buildPerfil(allLPM){
      (mesmo modelo do gráfico "Origem do livro" logo abaixo) em vez de linha, que é mais
      adequada a séries com progressão (ex: notas, evolução por ano) do que a categorias
      soltas sem ordem natural. Donut/pizza é proibido pela Governança nesta seção. */
-  buildCategoryBarChart('c-genero',   'c-genero-table',   gaCount,  'Quantidade de livros por gênero do autor',       'Gênero');
-  buildCategoryBarChart('c-cor',      'c-cor-table',      corCount, 'Quantidade de livros por cor/raça do autor',     'Cor/raça');
-  buildCategoryBarChart('c-faixa',    'c-faixa-table',    fxCount,  'Quantidade de livros por faixa etária',          'Faixa etária');
-  buildCategoryBarChart('c-formato',  'c-formato-table',  fmCount,  'Quantidade de livros por formato de leitura',    'Formato');
+  /* Os 4 gráficos de barra (Quem escreve, Cor/raça, Faixa etária, Formato) são construídos
+     mais abaixo, na seção "Modelo 1b: mini-gráficos" (buildMiniBarChart) — o bloco duplicado
+     que existia aqui foi removido (2026-07-19, pedido Louise). */
 
   const notasLabels=['1','1,5','2','2,5','3','3,5','4','4,5','5'];
   const notasValores=[1,1.5,2,2.5,3,3.5,4,4.5,5];
