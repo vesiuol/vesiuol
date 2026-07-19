@@ -357,6 +357,19 @@ nav ul li a.active {
 .chart-body canvas { max-height: 200px; }
 .chart-body.tall canvas { max-height: 300px; }
 
+/* 5. Linha de 4 mini-gráficos de barras horizontais (Quem escreve / Cor-raça / Faixa etária / Formato)
+   — poucos valores distintos por campo, cabem lado a lado numa única linha (pedido Louise 2026-07-19) */
+.perfil-mini-charts { display: grid; grid-template-columns: repeat(4, 1fr); gap: .6rem; margin-bottom: .8rem; }
+.perfil-mini-charts .chart-body { padding: .7rem .8rem; }
+.perfil-mini-charts .chart-body canvas { max-height: 150px; }
+@media (max-width: 900px) { .perfil-mini-charts { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 600px) { .perfil-mini-charts { grid-template-columns: 1fr; } }
+
+/* 1b. Gráficos de barra para as 4 categorias de poucos valores (Quem escreve, Cor/raça,
+   Faixa etária, Formato) — uma linha só de 4, mesmo padrão de barra horizontal já usado
+   no gráfico "Origem do livro" desta seção. Nunca donut/pizza (proibido na Governança). */
+.charts-4col { display: grid; grid-template-columns: repeat(4, 1fr); gap: .8rem; margin-bottom: .8rem; }
+
 /* ── MAPA ── */
 #dlm-map { height: 380px; border-radius: 0 0 12px 12px; }
 .map-legend { display: flex; gap: 1.2rem; flex-wrap: wrap; margin-top: .8rem; font-size: .78rem; color: var(--muted); }
@@ -510,6 +523,7 @@ footer {
   .div-cards { grid-template-columns: 1fr 1fr; }
   .perfil-text-grid { grid-template-columns: 1fr 1fr; }
   .graf-4col { grid-template-columns: 1fr 1fr; }
+  .charts-4col { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 600px) {
   nav ul { display: none; position: absolute; top: 52px; left: 0; right: 0; background: var(--white); flex-direction: column; padding: 1rem 2rem; gap: 1rem; border-bottom: 1px solid var(--border); }
@@ -522,6 +536,7 @@ footer {
   .main section.section-gap { padding: 0 1.2rem; }
   .div-cards, .perfil-text-grid { grid-template-columns: 1fr; }
   .graf-4col { grid-template-columns: 1fr 1fr; }
+  .charts-4col { grid-template-columns: 1fr; }
   .kpi-grid  { grid-template-columns: 1fr 1fr; }
 }
 </style>
@@ -754,6 +769,54 @@ footer {
         </div>
       </div>
 
+      <!-- Modelo 1b: gráficos de barra para Quem escreve, Cor/raça, Faixa etária e Formato — uma linha só -->
+      <div class="charts-4col">
+        <div class="wcard">
+          <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Quem escreve</span></div>
+          <div class="chart-body"><canvas id="c-genero" style="max-height:190px" role="img" aria-label="Gráfico de barras horizontais mostrando a quantidade de livros por gênero do autor."></canvas></div>
+          <div class="sr-only" id="c-genero-table"></div>
+        </div>
+        <div class="wcard">
+          <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Cor / raça</span></div>
+          <div class="chart-body"><canvas id="c-cor" style="max-height:190px" role="img" aria-label="Gráfico de barras horizontais mostrando a quantidade de livros por cor/raça do autor."></canvas></div>
+          <div class="sr-only" id="c-cor-table"></div>
+        </div>
+        <div class="wcard">
+          <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Faixa etária</span></div>
+          <div class="chart-body"><canvas id="c-faixa" style="max-height:190px" role="img" aria-label="Gráfico de barras horizontais mostrando a quantidade de livros por faixa etária."></canvas></div>
+          <div class="sr-only" id="c-faixa-table"></div>
+        </div>
+        <div class="wcard">
+          <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Formato</span></div>
+          <div class="chart-body"><canvas id="c-formato" style="max-height:190px" role="img" aria-label="Gráfico de barras horizontais mostrando a quantidade de livros por formato de leitura."></canvas></div>
+          <div class="sr-only" id="c-formato-table"></div>
+        </div>
+      </div>
+
+      <!-- Modelo 1b: linha de 4 mini-gráficos de barras horizontais — Quem escreve / Cor-raça / Faixa etária / Formato -->
+      <div class="perfil-mini-charts">
+        <div class="wcard">
+          <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Quem escreve</span></div>
+          <div class="chart-body"><canvas id="c-genero-mini" role="img" aria-label="Gráfico de barras horizontais mostrando a quantidade de livros lidos por gênero do/a autor/a."></canvas></div>
+          <div class="sr-only" id="c-genero-mini-table"></div>
+        </div>
+        <div class="wcard">
+          <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Cor / raça</span></div>
+          <div class="chart-body"><canvas id="c-cor-mini" role="img" aria-label="Gráfico de barras horizontais mostrando a quantidade de livros lidos por cor/raça do/a autor/a."></canvas></div>
+          <div class="sr-only" id="c-cor-mini-table"></div>
+        </div>
+        <div class="wcard">
+          <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Faixa etária</span></div>
+          <div class="chart-body"><canvas id="c-faixa-mini" role="img" aria-label="Gráfico de barras horizontais mostrando a quantidade de livros lidos por faixa etária."></canvas></div>
+          <div class="sr-only" id="c-faixa-mini-table"></div>
+        </div>
+        <div class="wcard">
+          <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Formato</span></div>
+          <div class="chart-body"><canvas id="c-formato-mini" role="img" aria-label="Gráfico de barras horizontais mostrando a quantidade de livros lidos por formato."></canvas></div>
+          <div class="sr-only" id="c-formato-mini-table"></div>
+        </div>
+      </div>
+
       <!-- Modelo 2: cards com número grande + barra (diversidade) -->
       <div class="div-cards">
         <div class="div-card">
@@ -903,9 +966,12 @@ footer {
 <script>
 Chart.register(ChartDataLabels);
 
-const CSV_DESAFIO = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub?gid=537800862&single=true&output=csv';
-const CSV_2024   = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub?gid=0&single=true&output=csv';
-const CSV_2025   = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub?gid=963475305&single=true&output=csv';
+/* Fonte única e centralizada do Desafio LPM (Planilha A, aba DESAFIO, gid=524970956).
+   Decisão Governança 2026-07-19: substitui o antigo fetch triplo (CSV_2024 + CSV_2025 + CSV_DESAFIO,
+   filtrado por "Por que li? = Desafio LPM"). Esta aba já vem pré-filtrada com todos os livros do
+   Desafio de todos os anos, e tem uma coluna própria "Ano" para identificar o ano de leitura —
+   não é mais preciso criar/ler uma aba nova a cada virada de ano. */
+const CSV_DESAFIO_ALL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub?gid=524970956&single=true&output=csv';
 
 const GREEN       = '#849974';
 const GREEN_DARK  = '#6b7e5e';
@@ -949,6 +1015,15 @@ function fetchCSV(url){
   });
 }
 function topN(obj,n){ return Object.entries(obj).sort((a,b)=>b[1]-a[1]).slice(0,n); }
+/* Igual a topN(obj,n), mas em caso de EMPATE de valor entre duas categorias, a que for
+   preferKey (ex: "Feminino") vem primeiro — em vez de depender da ordem de inserção dos
+   dados na planilha. Decisão Louise 2026-07-19: com dados empatados, priorizar Feminino
+   na seção "Quem escreve" (tanto no valor-destaque em texto quanto no mini-gráfico). */
+function topNWithPreference(obj, n, preferKey){
+  return Object.entries(obj)
+    .sort((a,b)=> b[1]-a[1] || (a[0]===preferKey ? -1 : b[0]===preferKey ? 1 : 0))
+    .slice(0,n);
+}
 function findField(row, candidates){
   if(!row) return '';
   const keys = Object.keys(row).filter(k=>norm(k)); // ignora colunas sem cabeçalho (ex: coluna solta na planilha)
@@ -960,20 +1035,6 @@ function findField(row, candidates){
     if(partial && row[partial] && row[partial].trim()) return row[partial].trim();
   }
   return '';
-}
-function filterLPM(rows, notionTitles){
-  return rows.filter(r=>{
-    if(Object.values(r).some(v=>norm(v||'').includes('desafio lpm'))) return true;
-    if(!notionTitles) return false;
-    const titulo = norm(findField(r,['Título','Titulo','Livro','Livros']));
-    return titulo && notionTitles.has(titulo);
-  });
-}
-/* Considera concluído apenas o que tem LIDO exato na coluna (2025/2026).
-   2024 não tem essa coluna na planilha — todas as linhas lá já são leituras fechadas. */
-function isFinished(row, hasLidoCol){
-  if(!hasLidoCol) return true;
-  return (findField(row,['LIDO'])||'').trim() === 'LIDO';
 }
 function countField(rows, candidates){
   const c={};
@@ -990,18 +1051,20 @@ function scrollTo(id){
   if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
 }
 
-let rows2024=[], rows2025=[], rows2026=[];
+let allLPM = [];
+let rowsByYear = {};
 
 async function init(){
-  const notionTitles = new Set(NOTION_DATA.filter(n=>n.livro&&n.livro.trim()).map(n=>norm(n.livro)));
   try{
-    const [r24,r25,r26] = await Promise.all([fetchCSV(CSV_2024), fetchCSV(CSV_2025), fetchCSV(CSV_DESAFIO)]);
-    rows2024 = filterLPM(r24, notionTitles);
-    rows2025 = filterLPM(r25, notionTitles).filter(r=>isFinished(r,true));
-    rows2026 = filterLPM(r26, notionTitles).filter(r=>isFinished(r,true));
+    const rows = await fetchCSV(CSV_DESAFIO_ALL);
+    allLPM = rows.filter(r=>findField(r,['Título','Titulo']));
+    rowsByYear = {};
+    allLPM.forEach(r=>{
+      const ano = findField(r,['Ano']);
+      if(!ano) return;
+      (rowsByYear[ano] = rowsByYear[ano] || []).push(r);
+    });
   } catch(e){ console.warn('CSV error',e); }
-
-  const allLPM = [...rows2024,...rows2025,...rows2026];
 
   /* KPIs sidebar — "países lidos", "% lidos" e "países com livros" vêm do Notion (autoridade por país).
      Páginas lidas e 5★ vêm do Excel (só o Excel tem esse detalhe por livro). */
@@ -1028,11 +1091,11 @@ async function init(){
 
   buildPerfil(allLPM);
   buildMap();
-  buildEvolucao(rows2024,rows2025,rows2026);
+  buildEvolucao(rowsByYear);
   renderNotion();
 
   const cl = document.getElementById('charts-loading');
-  if(cl) cl.textContent = allLPM.length+' leituras LPM (2024·2025·2026)';
+  if(cl) cl.textContent = allLPM.length+' leituras LPM (todos os anos · aba DESAFIO)';
   const ll = document.getElementById('lista-loading');
   if(ll) ll.textContent = notionLidos+' países lidos (Notion)';
 }
@@ -1045,7 +1108,8 @@ function buildPerfil(allLPM){
   const fmCount  = countField(allLPM,['Formato']);
   const fxCount  = countField(allLPM,['Faixa etária','Faixa etaria','faixa']);
 
-  const topGa  = topN(gaCount,1)[0];
+  /* "Quem escreve": em caso de empate no topo, prioriza Feminino (decisão Louise 2026-07-19) */
+  const topGa  = topNWithPreference(gaCount,1,'Feminino')[0];
   const topCor = topN(corCount,1)[0];
   const topId  = topN(idCount,1)[0];
   const topFm  = topN(fmCount,1)[0];
@@ -1056,6 +1120,16 @@ function buildPerfil(allLPM){
   if(topId)  { document.getElementById('pg-idioma').textContent     = topId[0]; }
   if(topFm)  { document.getElementById('pg-formato').textContent    = topFm[0]; }
   if(topFx)  { document.getElementById('pg-faixa').textContent      = topFx[0]; }
+
+  /* Gráficos de barra horizontal para Quem escreve, Cor/raça, Faixa etária e Formato
+     (pedido da Louise 2026-07-19) — poucas categorias cada, então barra horizontal
+     (mesmo modelo do gráfico "Origem do livro" logo abaixo) em vez de linha, que é mais
+     adequada a séries com progressão (ex: notas, evolução por ano) do que a categorias
+     soltas sem ordem natural. Donut/pizza é proibido pela Governança nesta seção. */
+  buildCategoryBarChart('c-genero',   'c-genero-table',   gaCount,  'Quantidade de livros por gênero do autor',       'Gênero');
+  buildCategoryBarChart('c-cor',      'c-cor-table',      corCount, 'Quantidade de livros por cor/raça do autor',     'Cor/raça');
+  buildCategoryBarChart('c-faixa',    'c-faixa-table',    fxCount,  'Quantidade de livros por faixa etária',          'Faixa etária');
+  buildCategoryBarChart('c-formato',  'c-formato-table',  fmCount,  'Quantidade de livros por formato de leitura',    'Formato');
 
   const notasLabels=['1','1,5','2','2,5','3','3,5','4','4,5','5'];
   const notasValores=[1,1.5,2,2.5,3,3.5,4,4.5,5];
@@ -1113,6 +1187,28 @@ function buildPerfil(allLPM){
   buildRank('rank-regioes', rc, 999);
   buildRank('rank-generos', countField(allLPM,['Gênero','Genero','gênero literário']), 999);
 
+  /* ── Modelo 1b: mini-gráficos de barras horizontais (Quem escreve / Cor-raça / Faixa etária / Formato) ──
+     Pedido Louise 2026-07-19: poucos valores distintos por campo, então cabem em barras horizontais
+     compactas lado a lado, no mesmo padrão visual já usado no gráfico "Origem do livro". */
+  function buildMiniBarChart(canvasId, tableId, captionLabel, pairs){
+    const el = document.getElementById(canvasId);
+    if(!el || !pairs.length) return;
+    const opts={maintainAspectRatio:false,indexAxis:'y',
+      plugins:{legend:{display:false},datalabels:{display:true,anchor:'end',align:'end',color:DARK,font:{family:'DM Sans',size:9,weight:'500'},formatter:v=>v>0?v:'',clip:false,clamp:false,offset:4}},
+      scales:{x:{grid:{color:'#eee'},ticks:{display:false},beginAtZero:true},y:{grid:{display:false},ticks:{font:{family:'DM Sans',size:9},color:MUTED}}}};
+    new Chart(el,{type:'bar',data:{labels:pairs.map(e=>e[0]),datasets:[{data:pairs.map(e=>e[1]),backgroundColor:GREEN,borderRadius:3}]},options:opts});
+    const tableEl=document.getElementById(tableId);
+    if(tableEl){
+      tableEl.innerHTML='<table><caption>'+captionLabel+'</caption><thead><tr><th scope="col">Categoria</th><th scope="col">Livros</th></tr></thead><tbody>'+
+        pairs.map(e=>'<tr><td>'+e[0]+'</td><td>'+e[1]+'</td></tr>').join('')+
+        '</tbody></table>';
+    }
+  }
+  buildMiniBarChart('c-genero-mini','c-genero-mini-table','Gênero dos autores lidos', topNWithPreference(gaCount,8,'Feminino'));
+  buildMiniBarChart('c-cor-mini','c-cor-mini-table','Cor/raça dos autores lidos', topN(corCount,8));
+  buildMiniBarChart('c-faixa-mini','c-faixa-mini-table','Faixa etária dos livros lidos', topN(fxCount,8));
+  buildMiniBarChart('c-formato-mini','c-formato-mini-table','Formato dos livros lidos', topN(fmCount,8));
+
   /* ── Modelo 4: notas — padronizado no formato de linha/área (Governança, decisão 2026-07-04) ── */
   const notasEl = document.getElementById('c-notas');
   if(notasEl){
@@ -1159,20 +1255,27 @@ function buildMap(){
   });
 }
 
-function buildEvolucao(r24,r25,r26){
+/* Evolução do desafio — agora agrupa dinamicamente pela coluna "Ano" da aba DESAFIO
+   (gid=524970956), em vez de receber 3 arrays fixos (2024/2025/2026). Isso significa que,
+   na próxima virada de ano, basta a Louise continuar preenchendo a planilha com o novo
+   ano na coluna "Ano" — não é mais necessário editar este código a cada ano novo.
+   Decisão Governança 2026-07-19. */
+function buildEvolucao(rowsByYear){
   const TOTAL=209;
-  const n24=r24.length, n25=r25.length, n26=r26.length;
-  const acum24=n24, acum25=n24+n25, acum26=n24+n25+n26, total=acum26;
+  const anos = Object.keys(rowsByYear).map(a=>parseInt(a,10)).filter(a=>!isNaN(a)).sort((a,b)=>a-b);
+  const porAno = anos.map(a=>rowsByYear[a].length);
+  let acum=0;
+  const acumPorAno = porAno.map(n=>acum+=n);
+  const total = acum;
 
-  /* Cards */
+  /* Cards: um por ano + card "Faltam" */
   const cardEl=document.getElementById('evolucao-cards');
   if(cardEl){
-    cardEl.innerHTML=[
-      {ano:'2024',num:n24,sub:acum24+' acumulado'},
-      {ano:'2025',num:n25,sub:acum25+' acumulado'},
-      {ano:'2026',num:n26,sub:acum26+' acumulado',dest:true},
-      {ano:'Faltam',num:TOTAL-total,sub:'de '+TOTAL+' países'},
-    ].map(c=>`<div class="evolucao-card${c.dest?' destaque':''}"><div class="ev-ano">${c.ano}</div><div class="ev-num">${c.num}</div><div class="ev-sub">${c.sub}</div></div>`).join('');
+    const cardsData = anos.map((ano,i)=>({
+      ano:String(ano), num:porAno[i], sub:acumPorAno[i]+' acumulado', dest: i===anos.length-1
+    }));
+    cardsData.push({ano:'Faltam', num:TOTAL-total, sub:'de '+TOTAL+' países'});
+    cardEl.innerHTML = cardsData.map(c=>`<div class="evolucao-card${c.dest?' destaque':''}"><div class="ev-ano">${c.ano}</div><div class="ev-num">${c.num}</div><div class="ev-sub">${c.sub}</div></div>`).join('');
   }
 
   /* Barra progresso */
@@ -1183,19 +1286,26 @@ function buildEvolucao(r24,r25,r26){
     setTimeout(()=>{ const el=document.getElementById('pfl'); if(el) el.style.width=pct+'%'; },400);
   }
 
+  if(!anos.length) return;
+
+  /* Ritmo anualizado: se o último ano da série é o ano corrente, projeta com base
+     nos meses já decorridos; anos fechados usam o total real. */
+  const mes=new Date().getMonth()+1;
+  const anoAtual = new Date().getFullYear();
+  const ritmoPorAno = porAno.map((n,i)=> (anos[i]===anoAtual && n>0) ? Math.round(n/mes*12) : n);
+  const media = ritmoPorAno.length ? (Math.round(ritmoPorAno.reduce((a,b)=>a+b,0)/ritmoPorAno.length) || 1) : 1;
+
   /* Linha acumulada */
   const linhaEl=document.getElementById('c-evolucao-linha');
   if(linhaEl){
-    const mes=new Date().getMonth()+1;
-    const ritmo26=n26>0?Math.round(n26/mes*12):0;
-    const media=n24>0&&n25>0?Math.round((n24+n25+ritmo26)/3):Math.max(n24,n25,ritmo26)||1;
-    const labR=['2024','2025','2026'], dadR=[acum24,acum25,acum26];
-    const ap=[]; let ac=total; let ay=2027;
-    while(ac<TOTAL&&ay<=2040){ ap.push(ay); ac=Math.min(ac+Math.round(media),TOTAL); ay++; }
-    const lp=ap, dp=lp.map((_,i)=>Math.min(total+Math.round(media*(i+1)),TOTAL));
+    const labR=anos.map(String), dadR=acumPorAno;
+    const ultimoAno=anos[anos.length-1];
+    const ap=[]; let ac=total; let ay=ultimoAno+1;
+    while(ac<TOTAL&&ay<=2040){ ap.push(ay); ac=Math.min(ac+media,TOTAL); ay++; }
+    const lp=ap, dp=lp.map((_,i)=>Math.min(total+media*(i+1),TOTAL));
     const allL=[...labR,...lp.map(String)];
     const allR=[...dadR,...Array(lp.length).fill(null)];
-    const allP=[...Array(labR.length-1).fill(null),acum26,...dp];
+    const allP=[...Array(labR.length-1).fill(null),acumPorAno[acumPorAno.length-1],...dp];
     new Chart(linhaEl,{type:'line',data:{labels:allL,datasets:[
       {label:'Real',data:allR,borderColor:GREEN,backgroundColor:GREEN+'22',borderWidth:2.5,pointRadius:4,pointBackgroundColor:GREEN,fill:true,tension:.3,spanGaps:false},
       {label:'Projeção',data:allP,borderColor:'#ccc',backgroundColor:'transparent',borderWidth:1.5,borderDash:[5,4],pointRadius:2,pointBackgroundColor:'#ccc',fill:false,tension:.3,spanGaps:false}
@@ -1211,15 +1321,18 @@ function buildEvolucao(r24,r25,r26){
     /* Projeção textual */
     const projEl=document.getElementById('projecao-body');
     if(projEl){
+      const anosFechados = ritmoPorAno.slice(0,-1);
+      const mediaFechados = anosFechados.length ? (anosFechados.reduce((a,b)=>a+b,0)/anosFechados.length) : ritmoPorAno[ritmoPorAno.length-1];
+      const ritmoUltimo = ritmoPorAno[ritmoPorAno.length-1];
       const ar=media>0?Math.ceil((TOTAL-total)/media):'—';
-      const ac2=media>0?2026+ar:'—';
+      const ac2=media>0?ultimoAno+ar:'—';
       projEl.innerHTML=`
-        <div class="proj-linha"><span class="proj-label">Ritmo médio (2024–2025)</span><span class="proj-val">${((n24+n25)/2).toFixed(1)}/ano</span></div>
-        <div class="proj-linha"><span class="proj-label">Ritmo 2026 (anualizado)</span><span class="proj-val">~${ritmo26}/ano</span></div>
+        <div class="proj-linha"><span class="proj-label">Ritmo médio (anos fechados)</span><span class="proj-val">${mediaFechados.toFixed(1)}/ano</span></div>
+        <div class="proj-linha"><span class="proj-label">Ritmo ${ultimoAno} (anualizado)</span><span class="proj-val">~${ritmoUltimo}/ano</span></div>
         <div class="proj-linha"><span class="proj-label">Total lido até hoje</span><span class="proj-val">${total} de ${TOTAL}</span></div>
         <div class="proj-linha"><span class="proj-label">Ainda faltam</span><span class="proj-val">${TOTAL-total} países</span></div>
         <div class="proj-linha" style="margin-top:6px;padding-top:8px;border-top:2px solid var(--green)"><span class="proj-label">Conclusão estimada</span><span class="proj-dest">${ac2}</span></div>
-        <p style="font-size:.72rem;color:var(--muted);margin-top:.8rem;line-height:1.5">Baseado no ritmo de ~${media} países/ano. 2026 estimado com base nos ${mes} meses decorridos.</p>`;
+        <p style="font-size:.72rem;color:var(--muted);margin-top:.8rem;line-height:1.5">Baseado no ritmo de ~${media} países/ano. ${ultimoAno} estimado com base nos ${mes} meses decorridos.</p>`;
     }
   }
 }
