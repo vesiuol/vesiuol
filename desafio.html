@@ -222,7 +222,11 @@ nav ul li a.active {
 .fpill.active { background: var(--green); border-color: var(--green); color: var(--white); font-weight: 500; }
 
 /* ── MAIN ── */
-.main { padding: 2.8rem 3rem 3rem; }
+/* padding-bottom aumentado (2026-07-19, pedido Louise): a sidebar é sticky e "acompanha" o
+   scroll da página (decisão anterior, sem scroll interno próprio) — mas com pouca folga entre
+   o fim do conteúdo do .main e o rodapé, o último filtro da sidebar só aparecia bem no final da
+   página. Essa folga extra dá espaço pra sidebar "alcançar" o final um pouco antes do rodapé. */
+.main { padding: 2.8rem 3rem 8rem; }
 
 /* Intro editorial */
 .intro-headline {
@@ -793,30 +797,6 @@ footer {
         </div>
       </div>
 
-      <!-- Modelo 1b: linha de 4 mini-gráficos de barras horizontais — Quem escreve / Cor-raça / Faixa etária / Formato -->
-      <div class="perfil-mini-charts">
-        <div class="wcard">
-          <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Quem escreve</span></div>
-          <div class="chart-body"><canvas id="c-genero-mini" role="img" aria-label="Gráfico de barras horizontais mostrando a quantidade de livros lidos por gênero do/a autor/a."></canvas></div>
-          <div class="sr-only" id="c-genero-mini-table"></div>
-        </div>
-        <div class="wcard">
-          <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Cor / raça</span></div>
-          <div class="chart-body"><canvas id="c-cor-mini" role="img" aria-label="Gráfico de barras horizontais mostrando a quantidade de livros lidos por cor/raça do/a autor/a."></canvas></div>
-          <div class="sr-only" id="c-cor-mini-table"></div>
-        </div>
-        <div class="wcard">
-          <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Faixa etária</span></div>
-          <div class="chart-body"><canvas id="c-faixa-mini" role="img" aria-label="Gráfico de barras horizontais mostrando a quantidade de livros lidos por faixa etária."></canvas></div>
-          <div class="sr-only" id="c-faixa-mini-table"></div>
-        </div>
-        <div class="wcard">
-          <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Formato</span></div>
-          <div class="chart-body"><canvas id="c-formato-mini" role="img" aria-label="Gráfico de barras horizontais mostrando a quantidade de livros lidos por formato."></canvas></div>
-          <div class="sr-only" id="c-formato-mini-table"></div>
-        </div>
-      </div>
-
       <!-- Modelo 2: cards com número grande + barra (diversidade) -->
       <div class="div-cards">
         <div class="div-card">
@@ -852,6 +832,32 @@ footer {
           <div style="padding:1rem 1.2rem;overflow-y:auto;height:280px" tabindex="0" aria-label="Lista rolável de gêneros literários">
             <div class="rank-list" id="rank-generos"></div>
           </div>
+        </div>
+      </div>
+
+      <!-- Modelo 3b: linha de 4 mini-gráficos de barras horizontais — Quem escreve / Cor-raça / Faixa etária / Formato
+           (posicionados aqui, logo antes de Notas/Origem, a pedido da Louise 2026-07-19: junto dos outros gráficos,
+           não ao lado do grid de texto — evita repetir os mesmos rótulos duas vezes seguidas na página) -->
+      <div class="perfil-mini-charts">
+        <div class="wcard">
+          <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Quem escreve</span></div>
+          <div class="chart-body"><canvas id="c-genero-mini" role="img" aria-label="Gráfico de barras horizontais mostrando a quantidade de livros lidos por gênero do/a autor/a."></canvas></div>
+          <div class="sr-only" id="c-genero-mini-table"></div>
+        </div>
+        <div class="wcard">
+          <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Cor / raça</span></div>
+          <div class="chart-body"><canvas id="c-cor-mini" role="img" aria-label="Gráfico de barras horizontais mostrando a quantidade de livros lidos por cor/raça do/a autor/a."></canvas></div>
+          <div class="sr-only" id="c-cor-mini-table"></div>
+        </div>
+        <div class="wcard">
+          <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Faixa etária</span></div>
+          <div class="chart-body"><canvas id="c-faixa-mini" role="img" aria-label="Gráfico de barras horizontais mostrando a quantidade de livros lidos por faixa etária."></canvas></div>
+          <div class="sr-only" id="c-faixa-mini-table"></div>
+        </div>
+        <div class="wcard">
+          <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Formato</span></div>
+          <div class="chart-body"><canvas id="c-formato-mini" role="img" aria-label="Gráfico de barras horizontais mostrando a quantidade de livros lidos por formato."></canvas></div>
+          <div class="sr-only" id="c-formato-mini-table"></div>
         </div>
       </div>
 
@@ -970,8 +976,20 @@ Chart.register(ChartDataLabels);
    Decisão Governança 2026-07-19: substitui o antigo fetch triplo (CSV_2024 + CSV_2025 + CSV_DESAFIO,
    filtrado por "Por que li? = Desafio LPM"). Esta aba já vem pré-filtrada com todos os livros do
    Desafio de todos os anos, e tem uma coluna própria "Ano" para identificar o ano de leitura —
-   não é mais preciso criar/ler uma aba nova a cada virada de ano. */
+   não é mais preciso criar/ler uma aba nova a cada virada de ano.
+
+   IMPORTANTE (2026-07-19): a busca não é mais feita direto no Google pelo navegador — isso podia
+   falhar silenciosamente (CORS/robots/instabilidade) e deixar a página inteira presa em "carregando…".
+   Agora segue o MESMO padrão já usado e comprovado em 2026.html: um GitHub Action
+   (.github/workflows/update-desafio-livros.yml) baixa a planilha nos servidores do GitHub e salva
+   como data/desafio-livros.csv, mesma origem do site (sem CORS, sem risco de bloqueio de rede/antivírus).
+   A página lê esse arquivo local primeiro; só cai para os proxies antigos se ele ainda não existir. */
 const CSV_DESAFIO_ALL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub?gid=524970956&single=true&output=csv';
+const LOCAL_CSV_DESAFIO = 'data/desafio-livros.csv';
+const PROXIES = [
+  url => 'https://corsproxy.io/?url=' + encodeURIComponent(url),
+  url => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url),
+];
 
 const GREEN       = '#849974';
 const GREEN_DARK  = '#6b7e5e';
@@ -1009,10 +1027,51 @@ const COORDS = {
 };
 
 function norm(s){ return (s||'').trim().toLowerCase(); }
-function fetchCSV(url){
-  return new Promise((res,rej)=>{
-    Papa.parse(url,{download:true,header:true,skipEmptyLines:true,complete:r=>res(r.data),error:rej});
-  });
+function parseCSVText(t){
+  const clean = t.replace(/^\uFEFF/,'');
+  const parsed = Papa.parse(clean, {header:true, skipEmptyLines:'greedy'});
+  const headers = parsed.meta && parsed.meta.fields ? parsed.meta.fields : [];
+  if(!headers.includes('Título')) return null;
+  return parsed.data;
+}
+async function fetchCSV(targetUrl){
+  /* 1) Arquivo local primeiro (mesma origem do site, sem CORS, sem proxy, gerado pelo
+        GitHub Action .github/workflows/update-desafio-livros.yml). */
+  try{
+    const localUrl = new URL(LOCAL_CSV_DESAFIO, window.location.href).href + '?v=' + Date.now();
+    const r = await fetch(localUrl, {cache:'no-store'});
+    if(r.ok){
+      const t = await r.text();
+      const data = parseCSVText(t);
+      if(data && data.length){
+        console.log('Dados do Desafio carregados do arquivo local '+LOCAL_CSV_DESAFIO);
+        return data;
+      }
+      console.warn(LOCAL_CSV_DESAFIO+' encontrado mas não pareceu um CSV válido — tentando proxies.');
+    }else{
+      console.warn(LOCAL_CSV_DESAFIO+' não encontrado (HTTP '+r.status+') — tentando proxies.');
+    }
+  }catch(e){
+    console.warn('Falha ao ler '+LOCAL_CSV_DESAFIO+' localmente — tentando proxies.', e);
+  }
+
+  /* 2) Só se o arquivo local falhar/ainda não existir, cai para os proxies antigos —
+        nunca tenta Papa.parse direto no Google no navegador (podia travar sem erro). */
+  for(const buildProxyUrl of PROXIES){
+    const proxied = buildProxyUrl(targetUrl);
+    try{
+      const r = await fetch(proxied);
+      if(!r.ok) throw new Error('HTTP '+r.status+' via '+proxied);
+      const t = await r.text();
+      const data = parseCSVText(t);
+      if(!data){ console.warn('CSV inesperado via', proxied, '— tentando próximo.'); continue; }
+      return data;
+    }catch(e){
+      console.error('fetchCSV falhou via', proxied, e);
+    }
+  }
+  console.error('Não foi possível carregar os dados do Desafio (local e proxies falharam).');
+  return [];
 }
 function topN(obj,n){ return Object.entries(obj).sort((a,b)=>b[1]-a[1]).slice(0,n); }
 /* Igual a topN(obj,n), mas em caso de EMPATE de valor entre duas categorias, a que for
