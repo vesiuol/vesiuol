@@ -1,0 +1,40 @@
+name: Atualizar dados do Desafio LPM (planilha)
+
+on:
+  schedule:
+    - cron: '30 * * * *'   # roda todo início de hora, 30min depois do de 2026.html
+  workflow_dispatch:       # permite rodar manualmente pela aba Actions
+  push:
+    branches: [main]        # roda também sempre que você commitar algo
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Baixar o repositório
+        uses: actions/checkout@v4
+
+      - name: Buscar a aba DESAFIO como CSV
+        run: |
+          mkdir -p data
+          curl -sL \
+            "https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub?gid=524970956&single=true&output=csv" \
+            -o data/desafio-livros.csv
+
+      - name: Verificar se o arquivo baixado é um CSV válido
+        run: |
+          head -c 200 data/desafio-livros.csv
+          if ! head -n1 data/desafio-livros.csv | grep -q "Título"; then
+            echo "O arquivo baixado não parece um CSV válido (sem coluna Título). Abortando commit."
+            exit 1
+          fi
+
+      - name: Commitar o arquivo se algo mudou
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/desafio-livros.csv
+          git diff --staged --quiet || git commit -m "Atualiza dados do Desafio LPM (planilha) [automático]"
+          git push
