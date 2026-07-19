@@ -608,8 +608,8 @@ footer {
           <div class="kpi-lbl">páginas lidas</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-num" id="s-cinco">—</div>
-          <div class="kpi-lbl">avaliações 5★</div>
+          <div class="kpi-num" id="s-horas">—</div>
+          <div class="kpi-lbl">Horas ouvidas</div>
         </div>
       </div>
     </div>
@@ -1086,13 +1086,40 @@ function scrollTo(id){
   if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
 }
 
+/* Formatação de duração — mesmo padrão do index.html (Governança: célula de horas vem
+   da planilha no formato H:MM:SS, ex: "13:34:00"; nunca usar parseInt/parseFloat direto
+   nela, isso concatena os dígitos e gera lixo). Mostrar sempre como H:MM. */
+function parseDuracaoParaMinutos(v){
+  const s = String(v||'').trim();
+  if (!s) return 0;
+  if (s.includes(':')){
+    const [h=0, m=0] = s.split(':').map(p => parseInt(p,10) || 0);
+    return h*60 + m;
+  }
+  return Math.round((parseFloat(s.replace(',','.')) || 0) * 60);
+}
+function formatMinutosParaHoraMin(totalMin){
+  const h = Math.floor(totalMin/60), m = totalMin % 60;
+  return h + ':' + String(m).padStart(2,'0');
+}
+
 let allLPM = [];
 let rowsByYear = {};
 
 async function init(){
+  let horasTotal = '';
   try{
     const rows = await fetchCSV(CSV_DESAFIO_ALL);
-    allLPM = rows.filter(r=>findField(r,['Título','Titulo']));
+    /* A aba DESAFIO tem uma linha de resumo/totais no final (ex: linha 31 da planilha —
+       sem "Ano" preenchido, com valores agregados tipo "(gráfico)"/"(resumo)" nas colunas
+       de categoria e o total de horas ouvidas na coluna Horas). Ela NÃO é uma leitura real,
+       então precisa ficar de fora de allLPM (senão vira uma categoria falsa "(gráfico)" nos
+       gráficos de gênero/cor/faixa/formato). Filtrar por Ano presente, além de Título, resolve
+       isso com segurança. A coluna Horas dessa mesma linha é usada só para o KPI "Horas ouvidas"
+       da sidebar (pedido Louise 2026-07-19).*/
+    const resumoRow = rows.find(r => !findField(r,['Ano']) && findField(r,['Horas']));
+    horasTotal = resumoRow ? findField(resumoRow,['Horas']) : '';
+    allLPM = rows.filter(r=>findField(r,['Título','Titulo']) && findField(r,['Ano']));
     rowsByYear = {};
     allLPM.forEach(r=>{
       const ano = findField(r,['Ano']);
@@ -1102,18 +1129,19 @@ async function init(){
   } catch(e){ console.warn('CSV error',e); }
 
   /* KPIs sidebar — "países lidos", "% lidos" e "países com livros" vêm do Notion (autoridade por país).
-     Páginas lidas e 5★ vêm do Excel (só o Excel tem esse detalhe por livro). */
+     Páginas lidas vêm do Excel (só o Excel tem esse detalhe por livro). Horas ouvidas vem da
+     linha de resumo da aba DESAFIO (substituiu "avaliações 5★", pedido Louise 2026-07-19). */
   const notionLidos    = NOTION_DATA.filter(n=>n.status_notion==='Concluído').length;
   const notionMapeados = NOTION_DATA.filter(n=>n.livro&&n.livro.trim()).length;
   const totalPaginas   = allLPM.reduce((s,r)=>{ const p=parseInt(findField(r,['Páginas','Paginas'])||'0'); return s+(isNaN(p)?0:p); },0);
-  const cincoEst       = allLPM.filter(r=>(findField(r,['NOTA','Nota','nota'])||'').trim()==='5').length;
+  const horasFmt        = horasTotal ? formatMinutosParaHoraMin(parseDuracaoParaMinutos(horasTotal)) : '0';
   const pct            = Math.round(notionLidos/209*100);
 
   document.getElementById('s-paises').textContent   = notionLidos||'0';
   document.getElementById('s-mapeados').textContent  = notionMapeados||'0';
   document.getElementById('s-pct').textContent       = pct+'%';
   document.getElementById('s-novos').textContent     = totalPaginas>0 ? totalPaginas.toLocaleString('pt-BR') : '0';
-  document.getElementById('s-cinco').textContent     = cincoEst||'0';
+  document.getElementById('s-horas').textContent     = horasFmt;
 
   /* Progresso */
   const mPct = Math.round(notionMapeados/209*100);
