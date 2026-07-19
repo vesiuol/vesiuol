@@ -215,18 +215,6 @@ nav ul li a.active {
   font-size: .6rem; color: var(--white);
 }
 
-/* Filtro lateral */
-.filter-pills { display: flex; flex-wrap: wrap; gap: .3rem; }
-.fpill {
-  font-size: .72rem; padding: .3rem .75rem;
-  border-radius: 100px; border: 1.5px solid var(--border);
-  background: transparent; color: var(--muted);
-  cursor: pointer; transition: all .2s;
-  font-family: 'DM Sans', sans-serif;
-}
-.fpill:hover:not(.active) { background: var(--green); border-color: var(--green); color: var(--white); }
-.fpill.active { background: var(--green); border-color: var(--green); color: var(--white); font-weight: 500; }
-
 /* ── MAIN ── */
 /* padding-bottom aumentado (2026-07-19, pedido Louise): a sidebar é sticky e "acompanha" o
    scroll da página (decisão anterior, sem scroll interno próprio) — mas com pouca folga entre
@@ -649,17 +637,6 @@ footer {
       </div>
     </div>
 
-    <!-- Filtro rápido para lista -->
-    <div>
-      <div class="sb-label">Filtrar lista</div>
-      <div class="filter-pills">
-        <button class="fpill active" data-f="todos"   onclick="setSidebarFilter('todos',this)">Todos</button>
-        <button class="fpill"        data-f="lido"    onclick="setSidebarFilter('lido',this)">Lidos</button>
-        <button class="fpill"        data-f="mapeado" onclick="setSidebarFilter('mapeado',this)">Mapeados</button>
-        <button class="fpill"        data-f="nao"     onclick="setSidebarFilter('nao',this)">Sem livro</button>
-      </div>
-    </div>
-
   </aside>
 
   <!-- MAIN -->
@@ -885,8 +862,8 @@ footer {
         </div>
         <div class="desafio-charts">
           <div class="wcard">
-            <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Países conquistados · 2024→2026</span></div>
-            <div class="chart-body tall"><div class="chart-canvas-wrap"><canvas id="c-evolucao-linha" role="img" aria-label="Gráfico de linha mostrando a evolução de países conquistados no desafio de 2024 a 2026."></canvas></div></div>
+            <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle" id="c-evolucao-titulo">Países conquistados</span></div>
+            <div class="chart-body tall"><div class="chart-canvas-wrap"><canvas id="c-evolucao-linha" role="img" aria-label="Gráfico de linha mostrando a evolução de países conquistados no desafio."></canvas></div></div>
             <div class="sr-only" id="c-evolucao-linha-table"></div>
           </div>
           <div class="wcard">
@@ -1350,6 +1327,17 @@ function buildEvolucao(rowsByYear){
 
   if(!anos.length) return;
 
+  /* Título e aria-label do gráfico eram fixos "2024→2026" — hardcoded, ficou desatualizado
+     assim que a aba DESAFIO passou a trazer os anos dinamicamente (2026-07-19). Agora usa o
+     intervalo real (primeiro→último ano com leituras), então continua correto sozinho a cada
+     virada de ano. */
+  const primeiroAno = anos[0], ultimoAnoTitulo = anos[anos.length-1];
+  const rangeTxt = primeiroAno===ultimoAnoTitulo ? String(primeiroAno) : primeiroAno+'→'+ultimoAnoTitulo;
+  const tituloEl = document.getElementById('c-evolucao-titulo');
+  if(tituloEl) tituloEl.textContent = 'Países conquistados · '+rangeTxt;
+  const canvasEvol = document.getElementById('c-evolucao-linha');
+  if(canvasEvol) canvasEvol.setAttribute('aria-label','Gráfico de linha mostrando a evolução de países conquistados no desafio de '+rangeTxt+'.');
+
   /* Ritmo anualizado: se o último ano da série é o ano corrente, projeta com base
      nos meses já decorridos; anos fechados usam o total real. */
   const mes=new Date().getMonth()+1;
@@ -1362,8 +1350,15 @@ function buildEvolucao(rowsByYear){
   if(linhaEl){
     const labR=anos.map(String), dadR=acumPorAno;
     const ultimoAno=anos[anos.length-1];
-    const ap=[]; let ac=total; let ay=ultimoAno+1;
-    while(ac<TOTAL&&ay<=2040){ ap.push(ay); ac=Math.min(ac+media,TOTAL); ay++; }
+    /* ar/ac2 calculados aqui (antes só existiam lá embaixo, no texto de projeção) e usados
+       para gerar os pontos futuros do gráfico — antes o gráfico tinha um teto fixo em "ay<=2040"
+       enquanto o texto calculava o ano de conclusão sem esse teto. Com ritmo baixo isso fazia o
+       gráfico "acabar" em 2040 sem nunca chegar em 209, enquanto o texto dizia "conclusão em 2042"
+       (ou outro ano depois de 2040) — dois números finais diferentes na mesma seção.
+       Correção (Louise 2026-07-19): usar o MESMO ar para os dois, com um teto generoso só
+       como proteção contra loop infinito (ex: ritmo virar 0). */
+    const ar = media>0 ? Math.ceil((TOTAL-total)/media) : 0;
+    const ap=[]; for(let i=1;i<=ar && ultimoAno+i<=2100;i++) ap.push(ultimoAno+i);
     const lp=ap, dp=lp.map((_,i)=>Math.min(total+media*(i+1),TOTAL));
     const allL=[...labR,...lp.map(String)];
     const allR=[...dadR,...Array(lp.length).fill(null)];
@@ -1380,13 +1375,13 @@ function buildEvolucao(rowsByYear){
         '</tbody></table>';
     }
 
-    /* Projeção textual */
+    /* Projeção textual — usa o MESMO ar calculado acima, garantindo que "Conclusão estimada"
+       bata com o último ponto do gráfico. */
     const projEl=document.getElementById('projecao-body');
     if(projEl){
       const anosFechados = ritmoPorAno.slice(0,-1);
       const mediaFechados = anosFechados.length ? (anosFechados.reduce((a,b)=>a+b,0)/anosFechados.length) : ritmoPorAno[ritmoPorAno.length-1];
       const ritmoUltimo = ritmoPorAno[ritmoPorAno.length-1];
-      const ar=media>0?Math.ceil((TOTAL-total)/media):'—';
       const ac2=media>0?ultimoAno+ar:'—';
       projEl.innerHTML=`
         <div class="proj-linha"><span class="proj-label">Ritmo médio (anos fechados)</span><span class="proj-val">${mediaFechados.toFixed(1)}/ano</span></div>
@@ -1418,16 +1413,7 @@ function setPillFilter(f,btn){
   pillFilter=f;
   document.querySelectorAll('.filter-pill').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-  document.querySelectorAll('.fpill').forEach(b=>{ if(b.dataset.f===f) b.classList.add('active'); else b.classList.remove('active'); });
   notionPage=1; renderNotion();
-}
-function setSidebarFilter(f,btn){
-  pillFilter=f;
-  document.querySelectorAll('.fpill').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.filter-pill').forEach(b=>{ if(b.dataset.f===f) b.classList.add('active'); else b.classList.remove('active'); });
-  notionPage=1; renderNotion();
-  document.getElementById('lista').scrollIntoView({behavior:'smooth'});
 }
 function sortNotion(key){
   if(notionSortKey===key) notionSortDir*=-1; else{notionSortKey=key;notionSortDir=1;}
