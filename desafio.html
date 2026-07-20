@@ -136,14 +136,16 @@ nav ul li a.active {
   border-right: none;
   position: sticky;
   top: var(--header-h);
-  /* max-height + overflow-y (2026-07-19, pedido Louise): o truque anterior de "top+bottom sticky"
-     mantinha a sidebar presa numa posição fixa da tela enquanto a página rolava — se a sidebar
-     fosse mais alta que a área visível abaixo do header, a parte de baixo (pills "Ir para a seção")
-     ficava fora da tela e só aparecia quando a página chegava quase no fim (aí sim ela "desgrudava").
-     Com max-height limitando à altura da tela e overflow-y:auto, a sidebar fica sempre visível por
-     inteiro (ou ganha um scroll interno bem discreto — mesma cor fina já definida em scrollbar-width/
-     scrollbar-color logo abaixo — só na rara janela baixa demais para caber tudo de uma vez). */
-  max-height: calc(100vh - var(--header-h));
+  /* Sticky com top E bottom (2026-07-19, pedido Louise): os dois limites fazem a sidebar
+     acompanhar o scroll da página inteira, mas sem nunca ultrapassar o fim do conteúdo — ela
+     "desgruda" do topo perto do fim da página, então nunca fica sobreposta ao rodapé.
+     max-height + overflow-y: se a sidebar for mais alta que o espaço disponível entre o header
+     e o offset de baixo (janelas mais baixas), em vez de cortar o conteúdo ela ganha um scroll
+     interno bem discreto (mesma cor fina definida em scrollbar-width/scrollbar-color abaixo) —
+     dá pra rolar só a sidebar (com o mouse em cima dela) e ela continua acompanhando o scroll
+     da página normalmente quando o cursor está fora dela. */
+  bottom: 1.5rem;
+  max-height: calc(100vh - var(--header-h) - 1.5rem);
   overflow-y: auto;
   padding: 2rem 1.4rem;
   display: flex; flex-direction: column; gap: 1.6rem;
@@ -219,9 +221,10 @@ nav ul li a.active {
 }
 
 /* ── MAIN ── */
-/* padding-bottom normal — o padding extra (8rem) que existia aqui era só para compensar
-   o truque antigo de sticky top+bottom da sidebar (ver .sidebar acima); sem ele, deixava um
-   vão vazio grande antes do rodapé. Removido junto com a troca pra max-height/overflow-y. */
+/* padding-bottom aumentado (2026-07-19, pedido Louise): a sidebar é sticky e "acompanha" o
+   scroll da página (decisão anterior, sem scroll interno próprio) — mas com pouca folga entre
+   o fim do conteúdo do .main e o rodapé, o último filtro da sidebar só aparecia bem no final da
+   página. Essa folga extra dá espaço pra sidebar "alcançar" o final um pouco antes do rodapé. */
 .main { padding: 2.8rem 3rem 3rem; }
 
 /* Intro editorial */
