@@ -12,484 +12,236 @@
   
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Desafio — Biblioteca Vesiuol</title>
-<meta name="description" content="Desafio Livros pelo Mundo é o projeto de Louise Victoria de ler um livro de cada um dos 209 países mapeados, celebrando diversidade e pluralidade literária.">
-<link rel="canonical" href="https://vesiuol.github.io/vesiuol/desafio">
-<meta property="og:type" content="website">
+<title>Sobre — Biblioteca Vesiuol</title>
+<meta name="description" content="Louise Victoria é jornalista e leitora que transforma seus dados de leitura em um acervo literário pessoal, reunindo estatísticas de livros desde 2020.">
+<link rel="canonical" href="https://vesiuol.github.io/vesiuol/sobre">
+<meta property="og:type" content="profile">
 <meta property="og:locale" content="pt_BR">
 <meta property="og:site_name" content="Biblioteca Vesiuol">
-<meta property="og:title" content="Desafio — Biblioteca Vesiuol">
-<meta property="og:description" content="Desafio Livros pelo Mundo é o projeto de Louise Victoria de ler um livro de cada um dos 209 países mapeados, celebrando diversidade e pluralidade literária.">
-<meta property="og:url" content="https://vesiuol.github.io/vesiuol/desafio">
+<meta property="og:title" content="Sobre — Biblioteca Vesiuol">
+<meta property="og:description" content="Louise Victoria é jornalista e leitora que transforma seus dados de leitura em um acervo literário pessoal, reunindo estatísticas de livros desde 2020.">
+<meta property="og:url" content="https://vesiuol.github.io/vesiuol/sobre">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Desafio — Biblioteca Vesiuol">
-<meta name="twitter:description" content="Desafio Livros pelo Mundo é o projeto de Louise Victoria de ler um livro de cada um dos 209 países mapeados, celebrando diversidade e pluralidade literária.">
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "CreativeWorkSeries",
-  "name": "Desafio Livros pelo Mundo",
-  "description": "Projeto pessoal de leitura de Louise Victoria: ler ao menos um livro de cada país do mundo, com 209 países mapeados em uma jornada por diversidade e representatividade literária.",
-  "creator": {
-    "@type": "Person",
-    "name": "Louise Victoria",
-    "url": "https://vesiuol.github.io/vesiuol/",
-    "sameAs": [
-      "https://www.linkedin.com/in/louise-victoria/",
-      "https://www.instagram.com/vesiuol/",
-      "https://medium.com/@vesiuol",
-      "https://github.com/vesiuol"
-    ]
-  },
-  "url": "https://vesiuol.github.io/vesiuol/desafio.html",
-  "isPartOf": {
-    "@type": "WebSite",
-    "name": "Biblioteca Vesiuol",
-    "url": "https://vesiuol.github.io/vesiuol/"
-  },
-  "numberOfItems": 209
-}
-</script>
+<meta name="twitter:title" content="Sobre — Biblioteca Vesiuol">
+<meta name="twitter:description" content="Louise Victoria é jornalista e leitora que transforma seus dados de leitura em um acervo literário pessoal, reunindo estatísticas de livros desde 2020.">
+<!-- og:image / twitter:image ainda não adicionados: o repositório não tem nenhuma imagem própria (ideal: 1200x630px). Assim que existir uma, basta acrescentar as duas tags. -->
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='38' fill='%23849974'/></svg>">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-<style>
-/* ── TOKENS (governança) ── */
-:root {
-  --white:        #ffffff;
-  --black:        #000000;
-  --green:        #849974;
-  --green-dark:   #6b7e5e;
-  --green-light:  #c8d4b8;
-  --border:       #c8c8c8;
-  --border-soft:  #e0e0e0;
-  --border-interactive: #8f8f8f;
-  --text:         #1a1a1a;
-  --muted:        #555;
-  --bg:           #ffffff;
-  --surface:      #f9f8f5;
-  --sidebar-w:    272px;
-  --header-h:     52px;
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Louise Victoria",
+  "description": "Jornalista que atua com marketing, comunicação, experiência do cliente, análise e apresentação de dados. Mantém um acervo literário pessoal catalogando suas leituras desde 2020.",
+  "url": "https://vesiuol.github.io/vesiuol/",
+  "sameAs": [
+    "https://www.linkedin.com/in/louise-victoria/",
+    "https://www.instagram.com/vesiuol/",
+    "https://medium.com/@vesiuol",
+    "https://github.com/vesiuol"
+  ]
 }
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-.skip-link{position:absolute;left:-999px;top:0;z-index:200;background:var(--green);color:var(--white);padding:.6rem 1.2rem;font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:600;}
-.skip-link:focus{left:1rem;top:.6rem;}
+</script>
+<style>
+:root {
+  --white:       #ffffff;
+  --black:       #000000;
+  --green:       #849974;
+  --green-dark:  #6b7e5e;
+  --green-light: #c8d4b8;
+  --border:      #c8c8c8;
+  --border-soft: #e0e0e0;
+  --border-interactive: #8f8f8f; /* contraste 3,23:1 vs branco — WCAG 1.4.11, só em bordas de elementos interativos */
+  --text:        #1a1a1a;
+  --muted:       #555;
+  --bg:          #ffffff;
+  --surface:     #f9f8f5;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 html { -webkit-font-smoothing: antialiased; }
-body { background: var(--white); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 500; }
+body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 500; }
 a { color: inherit; text-decoration: none; }
 
-/* ── NAV (governança: sobre.html) ── */
+/* ── SKIP LINK (acessibilidade — só aparece com foco de teclado) ── */
+.skip-link {
+  position: absolute; left: -999px; top: 0; z-index: 200;
+  background: var(--green); color: var(--white);
+  padding: .6rem 1.2rem; font-family: 'DM Sans', sans-serif;
+  font-size: .8rem; font-weight: 600;
+}
+.skip-link:focus { left: 1rem; top: .6rem; }
+
+/* ── NAV ── */
 nav {
-  position: sticky; top: 0; z-index: 200;
-  height: var(--header-h);
-  background: var(--white);
+  position: sticky; top: 0; z-index: 100;
+  background: var(--white); height: 52px;
+  padding: 0 2rem; display: flex; align-items: center; gap: 1.5rem;
   border-bottom: 1.5px solid #c5c5a0;
-  display: flex; align-items: center;
-  padding: 0 2rem; gap: 1.5rem;
 }
 .nav-logo { display: flex; gap: 5px; align-items: center; }
 .nav-dot  { width: 10px; height: 10px; border-radius: 50%; background: var(--black); }
 nav ul { list-style: none; display: flex; gap: 2rem; margin-left: auto; align-items: center; }
 nav ul li a {
   color: var(--black); font-size: .78rem; letter-spacing: .12em;
-  text-transform: uppercase; transition: color .2s;
-  font-family: 'DM Sans', sans-serif; font-weight: 500;
+  text-transform: uppercase; font-weight: 500; transition: color .2s;
 }
 nav ul li a:hover { color: var(--green); }
 nav ul li a.active {
   background: var(--green); color: var(--white);
   padding: .28rem .7rem; border-radius: 3px; font-weight: 700;
 }
-.nav-hamburger { display: none; background: none; border: none; color: var(--black); font-size: 1.4rem; cursor: pointer; margin-left: auto; }
-
-/* ── LAYOUT 2 COLUNAS ── */
-.page-wrap {
-  position: relative;
-  display: grid;
-  grid-template-columns: var(--sidebar-w) 1fr;
-  align-items: start;
-  min-height: calc(100vh - var(--header-h) - 44px);
-}
-/* Fundo + linha divisória da sidebar estendidos até o fim do conteúdo real da página —
-   a sidebar em si é sticky com altura própria (viewport), então seu fundo não alcançava
-   o fim do .page-wrap quando o conteúdo principal era mais alto que a tela. */
-.page-wrap::before {
-  content: '';
-  position: absolute; top: 0; left: 0;
-  width: var(--sidebar-w); height: 100%;
-  background: var(--surface);
-  border-right: 1.5px solid var(--border);
-  z-index: 0;
+.nav-hamburger {
+  display: none; background: none; border: none;
+  color: var(--black); font-size: 1.4rem; cursor: pointer; margin-left: auto;
 }
 
-/* Intro mobile — só aparece no mobile, antes da sidebar/dados */
-.intro-mobile { display: none; }
-
-/* ── SIDEBAR ── */
-.sidebar {
-  background: transparent;
-  border-right: none;
-  position: sticky;
-  top: var(--header-h);
-  /* Sticky com top E bottom (2026-07-19, pedido Louise): os dois limites fazem a sidebar
-     acompanhar o scroll da página inteira, mas sem nunca ultrapassar o fim do conteúdo — ela
-     "desgruda" do topo perto do fim da página, então nunca fica sobreposta ao rodapé.
-     max-height + overflow-y: se a sidebar for mais alta que o espaço disponível entre o header
-     e o offset de baixo (janelas mais baixas), em vez de cortar o conteúdo ela ganha um scroll
-     interno bem discreto (mesma cor fina definida em scrollbar-width/scrollbar-color abaixo) —
-     dá pra rolar só a sidebar (com o mouse em cima dela) e ela continua acompanhando o scroll
-     da página normalmente quando o cursor está fora dela. */
-  bottom: 1.5rem;
-  max-height: calc(100vh - var(--header-h) - 1.5rem);
-  overflow-y: auto;
-  padding: 2rem 1.4rem;
-  display: flex; flex-direction: column; gap: 1.6rem;
-  scrollbar-width: thin;
-  scrollbar-color: var(--border) transparent;
-  align-self: start;
-  z-index: 1;
-}
-
-/* bloco label */
-.sb-label {
-  font-size: .68rem; font-weight: 500;
-  letter-spacing: .1em; text-transform: uppercase;
-  color: var(--muted); margin-bottom: .6rem;
-}
-
-/* KPI grid — todos os 5 KPIs */
-.kpi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; }
-.kpi-card {
-  background: var(--white);
-  border: 1.5px solid var(--border);
-  border-radius: 10px;
-  padding: .85rem .8rem;
-  display: flex; flex-direction: column; gap: .25rem;
-}
-.kpi-card.accent {
-  background: var(--green);
-  border-color: var(--green-dark);
-  grid-column: span 2;
-}
-.kpi-num {
-  font-family: Georgia, serif;
-  font-size: clamp(1.15rem, 4.5vw, 1.65rem); font-weight: 400; line-height: 1;
-  color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;
-}
-.kpi-card.accent .kpi-num { color: var(--white); font-size: clamp(1.3rem, 5vw, 1.9rem); }
-.kpi-lbl { font-size: .68rem; color: var(--muted); line-height: 1.3; }
-.kpi-card.accent .kpi-lbl { color: rgba(255,255,255,.75); }
-
-/* Progresso */
-.prog-block { display: flex; flex-direction: column; gap: .75rem; }
-.prog-row {}
-.prog-meta {
-  display: flex; justify-content: space-between;
-  font-size: .78rem; color: var(--muted); margin-bottom: .3rem;
-}
-.prog-meta b { color: var(--text); font-weight: 500; }
-.prog-track { height: 6px; background: var(--border); border-radius: 4px; overflow: hidden; }
-.prog-fill  { height: 100%; background: var(--green); border-radius: 4px; transition: width .8s cubic-bezier(.4,0,.2,1); }
-
-/* Botões redondos de navegação entre seções */
-.sb-nav-title { font-size: .68rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: .7rem; }
-.sb-nav-pills { display: flex; flex-direction: column; gap: .4rem; }
-.sb-nav-pill {
-  display: flex; align-items: center; gap: .6rem;
-  padding: .5rem .75rem;
-  border: 1.5px solid var(--border);
-  border-radius: 50px;
-  background: transparent;
-  color: var(--muted);
-  font-size: .74rem;
-  font-family: 'DM Sans', sans-serif;
-  cursor: pointer;
-  transition: all .2s;
-  text-align: left;
-}
-.sb-nav-pill:hover { background: var(--green); border-color: var(--green); color: var(--white); }
-.sb-nav-pill .pill-dot {
-  width: 22px; height: 22px; border-radius: 50%;
-  background: var(--green); flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-  font-size: .6rem; color: var(--white);
-}
-
-/* ── MAIN ── */
-/* padding-bottom aumentado (2026-07-19, pedido Louise): a sidebar é sticky e "acompanha" o
-   scroll da página (decisão anterior, sem scroll interno próprio) — mas com pouca folga entre
-   o fim do conteúdo do .main e o rodapé, o último filtro da sidebar só aparecia bem no final da
-   página. Essa folga extra dá espaço pra sidebar "alcançar" o final um pouco antes do rodapé. */
-.main { padding: 2.8rem 3rem 3rem; }
-
-/* Intro editorial */
-.intro-headline {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(2.4rem, 4vw, 3.8rem);
-  font-weight: 600; line-height: 1.5;
-  display: inline;
-  background: var(--green); color: var(--white);
-  padding: .14em .28em;
-  box-decoration-break: clone; -webkit-box-decoration-break: clone;
-}
-.intro-headline-wrap { margin-bottom: 1.6rem; display: block; }
-.intro-body {
-  font-size: .93rem; line-height: 1.85;
-  color: var(--text);
-}
-.intro-body + .intro-body { margin-top: .9rem; }
-.intro-body strong { color: var(--text); font-weight: 500; }
-
-/* Divisor de seção */
-.section-gap { margin-top: 3rem; }
-.section-hr  { border: none; border-top: 1px solid var(--border-soft); margin-bottom: 1.6rem; }
-.section-head {
-  display: flex; align-items: baseline; gap: .8rem;
-  margin-bottom: 1.4rem;
-}
-.section-h2 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.35rem; font-weight: 700;
-  display: inline;
-  background: var(--green); color: var(--white);
-  padding: .08em .4em;
-  box-decoration-break: clone; -webkit-box-decoration-break: clone;
-}
-.section-sub { font-size: .72rem; color: var(--muted); letter-spacing: .04em; }
-
-/* Window card */
+/* ── WINDOW CARD ── */
 .wcard {
   background: var(--white);
   border: 1.5px solid var(--border);
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow: 2px 2px 0 var(--border);
-}
-.wbar { padding: .5rem 1rem; display: flex; gap: 5px; align-items: center; border-bottom: 1px solid var(--border-soft); }
-.wdot { width: 8px; height: 8px; border-radius: 50%; background: #bbb; }
-.wtitle { font-size: .68rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-left: .4rem; }
-
-/* ── BLOGS — sem barra verde, estilo governança ── */
-.posts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; }
-.post-card {
-  border: 1.5px solid var(--border);
   border-radius: 14px; overflow: hidden;
-  display: flex; flex-direction: column;
-  transition: transform .18s, box-shadow .18s;
-  text-decoration: none; color: inherit;
   box-shadow: 2px 2px 0 var(--border);
 }
-.post-card:hover { transform: translateY(-2px); box-shadow: 2px 4px 0 var(--border); }
-.post-wbar { padding: .45rem .9rem; display: flex; gap: 4px; border-bottom: 1px solid var(--border-soft); }
-.post-body { padding: 1rem 1.1rem; flex: 1; display: flex; flex-direction: column; gap: .5rem; }
-.post-title {
-  font-family: Georgia, serif;
-  font-size: .95rem; font-weight: 400;
-  line-height: 1.5;
-  display: inline;
-  background: var(--green); color: var(--white);
-  padding: .1em .35em;
-  box-decoration-break: clone; -webkit-box-decoration-break: clone;
-  align-self: flex-start;
+.wbar {
+  padding: .5rem 1rem;
+  display: flex; align-items: center; gap: 5px;
+  border-bottom: 1px solid var(--border-soft);
 }
-.post-desc { font-size: .82rem; line-height: 1.6; color: var(--muted); flex: 1; margin-top: .5rem; }
-.post-foot {
-  border-top: 1px solid var(--border-soft);
-  padding: .55rem 1.1rem;
+.wdot { width: 8px; height: 8px; border-radius: 50%; background: #bbb; }
+.wtitle {
+  font-size: .68rem; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--muted); margin-left: .4rem;
+}
+
+/* ── HERO ── */
+.hero-section { max-width: 1100px; margin: 3rem auto 2rem; padding: 0 2.5rem; }
+.hero-card { padding: 2.5rem 3rem 0; }
+
+.intro-eyebrow {
+  font-size: .72rem; font-weight: 500;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--green); margin-bottom: 1rem;
+}
+/* Título hero com faixa verde no comprimento */
+.hero-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.4rem, 4vw, 3.8rem);
+  font-weight: 600; line-height: 1.35;
+  display: inline;
+  background: var(--green);
+  color: var(--white);
+  padding: .12em .28em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  margin-bottom: 1.4rem;
+}
+.hero-name-wrap { margin-bottom: 1.4rem; }
+
+.hero-card p {
+  font-size: .93rem; line-height: 1.85; color: var(--text);
+  margin-bottom: .9rem;
+}
+.hero-card p strong { color: var(--text); font-weight: 600; }
+
+/* Botões pílula */
+.hero-links { display: flex; gap: .6rem; flex-wrap: wrap; margin: 1.4rem 0 .4rem; }
+.hero-link {
+  display: inline-flex; align-items: center; gap: .3rem; padding: .4rem 1.1rem;
+  border: 1.5px solid var(--border-interactive); border-radius: 100px;
+  font-size: .80rem; font-weight: 500;
+  color: var(--muted); background: transparent;
+  transition: all .2s;
+}
+.hero-link:hover { background: var(--green); border-color: var(--green); color: var(--white); }
+.hero-link-icon { font-size: .72rem; }
+
+.hero-divider {
+  margin-top: 2rem; border-top: 1px solid var(--border);
+  padding: 1rem 3rem;
   display: flex; align-items: center; justify-content: space-between;
-  font-size: .68rem; letter-spacing: .08em;
+}
+.hero-tagline {
+  font-size: .68rem; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--text); font-weight: 500;
+}
+.hero-arrow { font-size: 1.1rem; color: var(--black); }
+
+/* ── SEÇÕES ── */
+.page-section { max-width: 1100px; margin: 0 auto; padding: 0 2.5rem 3.5rem; }
+.section-gap { margin-top: 2.5rem; }
+
+.section-head {
+  display: flex; align-items: baseline; gap: .8rem;
+  margin-bottom: 1.4rem;
+  border-bottom: 1px solid var(--border-soft); padding-bottom: .7rem;
+}
+/* Títulos de seção com faixa verde no comprimento — igual ao publicado */
+.section-h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.35rem; font-weight: 700; /* era 600 — 700 (negrito real) + 1.35rem enquadra como "texto grande" no WCAG, então o limite de contraste cai pra 3:1 e o branco (3,09:1) já passa */
+  display: inline;
+  background: var(--green);
+  color: var(--white);
+  padding: .08em .4em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.section-sub {
+  font-size: .72rem; letter-spacing: .14em;
   text-transform: uppercase; color: var(--muted);
 }
 
-/* ── PERFIL — sem donut, 4 modelos alternativos ── */
+.text-block {
+  font-size: .93rem; line-height: 1.85; color: var(--text);
+  margin-bottom: 1.1rem;
+}
 
-/* 1. Grid texto (dados principais) */
-.perfil-text-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 1px; background: var(--border);
-  border: 1.5px solid var(--border);
+/* ── INSPIRATION CARDS ── */
+.inspiration-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.inspiration-card {
+  border: 1.5px solid var(--green-dark);
   border-radius: 14px; overflow: hidden;
-  margin-bottom: .8rem;
+  display: flex; flex-direction: column;
+  box-shadow: 2px 2px 0 var(--green-dark);
 }
-.ptg-cell {
-  background: var(--white);
-  padding: 1rem 1.1rem;
+.insp-winbar {
+  padding: .5rem .9rem; display: flex; align-items: center; gap: 5px;
+  border-bottom: 1px solid rgba(255,255,255,.3);
+  background: var(--green);
 }
-.ptg-label { font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: .4rem; }
-.ptg-val   { font-size: .95rem; font-weight: 500; color: var(--text); }
-.ptg-sub   { font-size: .72rem; color: var(--muted); margin-top: .15rem; }
+.insp-winbar .wdot { background: rgba(255,255,255,.7); }
+.insp-body {
+  background: var(--green); padding: 1.4rem 1.4rem 1.1rem;
+  flex: 1; display: flex; flex-direction: column; gap: .7rem;
+}
+.insp-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem; font-weight: 700;
+  color: var(--white); margin-bottom: .2rem;
+}
+.insp-text { font-size: .93rem; line-height: 1.75; color: var(--white); font-weight: 500; }
+.insp-footer {
+  background: var(--green); padding: .85rem 1.4rem;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  border-top: 1px solid rgba(255,255,255,.25);
+}
+.insp-tag {
+  font-size: .68rem; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--white); font-weight: 500;
+}
+.insp-link {
+  display: inline-block; padding: .35rem .9rem;
+  border: 1.5px solid var(--white); border-radius: 100px;
+  font-size: .74rem; font-weight: 500; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--white);
+  background: transparent; transition: all .2s;
+}
+.insp-link:hover { background: var(--white); border-color: var(--white); color: var(--green); }
 
-/* 2. Ranking com barras de texto (regiões, gêneros) */
-.rank-block { margin-bottom: .8rem; }
-.rank-eyebrow { font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: .75rem; }
-.rank-list { display: flex; flex-direction: column; gap: .6rem; }
-.rank-item {}
-.rank-header { display: flex; justify-content: space-between; font-size: .82rem; margin-bottom: .3rem; }
-.rank-pos { color: var(--muted); font-size: .72rem; margin-right: .4rem; }
-.rank-name { color: var(--text); }
-.rank-val  { color: var(--green-dark); font-weight: 500; }
-.rank-track { height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
-.rank-fill  { height: 100%; background: var(--green); border-radius: 3px; }
-.rank-fill.light { background: var(--green-light); }
-
-/* 3. Cards com número grande + % (diversidade) */
-.div-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: .6rem; margin-bottom: .8rem; }
-.div-card {
-  border: 1.5px solid var(--border);
-  border-radius: 12px; padding: 1rem .9rem;
-  background: var(--white);
-}
-.div-card-num {
-  font-family: Georgia, serif;
-  font-size: 1.8rem; font-weight: 400; color: var(--green); line-height: 1;
-  margin-bottom: .3rem;
-}
-.div-card-label { font-size: .68rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
-.div-card-sub   { font-size: .78rem; color: var(--muted); margin-top: .3rem; }
-.div-card-track { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; margin-top: .5rem; }
-.div-card-fill  { height: 100%; background: var(--green); border-radius: 2px; }
-
-/* 4. Gráfico de barras verticais (notas) — via Chart.js, não donut */
-.charts-2col { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; margin-bottom: .8rem; }
-.chart-body { padding: 1rem 1.2rem; position: relative; }
-.chart-body canvas { max-height: 200px; }
-.chart-body.tall canvas { max-height: 300px; }
-
-/* 5. Linha de 4 mini-gráficos de barras horizontais (Quem escreve / Cor-raça / Faixa etária / Formato)
-   — poucos valores distintos por campo, cabem lado a lado numa única linha (pedido Louise 2026-07-19) */
-.perfil-mini-charts { display: grid; grid-template-columns: repeat(4, 1fr); gap: .6rem; margin-bottom: .8rem; }
-.perfil-mini-charts .chart-body { padding: .7rem .8rem; }
-.perfil-mini-charts .chart-body canvas { max-height: 150px; }
-@media (max-width: 900px) { .perfil-mini-charts { grid-template-columns: 1fr 1fr; } }
-@media (max-width: 600px) { .perfil-mini-charts { grid-template-columns: 1fr; } }
-
-/* ── MAPA ── */
-#dlm-map { height: 380px; border-radius: 0 0 12px 12px; }
-.map-legend { display: flex; gap: 1.2rem; flex-wrap: wrap; margin-top: .8rem; font-size: .78rem; color: var(--muted); }
-.legend-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 4px; vertical-align: middle; }
-
-/* ── EVOLUÇÃO — estrutura original preservada ── */
-.desafio-wrap {
-  background: var(--white);
-  border: 1.5px solid var(--border);
-  border-radius: 14px; overflow: hidden;
-  box-shadow: 2px 2px 0 var(--border);
-}
-.desafio-intro { padding: 1.4rem 1.6rem 0; font-size: 1.05rem; line-height: 1.85; color: var(--muted); }
-.ev-cards-wrap { padding: 1.4rem 1.6rem; }
-.graf-4col { display: grid; grid-template-columns: repeat(4, 1fr); gap: .6rem; margin-bottom: 1.2rem; }
-.evolucao-card {
-  background: var(--surface);
-  border: 1.5px solid var(--border);
-  border-radius: 10px; padding: 1rem .8rem; text-align: center;
-}
-.evolucao-card.destaque { background: var(--green); border-color: var(--green-dark); }
-.ev-ano { font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: .25rem; }
-.ev-num { font-family: Georgia, serif; font-size: 1.75rem; font-weight: 400; color: var(--green); line-height: 1.1; }
-.ev-sub { font-size: .7rem; color: var(--muted); margin-top: .2rem; }
-.evolucao-card.destaque .ev-ano { color: rgba(255,255,255,.65); }
-.evolucao-card.destaque .ev-num { color: var(--white); }
-.evolucao-card.destaque .ev-sub { color: rgba(255,255,255,.75); }
-
-.prog-track-lg { background: #eee; height: 10px; border-radius: 6px; overflow: hidden; margin: .5rem 0 .3rem; }
-.prog-fill-lg  { height: 100%; background: var(--green); border-radius: 6px; transition: width 1.2s cubic-bezier(.4,0,.2,1); }
-.prog-labels   { display: flex; justify-content: space-between; font-size: .72rem; color: var(--muted); }
-
-.desafio-charts { padding: 0 1.6rem 1.4rem; display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; align-items: stretch; }
-.desafio-charts .wcard { display: flex; flex-direction: column; min-height: 0; }
-.desafio-charts .wcard > .chart-body { flex: 1; min-height: 0; }
-.desafio-charts .wcard > .chart-body.tall { display: flex; flex-direction: column; }
-.desafio-charts .chart-canvas-wrap { position: relative; flex: 1; min-height: 0; width: 100%; }
-.desafio-charts .chart-canvas-wrap canvas { position: absolute; top: 0; left: 0; width: 100% !important; height: 100% !important; max-height: none; }
-.proj-linha { display: flex; justify-content: space-between; align-items: center; padding: .55rem 0; border-bottom: 1px solid #eee; font-size: .85rem; }
-.proj-linha:last-child { border-bottom: none; }
-.proj-label { color: var(--muted); }
-.proj-val   { font-weight: 500; }
-.proj-dest  { color: var(--green); font-weight: 600; font-family: Georgia, serif; font-size: 1rem; }
-
-/* ── LISTA DE PAÍSES — estrutura original preservada ── */
-.lista-filters { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; margin-bottom: 1rem; }
-.filter-pill {
-  font-size: .78rem; padding: .35rem .9rem;
-  border-radius: 100px; border: 1.5px solid var(--border-interactive);
-  background: transparent; color: var(--muted);
-  cursor: pointer; transition: all .2s;
-  font-family: 'DM Sans', sans-serif;
-}
-.filter-pill:hover { background: var(--green); border-color: var(--green); color: var(--white); }
-.filter-pill.active { background: var(--green); border-color: var(--green); color: var(--white); font-weight: 500; }
-.search-wrap { flex: 1; min-width: 180px; max-width: 240px; margin-left: auto; position: relative; }
-.search-wrap input {
-  width: 100%; padding: .45rem 1rem .45rem 2rem;
-  border: 1.5px solid var(--border); background: var(--white);
-  border-radius: 6px; font-family: Arial, sans-serif;
-  font-size: .82rem; color: var(--text); outline: none;
-  transition: border-color .15s;
-}
-.search-wrap input:focus { border-color: var(--green); }
-.search-wrap::before { content: '⌕'; position: absolute; left: .6rem; top: 50%; transform: translateY(-50%); color: var(--muted); }
-table { width: 100%; border-collapse: collapse; font-size: .85rem; }
-thead tr { border-bottom: 2px solid var(--black); }
-th { padding: .55rem .8rem; text-align: left; font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); white-space: nowrap; cursor: pointer; user-select: none; }
-th:hover { color: var(--text); }
-td { padding: .65rem .8rem; border-bottom: 1px solid #eee; vertical-align: middle; }
-tr:hover td { background: rgba(132,153,116,.05); }
-.book-cover { width: 26px; height: 38px; object-fit: cover; border-radius: 2px; display: block; }
-.cover-ph { width: 26px; height: 38px; background: #f0ede8; border: 1.5px dashed var(--border); border-radius: 2px; display: flex; align-items: center; justify-content: center; font-size: .55rem; color: #999; }
-.badge { display: inline-block; padding: .2rem .55rem; border-radius: 100px; font-size: .68rem; font-weight: 500; }
-.badge-lido    { background: #D4EDDA; color: #1A6631; }
-.badge-mapeado { background: #FFF3CD; color: #8A6200; }
-.badge-nao     { background: #f0f0f0; color: #666; }
-.badge-andamento { background: #E6F1FB; color: #185FA5; }
-.table-footer { padding: .7rem 0; display: flex; justify-content: space-between; align-items: center; font-size: .78rem; color: var(--muted); }
-.pagination { display: flex; gap: .3rem; flex-wrap: wrap; }
-.page-btn { width: 28px; height: 28px; border: 1.5px solid var(--border); background: transparent; cursor: pointer; font-size: .8rem; border-radius: 4px; transition: all .15s; display: flex; align-items: center; justify-content: center; }
-.page-btn.active { background: var(--green); color: var(--white); border-color: var(--green); }
-.page-btn:hover:not(.active) { border-color: var(--green); }
-
-/* ── CTA NOTION (compacto, abaixo dos blogs) ── */
-.notion-cta {
-  background: var(--green); border: 1.5px solid var(--green-dark);
-  border-radius: 14px; padding: 1.1rem 1.6rem;
-  display: flex; align-items: center; justify-content: center; gap: 2rem;
-  margin-top: 1.2rem;
-}
-.notion-cta p {
-  color: var(--white); font-size: .92rem; line-height: 1.6; margin: 0;
-  flex: 0 1 auto; text-align: center;
-}
-.notion-btn {
-  flex-shrink: 0;
-  display: inline-block;
-  background: transparent; border: 1.5px solid var(--white); color: var(--white);
-  font-size: .74rem; letter-spacing: .1em; text-transform: uppercase;
-  font-weight: 500; padding: .55rem 1.2rem;
-  border-radius: 100px; white-space: nowrap;
-  font-family: 'DM Sans', sans-serif;
-  transition: all .2s;
-}
-.notion-btn:hover { background: var(--white); color: var(--green); }
-
-/* Tabela de apoio para leitores de tela — alternativa textual aos gráficos Chart.js */
-.sr-only {
-  position: absolute;
-  width: 1px; height: 1px;
-  padding: 0; margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-@media (max-width: 600px) {
-  .notion-cta { flex-direction: column; align-items: flex-start; }
-  .notion-cta p { max-width: 100%; }
-  .notion-btn { width: 100%; text-align: center; }
-}
-
-/* ── FOOTER (governança) ── */
+/* ── FOOTER ── */
 footer {
   background: var(--green); padding: 1rem 2rem;
   display: flex; align-items: center; gap: 1rem;
@@ -502,36 +254,21 @@ footer {
   color: var(--white); font-weight: 500; font-family: 'DM Sans', sans-serif;
 }
 
-/* ── RESPONSIVE ── */
 @media (max-width: 900px) {
-  .page-wrap { grid-template-columns: 1fr; }
-  .page-wrap::before { display: none; }
-  .sidebar { position: static; height: auto; max-height: none; overflow: visible; width: 100%; min-width: 0; background: var(--surface); border-right: none; border-bottom: 1.5px solid var(--border); }
-  .main { min-width: 0; }
-  .kpi-grid { min-width: 0; }
-  .kpi-card { min-width: 0; overflow: hidden; }
-  .posts-grid, .charts-2col, .desafio-charts { grid-template-columns: 1fr; }
-  .desafio-charts { align-items: start; }
-  .desafio-charts .wcard { display: block; }
-  .desafio-charts .wcard > .chart-body { display: block; }
-  .desafio-charts .chart-canvas-wrap { position: static; height: auto; }
-  .desafio-charts .chart-canvas-wrap canvas { position: static; width: 100% !important; height: auto !important; max-height: 300px; }
-  .div-cards { grid-template-columns: 1fr 1fr; }
-  .perfil-text-grid { grid-template-columns: 1fr 1fr; }
-  .graf-4col { grid-template-columns: 1fr 1fr; }
+  .inspiration-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 600px) {
-  nav ul { display: none; position: absolute; top: 52px; left: 0; right: 0; background: var(--white); flex-direction: column; padding: 1rem 2rem; gap: 1rem; border-bottom: 1px solid var(--border); }
+  nav ul { display: none; position: absolute; top: 52px; left: 0; right: 0; z-index: 99;
+    background: var(--white); flex-direction: column; padding: 1rem 2rem;
+    gap: 1rem; border-bottom: 1px solid var(--border); }
   nav ul.open { display: flex; }
   .nav-hamburger { display: block; }
-  /* Mobile: intro (título + texto de apoio) aparece antes da sidebar/dados */
-  .intro-mobile { display: block; padding: 1.4rem 1.2rem 0; }
-  .intro-desktop { display: none; }
-  .main { padding: 0 0 2rem; min-width: 0; }
-  .main section.section-gap { padding: 0 1.2rem; }
-  .div-cards, .perfil-text-grid { grid-template-columns: 1fr; }
-  .graf-4col { grid-template-columns: 1fr 1fr; }
-  .kpi-grid  { grid-template-columns: 1fr 1fr; }
+  .hero-section { padding: 0 1rem; margin-top: 1.5rem; }
+  .hero-card { padding: 1.2rem 1.2rem 0; }
+  .hero-divider { flex-direction: column; align-items: flex-start; gap: .6rem; padding: 1rem 1.2rem; }
+  .page-section { padding: 0 1rem 2.5rem; }
+  .section-head { flex-wrap: wrap; gap: .5rem; }
+  footer { padding: 1rem; flex-wrap: wrap; gap: .5rem; }
 }
 </style>
 </head>
@@ -539,944 +276,119 @@ footer {
 
 <a href="#conteudo-principal" class="skip-link">Pular para o conteúdo principal</a>
 
-<!-- NAV -->
 <nav>
-  <div class="nav-logo">
+  <a href="index.html" class="nav-logo" style="text-decoration:none">
     <div class="nav-dot"></div>
     <div class="nav-dot"></div>
     <div class="nav-dot" style="background:var(--green)"></div>
-  </div>
-  <ul id="nav-menu">
+  </a>
+  <ul id="nav-ul">
     <li><a href="index.html">Início</a></li>
     <li><a href="2026.html">2026</a></li>
     <li><a href="estante.html">Estante</a></li>
     <li><a href="historico.html">Histórico</a></li>
-    <li><a href="desafio.html" class="active" aria-current="page">Desafio</a></li>
-    <li><a href="sobre.html">Sobre</a></li>
+    <li><a href="desafio.html">Desafio</a></li>
+    <li><a href="sobre.html" class="active" aria-current="page">Sobre</a></li>
   </ul>
-  <button class="nav-hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-menu" onclick="const u=document.getElementById('nav-menu');u.classList.toggle('open');this.setAttribute('aria-expanded', u.classList.contains('open'));">☰</button>
+  <button class="nav-hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-ul" onclick="const u=document.getElementById('nav-ul');u.classList.toggle('open');this.setAttribute('aria-expanded', u.classList.contains('open'));">☰</button>
 </nav>
 
-<!-- INTRO MOBILE: título + texto de apoio aparecem antes da sidebar/dados no mobile -->
-<div class="intro-mobile">
-  <div class="intro-headline-wrap">
-    <h1 class="intro-headline">Uma viagem rumo à diversidade literária</h1>
+<!-- HERO -->
+<main class="hero-section" id="conteudo-principal">
+  <div class="wcard">
+    <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div></div>
+    <div class="hero-card">
+      <div class="hero-name-wrap">
+        <h1 class="hero-name">Louise Victoria</h1>
+      </div>
+      <p>Jornalista que sempre atuou com marketing. Trabalho com comunicação, experiência do cliente e nos últimos anos com análise e apresentação de dados. Também leio bastante e tenho uma certa fascinação por acompanhar, organizar e analisar esse hobby.</p>
+      <div class="hero-links">
+        <a class="hero-link" href="https://www.linkedin.com/in/louise-victoria/" target="_blank" rel="noopener">LinkedIn<span class="hero-link-icon" aria-hidden="true">↗</span></a>
+        <a class="hero-link" href="https://www.instagram.com/vesiuol/" target="_blank" rel="noopener">Instagram<span class="hero-link-icon" aria-hidden="true">↗</span></a>
+        <a class="hero-link" href="https://medium.com/@vesiuol" target="_blank" rel="noopener">Medium<span class="hero-link-icon" aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+    <div class="hero-divider">
+      <span class="hero-tagline">Um acervo literário pessoal — organizar, analisar e compartilhar a minha relação com os livros.</span>
+      <span class="hero-arrow">→</span>
+    </div>
   </div>
-  <p class="intro-body">
-    Meu projeto de ler ao menos um livro de cada país do mundo nasceu do desejo de <strong>ampliar horizontes</strong> e sair do automático. Depois de reencontrar meu amor pelos livros, descobri criadores de conteúdo literário que me fizeram refletir sobre diversidade, representatividade e pluralidade nas leituras.
-  </p>
-  <p class="intro-body">
-    Passei a perceber que ampliar minhas leituras era também uma forma de ampliar meu mundo e de construir, aos poucos, a pessoa que quero ser. A jornada vai muito além da leitura em si: envolve pesquisa, organização, descobertas e, às vezes, bastante paciência para encontrar livros de certos países.
-  </p>
-  <p class="intro-body" style="margin-bottom:1.2rem;">
-    Então este é o <strong>Desafio LPM</strong> — Livros pelo Mundo: minha meta pessoal de ler ao menos um livro de cada um dos <strong>209 países</strong> mapeados.
-  </p>
+</main>
+
+<!-- POR QUE ESSE SITE EXISTE -->
+<div class="page-section section-gap">
+  <div class="section-head">
+    <h2 class="section-h2">Por que esse site existe?</h2>
+    <span class="section-sub">Da planilha ao site</span>
+  </div>
+  <p class="text-block">Já falei bastante sobre minha relação com os livros e sobre como acho fascinante descobrir coisas que vão muito além do que a sinopse pode contar. E eu adoro pensar que posso compartilhar essa maluquice com outras pessoas. E que fique claro: eu não sou criadora de conteúdo literário e nem aspiro ser. Só gosto de imaginar que talvez existam outras pessoas nesse universo da internet que também se interessem por esse tipo de fascinação.</p>
+  <p class="text-block">Durante a pandemia, comecei a catalogar meus livros através de uma planilha de Excel que foi compartilhada por uma maravilhosa criadora de conteúdo literário. Era um modelo pronto para duplicar e preencher com os dados dos próprios livros, essa planilha abriu um baú dos tesouros na minha cabeça. Hoje, tenho duas planilhas: uma dedicada aos livros da minha estante e outra ao histórico das minhas leituras. Mais tarde, comecei a me aventurar no Notion. Foi um certo desafio, mas me recusei a aceitar que não conseguiria aprender e, aos poucos, migrei minha organização para lá também.</p>
+  <p class="text-block">Isso significa que abandonei o Excel? Nãooo. Continuo usando as duas planilhas e talvez isso me torne um pouquinho maluca da organização. Também já perdi boas horas buscando informações retroativas, montando visualmente minhas páginas no Notion e atualizando dados que provavelmente só eu mesma consultaria com tanta frequência.</p>
+  <p class="text-block">Mas, afinal, por que criar esse site? Um belo dia, vi nos stories do Instagram uma pessoa compartilhando o site de uma amiga que catalogava todos os shows em que já tinha ido. Achei incrível. Era bonito, interativo, criativo e cheio de informações sobre algo que ela claramente amava.</p>
+  <p class="text-block">E pensei: por que não fazer um para mim também? Afinal, se tem uma coisa que eu já deixei claro, é que tenho dados suficientes para isso. Bem-vindo ao meu pequeno universo de catalogação literária ou, como gosto de pensar, ao meu acervo literário pessoal.</p>
 </div>
 
-<div class="page-wrap">
-
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-
-    <!-- KPIs — todos os 5 -->
-    <div>
-      <div class="sb-label">Resumo geral</div>
-      <div class="kpi-grid">
-        <div class="kpi-card accent">
-          <div class="kpi-num" id="s-paises">—</div>
-          <div class="kpi-lbl">países lidos</div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-num" id="s-mapeados">—</div>
-          <div class="kpi-lbl">países com livros</div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-num" id="s-pct">—</div>
-          <div class="kpi-lbl">% lidos</div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-num" id="s-novos">—</div>
-          <div class="kpi-lbl">páginas lidas</div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-num" id="s-horas">—</div>
-          <div class="kpi-lbl">Horas ouvidas</div>
-        </div>
+<!-- EM QUEM ME INSPIREI -->
+<div class="page-section">
+  <div class="section-head">
+    <h2 class="section-h2">Em quem me inspirei</h2>
+    <span class="section-sub">Referências e agradecimentos</span>
+  </div>
+  <div class="inspiration-grid">
+    <div class="inspiration-card">
+      <div class="insp-winbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div></div>
+      <div class="insp-body">
+        <div class="insp-name">Bruna Miranda</div>
+        <p class="insp-text">A Bruna é booktuber e criadora de conteúdo literário, além de ter participado do podcast Wine About It, que eu adorava. Hoje já não encontro mais o link da planilha, mas ainda assim queria deixar meu agradecimento.</p>
+        <p class="insp-text">A planilha que ela criou foi o ponto de partida para esse meu hobby de catalogação literária. Foi através dela que comecei a organizar meus livros e, com o tempo, adaptar tudo para uma versão com a minha cara.</p>
+      </div>
+      <div class="insp-footer">
+        <span class="insp-tag">Bruna está lendo</span>
+        <a class="insp-link" href="https://www.instagram.com/brunaestalendo/" target="_blank" rel="noopener">Instagram →</a>
       </div>
     </div>
-
-    <!-- Progresso -->
-    <div class="prog-block">
-      <div class="sb-label">Progresso do desafio</div>
-      <div class="prog-row">
-        <div class="prog-meta"><span>Países lidos</span><b id="prog-p-txt">— / 209</b></div>
-        <div class="prog-track"><div class="prog-fill" id="prog-p-fill" style="width:0%"></div></div>
+    <div class="inspiration-card">
+      <div class="insp-winbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div></div>
+      <div class="insp-body">
+        <div class="insp-name">Bianca Muniz</div>
+        <p class="insp-text">A Bianca me mostrou que todo esse projeto era possível, algo que até então eu nem imaginava como fazer ou tinha referências. Ao descobrir o site dela, percebi que também poderia planejar e construir um espaço parecido para mim.</p>
+        <p class="insp-text">Ela acabou sendo uma referência visual e um ponto de partida importante, me ajudando com ideias, estrutura e até no entendimento de como começar. A meta é que, assim como minhas planilhas, este site também vá sendo cada vez mais personalizado.</p>
       </div>
-      <div class="prog-row">
-        <div class="prog-meta"><span>Livros mapeados</span><b id="prog-m-txt">— / 209</b></div>
-        <div class="prog-track"><div class="prog-fill" id="prog-m-fill" style="width:0%"></div></div>
-      </div>
-    </div>
-
-    <!-- Navegação por seções — botões redondos -->
-    <div>
-      <div class="sb-nav-title">Ir para a seção</div>
-      <div class="sb-nav-pills">
-        <button class="sb-nav-pill" onclick="document.getElementById('blogs').scrollIntoView({behavior:'smooth'})">
-          <span class="pill-dot">✦</span>Blogs sobre o desafio
-        </button>
-        <button class="sb-nav-pill" onclick="document.getElementById('perfil').scrollIntoView({behavior:'smooth'})">
-          <span class="pill-dot">✦</span>Perfil dos livros lidos
-        </button>
-        <button class="sb-nav-pill" onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">
-          <span class="pill-dot">✦</span>De onde vieram meus livros?
-        </button>
-        <button class="sb-nav-pill" onclick="document.getElementById('evolucao').scrollIntoView({behavior:'smooth'})">
-          <span class="pill-dot">✦</span>Evolução do desafio
-        </button>
-        <button class="sb-nav-pill" onclick="document.getElementById('lista').scrollIntoView({behavior:'smooth'})">
-          <span class="pill-dot">✦</span>Lista de países
-        </button>
+      <div class="insp-footer">
+        <span class="insp-tag">300 shows em 30 anos</span>
+        <a class="insp-link" href="https://biamuniz.github.io/300em30/index.html" target="_blank" rel="noopener">Site →</a>
       </div>
     </div>
-
-  </aside>
-
-  <!-- MAIN -->
-  <main class="main" id="conteudo-principal">
-
-    <!-- INTRO EDITORIAL -->
-    <section class="intro-desktop">
-      <div class="intro-headline-wrap">
-        <p class="intro-headline">Uma viagem rumo à diversidade literária</p>
-      </div>
-      <p class="intro-body">
-        Meu projeto de ler ao menos um livro de cada país do mundo nasceu do desejo de <strong>ampliar horizontes</strong> e sair do automático. Depois de reencontrar meu amor pelos livros, descobri criadores de conteúdo literário que me fizeram refletir sobre diversidade, representatividade e pluralidade nas leituras.
-      </p>
-      <p class="intro-body">
-        Passei a perceber que ampliar minhas leituras era também uma forma de <strong>ampliar meu mundo</strong>  e de construir, aos poucos, a pessoa que quero ser. A jornada vai muito além da leitura em si: envolve pesquisa, organização, descobertas e, às vezes, bastante paciência para encontrar livros de certos países.
-      </p>
-      <p class="intro-body">
-        Então este é o <strong>Desafio LPM</strong> — Livros pelo Mundo: minha meta pessoal de ler ao menos um livro de cada um dos <strong>209 países</strong> mapeados.
-      </p>
-    </section>
-
-    <!-- BLOGS -->
-    <section class="section-gap" id="blogs">
-      <hr class="section-hr">
-      <div class="section-head">
-        <h2 class="section-h2">Blogs sobre o desafio</h2>
-        <span class="section-sub">Textos no Medium</span>
-      </div>
-      <div class="posts-grid">
-        <a class="post-card" href="https://medium.com/@vesiuol/desafio-livros-pelo-mundo-d8e01e80812f" target="_blank" rel="noopener">
-          <div class="post-wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div></div>
-          <div class="post-body">
-            <h3 class="post-title">Desafio Livros pelo Mundo</h3>
-            <p class="post-desc">Iniciando uma jornada de um livro para cada país — motivação, regras e o que espero aprender.</p>
-          </div>
-          <div class="post-foot"><span>Apresentação</span><span>→</span></div>
-        </a>
-        <a class="post-card" href="https://medium.com/@vesiuol/estruturando-a-nossa-rota-1-ac374720227f" target="_blank" rel="noopener">
-          <div class="post-wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div></div>
-          <div class="post-body">
-            <h3 class="post-title">Estruturando a nossa rota #1</h3>
-            <p class="post-desc">Como montar a estrutura no Notion, lista dos países da ONU e modelo de planilha para duplicar.</p>
-          </div>
-          <div class="post-foot"><span>Organização #1</span><span>→</span></div>
-        </a>
-        <a class="post-card" href="https://medium.com/@vesiuol/montando-a-nossa-rota-2-c98c5bcf7a20" target="_blank" rel="noopener">
-          <div class="post-wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div></div>
-          <div class="post-body">
-            <h3 class="post-title">Montando a nossa rota #2</h3>
-            <p class="post-desc">Aprofundando a organização dos países e das escolhas de livros para a jornada.</p>
-          </div>
-          <div class="post-foot"><span>Organização #2</span><span>→</span></div>
-        </a>
-        <a class="post-card" href="https://medium.com/@vesiuol/visualização-da-minha-planilha-no-nopor-onde-já-viajei-acaf251c4985" target="_blank" rel="noopener">
-          <div class="post-wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div></div>
-          <div class="post-body">
-            <h3 class="post-title">Visualização da minha planilha</h3>
-            <p class="post-desc">Como visualizar no Notion os países por onde já "viajei" — mapas, dados e configurações.</p>
-          </div>
-          <div class="post-foot"><span>Apresentação</span><span>→</span></div>
-        </a>
-      </div>
-
-      <!-- CTA NOTION -->
-      <div class="notion-cta">
-        <p>Toda a organização do desafio começa antes da leitura. Veja a planilha-modelo completa com países, livros e progresso.</p>
-        <a class="notion-btn" href="https://app.notion.com/p/vesiuol/679c7c463b784b75b645ca16b283cb64?v=091d4f4f0139433383dc3bfb1855ef48&source=copy_link" target="_blank" rel="noopener">Abrir no Notion →</a>
-      </div>
-    </section>
-
-    <!-- PERFIL DO DESAFIO — sem donut, 4 modelos alternativos -->
-    <section class="section-gap" id="perfil">
-      <hr class="section-hr">
-      <div class="section-head">
-        <h2 class="section-h2">Perfil dos livros lidos</h2>
-        <span class="section-sub" id="charts-loading">carregando dados…</span>
-      </div>
-
-      <!-- Modelo 1: grid de texto (quem escreve, idioma, formato) -->
-      <div class="perfil-text-grid">
-        <div class="ptg-cell">
-          <div class="ptg-label">Quem escreve</div>
-          <div class="ptg-val" id="pg-genero">—</div>
-          <div class="ptg-sub" id="pg-genero-sub">dos autores</div>
-        </div>
-        <div class="ptg-cell">
-          <div class="ptg-label">Cor / raça</div>
-          <div class="ptg-val" id="pg-cor">—</div>
-          <div class="ptg-sub" id="pg-cor-sub">autores não-brancos</div>
-        </div>
-        <div class="ptg-cell">
-          <div class="ptg-label">Idioma mais lido</div>
-          <div class="ptg-val" id="pg-idioma">—</div>
-          <div class="ptg-sub">idioma original</div>
-        </div>
-        <div class="ptg-cell">
-          <div class="ptg-label">Formato</div>
-          <div class="ptg-val" id="pg-formato">—</div>
-          <div class="ptg-sub">modo de leitura</div>
-        </div>
-        <div class="ptg-cell">
-          <div class="ptg-label">Faixa etária</div>
-          <div class="ptg-val" id="pg-faixa">—</div>
-          <div class="ptg-sub">público principal</div>
-        </div>
-        <div class="ptg-cell">
-          <div class="ptg-label">Nota média</div>
-          <div class="ptg-val" id="pg-nota">—</div>
-          <div class="ptg-sub">de 5 estrelas</div>
-        </div>
-      </div>
-
-      <!-- Modelo 2: cards com número grande + barra (diversidade) -->
-      <div class="div-cards">
-        <div class="div-card">
-          <div class="div-card-num" id="dc-lgbtq">—</div>
-          <div class="div-card-label">Protagonista LGBTQ+</div>
-          <div class="div-card-sub" id="dc-lgbtq-sub">dos livros lidos</div>
-          <div class="div-card-track"><div class="div-card-fill" id="dc-lgbtq-bar" style="width:0%"></div></div>
-        </div>
-        <div class="div-card">
-          <div class="div-card-num" id="dc-div">—</div>
-          <div class="div-card-label">Diversidade étnica</div>
-          <div class="div-card-sub" id="dc-div-sub">dos livros lidos</div>
-          <div class="div-card-track"><div class="div-card-fill" id="dc-div-bar" style="width:0%"></div></div>
-        </div>
-        <div class="div-card">
-          <div class="div-card-num" id="dc-own">—</div>
-          <div class="div-card-label">#OwnVoices</div>
-          <div class="div-card-sub" id="dc-own-sub">dos livros lidos</div>
-          <div class="div-card-track"><div class="div-card-fill" id="dc-own-bar" style="width:0%"></div></div>
-        </div>
-      </div>
-
-      <!-- Modelo 3: rankings com barras de texto lado a lado — agora com rolagem, sem limite de itens -->
-      <div class="charts-2col">
-        <div class="wcard">
-          <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Regiões mais lidas</span></div>
-          <div style="padding:1rem 1.2rem;overflow-y:auto;height:280px" tabindex="0" aria-label="Lista rolável de regiões mais lidas">
-            <div class="rank-list" id="rank-regioes"></div>
-          </div>
-        </div>
-        <div class="wcard">
-          <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Gêneros literários</span></div>
-          <div style="padding:1rem 1.2rem;overflow-y:auto;height:280px" tabindex="0" aria-label="Lista rolável de gêneros literários">
-            <div class="rank-list" id="rank-generos"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Modelo 1b: linha de 4 gráficos de barras horizontais — Quem escreve / Cor-raça / Faixa etária / Formato
-           (posicionados aqui, logo antes de Notas/Origem, a pedido da Louise 2026-07-19: junto dos outros gráficos,
-           não ao lado do grid de texto. Este era o único bloco desses 4 gráficos — o duplicado que existia
-           logo após o grid de texto foi removido em 2026-07-19.) -->
-      <div class="perfil-mini-charts">
-        <div class="wcard">
-          <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Quem escreve</span></div>
-          <div class="chart-body"><canvas id="c-genero-mini" role="img" aria-label="Gráfico de barras horizontais mostrando a quantidade de livros lidos por gênero do/a autor/a."></canvas></div>
-          <div class="sr-only" id="c-genero-mini-table"></div>
-        </div>
-        <div class="wcard">
-          <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Cor / raça</span></div>
-          <div class="chart-body"><canvas id="c-cor-mini" role="img" aria-label="Gráfico de barras horizontais mostrando a quantidade de livros lidos por cor/raça do/a autor/a."></canvas></div>
-          <div class="sr-only" id="c-cor-mini-table"></div>
-        </div>
-        <div class="wcard">
-          <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Faixa etária</span></div>
-          <div class="chart-body"><canvas id="c-faixa-mini" role="img" aria-label="Gráfico de barras horizontais mostrando a quantidade de livros lidos por faixa etária."></canvas></div>
-          <div class="sr-only" id="c-faixa-mini-table"></div>
-        </div>
-        <div class="wcard">
-          <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Formato</span></div>
-          <div class="chart-body"><canvas id="c-formato-mini" role="img" aria-label="Gráfico de barras horizontais mostrando a quantidade de livros lidos por formato."></canvas></div>
-          <div class="sr-only" id="c-formato-mini-table"></div>
-        </div>
-      </div>
-
-      <!-- Modelo 4: barras verticais para notas + barras horizontais para origem -->
-      <div class="charts-2col">
-        <div class="wcard">
-          <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Distribuição de notas</span></div>
-          <div class="chart-body"><canvas id="c-notas" role="img" aria-label="Gráfico de linha mostrando a quantidade de livros lidos por nota, de 1 a 5 estrelas, incluindo notas fracionadas."></canvas></div>
-          <div class="sr-only" id="c-notas-table"></div>
-        </div>
-        <div class="wcard">
-          <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Origem do livro</span></div>
-          <div class="chart-body"><canvas id="c-origem" style="max-height:200px" role="img" aria-label="Gráfico de barras horizontais mostrando a origem dos livros do desafio."></canvas></div>
-          <div class="sr-only" id="c-origem-table"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- MAPA -->
-    <section class="section-gap" id="mapa">
-      <hr class="section-hr">
-      <div class="section-head">
-        <h2 class="section-h2">De onde vieram meus livros?</h2>
-        <span class="section-sub">Autores por país</span>
-      </div>
-      <div class="wcard">
-        <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Mapa do desafio</span></div>
-        <div id="dlm-map"></div>
-      </div>
-      <div class="map-legend">
-        <span><span class="legend-dot" style="background:#849974"></span>Lido</span>
-        <span><span class="legend-dot" style="background:#c8d4b8"></span>Livro mapeado</span>
-        <span><span class="legend-dot" style="background:#ccc"></span>Ainda não mapeado</span>
-      </div>
-    </section>
-
-    <!-- EVOLUÇÃO — estrutura original preservada -->
-    <section class="section-gap" id="evolucao">
-      <hr class="section-hr">
-      <div class="section-head">
-        <h2 class="section-h2">Evolução do desafio</h2>
-        <span class="section-sub">Os anos contados em números — do início até o fim</span>
-      </div>
-      <div class="desafio-wrap">
-        <p class="desafio-intro">Uma viagem contada em números. Cada ano um novo passo, cada livro um novo país descoberto.</p>
-        <div class="ev-cards-wrap">
-          <div class="graf-4col" id="evolucao-cards"></div>
-          <div id="barra-progresso-geral"></div>
-        </div>
-        <div class="desafio-charts">
-          <div class="wcard">
-            <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle" id="c-evolucao-titulo">Países conquistados</span></div>
-            <div class="chart-body tall"><div class="chart-canvas-wrap"><canvas id="c-evolucao-linha" role="img" aria-label="Gráfico de linha mostrando a evolução de países conquistados no desafio."></canvas></div></div>
-            <div class="sr-only" id="c-evolucao-linha-table"></div>
-          </div>
-          <div class="wcard">
-            <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Projeção para 209 países</span></div>
-            <div class="chart-body" id="projecao-body"></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- LISTA DE PAÍSES -->
-    <section class="section-gap" id="lista">
-      <hr class="section-hr">
-      <div class="section-head">
-        <h2 class="section-h2">Lista de países</h2>
-        <span class="section-sub" id="lista-loading">carregando leituras…</span>
-      </div>
-      <div class="lista-filters">
-        <button class="filter-pill active" data-f="todos"   onclick="setPillFilter('todos',this)">Todos</button>
-        <button class="filter-pill"        data-f="lido"    onclick="setPillFilter('lido',this)">✓ Lidos</button>
-        <button class="filter-pill"        data-f="mapeado" onclick="setPillFilter('mapeado',this)">📚 Mapeados</button>
-        <button class="filter-pill"        data-f="nao"     onclick="setPillFilter('nao',this)">— Sem livro</button>
-        <div class="search-wrap">
-          <input type="text" id="search-notion" placeholder="Buscar país, livro ou autor…" oninput="renderNotion()">
-        </div>
-      </div>
-      <div style="overflow-x:auto">
-        <table id="notion-table">
-          <thead>
-            <tr>
-              <th style="width:34px"></th>
-              <th onclick="sortNotion('pais')">País ↕</th>
-              <th onclick="sortNotion('livro')">Livro ↕</th>
-              <th onclick="sortNotion('autor')">Autor/a ↕</th>
-              <th onclick="sortNotion('ga')">Gênero</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody id="notion-tbody"></tbody>
-        </table>
-      </div>
-      <div class="table-footer">
-        <span id="notion-count">—</span>
-        <div class="pagination" id="notion-pagination"></div>
-      </div>
-    </section>
-
-  </main>
+  </div>
 </div>
 
-<!-- FOOTER (governança) -->
+<!-- COMO ESTE SITE FOI FEITO -->
+<div class="page-section">
+  <div class="section-head">
+    <h2 class="section-h2">Como este site foi feito</h2>
+    <span class="section-sub">Metodologia e bastidores técnicos</span>
+  </div>
+  <p class="text-block">Os dados que você vê em cada página não aparecem por mágica, o site lê minhas fontes de dados diretamente em formato CSV toda vez que alguém abre uma página, então os números e gráficos refletem sempre o estado mais atual da minha catalogação, sem nenhum passo manual de exportação no meio do caminho. A publicação em si é automatizada: qualquer mudança no código passa por um fluxo do GitHub Actions antes de ir para o ar no GitHub Pages.</p>
+  <p class="text-block">Tecnicamente, o site é construído com HTML, CSS e JavaScript puros, sem frameworks. Os gráficos usam Chart.js, a leitura das planilhas usa PapaParse e os mapas usam Leaflet. Toda decisão visual (paleta de cores, tipografia, tamanho dos gráficos, estrutura dos cards) foi documentada e aprovada por mim antes de virar código, e cada página segue a mesma governança de design para manter consistência entre uma seção e outra.</p>
+  <p class="text-block">E aqui cabe uma transparência importante: todo o código deste site (estrutura, estilos, lógica de leitura dos dados, ajustes de performance e de acessibilidade) foi escrito pelo Claude, o assistente de IA da Anthropic com quem trabalho neste projeto. Eu penso, escrevo o conteúdo textual, tenho as ideias, defino a direção visual e de conteúdo, analiso os dados e reviso cada entrega antes de publicar, mas não escrevo código. Também estudei o suficiente de SEO e de UX/acessibilidade para entender o que está sendo feito, avaliar as decisões técnicas propostas e cobrar qualidade — mas quem implementa, linha por linha, é o Claude.</p>
+</div>
+
+<!-- NÃO VOU PARAR POR AQUI -->
+<div class="page-section">
+  <div class="section-head">
+    <h2 class="section-h2">Não vou parar por aqui</h2>
+    <span class="section-sub">Próximos passos</span>
+  </div>
+  <p class="text-block">Como já falei, a ideia é deixar este espaço cada vez mais com a minha cara. Neste primeiro momento, quis colocar no ar a estrutura do que já existia nas minhas planilhas e organizações pessoais. Aos poucos, a intenção é personalizar mais, aprofundar os dados e expandir as possibilidades do que pode existir por aqui.</p>
+  <p class="text-block">Ainda há muita coisa que quero fazer com essas informações. Meu desafio literário continua, novos textos no Medium talvez voltem a aparecer e um novo desafio já está engatinhando para, em breve, ganhar espaço neste site também. As leituras do ano podem render reflexões sobre a experiência, novas metas podem surgir a partir dos dados e, conforme os números mudam, os cenários também mudam junto comigo.</p>
+</div>
+
+<!-- FOOTER -->
 <footer>
   <div class="footer-dots">
     <div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div>
   </div>
-  <span class="footer-text">Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">22 de julho de 2026</span></span>
-</footer>
+ <span class="footer-text">Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">22 de julho de 2026</span></span></footer>
 
-<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script>
-Chart.register(ChartDataLabels);
-
-/* Fonte única e centralizada do Desafio LPM (Planilha A, aba DESAFIO, gid=524970956).
-   Decisão Governança 2026-07-19: substitui o antigo fetch triplo (CSV_2024 + CSV_2025 + CSV_DESAFIO,
-   filtrado por "Por que li? = Desafio LPM"). Esta aba já vem pré-filtrada com todos os livros do
-   Desafio de todos os anos, e tem uma coluna própria "Ano" para identificar o ano de leitura —
-   não é mais preciso criar/ler uma aba nova a cada virada de ano.
-
-   IMPORTANTE (2026-07-19): a busca não é mais feita direto no Google pelo navegador — isso podia
-   falhar silenciosamente (CORS/robots/instabilidade) e deixar a página inteira presa em "carregando…".
-   Agora segue o MESMO padrão já usado e comprovado em 2026.html: um GitHub Action
-   (.github/workflows/update-desafio-livros.yml) baixa a planilha nos servidores do GitHub e salva
-   como data/desafio-livros.csv, mesma origem do site (sem CORS, sem risco de bloqueio de rede/antivírus).
-   A página lê esse arquivo local primeiro; só cai para os proxies antigos se ele ainda não existir. */
-const CSV_DESAFIO_ALL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub?gid=524970956&single=true&output=csv';
-const LOCAL_CSV_DESAFIO = 'data/desafio-livros.csv';
-const PROXIES = [
-  url => 'https://corsproxy.io/?url=' + encodeURIComponent(url),
-  url => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url),
-];
-
-const GREEN       = '#849974';
-const GREEN_DARK  = '#6b7e5e';
-const GREEN_LIGHT = '#c8d4b8';
-const DARK  = '#1a1a1a';
-const MUTED = '#555';
-const CORES = ['#7a9e7e','#c4a882','#6b8e9f','#b5835a','#8a9a5b','#9b7fa6','#4e7c5f','#c4855a','#7ba3a8','#a07850'];
-
-const REGIAO = {
-  'Brasil':'América do Sul','Argentina':'América do Sul','Chile':'América do Sul','Colômbia':'América do Sul','Peru':'América do Sul','Venezuela':'América do Sul','Uruguai':'América do Sul','Bolívia':'América do Sul',
-  'EUA':'América do Norte','Canadá':'América do Norte','Estados Unidos':'América do Norte','México':'América Central','Cuba':'Caribe',
-  'Reino Unido':'Europa','França':'Europa','Alemanha':'Europa','Espanha':'Europa','Itália':'Europa','Portugal':'Europa','Holanda':'Europa','Bélgica':'Europa','Suécia':'Europa','Noruega':'Europa','Polônia':'Europa','República Tcheca':'Europa','Grécia':'Europa','Áustria':'Europa','Suíça':'Europa','Irlanda':'Europa','Ucrânia':'Europa',
-  'Rússia':'Europa/Ásia',
-  'Japão':'Ásia','China':'Ásia','Índia':'Ásia','Coreia do Sul':'Ásia','Vietnã':'Ásia','Indonésia':'Ásia','Filipinas':'Ásia','Paquistão':'Ásia','Bangladesh':'Ásia','Cazaquistão':'Ásia',
-  'Israel':'Oriente Médio','Irã':'Oriente Médio','Iraque':'Oriente Médio','Síria':'Oriente Médio','Afeganistão':'Oriente Médio',
-  'Nigéria':'África','África do Sul':'África','Zâmbia':'África','Camarões':'África','Ruanda':'África','Somália':'África','Quênia':'África','Etiópia':'África','Gana':'África','Senegal':'África','Angola':'África','Moçambique':'África','Zimbabwe':'África','Uganda':'África',
-  'Marrocos':'África do Norte','Egito':'África do Norte',
-  'Austrália':'Oceania','Nova Zelândia':'Oceania',
-  'Bielorrússia':'Europa','Bulgária':'Europa','Ilhas Virgens':'Caribe','Zimbábue':'África',
-};
-
-const COORDS = {
-  'Brasil':[-15.8,-47.9],'EUA':[37.1,-95.7],'Estados Unidos':[37.1,-95.7],'Reino Unido':[51.5,-0.1],'Japão':[35.7,139.7],'França':[46.2,2.2],
-  'Canadá':[56.1,-106.3],'Argentina':[-34.6,-58.4],'Portugal':[38.7,-9.1],'Alemanha':[52.5,13.4],'Espanha':[40.4,-3.7],'Itália':[41.9,12.5],
-  'México':[19.4,-99.1],'Colômbia':[4.7,-74.1],'Chile':[-33.4,-70.6],'Índia':[28.6,77.2],'China':[39.9,116.4],'Rússia':[55.8,37.6],
-  'Austrália':[-35.3,149.1],'Nigéria':[9.1,7.5],'África do Sul':[-25.7,28.2],'Zâmbia':[-15.4,28.3],'Camarões':[3.9,11.5],'Irã':[35.7,51.4],
-  'Noruega':[59.9,10.7],'Holanda':[52.4,4.9],'Cuba':[23.1,-82.4],'Ucrânia':[50.5,30.5],'Nova Zelândia':[-41.3,174.8],'Uruguai':[-34.9,-56.2],
-  'Bolívia':[-16.5,-68.1],'Ruanda':[-1.9,30.1],'Somália':[2.0,45.3],'República Tcheca':[50.1,14.4],'Bélgica':[50.8,4.4],
-  'Coreia do Sul':[37.6,127.0],'Vietnã':[21.0,105.8],'Polônia':[52.2,21.0],'Suécia':[59.3,18.1],'Grécia':[37.9,23.7],
-  'Turquia':[39.9,32.9],'Egito':[30.1,31.2],'Marrocos':[34.0,-6.8],'Etiópia':[9.0,38.7],'Quênia':[-1.3,36.8],'Gana':[5.6,-0.2],
-  'Senegal':[14.7,-17.4],'Peru':[-12.0,-77.0],'Venezuela':[10.5,-66.9],'Paquistão':[33.7,73.1],'Bangladesh':[23.7,90.4],'Israel':[31.8,35.2],
-  'Iraque':[33.3,44.4],'Síria':[33.5,36.3],'Angola':[-8.8,13.2],'Moçambique':[-18.7,35.5],'Zimbabwe':[-17.8,31.1],'Uganda':[0.3,32.6],
-  'Indonésia':[-6.2,106.8],'Filipinas':[14.6,121.0],'Afeganistão':[34.5,69.2],'Cazaquistão':[51.2,71.4],
-  'Suíça':[46.8,8.2],'Áustria':[48.2,16.4],'Irlanda':[53.3,-6.3],
-};
-
-function norm(s){ return (s||'').trim().toLowerCase(); }
-function parseCSVText(t){
-  const clean = t.replace(/^\uFEFF/,'');
-  const parsed = Papa.parse(clean, {header:true, skipEmptyLines:'greedy'});
-  const headers = parsed.meta && parsed.meta.fields ? parsed.meta.fields : [];
-  if(!headers.includes('Título')) return null;
-  return parsed.data;
-}
-async function fetchCSV(targetUrl){
-  /* 1) Arquivo local primeiro (mesma origem do site, sem CORS, sem proxy, gerado pelo
-        GitHub Action .github/workflows/update-desafio-livros.yml). */
-  try{
-    const localUrl = new URL(LOCAL_CSV_DESAFIO, window.location.href).href + '?v=' + Date.now();
-    const r = await fetch(localUrl, {cache:'no-store'});
-    if(r.ok){
-      const t = await r.text();
-      const data = parseCSVText(t);
-      if(data && data.length){
-        console.log('Dados do Desafio carregados do arquivo local '+LOCAL_CSV_DESAFIO);
-        return data;
-      }
-      console.warn(LOCAL_CSV_DESAFIO+' encontrado mas não pareceu um CSV válido — tentando proxies.');
-    }else{
-      console.warn(LOCAL_CSV_DESAFIO+' não encontrado (HTTP '+r.status+') — tentando proxies.');
-    }
-  }catch(e){
-    console.warn('Falha ao ler '+LOCAL_CSV_DESAFIO+' localmente — tentando proxies.', e);
-  }
-
-  /* 2) Só se o arquivo local falhar/ainda não existir, cai para os proxies antigos —
-        nunca tenta Papa.parse direto no Google no navegador (podia travar sem erro). */
-  for(const buildProxyUrl of PROXIES){
-    const proxied = buildProxyUrl(targetUrl);
-    try{
-      const r = await fetch(proxied);
-      if(!r.ok) throw new Error('HTTP '+r.status+' via '+proxied);
-      const t = await r.text();
-      const data = parseCSVText(t);
-      if(!data){ console.warn('CSV inesperado via', proxied, '— tentando próximo.'); continue; }
-      return data;
-    }catch(e){
-      console.error('fetchCSV falhou via', proxied, e);
-    }
-  }
-  console.error('Não foi possível carregar os dados do Desafio (local e proxies falharam).');
-  return [];
-}
-function topN(obj,n){ return Object.entries(obj).sort((a,b)=>b[1]-a[1]).slice(0,n); }
-/* Igual a topN(obj,n), mas em caso de EMPATE de valor entre duas categorias, a que for
-   preferKey (ex: "Feminino") vem primeiro — em vez de depender da ordem de inserção dos
-   dados na planilha. Decisão Louise 2026-07-19: com dados empatados, priorizar Feminino
-   na seção "Quem escreve" (tanto no valor-destaque em texto quanto no mini-gráfico). */
-function topNWithPreference(obj, n, preferKey){
-  return Object.entries(obj)
-    .sort((a,b)=> b[1]-a[1] || (a[0]===preferKey ? -1 : b[0]===preferKey ? 1 : 0))
-    .slice(0,n);
-}
-function findField(row, candidates){
-  if(!row) return '';
-  const keys = Object.keys(row).filter(k=>norm(k)); // ignora colunas sem cabeçalho (ex: coluna solta na planilha)
-  for(const cand of candidates){
-    const cn = norm(cand);
-    const exact = keys.find(k=>norm(k)===cn);
-    if(exact && row[exact] && row[exact].trim()) return row[exact].trim();
-    const partial = keys.find(k=>norm(k).includes(cn)||cn.includes(norm(k)));
-    if(partial && row[partial] && row[partial].trim()) return row[partial].trim();
-  }
-  return '';
-}
-function countField(rows, candidates){
-  const c={};
-  rows.forEach(r=>{ const v=findField(r,candidates); if(v) c[v]=(c[v]||0)+1; });
-  return c;
-}
-function formatNota(v){
-  const n=parseFloat(String(v||'').replace(',','.'));
-  if(!n||n<=0) return null;
-  return (n%1===0) ? String(n) : String(n).replace('.',',');
-}
-function scrollTo(id){
-  const el = document.getElementById(id);
-  if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
-}
-
-/* Formatação de duração — mesmo padrão do index.html (Governança: célula de horas vem
-   da planilha no formato H:MM:SS, ex: "13:34:00"; nunca usar parseInt/parseFloat direto
-   nela, isso concatena os dígitos e gera lixo). Mostrar sempre como H:MM. */
-function parseDuracaoParaMinutos(v){
-  const s = String(v||'').trim();
-  if (!s) return 0;
-  if (s.includes(':')){
-    const [h=0, m=0] = s.split(':').map(p => parseInt(p,10) || 0);
-    return h*60 + m;
-  }
-  return Math.round((parseFloat(s.replace(',','.')) || 0) * 60);
-}
-function formatMinutosParaHoraMin(totalMin){
-  const h = Math.floor(totalMin/60), m = totalMin % 60;
-  return h + ':' + String(m).padStart(2,'0');
-}
-
-let allLPM = [];
-let rowsByYear = {};
-
-async function init(){
-  let horasTotal = '';
-  try{
-    const rows = await fetchCSV(CSV_DESAFIO_ALL);
-    /* A aba DESAFIO tem uma linha de resumo/totais no final (ex: linha 31 da planilha —
-       sem "Ano" preenchido, com valores agregados tipo "(gráfico)"/"(resumo)" nas colunas
-       de categoria e o total de horas ouvidas na coluna Horas). Ela NÃO é uma leitura real,
-       então precisa ficar de fora de allLPM (senão vira uma categoria falsa "(gráfico)" nos
-       gráficos de gênero/cor/faixa/formato). Filtrar por Ano presente, além de Título, resolve
-       isso com segurança. A coluna Horas dessa mesma linha é usada só para o KPI "Horas ouvidas"
-       da sidebar (pedido Louise 2026-07-19).*/
-    const resumoRow = rows.find(r => !findField(r,['Ano']) && findField(r,['Horas']));
-    horasTotal = resumoRow ? findField(resumoRow,['Horas']) : '';
-    allLPM = rows.filter(r=>findField(r,['Título','Titulo']) && findField(r,['Ano']));
-    rowsByYear = {};
-    allLPM.forEach(r=>{
-      const ano = findField(r,['Ano']);
-      if(!ano) return;
-      (rowsByYear[ano] = rowsByYear[ano] || []).push(r);
-    });
-  } catch(e){ console.warn('CSV error',e); }
-
-  /* KPIs sidebar — "países lidos", "% lidos" e "países com livros" vêm do Notion (autoridade por país).
-     Páginas lidas vêm do Excel (só o Excel tem esse detalhe por livro). Horas ouvidas vem da
-     linha de resumo da aba DESAFIO (substituiu "avaliações 5★", pedido Louise 2026-07-19). */
-  const notionLidos    = NOTION_DATA.filter(n=>n.status_notion==='Concluído').length;
-  const notionMapeados = NOTION_DATA.filter(n=>n.livro&&n.livro.trim()).length;
-  const totalPaginas   = allLPM.reduce((s,r)=>{ const p=parseInt(findField(r,['Páginas','Paginas'])||'0'); return s+(isNaN(p)?0:p); },0);
-  const horasFmt        = horasTotal ? formatMinutosParaHoraMin(parseDuracaoParaMinutos(horasTotal)) : '0';
-  const pct            = Math.round(notionLidos/209*100);
-
-  document.getElementById('s-paises').textContent   = notionLidos||'0';
-  document.getElementById('s-mapeados').textContent  = notionMapeados||'0';
-  document.getElementById('s-pct').textContent       = pct+'%';
-  document.getElementById('s-novos').textContent     = totalPaginas>0 ? totalPaginas.toLocaleString('pt-BR') : '0';
-  document.getElementById('s-horas').textContent     = horasFmt;
-
-  /* Progresso */
-  const mPct = Math.round(notionMapeados/209*100);
-  document.getElementById('prog-p-txt').textContent = notionLidos+' / 209';
-  document.getElementById('prog-m-txt').textContent = notionMapeados+' / 209';
-  setTimeout(()=>{
-    document.getElementById('prog-p-fill').style.width = pct+'%';
-    document.getElementById('prog-m-fill').style.width = mPct+'%';
-  },300);
-
-  buildPerfil(allLPM);
-  buildMap();
-  buildEvolucao(rowsByYear);
-  renderNotion();
-
-  const cl = document.getElementById('charts-loading');
-  if(cl) cl.textContent = allLPM.length+' leituras LPM (todos os anos · aba DESAFIO)';
-  const ll = document.getElementById('lista-loading');
-  if(ll) ll.textContent = notionLidos+' países lidos (Notion)';
-}
-
-function buildPerfil(allLPM){
-  /* ── Modelo 1: texto grid ── */
-  const gaCount  = countField(allLPM,['Se identifica como...','Gênero do autor','Gênero autor']);
-  const corCount = countField(allLPM,['Cor','cor do autor','raça','Raça']);
-  const idCount  = countField(allLPM,['Idioma','idioma original']);
-  const fmCount  = countField(allLPM,['Formato']);
-  const fxCount  = countField(allLPM,['Faixa etária','Faixa etaria','faixa']);
-
-  /* "Quem escreve": em caso de empate no topo, prioriza Feminino (decisão Louise 2026-07-19) */
-  const topGa  = topNWithPreference(gaCount,1,'Feminino')[0];
-  const topCor = topN(corCount,1)[0];
-  const topId  = topN(idCount,1)[0];
-  const topFm  = topN(fmCount,1)[0];
-  const topFx  = topN(fxCount,1)[0];
-
-  if(topGa)  { document.getElementById('pg-genero').textContent     = topGa[0]; document.getElementById('pg-genero-sub').textContent = topGa[1]+' livros'; }
-  if(topCor) { document.getElementById('pg-cor').textContent        = topCor[0]; document.getElementById('pg-cor-sub').textContent   = topCor[1]+' livros'; }
-  if(topId)  { document.getElementById('pg-idioma').textContent     = topId[0]; }
-  if(topFm)  { document.getElementById('pg-formato').textContent    = topFm[0]; }
-  if(topFx)  { document.getElementById('pg-faixa').textContent      = topFx[0]; }
-
-  /* Gráficos de barra horizontal para Quem escreve, Cor/raça, Faixa etária e Formato
-     (pedido da Louise 2026-07-19) — poucas categorias cada, então barra horizontal
-     (mesmo modelo do gráfico "Origem do livro" logo abaixo) em vez de linha, que é mais
-     adequada a séries com progressão (ex: notas, evolução por ano) do que a categorias
-     soltas sem ordem natural. Donut/pizza é proibido pela Governança nesta seção. */
-  /* Os 4 gráficos de barra (Quem escreve, Cor/raça, Faixa etária, Formato) são construídos
-     mais abaixo, na seção "Modelo 1b: mini-gráficos" (buildMiniBarChart) — o bloco duplicado
-     que existia aqui foi removido (2026-07-19, pedido Louise). */
-
-  const notasLabels=['1','1,5','2','2,5','3','3,5','4','4,5','5'];
-  const notasValores=[1,1.5,2,2.5,3,3.5,4,4.5,5];
-  const notas = new Array(notasLabels.length).fill(0);
-  allLPM.forEach(r=>{
-    const n=parseFloat((findField(r,['NOTA','Nota','nota'])||'').replace(',','.'));
-    if(n>=1&&n<=5){
-      const key=(n%1===0)?String(n):String(n).replace('.',',');
-      const idx=notasLabels.indexOf(key);
-      if(idx>-1) notas[idx]++;
-    }
-  });
-  const total = notas.reduce((a,b)=>a+b,0);
-  const media = total>0 ? (notas.reduce((a,v,i)=>a+v*notasValores[i],0)/total).toFixed(1) : '—';
-  document.getElementById('pg-nota').textContent = media+' ★';
-
-  /* ── Modelo 2: cards diversidade ── */
-  function pctSim(count){
-    const total = Object.values(count).reduce((a,b)=>a+b,0);
-    const sim   = Object.entries(count).filter(([k])=>/^(sim|true)$/i.test(k)).reduce((a,[,v])=>a+v,0);
-    return total>0 ? { pct: Math.round(sim/total*100), total } : { pct:0, total:0 };
-  }
-  const lgbtq = pctSim(countField(allLPM,['Protagonista LGBTQ+','lgbtq']));
-  const div   = pctSim(countField(allLPM,['Diversidade etnica/racial','Diversidade étnica/racial','diversidade']));
-  const own   = pctSim(countField(allLPM,['#OwnVoices?','OwnVoices','ownvoices']));
-
-  document.getElementById('dc-lgbtq').textContent     = lgbtq.pct+'%';
-  document.getElementById('dc-lgbtq-sub').textContent = 'de '+lgbtq.total+' livros lidos';
-  document.getElementById('dc-lgbtq-bar').style.width = lgbtq.pct+'%';
-  document.getElementById('dc-div').textContent       = div.pct+'%';
-  document.getElementById('dc-div-sub').textContent   = 'de '+div.total+' livros lidos';
-  document.getElementById('dc-div-bar').style.width   = div.pct+'%';
-  document.getElementById('dc-own').textContent       = own.pct+'%';
-  document.getElementById('dc-own-sub').textContent   = 'de '+own.total+' livros lidos';
-  document.getElementById('dc-own-bar').style.width   = own.pct+'%';
-
-  /* ── Modelo 3: rankings com barras de texto ── */
-  function buildRank(elId, obj, maxItems){
-    const el = document.getElementById(elId); if(!el) return;
-    const pairs = topN(obj, maxItems);
-    if(!pairs.length) return;
-    const max = pairs[0][1];
-    el.innerHTML = pairs.map(([label,val],i)=>`
-      <div class="rank-item">
-        <div class="rank-header">
-          <span><span class="rank-pos">${i+1}.</span><span class="rank-name">${label}</span></span>
-          <span class="rank-val">${val}</span>
-        </div>
-        <div class="rank-track"><div class="rank-fill${i>0?' light':''}" style="width:${Math.round(val/max*100)}%"></div></div>
-      </div>`).join('');
-  }
-
-  const rc={};
-  allLPM.forEach(r=>{ const p=findField(r,['País','Pais']); const rg=REGIAO[p]||'Outros'; rc[rg]=(rc[rg]||0)+1; });
-  buildRank('rank-regioes', rc, 999);
-  buildRank('rank-generos', countField(allLPM,['Gênero','Genero','gênero literário']), 999);
-
-  /* ── Modelo 1b: mini-gráficos de barras horizontais (Quem escreve / Cor-raça / Faixa etária / Formato) ──
-     Pedido Louise 2026-07-19: poucos valores distintos por campo, então cabem em barras horizontais
-     compactas lado a lado, no mesmo padrão visual já usado no gráfico "Origem do livro". */
-  function buildMiniBarChart(canvasId, tableId, captionLabel, pairs){
-    const el = document.getElementById(canvasId);
-    if(!el || !pairs.length) return;
-    const opts={maintainAspectRatio:false,indexAxis:'y',
-      plugins:{legend:{display:false},datalabels:{display:true,anchor:'end',align:'end',color:DARK,font:{family:'DM Sans',size:9,weight:'500'},formatter:v=>v>0?v:'',clip:false,clamp:false,offset:4}},
-      scales:{x:{grid:{color:'#eee'},ticks:{display:false},beginAtZero:true},y:{grid:{display:false},ticks:{font:{family:'DM Sans',size:9},color:MUTED}}}};
-    new Chart(el,{type:'bar',data:{labels:pairs.map(e=>e[0]),datasets:[{data:pairs.map(e=>e[1]),backgroundColor:GREEN,borderRadius:3}]},options:opts});
-    const tableEl=document.getElementById(tableId);
-    if(tableEl){
-      tableEl.innerHTML='<table><caption>'+captionLabel+'</caption><thead><tr><th scope="col">Categoria</th><th scope="col">Livros</th></tr></thead><tbody>'+
-        pairs.map(e=>'<tr><td>'+e[0]+'</td><td>'+e[1]+'</td></tr>').join('')+
-        '</tbody></table>';
-    }
-  }
-  buildMiniBarChart('c-genero-mini','c-genero-mini-table','Gênero dos autores lidos', topNWithPreference(gaCount,8,'Feminino'));
-  buildMiniBarChart('c-cor-mini','c-cor-mini-table','Cor/raça dos autores lidos', topN(corCount,8));
-  buildMiniBarChart('c-faixa-mini','c-faixa-mini-table','Faixa etária dos livros lidos', topN(fxCount,8));
-  buildMiniBarChart('c-formato-mini','c-formato-mini-table','Formato dos livros lidos', topN(fmCount,8));
-
-  /* ── Modelo 4: notas — padronizado no formato de linha/área (Governança, decisão 2026-07-04) ── */
-  const notasEl = document.getElementById('c-notas');
-  if(notasEl){
-    const opts={maintainAspectRatio:false,layout:{padding:{top:22}},
-      plugins:{legend:{display:false},datalabels:{display:ctx=>ctx.dataset.data[ctx.dataIndex]>0,anchor:'end',align:'top',color:DARK,font:{family:'DM Sans',size:10,weight:'500'},formatter:v=>v>0?v:'',clamp:true}},
-      scales:{x:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:MUTED},border:{display:false}},y:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:MUTED},border:{display:false},beginAtZero:true}}};
-    new Chart(notasEl,{type:'line',data:{labels:notasLabels,datasets:[{data:notas,borderColor:GREEN,backgroundColor:GREEN+'22',borderWidth:2.5,pointRadius:5,pointBackgroundColor:GREEN,fill:true,tension:.35}]},options:opts});
-    const notasTableEl=document.getElementById('c-notas-table');
-    if(notasTableEl){
-      notasTableEl.innerHTML='<table><caption>Quantidade de livros lidos por nota, de 1 a 5 estrelas</caption><thead><tr><th scope="col">Nota</th><th scope="col">Livros</th></tr></thead><tbody>'+
-        notasLabels.map((l,i)=>'<tr><td>'+l+' ★</td><td>'+notas[i]+'</td></tr>').join('')+
-        '</tbody></table>';
-    }
-  }
-
-  /* barras horizontais origem */
-  const origEl = document.getElementById('c-origem');
-  if(origEl){
-    const pairs = topN(countField(allLPM,['Origem do livro?','Origem do livro']),6);
-    if(pairs.length){
-      origEl.style.maxHeight='200px';
-      const opts={maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false},datalabels:{display:true,anchor:'end',align:'end',color:DARK,font:{family:'DM Sans',size:10,weight:'500'},formatter:v=>v>0?v:'',clip:false,clamp:false,offset:6}},scales:{x:{grid:{color:'#eee'},ticks:{font:{family:'DM Sans',size:11},color:MUTED},stepSize:1},y:{grid:{color:'#eee'},ticks:{font:{family:'DM Sans',size:11},color:MUTED}}}};
-      new Chart(origEl,{type:'bar',data:{labels:pairs.map(e=>e[0]),datasets:[{data:pairs.map(e=>e[1]),backgroundColor:GREEN,borderRadius:3}]},options:opts});
-      const origTableEl=document.getElementById('c-origem-table');
-      if(origTableEl){
-        origTableEl.innerHTML='<table><caption>Origem dos livros do desafio</caption><thead><tr><th scope="col">Origem</th><th scope="col">Livros</th></tr></thead><tbody>'+
-          pairs.map(e=>'<tr><td>'+e[0]+'</td><td>'+e[1]+'</td></tr>').join('')+
-          '</tbody></table>';
-      }
-    }
-  }
-}
-
-function buildMap(){
-  const map=L.map('dlm-map').setView([20,10],2);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map);
-  NOTION_DATA.forEach(n=>{
-    const pais=n.pais.replace(/\*+$/,'').trim();
-    const c=COORDS[pais]; if(!c) return;
-    const sr=getStatusReal(n);
-    const color = sr==='lido' ? GREEN : n.livro ? GREEN_LIGHT : '#bbb';
-    L.circleMarker(c,{radius:7,fillColor:color,color:'#fff',weight:1.5,fillOpacity:.85}).addTo(map)
-      .bindPopup('<strong>'+n.pais+'</strong>'+(n.livro?'<br><em>'+n.livro+'</em>':'')+(n.autor?'<br>'+n.autor:''));
-  });
-}
-
-/* Evolução do desafio — agora agrupa dinamicamente pela coluna "Ano" da aba DESAFIO
-   (gid=524970956), em vez de receber 3 arrays fixos (2024/2025/2026). Isso significa que,
-   na próxima virada de ano, basta a Louise continuar preenchendo a planilha com o novo
-   ano na coluna "Ano" — não é mais necessário editar este código a cada ano novo.
-   Decisão Governança 2026-07-19. */
-function buildEvolucao(rowsByYear){
-  const TOTAL=209;
-  const anos = Object.keys(rowsByYear).map(a=>parseInt(a,10)).filter(a=>!isNaN(a)).sort((a,b)=>a-b);
-  const porAno = anos.map(a=>rowsByYear[a].length);
-  let acum=0;
-  const acumPorAno = porAno.map(n=>acum+=n);
-  const total = acum;
-
-  /* Cards: um por ano + card "Faltam" */
-  const cardEl=document.getElementById('evolucao-cards');
-  if(cardEl){
-    const cardsData = anos.map((ano,i)=>({
-      ano:String(ano), num:porAno[i], sub:acumPorAno[i]+' acumulado', dest: i===anos.length-1
-    }));
-    cardsData.push({ano:'Faltam', num:TOTAL-total, sub:'de '+TOTAL+' países'});
-    cardEl.innerHTML = cardsData.map(c=>`<div class="evolucao-card${c.dest?' destaque':''}"><div class="ev-ano">${c.ano}</div><div class="ev-num">${c.num}</div><div class="ev-sub">${c.sub}</div></div>`).join('');
-  }
-
-  /* Barra progresso */
-  const progEl=document.getElementById('barra-progresso-geral');
-  if(progEl){
-    const pct=Math.round(total/TOTAL*100);
-    progEl.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;font-size:.88rem"><span><strong>${total}</strong> países lidos no desafio</span><span style="font-size:.72rem;color:var(--muted)">${pct}% de ${TOTAL}</span></div><div class="prog-track-lg"><div class="prog-fill-lg" style="width:0%" id="pfl"></div></div><div class="prog-labels"><span>0</span><span style="color:var(--green);font-weight:500">${total} ✓</span><span>${TOTAL}</span></div>`;
-    setTimeout(()=>{ const el=document.getElementById('pfl'); if(el) el.style.width=pct+'%'; },400);
-  }
-
-  if(!anos.length) return;
-
-  /* Título e aria-label do gráfico eram fixos "2024→2026" — hardcoded, ficou desatualizado
-     assim que a aba DESAFIO passou a trazer os anos dinamicamente (2026-07-19). Agora usa o
-     intervalo real (primeiro→último ano com leituras), então continua correto sozinho a cada
-     virada de ano. */
-  const primeiroAno = anos[0], ultimoAnoTitulo = anos[anos.length-1];
-  const rangeTxt = primeiroAno===ultimoAnoTitulo ? String(primeiroAno) : primeiroAno+'→'+ultimoAnoTitulo;
-  const tituloEl = document.getElementById('c-evolucao-titulo');
-  if(tituloEl) tituloEl.textContent = 'Países conquistados · '+rangeTxt;
-  const canvasEvol = document.getElementById('c-evolucao-linha');
-  if(canvasEvol) canvasEvol.setAttribute('aria-label','Gráfico de linha mostrando a evolução de países conquistados no desafio de '+rangeTxt+'.');
-
-  /* Ritmo anualizado: se o último ano da série é o ano corrente, projeta com base
-     nos meses já decorridos; anos fechados usam o total real. */
-  const mes=new Date().getMonth()+1;
-  const anoAtual = new Date().getFullYear();
-  const ritmoPorAno = porAno.map((n,i)=> (anos[i]===anoAtual && n>0) ? Math.round(n/mes*12) : n);
-  const media = ritmoPorAno.length ? (Math.round(ritmoPorAno.reduce((a,b)=>a+b,0)/ritmoPorAno.length) || 1) : 1;
-
-  /* Linha acumulada */
-  const linhaEl=document.getElementById('c-evolucao-linha');
-  if(linhaEl){
-    const labR=anos.map(String), dadR=acumPorAno;
-    const ultimoAno=anos[anos.length-1];
-    /* ar/ac2 calculados aqui (antes só existiam lá embaixo, no texto de projeção) e usados
-       para gerar os pontos futuros do gráfico — antes o gráfico tinha um teto fixo em "ay<=2040"
-       enquanto o texto calculava o ano de conclusão sem esse teto. Com ritmo baixo isso fazia o
-       gráfico "acabar" em 2040 sem nunca chegar em 209, enquanto o texto dizia "conclusão em 2042"
-       (ou outro ano depois de 2040) — dois números finais diferentes na mesma seção.
-       Correção (Louise 2026-07-19): usar o MESMO ar para os dois, com um teto generoso só
-       como proteção contra loop infinito (ex: ritmo virar 0). */
-    const ar = media>0 ? Math.ceil((TOTAL-total)/media) : 0;
-    const ap=[]; for(let i=1;i<=ar && ultimoAno+i<=2100;i++) ap.push(ultimoAno+i);
-    const lp=ap, dp=lp.map((_,i)=>Math.min(total+media*(i+1),TOTAL));
-    const allL=[...labR,...lp.map(String)];
-    const allR=[...dadR,...Array(lp.length).fill(null)];
-    const allP=[...Array(labR.length-1).fill(null),acumPorAno[acumPorAno.length-1],...dp];
-    new Chart(linhaEl,{type:'line',data:{labels:allL,datasets:[
-      {label:'Real',data:allR,borderColor:GREEN,backgroundColor:GREEN+'22',borderWidth:2.5,pointRadius:4,pointBackgroundColor:GREEN,fill:true,tension:.3,spanGaps:false},
-      {label:'Projeção',data:allP,borderColor:'#ccc',backgroundColor:'transparent',borderWidth:1.5,borderDash:[5,4],pointRadius:2,pointBackgroundColor:'#ccc',fill:false,tension:.3,spanGaps:false}
-    ]},options:{maintainAspectRatio:false,layout:{padding:{top:22}},plugins:{legend:{display:true,labels:{font:{family:'DM Sans',size:10},color:DARK,boxWidth:10,padding:12}},datalabels:{display:ctx=>ctx.datasetIndex===0&&ctx.raw!==null,color:DARK,font:{family:'DM Sans',size:10,weight:'500'},anchor:'end',align:'top',formatter:v=>v!=null?v:''}},scales:{x:{grid:{color:'#eee'},ticks:{font:{family:'DM Sans',size:10},color:MUTED}},y:{grid:{color:'#eee'},ticks:{font:{family:'DM Sans',size:10},color:MUTED,stepSize:10},min:0,max:TOTAL}}}});
-
-    const evolTableEl=document.getElementById('c-evolucao-linha-table');
-    if(evolTableEl){
-      evolTableEl.innerHTML='<table><caption>Evolução de países conquistados no desafio, real e projeção</caption><thead><tr><th scope="col">Ano</th><th scope="col">Real</th><th scope="col">Projeção</th></tr></thead><tbody>'+
-        allL.map((l,i)=>'<tr><td>'+l+'</td><td>'+(allR[i]!=null?allR[i]:'—')+'</td><td>'+(allP[i]!=null?allP[i]:'—')+'</td></tr>').join('')+
-        '</tbody></table>';
-    }
-
-    /* Projeção textual — usa o MESMO ar calculado acima, garantindo que "Conclusão estimada"
-       bata com o último ponto do gráfico. */
-    const projEl=document.getElementById('projecao-body');
-    if(projEl){
-      const anosFechados = ritmoPorAno.slice(0,-1);
-      const mediaFechados = anosFechados.length ? (anosFechados.reduce((a,b)=>a+b,0)/anosFechados.length) : ritmoPorAno[ritmoPorAno.length-1];
-      const ritmoUltimo = ritmoPorAno[ritmoPorAno.length-1];
-      const ac2=media>0?ultimoAno+ar:'—';
-      projEl.innerHTML=`
-        <div class="proj-linha"><span class="proj-label">Ritmo médio (anos fechados)</span><span class="proj-val">${mediaFechados.toFixed(1)}/ano</span></div>
-        <div class="proj-linha"><span class="proj-label">Ritmo ${ultimoAno} (anualizado)</span><span class="proj-val">~${ritmoUltimo}/ano</span></div>
-        <div class="proj-linha"><span class="proj-label">Total lido até hoje</span><span class="proj-val">${total} de ${TOTAL}</span></div>
-        <div class="proj-linha"><span class="proj-label">Ainda faltam</span><span class="proj-val">${TOTAL-total} países</span></div>
-        <div class="proj-linha" style="margin-top:6px;padding-top:8px;border-top:2px solid var(--green)"><span class="proj-label">Conclusão estimada</span><span class="proj-dest">${ac2}</span></div>
-        <p style="font-size:.72rem;color:var(--muted);margin-top:.8rem;line-height:1.5">Baseado no ritmo de ~${media} países/ano. ${ultimoAno} estimado com base nos ${mes} meses decorridos.</p>`;
-    }
-  }
-}
-
-/* ── Tabela Notion ── */
-let NOTION_DATA = [];
-
-let notionData=[];
-let notionFiltered=[];
-let notionSortKey='pais', notionSortDir=1;
-let notionPage=1, pillFilter='todos';
-const NOTION_PAGE=15;
-
-function getStatusReal(n){
-  if(n.status_notion==='Concluído') return 'lido';
-  if(n.status_notion==='Em andamento') return 'andamento';
-  if(n.livro&&n.livro.trim()) return 'mapeado';
-  return 'nao';
-}
-function setPillFilter(f,btn){
-  pillFilter=f;
-  document.querySelectorAll('.filter-pill').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  notionPage=1; renderNotion();
-}
-function sortNotion(key){
-  if(notionSortKey===key) notionSortDir*=-1; else{notionSortKey=key;notionSortDir=1;}
-  renderNotion();
-}
-function renderNotion(){
-  const q=(document.getElementById('search-notion')?.value||'').toLowerCase();
-  notionFiltered=notionData.filter(n=>{
-    const sr=getStatusReal(n);
-    if(pillFilter==='lido'    && sr!=='lido') return false;
-    if(pillFilter==='mapeado' && sr!=='mapeado'&&sr!=='andamento') return false;
-    if(pillFilter==='nao'     && sr!=='nao') return false;
-    if(q&&!(n.pais+n.livro+n.autor).toLowerCase().includes(q)) return false;
-    return true;
-  });
-  notionFiltered.sort((a,b)=>(a[notionSortKey]||'').localeCompare(b[notionSortKey]||'')*notionSortDir);
-  const total=notionFiltered.length;
-  document.getElementById('notion-count').textContent=total+' países';
-  const pages=Math.ceil(total/NOTION_PAGE);
-  const start=(notionPage-1)*NOTION_PAGE;
-  const slice=notionFiltered.slice(start,start+NOTION_PAGE);
-  document.getElementById('notion-tbody').innerHTML=slice.map(n=>{
-    const sr=getStatusReal(n);
-    const rowBg=sr==='lido'?'background:rgba(132,153,116,.05)':'';
-    const badge=sr==='lido'?'<span class="badge badge-lido">Lido ✓</span>':sr==='andamento'?'<span class="badge badge-andamento">Lendo…</span>':sr==='mapeado'?'<span class="badge badge-mapeado">Mapeado</span>':'<span class="badge badge-nao">—</span>';
-    const capa=n.capa?`<img class="book-cover" src="${n.capa}" alt="${n.livro||''}" loading="lazy" onerror="this.outerHTML='<div class=\\'cover-ph\\'>—</div>'">`:`<div class="cover-ph">—</div>`;
-    const livroText=n.livro?`<span style="font-weight:500">${n.livro}</span>`:'<span style="color:#aaa">—</span>';
-    return `<tr style="${rowBg}"><td>${capa}</td><td><strong>${n.pais}</strong></td><td>${livroText}</td><td>${n.autor||'—'}</td><td>${n.ga||'—'}</td><td>${badge}</td></tr>`;
-  }).join('');
-  const pg=document.getElementById('notion-pagination');
-  pg.innerHTML='';
-  for(let i=1;i<=pages;i++){
-    const btn=document.createElement('button');
-    btn.className='page-btn'+(i===notionPage?' active':'');
-    btn.textContent=i;
-    btn.onclick=()=>{notionPage=i;renderNotion();document.getElementById('lista').scrollIntoView({behavior:'smooth'});};
-    pg.appendChild(btn);
-  }
-}
-
-/* Carrega os dados do desafio a partir do JSON gerado pelo GitHub Action
-   (data/desafio.json), que busca a database do Notion automaticamente. */
-async function loadNotionData(){
-  try{
-    const res = await fetch('data/desafio.json?t=' + Date.now());
-    NOTION_DATA = await res.json();
-  }catch(e){
-    console.warn('Erro ao carregar data/desafio.json', e);
-    NOTION_DATA = [];
-  }
-  notionData = NOTION_DATA.map(r=>({...r}));
-  notionFiltered = [...notionData];
-  renderNotion();
-  init();
-}
-loadNotionData();
-</script>
 </body>
-  </html>
+</html>
