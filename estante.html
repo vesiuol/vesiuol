@@ -106,11 +106,6 @@ nav ul li a.active{background:var(--green);color:var(--white);padding:.28rem .7r
 .pill-dot{width:22px;height:22px;border-radius:50%;background:var(--green);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.6rem;color:var(--white);}
 .sb-nav-pill:hover .pill-dot{background:var(--white);color:var(--green);}
 
-/* Filter pills sidebar */
-.filter-pills{display:flex;flex-wrap:wrap;gap:.3rem;}
-.fpill{font-size:.72rem;padding:.3rem .75rem;border-radius:100px;border:1.5px solid var(--border-interactive);background:transparent;color:var(--muted);cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;}
-.fpill:hover,.fpill.active{background:var(--green);border-color:var(--green);color:var(--white);font-weight:500;}
-
 /* ── MAIN ── */
 .main{padding:2.8rem 3rem 3rem;position:relative;z-index:1;}
 
@@ -392,17 +387,6 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
         <button class="sb-nav-pill" onclick="document.getElementById('lista').scrollIntoView({behavior:'smooth'})">
           <span class="pill-dot">✦</span>Todos os livros
         </button>
-      </div>
-    </div>
-
-    <!-- Filtro rápido -->
-    <div>
-      <div class="sb-label">Filtrar lista</div>
-      <div class="filter-pills">
-        <button class="fpill active" data-f="todos"   onclick="setSidebarFilter('todos',this)">Todos</button>
-        <button class="fpill"        data-f="lido"    onclick="setSidebarFilter('lido',this)">Lidos</button>
-        <button class="fpill"        data-f="nao"     onclick="setSidebarFilter('nao',this)">Não lidos</button>
-        <button class="fpill"        data-f="lendo"   onclick="setSidebarFilter('lendo',this)">Lendo</button>
       </div>
     </div>
 
@@ -710,7 +694,7 @@ function getTagVals(b){
 }
 
 const PER=20;
-let allBooks=[], filtered=[], activeTag='', page=1, sbFilter='todos';
+let allBooks=[], filtered=[], activeTag='', page=1;
 
 async function init(){
   try{ allBooks=await fetchCSV(CSV_ESTANTE); } catch(e){ console.error(e); return; }
@@ -839,20 +823,6 @@ function buildFilters(){
     document.querySelectorAll('.tag-btn').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active');activeTag=btn.dataset.tag;applyFilters();
   }));
-}
-
-function setSidebarFilter(f, btn){
-  sbFilter=f;
-  document.querySelectorAll('.fpill').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  // sync status select
-  const sel=document.getElementById('f-status');
-  if(f==='todos') sel.value='';
-  else if(f==='lido') sel.value='Lido';
-  else if(f==='nao') sel.value='Não Lido';
-  else if(f==='lendo') sel.value='Lendo';
-  applyFilters();
-  document.getElementById('lista').scrollIntoView({behavior:'smooth'});
 }
 
 function applyFilters(){
