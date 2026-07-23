@@ -861,46 +861,50 @@ function fmtPct(val, total) {
 
 function mkSegmentedBar(containerId, entries) {
   const el = document.getElementById(containerId); if(!el) return;
-  el.style.gridTemplateColumns = '1fr';
+  el.style.display = 'flex';
+  el.style.flexDirection = 'column';
+  el.style.justifyContent = 'center';
   const filtered = entries.filter(([,v]) => v > 0).sort((a,b)=>b[1]-a[1]);
   if (!filtered.length) { el.innerHTML = '<div style="padding:.5rem 0;font-size:.8rem;color:#999">Sem dados</div>'; return; }
   const total = filtered.reduce((s,[,v])=>s+v, 0);
   const segs = filtered.map(([,val],i) => {
     const pct = total > 0 ? (val/total*100) : 0;
     const showInline = pct >= 12;
-    return `<div style="width:${pct}%;background:${DIST_COLORS[i%DIST_COLORS.length]};display:flex;align-items:center;justify-content:center">${showInline?`<span style="font-size:.78rem;font-weight:500;color:#fff">${fmtPct(val,total)}</span>`:''}</div>`;
+    return `<div style="width:${pct}%;background:${DIST_COLORS[i%DIST_COLORS.length]};display:flex;align-items:center;justify-content:center">${showInline?`<span style="font-size:.85rem;font-weight:500;color:#fff">${fmtPct(val,total)}</span>`:''}</div>`;
   }).join('');
   const legend = filtered.map(([label,val],i) => `
     <div style="display:flex;align-items:center;gap:6px;margin-right:14px;margin-bottom:4px">
       <span style="width:10px;height:10px;border-radius:2px;background:${DIST_COLORS[i%DIST_COLORS.length]};display:inline-block;flex-shrink:0"></span>
-      <span style="font-size:.78rem;color:var(--text)">${label} — ${fmtPct(val,total)}</span>
+      <span style="font-size:.8rem;color:var(--text)">${label} — ${fmtPct(val,total)}</span>
     </div>`).join('');
   el.innerHTML = `
-    <div style="display:flex;height:56px;border-radius:8px;overflow:hidden;margin-bottom:.8rem">${segs}</div>
+    <div style="display:flex;height:72px;border-radius:8px;overflow:hidden;margin-bottom:.9rem">${segs}</div>
     <div style="display:flex;flex-wrap:wrap">${legend}</div>`;
 }
 
 function mkWaffle(containerId, entries) {
   const el = document.getElementById(containerId); if(!el) return;
-  el.style.gridTemplateColumns = '1fr';
+  el.style.display = 'flex';
+  el.style.flexDirection = 'column';
+  el.style.justifyContent = 'center';
   const filtered = entries.filter(([,v]) => v > 0).sort((a,b)=>b[1]-a[1]);
   if (!filtered.length) { el.innerHTML = '<div style="padding:.5rem 0;font-size:.8rem;color:#999">Sem dados</div>'; return; }
   const total = filtered.reduce((s,[,v])=>s+v, 0);
-  const SQUARES = 20;
+  const SQUARES = 20, SQ = 28, GAP = 6;
   const alloc = filtered.map(([,v]) => (v/total)*SQUARES);
   const counts = alloc.map(Math.floor);
   let rest = SQUARES - counts.reduce((a,b)=>a+b,0);
   const fracOrder = alloc.map((v,i)=>[v-Math.floor(v),i]).sort((a,b)=>b[0]-a[0]);
   for (let i=0; i<rest; i++) counts[fracOrder[i][1]]++;
   const squares = [];
-  filtered.forEach((_,i) => { for (let s=0; s<counts[i]; s++) squares.push(`<div style="aspect-ratio:1;background:${DIST_COLORS[i%DIST_COLORS.length]};border-radius:3px"></div>`); });
+  filtered.forEach((_,i) => { for (let s=0; s<counts[i]; s++) squares.push(`<div style="width:${SQ}px;height:${SQ}px;background:${DIST_COLORS[i%DIST_COLORS.length]};border-radius:4px"></div>`); });
   const legend = filtered.map(([label,val],i) => `
     <div style="display:flex;align-items:center;gap:6px;margin-right:14px;margin-bottom:4px">
       <span style="width:10px;height:10px;border-radius:2px;background:${DIST_COLORS[i%DIST_COLORS.length]};display:inline-block;flex-shrink:0"></span>
-      <span style="font-size:.78rem;color:var(--text)">${label} — ${fmtPct(val,total)}</span>
+      <span style="font-size:.8rem;color:var(--text)">${label} — ${fmtPct(val,total)}</span>
     </div>`).join('');
   el.innerHTML = `
-    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:5px;max-width:170px;margin:0 auto .8rem">${squares.join('')}</div>
+    <div style="display:flex;flex-wrap:wrap;gap:${GAP}px;width:${SQ*5+GAP*4}px;margin:0 auto .9rem">${squares.join('')}</div>
     <div style="display:flex;flex-wrap:wrap">${legend}</div>`;
 }
 
