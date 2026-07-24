@@ -614,11 +614,11 @@ footer {
       <div class="charts-2col">
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Gêneros literários</span></div>
-          <div style="padding:1rem 1.2rem;overflow-y:auto;height:280px" tabindex="0" aria-label="Lista rolável de gêneros literários do ano selecionado"><div class="rank-list" id="ac-generos"></div></div>
+          <div id="ac-generos-wrap" style="padding:1rem 1.2rem;overflow-y:auto;height:280px" tabindex="0" aria-label="Lista rolável de gêneros literários do ano selecionado"><div class="rank-list" id="ac-generos"></div></div>
         </div>
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">País de origem dos autores</span></div>
-          <div style="padding:1rem 1.2rem;overflow-y:auto;height:280px" tabindex="0" aria-label="Lista rolável de países de origem dos autores do ano selecionado"><div class="rank-list" id="ac-paises-ano"></div></div>
+          <div id="ac-paises-ano-wrap" style="padding:1rem 1.2rem;overflow-y:auto;height:280px" tabindex="0" aria-label="Lista rolável de países de origem dos autores do ano selecionado"><div class="rank-list" id="ac-paises-ano"></div></div>
         </div>
       </div>
     </section>
@@ -859,6 +859,48 @@ function fmtPct(val, total) {
   return (pct < 1 && pct > 0) ? pct.toFixed(1)+'%' : Math.round(pct)+'%';
 }
 
+function syncRankHeights(id1, id2, count1, count2) {
+  const w1 = document.getElementById(id1), w2 = document.getElementById(id2);
+  if (!w1 || !w2) return;
+  const FIXED = 280;
+  if (Math.max(count1, count2) >= 6) {
+    w1.style.height = FIXED + 'px'; w1.style.overflowY = 'auto';
+    w2.style.height = FIXED + 'px'; w2.style.overflowY = 'auto';
+    return;
+  }
+  w1.style.height = 'auto'; w1.style.overflowY = 'visible';
+  w2.style.height = 'auto'; w2.style.overflowY = 'visible';
+  requestAnimationFrame(() => {
+    const h = Math.max(w1.scrollHeight, w2.scrollHeight);
+    w1.style.height = h + 'px';
+    w2.style.height = h + 'px';
+  });
+}
+
+function mkEditorialList(containerId, entries) {
+  const el = document.getElementById(containerId); if(!el) return;
+  el.style.display = 'flex';
+  el.style.flexDirection = 'column';
+  el.style.justifyContent = 'center';
+  const filtered = entries.filter(([,v]) => v > 0).sort((a,b)=>b[1]-a[1]);
+  if (!filtered.length) { el.innerHTML = '<div style="padding:.5rem 0;font-size:.8rem;color:#999">Sem dados</div>'; return; }
+  const total = filtered.reduce((s,[,v])=>s+v, 0);
+  const rows = filtered.map(([label,val]) => {
+    const pct = total > 0 ? (val/total*100) : 0;
+    return `
+    <div style="margin-bottom:14px">
+      <div style="display:flex;align-items:baseline;gap:10px">
+        <span style="font-family:Georgia,serif;font-size:1.6rem;color:var(--green-dark)">${fmtPct(val,total)}</span>
+        <span style="font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">${label}</span>
+      </div>
+      <div style="height:2px;background:var(--border);margin-top:6px">
+        <div style="height:100%;width:${pct}%;background:var(--green-dark)"></div>
+      </div>
+    </div>`;
+  }).join('');
+  el.innerHTML = `<div>${rows}</div>`;
+}
+
 function mkSegmentedBar(containerId, entries) {
   const el = document.getElementById(containerId); if(!el) return;
   el.style.display = 'flex';
@@ -878,7 +920,7 @@ function mkSegmentedBar(containerId, entries) {
       <span style="font-size:.8rem;color:var(--text)">${label} — ${fmtPct(val,total)}</span>
     </div>`).join('');
   el.innerHTML = `
-    <div style="display:flex;height:72px;border-radius:8px;overflow:hidden;margin-bottom:.9rem">${segs}</div>
+    <div style="display:flex;height:96px;border-radius:8px;overflow:hidden;margin-bottom:.9rem">${segs}</div>
     <div style="display:flex;flex-wrap:wrap">${legend}</div>`;
 }
 
@@ -979,9 +1021,9 @@ function buildGerais() {
   const genE = topN(getGenLivro(null), 20);
   buildRankList('rank-generos', genE.map(e=>e[0]), genE.map(e=>e[1]));
 
-  // Idioma — cards
+  // Idioma — barra única segmentada (mesmo modelo do Detalhe por ano)
   const idTop = topN(getIdiomas(null), 4);
-  mkDistCards('dist-idioma', idTop);
+  mkSegmentedBar('dist-idioma', idTop);
 
   // Avaliações — gráfico de linha
   const notasD = subVals(CAT_NOTAS,null);
@@ -1116,7 +1158,7 @@ function renderAno(ano) {
 
   const gaD = subVals(CAT_GENERO, aFiltro);
   const gaE = Object.entries(gaD).filter(e=>e[1]>0).sort((a,b)=>b[1]-a[1]);
-  mkWaffle('ac-ga', gaE);
+  mkEditorialList('ac-ga', gaE);
 
   const idTop = topN(getIdiomas(aFiltro), 4);
   mkSegmentedBar('ac-idioma', idTop);
@@ -1126,6 +1168,8 @@ function renderAno(ano) {
 
   const pE = topN(getPaises(aFiltro), 999);
   buildRankList('ac-paises-ano', pE.map(e=>e[0]), pE.map(e=>e[1]));
+
+  syncRankHeights('ac-generos-wrap', 'ac-paises-ano-wrap', glE.length, pE.length);
 
   const notaD = subVals(CAT_NOTAS, aFiltro);
   (function(){
