@@ -854,6 +854,7 @@ function mkDistCards(containerId, entries) {
 }
 
 const DIST_COLORS = ['#6b7e5e','#849974','#c8d4b8','#8f8f8f','#c8c8c8'];
+const DIST_TEXT   = ['#fff','#1a1a1a','#1a1a1a','#1a1a1a','#1a1a1a'];
 function fmtPct(val, total) {
   const pct = total > 0 ? (val/total*100) : 0;
   return (pct < 1 && pct > 0) ? pct.toFixed(1)+'%' : Math.round(pct)+'%';
@@ -875,6 +876,28 @@ function syncRankHeights(id1, id2, count1, count2) {
     w1.style.height = h + 'px';
     w2.style.height = h + 'px';
   });
+}
+
+function mkColumnChart(containerId, entries) {
+  const el = document.getElementById(containerId); if(!el) return;
+  el.style.display = 'flex';
+  el.style.flexDirection = 'column';
+  el.style.justifyContent = 'center';
+  const filtered = entries.filter(([,v]) => v > 0).sort((a,b)=>b[1]-a[1]);
+  if (!filtered.length) { el.innerHTML = '<div style="padding:.5rem 0;font-size:.8rem;color:#999">Sem dados</div>'; return; }
+  const total = filtered.reduce((s,[,v])=>s+v, 0);
+  const MAXH = 120;
+  const cols = filtered.map(([label,val]) => {
+    const pct = total > 0 ? (val/total*100) : 0;
+    const h = Math.max(6, Math.round(MAXH * pct / 100));
+    return `
+    <div style="display:flex;flex-direction:column;align-items:center;gap:6px;flex:1;min-width:0;max-width:90px">
+      <span style="font-size:.78rem;font-weight:600;color:var(--text)">${fmtPct(val,total)}</span>
+      <div style="width:100%;max-width:46px;height:${h}px;background:var(--green-dark);border-radius:5px 5px 0 0"></div>
+      <span style="font-size:.7rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);text-align:center;line-height:1.2">${label}</span>
+    </div>`;
+  }).join('');
+  el.innerHTML = `<div style="display:flex;align-items:flex-end;gap:14px;height:${MAXH+40}px;justify-content:center;padding:0 .3rem">${cols}</div>`;
 }
 
 function mkEditorialList(containerId, entries) {
@@ -912,7 +935,7 @@ function mkSegmentedBar(containerId, entries) {
   const segs = filtered.map(([,val],i) => {
     const pct = total > 0 ? (val/total*100) : 0;
     const showInline = pct >= 12;
-    return `<div style="width:${pct}%;background:${DIST_COLORS[i%DIST_COLORS.length]};display:flex;align-items:center;justify-content:center">${showInline?`<span style="font-size:.85rem;font-weight:500;color:#fff">${fmtPct(val,total)}</span>`:''}</div>`;
+    return `<div style="width:${pct}%;background:${DIST_COLORS[i%DIST_COLORS.length]};display:flex;align-items:center;justify-content:center">${showInline?`<span style="font-size:.85rem;font-weight:700;color:${DIST_TEXT[i%DIST_TEXT.length]}">${fmtPct(val,total)}</span>`:''}</div>`;
   }).join('');
   const legend = filtered.map(([label,val],i) => `
     <div style="display:flex;align-items:center;gap:6px;margin-right:14px;margin-bottom:4px">
@@ -1154,7 +1177,7 @@ function renderAno(ano) {
 
   const corD = subVals(CAT_COR, aFiltro);
   const corE = Object.entries(corD).filter(e=>e[1]>0).sort((a,b)=>b[1]-a[1]);
-  mkWaffle('ac-cor', corE);
+  mkColumnChart('ac-cor', corE);
 
   const gaD = subVals(CAT_GENERO, aFiltro);
   const gaE = Object.entries(gaD).filter(e=>e[1]>0).sort((a,b)=>b[1]-a[1]);
