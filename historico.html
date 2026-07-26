@@ -76,7 +76,7 @@
   --green-light: #c8d4b8;
   --border:      #c8c8c8;
   --border-soft: #e0e0e0;
-  --border-interactive: #6b7e5e;
+  --border-interactive: #8f8f8f;
   --text:        #1a1a1a;
   --muted:       #555;
   --bg:          #ffffff;
@@ -138,7 +138,7 @@ nav ul li a.active {
 nav ul.open { display: flex; }
 
 /* ── INTRO MOBILE (aparece antes da sidebar no mobile) ── */
-.intro-mobile { display: none; padding: 1.4rem 1.2rem 0; }
+.intro-mobile { display: none; padding: 1.4rem 1.2rem 1.6rem; }
 .intro-desktop {}
 
 /* ── PAGE WRAP ── */
@@ -346,12 +346,21 @@ footer {
 
 /* ── RESPONSIVE ── */
 @media (max-width: 900px) {
+  /* Sidebar deixa de ser sticky/lado-a-lado neste breakpoint, então não há mais
+     razão para reservar overflow-x visível — contém qualquer estouro horizontal
+     acidental (é o que causava o "zoom errado" / espaço em branco ao dar zoom out). */
+  body { overflow-x: hidden; }
   .page-wrap { grid-template-columns: 1fr; }
   .sidebar {
     position: static; max-height: none; overflow: visible;
     border-right: none; border-bottom: 1.5px solid var(--border);
     width: 100%; min-width: 0;
   }
+  /* O espaço reservado (visibility:hidden) do filtro por ano só faz sentido no
+     desktop, para manter alinhamento com a coluna .main ao lado. No mobile a
+     sidebar empilha sozinha, então esse espaço fica vazio sem propósito — remove
+     do fluxo aqui (o "hidden mas reservado" da governança vale só para desktop). */
+  .sb-filtro-ano-oculto { display: none; }
   .kpi-grid { min-width: 0; }
   .kpi-card { min-width: 0; overflow: hidden; }
   .charts-2col { grid-template-columns: 1fr; }
