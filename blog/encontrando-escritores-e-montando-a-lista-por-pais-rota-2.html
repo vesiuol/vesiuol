@@ -98,11 +98,10 @@ main{padding:2rem 2.4rem 3rem;position:relative;z-index:1;min-width:0;}
 .wdot{width:8px;height:8px;border-radius:50%;background:#bbb;}
 .post-cover{width:100%;height:120px;object-fit:cover;background:repeating-linear-gradient(135deg,var(--green-light),var(--green-light) 8px,#d7e0cb 8px,#d7e0cb 16px);}
 .post-body{padding:1rem 1.1rem;flex:1;display:flex;flex-direction:column;gap:.5rem;}
-.post-title{font-family:Georgia,serif;font-size:.95rem;font-weight:400;line-height:1.5;display:inline;background:var(--green);color:var(--white);padding:.1em .35em;box-decoration-break:clone;-webkit-box-decoration-break:clone;align-self:flex-start;}
-.post-desc{font-size:.82rem;line-height:1.6;color:#3d3d3d;flex:1;margin-top:.5rem;}
+.post-title{font-family:'Lora',serif;font-size:1.22rem;font-weight:700;line-height:1.38;color:var(--text);}
 .post-foot{border-top:1px solid var(--border-soft);padding:.55rem 1.1rem;display:flex;align-items:center;justify-content:space-between;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);}
 .post-tags{display:flex;flex-wrap:wrap;gap:.35rem;padding:0 1.1rem .9rem;}
-.post-tag{font-size:.64rem;letter-spacing:.03em;text-transform:uppercase;color:var(--green-dark);background:var(--green-light);padding:.14rem .5rem;border-radius:100px;}
+.post-tag{font-size:.64rem;letter-spacing:.03em;text-transform:uppercase;color:var(--white);background:var(--green);padding:.14rem .5rem;border-radius:100px;}
 
 /* Página de texto individual — coluna única, sem sidebar */
 .article-wrap{max-width:720px;margin:0 auto;padding:2.2rem 2rem 3rem;}
@@ -118,18 +117,20 @@ main{padding:2rem 2.4rem 3rem;position:relative;z-index:1;min-width:0;}
 .article-body li{margin-bottom:.4rem;}
 .article-body figure{margin:1.7rem 0;}
 .article-body img{width:100%;border-radius:10px;border:1.5px solid var(--border);display:block;}
-.article-body figcaption{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.85rem;color:var(--muted);text-align:center;margin-top:.5rem;}
+.article-body figcaption{font-size:.72rem;letter-spacing:.02em;color:var(--black);text-align:center;margin-top:.5rem;}
 .article-tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:1.8rem 0 2.6rem;}
 .article-back{display:inline-block;margin-bottom:1.4rem;font-size:.74rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);}
 .article-back:hover{color:var(--green);}
 
-.related-wrap{border-top:1.5px solid var(--border);padding-top:1.8rem;padding-bottom:2.4rem;margin-top:.6rem;max-width:720px;margin-left:auto;margin-right:auto;padding-left:2rem;padding-right:2rem;}
-.related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1rem;}
-.related-card{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;background:var(--white);box-shadow:2px 2px 0 var(--border);text-decoration:none;color:inherit;}
-.related-cover{height:56px;background:repeating-linear-gradient(135deg,var(--green-light),var(--green-light) 8px,#d7e0cb 8px,#d7e0cb 16px);}
-.related-body{padding:.7rem .8rem .85rem;}
-.related-title{font-family:'Cormorant Garamond',serif;font-size:.98rem;font-weight:600;line-height:1.3;margin-bottom:.25rem;}
-.related-meta{font-size:.62rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);}
+.related-wrap{border-top:1.5px solid var(--border);padding-top:2.4rem;padding-bottom:2.4rem;margin-top:0;max-width:720px;margin-left:auto;margin-right:auto;padding-left:2rem;padding-right:2rem;}
+.related-wrap .posts-grid{display:flex;flex-direction:column;gap:0;margin-top:1rem;border-top:1px solid var(--border-soft);}
+.related-wrap .post-card{flex-direction:row;flex-wrap:wrap;align-items:center;gap:.4rem 1rem;border:none;border-bottom:1px solid var(--border-soft);border-radius:0;box-shadow:none;padding:.6rem .1rem;}
+.related-wrap .post-card:hover{transform:none;box-shadow:none;background:var(--surface);}
+.related-wrap .post-wbar{display:none;}
+.related-wrap .post-body{padding:0;flex:1 1 220px;gap:0;}
+.related-wrap .post-title{font-size:.85rem;font-weight:600;line-height:1.35;}
+.related-wrap .post-tags{padding:0;flex-shrink:0;}
+.related-wrap .post-foot{border-top:none;padding:0;flex-shrink:0;gap:.5rem;font-size:.62rem;}
 
 footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center;gap:1rem;border-top:1.5px solid var(--green-dark);}
 .footer-dots{display:flex;gap:5px;}
@@ -142,7 +143,6 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
   .sidebar{position:static;width:100%;min-width:0;background:var(--surface);border-right:none;border-bottom:1.5px solid var(--border);}
   main{min-width:0;}
   .posts-grid{grid-template-columns:1fr;}
-  .related-grid{grid-template-columns:1fr;}
   .article-wrap{padding:1.6rem 1.2rem 2.4rem;}
   .related-wrap{padding-left:1.2rem;padding-right:1.2rem;}
 }
@@ -186,7 +186,7 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
 <p>Você pode checar a abertura desse projeto aqui: <a href="desafio-livros-pelo-mundo.html">Desafio livros pelo mundo</a></p>
 <p>Após criar a lista que organizaria a meta de viajar através dos livros por todos os países do nosso globo, busquei avidamente em diversos sites — e até em alguns vídeos — formas de adiantar a <strong>procura</strong> dessas obras.</p>
 <p>Depois de encontrar 78 livros, me dei por satisfeita, ao menos por enquanto.</p>
-<blockquote><a href="estruturando-rota-1.html">Estruturando a nossa rota #1</a></blockquote>
+<blockquote><a href="como-escolhi-um-livro-por-pais-rota-1.html">Estruturando a nossa rota #1</a></blockquote>
 <p>Obviamente, durante as buscas, fui analisando quais leituras realmente gostaria de fazer — e não apenas preencher uma planilha.</p>
 <p>Minha ideia é compartilhar os links de blogs (alguns em inglês), perfis no Instagram, usuários no Skoob e conteúdos do TikTok para te ajudar também nesse projeto.</p>
 <h3>Blogs</h3>
@@ -217,34 +217,37 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
   </div>
   <div class="related-wrap">
     <h2 class="section-h2">Outras leituras</h2>
-    <div class="related-grid">
-        <a class="related-card" href="desafio-livros-pelo-mundo.html">
-          <div class="related-cover"></div>
-          <div class="related-body">
-            <div class="related-title">Desafio livros pelo mundo: um livro para cada país</div>
-            <div class="related-meta">26 jul 2024 · 3 min</div>
+    <div class="posts-grid">
+        <a class="post-card" href="desafio-livros-pelo-mundo.html">
+          <div class="post-wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div></div>
+          <div class="post-body">
+            <h3 class="post-title">Desafio livros pelo mundo: um livro para cada país</h3>
           </div>
+          <div class="post-tags"><span class="post-tag">Livros Pelo Mundo</span><span class="post-tag">Organização</span></div>
+          <div class="post-foot"><span>26 jul 2024 · 3 min</span><span>→</span></div>
         </a>
-        <a class="related-card" href="estruturando-rota-1.html">
-          <div class="related-cover"></div>
-          <div class="related-body">
-            <div class="related-title">Estruturando a nossa rota #1</div>
-            <div class="related-meta">26 jul 2024 · 2 min</div>
+        <a class="post-card" href="como-escolhi-um-livro-por-pais-rota-1.html">
+          <div class="post-wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div></div>
+          <div class="post-body">
+            <h3 class="post-title">Desafio livros pelo mundo: como escolhi os livros por país (Rota #1)</h3>
           </div>
+          <div class="post-tags"><span class="post-tag">Livros Pelo Mundo</span><span class="post-tag">Organização</span></div>
+          <div class="post-foot"><span>26 jul 2024 · 2 min</span><span>→</span></div>
         </a>
-        <a class="related-card" href="paises-lidos-planilha-notion.html">
-          <div class="related-cover"></div>
-          <div class="related-body">
-            <div class="related-title">Desafio livros pelo mundo: os países que já li e minha planilha no Notion</div>
-            <div class="related-meta">29 jun 2025 · 4 min</div>
+        <a class="post-card" href="os-paises-que-ja-li-e-minha-planilha-no-notion.html">
+          <div class="post-wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div></div>
+          <div class="post-body">
+            <h3 class="post-title">Desafio livros pelo mundo: os países que já li e minha planilha no Notion</h3>
           </div>
+          <div class="post-tags"><span class="post-tag">Livros Pelo Mundo</span><span class="post-tag">Resenha</span></div>
+          <div class="post-foot"><span>29 jun 2025 · 4 min</span><span>→</span></div>
         </a>
     </div>
   </div>
 
 <footer>
   <div class="footer-dots"><div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div></div>
-  <span class="footer-text">Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">26 de julho de 2026</span></span>
+  <span class="footer-text">Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">27 de julho de 2026</span></span>
 </footer>
 </body>
 </html>
