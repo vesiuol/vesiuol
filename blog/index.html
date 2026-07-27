@@ -30,7 +30,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
 :root {
   --white:#ffffff; --black:#000000;
@@ -58,8 +58,7 @@ nav ul li a.active{background:var(--green);color:var(--white);padding:.28rem .7r
 .nav-hamburger{display:none;background:none;border:none;color:var(--black);font-size:1.4rem;cursor:pointer;margin-left:auto;}
 
 .intro-headline-wrap{margin-bottom:1.4rem;}
-.intro-headline{font-family:'Cormorant Garamond',serif;font-size:clamp(2.4rem,4vw,3.8rem);font-weight:600;line-height:1.45;display:inline;background:var(--green);color:var(--white);padding:.08em .28em;box-decoration-break:clone;-webkit-box-decoration-break:clone;}
-.sidebar .intro-headline{font-size:1.85rem;line-height:1.2;}
+.intro-headline{font-family:'Cormorant Garamond',serif;font-size:clamp(2.4rem,4vw,3.8rem);font-weight:600;line-height:1.1;display:inline;background:var(--green);color:var(--white);padding:.06em .28em;box-decoration-break:clone;-webkit-box-decoration-break:clone;}
 .section-hr{border:none;border-top:1px solid var(--border-soft);margin-bottom:1.6rem;}
 .section-head{display:flex;align-items:baseline;gap:.8rem;margin-bottom:1.4rem;}
 .section-h2{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:700;display:inline;background:var(--green);color:var(--white);padding:.08em .4em;box-decoration-break:clone;-webkit-box-decoration-break:clone;}
@@ -88,7 +87,7 @@ nav ul li a.active{background:var(--green);color:var(--white);padding:.28rem .7r
 .tag-btn{padding:.3rem .8rem;border:1.5px solid var(--border);background:transparent;font-size:.72rem;letter-spacing:.06em;border-radius:100px;cursor:pointer;color:var(--muted);font-family:'DM Sans',sans-serif;transition:all .2s;}
 .tag-btn:hover, .tag-btn.active{background:var(--green);border-color:var(--green);color:var(--white);}
 
-main{padding:2rem 2.4rem 3rem;position:relative;z-index:1;min-width:0;}
+main{padding:2rem 2.4rem 4.5rem;position:relative;z-index:1;min-width:0;}
 
 /* Post cards — reaproveitado 1:1 de desafio.html (seção "Blogs sobre o desafio") */
 .posts-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;}
@@ -97,10 +96,9 @@ main{padding:2rem 2.4rem 3rem;position:relative;z-index:1;min-width:0;}
 .post-card.pending{opacity:.55;}
 .post-wbar{padding:.45rem .9rem;display:flex;gap:4px;border-bottom:1px solid var(--border-soft);}
 .wdot{width:8px;height:8px;border-radius:50%;background:#bbb;}
-.post-cover{width:100%;height:120px;object-fit:cover;background:repeating-linear-gradient(135deg,var(--green-light),var(--green-light) 8px,#d7e0cb 8px,#d7e0cb 16px);}
 .post-body{padding:1rem 1.1rem;flex:1;display:flex;flex-direction:column;gap:.5rem;}
-.post-title{font-family:Georgia,serif;font-size:.95rem;font-weight:400;line-height:1.5;display:inline;background:var(--green);color:var(--white);padding:.1em .35em;box-decoration-break:clone;-webkit-box-decoration-break:clone;align-self:flex-start;}
-.post-desc{font-size:.82rem;line-height:1.6;color:#3d3d3d;flex:1;margin-top:.5rem;}
+.post-title{font-family:Georgia,serif;font-size:1.22rem;font-weight:700;line-height:1.38;color:var(--text);}
+.post-desc{font-size:.82rem;line-height:1.6;color:var(--text);flex:1;margin-top:.5rem;}
 .post-foot{border-top:1px solid var(--border-soft);padding:.55rem 1.1rem;display:flex;align-items:center;justify-content:space-between;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);}
 .post-tags{display:flex;flex-wrap:wrap;gap:.35rem;padding:0 1.1rem .9rem;}
 .post-tag{font-size:.64rem;letter-spacing:.03em;text-transform:uppercase;color:var(--green-dark);background:var(--green-light);padding:.14rem .5rem;border-radius:100px;}
@@ -160,11 +158,11 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
 
 <!-- NAV -->
 <nav>
-  <div class="nav-logo">
+  <a href="../index.html" class="nav-logo" style="text-decoration:none">
     <div class="nav-dot"></div>
     <div class="nav-dot"></div>
     <div class="nav-dot" style="background:var(--green)"></div>
-  </div>
+  </a>
   <ul id="nav-menu">
     <li><a href="../index.html">Início</a></li>
     <li><a href="../2026.html">2026</a></li>
@@ -195,12 +193,12 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
     </div>
     <div>
       <div class="sb-label">Filtrar por tag</div>
-      <div class="tag-list">
-        <button class="tag-btn active">Todas</button>
-        <button class="tag-btn">Livros Pelo Mundo</button>
-        <button class="tag-btn">Resenha</button>
-        <button class="tag-btn">Organização</button>
-        <button class="tag-btn">Reflexão</button>
+      <div class="tag-list" id="tag-filter">
+        <button class="tag-btn active" data-tag="todas">Todas</button>
+        <button class="tag-btn" data-tag="Livros Pelo Mundo">Livros Pelo Mundo</button>
+        <button class="tag-btn" data-tag="Resenha">Resenha</button>
+        <button class="tag-btn" data-tag="Organização">Organização</button>
+        <button class="tag-btn" data-tag="Literatura">Literatura</button>
       </div>
     </div>
     <div>
@@ -217,22 +215,20 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
     <div class="section-head">
       <h2 class="section-h2">Textos recentes</h2>
     </div>
-    <div class="posts-grid">
+    <div class="posts-grid" id="posts-grid">
         <a class="post-card" href="desafio-livros-pelo-mundo.html">
           <div class="post-wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div></div>
-          <img class="post-cover" src="../images/blog/desafio-livros-pelo-mundo-1.jpg" alt="" onerror="this.style.display='none'">
           <div class="post-body">
             <h3 class="post-title">Desafio livros pelo mundo: um livro para cada país</h3>
             <p class="post-desc">Embarquei num desafio de ler um livro por país: uma viagem literária em busca de pluralidade, novas vozes e autores de todo o mundo. Aqui começa a jornada.</p>
           </div>
-          <div class="post-tags"><span class="post-tag">Livros Pelo Mundo</span><span class="post-tag">Reflexão</span></div>
+          <div class="post-tags"><span class="post-tag">Livros Pelo Mundo</span></div>
           <div class="post-foot"><span>Apresentação</span><span>→</span></div>
         </a>
         <a class="post-card" href="como-escolhi-um-livro-por-pais-rota-1.html">
           <div class="post-wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div></div>
-          <img class="post-cover" src="../images/blog/estruturando-rota-1-1.jpg" alt="" onerror="this.style.display='none'">
           <div class="post-body">
-            <h3 class="post-title">Estruturando a nossa rota #1</h3>
+            <h3 class="post-title">Desafio livros pelo mundo: como escolhi os livros por país (Rota #1)</h3>
             <p class="post-desc">Desafio livros pelo mundo — um livro para cada país: como organizo minha lista de leituras, critérios de escolha e os primeiros países da rota.</p>
           </div>
           <div class="post-tags"><span class="post-tag">Livros Pelo Mundo</span><span class="post-tag">Organização</span></div>
@@ -240,9 +236,8 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
         </a>
         <a class="post-card" href="encontrando-escritores-e-montando-a-lista-por-pais-rota-2.html">
           <div class="post-wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div></div>
-          <img class="post-cover" src="../images/blog/montando-rota-2-1.jpg" alt="" onerror="this.style.display='none'">
           <div class="post-body">
-            <h3 class="post-title">Montando a nossa rota #2</h3>
+            <h3 class="post-title">Desafio livros pelo mundo: encontrando escritores e montando a lista por país (Rota #2)</h3>
             <p class="post-desc">Desafio livros pelo mundo — um livro para cada país: como pesquiso escritores nativos de cada país e os critérios que uso para escolher o livro que vai representar cada lugar.</p>
           </div>
           <div class="post-tags"><span class="post-tag">Livros Pelo Mundo</span><span class="post-tag">Organização</span></div>
@@ -250,7 +245,6 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
         </a>
         <a class="post-card" href="os-paises-que-ja-li-e-minha-planilha-no-notion.html">
           <div class="post-wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div></div>
-          <img class="post-cover" src="../images/blog/paises-lidos-planilha-notion-1.jpg" alt="" onerror="this.style.display='none'">
           <div class="post-body">
             <h3 class="post-title">Desafio livros pelo mundo: os países que já li e minha planilha no Notion</h3>
             <p class="post-desc">Um panorama do meu progresso no desafio um livro por país: os países lidos, minhas impressões rápidas e como organizo tudo numa planilha no Notion.</p>
@@ -260,7 +254,6 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
         </a>
         <a class="post-card" href="resenha-a-guerra-nao-tem-rosto-de-mulher-svetlana-Alexijevich.html">
           <div class="post-wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div></div>
-          <img class="post-cover" src="../images/blog/a-guerra-nao-tem-rosto-de-mulher-1.jpg" alt="" onerror="this.style.display='none'">
           <div class="post-body">
             <h3 class="post-title">A guerra não tem rosto de mulher — Svetlana Alexijevich</h3>
             <p class="post-desc">Resenha do livro de Svetlana Aleksiévitch, vencedor do Prêmio Nobel de Literatura em 2015, sobre mulheres soviéticas na Segunda Guerra Mundial.</p>
@@ -270,13 +263,12 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
         </a>
         <a class="post-card" href="resenha-historias-cruzadas-entre-sobreviventes-svetlana-Alexijevich.html">
           <div class="post-wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div></div>
-          <img class="post-cover" src="../images/blog/historias-cruzadas-sobreviventes-1.jpg" alt="" onerror="this.style.display='none'">
           <div class="post-body">
             <h3 class="post-title">Histórias cruzadas entre sobreviventes</h3>
             <p class="post-desc">Duas cenas quase idênticas contadas em livros diferentes de Svetlana Aleksiévitch — um reencontro inesperado entre dois relatos de sobreviventes.</p>
           </div>
           <div class="post-tags"><span class="post-tag">Resenha</span><span class="post-tag">Literatura</span></div>
-          <div class="post-foot"><span>Reflexão</span><span>→</span></div>
+          <div class="post-foot"><span>Literatura</span><span>→</span></div>
         </a>
     </div>
   </main>
@@ -286,5 +278,32 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
   <div class="footer-dots"><div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div></div>
   <span class="footer-text">Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">26 de julho de 2026</span></span>
 </footer>
+<script>
+(function(){
+  var filterWrap = document.getElementById('tag-filter');
+  var grid = document.getElementById('posts-grid');
+  if (!filterWrap || !grid) return;
+  var buttons = filterWrap.querySelectorAll('.tag-btn');
+  var cards = grid.querySelectorAll('.post-card');
+  function norm(s){ return (s || '').trim().toLowerCase(); }
+  filterWrap.addEventListener('click', function(e){
+    var btn = e.target.closest('.tag-btn');
+    if (!btn) return;
+    for (var i = 0; i < buttons.length; i++) buttons[i].classList.remove('active');
+    btn.classList.add('active');
+    var tag = norm(btn.getAttribute('data-tag'));
+    for (var j = 0; j < cards.length; j++) {
+      var card = cards[j];
+      if (tag === 'todas') { card.style.display = ''; continue; }
+      var cardTags = card.querySelectorAll('.post-tag');
+      var match = false;
+      for (var k = 0; k < cardTags.length; k++) {
+        if (norm(cardTags[k].textContent) === tag) { match = true; break; }
+      }
+      card.style.display = match ? '' : 'none';
+    }
+  });
+})();
+</script>
 </body>
 </html>
