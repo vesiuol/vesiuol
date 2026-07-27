@@ -304,6 +304,17 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
       card.style.display = match ? '' : 'none';
     }
   });
+
+  // Aplica o filtro automaticamente quando a página é acessada via ?tag=...
+  var params = new URLSearchParams(window.location.search);
+  var initialTag = params.get('tag');
+  if (initialTag) {
+    var target = null;
+    for (var m = 0; m < buttons.length; m++) {
+      if (norm(buttons[m].getAttribute('data-tag')) === norm(initialTag)) { target = buttons[m]; break; }
+    }
+    if (target) target.click();
+  }
 })();
 </script>
 </body>
