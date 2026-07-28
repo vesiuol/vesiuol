@@ -98,11 +98,13 @@ main{padding:2rem 2.4rem 3rem;position:relative;z-index:1;min-width:0;}
 .wdot{width:8px;height:8px;border-radius:50%;background:#bbb;}
 .post-cover{width:100%;height:120px;object-fit:cover;background:repeating-linear-gradient(135deg,var(--green-light),var(--green-light) 8px,#d7e0cb 8px,#d7e0cb 16px);}
 .post-body{padding:1rem 1.1rem;flex:1;display:flex;flex-direction:column;gap:.5rem;}
-.post-title{font-family:Georgia,serif;font-size:.95rem;font-weight:400;line-height:1.5;display:inline;background:var(--green);color:var(--white);padding:.1em .35em;box-decoration-break:clone;-webkit-box-decoration-break:clone;align-self:flex-start;}
-.post-desc{font-size:.82rem;line-height:1.6;color:#3d3d3d;flex:1;margin-top:.5rem;}
+.post-title{font-family:'Lora',serif;font-size:1.22rem;font-weight:700;line-height:1.38;color:var(--text);}
 .post-foot{border-top:1px solid var(--border-soft);padding:.55rem 1.1rem;display:flex;align-items:center;justify-content:space-between;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);}
 .post-tags{display:flex;flex-wrap:wrap;gap:.35rem;padding:0 1.1rem .9rem;}
-.post-tag{font-size:.64rem;letter-spacing:.03em;text-transform:uppercase;color:var(--green-dark);background:var(--green-light);padding:.14rem .5rem;border-radius:100px;}
+.post-tag{font-size:.64rem;letter-spacing:.03em;text-transform:uppercase;color:var(--white);background:var(--green);padding:.14rem .5rem;border-radius:100px;}
+/* Tags no rodapé do corpo do texto — clicáveis, levam pro filtro da home do blog */
+.article-tags .post-tag{cursor:pointer;text-decoration:none;border:none;}
+.article-tags .post-tag:hover{background:var(--green-dark);}
 
 /* Página de texto individual — coluna única, sem sidebar */
 .article-wrap{max-width:720px;margin:0 auto;padding:2.2rem 2rem 3rem;}
@@ -112,6 +114,8 @@ main{padding:2rem 2.4rem 3rem;position:relative;z-index:1;min-width:0;}
 .article-body h2{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:var(--green-dark);margin:2.1rem 0 .9rem;padding-bottom:.3rem;border-bottom:2px solid var(--green-light);}
 .article-body h3{font-family:'DM Sans',sans-serif;font-size:.74rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--white);background:var(--green-dark);display:inline-block;padding:.28rem .7rem;border-radius:100px;margin:1.9rem 0 .7rem;}
 .book-subhead{font-family:'Cormorant Garamond',serif;font-size:1.28rem;font-weight:600;color:var(--green-dark);display:block;margin:1.8rem 0 .3rem;line-height:1.25;}
+.book-subhead strong{font-family:'DM Sans',sans-serif;font-weight:700;color:var(--green);}
+.book-subhead .book-country{font-family:'DM Sans',sans-serif;color:var(--black);}
 .book-subhead .book-author{font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:500;letter-spacing:.03em;text-transform:uppercase;color:var(--muted);display:block;margin-top:.15rem;}
 .article-body a{color:var(--text);font-weight:700;text-decoration:underline;text-decoration-color:var(--green);text-decoration-thickness:1.5px;text-underline-offset:2px;}
 .article-body a:hover{color:var(--green-dark);}
@@ -120,18 +124,20 @@ main{padding:2rem 2.4rem 3rem;position:relative;z-index:1;min-width:0;}
 .article-body li{margin-bottom:.4rem;}
 .article-body figure{margin:1.7rem 0;}
 .article-body img{width:100%;border-radius:10px;border:1.5px solid var(--border);display:block;}
-.article-body figcaption{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.85rem;color:var(--muted);text-align:center;margin-top:.5rem;}
+.article-body figcaption{font-size:.72rem;letter-spacing:.02em;color:var(--black);text-align:center;margin-top:.5rem;}
 .article-tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:1.8rem 0 2.6rem;}
 .article-back{display:inline-block;margin-bottom:1.4rem;font-size:.74rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);}
 .article-back:hover{color:var(--green);}
 
-.related-wrap{border-top:1.5px solid var(--border);padding-top:1.8rem;padding-bottom:2.4rem;margin-top:.6rem;max-width:720px;margin-left:auto;margin-right:auto;padding-left:2rem;padding-right:2rem;}
-.related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1rem;}
-.related-card{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;background:var(--white);box-shadow:2px 2px 0 var(--border);text-decoration:none;color:inherit;}
-.related-cover{height:56px;background:repeating-linear-gradient(135deg,var(--green-light),var(--green-light) 8px,#d7e0cb 8px,#d7e0cb 16px);}
-.related-body{padding:.7rem .8rem .85rem;}
-.related-title{font-family:'Cormorant Garamond',serif;font-size:.98rem;font-weight:600;line-height:1.3;margin-bottom:.25rem;}
-.related-meta{font-size:.62rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);}
+.related-wrap{border-top:1.5px solid var(--border);padding-top:2.4rem;padding-bottom:2.4rem;margin-top:0;max-width:720px;margin-left:auto;margin-right:auto;padding-left:2rem;padding-right:2rem;}
+.related-wrap .posts-grid{display:flex;flex-direction:column;gap:0;margin-top:1rem;border-top:1px solid var(--border-soft);}
+.related-wrap .post-card{flex-direction:row;flex-wrap:wrap;align-items:center;gap:.4rem 1rem;border:none;border-bottom:1px solid var(--border-soft);border-radius:0;box-shadow:none;padding:.6rem .1rem;}
+.related-wrap .post-card:hover{transform:none;box-shadow:none;background:var(--surface);}
+.related-wrap .post-wbar{display:none;}
+.related-wrap .post-body{padding:0;flex:1 1 220px;gap:0;}
+.related-wrap .post-title{font-size:.85rem;font-weight:600;line-height:1.35;}
+.related-wrap .post-tags{padding:0;flex-shrink:0;}
+.related-wrap .post-foot{border-top:none;padding:0;flex-shrink:0;gap:.5rem;font-size:.62rem;}
 
 footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center;gap:1rem;border-top:1.5px solid var(--green-dark);}
 .footer-dots{display:flex;gap:5px;}
@@ -144,7 +150,6 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
   .sidebar{position:static;width:100%;min-width:0;background:var(--surface);border-right:none;border-bottom:1.5px solid var(--border);}
   main{min-width:0;}
   .posts-grid{grid-template-columns:1fr;}
-  .related-grid{grid-template-columns:1fr;}
   .article-wrap{padding:1.6rem 1.2rem 2.4rem;}
   .related-wrap{padding-left:1.2rem;padding-right:1.2rem;}
 }
@@ -190,67 +195,70 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
   <img src="../images/blog/paises-lidos-planilha-notion-1.jpg" alt="Visualização da minha planilha no Notion, onde organizo o desafio." onerror="this.src='https://placehold.co/900x500/c8d4b8/2f3a26?text=aguardando+imagem'">
   <figcaption>Visualização da minha planilha no Notion, onde organizo o desafio.</figcaption>
 </figure>
-<p class="book-subhead">Áustria: <strong>24 Horas na Vida de uma Mulher</strong><span class="book-author">Stefan Zweig</span></p>
+<p class="book-subhead"><span class="book-country">Áustria:</span> <strong>24 Horas na Vida de uma Mulher</strong><span class="book-author">Stefan Zweig</span></p>
 <p>Não fluiu, não tive conexão com os personagens e seus aflitos. Foi interessante ver essa personagem contando um &ldquo;trauma&rdquo; tanto tempo depois, mas, no final, fiquei feliz por ser um livro de apenas 107 páginas. Espero ter outras experiências com o país em outro momento.</p>
-<p class="book-subhead">Bolívia: <strong>Os afetos</strong><span class="book-author">Rodrigo Hasbún</span></p>
+<p class="book-subhead"><span class="book-country">Bolívia:</span> <strong>Os afetos</strong><span class="book-author">Rodrigo Hasbún</span></p>
 <p>Muito interessante, com um contexto histórico que permeia todo o livro. A família é totalmente disfuncional. Terminei pensando: &ldquo;que porra é essa? Qual é o lance daquele buraco no final do livro?&rdquo; Acho que dormi no ponto e algo me escapou &mdash; se você foi mais perspicaz, por gentileza, me conte!</p>
-<p class="book-subhead">Cuba: <strong>Cartas para a minha mãe</strong><span class="book-author">Teresa Cárdenas</span></p>
+<p class="book-subhead"><span class="book-country">Cuba:</span> <strong>Cartas para a minha mãe</strong><span class="book-author">Teresa Cárdenas</span></p>
 <p>É um livro bem curto, mas adorei a história! Ela é muito triste, tem alguns aspectos bem fortes que a autora não aprofunda, mas você entende o que está sendo dito. A personagem principal é muito jovem e narradora da própria história. Me impactou ver uma figura tão forte, mesmo tão nova e inserida em uma realidade tão agressiva. Seja no ambiente escolar ou familiar, ela enfrenta muitas micro e macroagressões.</p>
-<p class="book-subhead">Estados Unidos: <strong>Tudo sobre o amor</strong><span class="book-author">Bell Hooks</span></p>
+<p class="book-subhead"><span class="book-country">Estados Unidos:</span> <strong>Tudo sobre o amor</strong><span class="book-author">Bell Hooks</span></p>
 <p>Gostei bastante. Fiz várias marcações de pontos bem interessantes. Achei engraçado me reconhecer em algumas análises feitas de forma geracional &mdash; e, consequentemente, reconhecer também a minha geração.</p>
-<p class="book-subhead">Reino Unido: <strong>O Priorado da Laranjeira 1</strong><span class="book-author">Samantha Shannon</span></p>
+<p class="book-subhead"><span class="book-country">Reino Unido:</span> <strong>O Priorado da Laranjeira 1</strong><span class="book-author">Samantha Shannon</span></p>
 <p>Não sabia o que esperar, o que me proporcionou surpresa ao ver tantos personagens LGBTQ+. Também decretei que dragões, para mim, são como cavalos: sofro horrores com mortes ou agressões causadas pela ignorância e ganância humanas. Não gosto de romance em histórias de ação e fantasia &mdash; isso realmente me irrita. Odeio personagens covardes e não consigo me apegar a eles. É uma história com grande potencial, mas que não foi bem aproveitada. Possui lacunas, conexões mal elaboradas e pontos esquecidos no meio do caminho. Ainda assim, foi bacana.</p>
-<p class="book-subhead">República Tcheca: <strong>A insustentável leveza do ser</strong><span class="book-author">Milan Kundera</span></p>
+<p class="book-subhead"><span class="book-country">República Tcheca:</span> <strong>A insustentável leveza do ser</strong><span class="book-author">Milan Kundera</span></p>
 <p>Todos que me viram lendo ou souberam depois demonstraram certa aprovação e respeito &mdash; mesmo sem lembrar muito bem da história. Meus sentimentos são mistos. Não gostei dos personagens e do enredo, <strong>mas</strong> tirei muitas reflexões interessantes. No fim, acabou sendo uma leitura proveitosa.</p>
-<p class="book-subhead">Bulgária: <strong>Onde estão as flores?</strong><span class="book-author">Ilko Minev</span></p>
+<p class="book-subhead"><span class="book-country">Bulgária:</span> <strong>Onde estão as flores?</strong><span class="book-author">Ilko Minev</span></p>
 <p>Ela conta essa história para evitar ser esquecida e para que as gerações futuras conheçam suas raízes. No fim, é como ouvir a história de um avô. Foi uma jornada interessante, com muita história, aspectos políticos e sociais. Achei que seria uma leitura difícil, mas se mostrou bem fluida.</p>
-<p class="book-subhead">Irlanda: <strong>Rugido</strong><span class="book-author">Cecelia Ahern</span></p>
+<p class="book-subhead"><span class="book-country">Irlanda:</span> <strong>Rugido</strong><span class="book-author">Cecelia Ahern</span></p>
 <p>Achei praticamente todas as histórias bem fracas. Por ser um livro de contos, a leitura foi rápida, o que ajudou.</p>
-<p class="book-subhead">Paquistão: <strong>O último homem branco</strong><span class="book-author">Mohsin Hamid</span></p>
+<p class="book-subhead"><span class="book-country">Paquistão:</span> <strong>O último homem branco</strong><span class="book-author">Mohsin Hamid</span></p>
 <p>Me lembrou <em>Eu Sou a Lenda</em>. Os dois compartilham certos aspectos, apesar de realidades bem diferentes. Foi uma leitura interessante e gostei bastante. Mostra como reagimos ao caos de forma quase animal, irracional &mdash; e como isso está atrelado ao racismo. Já pensou se algo assim acontecesse no Brasil, com todo o racismo estrutural da nossa sociedade?</p>
-<p class="book-subhead">Suécia: <strong>Um homem chamado Ove</strong><span class="book-author">Fredrik Backman</span></p>
+<p class="book-subhead"><span class="book-country">Suécia:</span> <strong>Um homem chamado Ove</strong><span class="book-author">Fredrik Backman</span></p>
 <p>Foi uma leitura leve e fluida que, no final, me trouxe grande emoção. Fico feliz de finalmente ter conhecido o autor e tido uma boa experiência. Um senhor ranzinza pode sim ter uma história apaixonante.</p>
-<p class="book-subhead">Zâmbia: <strong>Assando bolos em Kigali</strong><span class="book-author">Gaile Parkin</span></p>
+<p class="book-subhead"><span class="book-country">Zâmbia:</span> <strong>Assando bolos em Kigali</strong><span class="book-author">Gaile Parkin</span></p>
 <p>Apesar de abordar o contexto social e político de Ruanda, faz isso de forma leve. Foi muito edificante saber de todas as informações e ainda assim preservar meu emocional. A autora consegue ser acolhedora e alegre, apesar dos pesares enfrentados por essas pessoas após tanto derramamento de sangue.</p>
-<p class="book-subhead">Zimbábue: <strong>As Lágrimas da Girafa</strong><span class="book-author">Alexander McCall Smith</span></p>
+<p class="book-subhead"><span class="book-country">Zimbábue:</span> <strong>As Lágrimas da Girafa</strong><span class="book-author">Alexander McCall Smith</span></p>
 <p>Foi uma leitura leve, um bom passatempo. Não houve grandes emoções ou acontecimentos. Achei que fugiu bastante do tema principal, mas isso não chega a ser um grande defeito. Gostei da forma como mistura princípios modernos com outros mais tradicionais.</p>
 <figure>
   <img src="../images/blog/paises-lidos-planilha-notion-2.jpg" alt="Meu mapa para visualização dos países já lidos. Cada pin tem o nome do escritor correspondente." onerror="this.src='https://placehold.co/900x500/c8d4b8/2f3a26?text=aguardando+imagem'">
   <figcaption>Meu mapa para visualização dos países já lidos. Cada pin tem o nome do escritor correspondente.</figcaption>
 </figure>
 </div>
-    <div class="article-tags"><span class="post-tag">Livros Pelo Mundo</span><span class="post-tag">Resenha</span></div>
+    <div class="article-tags"><a class="post-tag" href="index.html?tag=Livros%20Pelo%20Mundo">Livros Pelo Mundo</a><a class="post-tag" href="index.html?tag=Resenha">Resenha</a><a class="post-tag" href="index.html?tag=Desafio%20Liter%C3%A1rio">Desafio Literário</a></div>
   </div>
   <div class="related-wrap">
     <h2 class="section-h2">Outras leituras</h2>
-    <div class="related-grid">
-        <a class="related-card" href="desafio-livros-pelo-mundo.html">
-          <div class="related-cover"></div>
-          <div class="related-body">
-            <div class="related-title">Desafio livros pelo mundo: um livro para cada país</div>
-            <div class="related-meta">26 jul 2024 · 3 min</div>
+    <div class="posts-grid">
+        <a class="post-card" href="desafio-livros-pelo-mundo.html">
+          <div class="post-wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div></div>
+          <div class="post-body">
+            <h3 class="post-title">Desafio livros pelo mundo: um livro para cada país</h3>
           </div>
+          <div class="post-tags"><span class="post-tag">Livros Pelo Mundo</span><span class="post-tag">Organização</span></div>
+          <div class="post-foot"><span>26 jul 2024 · 3 min</span><span>→</span></div>
         </a>
-        <a class="related-card" href="estruturando-rota-1.html">
-          <div class="related-cover"></div>
-          <div class="related-body">
-            <div class="related-title">Estruturando a nossa rota #1</div>
-            <div class="related-meta">26 jul 2024 · 2 min</div>
+        <a class="post-card" href="como-escolhi-um-livro-por-pais-rota-1.html">
+          <div class="post-wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div></div>
+          <div class="post-body">
+            <h3 class="post-title">Desafio livros pelo mundo: como escolhi os livros por país (Rota #1)</h3>
           </div>
+          <div class="post-tags"><span class="post-tag">Livros Pelo Mundo</span><span class="post-tag">Organização</span></div>
+          <div class="post-foot"><span>26 jul 2024 · 2 min</span><span>→</span></div>
         </a>
-        <a class="related-card" href="montando-rota-2.html">
-          <div class="related-cover"></div>
-          <div class="related-body">
-            <div class="related-title">Montando a nossa rota #2</div>
-            <div class="related-meta">29 jun 2025 · 2 min</div>
+        <a class="post-card" href="encontrando-escritores-e-montando-a-lista-por-pais-rota-2.html">
+          <div class="post-wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div></div>
+          <div class="post-body">
+            <h3 class="post-title">Desafio livros pelo mundo: encontrando escritores e montando a lista por país (Rota #2)</h3>
           </div>
+          <div class="post-tags"><span class="post-tag">Livros Pelo Mundo</span><span class="post-tag">Organização</span></div>
+          <div class="post-foot"><span>29 jun 2025 · 2 min</span><span>→</span></div>
         </a>
     </div>
   </div>
 
 <footer>
   <div class="footer-dots"><div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div></div>
-  <span class="footer-text">Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">26 de julho de 2026</span></span>
+  <span class="footer-text">Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">27 de julho de 2026</span></span>
 </footer>
 </body>
-</html>
+  </html>
