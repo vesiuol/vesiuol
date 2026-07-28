@@ -102,6 +102,9 @@ main{padding:2rem 2.4rem 3rem;position:relative;z-index:1;min-width:0;}
 .post-foot{border-top:1px solid var(--border-soft);padding:.55rem 1.1rem;display:flex;align-items:center;justify-content:space-between;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);}
 .post-tags{display:flex;flex-wrap:wrap;gap:.35rem;padding:0 1.1rem .9rem;}
 .post-tag{font-size:.64rem;letter-spacing:.03em;text-transform:uppercase;color:var(--white);background:var(--green);padding:.14rem .5rem;border-radius:100px;}
+/* Tags no rodapé do corpo do texto — clicáveis, levam pro filtro da home do blog */
+.article-tags .post-tag{cursor:pointer;text-decoration:none;border:none;}
+.article-tags .post-tag:hover{background:var(--green-dark);}
 
 /* Página de texto individual — coluna única, sem sidebar */
 .article-wrap{max-width:720px;margin:0 auto;padding:2.2rem 2rem 3rem;}
@@ -213,7 +216,7 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
 </ul>
 <p>Espero que ajude e também ficarei feliz em receber dicas!</p>
 </div>
-    <div class="article-tags"><span class="post-tag">Livros Pelo Mundo</span><span class="post-tag">Organização</span></div>
+    <div class="article-tags"><a class="post-tag" href="index.html?tag=Livros%20Pelo%20Mundo">Livros Pelo Mundo</a><a class="post-tag" href="index.html?tag=Organiza%C3%A7%C3%A3o">Organização</a><a class="post-tag" href="index.html?tag=Desafio%20Liter%C3%A1rio">Desafio Literário</a></div>
   </div>
   <div class="related-wrap">
     <h2 class="section-h2">Outras leituras</h2>
@@ -247,7 +250,7 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
 
 <footer>
   <div class="footer-dots"><div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div></div>
-  <span class="footer-text">Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">27 de julho de 2026</span></span>
+  <span class="footer-text">Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">28 de julho de 2026</span></span>
 </footer>
 </body>
 </html>
