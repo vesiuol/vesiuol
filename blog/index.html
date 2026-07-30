@@ -278,7 +278,7 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
 
 <footer>
   <div class="footer-dots"><div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div></div>
-  <span class="footer-text">Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">29 de julho de 2026</span></span>
+  <span class="footer-text"><span id="footer-autora"></span>&nbsp;&nbsp;|&nbsp;&nbsp;© <span id="footer-ano"></span>&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">29 de julho de 2026</span></span>
 </footer>
 <script>
 (function(){
@@ -317,6 +317,11 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
     if (target) target.click();
   }
 })();
+</script>
+<script src="../assets/config.js"></script>
+<script>
+document.getElementById("footer-autora").textContent = SITE_CONFIG.autora;
+document.getElementById("footer-ano").textContent = SITE_CONFIG.copyrightAno;
 </script>
 </body>
 </html>
