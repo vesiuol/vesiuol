@@ -223,14 +223,13 @@
 </style>
 </head>
 <body>
-
-<a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+<a href="#conteudo-principal" class="skip-link">Pular para o conteúdo principal</a>
 
 <nav class="nav">
   <a class="nav-logo" href="/vesiuol/index.html" aria-label="Estante da Louise — início">
     <span></span><span></span><span></span>
   </a>
-  <button class="nav-hamburger" aria-label="Abrir menu" onclick="document.getElementById('navLinks').classList.toggle('open')">☰</button>
+  <button class="nav-hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="navLinks" onclick="const u=document.getElementById('navLinks');u.classList.toggle('open');this.setAttribute('aria-expanded', u.classList.contains('open'));">☰</button>
   <ul id="navLinks">
     <li><a href="/vesiuol/index.html">Início</a></li>
     <li><a href="/vesiuol/estante.html">Estante</a></li>
@@ -241,7 +240,7 @@
   </ul>
 </nav>
 
-<main id="conteudo">
+<main id="conteudo-principal">
   <div class="content">
     <svg class="shelf-illustration" viewBox="0 0 220 110" fill="none" xmlns="http://www.w3.org/2000/svg" role="presentation" aria-hidden="true">
       <rect x="4" y="92" width="212" height="4" rx="1" fill="#1a1a1a"/>
@@ -284,4 +283,3 @@ document.getElementById("footer-ano").textContent = SITE_CONFIG.copyrightAno;
 </script>
 </body>
 </html>
-
