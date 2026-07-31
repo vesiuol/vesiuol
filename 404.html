@@ -54,15 +54,13 @@
   }
   .nav-logo{
     display:flex;
-    gap:4px;
+    gap:5px;
     align-items:center;
     text-decoration:none;
-    padding:4px;
   }
-  .nav-logo span{
-    width:6px; height:6px; border-radius:50%;
-    background:var(--green);
-    display:block;
+  .nav-dot{
+    width:10px; height:10px; border-radius:50%;
+    background:var(--black);
   }
   .nav ul{
     display:flex;
@@ -216,7 +214,9 @@
 
 <nav class="nav">
   <a class="nav-logo" href="/vesiuol/index.html" aria-label="Biblioteca Vesiuol — início">
-    <span></span><span></span><span></span>
+    <div class="nav-dot"></div>
+    <div class="nav-dot"></div>
+    <div class="nav-dot" style="background:var(--green)"></div>
   </a>
   <button class="nav-hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="navLinks" onclick="const u=document.getElementById('navLinks');u.classList.toggle('open');this.setAttribute('aria-expanded', u.classList.contains('open'));">☰</button>
   <ul id="navLinks">
