@@ -51,6 +51,7 @@ a{color:inherit;text-decoration:none;}
   font-size: .8rem; font-weight: 600;
 }
 .skip-link:focus { left: 1rem; top: .6rem; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 
 /* ── NAV ── */
 nav{position:sticky;top:0;z-index:200;height:var(--header-h);background:var(--white);border-bottom:1.5px solid #c5c5a0;display:flex;align-items:center;padding:0 2rem;gap:1.5rem;}
@@ -603,7 +604,7 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
 <!-- FOOTER -->
 <footer>
   <div class="footer-dots"><div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div></div>
-  <span class="footer-text"><span id="footer-autora"></span>&nbsp;&nbsp;|&nbsp;&nbsp;© <span id="footer-ano"></span>&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">29 de julho de 2026</span></span>
+  <span class="footer-text"><span id="footer-autora"></span>&nbsp;&nbsp;|&nbsp;&nbsp;© <span id="footer-ano"></span>&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">31 de julho de 2026</span></span>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
@@ -649,10 +650,29 @@ function buildRank(elId, obj, maxItems){
     </div>`).join('');
 }
 
+// ── ACESSIBILIDADE: alternativa textual/tabela de apoio para gráficos Chart.js ──
+// Mesmo padrão já usado em historico.html/desafio.html. Não altera nada visual: só injeta uma
+// tabela oculta visualmente (sr-only), acessível a leitor de tela, logo após o canvas.
+function accessibleChart(canvasId, caption, labels, data){
+  const canvas=document.getElementById(canvasId); if(!canvas) return;
+  const summary=labels.map((l,i)=>`${l}: ${data[i]}`).join(', ');
+  canvas.setAttribute('role','img');
+  canvas.setAttribute('aria-label', canvas.getAttribute('aria-label') || (caption+'. '+summary));
+  const tableId=canvasId+'-table';
+  const existing=document.getElementById(tableId); if(existing) existing.remove();
+  const table=document.createElement('table');
+  table.id=tableId; table.className='sr-only';
+  table.innerHTML=`<caption>${caption}</caption><thead><tr><th scope="col">Categoria</th><th scope="col">Valor</th></tr></thead><tbody>${
+    labels.map((l,i)=>`<tr><td>${l}</td><td>${data[i]}</td></tr>`).join('')
+  }</tbody></table>`;
+  canvas.insertAdjacentElement('afterend', table);
+  canvas.setAttribute('aria-describedby', tableId);
+}
+
 // Governança 2026-07-10: "Cor / raça dos autores" e "Gênero dos autores" viraram gráfico de
 // barras horizontal (Chart.js) em vez de rank-list — mesmo padrão visual (verde, datalabels)
 // já usado no gráfico "Distribuição de notas" desta página.
-function buildBarChart(canvasId, obj){
+function buildBarChart(canvasId, obj, caption){
   const el = document.getElementById(canvasId); if(!el) return;
   const pairs = topN(obj, 999);
   if(!pairs.length) return;
@@ -665,6 +685,7 @@ function buildBarChart(canvasId, obj){
         x:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:'#555'},border:{display:false},beginAtZero:true},
         y:{grid:{display:false},ticks:{font:{family:'DM Sans',size:11},color:'#1a1a1a'},border:{display:false}}
       }}});
+  accessibleChart(canvasId, caption || canvasId, pairs.map(p=>p[0]), pairs.map(p=>p[1]));
 }
 
 // detect tag columns
@@ -757,8 +778,8 @@ async function init(){
   // container com altura fixa + scroll (ver CSS ".chart-body" dessas seções) e passar sem limite
   // de itens para buildRank(), igual ao padrão já aplicado em "Países dos autores" (decisão #013).
   buildRank('rank-generos', gnObj, 999);
-  buildBarChart('c-cor', countField(lidos,'Cor'));
-  buildBarChart('c-ga',  gaObj);
+  buildBarChart('c-cor', countField(lidos,'Cor'), 'Cor/raça dos autores');
+  buildBarChart('c-ga',  gaObj, 'Gênero dos autores');
   buildRank('rank-idioma',  idObj, 999);
   buildRank('rank-formato', fmObj, 999);
   buildRank('rank-faixa',   fxObj, 999);
@@ -786,6 +807,8 @@ async function init(){
           x:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:'#555'},border:{display:false}},
           y:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:'#555'},border:{display:false},beginAtZero:true}
         }}});
+    accessibleChart('c-notas-estante', 'Distribuição de avaliações por nota',
+      ['1 estrela','2 estrelas','3 estrelas','4 estrelas','5 estrelas','Favorito'], notasVals);
   }
 
   const sub=document.getElementById('dados-sub');
