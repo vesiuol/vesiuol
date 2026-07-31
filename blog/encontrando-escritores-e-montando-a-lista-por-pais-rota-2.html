@@ -28,17 +28,40 @@
 <meta property="og:image" content="https://vesiuol.github.io/vesiuol/og-image-livros-favoritos.png">
 <meta name="twitter:image" content="https://vesiuol.github.io/vesiuol/og-image-livros-favoritos.png">
 
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Desafio livros pelo mundo: encontrando escritores e montando a lista por país",
+  "description": "Desafio livros pelo mundo — um livro para cada país: como pesquiso escritores nativos de cada país e os critérios que uso para escolher o livro que vai representar cada lugar.",
+  "image": "https://vesiuol.github.io/vesiuol/og-image-livros-favoritos.png",
+  "datePublished": "2025-06-29",
+  "dateModified": "2025-06-29",
+  "inLanguage": "pt-BR",
+  "author": {
+    "@type": "Person",
+    "name": "Louise Victoria"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Louise Victoria"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://vesiuol.github.io/vesiuol/blog/encontrando-escritores-e-montando-a-lista-por-pais-rota-2.html"
+  },
+  "keywords": ["Livros Pelo Mundo", "Organização", "Desafio Literário"]
+}
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Lora:wght@400;600;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/theme.css">
 <style>
 :root {
-  --white:#ffffff; --black:#000000;
-  --green:#849974; --green-dark:#6b7e5e; --green-light:#c8d4b8;
-  --border:#c8c8c8; --border-soft:#e0e0e0; --border-interactive:#8f8f8f;
-  --text:#1a1a1a; --muted:#555;
-  --surface:#f9f8f5;
-  --sidebar-w:272px; --header-h:52px;
+  --sidebar-w:272px;
+  --header-h:52px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{-webkit-font-smoothing:antialiased;}
@@ -162,11 +185,11 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
 
 <!-- NAV -->
 <nav>
-  <div class="nav-logo">
+  <a href="../index.html" class="nav-logo" style="text-decoration:none">
     <div class="nav-dot"></div>
     <div class="nav-dot"></div>
     <div class="nav-dot" style="background:var(--green)"></div>
-  </div>
+  </a>
   <ul id="nav-menu">
     <li><a href="../index.html">Início</a></li>
     <li><a href="../2026.html">2026</a></li>
@@ -250,7 +273,12 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
 
 <footer>
   <div class="footer-dots"><div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div></div>
-  <span class="footer-text">Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">29 de julho de 2026</span></span>
+  <span class="footer-text"><span id="footer-autora"></span>&nbsp;&nbsp;|&nbsp;&nbsp;© <span id="footer-ano"></span>&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">29 de julho de 2026</span></span>
 </footer>
+<script src="../assets/config.js"></script>
+<script>
+document.getElementById("footer-autora").textContent = SITE_CONFIG.autora;
+document.getElementById("footer-ano").textContent = SITE_CONFIG.copyrightAno;
+</script>
 </body>
 </html>

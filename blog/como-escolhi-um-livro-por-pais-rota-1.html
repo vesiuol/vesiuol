@@ -56,14 +56,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Lora:wght@400;600;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../assets/theme.css">
 <style>
 :root {
-  --white:#ffffff; --black:#000000;
-  --green:#849974; --green-dark:#6b7e5e; --green-light:#c8d4b8;
-  --border:#c8c8c8; --border-soft:#e0e0e0; --border-interactive:#8f8f8f;
-  --text:#1a1a1a; --muted:#555;
-  --surface:#f9f8f5;
-  --sidebar-w:272px; --header-h:52px;
+  --sidebar-w:272px;
+  --header-h:52px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{-webkit-font-smoothing:antialiased;}
@@ -224,13 +221,13 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
 <p>Nela você verá a lista de países reconhecidos e informados pela ONU, com uma aba para cadastro e outra para visualização geral. As informações das colunas são de pontos importantes para a minha visualização, mas você pode editar.</p>
 <p><strong>Link da estrutura da planilha, disponível para duplicar e salvar para si:</strong><br><a href="https://vesiuol.notion.site/679c7c463b784b75b645ca16b283cb64?v=091d4f4f0139433383dc3bfb1855ef48&pvs=4" target="_blank" rel="noopener noreferrer">Notion — Modelo Desafio livros pelo mundo</a></p>
 <figure>
-  <img src="../assets/img/blog//estruturando-rota-1-1.jpg" alt="Barra de progresso da planilha — aguardando imagem enviada por Louise" onerror="this.src='https://placehold.co/900x500/c8d4b8/2f3a26?text=aguardando+imagem'">
+  <img src="../images/blog/estruturando-rota-1-1.jpg" alt="Barra de progresso da planilha — aguardando imagem enviada por Louise" onerror="this.src='https://placehold.co/900x500/c8d4b8/2f3a26?text=aguardando+imagem'">
   <figcaption>Na barra embaixo está a contagem de países, a contagem de quanto livros já foram encontrados e a porcentagem de quantos foram lidos — atualizações automáticas.</figcaption>
 </figure>
 <p>Também vou deixar a minha planilha pessoal para que possa checar quais países já encontrei alguns livros, como personalizo a planilha e alguns países a mais (não reconhecidos pela ONU).</p>
 <p><strong>Link da minha planilha, onde você pode visualizar os livros que escolhi e as minhas atualizações. Se quiser pode pegar algumas ideias também:</strong><br><a href="https://vesiuol.notion.site/dec695e012bd4252b3280c7d4de3e911?v=12efd84e205f4f7d8f3f40ff116b5351&pvs=4" target="_blank" rel="noopener noreferrer">Notion — Minha página DLM</a></p>
 <figure>
-  <img src="../assets/img/blog//estruturando-rota-1-2.jpg" alt="Configurações da planilha pessoal — aguardando imagem enviada por Louise" onerror="this.src='https://placehold.co/900x500/c8d4b8/2f3a26?text=aguardando+imagem'">
+  <img src="../images/blog/estruturando-rota-1-2.jpg" alt="Configurações da planilha pessoal — aguardando imagem enviada por Louise" onerror="this.src='https://placehold.co/900x500/c8d4b8/2f3a26?text=aguardando+imagem'">
   <figcaption>Visualização das configurações na prática.</figcaption>
 </figure>
 <p>Recém iniciei o projeto e ainda tenho muitas descobertas a fazer e ajustes também. Viu algo estranho ou errado? Compartilhe comigo!</p>
@@ -270,7 +267,12 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
 
 <footer>
   <div class="footer-dots"><div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div></div>
-  <span class="footer-text">Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">29 de julho de 2026</span></span>
+  <span class="footer-text"><span id="footer-autora"></span>&nbsp;&nbsp;|&nbsp;&nbsp;© <span id="footer-ano"></span>&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">29 de julho de 2026</span></span>
 </footer>
+<script src="../assets/config.js"></script>
+<script>
+document.getElementById("footer-autora").textContent = SITE_CONFIG.autora;
+document.getElementById("footer-ano").textContent = SITE_CONFIG.copyrightAno;
+</script>
 </body>
 </html>

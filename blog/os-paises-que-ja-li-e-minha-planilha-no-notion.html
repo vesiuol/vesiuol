@@ -56,14 +56,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Lora:wght@400;600;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/theme.css">
 <style>
 :root {
-  --white:#ffffff; --black:#000000;
-  --green:#849974; --green-dark:#6b7e5e; --green-light:#c8d4b8;
-  --border:#c8c8c8; --border-soft:#e0e0e0; --border-interactive:#8f8f8f;
-  --text:#1a1a1a; --muted:#555;
-  --surface:#f9f8f5;
-  --sidebar-w:272px; --header-h:52px;
+  --sidebar-w:272px;
+  --header-h:52px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{-webkit-font-smoothing:antialiased;}
@@ -217,7 +214,7 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
 <p>Um panorama do meu progresso no desafio um livro por país: os países lidos, minhas impressões rápidas e como organizo tudo numa planilha no Notion.</p>
 <p>Já disse isso em outras publicações, mas não sou adepta de resenhas e não me proponho a isso. Então este texto será minha breve impressão sincera sobre os livros e também uma indicação dos países lidos. Também deixo a visualização da minha planilha no Notion, onde organizo o desafio.</p>
 <figure>
-  <img src="../assets/img/blog/paises-lidos-planilha-notion-1.jpg" alt="Visualização da minha planilha no Notion, onde organizo o desafio." onerror="this.src='https://placehold.co/900x500/c8d4b8/2f3a26?text=aguardando+imagem'">
+  <img src="../images/blog/paises-lidos-planilha-notion-1.jpg" alt="Visualização da minha planilha no Notion, onde organizo o desafio." onerror="this.src='https://placehold.co/900x500/c8d4b8/2f3a26?text=aguardando+imagem'">
   <figcaption>Visualização da minha planilha no Notion, onde organizo o desafio.</figcaption>
 </figure>
 <p class="book-subhead"><span class="book-country">Áustria:</span> <strong>24 Horas na Vida de uma Mulher</strong><span class="book-author">Stefan Zweig</span></p>
@@ -245,7 +242,7 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
 <p class="book-subhead"><span class="book-country">Zimbábue:</span> <strong>As Lágrimas da Girafa</strong><span class="book-author">Alexander McCall Smith</span></p>
 <p>Foi uma leitura leve, um bom passatempo. Não houve grandes emoções ou acontecimentos. Achei que fugiu bastante do tema principal, mas isso não chega a ser um grande defeito. Gostei da forma como mistura princípios modernos com outros mais tradicionais.</p>
 <figure>
-  <img src="../assets/img/blog/paises-lidos-planilha-notion-2.jpg" alt="Meu mapa para visualização dos países já lidos. Cada pin tem o nome do escritor correspondente." onerror="this.src='https://placehold.co/900x500/c8d4b8/2f3a26?text=aguardando+imagem'">
+  <img src="../images/blog/paises-lidos-planilha-notion-2.jpg" alt="Meu mapa para visualização dos países já lidos. Cada pin tem o nome do escritor correspondente." onerror="this.src='https://placehold.co/900x500/c8d4b8/2f3a26?text=aguardando+imagem'">
   <figcaption>Meu mapa para visualização dos países já lidos. Cada pin tem o nome do escritor correspondente.</figcaption>
 </figure>
 </div>
@@ -283,7 +280,12 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
 
 <footer>
   <div class="footer-dots"><div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div></div>
-  <span class="footer-text">Louise Victoria&nbsp;&nbsp;|&nbsp;&nbsp;© 2026&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">29 de julho de 2026</span></span>
+  <span class="footer-text"><span id="footer-autora"></span>&nbsp;&nbsp;|&nbsp;&nbsp;© <span id="footer-ano"></span>&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">29 de julho de 2026</span></span>
 </footer>
+<script src="../assets/config.js"></script>
+<script>
+document.getElementById("footer-autora").textContent = SITE_CONFIG.autora;
+document.getElementById("footer-ano").textContent = SITE_CONFIG.copyrightAno;
+</script>
 </body>
 </html>
