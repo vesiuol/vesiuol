@@ -85,6 +85,7 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 .skip-link{position:absolute;left:-999px;top:0;z-index:200;background:var(--green);color:var(--white);padding:.6rem 1.2rem;font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:600;}
 .skip-link:focus{left:1rem;top:.6rem;}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
 body{background:var(--white);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:500;display:flex;flex-direction:column;min-height:100vh;}
 a{color:inherit;text-decoration:none;}
 nav{position:sticky;top:0;z-index:200;height:var(--header-h);background:var(--white);border-bottom:1.5px solid #c5c5a0;display:flex;align-items:center;padding:0 2rem;gap:1.5rem;flex-shrink:0;}
@@ -522,7 +523,7 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
 
 <footer>
   <div class="footer-dots"><div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div></div>
-  <span class="footer-text"><span id="footer-autora"></span>&nbsp;&nbsp;|&nbsp;&nbsp;© <span id="footer-ano"></span>&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">29 de julho de 2026</span></span>
+  <span class="footer-text"><span id="footer-autora"></span>&nbsp;&nbsp;|&nbsp;&nbsp;© <span id="footer-ano"></span>&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">31 de julho de 2026</span></span>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
@@ -785,6 +786,24 @@ async function init(){
             x:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:MUTED},border:{display:false}},
             y:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:MUTED},border:{display:false},beginAtZero:true}
           }}});
+      /* ── ACESSIBILIDADE: tabela sr-only de apoio ao gráfico (mesmo padrão de historico.html) ──
+         Não altera nada visual: só injeta uma tabela oculta visualmente, acessível a leitor de tela,
+         logo após o canvas, com os mesmos dados usados pra desenhar o gráfico. */
+      (function accessibleChart(canvasId, caption, labels, data){
+        const canvas=document.getElementById(canvasId); if(!canvas) return;
+        const summary=labels.map((l,i)=>`${l}: ${data[i]}`).join(', ');
+        canvas.setAttribute('role','img');
+        canvas.setAttribute('aria-label', canvas.getAttribute('aria-label') || (caption+'. '+summary));
+        const tableId=canvasId+'-table';
+        const existing=document.getElementById(tableId); if(existing) existing.remove();
+        const table=document.createElement('table');
+        table.id=tableId; table.className='sr-only';
+        table.innerHTML=`<caption>${caption}</caption><thead><tr><th scope="col">Nota</th><th scope="col">Quantidade de livros</th></tr></thead><tbody>${
+          labels.map((l,i)=>`<tr><td>${l}</td><td>${data[i]}</td></tr>`).join('')
+        }</tbody></table>`;
+        canvas.insertAdjacentElement('afterend', table);
+        canvas.setAttribute('aria-describedby', tableId);
+      })('c-notas-2026', 'Distribuição de avaliações por nota (estrelas), 2026', notasLabels, notasVals);
     }
 
     buildMap(lidos);
