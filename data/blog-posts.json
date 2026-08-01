@@ -1,9 +1,26 @@
 [
   {
+    "slug": "como-anda-o-desafio-lpm",
+    "title": "Como anda o desafio LPM",
+    "dateISO": "2026-08-01",
+    "tags": [
+      "Livros Pelo Mundo",
+      "Desafio Literário"
+    ],
+    "extraTags": [
+      "Alexander McCall Smith"
+    ],
+    "readingTime": 1
+  },
+  {
     "slug": "os-paises-que-ja-li-e-minha-planilha-no-notion",
     "title": "Desafio livros pelo mundo: os países que já li e minha planilha no Notion",
     "dateISO": "2025-06-29",
-    "tags": ["Livros Pelo Mundo", "Resenha", "Desafio Literário"],
+    "tags": [
+      "Livros Pelo Mundo",
+      "Resenha",
+      "Desafio Literário"
+    ],
     "extraTags": [],
     "readingTime": 4
   },
@@ -11,7 +28,10 @@
     "slug": "resenha-historias-cruzadas-entre-sobreviventes-svetlana-Alexijevich",
     "title": "Histórias cruzadas entre sobreviventes — Svetlana Alexijevich",
     "dateISO": "2025-06-29",
-    "tags": ["Resenha", "Literatura"],
+    "tags": [
+      "Resenha",
+      "Literatura"
+    ],
     "extraTags": [],
     "readingTime": 4
   },
@@ -19,7 +39,11 @@
     "slug": "encontrando-escritores-e-montando-a-lista-por-pais-rota-2",
     "title": "Desafio livros pelo mundo: encontrando escritores e montando a lista por país",
     "dateISO": "2025-06-29",
-    "tags": ["Livros Pelo Mundo", "Organização", "Desafio Literário"],
+    "tags": [
+      "Livros Pelo Mundo",
+      "Organização",
+      "Desafio Literário"
+    ],
     "extraTags": [],
     "readingTime": 2
   },
@@ -27,7 +51,11 @@
     "slug": "como-escolhi-um-livro-por-pais-rota-1",
     "title": "Desafio livros pelo mundo: como escolhi os livros por país",
     "dateISO": "2024-07-26",
-    "tags": ["Livros Pelo Mundo", "Organização", "Desafio Literário"],
+    "tags": [
+      "Livros Pelo Mundo",
+      "Organização",
+      "Desafio Literário"
+    ],
     "extraTags": [],
     "readingTime": 2
   },
@@ -35,7 +63,11 @@
     "slug": "desafio-livros-pelo-mundo",
     "title": "Desafio livros pelo mundo: um livro para cada país",
     "dateISO": "2024-07-26",
-    "tags": ["Livros Pelo Mundo", "Organização", "Desafio Literário"],
+    "tags": [
+      "Livros Pelo Mundo",
+      "Organização",
+      "Desafio Literário"
+    ],
     "extraTags": [],
     "readingTime": 3
   },
@@ -43,7 +75,10 @@
     "slug": "resenha-a-guerra-nao-tem-rosto-de-mulher-svetlana-Alexijevich",
     "title": "A guerra não tem rosto de mulher — Svetlana Alexijevich",
     "dateISO": "2021-06-13",
-    "tags": ["Resenha", "Literatura"],
+    "tags": [
+      "Resenha",
+      "Literatura"
+    ],
     "extraTags": [],
     "readingTime": 7
   }
