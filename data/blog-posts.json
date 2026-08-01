@@ -1,40 +1,50 @@
-name: Gerar posts do blog a partir do Notion
-
-on:
-  schedule:
-    # 9h UTC = 6h em Brasília (horário padrão, sem horário de verão)
-    - cron: '0 9 * * *'
-  workflow_dispatch: {}
-
-permissions:
-  contents: write
-
-jobs:
-  generate:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout do repositório
-        uses: actions/checkout@v4
-
-      - name: Configurar Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Rodar gerador de posts
-        env:
-          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
-          NOTION_BLOG_DB_ID: ${{ secrets.NOTION_BLOG_DB_ID }}
-        run: node scripts/generate-blog-posts.js
-
-      - name: Commitar e publicar mudanças (se houver)
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add blog/ data/blog-posts.json
-          if git diff --cached --quiet; then
-            echo "Nada novo para publicar."
-          else
-            git commit -m "Publica post(s) novo(s) do blog via Notion"
-            git push
-          fi
+[
+  {
+    "slug": "os-paises-que-ja-li-e-minha-planilha-no-notion",
+    "title": "Desafio livros pelo mundo: os países que já li e minha planilha no Notion",
+    "dateISO": "2025-06-29",
+    "tags": ["Livros Pelo Mundo", "Resenha", "Desafio Literário"],
+    "extraTags": [],
+    "readingTime": 4
+  },
+  {
+    "slug": "resenha-historias-cruzadas-entre-sobreviventes-svetlana-Alexijevich",
+    "title": "Histórias cruzadas entre sobreviventes — Svetlana Alexijevich",
+    "dateISO": "2025-06-29",
+    "tags": ["Resenha", "Literatura"],
+    "extraTags": [],
+    "readingTime": 4
+  },
+  {
+    "slug": "encontrando-escritores-e-montando-a-lista-por-pais-rota-2",
+    "title": "Desafio livros pelo mundo: encontrando escritores e montando a lista por país",
+    "dateISO": "2025-06-29",
+    "tags": ["Livros Pelo Mundo", "Organização", "Desafio Literário"],
+    "extraTags": [],
+    "readingTime": 2
+  },
+  {
+    "slug": "como-escolhi-um-livro-por-pais-rota-1",
+    "title": "Desafio livros pelo mundo: como escolhi os livros por país",
+    "dateISO": "2024-07-26",
+    "tags": ["Livros Pelo Mundo", "Organização", "Desafio Literário"],
+    "extraTags": [],
+    "readingTime": 2
+  },
+  {
+    "slug": "desafio-livros-pelo-mundo",
+    "title": "Desafio livros pelo mundo: um livro para cada país",
+    "dateISO": "2024-07-26",
+    "tags": ["Livros Pelo Mundo", "Organização", "Desafio Literário"],
+    "extraTags": [],
+    "readingTime": 3
+  },
+  {
+    "slug": "resenha-a-guerra-nao-tem-rosto-de-mulher-svetlana-Alexijevich",
+    "title": "A guerra não tem rosto de mulher — Svetlana Alexijevich",
+    "dateISO": "2021-06-13",
+    "tags": ["Resenha", "Literatura"],
+    "extraTags": [],
+    "readingTime": 7
+  }
+]
