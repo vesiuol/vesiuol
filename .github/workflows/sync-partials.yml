@@ -1,0 +1,44 @@
+name: Sincronizar cabeçalho e rodapé
+
+# Roda sempre que houver push no main (igual aos outros workflows do projeto)
+# e também pode ser disparado manualmente pela aba Actions.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "partials/**"
+      - "scripts/sync-partials.js"
+      - "index.html"
+      - "estante.html"
+      - "historico.html"
+      - "2026.html"
+      - "desafio.html"
+      - "sobre.html"
+      - "blog/**.html"
+  workflow_dispatch: {}
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # histórico completo, necessário pro "git log" por arquivo
+
+      - name: Rodar sync-partials.js
+        run: node scripts/sync-partials.js
+
+      - name: Commitar alterações (se houver)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if [ -n "$(git status --porcelain)" ]; then
+            git add -A
+            git commit -m "chore: sincronizar cabeçalho/rodapé via partials"
+            git push
+          else
+            echo "Nada para commitar."
+          fi
