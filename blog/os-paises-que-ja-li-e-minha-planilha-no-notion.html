@@ -242,6 +242,7 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
 <a href="#conteudo-principal" class="skip-link">Pular para o conteúdo principal</a>
 
 <!-- NAV -->
+<!-- NAV:START -->
 <nav>
   <a href="../index.html" class="nav-logo" style="text-decoration:none">
     <div class="nav-dot"></div>
@@ -259,11 +260,12 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
       </ul>
     </li>
     <li><a href="../desafio.html">Desafio</a></li>
-    <li><a href="index.html" class="active" aria-current="page">Blog</a></li>
+    <li><a href="../blog/index.html" class="active" aria-current="page">Blog</a></li>
     <li><a href="../sobre.html">Sobre</a></li>
   </ul>
   <button class="nav-hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-menu" onclick="const u=document.getElementById('nav-menu');u.classList.toggle('open');this.setAttribute('aria-expanded', u.classList.contains('open'));">☰</button>
 </nav>
+<!-- NAV:END -->
 
   <div class="article-wrap" id="conteudo-principal">
     <a class="article-back" href="index.html">← Voltar para o blog</a>
@@ -339,10 +341,14 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
     </div>
   </div>
 
+<!-- FOOTER:START -->
 <footer>
-  <div class="footer-dots"><div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div></div>
+  <div class="footer-dots">
+    <div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div>
+  </div>
   <span class="footer-text"><span id="footer-autora"></span>&nbsp;&nbsp;|&nbsp;&nbsp;© <span id="footer-ano"></span>&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">02 de agosto de 2026</span></span>
 </footer>
+<!-- FOOTER:END -->
 <script src="../assets/config.js"></script>
 <script>
 document.getElementById("footer-autora").textContent = SITE_CONFIG.autora;
