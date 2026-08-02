@@ -12,3 +12,16 @@
   --bg: #ffffff;
   --surface: #f9f8f5;
 }
+
+/* Componente: menção a livro no corpo do texto (país: título / autor) — ver Governança Blog */
+.book-subhead{font-family:'Cormorant Garamond',serif;font-size:1.28rem;font-weight:600;color:var(--green-dark);display:block;margin:1.8rem 0 .3rem;line-height:1.25;}
+.book-subhead strong{font-family:'DM Sans',sans-serif;font-weight:700;color:var(--green);}
+.book-subhead .book-country{font-family:'DM Sans',sans-serif;color:var(--black);font-weight:400;}
+.book-subhead .book-author{font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:500;letter-spacing:.03em;text-transform:uppercase;color:var(--muted);display:block;margin-top:.15rem;}
+
+/* Texto em negrito verde dentro de um parágrafo comum (sem ser o componente de livro) */
+.article-body strong.text-accent{color:var(--green-dark);}
+
+/* Tags extras — linha própria abaixo das tags normais, sem parecer clicável */
+.article-tags-extra{display:flex;flex-wrap:wrap;gap:.4rem;margin:-1.2rem 0 2.4rem;}
+.post-tag-extra{font-family:'DM Sans',sans-serif;font-size:.68rem;font-weight:500;letter-spacing:.03em;color:var(--muted);background:transparent;border:1px solid var(--border);border-radius:50px;padding:.22rem .65rem;cursor:default;}
