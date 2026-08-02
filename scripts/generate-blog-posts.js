@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 /**
  * Gera posts novos do blog (Biblioteca Vesiuol) a partir da base "Textos blog" no Notion.
  *
@@ -30,621 +31,504 @@
  *  - Rode primeiro manualmente (workflow_dispatch) e confira o resultado antes
  *    de confiar no agendamento automático.
  */
-// ============================================================
-// generate-blog-posts.js
-// Lê a base "Textos blog" do Notion, gera a página HTML final
-// de cada post pronto para publicar e atualiza blog/index.html.
-//
-// Modelo de autenticação/fetch reaproveitado de
-// scripts/fetch-notion-desafio.js (mesmo token NOTION_TOKEN).
-// ============================================================
 
 const fs = require('fs');
 const path = require('path');
 
 const NOTION_TOKEN = process.env.NOTION_TOKEN;
+const NOTION_BLOG_DB_ID = process.env.NOTION_BLOG_DB_ID;
 const NOTION_VERSION = '2022-06-28';
-// ID da database "📝 Textos blog" (Governança Blog, workspace Notion).
-const DB_ID = '3a9abcf3-db1e-80a2-acb1-f34e8262c191';
 
-const REPO_ROOT = path.resolve(__dirname, '..');
+const REPO_ROOT = path.join(__dirname, '..');
 const BLOG_DIR = path.join(REPO_ROOT, 'blog');
-const IMG_DIR = path.join(REPO_ROOT, 'assets', 'img', 'blog');
-const MANIFEST_PATH = path.join(REPO_ROOT, 'data', 'blog-posts.json');
 const INDEX_PATH = path.join(BLOG_DIR, 'index.html');
+const TEMPLATE_PATH = path.join(BLOG_DIR, 'como-escolhi-um-livro-por-pais-rota-1.html');
+const MANIFEST_PATH = path.join(REPO_ROOT, 'data', 'blog-posts.json');
+const SITE_BASE = 'https://vesiuol.github.io/vesiuol';
 
-const SITE_URL = 'https://vesiuol.github.io/vesiuol';
-const DEFAULT_OG_IMAGE = `${SITE_URL}/og-image-livros-favoritos.png`;
+// Valores exatos do template canônico (blog/como-escolhi-um-livro-por-pais-rota-1.html),
+// usados como "âncoras" para saber o que substituir. Se o template canônico mudar de
+// verdade (não só o texto do post, mas a estrutura do HTML), essas constantes precisam
+// ser atualizadas junto — ver Governança Blog > Padrão obrigatório.
+const OLD = {
+  slug: 'como-escolhi-um-livro-por-pais-rota-1',
+  title: 'Desafio livros pelo mundo: como escolhi os livros por país',
+  desc: 'Desafio livros pelo mundo — um livro para cada país: como organizo minha lista de leituras, critérios de escolha e os primeiros países da rota.',
+  articleMeta: '26 jul 2024 · 2 min de leitura',
+  datePublished: '2024-07-26',
+  dateModified: '2026-07-27',
+  keywords: '["Livros Pelo Mundo", "Organização", "Desafio Literário"]'
+};
 
-const MESES = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
-const MESES_LONGOS = [
-  'janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho',
-  'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'
-];
+function fail(msg) {
+  console.error('ERRO: ' + msg);
+  process.exit(1);
+}
 
-// ---------- Notion API helpers ----------
+if (!NOTION_TOKEN || !NOTION_BLOG_DB_ID) {
+  fail('faltam as variáveis de ambiente NOTION_TOKEN e/ou NOTION_BLOG_DB_ID.');
+}
 
-async function notionFetch(pathname, options = {}) {
-  const res = await fetch(`https://api.notion.com/v1${pathname}`, {
-    ...options,
+async function notionRequest(url, opts = {}) {
+  const res = await fetch(url, {
+    ...opts,
     headers: {
-      'Authorization': `Bearer ${NOTION_TOKEN}`,
+      Authorization: `Bearer ${NOTION_TOKEN}`,
       'Notion-Version': NOTION_VERSION,
       'Content-Type': 'application/json',
-      ...(options.headers || {})
+      ...(opts.headers || {})
     }
   });
-  const data = await res.json();
   if (!res.ok) {
-    console.error('Erro na API do Notion:', JSON.stringify(data, null, 2));
-    throw new Error(`Notion API error (${res.status})`);
+    const body = await res.text();
+    throw new Error(`Notion API ${res.status} em ${url}: ${body}`);
   }
-  return data;
+  return res.json();
 }
-
-async function queryDatabase() {
-  let results = [];
-  let cursor;
-  do {
-    const data = await notionFetch(`/databases/${DB_ID}/query`, {
-      method: 'POST',
-      body: JSON.stringify(cursor ? { start_cursor: cursor } : {})
-    });
-    results = results.concat(data.results);
-    cursor = data.has_more ? data.next_cursor : undefined;
-  } while (cursor);
-  return results;
-}
-
-async function getAllBlocks(blockId) {
-  let results = [];
-  let cursor;
-  do {
-    const data = await notionFetch(
-      `/blocks/${blockId}/children?page_size=100${cursor ? `&start_cursor=${cursor}` : ''}`
-    );
-    results = results.concat(data.results);
-    cursor = data.has_more ? data.next_cursor : undefined;
-  } while (cursor);
-  return results;
-}
-
-async function updatePageStatus(pageId, status) {
-  await notionFetch(`/pages/${pageId}`, {
-    method: 'PATCH',
-    body: JSON.stringify({ properties: { Status: { select: { name: status } } } })
-  });
-}
-
-// ---------- Propriedades ----------
-
-function getProp(page, name) {
-  const p = page.properties[name];
-  if (!p) return null;
-  switch (p.type) {
-    case 'title': return p.title.map(t => t.plain_text).join('') || null;
-    case 'rich_text': return p.rich_text.map(t => t.plain_text).join('') || null;
-    case 'select': return p.select ? p.select.name : null;
-    case 'multi_select': return p.multi_select.map(o => o.name);
-    case 'date': return p.date ? p.date.start : null;
-    default: return null;
-  }
-}
-
-// ---------- Texto: slug, data, tempo de leitura ----------
 
 function slugify(str) {
   return str
-    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // remove acentos
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
-    .replace(/(^-|-$)/g, '');
+    .replace(/(^-+|-+$)/g, '');
 }
 
-function formatDateLabel(isoDate) {
-  const [y, m, d] = isoDate.split('-').map(Number);
-  return `${d} ${MESES[m - 1]} ${y}`;
-}
-
-function formatDateLongLabel(isoDate) {
-  const [y, m, d] = isoDate.split('-').map(Number);
-  return `${d} de ${MESES_LONGOS[m - 1]} de ${y}`;
-}
-
-function todayISO() {
-  return new Date().toISOString().slice(0, 10);
-}
-
-function escapeHtml(str) {
-  return str
+function escapeHtml(s) {
+  return String(s)
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
 }
 
-function escapeAttr(str) {
-  return escapeHtml(str);
+function getPlainText(richTextArr) {
+  return (richTextArr || []).map((t) => t.plain_text).join('');
 }
-
-// ---------- Notion rich_text -> HTML inline ----------
 
 function richTextToHtml(richTextArr) {
-  return richTextArr.map(rt => {
-    let text = escapeHtml(rt.plain_text);
-    if (rt.annotations.code) text = `<code>${text}</code>`;
-    if (rt.annotations.bold) text = `<strong>${text}</strong>`;
-    if (rt.annotations.italic) text = `<em>${text}</em>`;
-    if (rt.annotations.strikethrough) text = `<s>${text}</s>`;
-    if (rt.href) text = `<a href="${escapeAttr(rt.href)}" target="_blank" rel="noopener noreferrer">${text}</a>`;
-    return text;
-  }).join('');
-}
-
-function plainText(richTextArr) {
-  return richTextArr.map(rt => rt.plain_text).join('');
-}
-
-// ---------- Conversão de blocos Notion -> corpo do artigo ----------
-
-const IMAGE_TAG_RE = /^\[IMAGEM:\s*([^\]]+)\]\s*$/i;
-const LEGENDA_RE = /^Legenda:\s*(.+)$/i;
-
-function humanizeFilename(filename) {
-  const base = filename.replace(/\.[a-z0-9]+$/i, '');
-  return base.replace(/[-_]+/g, ' ').trim();
-}
-
-function buildFigure(filename, legenda) {
-  const exists = fs.existsSync(path.join(IMG_DIR, filename));
-  const src = `../assets/img/blog/${filename}`;
-  const humanAlt = humanizeFilename(filename);
-  const alt = exists ? humanAlt : `${humanAlt} — aguardando imagem enviada por Louise`;
-  const placeholderText = encodeURIComponent('aguardando+imagem');
-  const fallback = `https://placehold.co/900x500/c8d4b8/2f3a26?text=${placeholderText}`;
-  const caption = legenda ? `\n  <figcaption>${escapeHtml(legenda)}</figcaption>` : '';
-  return `<figure>\n  <img src="${src}" alt="${escapeAttr(alt)}" onerror="this.src='${fallback}'">${caption}\n</figure>`;
-}
-
-function blocksToArticle(blocks) {
-  const htmlParts = [];
-  const wordsParts = [];
-  let firstParagraph = '';
-
-  for (let i = 0; i < blocks.length; i++) {
-    const block = blocks[i];
-    const type = block.type;
-    const data = block[type];
-
-    if (type === 'paragraph') {
-      const text = plainText(data.rich_text).trim();
-      const imgMatch = text.match(IMAGE_TAG_RE);
-      if (imgMatch) {
-        const filename = imgMatch[1].trim();
-        let legenda = null;
-        const next = blocks[i + 1];
-        if (next && next.type === 'paragraph') {
-          const nextText = plainText(next.paragraph.rich_text).trim();
-          const legMatch = nextText.match(LEGENDA_RE);
-          if (legMatch) {
-            legenda = legMatch[1].trim();
-            i++; // consome o bloco de legenda
-          }
-        }
-        htmlParts.push(buildFigure(filename, legenda));
-        continue;
-      }
-      if (!text) continue; // parágrafo vazio (espaçamento no Notion)
-      if (!firstParagraph) firstParagraph = text;
-      htmlParts.push(`<p>${richTextToHtml(data.rich_text)}</p>`);
-      wordsParts.push(text);
-    } else if (type === 'heading_2') {
-      htmlParts.push(`<h2>${richTextToHtml(data.rich_text)}</h2>`);
-    } else if (type === 'heading_3') {
-      // Sinal de exceção: se a Louise pintar o texto do Heading 3 com o fundo
-      // verde do próprio Notion, o H3 sai como pílula preenchida (padrão antigo,
-      // usado hoje só como rótulo de citação em "Histórias cruzadas"). Sem cor
-      // nenhuma aplicada, sai no padrão novo (pílula sem fundo, texto preto).
-      const hasGreenBg = data.rich_text.some(rt => rt.annotations.color === 'green_background');
-      const cls = hasGreenBg ? ' class="h3-pill-solid"' : '';
-      htmlParts.push(`<h3${cls}>${richTextToHtml(data.rich_text)}</h3>`);
-    } else if (type === 'heading_1') {
-      // Notion H1 não tem equivalente no template (H1 é o título do post) — trata como H2.
-      htmlParts.push(`<h2>${richTextToHtml(data.rich_text)}</h2>`);
-    } else if (type === 'quote') {
-      htmlParts.push(`<blockquote>${richTextToHtml(data.rich_text)}</blockquote>`);
-      wordsParts.push(plainText(data.rich_text));
-    } else if (type === 'bulleted_list_item' || type === 'numbered_list_item') {
-      // agrupa itens consecutivos da mesma lista
-      const tag = type === 'bulleted_list_item' ? 'ul' : 'ol';
-      const items = [`<li>${richTextToHtml(data.rich_text)}</li>`];
-      wordsParts.push(plainText(data.rich_text));
-      while (blocks[i + 1] && blocks[i + 1].type === type) {
-        i++;
-        const nextData = blocks[i][type];
-        items.push(`<li>${richTextToHtml(nextData.rich_text)}</li>`);
-        wordsParts.push(plainText(nextData.rich_text));
-      }
-      htmlParts.push(`<${tag}>\n${items.join('\n')}\n</${tag}>`);
-    } else if (type === 'image') {
-      const src = data.type === 'external' ? data.external.url : data.file.url;
-      const caption = data.caption && data.caption.length ? plainText(data.caption) : '';
-      htmlParts.push(
-        `<figure>\n  <img src="${src}" alt="${escapeAttr(caption || 'Imagem do post')}">${
-          caption ? `\n  <figcaption>${escapeHtml(caption)}</figcaption>` : ''
-        }\n</figure>`
-      );
-    }
-    // outros tipos de bloco (toggle, callout, divider, etc.) são ignorados por enquanto —
-    // se a Louise passar a usar algum desses no texto, expandir aqui.
-  }
-
-  const wordCount = wordsParts.join(' ').split(/\s+/).filter(Boolean).length;
-  return {
-    html: htmlParts.join('\n'),
-    wordCount,
-    firstParagraph
-  };
-}
-
-function buildMetaDescription(firstParagraph) {
-  if (!firstParagraph) return '';
-  if (firstParagraph.length <= 155) return firstParagraph;
-  const cut = firstParagraph.slice(0, 155);
-  return cut.slice(0, cut.lastIndexOf(' ')) + '…';
-}
-
-// ---------- Templates de HTML ----------
-
-function renderTagsFooter(tags) {
-  return tags
-    .map(t => `<a class="post-tag" href="index.html?tag=${encodeURIComponent(t)}">${escapeHtml(t)}</a>`)
+  return (richTextArr || [])
+    .map((t) => {
+      let text = escapeHtml(t.plain_text);
+      if (t.annotations && t.annotations.bold) text = `<strong>${text}</strong>`;
+      if (t.annotations && t.annotations.italic) text = `<em>${text}</em>`;
+      if (t.href) text = `<a href="${t.href}" target="_blank" rel="noopener">${text}</a>`;
+      return text;
+    })
     .join('');
 }
 
-function renderRelatedCard(post) {
-  return `        <a class="post-card" href="${post.url}">
-          <div class="post-wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div></div>
-          <div class="post-body">
-            <h3 class="post-title">${escapeHtml(post.title)}</h3>
-          </div>
-          <div class="post-tags">${post.tags.map(t => `<span class="post-tag">${escapeHtml(t)}</span>`).join('')}</div>
-          <div class="post-foot"><span>${escapeHtml(post.dateLabel)} · ${post.readMin} min</span><span>→</span></div>
-        </a>`;
+function formatDateShort(iso) {
+  const meses = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
+  const [y, m, d] = iso.split('-');
+  return `${parseInt(d, 10)} ${meses[parseInt(m, 10) - 1]} ${y}`;
 }
 
-function renderIndexCard(post) {
-  return `        <a class="post-card" href="${post.url}">
-          <div class="post-wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div></div>
-          <div class="post-body">
-            <h3 class="post-title">${escapeHtml(post.title)}</h3>
-            <p class="post-desc">${escapeHtml(post.desc)}</p>
-          </div>
-          <div class="post-tags">${post.tags.map(t => `<span class="post-tag">${escapeHtml(t)}</span>`).join('')}</div>
-          <div class="post-foot"><span>${escapeHtml(post.foot)}</span><span>→</span></div>
-        </a>`;
+function readingTime(wordCount) {
+  return Math.max(1, Math.round(wordCount / 200));
 }
 
-function renderPostPage({ title, description, canonicalUrl, ogImage, jsonLd, dateLabel, readMin, articleHtml, tags, relatedPosts }) {
-  return `<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-JE6ED0PYHR"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-JE6ED0PYHR');
-</script>
+// --- 1. Buscar páginas prontas para publicar --------------------------------
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<link rel="icon" href="../assets/favicon.svg">
-<link rel="apple-touch-icon" href="../apple-touch-icon.png">
-<title>${escapeHtml(title)} — Biblioteca Vesiuol</title>
-<meta name="description" content="${escapeAttr(description)}">
-<link rel="canonical" href="${canonicalUrl}">
-<meta property="og:type" content="article">
-<meta property="og:locale" content="pt_BR">
-<meta property="og:site_name" content="Biblioteca Vesiuol">
-<meta property="og:title" content="${escapeAttr(title)} — Biblioteca Vesiuol">
-<meta property="og:description" content="${escapeAttr(description)}">
-<meta property="og:url" content="${canonicalUrl}">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="${escapeAttr(title)} — Biblioteca Vesiuol">
-<meta name="twitter:description" content="${escapeAttr(description)}">
-<meta property="og:image" content="${DEFAULT_OG_IMAGE}">
-<meta name="twitter:image" content="${DEFAULT_OG_IMAGE}">
-<script type="application/ld+json">
-${JSON.stringify(jsonLd, null, 2)}
-</script>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Lora:wght@400;600;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/theme.css">
-<style>
-:root {
-  --sidebar-w:272px;
-  --header-h:52px;
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html{-webkit-font-smoothing:antialiased;}
-body{background:var(--white);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:500;}
-a{color:inherit;text-decoration:none;}
-
-.skip-link{position:absolute;left:-999px;top:0;z-index:200;background:var(--green);color:var(--white);padding:.6rem 1.2rem;font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:600;}
-.skip-link:focus{left:1rem;top:.6rem;}
-
-nav{position:sticky;top:0;z-index:200;height:var(--header-h);background:var(--white);border-bottom:1.5px solid #c5c5a0;display:flex;align-items:center;padding:0 2rem;gap:1.5rem;}
-.nav-logo{display:flex;gap:5px;align-items:center;}
-.nav-dot{width:10px;height:10px;border-radius:50%;background:var(--black);}
-nav ul{list-style:none;display:flex;gap:2rem;margin-left:auto;align-items:center;}
-nav ul li a{color:var(--black);font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;transition:color .2s;font-family:'DM Sans',sans-serif;font-weight:500;}
-nav ul li a:hover{color:var(--green);}
-nav ul li a.active{background:var(--green);color:var(--white);padding:.28rem .7rem;border-radius:3px;font-weight:700;}
-.nav-hamburger{display:none;background:none;border:none;color:var(--black);font-size:1.4rem;cursor:pointer;margin-left:auto;}
-
-main{padding:2rem 2.4rem 3rem;position:relative;z-index:1;min-width:0;}
-
-.posts-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;}
-.post-card{border:1.5px solid var(--border);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transition:transform .18s,box-shadow .18s;text-decoration:none;color:inherit;box-shadow:2px 2px 0 var(--border);}
-.post-card:hover{transform:translateY(-2px);box-shadow:2px 4px 0 var(--border);}
-.post-wbar{padding:.45rem .9rem;display:flex;gap:4px;border-bottom:1px solid var(--border-soft);}
-.wdot{width:8px;height:8px;border-radius:50%;background:#bbb;}
-.post-body{padding:1rem 1.1rem;flex:1;display:flex;flex-direction:column;gap:.5rem;}
-.post-title{font-family:'Lora',serif;font-size:1.22rem;font-weight:700;line-height:1.38;color:var(--text);}
-.post-foot{border-top:1px solid var(--border-soft);padding:.55rem 1.1rem;display:flex;align-items:center;justify-content:space-between;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);}
-.post-tags{display:flex;flex-wrap:wrap;gap:.35rem;padding:0 1.1rem .9rem;}
-.post-tag{font-size:.64rem;letter-spacing:.03em;text-transform:uppercase;color:var(--white);background:var(--green);padding:.14rem .5rem;border-radius:100px;}
-.article-tags .post-tag{cursor:pointer;text-decoration:none;border:none;}
-.article-tags .post-tag:hover{background:var(--green-dark);}
-
-.article-wrap{max-width:720px;margin:0 auto;padding:2.2rem 2rem 3rem;}
-.article-meta{font-size:.72rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:.7rem;}
-.article-body{font-size:1.02rem;line-height:1.85;color:var(--text);}
-.article-body p{margin-bottom:1.15rem;}
-.article-body h2{font-family:'DM Sans',sans-serif;font-size:1.85rem;font-weight:700;color:var(--green-dark);margin:2.1rem 0 .9rem;padding-bottom:.3rem;border-bottom:2px solid var(--green-light);}
-.article-body h3{font-family:'DM Sans',sans-serif;font-size:.92rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--black);background:none;display:inline-block;padding:.4rem 0;border-radius:100px;margin:1.9rem 0 .8rem;}
-.article-body h3.h3-pill-solid{background:var(--green-dark);color:var(--white);font-size:.74rem;padding:.3rem .9rem;}
-.article-body a{color:var(--text);font-weight:700;text-decoration:underline;text-decoration-color:var(--green);text-decoration-thickness:1.5px;text-underline-offset:2px;}
-.article-body a:hover{color:var(--green-dark);}
-.article-body blockquote{border-left:3px solid var(--green);padding-left:1rem;margin:1.4rem 0;color:var(--muted);font-style:italic;}
-.article-body ul,.article-body ol{margin:0 0 1.15rem 1.3rem;}
-.article-body li{margin-bottom:.4rem;}
-.article-body figure{margin:1.7rem 0;}
-.article-body img{width:100%;border-radius:10px;border:1.5px solid var(--border);display:block;}
-.article-body figcaption{font-size:.72rem;letter-spacing:.02em;color:var(--black);text-align:center;margin-top:.5rem;}
-.article-tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:1.8rem 0 2.6rem;}
-.article-back{display:inline-block;margin-bottom:1.4rem;font-size:.74rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);}
-.article-back:hover{color:var(--green);}
-
-.related-wrap{border-top:1.5px solid var(--border);padding-top:2.4rem;padding-bottom:2.4rem;margin-top:0;max-width:720px;margin-left:auto;margin-right:auto;padding-left:2rem;padding-right:2rem;}
-.related-wrap .posts-grid{display:flex;flex-direction:column;gap:0;margin-top:1rem;border-top:1px solid var(--border-soft);}
-.related-wrap .post-card{flex-direction:row;flex-wrap:wrap;align-items:center;gap:.4rem 1rem;border:none;border-bottom:1px solid var(--border-soft);border-radius:0;box-shadow:none;padding:.6rem .1rem;}
-.related-wrap .post-card:hover{transform:none;box-shadow:none;background:var(--surface);}
-.related-wrap .post-wbar{display:none;}
-.related-wrap .post-body{padding:0;flex:1 1 220px;gap:0;}
-.related-wrap .post-title{font-size:.85rem;font-weight:600;line-height:1.35;}
-.related-wrap .post-tags{padding:0;flex-shrink:0;}
-.related-wrap .post-foot{border-top:none;padding:0;flex-shrink:0;gap:.5rem;font-size:.62rem;}
-
-footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center;gap:1rem;border-top:1.5px solid var(--green-dark);}
-.footer-dots{display:flex;gap:5px;}
-.footer-dot{width:10px;height:10px;border-radius:50%;background:var(--white);}
-.footer-text{font-size:.60rem;letter-spacing:.1em;text-transform:uppercase;color:var(--white);font-weight:500;font-family:'DM Sans',sans-serif;}
-
-@media(max-width:900px){
-  .article-wrap{padding:1.6rem 1.2rem 2.4rem;}
-  .related-wrap{padding-left:1.2rem;padding-right:1.2rem;}
-}
-@media(max-width:600px){
-  nav ul{display:none;position:absolute;top:52px;left:0;right:0;background:var(--white);flex-direction:column;padding:1rem 2rem;gap:1rem;border-bottom:1px solid var(--border);}
-  nav ul.open{display:flex;}
-  .nav-hamburger{display:block;}
-  .posts-grid{grid-template-columns:1fr;}
-}
-</style>
-</head>
-<body>
-
-<a href="#conteudo-principal" class="skip-link">Pular para o conteúdo principal</a>
-
-<!-- NAV -->
-<nav>
-  <a href="../index.html" class="nav-logo" style="text-decoration:none">
-    <div class="nav-dot"></div>
-    <div class="nav-dot"></div>
-    <div class="nav-dot" style="background:var(--green)"></div>
-  </a>
-  <ul id="nav-menu">
-    <li><a href="../index.html">Início</a></li>
-    <li><a href="../2026.html">2026</a></li>
-    <li><a href="../estante.html">Estante</a></li>
-    <li><a href="../historico.html">Histórico</a></li>
-    <li><a href="../desafio.html">Desafio</a></li>
-    <li><a href="../sobre.html">Sobre</a></li>
-  </ul>
-  <button class="nav-hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-menu" onclick="const u=document.getElementById('nav-menu');u.classList.toggle('open');this.setAttribute('aria-expanded', u.classList.contains('open'));">☰</button>
-</nav>
-
-  <div class="article-wrap" id="conteudo-principal">
-    <a class="article-back" href="index.html">← Voltar para o blog</a>
-    <div class="article-meta">${escapeHtml(dateLabel)} · ${readMin} min de leitura</div>
-    <div class="intro-headline-wrap">
-      <h1 class="intro-headline" style="font-family:'Cormorant Garamond',serif;font-size:clamp(2.4rem,4vw,3.8rem);font-weight:600;line-height:1.45;">${escapeHtml(title)}</h1>
-    </div>
-    <div class="article-body">
-${articleHtml}
-    </div>
-    <div class="article-tags">${renderTagsFooter(tags)}</div>
-  </div>
-  <div class="related-wrap">
-    <h2 style="font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:700;display:inline-block;background:var(--green);color:var(--white);padding:.08em .4em;">Outras leituras</h2>
-    <div class="posts-grid">
-${relatedPosts.map(renderRelatedCard).join('\n')}
-    </div>
-  </div>
-
-<footer>
-  <div class="footer-dots"><div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div></div>
-  <span class="footer-text"><span id="footer-autora"></span>&nbsp;&nbsp;|&nbsp;&nbsp;© <span id="footer-ano"></span>&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">${formatDateLongLabel(todayISO())}</span></span>
-</footer>
-<script src="../assets/config.js"></script>
-<script>
-document.getElementById("footer-autora").textContent = SITE_CONFIG.autora;
-document.getElementById("footer-ano").textContent = SITE_CONFIG.copyrightAno;
-</script>
-</body>
-</html>
-`;
-}
-
-// ---------- blog/index.html: regenerar apenas o bloco de cards ----------
-
-function updateBlogIndex(manifest) {
-  let html = fs.readFileSync(INDEX_PATH, 'utf8');
-  const sorted = [...manifest].sort((a, b) => (a.date < b.date ? 1 : -1));
-  const cardsHtml = sorted.map(renderIndexCard).join('\n');
-
-  const startMarker = '<div class="posts-grid" id="posts-grid">';
-  const endMarker = '</div>';
-  const startIdx = html.indexOf(startMarker);
-  if (startIdx === -1) {
-    console.warn('⚠️  Não encontrei #posts-grid em blog/index.html — pulei a atualização do índice.');
-    return;
-  }
-  // encontra o </div> de fechamento correspondente (o primeiro </div> após o marcador,
-  // já que os cards internos usam <a>/<div> mas o bloco em si é fechado no template atual
-  // por um </div> dedicado ao final da lista de cards).
-  const afterStart = startIdx + startMarker.length;
-  const closeIdx = html.indexOf('\n    </div>', afterStart);
-  if (closeIdx === -1) {
-    console.warn('⚠️  Não encontrei o fechamento de #posts-grid — pulei a atualização do índice.');
-    return;
-  }
-  const newBlock = `${startMarker}\n${cardsHtml}\n    </div>`;
-  html = html.slice(0, startIdx) + newBlock + html.slice(closeIdx + '\n    </div>'.length);
-  fs.writeFileSync(INDEX_PATH, html);
-  console.log('✅ blog/index.html atualizado com', sorted.length, 'posts.');
-}
-
-// ---------- Execução principal ----------
-
-async function run() {
-  if (!NOTION_TOKEN) {
-    console.error('NOTION_TOKEN não definido.');
-    process.exit(1);
-  }
-
-  const manifest = JSON.parse(fs.readFileSync(MANIFEST_PATH, 'utf8'));
-  const today = todayISO();
-
-  const pages = await queryDatabase();
-  const eligible = pages.filter(page => {
-    const status = getProp(page, 'Status');
-    const pubDate = getProp(page, 'Data de publicação');
-    return status === 'Pronto para publicar' && pubDate && pubDate <= today;
+async function fetchReadyPages() {
+  const data = await notionRequest(`https://api.notion.com/v1/databases/${NOTION_BLOG_DB_ID}/query`, {
+    method: 'POST',
+    body: JSON.stringify({
+      filter: {
+        or: [
+          { property: 'Status', select: { equals: 'Pronto para publicar' } },
+          { property: 'Status', select: { equals: 'Atualizar' } },
+          { property: 'Status', select: { equals: 'Rascunho' } },
+          { property: 'Status', select: { equals: 'Excluído' } }
+        ]
+      },
+      sorts: [{ property: 'Data de publicação', direction: 'ascending' }]
+    })
   });
+  return data.results;
+}
 
-  if (eligible.length === 0) {
-    console.log('Nenhum post pronto para publicar hoje.');
+async function fetchAllBlocks(blockId) {
+  let blocks = [];
+  let cursor;
+  do {
+    const url = new URL(`https://api.notion.com/v1/blocks/${blockId}/children`);
+    url.searchParams.set('page_size', '100');
+    if (cursor) url.searchParams.set('start_cursor', cursor);
+    const data = await notionRequest(url.toString());
+    blocks = blocks.concat(data.results);
+    cursor = data.has_more ? data.next_cursor : null;
+  } while (cursor);
+  return blocks;
+}
+
+// --- 2. Converter blocos do Notion em HTML do corpo do artigo ---------------
+
+function blocksToArticle(blocks) {
+  let html = '';
+  let firstParagraphText = '';
+  let wordCount = 0;
+  let listBuffer = [];
+
+  function flushList() {
+    if (listBuffer.length) {
+      html += `<ul>\n${listBuffer.join('\n')}\n</ul>\n`;
+      listBuffer = [];
+    }
+  }
+
+  for (const block of blocks) {
+    const type = block.type;
+    if (type !== 'bulleted_list_item' && type !== 'numbered_list_item') flushList();
+
+    if (type === 'paragraph') {
+      const text = getPlainText(block.paragraph.rich_text);
+      const livroMatch = text.match(/^\[LIVRO:\s*([^|]+)\|([^|]+)\|([^\]]+)\]$/i);
+      if (livroMatch) {
+        const [, country, bookTitle, author] = livroMatch.map((s) => (s || '').trim());
+        html += `<p class="book-subhead"><span class="book-country">${escapeHtml(country)}:</span> <strong>${escapeHtml(bookTitle)}</strong><span class="book-author">${escapeHtml(author)}</span></p>\n`;
+        continue;
+      }
+      const imgMatch = text.match(/^\[IMAGEM:\s*([^\]]+)\]$/i);
+      if (imgMatch) {
+        const filename = imgMatch[1].trim();
+        html += `<figure>\n  <img src="../assets/img/blog/${escapeHtml(filename)}" alt="aguardando imagem enviada por Louise" onerror="this.src='https://placehold.co/900x500/c8d4b8/2f3a26?text=aguardando+imagem'">\n</figure>\n`;
+        continue;
+      }
+      const legendaMatch = text.match(/^Legenda:\s*(.+)$/i);
+      if (legendaMatch && html.trimEnd().endsWith('</figure>')) {
+        const trimmed = html.trimEnd();
+        html = trimmed.slice(0, -'</figure>'.length) + `  <figcaption>${escapeHtml(legendaMatch[1])}</figcaption>\n</figure>\n`;
+        continue;
+      }
+      if (!text.trim()) continue;
+      if (!firstParagraphText) firstParagraphText = text;
+      wordCount += text.split(/\s+/).filter(Boolean).length;
+      html += `<p>${richTextToHtml(block.paragraph.rich_text)}</p>\n`;
+    } else if (type === 'heading_2') {
+      html += `<h2>${richTextToHtml(block.heading_2.rich_text)}</h2>\n`;
+    } else if (type === 'heading_3') {
+      html += `<h3>${richTextToHtml(block.heading_3.rich_text)}</h3>\n`;
+    } else if (type === 'quote') {
+      html += `<blockquote>${richTextToHtml(block.quote.rich_text)}</blockquote>\n`;
+      wordCount += getPlainText(block.quote.rich_text).split(/\s+/).filter(Boolean).length;
+    } else if (type === 'bulleted_list_item') {
+      listBuffer.push(`<li>${richTextToHtml(block.bulleted_list_item.rich_text)}</li>`);
+      wordCount += getPlainText(block.bulleted_list_item.rich_text).split(/\s+/).filter(Boolean).length;
+    } else {
+      // Toggle, callout, tabela etc. não são suportados ainda — ver limitação
+      // conhecida na Governança Blog. Ignorado silenciosamente.
+    }
+  }
+  flushList();
+  return { html: html.trim(), firstParagraphText, wordCount };
+}
+
+// --- 3. Montar o HTML final clonando o template canônico --------------------
+
+function buildPostHtml(templateRaw, post, relatedCards) {
+  let html = templateRaw;
+  const newTitle = post.title;
+  const newDesc = post.metaDescription;
+  const newUrl = `${SITE_BASE}/blog/${post.slug}.html`;
+
+  // <title>
+  html = html.replace(`<title>${OLD.title} — Biblioteca Vesiuol</title>`, `<title>${escapeHtml(newTitle)} — Biblioteca Vesiuol</title>`);
+  // meta description / og:description / twitter:description (mesmo texto 3x no template)
+  html = html.split(`content="${OLD.desc}"`).join(`content="${escapeHtml(newDesc)}"`);
+  // canonical + og:url
+  html = html.split(`https://vesiuol.github.io/vesiuol/blog/${OLD.slug}.html`).join(newUrl);
+  // og:title / twitter:title (mesmo texto 2x, mais o <title> já trocado acima)
+  html = html.split(`content="${OLD.title} — Biblioteca Vesiuol"`).join(`content="${escapeHtml(newTitle)} — Biblioteca Vesiuol"`);
+  // JSON-LD: headline
+  html = html.replace(`"headline": "${OLD.title}",`, `"headline": ${JSON.stringify(newTitle)},`);
+  // JSON-LD: description
+  html = html.replace(`"description": "${OLD.desc}",`, `"description": ${JSON.stringify(newDesc)},`);
+  // JSON-LD: datas
+  html = html.replace(`"datePublished": "${OLD.datePublished}",`, `"datePublished": "${post.dateISO}",`);
+  html = html.replace(`"dateModified": "${OLD.dateModified}",`, `"dateModified": "${post.dateISO}",`);
+  // JSON-LD: keywords
+  html = html.replace(`"keywords": ${OLD.keywords}`, `"keywords": ${JSON.stringify(post.tags)}`);
+  // JSON-LD: image — se não tiver capa, remove a linha inteira
+  if (post.coverFilename) {
+    html = html.replace(
+      '"image": "https://vesiuol.github.io/vesiuol/images/blog/estruturando-rota-1-1.jpg",',
+      `"image": "${SITE_BASE}/assets/img/blog/${post.coverFilename}",`
+    );
+  } else {
+    html = html.replace(/\s*"image": "https:\/\/vesiuol\.github\.io\/vesiuol\/images\/blog\/estruturando-rota-1-1\.jpg",\n/, '\n');
+  }
+
+  // article-meta (data + tempo de leitura)
+  html = html.replace(OLD.articleMeta, `${formatDateShort(post.dateISO)} · ${post.readingTime} min de leitura`);
+
+  // h1
+  html = html.replace(
+    `<h1 class="intro-headline">${OLD.title}</h1>`,
+    `<h1 class="intro-headline">${escapeHtml(newTitle)}</h1>`
+  );
+
+  // article-body (âncora: do <div class="article-body"> até o </div> logo antes de <div class="article-tags">)
+  html = html.replace(
+    /<div class="article-body">[\s\S]*?<\/div>\n {4}<div class="article-tags">/,
+    `<div class="article-body">\n${post.bodyHtml}\n</div>\n    <div class="article-tags">`
+  );
+
+  // article-tags (tags normais, clicáveis) + tags extras (linha própria abaixo, não clicável)
+  const tagsHtml = post.tags.map((t) => `<a class="post-tag" href="index.html?tag=${encodeURIComponent(t)}">${escapeHtml(t)}</a>`).join('');
+  const extraTagsHtml =
+    post.extraTags && post.extraTags.length
+      ? `\n    <div class="article-tags-extra">${post.extraTags.map((t) => `<span class="post-tag-extra">${escapeHtml(t)}</span>`).join('')}</div>`
+      : '';
+  html = html.replace(
+    /<div class="article-tags">[\s\S]*?<\/div>\n {2}<\/div>\n {2}<div class="related-wrap">/,
+    `<div class="article-tags">${tagsHtml}</div>${extraTagsHtml}\n  </div>\n  <div class="related-wrap">`
+  );
+
+  // Outras leituras (posts-grid)
+  const relatedHtml = relatedCards
+    .map(
+      (r) => `        <a class="post-card" href="${r.slug}.html">
+          <div class="post-wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div></div>
+          <div class="post-body">
+            <h3 class="post-title">${escapeHtml(r.title)}</h3>
+          </div>
+          <div class="post-tags">${r.tags
+            .slice(0, 2)
+            .map((t) => `<span class="post-tag">${escapeHtml(t)}</span>`)
+            .join('')}</div>
+          <div class="post-foot"><span>${formatDateShort(r.dateISO)} · ${r.readingTime} min</span><span>→</span></div>
+        </a>`
+    )
+    .join('\n');
+  html = html.replace(
+    /<div class="posts-grid">\n[\s\S]*?\n {4}<\/div>\n {2}<\/div>\n\n<footer>/,
+    `<div class="posts-grid">\n${relatedHtml}\n    </div>\n  </div>\n\n<footer>`
+  );
+
+  return html;
+}
+
+// --- 3b. Atualizar (re-sincronizar) um post JÁ PUBLICADO ---------------------
+// Escopo intencionalmente menor que buildPostHtml: só troca o corpo do texto,
+// as tags e o tempo de leitura no article-meta — não mexe em <title>/meta/JSON-LD
+// nem no card da home, pra não arriscar quebrar nada que já está no ar por causa
+// de uma correção de texto. Se um dia precisar sincronizar título/meta também,
+// estender aqui.
+function updateArticleContent(existingHtml, post) {
+  let html = existingHtml;
+
+  html = html.replace(
+    /<div class="article-body">[\s\S]*?<\/div>\n {4}<div class="article-tags">/,
+    `<div class="article-body">\n${post.bodyHtml}\n</div>\n    <div class="article-tags">`
+  );
+
+  const tagsHtml = post.tags.map((t) => `<a class="post-tag" href="index.html?tag=${encodeURIComponent(t)}">${escapeHtml(t)}</a>`).join('');
+  const extraTagsHtml =
+    post.extraTags && post.extraTags.length
+      ? `\n    <div class="article-tags-extra">${post.extraTags.map((t) => `<span class="post-tag-extra">${escapeHtml(t)}</span>`).join('')}</div>`
+      : '';
+  // Remove article-tags-extra existente (se já tinha de uma sincronização anterior) antes de recriar
+  html = html.replace(/\n {4}<div class="article-tags-extra">[\s\S]*?<\/div>/, '');
+  html = html.replace(
+    /<div class="article-tags">[\s\S]*?<\/div>\n {2}<\/div>\n {2}<div class="related-wrap">/,
+    `<div class="article-tags">${tagsHtml}</div>${extraTagsHtml}\n  </div>\n  <div class="related-wrap">`
+  );
+
+  // article-meta: mantém a data que já estava no arquivo, só recalcula o tempo de leitura
+  html = html.replace(
+    /(<div class="article-meta">[^·]+· )\d+( min de leitura<\/div>)/,
+    `$1${post.readingTime}$2`
+  );
+
+  return html;
+}
+
+// --- 4. Atualizar blog/index.html (card novo + contador) --------------------
+
+function insertCardIntoIndex(indexHtml, post) {
+  const newCard = `        <a class="post-card" href="${post.slug}.html">
+          <div class="post-wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div></div>
+          <div class="post-body">
+            <h3 class="post-title">${escapeHtml(post.title)}</h3>
+            <p class="post-desc">${escapeHtml(post.metaDescription)}</p>
+          </div>
+          <div class="post-tags">${post.tags.map((t) => `<span class="post-tag">${escapeHtml(t)}</span>`).join('')}</div>
+          <div class="post-foot"><span>${formatDateShort(post.dateISO)} · ${post.readingTime} min</span><span>→</span></div>
+        </a>
+`;
+  let html = indexHtml.replace(
+    /(<div class="posts-grid" id="posts-grid">\n)/,
+    `$1${newCard}`
+  );
+  // contador "textos publicados"
+  html = html.replace(/(<div class="kpi-num">)(\d+)(<\/div>)/, (m, a, num, c) => `${a}${parseInt(num, 10) + 1}${c}`);
+  return html;
+}
+
+// --- 4b. Ocultar / excluir um post já publicado ------------------------------
+
+function removeCardFromIndex(indexHtml, slug) {
+  const re = new RegExp(`\\s*<a class="post-card" href="${slug}\\.html">[\\s\\S]*?<\\/a>\\n?`);
+  let html = indexHtml.replace(re, '\n');
+  if (html !== indexHtml) {
+    html = html.replace(/(<div class="kpi-num">)(\d+)(<\/div>)/, (m, a, num, c) => `${a}${Math.max(0, parseInt(num, 10) - 1)}${c}`);
+  }
+  return { html, removed: html !== indexHtml };
+}
+
+function removeFromManifest(slug) {
+  if (!fs.existsSync(MANIFEST_PATH)) return;
+  const manifest = JSON.parse(fs.readFileSync(MANIFEST_PATH, 'utf8'));
+  const filtered = manifest.filter((p) => p.slug !== slug);
+  fs.writeFileSync(MANIFEST_PATH, JSON.stringify(filtered, null, 2) + '\n', 'utf8');
+}
+
+// --- 5. Manifesto data/blog-posts.json --------------------------------------
+
+function updateManifest(post) {
+  let manifest = [];
+  if (fs.existsSync(MANIFEST_PATH)) {
+    manifest = JSON.parse(fs.readFileSync(MANIFEST_PATH, 'utf8'));
+  }
+  manifest.unshift({
+    slug: post.slug,
+    title: post.title,
+    dateISO: post.dateISO,
+    tags: post.tags,
+    extraTags: post.extraTags || [],
+    readingTime: post.readingTime
+  });
+  fs.mkdirSync(path.dirname(MANIFEST_PATH), { recursive: true });
+  fs.writeFileSync(MANIFEST_PATH, JSON.stringify(manifest, null, 2) + '\n', 'utf8');
+}
+
+async function markAsPublished(pageId) {
+  await notionRequest(`https://api.notion.com/v1/pages/${pageId}`, {
+    method: 'PATCH',
+    body: JSON.stringify({ properties: { Status: { select: { name: 'Publicado' } } } })
+  });
+}
+
+// --- Principal ----------------------------------------------------------------
+
+async function main() {
+  if (!fs.existsSync(TEMPLATE_PATH)) fail(`template canônico não encontrado em ${TEMPLATE_PATH}`);
+  const templateRaw = fs.readFileSync(TEMPLATE_PATH, 'utf8');
+
+  let manifest = fs.existsSync(MANIFEST_PATH) ? JSON.parse(fs.readFileSync(MANIFEST_PATH, 'utf8')) : [];
+
+  const pages = await fetchReadyPages();
+  if (!pages.length) {
+    console.log('Nenhuma página com Status = "Pronto para publicar". Nada a fazer.');
     return;
   }
 
-  let published = 0;
+  for (const page of pages) {
+    const props = page.properties;
+    const title = getPlainText(props['Nome'].title);
+    const tags = (props['Tags']?.multi_select || []).map((t) => t.name);
+    const extraTags = (props['Tags extras']?.multi_select || []).map((t) => t.name);
+    const dateISO = props['Data de publicação']?.date?.start || new Date().toISOString().slice(0, 10);
+    const coverFilename = props['Capa (nome do arquivo)']?.rich_text ? getPlainText(props['Capa (nome do arquivo)'].rich_text) : '';
+    const customUrl = props['userDefined:URL']?.rich_text ? getPlainText(props['userDefined:URL'].rich_text) : '';
+    const slug = slugify(customUrl || title);
+    const outPath = path.join(BLOG_DIR, `${slug}.html`);
+    const status = props['Status']?.select?.name;
 
-  for (const page of eligible) {
-    const title = getProp(page, 'Nome');
-    const pubDate = getProp(page, 'Data de publicação');
-    const tags = getProp(page, 'Tags') || [];
-    const capa = getProp(page, 'Capa (nome do arquivo)');
-    let filenameField = getProp(page, 'URL'); // antigo "Nome do arquivo no site" — renomeado pela Louise
-
-    if (!title) {
-      console.warn(`⚠️  Post ${page.id} sem título ("Nome") — pulado.`);
+    // --- Excluído: apaga de vez (arquivo + card + manifesto) ---
+    if (status === 'Excluído') {
+      let removedSomething = false;
+      if (fs.existsSync(outPath)) {
+        fs.unlinkSync(outPath);
+        removedSomething = true;
+      }
+      let indexHtml = fs.readFileSync(INDEX_PATH, 'utf8');
+      const { html: newIndexHtml, removed } = removeCardFromIndex(indexHtml, slug);
+      if (removed) {
+        fs.writeFileSync(INDEX_PATH, newIndexHtml, 'utf8');
+        removedSomething = true;
+      }
+      removeFromManifest(slug);
+      manifest = manifest.filter((p) => p.slug !== slug);
+      console.log(removedSomething ? `OK: "${title}" excluído (arquivo, card e manifesto removidos).` : `AVISO: "${title}" marcado como Excluído, mas não encontrei blog/${slug}.html nem card correspondente — talvez já tenha sido removido antes, ou o campo URL não bate com o nome do arquivo.`);
       continue;
     }
 
-    let filename;
-    if (filenameField) {
-      filename = filenameField.replace(/^blog\//, '').replace(/\.html$/, '') + '.html';
-    } else {
-      filename = `${slugify(title)}.html`;
+    // --- Rascunho num post que JÁ tinha sido publicado: oculta (mantém o arquivo, tira da home/manifesto) ---
+    if (status === 'Rascunho') {
+      if (!fs.existsSync(outPath)) {
+        // Rascunho normal, nunca publicado — nada a fazer, é só um texto sendo escrito.
+        continue;
+      }
+      let indexHtml = fs.readFileSync(INDEX_PATH, 'utf8');
+      const { html: newIndexHtml, removed } = removeCardFromIndex(indexHtml, slug);
+      if (removed) {
+        fs.writeFileSync(INDEX_PATH, newIndexHtml, 'utf8');
+        removeFromManifest(slug);
+        manifest = manifest.filter((p) => p.slug !== slug);
+        console.log(`OK: "${title}" ocultado (card e manifesto removidos; o arquivo blog/${slug}.html continua no repositório, só não aparece mais listado).`);
+      } else {
+        console.log(`"${title}" já está como Rascunho e não tinha card na home — nada a fazer.`);
+      }
+      continue;
     }
-    const url = filename;
-    const outPath = path.join(BLOG_DIR, filename);
 
-    console.log(`→ Gerando ${url} ("${title}")...`);
-
-    const blocks = await getAllBlocks(page.id);
-    const { html: articleHtml, wordCount, firstParagraph } = blocksToArticle(blocks);
-    const readMin = Math.max(1, Math.round(wordCount / 200));
-    const description = buildMetaDescription(firstParagraph);
-    const dateLabel = formatDateLabel(pubDate);
-    const canonicalUrl = `${SITE_URL}/blog/${url}`;
-
-    const relatedPosts = [...manifest]
-      .filter(p => p.url !== url)
-      .sort((a, b) => (a.date < b.date ? 1 : -1))
-      .slice(0, 3);
-
-    const jsonLd = {
-      '@context': 'https://schema.org',
-      '@type': 'BlogPosting',
-      headline: title,
-      description,
-      image: capa ? `${SITE_URL}/assets/img/blog/${capa}` : DEFAULT_OG_IMAGE,
-      datePublished: pubDate,
-      dateModified: today,
-      inLanguage: 'pt-BR',
-      author: { '@type': 'Person', name: 'Louise Victoria' },
-      publisher: { '@type': 'Person', name: 'Louise Victoria' },
-      mainEntityOfPage: { '@type': 'WebPage', '@id': canonicalUrl },
-      keywords: tags
+    const blocks = await fetchAllBlocks(page.id);
+    const { html: bodyHtml, firstParagraphText, wordCount } = blocksToArticle(blocks);
+    const metaDescription = firstParagraphText.slice(0, 155).trim();
+    const post = {
+      slug,
+      title,
+      tags,
+      extraTags,
+      dateISO,
+      coverFilename,
+      bodyHtml,
+      metaDescription,
+      readingTime: readingTime(wordCount)
     };
 
-    const pageHtml = renderPostPage({
-      title,
-      description,
-      canonicalUrl,
-      jsonLd,
-      dateLabel,
-      readMin,
-      articleHtml,
-      tags,
-      relatedPosts
-    });
+    if (status === 'Atualizar') {
+      if (!fs.existsSync(outPath)) {
+        console.log(`AVISO: Status "Atualizar" em "${title}", mas blog/${slug}.html não existe. Preencha o campo URL com o nome exato do arquivo já publicado. Pulando.`);
+        continue;
+      }
+      console.log(`Sincronizando: ${title} -> blog/${slug}.html`);
+      const existingHtml = fs.readFileSync(outPath, 'utf8');
+      const updatedHtml = updateArticleContent(existingHtml, post);
+      fs.writeFileSync(outPath, updatedHtml, 'utf8');
+      await markAsPublished(page.id);
+      console.log(`OK: ${title} sincronizado (corpo, tags e tempo de leitura atualizados; título/meta/card da home não foram tocados).`);
+      continue;
+    }
 
-    fs.writeFileSync(outPath, pageHtml);
+    // status === 'Pronto para publicar'
+    if (fs.existsSync(outPath)) {
+      console.log(`AVISO: blog/${slug}.html já existe — pulando "${title}" pra não sobrescrever post publicado. Se a intenção era atualizar o texto, mude o Status pra "Atualizar" em vez de "Pronto para publicar".`);
+      continue;
+    }
 
-    manifest.push({
-      url,
-      title,
-      desc: description,
-      tags,
-      date: pubDate,
-      dateLabel,
-      readMin,
-      foot: tags[0] || 'Blog',
-      capa: capa || null
-    });
+    console.log(`Gerando: ${title} -> blog/${slug}.html`);
+    // 3 posts mais recentes do manifesto = "Outras leituras"
+    const relatedCards = manifest.slice(0, 3);
+    const finalHtml = buildPostHtml(templateRaw, post, relatedCards);
+    fs.writeFileSync(outPath, finalHtml, 'utf8');
 
-    await updatePageStatus(page.id, 'Publicado');
-    published++;
-    console.log(`  ✅ ${url} gerado e marcado como Publicado no Notion.`);
+    let indexHtml = fs.readFileSync(INDEX_PATH, 'utf8');
+    indexHtml = insertCardIntoIndex(indexHtml, post);
+    fs.writeFileSync(INDEX_PATH, indexHtml, 'utf8');
+
+    updateManifest(post);
+    manifest.unshift({ slug, title, dateISO, tags, extraTags, readingTime: post.readingTime });
+
+    await markAsPublished(page.id);
+    console.log(`OK: ${title} publicado.`);
   }
-
-  if (published > 0) {
-    fs.writeFileSync(MANIFEST_PATH, JSON.stringify(manifest, null, 2) + '\n');
-    updateBlogIndex(manifest);
-  }
-
-  console.log(`\n${published} post(s) publicado(s).`);
 }
 
-run().catch(err => {
+main().catch((err) => {
   console.error(err);
   process.exit(1);
 });
