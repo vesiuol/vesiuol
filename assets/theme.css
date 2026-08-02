@@ -25,3 +25,6 @@
 /* Tags extras — linha própria abaixo das tags normais, sem parecer clicável */
 .article-tags-extra{display:flex;flex-wrap:wrap;gap:.4rem;margin:-1.2rem 0 2.4rem;}
 .post-tag-extra{font-family:'DM Sans',sans-serif;font-size:.68rem;font-weight:500;letter-spacing:.03em;color:var(--muted);background:transparent;border:1px solid var(--border);border-radius:50px;padding:.22rem .65rem;cursor:default;}
+
+/* Rótulo em pílula antes de citação — exceção documentada (post "Histórias cruzadas"), NÃO é o padrão Tipo 2 */
+.article-body h3.quote-label-pill{font-family:'DM Sans',sans-serif;font-size:.74rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--white);background:var(--green-dark);display:inline-block;padding:.28rem .7rem;border-radius:100px;margin:1.9rem 0 .7rem;}
