@@ -432,6 +432,7 @@ footer {
 
 <a href="#conteudo-principal" class="skip-link">Pular para o conteúdo principal</a>
 
+<!-- NAV:START -->
 <nav>
   <a href="index.html" class="nav-logo" style="text-decoration:none">
     <div class="nav-dot"></div>
@@ -452,10 +453,9 @@ footer {
     <li><a href="blog/index.html">Blog</a></li>
     <li><a href="sobre.html">Sobre</a></li>
   </ul>
-  <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu" aria-expanded="false" aria-controls="nav-menu" onclick="const open=document.getElementById('nav-menu').classList.toggle('open'); this.setAttribute('aria-expanded', open);">
-    <span></span><span></span><span></span>
-  </button>
+  <button class="nav-hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-menu" onclick="const u=document.getElementById('nav-menu');u.classList.toggle('open');this.setAttribute('aria-expanded', u.classList.contains('open'));">☰</button>
 </nav>
+<!-- NAV:END -->
 
 <!-- INTRO MOBILE: aparece antes da sidebar no mobile (governança bug #3 e #4) -->
 <div class="intro-mobile">
@@ -686,12 +686,14 @@ footer {
   </main>
 </div>
 
+<!-- FOOTER:START -->
 <footer>
   <div class="footer-dots">
     <div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div>
   </div>
   <span class="footer-text"><span id="footer-autora"></span>&nbsp;&nbsp;|&nbsp;&nbsp;© <span id="footer-ano"></span>&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">02 de agosto de 2026</span></span>
 </footer>
+<!-- FOOTER:END -->
 
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>

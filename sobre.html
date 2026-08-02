@@ -319,13 +319,14 @@ footer {
 
 <a href="#conteudo-principal" class="skip-link">Pular para o conteúdo principal</a>
 
+<!-- NAV:START -->
 <nav>
   <a href="index.html" class="nav-logo" style="text-decoration:none">
     <div class="nav-dot"></div>
     <div class="nav-dot"></div>
     <div class="nav-dot" style="background:var(--green)"></div>
   </a>
-  <ul id="nav-ul">
+  <ul id="nav-menu">
     <li><a href="index.html">Início</a></li>
     <li><a href="estante.html">Estante</a></li>
     <li class="nav-dropdown">
@@ -339,8 +340,9 @@ footer {
     <li><a href="blog/index.html">Blog</a></li>
     <li><a href="sobre.html" class="active" aria-current="page">Sobre</a></li>
   </ul>
-  <button class="nav-hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-ul" onclick="const u=document.getElementById('nav-ul');u.classList.toggle('open');this.setAttribute('aria-expanded', u.classList.contains('open'));">☰</button>
+  <button class="nav-hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-menu" onclick="const u=document.getElementById('nav-menu');u.classList.toggle('open');this.setAttribute('aria-expanded', u.classList.contains('open'));">☰</button>
 </nav>
+<!-- NAV:END -->
 
 <!-- HERO -->
 <main class="hero-section" id="conteudo-principal">
@@ -433,11 +435,14 @@ footer {
 </div>
 
 <!-- FOOTER -->
+<!-- FOOTER:START -->
 <footer>
   <div class="footer-dots">
     <div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div>
   </div>
- <span class="footer-text"><span id="footer-autora"></span>&nbsp;&nbsp;|&nbsp;&nbsp;© <span id="footer-ano"></span>&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">02 de agosto de 2026</span></span></footer>
+  <span class="footer-text"><span id="footer-autora"></span>&nbsp;&nbsp;|&nbsp;&nbsp;© <span id="footer-ano"></span>&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">02 de agosto de 2026</span></span>
+</footer>
+<!-- FOOTER:END -->
 
 <script src="assets/config.js"></script>
 <script>
