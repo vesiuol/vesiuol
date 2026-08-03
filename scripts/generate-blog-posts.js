@@ -95,6 +95,19 @@ function slugify(str) {
     .replace(/(^-+|-+$)/g, '');
 }
 
+// O campo "URL" no Notion pode vir de duas formas: só o slug ("meu-post") ou o
+// caminho completo como foi publicado originalmente ("blog/meu-post.html").
+// Normaliza pra sempre extrair só o nome do arquivo, sem pasta nem extensão.
+function normalizeSlugField(rawUrl, title) {
+  if (!rawUrl) return slugify(title);
+  let clean = rawUrl.trim();
+  clean = clean.replace(/^https?:\/\/[^/]+\/(vesiuol\/)?/i, ''); // remove domínio, se colou a URL inteira
+  clean = clean.replace(/^blog\//i, ''); // remove prefixo de pasta
+  clean = clean.replace(/\.html?$/i, ''); // remove extensão
+  clean = clean.replace(/^\/+|\/+$/g, '');
+  return clean ? slugify(clean) : slugify(title);
+}
+
 function escapeHtml(s) {
   return String(s)
     .replace(/&/g, '&amp;')
@@ -184,6 +197,11 @@ function blocksToArticle(blocks) {
 
     if (type === 'paragraph') {
       const text = getPlainText(block.paragraph.rich_text);
+      const rotuloMatch = text.match(/^\[CITACAO-ROTULO:\s*([^\]]+)\]$/i);
+      if (rotuloMatch) {
+        html += `<h3 class="quote-label-pill">${escapeHtml(rotuloMatch[1].trim())}</h3>\n`;
+        continue;
+      }
       const livroMatch = text.match(/^\[LIVRO:\s*([^|]+)\|([^|]+)\|([^\]]+)\]$/i);
       if (livroMatch) {
         const [, country, bookTitle, author] = livroMatch.map((s) => (s || '').trim());
@@ -206,8 +224,9 @@ function blocksToArticle(blocks) {
       if (!firstParagraphText) firstParagraphText = text;
       wordCount += text.split(/\s+/).filter(Boolean).length;
       html += `<p>${richTextToHtml(block.paragraph.rich_text)}</p>\n`;
-    } else if (type === 'heading_2') {
-      html += `<h2>${richTextToHtml(block.heading_2.rich_text)}</h2>\n`;
+    } else if (type === 'heading_1' || type === 'heading_2') {
+      const rt = type === 'heading_1' ? block.heading_1.rich_text : block.heading_2.rich_text;
+      html += `<h2>${richTextToHtml(rt)}</h2>\n`;
     } else if (type === 'heading_3') {
       html += `<h3>${richTextToHtml(block.heading_3.rich_text)}</h3>\n`;
     } else if (type === 'quote') {
@@ -432,8 +451,9 @@ async function main() {
     const extraTags = (props['Tags extras']?.multi_select || []).map((t) => t.name);
     const dateISO = props['Data de publicação']?.date?.start || new Date().toISOString().slice(0, 10);
     const coverFilename = props['Capa (nome do arquivo)']?.rich_text ? getPlainText(props['Capa (nome do arquivo)'].rich_text) : '';
-    const customUrl = props['userDefined:URL']?.rich_text ? getPlainText(props['userDefined:URL'].rich_text) : '';
-    const slug = slugify(customUrl || title);
+    const urlProp = props['URL'];
+    const customUrl = urlProp?.url || (urlProp?.rich_text ? getPlainText(urlProp.rich_text) : '') || '';
+    const slug = normalizeSlugField(customUrl, title);
     const outPath = path.join(BLOG_DIR, `${slug}.html`);
     const status = props['Status']?.select?.name;
 
@@ -492,7 +512,7 @@ async function main() {
 
     if (status === 'Atualizar') {
       if (!fs.existsSync(outPath)) {
-        console.log(`AVISO: Status "Atualizar" em "${title}", mas blog/${slug}.html não existe. Preencha o campo URL com o nome exato do arquivo já publicado. Pulando.`);
+        console.log(`AVISO: Status "Atualizar" em "${title}", mas blog/${slug}.html não existe (campo URL lido como: "${customUrl}"). Preencha o campo URL com o nome exato do arquivo já publicado. Pulando.`);
         continue;
       }
       console.log(`Sincronizando: ${title} -> blog/${slug}.html`);
