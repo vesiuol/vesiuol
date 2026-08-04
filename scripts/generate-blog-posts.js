@@ -15,6 +15,26 @@
  *  6. Atualiza data/blog-posts.json (manifesto simples de todos os posts).
  *  7. Marca a página no Notion como Status = "Publicado".
  *
+ * Ciclo de vida do campo Status (base Textos blog, ver Governança Blog):
+ *  - "Pronto para publicar" → gera o post pela primeira vez (passo 3 acima).
+ *    Se blog/<slug>.html já existir, pula e avisa (nunca sobrescreve).
+ *  - "Atualizar"            → resincroniza um post JÁ publicado: corpo do
+ *    texto, tags e tempo de leitura na PRÓPRIA página (não mexe em título/
+ *    meta/JSON-LD). ALÉM DISSO, se o card não estiver em blog/index.html
+ *    e/ou o post não estiver em data/blog-posts.json — porque um "Rascunho"
+ *    anterior os removeu (ver abaixo) — este passo os RECRIA automaticamente.
+ *    Ou seja, "Atualizar" é também o caminho de volta de um post oculto.
+ *  - "Rascunho"             → se o arquivo do post NÃO existe ainda, é só um
+ *    rascunho normal sendo escrito (nada a fazer). Se o arquivo JÁ existe
+ *    (post publicado antes), este status OCULTA o post: remove o card de
+ *    blog/index.html e a entrada de data/blog-posts.json, decrementa o
+ *    contador "textos publicados", mas MANTÉM o arquivo blog/<slug>.html no
+ *    ar (acessível por URL direta). Não publica nada novo nem sincroniza.
+ *  - "Excluído"             → apaga de vez: arquivo, card e manifesto.
+ *  - "Publicado"            → estado final, estático. NÃO é buscado por
+ *    fetchReadyPages() — o script nunca olha pra páginas nesse status. Editar
+ *    o Status direto pra "Publicado" no Notion não aciona nada no site.
+ *
  * Variáveis de ambiente necessárias:
  *  - NOTION_TOKEN        token de integração interna do Notion (secret do GitHub)
  *  - NOTION_BLOG_DB_ID   ID da base "Textos blog" (sem hífens ou com, tanto faz)
@@ -519,8 +539,33 @@ async function main() {
       const existingHtml = fs.readFileSync(outPath, 'utf8');
       const updatedHtml = updateArticleContent(existingHtml, post);
       fs.writeFileSync(outPath, updatedHtml, 'utf8');
+
+      // Caminho de volta de um "Rascunho" anterior: se o card sumiu de
+      // blog/index.html e/ou a entrada sumiu do manifesto (porque este post
+      // já foi ocultado antes), "Atualizar" também restaura os dois. Sem
+      // isso, não existia nenhum jeito de tirar um post do estado "oculto".
+      let indexHtml = fs.readFileSync(INDEX_PATH, 'utf8');
+      const cardExists = new RegExp(`<a class="post-card" href="${slug}\\.html">`).test(indexHtml);
+      const inManifest = manifest.some((p) => p.slug === slug);
+      let restored = false;
+
+      if (!cardExists) {
+        indexHtml = insertCardIntoIndex(indexHtml, post);
+        fs.writeFileSync(INDEX_PATH, indexHtml, 'utf8');
+        restored = true;
+      }
+      if (!inManifest) {
+        updateManifest(post);
+        manifest.unshift({ slug, title, dateISO, tags, extraTags, readingTime: post.readingTime });
+        restored = true;
+      }
+
       await markAsPublished(page.id);
-      console.log(`OK: ${title} sincronizado (corpo, tags e tempo de leitura atualizados; título/meta/card da home não foram tocados).`);
+      console.log(
+        restored
+          ? `OK: ${title} sincronizado e RESTAURADO na home (estava oculto por um "Rascunho" anterior — card e/ou manifesto recriados, contador ajustado).`
+          : `OK: ${title} sincronizado (corpo, tags e tempo de leitura atualizados; título/meta/card da home não foram tocados).`
+      );
       continue;
     }
 
