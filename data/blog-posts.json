@@ -1,5 +1,30 @@
 [
   {
+    "slug": "os-paises-que-ja-li-e-minha-planilha-no-notion",
+    "title": "Desafio livros pelo mundo: os países que já li e minha planilha no Notion",
+    "dateISO": "2025-06-29",
+    "tags": [
+      "Livros Pelo Mundo",
+      "Resenha",
+      "Desafio Literário"
+    ],
+    "extraTags": [
+      "Alexander McCall Smith",
+      "Gaile Parkin",
+      "Fredrik Backman",
+      "Mohsin Hamid",
+      "Cecelia Ahern",
+      "Ilko Minev",
+      "Milan Kundera",
+      "Samantha Shannon",
+      "Bell Hooks",
+      "Teresa Cárdenas",
+      "Rodrigo Hasbún",
+      "Stefan Zweig"
+    ],
+    "readingTime": 3
+  },
+  {
     "slug": "resenha-historias-cruzadas-entre-sobreviventes-svetlana-Alexijevich",
     "title": "Histórias cruzadas entre sobreviventes — Svetlana Alexijevich",
     "dateISO": "2025-06-29",
