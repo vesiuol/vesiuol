@@ -278,6 +278,7 @@ footer {
 
 /* ── NAV DROPDOWN: Histórico > Visão geral / 2026 — governança 2026-08-02 ── */
 .nav-dropdown { position: relative; display: flex; align-items: center; }
+.nav-dropdown::after { content: ""; position: absolute; top: 100%; left: 0; width: 100%; height: 6px; }
 .nav-caret {
   background: none; border: none; cursor: pointer;
   color: var(--black); font-size: .6rem; line-height: 1;
@@ -319,7 +320,7 @@ footer {
 }
 .nav-submenu li a:hover { background: var(--green); color: var(--white); }
 @media (max-width: 600px) {
-  .nav-dropdown { flex-direction: column; align-items: flex-start; width: 100%; }
+  .nav-dropdown { flex-direction: column; align-items: flex-start; width: 100%; } .nav-dropdown::after { display: none; }
   .nav-dropdown:hover .nav-submenu { display: none; }
   .nav-submenu {
     position: static;
@@ -448,7 +449,7 @@ footer {
   <div class="footer-dots">
     <div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div>
   </div>
-  <span class="footer-text"><span id="footer-autora"></span>&nbsp;&nbsp;|&nbsp;&nbsp;© <span id="footer-ano"></span>&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">05 de agosto de 2026</span></span>
+  <span class="footer-text"><span id="footer-autora"></span>&nbsp;&nbsp;|&nbsp;&nbsp;© <span id="footer-ano"></span>&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">02 de agosto de 2026</span></span>
 </footer>
 <!-- FOOTER:END -->
 
