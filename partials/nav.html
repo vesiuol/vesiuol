@@ -8,7 +8,7 @@
     <li><a href="{{PREFIX}}index.html"{{ACTIVE_INICIO}}>Início</a></li>
     <li><a href="{{PREFIX}}estante.html"{{ACTIVE_ESTANTE}}>Estante</a></li>
     <li class="nav-dropdown">
-      <a href="{{PREFIX}}historico.html"{{ACTIVE_HISTORICO}}>Histórico</a><button class="nav-caret" type="button" aria-label="Abrir submenu de Histórico" aria-expanded="false" onclick="const li=this.closest('li');const open=li.classList.toggle('submenu-open');this.setAttribute('aria-expanded',open);event.stopPropagation();">▾</button>
+      <a href="{{PREFIX}}historico.html"{{ACTIVE_HISTORICO}} onclick="if(window.innerWidth<=600){const li=this.closest('li');if(!li.classList.contains('submenu-open')){event.preventDefault();li.classList.add('submenu-open');li.querySelector('.nav-caret').setAttribute('aria-expanded','true');}}">Histórico</a><button class="nav-caret" type="button" aria-label="Abrir submenu de Histórico" aria-expanded="false" onclick="const li=this.closest('li');const open=li.classList.toggle('submenu-open');this.setAttribute('aria-expanded',open);event.stopPropagation();">▾</button>
       <ul class="nav-submenu">
         <li><a href="{{PREFIX}}historico.html"{{ACTIVE_SUBMENU_VISAO_GERAL}}>Visão geral</a></li>
         <li><a href="{{PREFIX}}2026.html"{{ACTIVE_SUBMENU_2026}}>2026</a></li>
