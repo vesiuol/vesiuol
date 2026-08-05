@@ -222,14 +222,15 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
 }
 .nav-submenu li a:hover { background: var(--green); color: var(--white); }
 @media (max-width: 600px) {
-  .nav-dropdown { flex-direction: column; align-items: flex-start; width: 100%; } .nav-dropdown::after { display: none; }
+  .nav-dropdown { flex-direction: column; align-items: center; width: 100%; } .nav-dropdown::after { display: none; }
   .nav-dropdown:hover .nav-submenu { display: none; }
   .nav-submenu {
     position: static;
     border: none; box-shadow: none;
-    padding: .2rem 0 .4rem 1rem;
+    padding: .2rem 0 .4rem 0;
     width: 100%;
   }
+  .nav-submenu li a { text-align: center; }
   .nav-dropdown.submenu-open .nav-submenu { display: flex; }
 }
 </style>
