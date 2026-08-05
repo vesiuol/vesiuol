@@ -40,8 +40,8 @@ const PAGES = [
   { file: "blog/desafio-livros-pelo-mundo.html", prefix: "../", active: "blog" },
   { file: "blog/encontrando-escritores-e-montando-a-lista-por-pais-rota-2.html", prefix: "../", active: "blog" },
   { file: "blog/os-paises-que-ja-li-e-minha-planilha-no-notion.html", prefix: "../", active: "blog" },
-  { file: "blog/resenha-a-guerra-nao-tem-rosto-de-mulher-svetlana-Alexijevich.html", prefix: "../", active: "blog" },
-  { file: "blog/resenha-historias-cruzadas-entre-sobreviventes-svetlana-Alexijevich.html", prefix: "../", active: "blog" },
+  { file: "blog/resenha-a-guerra-nao-tem-rosto-de-mulher-svetlana-alexijevich.html", prefix: "../", active: "blog" },
+  { file: "blog/resenha-historias-cruzadas-entre-sobreviventes-svetlana-alexijevich.html", prefix: "../", active: "blog" },
 ];
 
 function ativo(padrao, comAriaCurrent = true) {
