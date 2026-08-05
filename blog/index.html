@@ -171,6 +171,7 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
 
 /* ── NAV DROPDOWN: Histórico > Visão geral / 2026 — governança 2026-08-02 ── */
 .nav-dropdown { position: relative; display: flex; align-items: center; }
+.nav-dropdown::after { content: ""; position: absolute; top: 100%; left: 0; width: 100%; height: 6px; }
 .nav-caret {
   background: none; border: none; cursor: pointer;
   color: var(--black); font-size: .6rem; line-height: 1;
@@ -212,7 +213,7 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
 }
 .nav-submenu li a:hover { background: var(--green); color: var(--white); }
 @media (max-width: 600px) {
-  .nav-dropdown { flex-direction: column; align-items: flex-start; width: 100%; }
+  .nav-dropdown { flex-direction: column; align-items: flex-start; width: 100%; } .nav-dropdown::after { display: none; }
   .nav-dropdown:hover .nav-submenu { display: none; }
   .nav-submenu {
     position: static;
@@ -240,7 +241,7 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
     <li><a href="../index.html">Início</a></li>
     <li><a href="../estante.html">Estante</a></li>
     <li class="nav-dropdown">
-      <a href="../historico.html" onclick="if(window.innerWidth<=600){const li=this.closest('li');if(!li.classList.contains('submenu-open')){event.preventDefault();li.classList.add('submenu-open');li.querySelector('.nav-caret').setAttribute('aria-expanded','true');}}">Histórico</a><button class="nav-caret" type="button" aria-label="Abrir submenu de Histórico" aria-expanded="false" onclick="const li=this.closest('li');const open=li.classList.toggle('submenu-open');this.setAttribute('aria-expanded',open);event.stopPropagation();">▾</button>
+      <a href="../historico.html">Histórico</a><button class="nav-caret" type="button" aria-label="Abrir submenu de Histórico" aria-expanded="false" onclick="const li=this.closest('li');const open=li.classList.toggle('submenu-open');this.setAttribute('aria-expanded',open);event.stopPropagation();">▾</button>
       <ul class="nav-submenu">
         <li><a href="../historico.html">Visão geral</a></li>
         <li><a href="../2026.html">2026</a></li>
@@ -357,7 +358,7 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
   <div class="footer-dots">
     <div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div>
   </div>
-  <span class="footer-text"><span id="footer-autora"></span>&nbsp;&nbsp;|&nbsp;&nbsp;© <span id="footer-ano"></span>&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">04 de agosto de 2026</span></span>
+  <span class="footer-text"><span id="footer-autora"></span>&nbsp;&nbsp;|&nbsp;&nbsp;© <span id="footer-ano"></span>&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">02 de agosto de 2026</span></span>
 </footer>
 <!-- FOOTER:END -->
 <script>
