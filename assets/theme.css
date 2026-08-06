@@ -28,3 +28,10 @@
 
 /* Rótulo em pílula antes de citação — exceção documentada (post "Histórias cruzadas"), NÃO é o padrão Tipo 2 */
 .article-body h3.quote-label-pill{font-family:'DM Sans',sans-serif;font-size:.74rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--white);background:var(--green-dark);display:inline-block;padding:.28rem .7rem;border-radius:100px;margin:1.9rem 0 .7rem;}
+
+/* Rede de segurança de acessibilidade — foco visível por teclado em todo o site.
+   Só entra em ação onde a página não define seu próprio estilo de :focus (ex.: campos de
+   busca em estante/desafio/2026 já tratam foco via border-color e continuam intocados,
+   pois a regra da própria página tem precedência na cascata). Decisão registrada em
+   Governança > Registro de Decisões, ver auditoria de acessibilidade 2026-08-06. */
+:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
