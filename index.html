@@ -385,12 +385,12 @@ footer {
 <!-- STATS -->
 <div class="stats-section">
   <div class="stats-grid">
-    <div class="stat-card"><span class="stat-num" id="s-horas">—</span><span class="stat-lbl">Horas ouvidas</span></div>
-    <div class="stat-card"><span class="stat-num" id="s-lidos">—</span><span class="stat-lbl">Lidos</span></div>
-    <div class="stat-card"><span class="stat-num" id="s-paginas">—</span><span class="stat-lbl">Páginas lidas</span></div>
-    <div class="stat-card"><span class="stat-num" id="s-cinco">—</span><span class="stat-lbl">Livros 5 estrelas</span></div>
-    <div class="stat-card"><span class="stat-num" id="s-autores">—</span><span class="stat-lbl">Autores únicos</span></div>
-    <div class="stat-card"><span class="stat-num" id="s-paises">—</span><span class="stat-lbl">Países</span></div>
+    <div class="stat-card"><span class="stat-num skeleton" id="s-horas">—</span><span class="stat-lbl">Horas ouvidas</span></div>
+    <div class="stat-card"><span class="stat-num skeleton" id="s-lidos">—</span><span class="stat-lbl">Lidos</span></div>
+    <div class="stat-card"><span class="stat-num skeleton" id="s-paginas">—</span><span class="stat-lbl">Páginas lidas</span></div>
+    <div class="stat-card"><span class="stat-num skeleton" id="s-cinco">—</span><span class="stat-lbl">Livros 5 estrelas</span></div>
+    <div class="stat-card"><span class="stat-num skeleton" id="s-autores">—</span><span class="stat-lbl">Autores únicos</span></div>
+    <div class="stat-card"><span class="stat-num skeleton" id="s-paises">—</span><span class="stat-lbl">Países</span></div>
   </div>
 </div>
 
@@ -538,7 +538,11 @@ async function init(){
     document.getElementById('s-cinco').textContent   = total5      > 0 ? total5      : '—';
     document.getElementById('s-autores').textContent = totalAutores> 0 ? totalAutores: '—';
     document.getElementById('s-paises').textContent  = totalPaises > 0 ? totalPaises : '—';
-  } catch(e) { console.error('Erro:', e); }
+    ['s-horas','s-lidos','s-paginas','s-cinco','s-autores','s-paises'].forEach(id => document.getElementById(id).classList.remove('skeleton'));
+  } catch(e) {
+    console.error('Erro:', e);
+    ['s-horas','s-lidos','s-paginas','s-cinco','s-autores','s-paises'].forEach(id => document.getElementById(id).classList.remove('skeleton'));
+  }
 }
 init();
 </script>
