@@ -35,3 +35,33 @@
    pois a regra da própria página tem precedência na cascata). Decisão registrada em
    Governança > Registro de Decisões, ver auditoria de acessibilidade 2026-08-06. */
 :focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+
+/* Estado de carregamento (skeleton) para números de KPI/stat.
+   Centralizado aqui para que qualquer página atual ou futura baste adicionar a classe
+   "skeleton" ao elemento (junto de .stat-num ou .kpi-num) para ganhar o efeito — sem
+   precisar redefinir CSS por página. O JS de cada página continua responsável por
+   remover a classe "skeleton" quando o dado real chega (não há lógica de dado aqui,
+   só apresentação). Duas variantes de cor: padrão (fundo claro) e "accent"/stat-card
+   (fundo verde), cobrindo os dois contextos já usados no site.
+   Decisão registrada em Governança > Registro de Decisões, 2026-08-07. */
+@keyframes skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+.stat-num.skeleton, .kpi-num.skeleton {
+  color: transparent;
+  border-radius: 6px;
+  display: inline-block;
+  min-width: 2.2ch;
+  background-image: linear-gradient(90deg, rgba(0,0,0,.08) 25%, rgba(0,0,0,.16) 37%, rgba(0,0,0,.08) 63%);
+  background-size: 400% 100%;
+  animation: skeleton-shimmer 1.4s ease-in-out infinite;
+}
+.stat-card .stat-num.skeleton,
+.kpi-card.accent .kpi-num.skeleton {
+  background-image: linear-gradient(90deg, rgba(255,255,255,.25) 25%, rgba(255,255,255,.45) 37%, rgba(255,255,255,.25) 63%);
+  background-size: 400% 100%;
+}
+@media (prefers-reduced-motion: reduce) {
+  .stat-num.skeleton, .kpi-num.skeleton { animation: none; }
+}
