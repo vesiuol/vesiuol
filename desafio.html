@@ -638,23 +638,23 @@ footer {
       <div class="sb-label">Resumo geral</div>
       <div class="kpi-grid">
         <div class="kpi-card accent">
-          <div class="kpi-num" id="s-paises">—</div>
+          <div class="kpi-num skeleton" id="s-paises">—</div>
           <div class="kpi-lbl">países lidos</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-num" id="s-mapeados">—</div>
+          <div class="kpi-num skeleton" id="s-mapeados">—</div>
           <div class="kpi-lbl">países com livros</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-num" id="s-pct">—</div>
+          <div class="kpi-num skeleton" id="s-pct">—</div>
           <div class="kpi-lbl">% lidos</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-num" id="s-novos">—</div>
+          <div class="kpi-num skeleton" id="s-novos">—</div>
           <div class="kpi-lbl">páginas lidas</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-num" id="s-horas">—</div>
+          <div class="kpi-num skeleton" id="s-horas">—</div>
           <div class="kpi-lbl">Horas ouvidas</div>
         </div>
       </div>
@@ -1183,6 +1183,7 @@ async function init(){
   document.getElementById('s-pct').textContent       = pct+'%';
   document.getElementById('s-novos').textContent     = totalPaginas>0 ? totalPaginas.toLocaleString('pt-BR') : '0';
   document.getElementById('s-horas').textContent     = horasFmt;
+  ['s-paises','s-mapeados','s-pct','s-novos','s-horas'].forEach(id=>document.getElementById(id).classList.remove('skeleton'));
 
   /* Progresso */
   const mPct = Math.round(notionMapeados/209*100);

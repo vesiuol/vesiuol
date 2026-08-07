@@ -476,23 +476,23 @@ footer {
       <div class="sb-label">Resumo geral</div>
       <div class="kpi-grid">
         <div class="kpi-card accent">
-          <div class="kpi-num" id="s-total">—</div>
+          <div class="kpi-num skeleton" id="s-total">—</div>
           <div class="kpi-lbl">livros lidos</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-num" id="s-paginas">—</div>
+          <div class="kpi-num skeleton" id="s-paginas">—</div>
           <div class="kpi-lbl">total páginas</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-num" id="s-autores">—</div>
+          <div class="kpi-num skeleton" id="s-autores">—</div>
           <div class="kpi-lbl">autores únicos</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-num" id="s-paises">—</div>
+          <div class="kpi-num skeleton" id="s-paises">—</div>
           <div class="kpi-lbl">países</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-num" id="s-5estrelas">—</div>
+          <div class="kpi-num skeleton" id="s-5estrelas">—</div>
           <div class="kpi-lbl">avaliações 5★</div>
         </div>
       </div>
@@ -647,12 +647,12 @@ footer {
       </div>
       <div class="year-filter" id="main-year-filter"></div>
       <div class="ano-kpis">
-        <div class="kpi-card"><div class="kpi-num" id="a-livros">—</div><div class="kpi-lbl">livros lidos</div></div>
-        <div class="kpi-card"><div class="kpi-num" id="a-paginas">—</div><div class="kpi-lbl">total páginas</div></div>
-        <div class="kpi-card"><div class="kpi-num" id="a-idiomas">—</div><div class="kpi-lbl">idiomas</div></div>
-        <div class="kpi-card"><div class="kpi-num" id="a-autores">—</div><div class="kpi-lbl">autores únicos</div></div>
-        <div class="kpi-card"><div class="kpi-num" id="a-paises">—</div><div class="kpi-lbl">países</div></div>
-        <div class="kpi-card"><div class="kpi-num" id="a-5estrelas">—</div><div class="kpi-lbl">5 estrelas</div></div>
+        <div class="kpi-card"><div class="kpi-num skeleton" id="a-livros">—</div><div class="kpi-lbl">livros lidos</div></div>
+        <div class="kpi-card"><div class="kpi-num skeleton" id="a-paginas">—</div><div class="kpi-lbl">total páginas</div></div>
+        <div class="kpi-card"><div class="kpi-num skeleton" id="a-idiomas">—</div><div class="kpi-lbl">idiomas</div></div>
+        <div class="kpi-card"><div class="kpi-num skeleton" id="a-autores">—</div><div class="kpi-lbl">autores únicos</div></div>
+        <div class="kpi-card"><div class="kpi-num skeleton" id="a-paises">—</div><div class="kpi-lbl">países</div></div>
+        <div class="kpi-card"><div class="kpi-num skeleton" id="a-5estrelas">—</div><div class="kpi-lbl">5 estrelas</div></div>
       </div>
       <div class="charts-2col lockable" id="row-cor-ga" style="margin-bottom:.8rem">
         <div class="wcard">
@@ -748,7 +748,7 @@ const COORDS = {
 };
 
 const pi  = v => parseInt(String(v||'').replace(/[^0-9]/g,'')) || 0;
-const set = (id, v) => { const el=document.getElementById(id); if(el) el.textContent=v; };
+const set = (id, v) => { const el=document.getElementById(id); if(el){ el.textContent=v; el.classList.remove('skeleton'); } };
 const fmt = n => n>0 ? Number(n).toLocaleString('pt-BR') : '—';
 const goTo = id => { const el=document.getElementById(id); if(el) el.scrollIntoView({behavior:'smooth'}); };
 

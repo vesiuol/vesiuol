@@ -334,31 +334,31 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
     <div>
       <div class="kpi-grid">
         <div class="kpi-card accent">
-          <div class="kpi-num" id="kpi-lidos">—</div>
+          <div class="kpi-num skeleton" id="kpi-lidos">—</div>
           <div class="kpi-lbl">livros lidos</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-num" id="kpi-meta">—</div>
+          <div class="kpi-num skeleton" id="kpi-meta">—</div>
           <div class="kpi-lbl">meta do ano</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-num" id="kpi-pct">—</div>
+          <div class="kpi-num skeleton" id="kpi-pct">—</div>
           <div class="kpi-lbl">da meta concluída</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-num" id="kpi-paginas">—</div>
+          <div class="kpi-num skeleton" id="kpi-paginas">—</div>
           <div class="kpi-lbl">páginas lidas</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-num" id="kpi-horas">—</div>
+          <div class="kpi-num skeleton" id="kpi-horas">—</div>
           <div class="kpi-lbl">horas ouvidas</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-num" id="kpi-autores-novos">—</div>
+          <div class="kpi-num skeleton" id="kpi-autores-novos">—</div>
           <div class="kpi-lbl">autores novos</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-num" id="kpi-paises">—</div>
+          <div class="kpi-num skeleton" id="kpi-paises">—</div>
           <div class="kpi-lbl">países</div>
         </div>
       </div>
@@ -735,6 +735,7 @@ function showDataError(){
   if(el) el.classList.add('show');
   document.getElementById('tbody').innerHTML =
     '<tr><td colspan="8" style="text-align:center;padding:2rem;color:var(--muted)">Não foi possível carregar os dados agora. Recarregue a página.</td></tr>';
+  ['kpi-lidos','kpi-meta','kpi-pct','kpi-paginas','kpi-horas','kpi-autores-novos','kpi-paises'].forEach(id=>{const e=document.getElementById(id); if(e) e.classList.remove('skeleton');});
 }
 
 async function init(){
@@ -777,6 +778,7 @@ async function init(){
     document.getElementById('kpi-horas').textContent = formatHorasMin(totalHorasNum) || '0h';
     document.getElementById('kpi-autores-novos').textContent = autoresNovos;
     document.getElementById('kpi-paises').textContent = paises;
+    ['kpi-lidos','kpi-meta','kpi-pct','kpi-paginas','kpi-horas','kpi-autores-novos','kpi-paises'].forEach(id=>document.getElementById(id).classList.remove('skeleton'));
 
     document.getElementById('prog-lidos-txt').textContent = lidos.length+' / '+totalMeta;
     setTimeout(()=>{ document.getElementById('prog-lidos-fill').style.width = Math.min(pctMeta,100)+'%'; }, 300);

@@ -405,27 +405,27 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
       <div class="sb-label">Estante em números</div>
       <div class="kpi-grid">
         <div class="kpi-card accent">
-          <div class="kpi-num" id="s-total">—</div>
+          <div class="kpi-num skeleton" id="s-total">—</div>
           <div class="kpi-lbl">livros na estante</div>
         </div>
         <div class="kpi-card accent">
-          <div class="kpi-num" id="s-paginas">—</div>
+          <div class="kpi-num skeleton" id="s-paginas">—</div>
           <div class="kpi-lbl">páginas lidas</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-num" id="s-lidos">—</div>
+          <div class="kpi-num skeleton" id="s-lidos">—</div>
           <div class="kpi-lbl">lidos</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-num" id="s-autores">—</div>
+          <div class="kpi-num skeleton" id="s-autores">—</div>
           <div class="kpi-lbl">autores únicos</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-num" id="s-paises">—</div>
+          <div class="kpi-num skeleton" id="s-paises">—</div>
           <div class="kpi-lbl">países</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-num" id="s-idiomas">—</div>
+          <div class="kpi-num skeleton" id="s-idiomas">—</div>
           <div class="kpi-lbl">idiomas</div>
         </div>
       </div>
@@ -787,7 +787,7 @@ const PER=20;
 let allBooks=[], filtered=[], activeTag='', page=1;
 
 async function init(){
-  try{ allBooks=await fetchCSV(CSV_ESTANTE); } catch(e){ console.error(e); return; }
+  try{ allBooks=await fetchCSV(CSV_ESTANTE); } catch(e){ console.error(e); ['s-total','s-lidos','s-paginas','s-autores','s-paises','s-idiomas'].forEach(id=>{const el=document.getElementById(id); if(el) el.classList.remove('skeleton');}); return; }
   allBooks=allBooks.filter(isDataRow);
   detectTagColumns(allBooks);
 
@@ -805,6 +805,7 @@ async function init(){
   document.getElementById('s-autores').textContent=autores;
   document.getElementById('s-paises').textContent=paises;
   document.getElementById('s-idiomas').textContent=idiomas;
+  ['s-total','s-lidos','s-paginas','s-autores','s-paises','s-idiomas'].forEach(id=>document.getElementById(id).classList.remove('skeleton'));
 
   // Progresso
   const pct=total>0?Math.round(totalLidos/total*100):0;
