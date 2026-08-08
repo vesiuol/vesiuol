@@ -66,6 +66,16 @@
   .stat-num.skeleton, .kpi-num.skeleton { animation: none; }
 }
 
+/* Breadcrumb — trilha de navegação, usada só nas páginas que são
+   "filhas" de outra seção (2026.html, posts do blog). Cada elo do
+   caminho é um link, exceto a página atual (aria-current="page").
+   Centralizado aqui para valer em qualquer página sem redefinir CSS. */
+.breadcrumb{font-family:'DM Sans',sans-serif;font-size:.74rem;letter-spacing:.02em;color:var(--muted);margin-bottom:1rem;display:flex;flex-wrap:wrap;align-items:center;gap:.35rem;}
+.breadcrumb a{color:var(--muted);text-decoration:none;border-bottom:1px solid transparent;transition:color .15s ease,border-color .15s ease;}
+.breadcrumb a:hover{color:var(--green-dark,var(--green));border-color:currentColor;}
+.breadcrumb .breadcrumb-sep{color:var(--border-interactive,var(--border));}
+.breadcrumb .breadcrumb-current{color:var(--text);font-weight:500;}
+
 /* ============================================================
    MOTION — transições e scroll reveal, centralizados aqui para
    que qualquer página (atual ou futura) ganhe o efeito só usando
