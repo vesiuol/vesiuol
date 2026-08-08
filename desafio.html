@@ -1531,6 +1531,11 @@ async function loadNotionData(){
   }
   notionData = NOTION_DATA.map(r=>({...r}));
   notionFiltered = [...notionData];
+  const paisParam = new URLSearchParams(location.search).get('pais');
+  if (paisParam) {
+    const searchEl = document.getElementById('search-notion');
+    if (searchEl) searchEl.value = paisParam;
+  }
   renderNotion();
   init();
 }
@@ -1543,4 +1548,4 @@ document.getElementById("footer-autora").textContent = SITE_CONFIG.autora;
 document.getElementById("footer-ano").textContent = SITE_CONFIG.copyrightAno;
 </script>
 </body>
-  </html>
+</html>
