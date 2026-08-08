@@ -70,7 +70,15 @@
    "filhas" de outra seção (2026.html, posts do blog). Cada elo do
    caminho é um link, exceto a página atual (aria-current="page").
    Centralizado aqui para valer em qualquer página sem redefinir CSS. */
-.breadcrumb{font-family:'DM Sans',sans-serif;font-size:.74rem;letter-spacing:.02em;color:var(--muted);margin-bottom:1rem;display:flex;flex-wrap:wrap;align-items:center;gap:.35rem;}
+.breadcrumb{font-family:'DM Sans',sans-serif;font-size:.74rem;letter-spacing:.02em;color:var(--muted);margin-bottom:1rem;display:flex;flex-wrap:wrap;align-items:center;gap:.35rem;
+  /* Reseta o que o breadcrumb herda por também ser um <nav> — a regra genérica nav{}
+     de cada página aplica sticky/top/z-index/height/background/border pensando no
+     cabeçalho, e como .breadcrumb (classe) tem especificidade maior que nav (elemento),
+     essas linhas vencem em qualquer página, independente da ordem de carregamento do CSS.
+     Sem isso, o breadcrumb também vira sticky e sobrepõe o cabeçalho ao rolar (desktop)
+     e o início do menu mobile aberto (mobile). Corrigido centralmente para não precisar
+     repetir em cada página atual ou futura que usar breadcrumb. */
+  position:static;top:auto;z-index:auto;height:auto;background:transparent;border-bottom:none;flex-shrink:initial;}
 .breadcrumb a{color:var(--muted);text-decoration:none;border-bottom:1px solid transparent;transition:color .15s ease,border-color .15s ease;}
 .breadcrumb a:hover{color:var(--green-dark,var(--green));border-color:currentColor;}
 .breadcrumb .breadcrumb-sep{color:var(--border-interactive,var(--border));}
