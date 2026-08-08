@@ -65,3 +65,42 @@
 @media (prefers-reduced-motion: reduce) {
   .stat-num.skeleton, .kpi-num.skeleton { animation: none; }
 }
+
+/* ============================================================
+   MOTION — transições e scroll reveal, centralizados aqui para
+   que qualquer página (atual ou futura) ganhe o efeito só usando
+   as classes já existentes no site (kpi-card, chart-body,
+   sb-nav-pill, tag-btn, btn, vitrine-card) ou a classe "reveal".
+   Nenhuma regra de :hover foi redefinida — só adicionamos
+   "transition" ao estado base, então o valor final de cada
+   :hover (já declarado em cada página) passa a animar suavemente
+   em vez de trocar de forma abrupta.
+   Decisão registrada em Governança > Registro de Decisões. */
+.kpi-card, .chart-body, .sb-nav-pill, .tag-btn, .btn, .vitrine-card, .page-btn {
+  transition: transform .2s ease, box-shadow .2s ease, background .2s ease,
+              color .2s ease, border-color .2s ease;
+}
+
+/* Scroll reveal — adicionar class="reveal" a qualquer elemento
+   que deva aparecer com fade + leve deslocamento ao entrar na tela.
+   O JS (assets/motion.js) só adiciona "in-view" quando o elemento
+   cruza o viewport; nenhuma lógica de dado envolvida. */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.reveal.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .kpi-card, .chart-body, .sb-nav-pill, .tag-btn, .btn, .vitrine-card, .page-btn {
+    transition: none;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
