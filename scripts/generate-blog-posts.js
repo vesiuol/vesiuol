@@ -308,6 +308,13 @@ function buildPostHtml(templateRaw, post, relatedCards) {
     `<h1 class="intro-headline">${escapeHtml(newTitle)}</h1>`
   );
 
+  // breadcrumb — o texto da página atual (não-clicável) é o mesmo título do post.
+  // Só entra na geração inicial (não no updateArticleContent), mesma regra do h1/meta/JSON-LD.
+  html = html.replace(
+    `<span class="breadcrumb-current" aria-current="page">${OLD.title}</span>`,
+    `<span class="breadcrumb-current" aria-current="page">${escapeHtml(newTitle)}</span>`
+  );
+
   // article-body (âncora: do <div class="article-body"> até o </div> logo antes de <div class="article-tags">)
   html = html.replace(
     /<div class="article-body">[\s\S]*?<\/div>\n {4}<div class="article-tags">/,
