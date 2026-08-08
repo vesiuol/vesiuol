@@ -211,7 +211,8 @@ async function fetchAllBlocks(blockId) {
 
 // --- 2. Converter blocos do Notion em HTML do corpo do artigo ---------------
 
-function blocksToArticle(blocks) {
+function blocksToArticle(blocks, tags) {
+  const isDesafioLpm = (tags || []).includes('Livros Pelo Mundo');
   let html = '';
   let firstParagraphText = '';
   let wordCount = 0;
@@ -238,7 +239,10 @@ function blocksToArticle(blocks) {
       const livroMatch = text.match(/^\[LIVRO:\s*([^|]+)\|([^|]+)\|([^\]]+)\]$/i);
       if (livroMatch) {
         const [, country, bookTitle, author] = livroMatch.map((s) => (s || '').trim());
-        html += `<p class="book-subhead"><a class="book-country" href="../desafio.html?pais=${encodeURIComponent(country)}">${escapeHtml(country)}</a>: <strong>${escapeHtml(bookTitle)}</strong><span class="book-author">${escapeHtml(author)}</span></p>\n`;
+        const countryHtml = isDesafioLpm
+          ? `<a class="book-country" href="../desafio.html?pais=${encodeURIComponent(country)}">${escapeHtml(country)}</a>`
+          : `<span class="book-country">${escapeHtml(country)}</span>`;
+        html += `<p class="book-subhead">${countryHtml}: <strong>${escapeHtml(bookTitle)}</strong><span class="book-author">${escapeHtml(author)}</span></p>\n`;
         continue;
       }
       const imgMatch = text.match(/^\[IMAGEM:\s*([^\]]+)\]$/i);
@@ -536,7 +540,7 @@ async function main() {
     }
 
     const blocks = await fetchAllBlocks(page.id);
-    const { html: bodyHtml, firstParagraphText, wordCount } = blocksToArticle(blocks);
+    const { html: bodyHtml, firstParagraphText, wordCount } = blocksToArticle(blocks, tags);
     const metaDescription = firstParagraphText.slice(0, 155).trim();
     const post = {
       slug,
