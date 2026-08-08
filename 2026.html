@@ -333,31 +333,31 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
 
     <div>
       <div class="kpi-grid">
-        <div class="kpi-card accent">
+        <div class="kpi-card accent reveal">
           <div class="kpi-num skeleton" id="kpi-lidos">—</div>
           <div class="kpi-lbl">livros lidos</div>
         </div>
-        <div class="kpi-card">
+        <div class="kpi-card reveal">
           <div class="kpi-num skeleton" id="kpi-meta">—</div>
           <div class="kpi-lbl">meta do ano</div>
         </div>
-        <div class="kpi-card">
+        <div class="kpi-card reveal">
           <div class="kpi-num skeleton" id="kpi-pct">—</div>
           <div class="kpi-lbl">da meta concluída</div>
         </div>
-        <div class="kpi-card">
+        <div class="kpi-card reveal">
           <div class="kpi-num skeleton" id="kpi-paginas">—</div>
           <div class="kpi-lbl">páginas lidas</div>
         </div>
-        <div class="kpi-card">
+        <div class="kpi-card reveal">
           <div class="kpi-num skeleton" id="kpi-horas">—</div>
           <div class="kpi-lbl">horas ouvidas</div>
         </div>
-        <div class="kpi-card">
+        <div class="kpi-card reveal">
           <div class="kpi-num skeleton" id="kpi-autores-novos">—</div>
           <div class="kpi-lbl">autores novos</div>
         </div>
-        <div class="kpi-card">
+        <div class="kpi-card reveal">
           <div class="kpi-num skeleton" id="kpi-paises">—</div>
           <div class="kpi-lbl">países</div>
         </div>
@@ -442,13 +442,13 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
       <div class="charts-2col">
         <div class="wcard">
           <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Gêneros literários</span></div>
-          <div class="chart-body">
+          <div class="chart-body reveal">
             <div class="rank-list" id="rank-generos"></div>
           </div>
         </div>
         <div class="wcard">
           <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Por que li?</span></div>
-          <div class="chart-body">
+          <div class="chart-body reveal">
             <div class="rank-list" id="rank-porque"></div>
           </div>
         </div>
@@ -457,11 +457,11 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
       <div class="charts-2col">
         <div class="wcard">
           <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Distribuição de notas</span></div>
-          <div class="chart-body"><canvas id="c-notas-2026" role="img" aria-label="Gráfico de linha mostrando a quantidade de livros lidos por nota, de 1 a 5 estrelas, incluindo notas fracionadas."></canvas></div>
+          <div class="chart-body reveal"><canvas id="c-notas-2026" role="img" aria-label="Gráfico de linha mostrando a quantidade de livros lidos por nota, de 1 a 5 estrelas, incluindo notas fracionadas."></canvas></div>
         </div>
         <div class="wcard">
           <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Origem do livro</span></div>
-          <div class="chart-body">
+          <div class="chart-body reveal">
             <div class="rank-list" id="rank-origem"></div>
           </div>
         </div>
@@ -473,21 +473,21 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
 
           <div class="wcard">
             <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Gênero dos autores</span></div>
-            <div class="chart-body">
+            <div class="chart-body reveal">
               <div class="rank-list" id="rank-genero-autores"></div>
             </div>
           </div>
 
           <div class="wcard">
             <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Cor / raça dos autores</span></div>
-            <div class="chart-body">
+            <div class="chart-body reveal">
               <div class="rank-list" id="rank-cor-autores"></div>
             </div>
           </div>
 
           <div class="wcard">
             <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Autore novo ou já conhecido</span></div>
-            <div class="chart-body">
+            <div class="chart-body reveal">
               <div class="rank-list" id="rank-autor-novo"></div>
             </div>
           </div>
@@ -499,28 +499,28 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
 
           <div class="wcard">
             <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Idioma original</span></div>
-            <div class="chart-body">
+            <div class="chart-body reveal">
               <div class="rank-list" id="rank-idioma"></div>
             </div>
           </div>
 
           <div class="wcard">
             <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Formato de leitura</span></div>
-            <div class="chart-body">
+            <div class="chart-body reveal">
               <div class="rank-list" id="rank-formato"></div>
             </div>
           </div>
 
           <div class="wcard">
             <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Faixa etária</span></div>
-            <div class="chart-body">
+            <div class="chart-body reveal">
               <div class="rank-list" id="rank-faixa"></div>
             </div>
           </div>
 
           <div class="wcard">
             <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Série ou livro único</span></div>
-            <div class="chart-body">
+            <div class="chart-body reveal">
               <div class="rank-list" id="rank-serie"></div>
             </div>
           </div>
@@ -989,6 +989,7 @@ function renderTable(){
 init();
 </script>
 <script src="assets/config.js"></script>
+<script src="assets/motion.js"></script>
 <script>
 document.getElementById("footer-autora").textContent = SITE_CONFIG.autora;
 document.getElementById("footer-ano").textContent = SITE_CONFIG.copyrightAno;
