@@ -76,9 +76,12 @@
      cabeçalho, e como .breadcrumb (classe) tem especificidade maior que nav (elemento),
      essas linhas vencem em qualquer página, independente da ordem de carregamento do CSS.
      Sem isso, o breadcrumb também vira sticky e sobrepõe o cabeçalho ao rolar (desktop)
-     e o início do menu mobile aberto (mobile). Corrigido centralmente para não precisar
-     repetir em cada página atual ou futura que usar breadcrumb. */
-  position:static;top:auto;z-index:auto;height:auto;background:transparent;border-bottom:none;flex-shrink:initial;}
+     e o início do menu mobile aberto (mobile), e fica deslocado à direita (herda
+     padding:0 2rem do nav, enquanto .article-meta abaixo dele não tem esse padding —
+     ficava desalinhado com a data/tempo de leitura nos posts do blog).
+     Corrigido centralmente para não precisar repetir em cada página atual ou futura
+     que usar breadcrumb. */
+  position:static;top:auto;z-index:auto;height:auto;background:transparent;border-bottom:none;flex-shrink:initial;padding:0;}
 .breadcrumb a{color:var(--muted);text-decoration:none;border-bottom:1px solid transparent;transition:color .15s ease,border-color .15s ease;}
 .breadcrumb a:hover{color:var(--green-dark,var(--green));border-color:currentColor;}
 .breadcrumb .breadcrumb-sep{color:var(--border-interactive,var(--border));}
