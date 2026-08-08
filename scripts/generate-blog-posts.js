@@ -152,6 +152,19 @@ function richTextToHtml(richTextArr) {
     .join('');
 }
 
+// "Outras leituras": prioriza posts com pelo menos 1 tag em comum; sem match nenhum,
+// cai de volta pro comportamento antigo (mais recentes), já que o manifest já vem
+// ordenado por data (unshift = mais novo primeiro) e o sort abaixo é estável.
+function pickRelatedCards(manifest, post) {
+  const currentTags = post.tags || [];
+  return manifest
+    .filter((m) => m.slug !== post.slug)
+    .map((m) => ({ item: m, shared: (m.tags || []).filter((t) => currentTags.includes(t)).length }))
+    .sort((a, b) => b.shared - a.shared)
+    .slice(0, 3)
+    .map((s) => s.item);
+}
+
 function formatDateShort(iso) {
   const meses = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
   const [y, m, d] = iso.split('-');
@@ -225,7 +238,7 @@ function blocksToArticle(blocks) {
       const livroMatch = text.match(/^\[LIVRO:\s*([^|]+)\|([^|]+)\|([^\]]+)\]$/i);
       if (livroMatch) {
         const [, country, bookTitle, author] = livroMatch.map((s) => (s || '').trim());
-        html += `<p class="book-subhead"><span class="book-country">${escapeHtml(country)}:</span> <strong>${escapeHtml(bookTitle)}</strong><span class="book-author">${escapeHtml(author)}</span></p>\n`;
+        html += `<p class="book-subhead"><a class="book-country" href="../desafio.html?pais=${encodeURIComponent(country)}">${escapeHtml(country)}</a>: <strong>${escapeHtml(bookTitle)}</strong><span class="book-author">${escapeHtml(author)}</span></p>\n`;
         continue;
       }
       const imgMatch = text.match(/^\[IMAGEM:\s*([^\]]+)\]$/i);
@@ -583,8 +596,8 @@ async function main() {
     }
 
     console.log(`Gerando: ${title} -> blog/${slug}.html`);
-    // 3 posts mais recentes do manifesto = "Outras leituras"
-    const relatedCards = manifest.slice(0, 3);
+    // "Outras leituras" — por tag em comum (ver pickRelatedCards); sem match, mais recentes
+    const relatedCards = pickRelatedCards(manifest, post);
     const finalHtml = buildPostHtml(templateRaw, post, relatedCards);
     fs.writeFileSync(outPath, finalHtml, 'utf8');
 
