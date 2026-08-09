@@ -113,7 +113,7 @@ nav ul li a.active{background:var(--green);color:var(--white);padding:.28rem .7r
 /* Intro editorial */
 .intro-headline-wrap{margin-bottom:1.4rem;}
 .intro-headline{font-family:'Cormorant Garamond',serif;font-size:clamp(2.4rem,4vw,3.8rem);font-weight:600;line-height:1.35;display:inline;background:var(--green);color:var(--white);padding:.12em .28em;box-decoration-break:clone;-webkit-box-decoration-break:clone;}
-.intro-body{font-size:.93rem;line-height:1.85;color:var(--text);}
+.intro-body{font-size:1.02rem;line-height:1.85;color:var(--text);}
 .intro-body+.intro-body{margin-top:.9rem;}
 .intro-body strong{color:var(--text);}
 
@@ -128,7 +128,7 @@ nav ul li a.active{background:var(--green);color:var(--white);padding:.28rem .7r
 .block-head{margin:2rem 0 1rem;}
 .block-head:first-of-type{margin-top:0;}
 .block-h2{font-size:1.15rem;margin:0;}
-.block-note{font-size:.93rem;line-height:1.75;color:var(--muted);margin:.5rem 0 1.2rem;max-width:640px;}
+.block-note{font-size:.93rem;line-height:1.75;color:var(--muted);margin:.5rem 0 1.2rem;}
 
 /* Window card */
 .wcard{background:var(--white);border:1.5px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:2px 2px 0 var(--border);}
@@ -453,6 +453,12 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
         <button class="sb-nav-pill" onclick="document.getElementById('dados').scrollIntoView({behavior:'smooth'})">
           <span class="pill-dot">✦</span>Visão geral da estante
         </button>
+        <button class="sb-nav-pill" onclick="document.getElementById('bloco-diversidade').scrollIntoView({behavior:'smooth'})">
+          <span class="pill-dot">✦</span>Diversidade e representatividade
+        </button>
+        <button class="sb-nav-pill" onclick="document.getElementById('bloco-perfil').scrollIntoView({behavior:'smooth'})">
+          <span class="pill-dot">✦</span>Perfil de leitura
+        </button>
         <button class="sb-nav-pill" onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">
           <span class="pill-dot">✦</span>De onde vêm meus livros?
         </button>
@@ -536,7 +542,7 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
            legenda/insight editorial direto no HTML. -->
 
       <!-- BLOCO — Diversidade e representatividade -->
-      <div class="block-head">
+      <div class="block-head" id="bloco-diversidade">
         <h3 class="section-h2 block-h2">Diversidade e representatividade</h3>
         <p class="block-note">Uma estante de livros é o reflexo do leitor, de que tipo de leitor ele é. E eu, Louise, quero que a minha seja cada vez mais diversa.</p>
       </div>
@@ -587,7 +593,7 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
       <!-- BLOCO — Perfil de leitura (Governança 2026-08-08: renomeado de "Hábitos de leitura" —
            passou a incluir Distribuição de notas e Gêneros literários, que vieram do bloco
            "Quem sou eu como leitora", removido e agregado aqui a pedido da Louise) -->
-      <div class="block-head">
+      <div class="block-head" id="bloco-perfil">
         <h3 class="section-h2 block-h2">Perfil de leitura</h3>
         <p class="block-note">Sem grandes informações chocantes por aqui, mas um complemento pro meu perfil de estante.</p>
       </div>
