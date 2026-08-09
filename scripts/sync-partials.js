@@ -107,6 +107,8 @@ function injetar(conteudo, marcadorInicio, marcadorFim, novoTrecho) {
 function main() {
   const navTemplate = fs.readFileSync(path.join(ROOT, "partials/nav.html"), "utf8").trim();
   const footerTemplate = fs.readFileSync(path.join(ROOT, "partials/footer.html"), "utf8").trim();
+  const gtmHeadTemplate = fs.readFileSync(path.join(ROOT, "partials/gtm-head.html"), "utf8").trim();
+  const gtmBodyTemplate = fs.readFileSync(path.join(ROOT, "partials/gtm-body.html"), "utf8").trim();
 
   let alterados = 0;
   let comErro = [];
@@ -127,6 +129,9 @@ function main() {
 
       const footer = buildFooter(footerTemplate, page.file);
       conteudo = injetar(conteudo, "<!-- FOOTER:START -->", "<!-- FOOTER:END -->", footer);
+
+      conteudo = injetar(conteudo, "<!-- GTM:HEAD:START -->", "<!-- GTM:HEAD:END -->", gtmHeadTemplate);
+      conteudo = injetar(conteudo, "<!-- GTM:BODY:START -->", "<!-- GTM:BODY:END -->", gtmBodyTemplate);
     } catch (e) {
       comErro.push(`${page.file}: ${e.message}`);
       continue;
