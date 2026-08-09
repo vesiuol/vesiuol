@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+<!-- GTM:HEAD:START -->
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-59CR472H');</script>
+<!-- End Google Tag Manager -->
+<!-- GTM:HEAD:END -->
   <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-JE6ED0PYHR"></script>
 <script>
@@ -217,6 +226,7 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
   .nav-hamburger{display:block;}
   .intro-mobile{display:block;padding:1.4rem 1.2rem 0;}
   .main > section.intro-desktop{display:none;}
+  .main > nav.breadcrumb-desktop{display:none;}
   .main{padding:0 0 2rem;}
   .main section.section-gap{padding:0 1.2rem;}
   .div-cards{grid-template-columns:1fr 1fr;}
@@ -288,6 +298,12 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
 </style>
 </head>
 <body>
+<!-- GTM:BODY:START -->
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-59CR472H"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<!-- GTM:BODY:END -->
 
 <a href="#conteudo-principal" class="skip-link">Pular para o conteúdo principal</a>
 
@@ -316,15 +332,14 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
 </nav>
 <!-- NAV:END -->
 
-<nav class="breadcrumb" aria-label="Trilha de navegação" style="padding:1rem 2rem 0;">
-  <a href="index.html">Início</a>
-  <span class="breadcrumb-sep">›</span>
-  <a href="historico.html">Histórico</a>
-  <span class="breadcrumb-sep">›</span>
-  <span class="breadcrumb-current" aria-current="page">2026</span>
-</nav>
-
 <div class="intro-mobile">
+  <nav class="breadcrumb" aria-label="Trilha de navegação">
+    <a href="index.html">Início</a>
+    <span class="breadcrumb-sep">›</span>
+    <a href="historico.html">Histórico</a>
+    <span class="breadcrumb-sep">›</span>
+    <span class="breadcrumb-current" aria-current="page">2026</span>
+  </nav>
   <h1 class="intro-headline"><span class="intro-headline-band">O que li, aprendi e descobri este ano</span></h1>
   <p class="intro-body">
     A parte legal de acompanhar os dados das minhas leituras ao longo do ano é conseguir perceber se estou evoluindo no quesito diversidade (explorando novos gêneros, autores e países) e até mesmo se estou tendo boas leituras ou apenas passando por elas.
@@ -402,6 +417,14 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
   </aside>
 
   <main class="main" id="conteudo-principal">
+
+    <nav class="breadcrumb breadcrumb-desktop" aria-label="Trilha de navegação">
+      <a href="index.html">Início</a>
+      <span class="breadcrumb-sep">›</span>
+      <a href="historico.html">Histórico</a>
+      <span class="breadcrumb-sep">›</span>
+      <span class="breadcrumb-current" aria-current="page">2026</span>
+    </nav>
 
     <section class="intro-desktop">
       <p class="intro-headline"><span class="intro-headline-band">O que li, aprendi e descobri este ano</span></p>
@@ -599,7 +622,7 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
   <div class="footer-dots">
     <div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div>
   </div>
-  <span class="footer-text"><span id="footer-autora"></span>&nbsp;&nbsp;|&nbsp;&nbsp;© <span id="footer-ano"></span>&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">08 de agosto de 2026</span></span>
+  <span class="footer-text"><span id="footer-autora"></span>&nbsp;&nbsp;|&nbsp;&nbsp;© <span id="footer-ano"></span>&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">09 de agosto de 2026</span></span>
 </footer>
 <!-- FOOTER:END -->
 
@@ -1002,5 +1025,20 @@ init();
 document.getElementById("footer-autora").textContent = SITE_CONFIG.autora;
 document.getElementById("footer-ano").textContent = SITE_CONFIG.copyrightAno;
 </script>
+
+<!-- Botão voltar ao topo -->
+<button class="back-to-top" id="back-to-top" aria-label="Voltar ao topo" title="Voltar ao topo">↑</button>
+<script>
+(function(){
+  var btn = document.getElementById('back-to-top');
+  if(!btn) return;
+  var threshold = window.innerHeight * 0.8;
+  function toggle(){ btn.classList.toggle('visible', window.scrollY > threshold); }
+  window.addEventListener('scroll', toggle, {passive:true});
+  toggle();
+  btn.addEventListener('click', function(){ window.scrollTo({top:0, behavior:'smooth'}); });
+})();
+</script>
+
 </body>
 </html>
