@@ -1564,16 +1564,19 @@ document.getElementById("footer-ano").textContent = SITE_CONFIG.copyrightAno;
 </script>
 
 <!-- Botão voltar ao topo -->
-<button class="back-to-top" id="back-to-top" aria-label="Voltar ao topo" title="Voltar ao topo">↑</button>
+<button type="button" class="back-to-top" id="back-to-top" aria-label="Voltar ao topo" title="Voltar ao topo">↑</button>
 <script>
 (function(){
   var btn = document.getElementById('back-to-top');
   if(!btn) return;
-  var threshold = window.innerHeight * 0.8;
-  function toggle(){ btn.classList.toggle('visible', window.scrollY > threshold); }
+  function toggle(){ btn.classList.toggle('visible', window.scrollY > window.innerHeight * 0.8); }
   window.addEventListener('scroll', toggle, {passive:true});
+  window.addEventListener('resize', toggle);
   toggle();
-  btn.addEventListener('click', function(){ window.scrollTo({top:0, behavior:'smooth'}); });
+  btn.addEventListener('click', function(e){
+    e.preventDefault();
+    window.scrollTo({top:0, left:0, behavior:'smooth'});
+  });
 })();
 </script>
 
