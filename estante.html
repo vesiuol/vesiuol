@@ -124,6 +124,11 @@ nav ul li a.active{background:var(--green);color:var(--white);padding:.28rem .7r
 .section-h2{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:700;display:inline;background:var(--green);color:var(--white);padding:.08em .4em;box-decoration-break:clone;-webkit-box-decoration-break:clone;}
 .section-sub{font-size:.72rem;color:var(--muted);letter-spacing:.04em;}
 
+/* Block head — subtítulo temático dentro de "Estante em dados" (Governança 2026-08-08) */
+.block-head{margin:2rem 0 1rem;}
+.block-head:first-of-type{margin-top:0;}
+.block-h2{font-size:1.15rem;margin:0;}
+
 /* Window card */
 .wcard{background:var(--white);border:1.5px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:2px 2px 0 var(--border);}
 .wbar{padding:.5rem 1rem;display:flex;gap:5px;align-items:center;border-bottom:1px solid var(--border-soft);}
@@ -522,7 +527,35 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
         </div>
       </div>
 
-      <!-- Diversidade — 4 cards com número grande -->
+      <!-- Governança 2026-08-08: seção reorganizada em 4 blocos temáticos (narrativa), substituindo
+           o agrupamento por tamanho de lista de 2026-07-10. Nenhum wcard/canvas/rank-list teve
+           dimensão, classe de altura (tall/barh/max-height) ou configuração alterada — só a
+           posição de cada um dentro da seção mudou. Cada bloco tem título (mesmo estilo do
+           .section-h2 da página) + um espaço reservado em comentário pra Louise escrever a
+           legenda/insight editorial direto no HTML. -->
+
+      <!-- BLOCO 1 — Quem sou eu como leitora -->
+      <div class="block-head">
+        <h3 class="section-h2 block-h2">Quem sou eu como leitora</h3>
+        <!-- ESCREVER AQUI: legenda/insight do Bloco 1 (perfil geral de leitura) -->
+      </div>
+
+      <div class="wcard" style="margin-bottom:.8rem">
+        <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Distribuição de notas</span></div>
+        <div class="chart-body tall reveal"><canvas id="c-notas-estante"></canvas></div>
+      </div>
+
+      <div class="wcard" style="margin-bottom:.8rem">
+        <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Gêneros literários</span></div>
+        <div class="chart-body reveal" style="max-height:380px;overflow-y:auto" tabindex="0" aria-label="Lista rolável de gêneros literários"><div class="rank-list" id="rank-generos"></div></div>
+      </div>
+
+      <!-- BLOCO 2 — Diversidade e representatividade -->
+      <div class="block-head">
+        <h3 class="section-h2 block-h2">Diversidade e representatividade</h3>
+        <!-- ESCREVER AQUI: legenda/insight do Bloco 2 (diversidade e representatividade) -->
+      </div>
+
       <div class="div-cards">
         <div class="div-card">
           <div class="div-num" id="dc-lgbtq">—</div>
@@ -550,36 +583,6 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
         </div>
       </div>
 
-      <!-- Governança 2026-07-10: blocos reorganizados por tamanho de lista, não mais por tema.
-           Antes, "Gêneros literários" (lista longa, 10 categorias) ficava na mesma linha de grid
-           que "Cor" e "Gênero dos autores" (5 itens cada) — o grid calculava a altura da linha
-           pela caixa mais alta, sobrando um vão enorme em branco abaixo das caixas curtas.
-           Agora: listas longas (Gêneros + Países) ficam juntas, mesma altura, ambas com rolagem.
-           Listas curtas (Cor, Gênero do autor, Idioma, Formato, Faixa etária) ficam juntas em
-           outro grupo, onde naturalmente têm alturas parecidas por terem poucos itens cada. -->
-
-      <!-- Distribuição de notas — linha própria, largura total -->
-      <div class="wcard" style="margin-bottom:.8rem">
-        <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Distribuição de notas</span></div>
-        <div class="chart-body tall reveal"><canvas id="c-notas-estante"></canvas></div>
-      </div>
-
-      <!-- Rankings longos: Gêneros + Países, mesma altura, ambos com rolagem -->
-      <div class="charts-2col">
-        <div class="wcard">
-          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Gêneros literários</span></div>
-          <div class="chart-body reveal" style="max-height:380px;overflow-y:auto" tabindex="0" aria-label="Lista rolável de gêneros literários"><div class="rank-list" id="rank-generos"></div></div>
-        </div>
-        <div class="wcard">
-          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Países dos autores</span></div>
-          <div class="chart-body reveal" style="max-height:380px;overflow-y:auto" tabindex="0" aria-label="Lista rolável de países dos autores"><div class="rank-list" id="rank-paises"></div></div>
-        </div>
-      </div>
-
-      <!-- Governança 2026-07-10: "Cor / raça dos autores" e "Gênero dos autores" (5 categorias
-           cada) viraram gráfico de barras horizontal — formato que acomoda melhor várias
-           categorias numa linha só, ocupando as 2 colunas juntas (classe .barh, já prevista no
-           CSS deste arquivo, 300px, decisão #004 da Governança para "barras com mais dados"). -->
       <div class="charts-2col">
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Cor / raça dos autores</span></div>
@@ -591,9 +594,17 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
         </div>
       </div>
 
-      <!-- Idioma original desceu pra cá — junto de Formato e Faixa etária, os três com 3 itens
-           cada, tamanhos parecidos entre si (antes "Idioma" ficava sozinho, sobrando na 3ª coluna
-           da linha de cima, ao lado de listas de 5 itens — visual desequilibrado). -->
+      <div class="wcard" style="margin:.8rem 0">
+        <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Países dos autores</span></div>
+        <div class="chart-body reveal" style="max-height:380px;overflow-y:auto" tabindex="0" aria-label="Lista rolável de países dos autores"><div class="rank-list" id="rank-paises"></div></div>
+      </div>
+
+      <!-- BLOCO 3 — Hábitos de leitura -->
+      <div class="block-head">
+        <h3 class="section-h2 block-h2">Hábitos de leitura</h3>
+        <!-- ESCREVER AQUI: legenda/insight do Bloco 3 (hábitos de leitura) -->
+      </div>
+
       <div class="charts-3col">
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Idioma original</span></div>
@@ -618,6 +629,8 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
         <h2 class="section-h2">De onde vêm meus livros?</h2>
         <span class="section-sub">Autores por país</span>
       </div>
+      <!-- BLOCO 4 — Geografia -->
+      <!-- ESCREVER AQUI: legenda/insight do Bloco 4 (geografia / mapa) -->
       <div class="wcard">
         <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Mapa da estante</span></div>
         <div id="map"></div>
