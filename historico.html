@@ -140,6 +140,19 @@ nav ul.open { display: flex; }
   grid-template-columns: var(--sidebar-w) 1fr;
   align-items: start;
   min-height: calc(100vh - var(--header-h) - 44px);
+  position: relative;
+}
+/* Fundo + linha divisória da sidebar estendidos até o fim do conteúdo real da página —
+   a sidebar em si é sticky com altura própria (viewport), então seu fundo não alcançava
+   o fim do .page-wrap quando o conteúdo principal era mais alto que a tela.
+   Padronizado com estante.html/desafio.html (bug encontrado 2026-08-09). */
+.page-wrap::before {
+  content: '';
+  position: absolute; top: 0; left: 0;
+  width: var(--sidebar-w); height: 100%;
+  background: var(--surface);
+  border-right: 1.5px solid var(--border);
+  z-index: 0;
 }
 
 /* ── SIDEBAR ── */
@@ -350,6 +363,7 @@ footer {
      acidental (é o que causava o "zoom errado" / espaço em branco ao dar zoom out). */
   body { overflow-x: hidden; }
   .page-wrap { grid-template-columns: 1fr; }
+  .page-wrap::before { display: none; }
   .sidebar {
     position: static; max-height: none; overflow: visible;
     border-right: none; border-bottom: 1.5px solid var(--border);
