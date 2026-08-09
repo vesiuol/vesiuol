@@ -155,14 +155,7 @@ nav ul li a.active{background:var(--green);color:var(--white);padding:.28rem .7r
 /* Charts grids */
 .charts-2col{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:.8rem;}
 .charts-3col{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin-bottom:.8rem;}
-/* Governança 2026-08-09: trava de altura pra parear cards de alturas naturais diferentes
-   (ex.: canvas de gráfico + lista rolável) lado a lado sem sobrar espaço vazio embaixo do menor.
-   Mesmo padrão já usado em historico.html (.lockable/.year-locked). Aqui não depende de JS —
-   aplicado direto via classe, sem toggle de estado. */
-#dados .charts-2col.lockable{align-items:stretch;}
-.charts-2col.lockable .wcard{display:flex;flex-direction:column;}
-.charts-2col.lockable .wcard > div:last-child{flex:1;}
-/* Governança 2026-07-05: no desktop, o grid .charts-2col não define align-items e usa o padrão
+/* Governança 2026-08-09: no desktop, o grid .charts-2col não define align-items e usa o padrão
    'stretch' — isso fazia o card "Distribuição de notas" ser esticado para acompanhar a altura do
    card vizinho ("Países dos autores"), sobrando espaço vazio abaixo do canvas (que tem max-height
    fixo e não cresce). Trava aplicada apenas no desktop; no mobile o grid já vira 1 coluna e o
@@ -605,14 +598,14 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
         <p class="block-note">Sem grandes informações chocantes por aqui, mas um complemento pro meu perfil de estante.</p>
       </div>
 
-      <div class="charts-2col lockable">
+      <div class="charts-2col">
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Distribuição de notas</span></div>
           <div class="chart-body tall reveal"><canvas id="c-notas-estante"></canvas></div>
         </div>
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Gêneros literários</span></div>
-          <div class="chart-body reveal" style="overflow-y:auto" tabindex="0" aria-label="Lista rolável de gêneros literários"><div class="rank-list" id="rank-generos"></div></div>
+          <div class="chart-body reveal" style="height:372px;overflow-y:auto" tabindex="0" aria-label="Lista rolável de gêneros literários"><div class="rank-list" id="rank-generos"></div></div>
         </div>
       </div>
 
