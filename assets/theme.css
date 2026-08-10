@@ -126,6 +126,21 @@
   }
 }
 
+/* Botão pílula de tag/filtro — usado em 2026.html, estante.html, blog/index.html
+   e nos 6 posts de blog. Antes desta migração, cada uma das 9 páginas tinha sua
+   própria cópia desta regra (idêntica em conteúdo, só a ordem das propriedades
+   variava) — foi o que causou o bug de borda inconsistente do .filter-select
+   (componente parecido, mas separado) em 2026.html. Centralizado aqui para que
+   qualquer ajuste futuro de cor/borda/tamanho vire editar 1 arquivo, não 9.
+   Decisão: Registro de Decisões, 2026-08-09 (Sincronização de Padrões, Fase 2). */
+.tag-btn{font-family:'DM Sans',sans-serif;padding:.3rem .8rem;border:1.5px solid var(--border-interactive);background:transparent;font-size:.72rem;letter-spacing:.06em;border-radius:100px;cursor:pointer;color:var(--muted);transition:all .2s;}
+.tag-btn:hover,.tag-btn.active{background:var(--green);border-color:var(--green);color:var(--white);}
+
+/* Window Card — moldura padrão usada em cards de conteúdo (KPI, gráficos, listas).
+   Antes desta migração, duplicada em 2026.html e estante.html (idêntica nas duas).
+   Decisão: Registro de Decisões, 2026-08-09 (Sincronização de Padrões, Fase 2). */
+.wcard{background:var(--white);border:1.5px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:2px 2px 0 var(--border);}
+
 /* Botão "voltar ao topo" — fixo, canto inferior direito. Aparece depois de
    rolar a página (ver threshold no JS de cada página). Segue o modelo de
    Window Card (borda + sombra 2px 2px 0), tamanho reduzido de propósito.
