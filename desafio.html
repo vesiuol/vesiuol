@@ -1137,11 +1137,6 @@ function formatNota(v){
   if(!n||n<=0) return null;
   return (n%1===0) ? String(n) : String(n).replace('.',',');
 }
-function scrollTo(id){
-  const el = document.getElementById(id);
-  if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
-}
-
 /* Formatação de duração — mesmo padrão do index.html (Governança: célula de horas vem
    da planilha no formato H:MM:SS, ex: "13:34:00"; nunca usar parseInt/parseFloat direto
    nela, isso concatena os dígitos e gera lixo). Mostrar sempre como H:MM. */
