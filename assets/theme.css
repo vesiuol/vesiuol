@@ -161,3 +161,18 @@
 @media(max-width:600px){
   .back-to-top{right:.9rem;bottom:.9rem;width:38px;height:38px;font-size:1rem;}
 }
+
+/* Botão de paginação — usado em 2026.html, estante.html e desafio.html.
+   Antes desta migração, as 3 páginas tinham cópias divergentes entre si
+   (borda, duração de transição e centralização do número diferiam),
+   não só duplicadas. Louise decidiu a versão canônica em 2026-08-10,
+   escolhendo entre as 3 variantes existentes:
+   - borda var(--border-interactive) (era só em estante.html) — alinhado
+     à regra de contraste 3:1 de elementos interativos da Governança
+   - transition .2s (era 2026.html/estante.html; desafio.html tinha .15s)
+   - display:flex + align/justify center (era só em desafio.html) — adotado
+     para as 3 páginas
+   Decisão: Registro de Decisões, 2026-08-10 (Sincronização de Padrões, Fase 2). */
+.page-btn{width:28px;height:28px;border:1.5px solid var(--border-interactive);background:transparent;cursor:pointer;font-size:.8rem;border-radius:4px;transition:all .2s;display:flex;align-items:center;justify-content:center;}
+.page-btn.active{background:var(--green);color:var(--white);border-color:var(--green);}
+.page-btn:hover:not(.active){border-color:var(--green);}
