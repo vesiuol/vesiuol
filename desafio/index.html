@@ -1014,7 +1014,7 @@ Chart.register(ChartDataLabels);
    como data/desafio-livros.csv, mesma origem do site (sem CORS, sem risco de bloqueio de rede/antivírus).
    A página lê esse arquivo local primeiro; só cai para os proxies antigos se ele ainda não existir. */
 const CSV_DESAFIO_ALL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub?gid=524970956&single=true&output=csv';
-const LOCAL_CSV_DESAFIO = 'data/desafio-livros.csv';
+const LOCAL_CSV_DESAFIO = '/vesiuol/data/desafio-livros.csv';
 const PROXIES = [
   url => 'https://corsproxy.io/?url=' + encodeURIComponent(url),
   url => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url),
@@ -1530,7 +1530,7 @@ function renderNotion(){
    (data/desafio.json), que busca a database do Notion automaticamente. */
 async function loadNotionData(){
   try{
-    const res = await fetch('data/desafio.json?t=' + Date.now());
+    const res = await fetch('/vesiuol/data/desafio.json?t=' + Date.now());
     NOTION_DATA = await res.json();
   }catch(e){
     console.warn('Erro ao carregar data/desafio.json', e);
