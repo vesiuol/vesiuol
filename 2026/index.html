@@ -695,7 +695,7 @@ async function fetchCSV(targetUrl){
     // URL absoluta (baseada na página atual, não relativa) + timestamp pra evitar
     // que o CDN do GitHub Pages sirva um 404 antigo em cache (mais comum no mobile,
     // que às vezes bate num servidor de borda diferente do desktop).
-    const localUrl = new URL('data/2026.csv', window.location.href).href + '?v=' + Date.now();
+    const localUrl = new URL('/vesiuol/data/2026.csv', window.location.href).href + '?v=' + Date.now();
     const r = await fetch(localUrl, {cache:'no-store'});
     if(r.ok){
       const t = await r.text();
