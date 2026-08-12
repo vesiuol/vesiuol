@@ -10,7 +10,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','GTM-59CR472H');</script>
 <!-- End Google Tag Manager -->
 <!-- GTM:HEAD:END -->
-<!-- Google tag (gtag.js) -->
+  <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-JE6ED0PYHR"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -18,65 +18,39 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   gtag('js', new Date());
   gtag('config', 'G-JE6ED0PYHR');
 </script>
-
+  
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Início — Biblioteca Vesiuol</title>
-<meta name="description" content="Biblioteca Vesiuol é o acervo literário pessoal de Louise Victoria, com estante completa, estatísticas de leitura e Desafio Livros pelo Mundo desde 2013.">
-<link rel="canonical" href="https://vesiuol.github.io/vesiuol/">
+<title>Estante — Biblioteca Vesiuol</title>
+<meta name="description" content="Estante é o acervo pessoal de livros de Louise Victoria desde 2020, reunindo mais de 260 títulos com dados de gênero, autoria, idioma e diversidade literária.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="pt_BR">
 <meta property="og:site_name" content="Biblioteca Vesiuol">
-<meta property="og:title" content="Início — Biblioteca Vesiuol">
-<meta property="og:description" content="Biblioteca Vesiuol é o acervo literário pessoal de Louise Victoria, com estante completa, estatísticas de leitura e Desafio Livros pelo Mundo desde 2013.">
-<meta property="og:url" content="https://vesiuol.github.io/vesiuol/">
+<meta property="og:title" content="Estante — Biblioteca Vesiuol">
+<meta property="og:description" content="Estante é o acervo pessoal de livros de Louise Victoria desde 2020, reunindo mais de 260 títulos com dados de gênero, autoria, idioma e diversidade literária.">
+<meta property="og:url" content="https://vesiuol.github.io/vesiuol/estante/">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Início — Biblioteca Vesiuol">
-<meta name="twitter:description" content="Biblioteca Vesiuol é o acervo literário pessoal de Louise Victoria, com estante completa, estatísticas de leitura e Desafio Livros pelo Mundo desde 2013.">
+<meta name="twitter:title" content="Estante — Biblioteca Vesiuol">
+<meta name="twitter:description" content="Estante é o acervo pessoal de livros de Louise Victoria desde 2020, reunindo mais de 260 títulos com dados de gênero, autoria, idioma e diversidade literária.">
 <meta property="og:image" content="https://vesiuol.github.io/vesiuol/og-image-livros-favoritos.png">
 <meta name="twitter:image" content="https://vesiuol.github.io/vesiuol/og-image-livros-favoritos.png">
+<link rel="canonical" href="https://vesiuol.github.io/vesiuol/estante/">
 <link rel="icon" href="/vesiuol/assets/favicon.svg">
 <link rel="apple-touch-icon" href="/vesiuol/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Dataset",
-  "name": "Biblioteca Vesiuol — Estatísticas de Leitura",
-  "description": "Conjunto de indicadores da biblioteca pessoal de Louise Victoria: horas ouvidas, livros lidos, páginas lidas, avaliações cinco estrelas, autores únicos e países representados.",
-  "url": "https://vesiuol.github.io/vesiuol/",
-  "creator": {
-    "@type": "Person",
-    "name": "Louise Victoria",
-    "url": "https://vesiuol.github.io/vesiuol/",
-    "sameAs": [
-      "https://www.linkedin.com/in/louise-victoria/",
-      "https://www.instagram.com/vesiuol/",
-      "https://medium.com/@vesiuol",
-      "https://github.com/vesiuol"
-    ]
-  },
-  "variableMeasured": [
-    { "@type": "PropertyValue", "name": "Horas ouvidas", "unitText": "horas:minutos" },
-    { "@type": "PropertyValue", "name": "Livros lidos", "unitText": "contagem" },
-    { "@type": "PropertyValue", "name": "Páginas lidas", "unitText": "contagem" },
-    { "@type": "PropertyValue", "name": "Livros com avaliação 5 estrelas", "unitText": "contagem" },
-    { "@type": "PropertyValue", "name": "Autores únicos", "unitText": "contagem" },
-    { "@type": "PropertyValue", "name": "Países representados", "unitText": "contagem" }
-  ]
-}
-</script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link rel="stylesheet" href="/vesiuol/assets/theme.css">
 <style>
+/* ── TOKENS (governança) ── */
 :root {
-  --header-h:    52px;
+  --sidebar-w:272px;
+  --header-h:52px;
 }
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-html { -webkit-font-smoothing: antialiased; }
-body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 500; }
-a { color: inherit; text-decoration: none; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--white);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:500;}
+a{color:inherit;text-decoration:none;}
 
 /* ── SKIP LINK (acessibilidade — só aparece com foco de teclado) ── */
 .skip-link {
@@ -86,203 +60,204 @@ a { color: inherit; text-decoration: none; }
   font-size: .8rem; font-weight: 600;
 }
 .skip-link:focus { left: 1rem; top: .6rem; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 
 /* ── NAV ── */
-nav {
-  position: sticky; top: 0; z-index: 200;
-  background: var(--white); height: var(--header-h);
-  padding: 0 2rem; display: flex; align-items: center; gap: 1.5rem;
-  border-bottom: 1.5px solid #c5c5a0;
-}
-.nav-logo { display: flex; gap: 5px; align-items: center; }
-.nav-dot  { width: 10px; height: 10px; border-radius: 50%; background: var(--black); }
-nav ul { list-style: none; display: flex; gap: 2rem; margin-left: auto; align-items: center; }
-nav ul li a {
-  color: var(--black); font-size: .78rem; letter-spacing: .12em;
-  text-transform: uppercase; font-weight: 500; transition: color .2s;
-}
-nav ul li a:hover { color: var(--green); }
-nav ul li a.active {
-  background: var(--green); color: var(--white);
-  padding: .28rem .7rem; border-radius: 3px; font-weight: 700;
-}
-.nav-hamburger { display: none; background: none; border: none; color: var(--black); font-size: 1.4rem; cursor: pointer; margin-left: auto; }
+nav{position:sticky;top:0;z-index:200;height:var(--header-h);background:var(--white);border-bottom:1.5px solid #c5c5a0;display:flex;align-items:center;padding:0 2rem;gap:1.5rem;}
+.nav-logo{display:flex;gap:5px;align-items:center;}
+.nav-dot{width:10px;height:10px;border-radius:50%;background:var(--black);}
+nav ul{list-style:none;display:flex;gap:2rem;margin-left:auto;align-items:center;}
+nav ul li a{color:var(--black);font-family:'DM Sans',sans-serif;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;font-weight:500;transition:color .2s;}
+nav ul li a:hover{color:var(--green);}
+nav ul li a.active{background:var(--green);color:var(--white);padding:.28rem .7rem;border-radius:3px;font-weight:700;}
+.nav-hamburger{display:none;background:none;border:none;color:var(--black);font-size:1.4rem;cursor:pointer;margin-left:auto;}
 
-/* ── HERO ── */
-.hero-section {
-  padding: 3rem 2.5rem 1.5rem;
-  max-width: 1200px; margin: 0 auto;
-}
-.wcard {
-  background: var(--white);
-  border: 1.5px solid var(--border);
-  border-radius: 14px; overflow: hidden;
-  box-shadow: 2px 2px 0 var(--border);
-}
-.wbar {
-  padding: .5rem 1rem;
-  display: flex; align-items: center; gap: 5px;
-  border-bottom: 1px solid var(--border-soft);
-}
-.wdot { width: 8px; height: 8px; border-radius: 50%; background: #bbb; }
-
-.hero-card { padding: 2.5rem 3rem 0; }
-
-/* Faixa verde atrás do título — alinhada ao texto */
-.hero-title-wrap { margin-bottom: 1.4rem; }
-.hero-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(2.2rem, 4vw, 3.4rem);
-  font-weight: 400; line-height: 1.5;
-  display: inline;
-  background: var(--green);
-  color: var(--white);
-  /* padding pequeno nas pontas, faixa no comprimento da linha */
-  padding: .08em .28em;
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
+/* ── LAYOUT 2 COLUNAS ── */
+.page-wrap{position:relative;display:grid;grid-template-columns:var(--sidebar-w) 1fr;align-items:start;}
+/* Fundo + linha divisória da sidebar estendidos até o fim do conteúdo real da página —
+   a sidebar em si é sticky com altura própria (viewport), então seu fundo não alcançava
+   o fim do .page-wrap quando o conteúdo principal era mais alto que a tela. */
+.page-wrap::before{
+  content:'';
+  position:absolute; top:0; left:0;
+  width:var(--sidebar-w); height:100%;
+  background:var(--surface);
+  border-right:1.5px solid var(--border);
+  z-index:0;
 }
 
-.hero-card p {
-  font-size: 1.02rem; line-height: 1.85; color: var(--text);
-  margin-bottom: .9rem;
-}
-.hero-card p strong { color: var(--text); font-weight: 500; }
+/* Intro mobile — só aparece no mobile, antes da sidebar/dados */
+.intro-mobile{display:none;}
 
-.hero-divider {
-  margin-top: 2rem; border-top: 1px solid var(--border);
-  padding: 1rem 3rem;
-  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
-}
-.hero-meta {
-  font-size: .68rem; letter-spacing: .12em;
-  text-transform: uppercase; color: var(--muted); font-weight: 500; line-height: 1.7;
-}
-.hero-meta strong { color: var(--black); font-weight: 700; }
-.hero-arrow {
-  font-size: 1.3rem; color: var(--black);
-  transition: transform .2s; display: inline-block;
-}
-.hero-arrow:hover { transform: translateX(4px); }
+/* ── SIDEBAR ── */
+.sidebar{position:sticky;top:var(--header-h);bottom:1.5rem;max-height:calc(100vh - var(--header-h) - 1.5rem);overflow-y:auto;padding:2rem 1.4rem;display:flex;flex-direction:column;gap:1.6rem;align-self:start;background:transparent;border-right:none;z-index:1;scrollbar-width:thin;scrollbar-color:var(--border) transparent;}
+.sb-label{font-size:.68rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem;}
 
-/* ── STAT CARDS ── */
-.stats-section {
-  padding: 1.5rem 2.5rem;
-  max-width: 1200px; margin: 0 auto;
-}
-.stats-grid {
-  display: grid; grid-template-columns: repeat(6, 1fr); gap: .6rem;
-}
-.stat-card {
-  background: var(--green); border: 1.5px solid var(--green-dark);
-  border-radius: 10px; padding: 1.5rem 1rem; text-align: center;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  min-height: 110px;
-}
-.stat-num {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 2.2rem; font-weight: 400; color: var(--white); line-height: 1;
-  display: block; margin-bottom: .4rem;
-}
-.stat-lbl {
-  font-size: .65rem; letter-spacing: .08em;
-  text-transform: uppercase; color: rgba(255,255,255,.8); font-weight: 500;
-}
+/* KPI */
+.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;min-width:0;}
+.kpi-card{background:var(--white);border:1.5px solid var(--border);border-radius:10px;padding:.85rem .8rem;min-width:0;overflow:hidden;}
+.kpi-card.accent{background:var(--green);border-color:var(--green-dark);grid-column:span 2;}
+.kpi-num{font-family:Georgia,serif;font-size:clamp(1.15rem,4.5vw,1.65rem);font-weight:400;line-height:1;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;}
+.kpi-card.accent .kpi-num{color:var(--white);font-size:clamp(1.3rem,5vw,1.9rem);}
+.kpi-lbl{font-size:.68rem;color:var(--muted);margin-top:.25rem;line-height:1.3;}
+.kpi-card.accent .kpi-lbl{color:rgba(255,255,255,.75);}
 
-/* ── SEÇÃO ── */
-.page-section {
-  max-width: 1200px; margin: 0 auto;
-  padding: 2rem 2.5rem 3.5rem;
-}
-.section-head {
-  display: flex; align-items: baseline; gap: .8rem;
-  margin-bottom: 1.4rem;
-  border-bottom: 1px solid var(--border-soft); padding-bottom: .7rem;
-}
-.section-h2 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.35rem; font-weight: 700; color: var(--white);
-  background: var(--green);
-  padding: .08em .4em;
-  display: inline;
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
-}
-.section-sub {
-  font-size: .72rem; letter-spacing: .14em;
-  text-transform: uppercase; color: var(--muted);
-}
+/* Progresso */
+.prog-block{display:flex;flex-direction:column;gap:.75rem;}
+.prog-meta{display:flex;justify-content:space-between;font-size:.78rem;color:var(--muted);margin-bottom:.3rem;}
+.prog-meta b{color:var(--text);font-weight:500;}
+.prog-track{height:6px;background:var(--border);border-radius:4px;overflow:hidden;}
+.prog-fill{height:100%;background:var(--green);border-radius:4px;transition:width .8s cubic-bezier(.4,0,.2,1);}
 
-/* ── VITRINE ── */
-.vitrine-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: .8rem; }
-.vitrine-card {
-  background: var(--white); border: 1.5px solid var(--border);
-  border-radius: 14px; overflow: hidden;
-  box-shadow: 2px 2px 0 var(--border);
-  display: flex; flex-direction: column;
-  transition: transform .2s, box-shadow .2s;
-}
-.vitrine-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,.08); }
-.vitrine-card.wide { grid-column: span 2; }
+/* Nav pills sidebar */
+.sb-nav-pills{display:flex;flex-direction:column;gap:.4rem;}
+.sb-nav-pill{display:flex;align-items:center;gap:.6rem;padding:.5rem .75rem;border:1.5px solid var(--border-interactive);border-radius:50px;background:transparent;color:var(--muted);font-size:.74rem;cursor:pointer;text-align:left;transition:all .2s;font-family:'DM Sans',sans-serif;}
+.sb-nav-pill:hover{background:var(--green);border-color:var(--green);color:var(--white);}
+.pill-dot{width:22px;height:22px;border-radius:50%;background:var(--green);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.6rem;color:var(--white);}
+.sb-nav-pill:hover .pill-dot{background:var(--white);color:var(--green);}
 
-.vc-body { padding: 1.3rem 1.4rem 1rem; flex: 1; display: flex; flex-direction: column; gap: .6rem; }
-.vc-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.1rem; font-weight: 500; color: var(--white);
-  background: var(--green);
-  display: inline-block;
-  padding: .2em .5em;
-  align-self: flex-start;
-}
-.vc-desc { font-size: .88rem; line-height: 1.65; color: var(--muted); flex: 1; }
+/* ── MAIN ── */
+.main{padding:2.8rem 3rem 3rem;position:relative;z-index:1;}
 
-.vc-footer {
-  border-top: 1px solid var(--border-soft); padding: .7rem 1.4rem;
-  display: flex; align-items: center; justify-content: space-between;
-}
-.vc-tag {
-  font-size: .68rem; letter-spacing: .1em;
-  text-transform: uppercase; color: var(--muted); font-weight: 500;
-}
-.vc-arrow { font-size: 1rem; color: var(--black); }
+/* Intro editorial */
+.intro-headline-wrap{margin-bottom:1.4rem;}
+.intro-headline{font-family:'Cormorant Garamond',serif;font-size:clamp(2.4rem,4vw,3.8rem);font-weight:600;line-height:1.35;display:inline;background:var(--green);color:var(--white);padding:.12em .28em;box-decoration-break:clone;-webkit-box-decoration-break:clone;}
+.intro-body{font-size:1.02rem;line-height:1.85;color:var(--text);}
+.intro-body+.intro-body{margin-top:.9rem;}
+.intro-body strong{color:var(--text);}
 
-/* ── FOOTER ── */
-footer {
-  background: var(--green); padding: 1rem 2.5rem;
-  display: flex; align-items: center; gap: 1rem;
-  border-top: 1.5px solid var(--green-dark);
-}
-.footer-dots { display: flex; gap: 5px; }
-.footer-dot  { width: 10px; height: 10px; border-radius: 50%; background: var(--white); }
-.footer-text {
-  font-size: .60rem; letter-spacing: .1em; text-transform: uppercase;
-  color: var(--white); font-weight: 500; font-family: 'DM Sans', sans-serif;
-}
+/* Section */
+.section-gap{margin-top:3rem;}
+.section-hr{border:none;border-top:1px solid var(--border-soft);margin-bottom:1.6rem;}
+.section-head{display:flex;align-items:baseline;gap:.8rem;margin-bottom:1.4rem;}
+.section-h2{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:700;display:inline;background:var(--green);color:var(--white);padding:.08em .4em;box-decoration-break:clone;-webkit-box-decoration-break:clone;}
+.section-sub{font-size:.72rem;color:var(--muted);letter-spacing:.04em;}
 
-/* ── RESPONSIVE ── */
-@media (max-width: 900px) {
-  .stats-grid   { grid-template-columns: repeat(3, 1fr); }
-  .vitrine-grid { grid-template-columns: 1fr 1fr; }
-  .vitrine-card.wide { grid-column: span 2; }
-  .hero-card { padding: 1.5rem 1.5rem 0; }
-  .hero-divider { padding: 1rem 1.5rem; }
+/* Block head — subtítulo temático dentro de "Visão geral da estante" (Governança 2026-08-08) */
+.block-head{margin:2rem 0 1rem;}
+.block-head:first-of-type{margin-top:0;}
+.block-h2{font-size:1.15rem;margin:0;}
+.block-note{font-size:.93rem;line-height:1.75;color:var(--muted);margin:.5rem 0 1.2rem;}
+
+/* Window card */
+.wbar{padding:.5rem 1rem;display:flex;gap:5px;align-items:center;border-bottom:1px solid var(--border-soft);}
+.wdot{width:8px;height:8px;border-radius:50%;background:#bbb;}
+.wtitle{font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-left:.4rem;}
+
+/* Perfil grid texto */
+.perfil-text-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1.5px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:.8rem;}
+.ptg-cell{background:var(--white);padding:1rem 1.1rem;}
+.ptg-label{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem;}
+.ptg-val{font-size:.95rem;font-weight:500;color:var(--text);}
+.ptg-sub{font-size:.72rem;color:var(--muted);margin-top:.15rem;}
+
+/* Diversity cards */
+.div-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;margin-bottom:.8rem;}
+.div-card{border:1.5px solid var(--border);border-radius:12px;padding:1rem .9rem;background:var(--white);}
+.div-num{font-family:Georgia,serif;font-size:1.8rem;font-weight:400;color:var(--green);line-height:1;margin-bottom:.3rem;}
+.div-lbl{font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);}
+.div-sub{font-size:.78rem;color:var(--muted);margin-top:.3rem;}
+.div-track{height:4px;background:var(--border);border-radius:2px;overflow:hidden;margin-top:.5rem;}
+.div-fill{height:100%;background:var(--green);border-radius:2px;transition:width .8s cubic-bezier(.4,0,.2,1);}
+
+/* Charts grids */
+.charts-2col{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:.8rem;}
+.charts-3col{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin-bottom:.8rem;}
+/* Governança 2026-08-09: no desktop, o grid .charts-2col não define align-items e usa o padrão
+   'stretch' — isso fazia o card "Distribuição de notas" ser esticado para acompanhar a altura do
+   card vizinho ("Países dos autores"), sobrando espaço vazio abaixo do canvas (que tem max-height
+   fixo e não cresce). Trava aplicada apenas no desktop; no mobile o grid já vira 1 coluna e o
+   problema não existe. */
+@media(min-width:901px){
+  #dados .charts-2col{align-items:start;}
+  /* Governança 2026-07-10: mesma trava aplicada ao charts-3col — sem isso, o grid esticava
+     todos os cards de uma linha (ex: Idioma/Formato/Faixa etária) para a altura do mais alto,
+     mesmo com max-height + conteúdo menor nos outros, sobrando espaço vazio embaixo. */
+  #dados .charts-3col{align-items:start;}
 }
-@media (max-width: 600px) {
-  body { overflow-x: hidden; }
-  nav ul { display: none; position: absolute; top: 52px; left: 0; right: 0; background: var(--white); flex-direction: column; padding: 1rem 2rem; gap: 1rem; border-bottom: 1px solid var(--border); }
-  nav ul.open { display: flex; }
-  .nav-hamburger { display: block; }
-  .hero-section { padding: 1.2rem 1rem 1rem; }
-  .hero-card { padding: 1.2rem 1.2rem 0; }
-  .hero-divider { flex-direction: column; align-items: flex-start; gap: .6rem; padding: 1rem 1.2rem; }
-  .stats-section { padding: 1rem; }
-  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: .5rem; }
-  .stat-card { min-height: 90px; padding: 1rem .6rem; }
-  .stat-num { font-size: 1.9rem; }
-  .page-section { padding: 1.5rem 1rem 2.5rem; }
-  .vitrine-grid { grid-template-columns: 1fr; }
-  .vitrine-card.wide { grid-column: span 1; }
-  footer { padding: 1rem; flex-wrap: wrap; gap: .5rem; }
+.chart-body{padding:1rem 1.2rem;position:relative;}
+.chart-body canvas{max-height:220px;}
+.chart-body.tall{height:280px;}
+.chart-body.tall canvas{max-height:340px;}
+.chart-body.barh canvas{max-height:300px;}
+
+/* Rank */
+.rank-list{display:flex;flex-direction:column;gap:.6rem;}
+.rank-item{}
+.rank-header{display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:.3rem;}
+.rank-pos{color:var(--muted);font-size:.72rem;margin-right:.4rem;}
+.rank-val{color:var(--green-dark);font-weight:500;}
+.rank-track{height:5px;background:var(--border);border-radius:3px;overflow:hidden;}
+.rank-fill{height:100%;background:var(--green);border-radius:3px;}
+.rank-fill.light{background:var(--green-light);}
+
+/* Mapa */
+#map{height:420px;border-radius:0 0 12px 12px;}
+.map-legend{display:flex;gap:1.2rem;flex-wrap:wrap;margin-top:.8rem;font-size:.78rem;color:var(--muted);}
+.legend-dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:4px;vertical-align:middle;}
+
+/* Tabela */
+.tag-filters{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.8rem;}
+.table-controls{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:.8rem;align-items:center;}
+.search-wrap{flex:1;min-width:180px;max-width:260px;position:relative;}
+.search-wrap input{width:100%;padding:.45rem 1rem .45rem 2rem;border:1.5px solid var(--border-interactive);border-radius:6px;font-size:.82rem;color:var(--text);outline:none;font-family:'DM Sans',sans-serif;}
+.search-wrap input:focus{border-color:var(--green);}
+.search-wrap::before{content:'⌕';position:absolute;left:.6rem;top:50%;transform:translateY(-50%);color:var(--muted);}
+.filter-select{padding:.45rem .8rem;border:1.5px solid var(--border-interactive);border-radius:6px;font-size:.78rem;color:var(--text);background:var(--white);font-family:'DM Sans',sans-serif;}
+table{width:100%;border-collapse:collapse;font-size:.83rem;}
+thead tr{border-bottom:2px solid var(--black);}
+th{padding:.55rem .8rem;text-align:left;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);white-space:nowrap;cursor:pointer;user-select:none;}
+th:hover{color:var(--text);}
+td{padding:.6rem .8rem;border-bottom:1px solid #eee;vertical-align:middle;}
+tr:hover td{background:rgba(132,153,116,.05);}
+.badge{display:inline-block;padding:.18rem .55rem;border-radius:100px;font-size:.68rem;font-weight:500;}
+.badge-lido{background:#d4edda;color:#1a6631;}
+.badge-nao{background:#ffe8e4;color:#9b2b1a;}
+.badge-lendo{background:#fff3cd;color:#8a6200;}
+.stars{color:var(--green);}
+.table-footer{padding:.7rem 0;display:flex;justify-content:space-between;align-items:center;font-size:.78rem;color:var(--muted);}
+.pagination{display:flex;gap:.3rem;flex-wrap:wrap;}
+
+/* Footer */
+footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center;gap:1rem;border-top:1.5px solid var(--green-dark);}
+.footer-dots{display:flex;gap:5px;}
+.footer-dot{width:10px;height:10px;border-radius:50%;background:var(--white);}
+.footer-text{font-size:.60rem;letter-spacing:.1em;text-transform:uppercase;color:var(--white);font-weight:500;}
+
+/* Responsive */
+@media(max-width:900px){
+  .page-wrap{grid-template-columns:1fr;}
+  .page-wrap::before{display:none;}
+  .sidebar{position:static;height:auto;max-height:none;overflow:visible;width:100%;min-width:0;background:var(--surface);border-right:none;border-bottom:1.5px solid var(--border);}
+  .main{min-width:0;}
+  .charts-2col,.charts-3col{grid-template-columns:1fr;}
+  .div-cards{grid-template-columns:1fr 1fr;}
+  .perfil-text-grid{grid-template-columns:1fr 1fr;}
+  .main{padding:2rem 2rem 3rem;}
+}
+@media(max-width:600px){
+  nav ul{display:none;position:absolute;top:52px;left:0;right:0;background:var(--white);flex-direction:column;padding:1rem 2rem;gap:1rem;border-bottom:1px solid var(--border);z-index:99;}
+  nav ul.open{display:flex;}
+  .nav-hamburger{display:block;}
+  /* Governança 2026-07-09: padding horizontal da nav é sempre "0 2rem" em qualquer breakpoint —
+     a sobrescrita "nav{padding:0 1rem}" que existia aqui foi removida por desalinhar a logo
+     (nav-logo, três pontinhos) em relação às demais páginas do site no mobile. Ver Registro de
+     Decisões, "Regra: Padding horizontal da nav (posição da logo)". */
+  /* Mobile: intro (título + texto de apoio) aparece antes dos dados */
+  .intro-mobile{display:block;padding:1.4rem 1.2rem 0;}
+  .main > section.intro-desktop{display:none;}
+  .main{padding:0 0 2rem;}
+  .main section.section-gap{padding:0 1.2rem;}
+  .div-cards{grid-template-columns:1fr 1fr;}
+  .perfil-text-grid{grid-template-columns:1fr;}
+  .table-controls{flex-direction:column;align-items:stretch;}
+  .search-wrap{max-width:100%;}
+  table{font-size:.75rem;}
+  td,th{padding:.45rem .5rem;}
+  footer{padding:1rem;flex-wrap:wrap;gap:.5rem;}
+  /* Governança 2026-07-10: gráficos de barras (Cor/Gênero dos autores) mais baixos no mobile —
+     300px (padrão desktop) fica alto demais numa tela estreita com uma coluna só. */
+  .chart-body.barh canvas{max-height:220px;}
 }
 
 /* ── NAV DROPDOWN: Histórico > Visão geral / 2026 — governança 2026-08-02 ── */
@@ -341,6 +316,45 @@ footer {
   .nav-dropdown.submenu-open .nav-submenu { display: flex; }
 }
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  "name": "Estante — Biblioteca Vesiuol",
+  "description": "Acervo pessoal de livros de Louise Victoria desde 2020, reunindo o perfil de leitura por gênero literário, formato, idioma, faixa etária, avaliações e indicadores de diversidade autoral e representatividade.",
+  "url": "https://vesiuol.github.io/vesiuol//vesiuol/estante/",
+  "creator": {
+    "@type": "Person",
+    "name": "Louise Victoria",
+    "url": "https://vesiuol.github.io/vesiuol/",
+    "sameAs": [
+      "https://www.linkedin.com/in/louise-victoria/",
+      "https://www.instagram.com/vesiuol/",
+      "https://medium.com/@vesiuol",
+      "https://github.com/vesiuol"
+    ]
+  },
+  "variableMeasured": [
+    "Total de livros na estante",
+    "Páginas lidas",
+    "Livros lidos",
+    "Autores únicos",
+    "Países de origem dos autores",
+    "Idiomas",
+    "Gênero literário",
+    "Faixa etária",
+    "Formato de leitura",
+    "Série ou único",
+    "Avaliações (estrelas)",
+    "Cor dos autores",
+    "Gênero dos autores",
+    "Questões psicológicas",
+    "Protagonista LGBTQIA+",
+    "Diversidade étnico-racial",
+    "#OwnVoices"
+  ]
+}
+</script>
 </head>
 <body>
 <!-- GTM:BODY:START -->
@@ -349,8 +363,10 @@ footer {
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 <!-- GTM:BODY:END -->
+
 <a href="#conteudo-principal" class="skip-link">Pular para o conteúdo principal</a>
 
+<!-- NAV -->
 <!-- NAV:START -->
 <nav>
   <a href="/vesiuol/" class="nav-logo" style="text-decoration:none">
@@ -359,8 +375,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="nav-dot" style="background:var(--green)"></div>
   </a>
   <ul id="nav-menu">
-    <li><a href="/vesiuol/" class="active" aria-current="page">Início</a></li>
-    <li><a href="/vesiuol/estante/">Estante</a></li>
+    <li><a href="/vesiuol/">Início</a></li>
+    <li><a href="/vesiuol/estante/" class="active" aria-current="page">Estante</a></li>
     <li class="nav-dropdown">
       <a href="/vesiuol/historico/" onclick="if(window.innerWidth<=600){const li=this.closest('li');if(!li.classList.contains('submenu-open')){event.preventDefault();li.classList.add('submenu-open');li.querySelector('.nav-caret').setAttribute('aria-expanded','true');}}">Histórico</a><button class="nav-caret" type="button" aria-label="Abrir submenu de Histórico" aria-expanded="false" onclick="const li=this.closest('li');const open=li.classList.toggle('submenu-open');this.setAttribute('aria-expanded',open);event.stopPropagation();">▾</button>
       <ul class="nav-submenu">
@@ -376,87 +392,305 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </nav>
 <!-- NAV:END -->
 
-<!-- HERO -->
-<main class="hero-section" id="conteudo-principal">
-  <div class="wcard">
-    <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div></div>
-    <div class="hero-card">
-      <div class="hero-title-wrap">
-        <h1 class="hero-title">O que tem na estante da Louise</h1>
-      </div>
-      <p>Um passeio completo pela minha estante, histórico mais antigo que possuo da minha vida literária, as leituras deste ano e o desafio literário que me propus!</p>
-      <p>Eu, que fui uma criança e pré-adolescente apaixonada por livros, reduzi meu consumo durante a faculdade, mas na pandemia da Covid em 2020 voltei ao mundo dos livros com força total. Nesse momento também descobri a bolha dos criadores de conteúdo literários e a grande maravilha que é a atividade de catalogação de livros.</p>
-      <p>Eu tenho duas planilhas de Excel e um Notion exclusivo para a minha catalogação, sem contar layout de database e textos sobre meu projeto literário (e um pouquinho mais). Tendo <strong>tantos dados assim</strong>, porque não compartilhar!</p>
-    </div>
-    <div class="hero-divider">
-      <div class="hero-meta">
-        <div>por <strong>LOUISE VICTORIA</strong> · <span>BASE DE DADOS DA MINHA BIBLIOTECA PESSOAL</span></div>
-      </div>
-      <a href="/vesiuol/sobre/" class="hero-arrow">→</a>
-    </div>
+<!-- INTRO MOBILE: título + texto de apoio aparecem antes dos dados no mobile -->
+<div class="intro-mobile">
+  <div class="intro-headline-wrap">
+    <h1 class="intro-headline">Livros na Estante</h1>
   </div>
-</main>
-
-<!-- STATS -->
-<div class="stats-section">
-  <div class="stats-grid">
-    <div class="stat-card"><span class="stat-num skeleton" id="s-horas">—</span><span class="stat-lbl">Horas ouvidas</span></div>
-    <div class="stat-card"><span class="stat-num skeleton" id="s-lidos">—</span><span class="stat-lbl">Lidos</span></div>
-    <div class="stat-card"><span class="stat-num skeleton" id="s-paginas">—</span><span class="stat-lbl">Páginas lidas</span></div>
-    <div class="stat-card"><span class="stat-num skeleton" id="s-cinco">—</span><span class="stat-lbl">Livros 5 estrelas</span></div>
-    <div class="stat-card"><span class="stat-num skeleton" id="s-autores">—</span><span class="stat-lbl">Autores únicos</span></div>
-    <div class="stat-card"><span class="stat-num skeleton" id="s-paises">—</span><span class="stat-lbl">Países</span></div>
-  </div>
+  <p class="intro-body">
+    Tenho uma política pessoal: não deixo na estante livros dos quais não gostei, não achei relevantes ou que simplesmente não me marcaram. Não importa se são bonitos ou se isso vai deixá-la mais vazia. Para mim, é importante que ela represente quem eu sou: uma pessoa que tem, sim, seus gêneros literários preferidos, mas que também gosta de explorar diferentes caminhos e buscar cada vez mais diversidade.
+  </p>
+  <p class="intro-body">
+    Existem diferentes definições sobre o que realmente faz uma biblioteca pessoal. Algumas pessoas defendem que é um número mínimo de livros; outras acreditam que ela é um acervo construído aos poucos, ao longo dos anos, refletindo os gostos e a trajetória do dono. Confesso que simpatizo mais com a segunda opção. Mas, sendo bem sincera, independentemente do critério, quem decide o que faz sentido para a minha estante sou eu.
+  </p>
+  <p class="intro-body">
+    Minha estante é uma conquista da vida adulta, mas também a realização de um sonho que cultivo desde o ensino médio. Adoro participar de reuniões de trabalho com ela ao fundo, não para parecer culta, mas porque acho bonito ter algo que representa uma parte tão importante de quem sou. Cada livro foi adquirido aos poucos, desde a época de estagiária. Entre cupons, promoções e passeios em sebos, fui montando esse espaço com muito carinho.
+  </p>
+  <p class="intro-body" style="margin-bottom:1.2rem;">
+    Mas, afinal, o que a minha estante realmente representa? É exatamente isso que eu quero mostrar.
+  </p>
 </div>
 
-<!-- VITRINE -->
-<div class="page-section">
-  <div class="section-head">
-    <h2 class="section-h2">Navegue pelo site</h2>
-    <span class="section-sub">Páginas</span>
-  </div>
-  <div class="vitrine-grid">
-    <a href="/vesiuol/historico/" class="vitrine-card reveal">
-      <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div></div>
-      <div class="vc-body">
-        <div class="vc-title">Vida de Leitora</div>
-        <p class="vc-desc">Histórico de leituras com evolução ano a ano, gráficos gerais, filtro por ano específico e o panorama completo de 2026.</p>
+<div class="page-wrap">
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar">
+
+    <!-- KPIs -->
+    <div>
+      <div class="sb-label">Estante em números</div>
+      <div class="kpi-grid">
+        <div class="kpi-card accent reveal">
+          <div class="kpi-num skeleton" id="s-total">—</div>
+          <div class="kpi-lbl">livros na estante</div>
+        </div>
+        <div class="kpi-card accent reveal">
+          <div class="kpi-num skeleton" id="s-paginas">—</div>
+          <div class="kpi-lbl">páginas lidas</div>
+        </div>
+        <div class="kpi-card reveal">
+          <div class="kpi-num skeleton" id="s-lidos">—</div>
+          <div class="kpi-lbl">lidos</div>
+        </div>
+        <div class="kpi-card reveal">
+          <div class="kpi-num skeleton" id="s-autores">—</div>
+          <div class="kpi-lbl">autores únicos</div>
+        </div>
+        <div class="kpi-card reveal">
+          <div class="kpi-num skeleton" id="s-paises">—</div>
+          <div class="kpi-lbl">países</div>
+        </div>
+        <div class="kpi-card reveal">
+          <div class="kpi-num skeleton" id="s-idiomas">—</div>
+          <div class="kpi-lbl">idiomas</div>
+        </div>
       </div>
-      <div class="vc-footer"><span class="vc-tag">2013 → 2026</span><span class="vc-arrow">→</span></div>
-    </a>
-    <a href="/vesiuol/estante/" class="vitrine-card reveal">
-      <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div></div>
-      <div class="vc-body">
-        <div class="vc-title">Livros na Estante</div>
-        <p class="vc-desc"> A estante é o reflexo de um leitor, principalmente para quem mantém somente livros que gosta, como eu. Por isso tenho todos meus livros catalogados, com informações detalhadas.</p>
+    </div>
+
+    <!-- Progresso lidos -->
+    <div class="prog-block">
+      <div class="sb-label">Progresso de leitura</div>
+      <div>
+        <div class="prog-meta"><span>Lidos</span><b id="prog-lidos-txt">— / —</b></div>
+        <div class="prog-track"><div class="prog-fill" id="prog-lidos-fill" style="width:0%"></div></div>
       </div>
-      <div class="vc-footer"><span class="vc-tag">Estante completa</span><span class="vc-arrow">→</span></div>
-    </a>
-    <a href="/vesiuol/blog/" class="vitrine-card reveal">
-      <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div></div>
-      <div class="vc-body">
-        <div class="vc-title">Blog</div>
-        <p class="vc-desc">Textos, resenhas e bastidores do Desafio Livros pelo Mundo. Um exercício para não deixar a escrita de lado e poder falar um pouco sobre os livros que leio, com quem quiser saber.</p>
+    </div>
+
+    <!-- Navegação por seções -->
+    <div>
+      <div class="sb-label">Ir para a seção</div>
+      <div class="sb-nav-pills">
+        <button class="sb-nav-pill" onclick="document.getElementById('dados').scrollIntoView({behavior:'smooth'})">
+          <span class="pill-dot">✦</span>Visão geral da estante
+        </button>
+        <button class="sb-nav-pill" onclick="document.getElementById('bloco-diversidade').scrollIntoView({behavior:'smooth'})">
+          <span class="pill-dot">✦</span>Diversidade e representatividade
+        </button>
+        <button class="sb-nav-pill" onclick="document.getElementById('bloco-perfil').scrollIntoView({behavior:'smooth'})">
+          <span class="pill-dot">✦</span>Perfil de leitura
+        </button>
+        <button class="sb-nav-pill" onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">
+          <span class="pill-dot">✦</span>De onde vêm meus livros?
+        </button>
+        <button class="sb-nav-pill" onclick="document.getElementById('lista').scrollIntoView({behavior:'smooth'})">
+          <span class="pill-dot">✦</span>Todos os livros
+        </button>
       </div>
-      <div class="vc-footer"><span class="vc-tag">Resenhas e textos</span><span class="vc-arrow">→</span></div>
-    </a>
-    <a href="/vesiuol/desafio/" class="vitrine-card wide reveal">
-      <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div></div>
-      <div class="vc-body">
-        <div class="vc-title">Desafio Livros pelo Mundo</div>
-        <p class="vc-desc">Uma viagem rumo à diversidade: ler ao menos um livro de cada país do mundo. Cada leitura é um passo para ampliar perspectivas e conhecer histórias fora de um eixo automático.</p>
+    </div>
+
+  </aside>
+
+  <!-- ── MAIN ── -->
+  <main class="main" id="conteudo-principal">
+
+    <!-- INTRO EDITORIAL -->
+    <section class="intro-desktop">
+      <div class="intro-headline-wrap">
+        <p class="intro-headline">Livros na Estante</p>
       </div>
-      <div class="vc-footer"><span class="vc-tag">Um livro para cada país</span><span class="vc-arrow">→</span></div>
-    </a>
-    <a href="/vesiuol/sobre/" class="vitrine-card reveal">
-      <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div></div>
-      <div class="vc-body">
-        <div class="vc-title">Sobre o projeto</div>
-        <p class="vc-desc">Quem é a Louise, como essa paixão por catalogar leituras começou e por que ela decidiu abrir todos esses dados para o mundo.</p>
+      <p class="intro-body">
+        Tenho uma política pessoal: não deixo na estante livros dos quais não gostei, não achei relevantes ou que simplesmente não me marcaram. Não importa se são bonitos ou se isso vai deixá-la mais vazia. Para mim, é importante que ela represente quem eu sou: uma pessoa que tem, sim, seus gêneros literários preferidos, mas que também gosta de explorar diferentes caminhos e buscar cada vez mais diversidade.
+      </p>
+      <p class="intro-body">
+        Existem diferentes definições sobre o que realmente faz uma biblioteca pessoal. Algumas pessoas defendem que é um número mínimo de livros; outras acreditam que ela é um acervo construído aos poucos, ao longo dos anos, refletindo os gostos e a trajetória do dono. Confesso que simpatizo mais com a segunda opção. Mas, sendo bem sincera, independentemente do critério, quem decide o que faz sentido para a minha estante sou eu.
+      </p>
+      <p class="intro-body">
+        Minha estante é uma conquista da vida adulta, mas também a realização de um sonho que cultivo desde o ensino médio. Adoro participar de reuniões de trabalho com ela ao fundo, não para parecer culta, mas porque acho bonito ter algo que representa uma parte tão importante de quem sou. Cada livro foi adquirido aos poucos, desde a época de estagiária. Entre cupons, promoções e passeios em sebos, fui montando esse espaço com muito carinho.
+      </p>
+      <p class="intro-body">
+        Mas, afinal, o que a minha estante realmente representa? É exatamente isso que eu quero mostrar.
+      </p>
+    </section>
+
+    <!-- Visão geral da estante -->
+    <section class="section-gap" id="dados">
+      <hr class="section-hr">
+      <div class="section-head">
+        <h2 class="section-h2">Visão geral da estante</h2>
+        <span class="section-sub" id="dados-sub">carregando…</span>
       </div>
-      <div class="vc-footer"><span class="vc-tag">Quem faz esse site</span><span class="vc-arrow">→</span></div>
-    </a>
-  </div>
+
+      <!-- Grid texto: dados qualitativos principais -->
+      <div class="perfil-text-grid">
+        <div class="ptg-cell">
+          <div class="ptg-label">Gênero mais lido</div>
+          <div class="ptg-val" id="pg-genero">—</div>
+          <div class="ptg-sub" id="pg-genero-sub">dos livros lidos</div>
+        </div>
+        <div class="ptg-cell">
+          <div class="ptg-label">Quem escreve</div>
+          <div class="ptg-val" id="pg-ga">—</div>
+          <div class="ptg-sub" id="pg-ga-sub">dos autores</div>
+        </div>
+        <div class="ptg-cell">
+          <div class="ptg-label">Idioma mais lido</div>
+          <div class="ptg-val" id="pg-idioma">—</div>
+          <div class="ptg-sub">idioma original</div>
+        </div>
+        <div class="ptg-cell">
+          <div class="ptg-label">Formato</div>
+          <div class="ptg-val" id="pg-formato">—</div>
+          <div class="ptg-sub">modo preferido</div>
+        </div>
+        <div class="ptg-cell">
+          <div class="ptg-label">Faixa etária</div>
+          <div class="ptg-val" id="pg-faixa">—</div>
+          <div class="ptg-sub">público principal</div>
+        </div>
+        <div class="ptg-cell">
+          <div class="ptg-label">Série ou único</div>
+          <div class="ptg-val" id="pg-serie">—</div>
+          <div class="ptg-sub">preferência</div>
+        </div>
+      </div>
+
+      <!-- Governança 2026-08-08: seção reorganizada em 4 blocos temáticos (narrativa), substituindo
+           o agrupamento por tamanho de lista de 2026-07-10. Nenhum wcard/canvas/rank-list teve
+           dimensão, classe de altura (tall/barh/max-height) ou configuração alterada — só a
+           posição de cada um dentro da seção mudou. Cada bloco tem título (mesmo estilo do
+           .section-h2 da página) + um espaço reservado em comentário pra Louise escrever a
+           legenda/insight editorial direto no HTML. -->
+
+      <!-- BLOCO — Diversidade e representatividade -->
+      <div class="block-head" id="bloco-diversidade">
+        <h3 class="section-h2 block-h2">Diversidade e representatividade</h3>
+        <p class="block-note">Uma estante de livros é o reflexo do leitor, o que ela representa sobre ele. Pelo menos é isso que penso. Por isso, eu Louise, quero que a minha seja cada vez mais diversa.</p>
+      </div>
+
+      <div class="div-cards">
+        <div class="div-card">
+          <div class="div-num" id="dc-lgbtq">—</div>
+          <div class="div-lbl">Protagonista LGBTQIA+</div>
+          <div class="div-sub" id="dc-lgbtq-sub">dos livros lidos</div>
+          <div class="div-track"><div class="div-fill" id="dc-lgbtq-bar" style="width:0%"></div></div>
+        </div>
+        <div class="div-card">
+          <div class="div-num" id="dc-div">—</div>
+          <div class="div-lbl">Diversidade étnica</div>
+          <div class="div-sub" id="dc-div-sub">dos livros lidos</div>
+          <div class="div-track"><div class="div-fill" id="dc-div-bar" style="width:0%"></div></div>
+        </div>
+        <div class="div-card">
+          <div class="div-num" id="dc-own">—</div>
+          <div class="div-lbl">#OwnVoices</div>
+          <div class="div-sub" id="dc-own-sub">dos livros lidos</div>
+          <div class="div-track"><div class="div-fill" id="dc-own-bar" style="width:0%"></div></div>
+        </div>
+        <div class="div-card">
+          <div class="div-num" id="dc-psico">—</div>
+          <div class="div-lbl">Questões psicológicas</div>
+          <div class="div-sub" id="dc-psico-sub">dos livros lidos</div>
+          <div class="div-track"><div class="div-fill" id="dc-psico-bar" style="width:0%"></div></div>
+        </div>
+      </div>
+
+      <div class="charts-2col">
+        <div class="wcard">
+          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Cor / raça dos autores</span></div>
+          <div class="chart-body barh reveal"><canvas id="c-cor"></canvas></div>
+        </div>
+        <div class="wcard">
+          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Gênero dos autores</span></div>
+          <div class="chart-body barh reveal"><canvas id="c-ga"></canvas></div>
+        </div>
+      </div>
+
+      <div class="wcard" style="margin:.8rem 0">
+        <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Países dos autores</span></div>
+        <div class="chart-body reveal" style="max-height:380px;overflow-y:auto" tabindex="0" aria-label="Lista rolável de países dos autores"><div class="rank-list" id="rank-paises"></div></div>
+      </div>
+
+      <!-- BLOCO — Perfil de leitura (Governança 2026-08-08: renomeado de "Hábitos de leitura" —
+           passou a incluir Distribuição de notas e Gêneros literários, que vieram do bloco
+           "Quem sou eu como leitora", removido e agregado aqui a pedido da Louise) -->
+      <div class="block-head" id="bloco-perfil">
+        <h3 class="section-h2 block-h2">Perfil de leitura</h3>
+        <p class="block-note">Que tipo de formato tem na minha estante? E gêneros literários? Tenho livros com notas baixas?</p>
+      </div>
+
+      <div class="charts-2col">
+        <div class="wcard">
+          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Distribuição de notas</span></div>
+          <div class="chart-body tall reveal"><canvas id="c-notas-estante"></canvas></div>
+        </div>
+        <div class="wcard">
+          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Gêneros literários</span></div>
+          <div class="chart-body reveal" style="height:280px;overflow-y:auto" tabindex="0" aria-label="Lista rolável de gêneros literários"><div class="rank-list" id="rank-generos"></div></div>
+        </div>
+      </div>
+
+      <div class="charts-3col">
+        <div class="wcard">
+          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Idioma original</span></div>
+          <div class="chart-body reveal" style="max-height:260px;overflow-y:auto" tabindex="0" aria-label="Lista rolável de idiomas"><div class="rank-list" id="rank-idioma"></div></div>
+        </div>
+        <div class="wcard">
+          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Formato de leitura</span></div>
+          <div class="chart-body reveal" style="max-height:260px;overflow-y:auto" tabindex="0" aria-label="Lista rolável de formatos de leitura"><div class="rank-list" id="rank-formato"></div></div>
+        </div>
+        <div class="wcard">
+          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Faixa etária</span></div>
+          <div class="chart-body reveal" style="max-height:260px;overflow-y:auto" tabindex="0" aria-label="Lista rolável de faixas etárias"><div class="rank-list" id="rank-faixa"></div></div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- MAPA -->
+    <section class="section-gap" id="mapa">
+      <hr class="section-hr">
+      <div class="section-head">
+        <h2 class="section-h2">De onde vêm meus livros?</h2>
+        <span class="section-sub">Autores por país</span>
+      </div>
+      <!-- BLOCO 4 — Geografia -->
+      <p class="block-note">Antes mesmo do Desafio Livros pelo Mundo eu já adorava colocar pins no meu mapa pessoal. Todos esses países representam os escritores da minha estante.</p>
+      <div class="wcard">
+        <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Mapa da estante</span></div>
+        <div id="map"></div>
+      </div>
+      <div class="map-legend">
+        <span><span class="legend-dot" style="background:var(--green)"></span>Autores mapeados</span>
+      </div>
+    </section>
+
+    <!-- LISTA -->
+    <section class="section-gap" id="lista" style="padding-bottom:3rem;">
+      <hr class="section-hr">
+      <div class="section-head">
+        <h2 class="section-h2">Todos os livros</h2>
+        <span class="section-sub" id="lista-count">—</span>
+      </div>
+      <div class="tag-filters">
+        <button class="tag-btn active" data-tag="">Todos</button>
+        <button class="tag-btn" data-tag="lgbtqia">LGBTQIA+</button>
+        <button class="tag-btn" data-tag="diversidade">Diversidade étnica</button>
+        <button class="tag-btn" data-tag="ownvoices">#OwnVoices</button>
+        <button class="tag-btn" data-tag="psico">Questões psicológicas</button>
+      </div>
+      <div class="table-controls">
+        <div class="search-wrap"><input type="text" id="search" placeholder="Buscar título ou autor…"></div>
+        <select class="filter-select" id="f-status"><option value="">Todos</option><option>Lido</option><option>Não Lido</option><option>Lendo</option></select>
+        <select class="filter-select" id="f-genero"><option value="">Todos os gêneros</option></select>
+        <select class="filter-select" id="f-idioma"><option value="">Todos os idiomas</option></select>
+        <select class="filter-select" id="f-cor"><option value="">Toda cor</option></select>
+      </div>
+      <div style="overflow-x:auto">
+        <table>
+          <thead><tr>
+            <th>Título</th><th>Autor/a</th><th>Gênero</th><th>Páginas</th>
+            <th>Idioma</th><th>Cor</th><th>País</th><th>Status</th><th>⭐</th>
+          </tr></thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+      <div class="table-footer">
+        <span id="t-info">—</span>
+        <div class="pagination" id="pagination"></div>
+      </div>
+    </section>
+
+  </main>
 </div>
 
 <!-- FOOTER -->
@@ -465,100 +699,324 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="footer-dots">
     <div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div>
   </div>
-  <span class="footer-text"><span id="footer-autora"></span>&nbsp;&nbsp;|&nbsp;&nbsp;© <span id="footer-ano"></span>&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">09 de agosto de 2026</span></span>
+  <span class="footer-text"><span id="footer-autora"></span>&nbsp;&nbsp;|&nbsp;&nbsp;© <span id="footer-ano"></span>&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">10 de agosto de 2026</span></span>
 </footer>
 <!-- FOOTER:END -->
 
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-// Planilha A — aba VISÃO GERAL LEITURAS (Governança: gid=700848757).
-// Mesma aba e mesma lógica de leitura já usadas e comprovadas em /vesiuol/historico/ —
-// reaproveitada aqui para que a home cruze Estante + Leituras de todos os anos,
-// em vez de contar só o status "Lido/Não Lido" da planilha da Estante.
-const PROXY = 'https://corsproxy.io/?url=';
-const BASE_LEITURAS = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub';
-const URL_VIS = PROXY + encodeURIComponent(BASE_LEITURAS + '?gid=700848757&single=true&output=csv');
+Chart.register(ChartDataLabels);
 
-const TODOS_ANOS = ['2013','2014','2015','2016','2017','2018','2019','2020','2021','2022','2023','2024','2025','2026'];
-const CAT_NOTAS  = ['1','1,5','2','2,5','3','3,5','4','4,5','5'];
+const CSV_ESTANTE = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQWGv70Tc2vz-YUKxwU_0_H8F7UuHom1tCJQlE2Tfi8AMNem2c5X3WSs6z4CPjoTb2AaFKmJ8bihlPV/pub?gid=0&single=true&output=csv';
 
-const pi = v => parseInt(String(v||'').replace(/[^0-9]/g,'')) || 0;
+const GREEN = '#849974', GREEN_LIGHT = '#c8d4b8', BLACK='#1a1a1a';
+const PALETTE = ['#7a9e7e','#c4a882','#6b8e9f','#b5835a','#8a9a5b','#9b7fa6','#4e7c5f','#c4855a','#7ba3a8','#a07850','#849974','#b09080'];
 
-function fetchCSV(url){
-  return fetch(url)
-    .then(r => { if (!r.ok) throw new Error('HTTP '+r.status); return r.text(); })
-    .then(t => Papa.parse(t.replace(/^\uFEFF/,''), {header:true, skipEmptyLines:true}).data)
-    .catch(e => { console.error('fetchCSV:', e); return []; });
+const COORDS = {
+  'Brasil':[-15.8,-47.9],'EUA':[37.1,-95.7],'Estados Unidos':[37.1,-95.7],'Reino Unido':[51.5,-0.1],'Japão':[35.7,139.7],'França':[46.2,2.2],'Canadá':[56.1,-106.3],'Argentina':[-34.6,-58.4],'Portugal':[38.7,-9.1],'Alemanha':[52.5,13.4],'Espanha':[40.4,-3.7],'Itália':[41.9,12.5],'México':[19.4,-99.1],'Colômbia':[4.7,-74.1],'Chile':[-33.4,-70.6],'Índia':[28.6,77.2],'China':[39.9,116.4],'Rússia':[55.8,37.6],'Austrália':[-35.3,149.1],'Nigéria':[9.1,7.5],'África do Sul':[-25.7,28.2],'Noruega':[59.9,10.7],'Holanda':[52.4,4.9],'Cuba':[23.1,-82.4],'Suécia':[59.3,18.1],'Irlanda':[53.3,-6.3],'Grécia':[37.9,23.7],'Polônia':[52.2,21.0],'Turquia':[39.9,32.9],'Egito':[30.1,31.2],'Marrocos':[34.0,-6.8],'Zâmbia':[-15.4,28.3],'Camarões':[3.9,11.5],'Irã':[35.7,51.4],'Ucrânia':[50.5,30.5],'Angola':[-8.8,13.2],'Moçambique':[-18.7,35.5],'Quênia':[-1.3,36.8],'Gana':[5.6,-0.2],'Senegal':[14.7,-17.4],'Peru':[-12.0,-77.0],'Venezuela':[10.5,-66.9],'Ruanda':[-1.9,30.1],'Somália':[2.0,45.3],'Etiópia':[9.0,38.7],'Nova Zelândia':[-41.3,174.8],'Uruguai':[-34.9,-56.2],'Bolívia':[-16.5,-68.1],'Paquistão':[33.7,73.1],'Israel':[31.8,35.2],'Afeganistão':[34.5,69.2],'Coreia do Sul':[37.6,127.0],'Indonésia':[-6.2,106.8],'Suíça':[46.8,8.2],'Áustria':[48.2,16.4],'Bélgica':[50.8,4.4],'República Tcheca':[50.1,14.4],'Gâmbia':[13.5,-15.6],'Serra Leoa':[8.5,-13.2],'Congo':[-4.3,15.3],'Namíbia':[-22.6,17.1],'Tanzânia':[-6.4,34.9],'Ilhas Virgens':[18.3,-64.9],
+};
+
+function norm(s){ return (s||'').trim().toLowerCase(); }
+function isTrue(v){ const s=norm(v||''); return ['sim','yes','true','1','✓','x','verdadeiro'].includes(s); }
+function isDataRow(b){ const t=norm(b['Livros']||b[Object.keys(b)[0]]||''); if(!t) return false; if(t.includes('(resumo)')||t.includes('(gráfico)')||t.includes('(grafico)')) return false; return true; }
+function fetchCSV(url){ return new Promise((res,rej)=>{ Papa.parse(url,{download:true,header:true,skipEmptyLines:true,complete:r=>res(r.data),error:rej}); }); }
+
+function countField(arr, key){
+  const c={};
+  arr.forEach(b=>{ const v=(b[key]||'').trim(); if(v && !norm(v).includes('(gráfico)') && !norm(v).includes('(grafico)')) c[v]=(c[v]||0)+1; });
+  return c;
+}
+function topN(obj,n){ return Object.entries(obj).sort((a,b)=>b[1]-a[1]).slice(0,n); }
+
+function buildRank(elId, obj, maxItems){
+  const el = document.getElementById(elId); if(!el) return;
+  const pairs = topN(obj, maxItems);
+  if(!pairs.length){ el.innerHTML='<div style="font-size:.78rem;color:var(--muted)">Sem dados</div>'; return; }
+  const max = pairs[0][1];
+  el.innerHTML = pairs.map(([label,val],i) => `
+    <div class="rank-item">
+      <div class="rank-header">
+        <span><span class="rank-pos">${i+1}.</span>${label}</span>
+        <span class="rank-val">${val}</span>
+      </div>
+      <div class="rank-track"><div class="rank-fill${i>0?' light':''}" style="width:${Math.round(val/max*100)}%"></div></div>
+    </div>`).join('');
 }
 
-// getRow/vals/subVals/getPaises: idênticos ao que /vesiuol/historico/ já usa com sucesso
-// para ler essa mesma aba VISÃO GERAL LEITURAS.
-function getRow(VIS, label) { return VIS.find(r => (r['']||'').trim()===label) || null; }
-function vals(row, anos) { if (!row) return anos.map(()=>0); return anos.map(a => pi(row[a])); }
-function subVals(VIS, cats, ano) {
-  const anos = ano ? [ano] : TODOS_ANOS;
-  const res = {};
-  cats.forEach(cat => {
-    const row = VIS.find(r => (r['Idiomas']||'').trim()===cat);
-    if (!row) return;
-    res[cat] = anos.reduce((s,a) => s+pi(row[a+'_1']), 0);
+// ── ACESSIBILIDADE: alternativa textual/tabela de apoio para gráficos Chart.js ──
+// Mesmo padrão já usado em /vesiuol/historico///vesiuol/desafio/. Não altera nada visual: só injeta uma
+// tabela oculta visualmente (sr-only), acessível a leitor de tela, logo após o canvas.
+function accessibleChart(canvasId, caption, labels, data){
+  const canvas=document.getElementById(canvasId); if(!canvas) return;
+  const summary=labels.map((l,i)=>`${l}: ${data[i]}`).join(', ');
+  canvas.setAttribute('role','img');
+  canvas.setAttribute('aria-label', canvas.getAttribute('aria-label') || (caption+'. '+summary));
+  const tableId=canvasId+'-table';
+  const existing=document.getElementById(tableId); if(existing) existing.remove();
+  const table=document.createElement('table');
+  table.id=tableId; table.className='sr-only';
+  table.innerHTML=`<caption>${caption}</caption><thead><tr><th scope="col">Categoria</th><th scope="col">Valor</th></tr></thead><tbody>${
+    labels.map((l,i)=>`<tr><td>${l}</td><td>${data[i]}</td></tr>`).join('')
+  }</tbody></table>`;
+  canvas.insertAdjacentElement('afterend', table);
+  canvas.setAttribute('aria-describedby', tableId);
+}
+
+// Governança 2026-07-10: "Cor / raça dos autores" e "Gênero dos autores" viraram gráfico de
+// barras horizontal (Chart.js) em vez de rank-list — mesmo padrão visual (verde, datalabels)
+// já usado no gráfico "Distribuição de notas" desta página.
+function buildBarChart(canvasId, obj, caption){
+  const el = document.getElementById(canvasId); if(!el) return;
+  const pairs = topN(obj, 999);
+  if(!pairs.length) return;
+  new Chart(el,{type:'bar',
+    data:{labels:pairs.map(p=>p[0]), datasets:[{data:pairs.map(p=>p[1]), backgroundColor:GREEN, borderRadius:4, maxBarThickness:26}]},
+    options:{indexAxis:'y', maintainAspectRatio:false, layout:{padding:{right:26}},
+      plugins:{legend:{display:false},datalabels:{anchor:'end',align:'end',color:BLACK,
+        font:{family:'DM Sans',size:10,weight:'500'},formatter:v=>v}},
+      scales:{
+        x:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:'#555'},border:{display:false},beginAtZero:true},
+        y:{grid:{display:false},ticks:{font:{family:'DM Sans',size:11},color:'#1a1a1a'},border:{display:false}}
+      }}});
+  accessibleChart(canvasId, caption || canvasId, pairs.map(p=>p[0]), pairs.map(p=>p[1]));
+}
+
+// detect tag columns
+let COL_LGBTQIA='', COL_DIV='', COL_OWN='', COL_PSICO='';
+function detectTagColumns(books){
+  if(!books.length) return;
+  const headers=Object.keys(books[0]);
+  headers.forEach(h=>{
+    const hn=norm(h);
+    if(!COL_LGBTQIA&&(hn.includes('lgbtqia')||hn.includes('lgbt'))) COL_LGBTQIA=h;
+    if(!COL_DIV&&(hn.includes('étnica')||hn.includes('etnica')||hn.includes('racial'))) COL_DIV=h;
+    if(!COL_OWN&&(hn.includes('ownvoices')||hn.includes('own'))) COL_OWN=h;
+    if(!COL_PSICO&&(hn.includes('psicol')||hn.includes('psico')||hn.includes('questões'))) COL_PSICO=h;
   });
-  return res;
+  if(!COL_LGBTQIA&&headers[15]) COL_LGBTQIA=headers[15];
+  if(!COL_DIV&&headers[16]) COL_DIV=headers[16];
+  if(!COL_OWN&&headers[17]) COL_OWN=headers[17];
+  if(!COL_PSICO&&headers[18]) COL_PSICO=headers[18];
 }
-function getPaises(VIS) {
-  const res = {};
-  VIS.forEach(r => { const p=(r['Países']||'').trim(), v=pi(r['Total']); if (p && v>0) res[p]=v; });
-  return res;
+function getTagVals(b){
+  return {
+    pVal:b[COL_LGBTQIA]||b['Protagonista LGBTQIA+?']||b['LGBTQIA+']||'',
+    qVal:b[COL_DIV]||b['Diversidade étnica/racial ?']||b['Diversidade étnica']||'',
+    rVal:b[COL_OWN]||b['#OwnVoices ?']||b['OwnVoices']||'',
+    sVal:b[COL_PSICO]||b['Questões psicológicas']||'',
+  };
 }
 
-// REGRA DE GOVERNANÇA (2026-07-07): toda página que exibir "horas ouvidas" deve
-// mostrar no formato H:MM (horas:minutos), nunca como número decimal + "h".
-// As células de horas na planilha vêm no formato H:MM:SS (ex: "92:08:00"), então
-// nunca usar pi()/parseInt direto nelas — isso concatena os dígitos e gera lixo.
-function parseDuracaoParaMinutos(v){
-  const s = String(v||'').trim();
-  if (!s) return 0;
-  if (s.includes(':')){
-    const [h=0, m=0] = s.split(':').map(p => parseInt(p,10) || 0);
-    return h*60 + m;
-  }
-  return Math.round((parseFloat(s.replace(',','.')) || 0) * 60);
-}
-function formatMinutosParaHoraMin(totalMin){
-  const h = Math.floor(totalMin/60), m = totalMin % 60;
-  return h + ':' + String(m).padStart(2,'0');
-}
+const PER=20;
+let allBooks=[], filtered=[], activeTag='', page=1;
 
 async function init(){
-  try {
-    const VIS = await fetchCSV(URL_VIS);
+  try{ allBooks=await fetchCSV(CSV_ESTANTE); } catch(e){ console.error(e); ['s-total','s-lidos','s-paginas','s-autores','s-paises','s-idiomas'].forEach(id=>{const el=document.getElementById(id); if(el) el.classList.remove('skeleton');}); return; }
+  allBooks=allBooks.filter(isDataRow);
+  detectTagColumns(allBooks);
 
-    const livRow   = getRow(VIS, 'Livros');
-    const pagRow   = getRow(VIS, 'Páginas');
-    const autRow   = getRow(VIS, 'Autores lidos pela 1º vez');
-    const horasRow = getRow(VIS, 'Horas ouvidas'); // confirmado: coluna A linha 8, dados a partir de 2026 (coluna O)
+  const lidos=allBooks.filter(b=>norm(b['Lido/Não Lido'])==='lido');
+  const total=allBooks.length;
+  const totalLidos=lidos.length;
+  const paginas=lidos.reduce((s,b)=>s+(parseInt((b['Páginas']||'').replace(/\D/g,''))||0),0);
+  const autores=new Set(allBooks.map(b=>b['Nome']).filter(Boolean)).size;
+  const paises=new Set(allBooks.map(b=>b['País']).filter(Boolean)).size;
+  const idiomas=new Set(lidos.map(b=>b['Idioma']).filter(Boolean)).size;
 
-    const totalLidos   = vals(livRow, TODOS_ANOS).reduce((a,b)=>a+b, 0);
-    const totalPaginas = vals(pagRow, TODOS_ANOS).reduce((a,b)=>a+b, 0);
-    const totalAutores = vals(autRow, TODOS_ANOS).reduce((a,b)=>a+b, 0);
-    const totalMinutosHoras = horasRow
-      ? TODOS_ANOS.reduce((s,a) => s + parseDuracaoParaMinutos(horasRow[a]), 0)
-      : 0;
-    const total5       = subVals(VIS, CAT_NOTAS, null)['5'] || 0;
-    const totalPaises  = Object.keys(getPaises(VIS)).length;
+  document.getElementById('s-total').textContent=total;
+  document.getElementById('s-lidos').textContent=totalLidos;
+  document.getElementById('s-paginas').textContent=paginas.toLocaleString('pt-BR');
+  document.getElementById('s-autores').textContent=autores;
+  document.getElementById('s-paises').textContent=paises;
+  document.getElementById('s-idiomas').textContent=idiomas;
+  ['s-total','s-lidos','s-paginas','s-autores','s-paises','s-idiomas'].forEach(id=>document.getElementById(id).classList.remove('skeleton'));
 
-    document.getElementById('s-horas').textContent   = horasRow ? formatMinutosParaHoraMin(totalMinutosHoras) : '—';
-    document.getElementById('s-lidos').textContent   = totalLidos   > 0 ? totalLidos   : '—';
-    document.getElementById('s-paginas').textContent = totalPaginas > 0 ? totalPaginas.toLocaleString('pt-BR') : '—';
-    document.getElementById('s-cinco').textContent   = total5      > 0 ? total5      : '—';
-    document.getElementById('s-autores').textContent = totalAutores> 0 ? totalAutores: '—';
-    document.getElementById('s-paises').textContent  = totalPaises > 0 ? totalPaises : '—';
-    ['s-horas','s-lidos','s-paginas','s-cinco','s-autores','s-paises'].forEach(id => document.getElementById(id).classList.remove('skeleton'));
-  } catch(e) {
-    console.error('Erro:', e);
-    ['s-horas','s-lidos','s-paginas','s-cinco','s-autores','s-paises'].forEach(id => document.getElementById(id).classList.remove('skeleton'));
+  // Progresso
+  const pct=total>0?Math.round(totalLidos/total*100):0;
+  document.getElementById('prog-lidos-txt').textContent=totalLidos+' / '+total;
+  setTimeout(()=>{ document.getElementById('prog-lidos-fill').style.width=pct+'%'; },300);
+
+  // Grid texto
+  const gnObj=countField(lidos,'Gênero'); const topGn=topN(gnObj,1)[0];
+  const gaObj=countField(lidos,'Se identifica como...'); const topGa=topN(gaObj,1)[0];
+  const idObj=countField(lidos,'Idioma'); const topId=topN(idObj,1)[0];
+  const fmObj=countField(allBooks,'Formato'); const topFm=topN(fmObj,1)[0];
+  const fxObj=countField(allBooks,'Faixa etária'); const topFx=topN(fxObj,1)[0];
+  const seObj=countField(allBooks,'Série ou único?'); const topSe=topN(seObj,1)[0];
+
+  if(topGn){ document.getElementById('pg-genero').textContent=topGn[0]; document.getElementById('pg-genero-sub').textContent=topGn[1]+' livros'; }
+  if(topGa){ document.getElementById('pg-ga').textContent=topGa[0]; document.getElementById('pg-ga-sub').textContent=topGa[1]+' autores'; }
+  if(topId){ document.getElementById('pg-idioma').textContent=topId[0]; }
+  if(topFm){ document.getElementById('pg-formato').textContent=topFm[0]; }
+  if(topFx){ document.getElementById('pg-faixa').textContent=topFx[0]; }
+  if(topSe){ document.getElementById('pg-serie').textContent=topSe[0]; }
+
+  // Diversidade
+  function pctSim(arr, col){
+    const tot=arr.length;
+    const sim=arr.filter(b=>isTrue(b[col]||'')).length;
+    return { pct:tot>0?Math.round(sim/tot*100):0, n:sim, tot };
+  }
+  function setDiv(prefix, data){
+    document.getElementById('dc-'+prefix).textContent=data.pct+'%';
+    document.getElementById('dc-'+prefix+'-sub').textContent='de '+data.tot+' livros lidos';
+    setTimeout(()=>{ document.getElementById('dc-'+prefix+'-bar').style.width=data.pct+'%'; },300);
+  }
+  setDiv('lgbtq', pctSim(lidos, COL_LGBTQIA||'Protagonista LGBTQIA+?'));
+  setDiv('div',   pctSim(lidos, COL_DIV||'Diversidade étnica/racial ?'));
+  setDiv('own',   pctSim(lidos, COL_OWN||'#OwnVoices ?'));
+  setDiv('psico', pctSim(lidos, COL_PSICO||'Questões psicológicas'));
+
+  // Rankings
+  // Governança: listas longas (gêneros, países, etc.) não devem ser truncadas em top-N — usar
+  // container com altura fixa + scroll (ver CSS ".chart-body" dessas seções) e passar sem limite
+  // de itens para buildRank(), igual ao padrão já aplicado em "Países dos autores" (decisão #013).
+  buildRank('rank-generos', gnObj, 999);
+  buildBarChart('c-cor', countField(lidos,'Cor'), 'Cor/raça dos autores');
+  buildBarChart('c-ga',  gaObj, 'Gênero dos autores');
+  buildRank('rank-idioma',  idObj, 999);
+  buildRank('rank-formato', fmObj, 999);
+  buildRank('rank-faixa',   fxObj, 999);
+  buildRank('rank-paises',  countField(allBooks,'País'), 999);
+
+  // Distribuição de notas — padronizado no formato de linha/área usado em /vesiuol/historico/ (Governança, decisão de padronização 2026-07-04)
+  const notasLabels=['★','★★','★★★','★★★★','★★★★★','❤️'];
+  const notasVals=[0,0,0,0,0,0];
+  lidos.forEach(b=>{
+    const nota=(b['Estrelas']||Object.values(b)[9]||'').toString().trim();
+    if(norm(nota)==='favorito'){ notasVals[5]++; return; }
+    const n=parseInt(nota);
+    if(n>=1&&n<=5) notasVals[n-1]++;
+  });
+  const notasEl=document.getElementById('c-notas-estante');
+  if(notasEl){
+    new Chart(notasEl,{type:'line',
+      data:{labels:notasLabels,datasets:[{data:notasVals,borderColor:GREEN,backgroundColor:GREEN+'22',
+        borderWidth:2.5,pointRadius:5,pointBackgroundColor:GREEN,fill:true,tension:.35}]},
+      options:{maintainAspectRatio:false,layout:{padding:{top:22}},
+        plugins:{legend:{display:false},datalabels:{display:ctx=>ctx.dataset.data[ctx.dataIndex]>0,
+          anchor:'end',align:'top',color:BLACK,font:{family:'DM Sans',size:10,weight:'500'},
+          formatter:v=>v>0?v:'',clamp:true}},
+        scales:{
+          x:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:'#555'},border:{display:false}},
+          y:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:'#555'},border:{display:false},beginAtZero:true}
+        }}});
+    accessibleChart('c-notas-estante', 'Distribuição de avaliações por nota',
+      ['1 estrela','2 estrelas','3 estrelas','4 estrelas','5 estrelas','Favorito'], notasVals);
+  }
+
+  const sub=document.getElementById('dados-sub');
+  if(sub) sub.textContent=total+' livros catalogados';
+
+  buildMap(allBooks);
+  buildFilters();
+  filtered=[...allBooks];
+  renderTable();
+}
+
+function buildMap(books){
+  const map=L.map('map',{scrollWheelZoom:false}).setView([20,10],2);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map);
+  const pc=countField(books,'País');
+  Object.entries(pc).forEach(([p,q])=>{
+    const c=COORDS[p]; if(!c) return;
+    L.circleMarker(c,{radius:Math.max(6,Math.min(22,6+Math.sqrt(q)*4)),fillColor:GREEN,color:'#fff',weight:1.5,fillOpacity:.8})
+      .addTo(map).bindPopup('<strong>'+p+'</strong><br>'+q+' livro'+(q>1?'s':''));
+  });
+}
+
+function buildFilters(){
+  ['Gênero','Idioma','Cor'].forEach((col,i)=>{
+    const ids=['f-genero','f-idioma','f-cor'];
+    const sel=document.getElementById(ids[i]);
+    [...new Set(allBooks.map(b=>b[col]).filter(v=>v&&!norm(v).includes('(gráfico)')))].sort().forEach(v=>{
+      const o=document.createElement('option');o.value=v;o.textContent=v;sel.appendChild(o);
+    });
+  });
+  ['search','f-status','f-genero','f-idioma','f-cor'].forEach(id=>{
+    document.getElementById(id).addEventListener(id==='search'?'input':'change',applyFilters);
+  });
+  document.querySelectorAll('.tag-btn').forEach(btn=>btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tag-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');activeTag=btn.dataset.tag;applyFilters();
+  }));
+}
+
+function applyFilters(){
+  const q=document.getElementById('search').value.toLowerCase();
+  const st=document.getElementById('f-status').value;
+  const gn=document.getElementById('f-genero').value;
+  const id=document.getElementById('f-idioma').value;
+  const cor=document.getElementById('f-cor').value;
+  filtered=allBooks.filter(b=>{
+    if(q&&!((b['Livros']||'')+(b['Nome']||'')).toLowerCase().includes(q)) return false;
+    if(st&&norm(b['Lido/Não Lido'])!==norm(st)) return false;
+    if(gn&&b['Gênero']!==gn) return false;
+    if(id&&b['Idioma']!==id) return false;
+    if(cor&&b['Cor']!==cor) return false;
+    if(activeTag){
+      const {pVal,qVal,rVal,sVal}=getTagVals(b);
+      if(activeTag==='lgbtqia'     &&!isTrue(pVal)) return false;
+      if(activeTag==='diversidade'  &&!isTrue(qVal)) return false;
+      if(activeTag==='ownvoices'   &&!isTrue(rVal)) return false;
+      if(activeTag==='psico'       &&!isTrue(sVal)) return false;
+    }
+    return true;
+  });
+  page=1; renderTable();
+}
+
+function renderTable(){
+  const start=(page-1)*PER;
+  const pg=filtered.slice(start,start+PER);
+  const tbody=document.getElementById('tbody');
+  document.getElementById('lista-count').textContent=filtered.length+' livros';
+  if(!filtered.length){
+    tbody.innerHTML='<tr><td colspan="9" style="text-align:center;padding:2rem;color:var(--muted)">Nenhum encontrado.</td></tr>';
+    document.getElementById('t-info').textContent='';
+    document.getElementById('pagination').innerHTML='';
+    return;
+  }
+  tbody.innerHTML=pg.map(b=>{
+    const st=b['Lido/Não Lido']||'';
+    const bc=norm(st)==='lido'?'badge-lido':norm(st)==='lendo'?'badge-lendo':'badge-nao';
+    const nota=(b['Estrelas']||Object.values(b)[9]||'').toString().trim();
+    let starsHtml='';
+    if(norm(nota)==='favorito') starsHtml='<span class="stars">★★★★★</span> ❤️';
+    else {
+      const n=parseFloat(nota.replace(',','.'));
+      if(n>0){
+        const notaFmt=Number.isInteger(n)?String(n):n.toFixed(1).replace('.',',');
+        starsHtml='<span class="stars">'+notaFmt+' ★</span>';
+      }
+    }
+    return `<tr>
+      <td><strong>${b['Livros']||'—'}</strong></td>
+      <td>${b['Nome']||'—'}</td>
+      <td>${b['Gênero']||'—'}</td>
+      <td>${b['Páginas']||'—'}</td>
+      <td>${b['Idioma']||'—'}</td>
+      <td>${b['Cor']||'—'}</td>
+      <td>${b['País']||'—'}</td>
+      <td><span class="badge ${bc}">${st||'—'}</span></td>
+      <td>${starsHtml}</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('t-info').textContent=(start+1)+'–'+Math.min(start+PER,filtered.length)+' de '+filtered.length;
+  const pages=Math.ceil(filtered.length/PER);
+  const pag=document.getElementById('pagination');pag.innerHTML='';
+  for(let i=1;i<=pages;i++){
+    const btn=document.createElement('button');
+    btn.className='page-btn'+(i===page?' active':'');
+    btn.textContent=i;
+    btn.onclick=()=>{page=i;renderTable();};
+    pag.appendChild(btn);
   }
 }
+
 init();
 </script>
 <script src="/vesiuol/assets/config.js"></script>
@@ -568,7 +1026,19 @@ document.getElementById("footer-autora").textContent = SITE_CONFIG.autora;
 document.getElementById("footer-ano").textContent = SITE_CONFIG.copyrightAno;
 </script>
 
-<!-- Google Tag Manager (noscript) -->
+<!-- Botão voltar ao topo -->
+<button class="back-to-top" id="back-to-top" aria-label="Voltar ao topo" title="Voltar ao topo">↑</button>
+<script>
+(function(){
+  var btn = document.getElementById('back-to-top');
+  if(!btn) return;
+  var threshold = window.innerHeight * 0.8;
+  function toggle(){ btn.classList.toggle('visible', window.scrollY > threshold); }
+  window.addEventListener('scroll', toggle, {passive:true});
+  toggle();
+  btn.addEventListener('click', function(){ window.scrollTo({top:0, behavior:'smooth'}); });
+})();
+</script>
 
 </body>
 </html>
