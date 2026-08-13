@@ -9,12 +9,12 @@ on:
       - "partials/**"
       - "scripts/sync-partials.js"
       - "index.html"
-      - "estante.html"
-      - "historico.html"
-      - "2026.html"
-      - "desafio.html"
-      - "sobre.html"
-      - "blog/**.html"
+      - "estante/index.html"
+      - "historico/index.html"
+      - "2026/index.html"
+      - "desafio/index.html"
+      - "sobre/index.html"
+      - "blog/**"
   workflow_dispatch: {}
 
 jobs:
