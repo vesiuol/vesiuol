@@ -11,6 +11,12 @@
 // NÃO edite o <nav> ou <footer> dentro das páginas finais — edite sempre
 // partials/nav.html e partials/footer.html, e rode este script (ou dê push,
 // que a Action roda sozinha).
+//
+// Atualizado em 13/08 para refletir a migração de URLs de 12/08: todas as
+// páginas agora vivem em pastas com index.html (ex: estante/index.html) e o
+// nav usa caminhos absolutos (/vesiuol/...) em vez de caminhos relativos com
+// {{PREFIX}}. Por isso o campo "prefix" foi removido do PAGES e da lógica
+// de buildNav.
 
 const fs = require("fs");
 const path = require("path");
@@ -26,22 +32,20 @@ const MESES = [
 // Estados de menu ativo possíveis:
 //   "inicio" | "estante" | "historico-overview" | "historico-2026" |
 //   "desafio" | "blog" | "sobre" | null (nenhum ativo — ex: 404)
-//
-// prefix: "" para páginas na raiz, "../" para páginas dentro de /blog
 const PAGES = [
-  { file: "index.html", prefix: "", active: "inicio" },
-  { file: "estante.html", prefix: "", active: "estante" },
-  { file: "historico.html", prefix: "", active: "historico-overview" },
-  { file: "2026.html", prefix: "", active: "historico-2026" },
-  { file: "desafio.html", prefix: "", active: "desafio" },
-  { file: "sobre.html", prefix: "", active: "sobre" },
-  { file: "blog/index.html", prefix: "../", active: "blog" },
-  { file: "blog/como-escolhi-um-livro-por-pais-rota-1.html", prefix: "../", active: "blog" },
-  { file: "blog/desafio-livros-pelo-mundo.html", prefix: "../", active: "blog" },
-  { file: "blog/encontrando-escritores-e-montando-a-lista-por-pais-rota-2.html", prefix: "../", active: "blog" },
-  { file: "blog/os-paises-que-ja-li-e-minha-planilha-no-notion.html", prefix: "../", active: "blog" },
-  { file: "blog/resenha-a-guerra-nao-tem-rosto-de-mulher-svetlana-alexijevich.html", prefix: "../", active: "blog" },
-  { file: "blog/resenha-historias-cruzadas-entre-sobreviventes-svetlana-alexijevich.html", prefix: "../", active: "blog" },
+  { file: "index.html", active: "inicio" },
+  { file: "estante/index.html", active: "estante" },
+  { file: "historico/index.html", active: "historico-overview" },
+  { file: "2026/index.html", active: "historico-2026" },
+  { file: "desafio/index.html", active: "desafio" },
+  { file: "sobre/index.html", active: "sobre" },
+  { file: "blog/index.html", active: "blog" },
+  { file: "blog/como-escolhi-um-livro-por-pais-rota-1/index.html", active: "blog" },
+  { file: "blog/desafio-livros-pelo-mundo/index.html", active: "blog" },
+  { file: "blog/encontrando-escritores-e-montando-a-lista-por-pais-rota-2/index.html", active: "blog" },
+  { file: "blog/os-paises-que-ja-li-e-minha-planilha-no-notion/index.html", active: "blog" },
+  { file: "blog/resenha-a-guerra-nao-tem-rosto-de-mulher-svetlana-alexijevich/index.html", active: "blog" },
+  { file: "blog/resenha-historias-cruzadas-entre-sobreviventes-svetlana-alexijevich/index.html", active: "blog" },
 ];
 
 function ativo(padrao, comAriaCurrent = true) {
@@ -51,7 +55,6 @@ function ativo(padrao, comAriaCurrent = true) {
 function buildNav(navTemplate, page) {
   const a = page.active;
   let html = navTemplate;
-  html = html.replaceAll("{{PREFIX}}", page.prefix);
   html = html.replace("{{ACTIVE_INICIO}}", ativo(a === "inicio"));
   html = html.replace("{{ACTIVE_ESTANTE}}", ativo(a === "estante"));
   html = html.replace(
