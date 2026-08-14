@@ -5,11 +5,12 @@
  * Como funciona:
  *  1. Busca páginas com Status = "Pronto para publicar" na base Textos blog.
  *  2. Para cada uma, lê o conteúdo (blocos) da própria página do Notion.
- *  3. Clona blog/como-escolhi-um-livro-por-pais-rota-1.html (template canônico,
- *     ver Governança Blog) e substitui título, meta tags, JSON-LD, corpo do
- *     texto, tags e "Outras leituras".
- *  4. Escreve o HTML novo em blog/<slug>.html — NUNCA sobrescreve um arquivo
- *     que já existe (posts publicados não são reescritos por este script).
+ *  3. Clona blog/como-escolhi-um-livro-por-pais-rota-1/index.html (template
+ *     canônico, ver Governança Blog) e substitui título, meta tags, JSON-LD,
+ *     corpo do texto, tags e "Outras leituras".
+ *  4. Escreve o HTML novo em blog/<slug>/index.html — NUNCA sobrescreve um
+ *     arquivo que já existe (posts publicados não são reescritos por este
+ *     script). Formato de pasta desde a migração de URLs de 12/08/2026.
  *  5. Insere o card do post novo em blog/index.html (topo da grade) e
  *     atualiza o contador "textos publicados".
  *  6. Atualiza data/blog-posts.json (manifesto simples de todos os posts).
@@ -17,7 +18,7 @@
  *
  * Ciclo de vida do campo Status (base Textos blog, ver Governança Blog):
  *  - "Pronto para publicar" → gera o post pela primeira vez (passo 3 acima).
- *    Se blog/<slug>.html já existir, pula e avisa (nunca sobrescreve).
+ *    Se blog/<slug>/index.html já existir, pula e avisa (nunca sobrescreve).
  *  - "Atualizar"            → resincroniza um post JÁ publicado: corpo do
  *    texto, tags e tempo de leitura na PRÓPRIA página (não mexe em título/
  *    meta/JSON-LD). ALÉM DISSO, se o card não estiver em blog/index.html
@@ -28,8 +29,8 @@
  *    rascunho normal sendo escrito (nada a fazer). Se o arquivo JÁ existe
  *    (post publicado antes), este status OCULTA o post: remove o card de
  *    blog/index.html e a entrada de data/blog-posts.json, decrementa o
- *    contador "textos publicados", mas MANTÉM o arquivo blog/<slug>.html no
- *    ar (acessível por URL direta). Não publica nada novo nem sincroniza.
+ *    contador "textos publicados", mas MANTÉM o arquivo blog/<slug>/index.html
+ *    no ar (acessível por URL direta). Não publica nada novo nem sincroniza.
  *  - "Excluído"             → apaga de vez: arquivo, card e manifesto.
  *  - "Publicado"            → estado final, estático. NÃO é buscado por
  *    fetchReadyPages() — o script nunca olha pra páginas nesse status. Editar
@@ -62,11 +63,11 @@ const NOTION_VERSION = '2022-06-28';
 const REPO_ROOT = path.join(__dirname, '..');
 const BLOG_DIR = path.join(REPO_ROOT, 'blog');
 const INDEX_PATH = path.join(BLOG_DIR, 'index.html');
-const TEMPLATE_PATH = path.join(BLOG_DIR, 'como-escolhi-um-livro-por-pais-rota-1.html');
+const TEMPLATE_PATH = path.join(BLOG_DIR, 'como-escolhi-um-livro-por-pais-rota-1', 'index.html');
 const MANIFEST_PATH = path.join(REPO_ROOT, 'data', 'blog-posts.json');
 const SITE_BASE = 'https://vesiuol.github.io/vesiuol';
 
-// Valores exatos do template canônico (blog/como-escolhi-um-livro-por-pais-rota-1.html),
+// Valores exatos do template canônico (blog/como-escolhi-um-livro-por-pais-rota-1/index.html),
 // usados como "âncoras" para saber o que substituir. Se o template canônico mudar de
 // verdade (não só o texto do post, mas a estrutura do HTML), essas constantes precisam
 // ser atualizadas junto — ver Governança Blog > Padrão obrigatório.
@@ -240,7 +241,7 @@ function blocksToArticle(blocks, tags) {
       if (livroMatch) {
         const [, country, bookTitle, author] = livroMatch.map((s) => (s || '').trim());
         const countryHtml = isDesafioLpm
-          ? `<a class="book-country" href="../desafio.html?pais=${encodeURIComponent(country)}">${escapeHtml(country)}</a>`
+          ? `<a class="book-country" href="/vesiuol/desafio/?pais=${encodeURIComponent(country)}">${escapeHtml(country)}</a>`
           : `<span class="book-country">${escapeHtml(country)}</span>`;
         html += `<p class="book-subhead">${countryHtml}: <strong>${escapeHtml(bookTitle)}</strong><span class="book-author">${escapeHtml(author)}</span></p>\n`;
         continue;
@@ -248,7 +249,7 @@ function blocksToArticle(blocks, tags) {
       const imgMatch = text.match(/^\[IMAGEM:\s*([^\]]+)\]$/i);
       if (imgMatch) {
         const filename = imgMatch[1].trim();
-        html += `<figure>\n  <img src="../assets/img/blog/${escapeHtml(filename)}" alt="aguardando imagem enviada por Louise" onerror="this.src='https://placehold.co/900x500/c8d4b8/2f3a26?text=aguardando+imagem'">\n</figure>\n`;
+        html += `<figure>\n  <img src="/vesiuol/assets/img/blog/${escapeHtml(filename)}" alt="aguardando imagem enviada por Louise" onerror="this.src='https://placehold.co/900x500/c8d4b8/2f3a26?text=aguardando+imagem'">\n</figure>\n`;
         continue;
       }
       const legendaMatch = text.match(/^Legenda:\s*(.+)$/i);
@@ -287,14 +288,14 @@ function buildPostHtml(templateRaw, post, relatedCards) {
   let html = templateRaw;
   const newTitle = post.title;
   const newDesc = post.metaDescription;
-  const newUrl = `${SITE_BASE}/blog/${post.slug}.html`;
+  const newUrl = `${SITE_BASE}/blog/${post.slug}/`;
 
   // <title>
   html = html.replace(`<title>${OLD.title} — Biblioteca Vesiuol</title>`, `<title>${escapeHtml(newTitle)} — Biblioteca Vesiuol</title>`);
   // meta description / og:description / twitter:description (mesmo texto 3x no template)
   html = html.split(`content="${OLD.desc}"`).join(`content="${escapeHtml(newDesc)}"`);
   // canonical + og:url
-  html = html.split(`https://vesiuol.github.io/vesiuol/blog/${OLD.slug}.html`).join(newUrl);
+  html = html.split(`${SITE_BASE}/blog/${OLD.slug}/`).join(newUrl);
   // og:title / twitter:title (mesmo texto 2x, mais o <title> já trocado acima)
   html = html.split(`content="${OLD.title} — Biblioteca Vesiuol"`).join(`content="${escapeHtml(newTitle)} — Biblioteca Vesiuol"`);
   // JSON-LD: headline
@@ -309,11 +310,11 @@ function buildPostHtml(templateRaw, post, relatedCards) {
   // JSON-LD: image — se não tiver capa, remove a linha inteira
   if (post.coverFilename) {
     html = html.replace(
-      '"image": "https://vesiuol.github.io/vesiuol/images/blog/estruturando-rota-1-1.jpg",',
+      '"image": "https://vesiuol.github.io/vesiuol/assets/img/blog/estruturando-rota-1-1.jpg",',
       `"image": "${SITE_BASE}/assets/img/blog/${post.coverFilename}",`
     );
   } else {
-    html = html.replace(/\s*"image": "https:\/\/vesiuol\.github\.io\/vesiuol\/images\/blog\/estruturando-rota-1-1\.jpg",\n/, '\n');
+    html = html.replace(/\s*"image": "https:\/\/vesiuol\.github\.io\/vesiuol\/assets\/img\/blog\/estruturando-rota-1-1\.jpg",\n/, '\n');
   }
 
   // article-meta (data + tempo de leitura)
@@ -339,7 +340,7 @@ function buildPostHtml(templateRaw, post, relatedCards) {
   );
 
   // article-tags (tags normais, clicáveis) + tags extras (linha própria abaixo, não clicável)
-  const tagsHtml = post.tags.map((t) => `<a class="post-tag" href="index.html?tag=${encodeURIComponent(t)}">${escapeHtml(t)}</a>`).join('');
+  const tagsHtml = post.tags.map((t) => `<a class="post-tag" href="/vesiuol/blog/?tag=${encodeURIComponent(t)}">${escapeHtml(t)}</a>`).join('');
   const extraTagsHtml =
     post.extraTags && post.extraTags.length
       ? `\n    <div class="article-tags-extra">${post.extraTags.map((t) => `<span class="post-tag-extra">${escapeHtml(t)}</span>`).join('')}</div>`
@@ -352,7 +353,7 @@ function buildPostHtml(templateRaw, post, relatedCards) {
   // Outras leituras (posts-grid)
   const relatedHtml = relatedCards
     .map(
-      (r) => `        <a class="post-card" href="${r.slug}.html">
+      (r) => `        <a class="post-card" href="/vesiuol/blog/${r.slug}/">
           <div class="post-wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div></div>
           <div class="post-body">
             <h3 class="post-title">${escapeHtml(r.title)}</h3>
@@ -387,7 +388,7 @@ function updateArticleContent(existingHtml, post) {
     `<div class="article-body">\n${post.bodyHtml}\n</div>\n    <div class="article-tags">`
   );
 
-  const tagsHtml = post.tags.map((t) => `<a class="post-tag" href="index.html?tag=${encodeURIComponent(t)}">${escapeHtml(t)}</a>`).join('');
+  const tagsHtml = post.tags.map((t) => `<a class="post-tag" href="/vesiuol/blog/?tag=${encodeURIComponent(t)}">${escapeHtml(t)}</a>`).join('');
   const extraTagsHtml =
     post.extraTags && post.extraTags.length
       ? `\n    <div class="article-tags-extra">${post.extraTags.map((t) => `<span class="post-tag-extra">${escapeHtml(t)}</span>`).join('')}</div>`
@@ -411,7 +412,7 @@ function updateArticleContent(existingHtml, post) {
 // --- 4. Atualizar blog/index.html (card novo + contador) --------------------
 
 function insertCardIntoIndex(indexHtml, post) {
-  const newCard = `        <a class="post-card" href="${post.slug}.html">
+  const newCard = `        <a class="post-card" href="/vesiuol/blog/${post.slug}/">
           <div class="post-wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div></div>
           <div class="post-body">
             <h3 class="post-title">${escapeHtml(post.title)}</h3>
@@ -433,7 +434,7 @@ function insertCardIntoIndex(indexHtml, post) {
 // --- 4b. Ocultar / excluir um post já publicado ------------------------------
 
 function removeCardFromIndex(indexHtml, slug) {
-  const re = new RegExp(`\\s*<a class="post-card" href="${slug}\\.html">[\\s\\S]*?<\\/a>\\n?`);
+  const re = new RegExp(`\\s*<a class="post-card" href="/vesiuol/blog/${slug}/">[\\s\\S]*?<\\/a>\\n?`);
   let html = indexHtml.replace(re, '\n');
   if (html !== indexHtml) {
     html = html.replace(/(<div class="kpi-num">)(\d+)(<\/div>)/, (m, a, num, c) => `${a}${Math.max(0, parseInt(num, 10) - 1)}${c}`);
@@ -498,7 +499,7 @@ async function main() {
     const urlProp = props['URL'];
     const customUrl = urlProp?.url || (urlProp?.rich_text ? getPlainText(urlProp.rich_text) : '') || '';
     const slug = normalizeSlugField(customUrl, title);
-    const outPath = path.join(BLOG_DIR, `${slug}.html`);
+    const outPath = path.join(BLOG_DIR, slug, 'index.html');
     const status = props['Status']?.select?.name;
 
     // --- Excluído: apaga de vez (arquivo + card + manifesto) ---
@@ -516,7 +517,7 @@ async function main() {
       }
       removeFromManifest(slug);
       manifest = manifest.filter((p) => p.slug !== slug);
-      console.log(removedSomething ? `OK: "${title}" excluído (arquivo, card e manifesto removidos).` : `AVISO: "${title}" marcado como Excluído, mas não encontrei blog/${slug}.html nem card correspondente — talvez já tenha sido removido antes, ou o campo URL não bate com o nome do arquivo.`);
+      console.log(removedSomething ? `OK: "${title}" excluído (arquivo, card e manifesto removidos).` : `AVISO: "${title}" marcado como Excluído, mas não encontrei blog/${slug}/index.html nem card correspondente — talvez já tenha sido removido antes, ou o campo URL não bate com o nome do arquivo.`);
       continue;
     }
 
@@ -532,7 +533,7 @@ async function main() {
         fs.writeFileSync(INDEX_PATH, newIndexHtml, 'utf8');
         removeFromManifest(slug);
         manifest = manifest.filter((p) => p.slug !== slug);
-        console.log(`OK: "${title}" ocultado (card e manifesto removidos; o arquivo blog/${slug}.html continua no repositório, só não aparece mais listado).`);
+        console.log(`OK: "${title}" ocultado (card e manifesto removidos; o arquivo blog/${slug}/index.html continua no repositório, só não aparece mais listado).`);
       } else {
         console.log(`"${title}" já está como Rascunho e não tinha card na home — nada a fazer.`);
       }
@@ -556,10 +557,10 @@ async function main() {
 
     if (status === 'Atualizar') {
       if (!fs.existsSync(outPath)) {
-        console.log(`AVISO: Status "Atualizar" em "${title}", mas blog/${slug}.html não existe (campo URL lido como: "${customUrl}"). Preencha o campo URL com o nome exato do arquivo já publicado. Pulando.`);
+        console.log(`AVISO: Status "Atualizar" em "${title}", mas blog/${slug}/index.html não existe (campo URL lido como: "${customUrl}"). Preencha o campo URL com o nome exato do arquivo já publicado. Pulando.`);
         continue;
       }
-      console.log(`Sincronizando: ${title} -> blog/${slug}.html`);
+      console.log(`Sincronizando: ${title} -> blog/${slug}/index.html`);
       const existingHtml = fs.readFileSync(outPath, 'utf8');
       const updatedHtml = updateArticleContent(existingHtml, post);
       fs.writeFileSync(outPath, updatedHtml, 'utf8');
@@ -569,7 +570,7 @@ async function main() {
       // já foi ocultado antes), "Atualizar" também restaura os dois. Sem
       // isso, não existia nenhum jeito de tirar um post do estado "oculto".
       let indexHtml = fs.readFileSync(INDEX_PATH, 'utf8');
-      const cardExists = new RegExp(`<a class="post-card" href="${slug}\\.html">`).test(indexHtml);
+      const cardExists = new RegExp(`<a class="post-card" href="/vesiuol/blog/${slug}/">`).test(indexHtml);
       const inManifest = manifest.some((p) => p.slug === slug);
       let restored = false;
 
@@ -595,14 +596,15 @@ async function main() {
 
     // status === 'Pronto para publicar'
     if (fs.existsSync(outPath)) {
-      console.log(`AVISO: blog/${slug}.html já existe — pulando "${title}" pra não sobrescrever post publicado. Se a intenção era atualizar o texto, mude o Status pra "Atualizar" em vez de "Pronto para publicar".`);
+      console.log(`AVISO: blog/${slug}/index.html já existe — pulando "${title}" pra não sobrescrever post publicado. Se a intenção era atualizar o texto, mude o Status pra "Atualizar" em vez de "Pronto para publicar".`);
       continue;
     }
 
-    console.log(`Gerando: ${title} -> blog/${slug}.html`);
+    console.log(`Gerando: ${title} -> blog/${slug}/index.html`);
     // "Outras leituras" — por tag em comum (ver pickRelatedCards); sem match, mais recentes
     const relatedCards = pickRelatedCards(manifest, post);
     const finalHtml = buildPostHtml(templateRaw, post, relatedCards);
+    fs.mkdirSync(path.dirname(outPath), { recursive: true });
     fs.writeFileSync(outPath, finalHtml, 'utf8');
 
     let indexHtml = fs.readFileSync(INDEX_PATH, 'utf8');
