@@ -9,6 +9,7 @@ on:
       - "partials/**"
       - "scripts/sync-partials.js"
       - "index.html"
+      - "404.html"
       - "estante/index.html"
       - "historico/index.html"
       - "2026/index.html"
