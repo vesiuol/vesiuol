@@ -34,6 +34,7 @@ const MESES = [
 //   "desafio" | "blog" | "sobre" | null (nenhum ativo — ex: 404)
 const PAGES = [
   { file: "index.html", active: "inicio" },
+  { file: "404.html", active: null },
   { file: "estante/index.html", active: "estante" },
   { file: "historico/index.html", active: "historico-overview" },
   { file: "2026/index.html", active: "historico-2026" },
