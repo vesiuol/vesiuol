@@ -180,12 +180,6 @@ nav ul.open { display: flex; }
 
 /* KPI grid sidebar */
 .kpi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; }
-.kpi-card {
-  background: var(--white); border: 1.5px solid var(--border);
-  border-radius: 10px; padding: .85rem .8rem;
-  display: flex; flex-direction: column; gap: .25rem;
-  min-width: 0; overflow: hidden;
-}
 .kpi-card.accent { background: var(--green); border-color: var(--green-dark); grid-column: span 2; }
 .kpi-num {
   font-family: Georgia, serif;
@@ -375,7 +369,6 @@ footer {
      do fluxo aqui (o "hidden mas reservado" da governança vale só para desktop). */
   .sb-filtro-ano-oculto { display: none; }
   .kpi-grid { min-width: 0; }
-  .kpi-card { min-width: 0; overflow: hidden; }
   .charts-2col { grid-template-columns: 1fr; }
   .charts-2col [style*="grid-column"] { grid-column: 1 / -1 !important; }
   .div-cards { grid-template-columns: 1fr 1fr; }
