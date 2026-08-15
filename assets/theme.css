@@ -162,6 +162,16 @@
   .back-to-top{right:.9rem;bottom:.9rem;width:38px;height:38px;font-size:1rem;}
 }
 
+/* Card de KPI (número + rótulo) — usado em 2026.html, estante.html,
+   desafio.html, historico.html e blog/index.html. Antes desta migração,
+   5 declarações locais divergentes: 2026.html e estante.html não tinham
+   display:flex;flex-direction:column;gap:.25rem — desafio.html, historico.html
+   e blog/index.html tinham. Louise revisou lado a lado (2026-08-14) e decidiu
+   pelo padrão SEM flex-direction (2026.html/estante.html), removido das
+   outras 3 páginas nesta migração.
+   Decisão: Registro de Decisões, 2026-08-14 (Sincronização de Padrões, Fase 2). */
+.kpi-card{background:var(--white);border:1.5px solid var(--border);border-radius:10px;padding:.85rem .8rem;min-width:0;overflow:hidden;}
+
 /* Botão de paginação — usado em 2026.html, estante.html e desafio.html.
    Antes desta migração, as 3 páginas tinham cópias divergentes entre si
    (borda, duração de transição e centralização do número diferiam),
