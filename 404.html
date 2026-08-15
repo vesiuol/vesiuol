@@ -277,9 +277,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 }
 .nav-submenu li a:hover { background: var(--green); color: var(--white); }
 @media (max-width: 600px) {
-  .nav-dropdown { flex-direction: column; align-items: center; width: 100%; }
+  .nav-dropdown {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+  .nav-dropdown > a { flex: 0 0 auto; }
+  .nav-dropdown > .nav-caret { flex: 0 0 auto; }
   .nav-dropdown:hover .nav-submenu { display: none; }
   .nav-submenu {
+    flex: 0 0 100%;
     position: static;
     border: none; box-shadow: none;
     padding: .2rem 0 .4rem 0;
