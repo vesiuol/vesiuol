@@ -393,10 +393,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div>
       <div class="sb-label">Status atual</div>
       <div class="meta-stats">
-        <div class="meta-row"><span class="meta-lbl">Lidos</span><span class="meta-val highlight" id="st-lidos">—</span></div>
         <div class="meta-row"><span class="meta-lbl">Lendo agora</span><span class="meta-val" id="st-lendo">—</span></div>
         <div class="meta-row"><span class="meta-lbl">Não lidos</span><span class="meta-val" id="st-naolidos">—</span></div>
-        <div class="meta-row"><span class="meta-lbl">Gênero mais lido</span><span class="meta-val" id="st-genero" style="font-size:.85rem;">—</span></div>
       </div>
     </div>
 
@@ -809,13 +807,12 @@ async function init(){
     document.getElementById('prog-lidos-txt').textContent = lidos.length+' / '+totalMeta;
     setTimeout(()=>{ document.getElementById('prog-lidos-fill').style.width = Math.min(pctMeta,100)+'%'; }, 300);
 
-    document.getElementById('st-lidos').textContent = lidos.length;
     document.getElementById('st-lendo').textContent = lendo.length;
     document.getElementById('st-naolidos').textContent = naoLido.length;
 
     const gnObj = countField(lidos,'Gênero');
     const topGn = topN(gnObj,1)[0];
-    if(topGn){ document.getElementById('st-genero').textContent = topGn[0]; document.getElementById('pg-genero').textContent = topGn[0]; document.getElementById('pg-genero-sub').textContent = topGn[1]+' livros'; }
+    if(topGn){ document.getElementById('pg-genero').textContent = topGn[0]; document.getElementById('pg-genero-sub').textContent = topGn[1]+' livros'; }
 
     const gaObj = countField(lidos,'Se identifica como...');
     const topGa = topN(gaObj,1)[0];
