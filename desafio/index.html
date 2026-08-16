@@ -1012,11 +1012,13 @@ const PROXIES = [
   url => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url),
 ];
 
-const GREEN       = '#849974';
-const GREEN_DARK  = '#6b7e5e';
-const GREEN_LIGHT = '#c8d4b8';
-const DARK  = '#1a1a1a';
-const MUTED = '#555';
+const _cs = getComputedStyle(document.documentElement);
+const _cv = (name, fallback) => (_cs.getPropertyValue(name).trim() || fallback);
+const GREEN       = _cv('--green', '#6b7e5e');
+const GREEN_DARK  = _cv('--green-dark', '#57664c');
+const GREEN_LIGHT = _cv('--green-light', '#c8d4b8');
+const DARK  = _cv('--text', '#1a1a1a');
+const MUTED = _cv('--muted', '#555');
 const CORES = ['#7a9e7e','#c4a882','#6b8e9f','#b5835a','#8a9a5b','#9b7fa6','#4e7c5f','#c4855a','#7ba3a8','#a07850'];
 
 const REGIAO = {
