@@ -1,7 +1,7 @@
 :root {
   --white: #ffffff;
   --black: #000000;
-  --green: #6b7e5e;
+  --green: #647658;
   --green-dark: #57664c;
   --green-light: #c8d4b8;
   --border: #c8c8c8;
@@ -186,3 +186,24 @@
 .page-btn{width:28px;height:28px;border:1.5px solid var(--border-interactive);background:transparent;cursor:pointer;font-size:.8rem;border-radius:4px;transition:all .2s;display:flex;align-items:center;justify-content:center;}
 .page-btn.active{background:var(--green);color:var(--white);border-color:var(--green);}
 .page-btn:hover:not(.active){border-color:var(--green);}
+
+/* ── Correção Lighthouse 2026-08-16: contraste dos rótulos brancos sobre fundo --green ──
+   .stat-lbl (home) e .kpi-lbl dentro de .kpi-card.accent (2026/estante/historico/desafio)
+   usam opacidade reduzida (rgba .75/.8) definida dentro do <style> de cada página, com
+   contraste abaixo de 4.5:1. Como o <style> de cada página carrega DEPOIS deste arquivo,
+   o !important aqui é necessário para vencer sem precisar editar as 5 páginas. */
+.stat-lbl,
+.kpi-card.accent .kpi-lbl {
+  color: rgba(255,255,255,1) !important;
+}
+
+/* ── Correção Lighthouse 2026-08-16: touch target mínimo do .nav-caret (toggle do submenu) ──
+   Propriedades novas (não conflitam com o que já existe em cada página, por isso não
+   precisa de !important nem de editar as páginas individualmente). */
+.nav-caret {
+  min-width: 24px;
+  min-height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
