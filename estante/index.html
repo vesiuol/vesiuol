@@ -711,7 +711,9 @@ Chart.register(ChartDataLabels);
 
 const CSV_ESTANTE = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQWGv70Tc2vz-YUKxwU_0_H8F7UuHom1tCJQlE2Tfi8AMNem2c5X3WSs6z4CPjoTb2AaFKmJ8bihlPV/pub?gid=0&single=true&output=csv';
 
-const GREEN = '#849974', GREEN_LIGHT = '#c8d4b8', BLACK='#1a1a1a';
+const _cs = getComputedStyle(document.documentElement);
+const _cv = (name, fallback) => (_cs.getPropertyValue(name).trim() || fallback);
+const GREEN = _cv('--green', '#6b7e5e'), GREEN_LIGHT = _cv('--green-light', '#c8d4b8'), BLACK = _cv('--text', '#1a1a1a');
 const PALETTE = ['#7a9e7e','#c4a882','#6b8e9f','#b5835a','#8a9a5b','#9b7fa6','#4e7c5f','#c4855a','#7ba3a8','#a07850','#849974','#b09080'];
 
 const COORDS = {
@@ -1040,4 +1042,4 @@ document.getElementById("footer-ano").textContent = SITE_CONFIG.copyrightAno;
 </script>
 
 </body>
-                                    </html>
+  </html>
