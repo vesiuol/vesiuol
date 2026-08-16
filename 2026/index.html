@@ -644,7 +644,9 @@ const PROXIES = [
   url => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url),
 ];
 
-const GREEN='#849974', GREEN_DARK='#6b7e5e', GREEN_LIGHT='#c8d4b8', BLACK='#1a1a1a', MUTED='#555';
+const _cs = getComputedStyle(document.documentElement);
+const _cv = (name, fallback) => (_cs.getPropertyValue(name).trim() || fallback);
+const GREEN = _cv('--green', '#6b7e5e'), GREEN_DARK = _cv('--green-dark', '#57664c'), GREEN_LIGHT = _cv('--green-light', '#c8d4b8'), BLACK = _cv('--text', '#1a1a1a'), MUTED = _cv('--muted', '#555');
 
 const COORDS = {
   'Brasil':[-15.8,-47.9],'EUA':[37.1,-95.7],'Estados Unidos':[37.1,-95.7],'Reino Unido':[51.5,-0.1],'Japão':[35.7,139.7],'França':[46.2,2.2],'Canadá':[56.1,-106.3],'Argentina':[-34.6,-58.4],'Portugal':[38.7,-9.1],'Alemanha':[52.5,13.4],'Espanha':[40.4,-3.7],'Itália':[41.9,12.5],'México':[19.4,-99.1],'Colômbia':[4.7,-74.1],'Chile':[-33.4,-70.6],'Índia':[28.6,77.2],'China':[39.9,116.4],'Rússia':[55.8,37.6],'Austrália':[-35.3,149.1],'Nigéria':[9.1,7.5],'África do Sul':[-25.7,28.2],'Noruega':[59.9,10.7],'Holanda':[52.4,4.9],'Cuba':[23.1,-82.4],'Suécia':[59.3,18.1],'Irlanda':[53.3,-6.3],'Grécia':[37.9,23.7],'Polônia':[52.2,21.0],'Turquia':[39.9,32.9],'Egito':[30.1,31.2],'Marrocos':[34.0,-6.8],'Coreia do Sul':[37.6,127.0],'Indonésia':[-6.2,106.8],'Suíça':[46.8,8.2],'Áustria':[48.2,16.4],'Bélgica':[50.8,4.4],'República Tcheca':[50.1,14.4],
@@ -1033,4 +1035,4 @@ document.getElementById("footer-ano").textContent = SITE_CONFIG.copyrightAno;
 </script>
 
 </body>
-  </html>
+</html>
