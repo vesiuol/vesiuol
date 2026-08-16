@@ -1,3 +1,13 @@
+// Troca o content="" de uma <meta> específica, localizando-a por um atributo
+// âncora (name="description", property="og:title" etc.), sem depender da
+// ordem dos atributos nem do valor antigo do content.
+function setMetaContent(html, anchorAttrRegex, newValue) {
+  const tagRegex = new RegExp(`<meta[^>]*${anchorAttrRegex.source}[^>]*>`, 'i');
+  return html.replace(tagRegex, (fullTag) =>
+    fullTag.replace(/content="[^"]*"/, `content="${escapeHtml(newValue)}"`)
+  );
+}
+
 // --- 3b. Atualizar (re-sincronizar) um post JÁ PUBLICADO ---------------------
 // Sincroniza corpo do texto, tags, tempo de leitura E (desde 2026-08-16, ver
 // Registro de Decisões) título/meta/JSON-LD. A URL do post (nome do arquivo,
