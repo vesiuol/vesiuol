@@ -1,0 +1,22 @@
+name: Atualizar dados da ESTANTE
+
+on:
+  schedule:
+    - cron: '0 11 * * *'   # todo dia às 11h UTC (~8h Brasília), depois do Desafio e das Leituras
+  workflow_dispatch:        # permite rodar manualmente pelo botão
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: node scripts/fetch-estante.js
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/estante.json
+          git diff --staged --quiet || git commit -m "Atualiza dados da ESTANTE"
+          git push
