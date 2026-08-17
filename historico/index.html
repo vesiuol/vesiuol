@@ -40,7 +40,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<!-- CSS do Leaflet carregado sob demanda via loadCSS() (Governança Lighthouse Nível 4, Fase A) -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -716,16 +716,57 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="footer-dots">
     <div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div>
   </div>
-  <span class="footer-text"><span id="footer-autora"></span>&nbsp;&nbsp;|&nbsp;&nbsp;© <span id="footer-ano"></span>&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">16 de agosto de 2026</span></span>
+  <span class="footer-text"><span id="footer-autora"></span>&nbsp;&nbsp;|&nbsp;&nbsp;© <span id="footer-ano"></span>&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">17 de agosto de 2026</span></span>
 </footer>
 <!-- FOOTER:END -->
 
-<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-Chart.register(ChartDataLabels);
+// ── Governança Lighthouse — Nível 4, Fase A (lazy-load) ──
+// Chart.js, chartjs-plugin-datalabels e Leaflet só são baixados/executados quando as
+// seções que os usam (gráficos, mapa) chegam perto da viewport. Reduz JS não usado e
+// TBT no carregamento inicial, já que o Lighthouse não simula scroll do usuário.
+// Mesmo padrão já aplicado em /vesiuol/estante/.
+function loadScript(src){
+  return new Promise((resolve, reject)=>{
+    const s = document.createElement('script');
+    s.src = src; s.onload = resolve; s.onerror = reject;
+    document.body.appendChild(s);
+  });
+}
+function loadCSS(href){
+  return new Promise((resolve, reject)=>{
+    const l = document.createElement('link');
+    l.rel = 'stylesheet'; l.href = href; l.onload = resolve; l.onerror = reject;
+    document.head.appendChild(l);
+  });
+}
+let _chartJsPromise = null;
+function ensureChartJs(){
+  if(!_chartJsPromise){
+    _chartJsPromise = loadScript('https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js')
+      .then(()=>loadScript('https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js'))
+      .then(()=>{ Chart.register(ChartDataLabels); });
+  }
+  return _chartJsPromise;
+}
+let _leafletPromise = null;
+function ensureLeaflet(){
+  if(!_leafletPromise){
+    _leafletPromise = Promise.all([
+      loadCSS('https://unpkg.com/leaflet@1.9.4/dist/leaflet.css'),
+      loadScript('https://unpkg.com/leaflet@1.9.4/dist/leaflet.js')
+    ]);
+  }
+  return _leafletPromise;
+}
+// PapaParse só é baixado (lazy) se o cache local não existir ou falhar.
+let _papaPromise = null;
+function ensurePapaParse(){
+  if(!_papaPromise){
+    _papaPromise = loadScript('https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js');
+  }
+  return _papaPromise;
+}
 
 const PROXY   = 'https://corsproxy.io/?url=';
 const BASE    = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2QAOcSRlo1kTRVWZTyqeixEf0JMmT4m3T4sy4kZ_NQbYhtDPACquiTdb2bXQ76mVNnv1dBJQ2SNK/pub';
@@ -800,7 +841,10 @@ function accessibleChart(canvasId, caption, labels, data, fmtFn) {
   canvas.setAttribute('aria-describedby', tableId);
 }
 
-function fetchCSV(url) {
+// Governança Lighthouse Nível 4, Fase A: PapaParse só é baixado (lazy) na hora de processar
+// o CSV, junto com Chart.js/Leaflet sob demanda — mesmo padrão já aplicado em /vesiuol/estante/.
+async function fetchCSV(url) {
+  await ensurePapaParse();
   return fetch(url)
     .then(r => { if (!r.ok) throw new Error('HTTP '+r.status); return r.text(); })
     .then(t  => Papa.parse(t.replace(/^\uFEFF/,''), {header:true, skipEmptyLines:true}).data)
@@ -1068,9 +1112,6 @@ async function init() {
   VIS = await fetchCSV(URL_VIS);
   set('loading-note','');
   buildSidebarKPIs();
-  buildGerais();
-  buildDiversidade();
-  buildMap();
   buildFilters();
   renderAno('todos');
 }
@@ -1284,20 +1325,59 @@ function renderAno(ano) {
   syncRankHeights('ac-generos-wrap', 'ac-paises-ano-wrap', glE.length, pE.length);
 
   const notaD = subVals(CAT_NOTAS, aFiltro);
-  (function(){
-    const el=document.getElementById('ac-stars'); if(!el) return;
-    const data = CAT_NOTAS.map(k=>notaD[k]||0);
-    anoCharts.stars = new Chart(el,{type:'line',
-      data:{labels:CAT_NOTAS,datasets:[{data,borderColor:GREEN,backgroundColor:GREEN+'22',
-        borderWidth:2.5,pointRadius:5,pointBackgroundColor:GREEN,fill:true,tension:.35}]},
-      options:{maintainAspectRatio:false,layout:{padding:{top:22}},
-        plugins:{legend:{display:false},datalabels:{display:ctx=>ctx.dataset.data[ctx.dataIndex]>0,
-          anchor:'end',align:'top',color:BLACK,font:{family:'DM Sans',size:10,weight:'500'},
-          formatter:v=>v>0?v:'',clamp:true}},
-        scales:SC}});
-    accessibleChart('ac-stars', 'Distribuição de avaliações por nota (estrelas)'+(isAll?'':' — '+ano), CAT_NOTAS, data);
-  })();
+  pendingStarsArgs = {notaD, isAll, ano};
+  if(_chartLibsReady){
+    buildAnoStarsChart(pendingStarsArgs);
+  } else {
+    const el = document.getElementById('ac-stars');
+    if(el) chartsObs.observe(el);
+  }
 }
+
+function buildAnoStarsChart({notaD, isAll, ano}){
+  const el=document.getElementById('ac-stars'); if(!el) return;
+  const data = CAT_NOTAS.map(k=>notaD[k]||0);
+  anoCharts.stars = new Chart(el,{type:'line',
+    data:{labels:CAT_NOTAS,datasets:[{data,borderColor:GREEN,backgroundColor:GREEN+'22',
+      borderWidth:2.5,pointRadius:5,pointBackgroundColor:GREEN,fill:true,tension:.35}]},
+    options:{maintainAspectRatio:false,layout:{padding:{top:22}},
+      plugins:{legend:{display:false},datalabels:{display:ctx=>ctx.dataset.data[ctx.dataIndex]>0,
+        anchor:'end',align:'top',color:BLACK,font:{family:'DM Sans',size:10,weight:'500'},
+        formatter:v=>v>0?v:'',clamp:true}},
+      scales:SC}});
+  accessibleChart('ac-stars', 'Distribuição de avaliações por nota (estrelas)'+(isAll?'':' — '+ano), CAT_NOTAS, data);
+}
+
+// Governança Lighthouse Nível 4, Fase A: observers que disparam o carregamento das libs
+// pesadas só quando as seções correspondentes chegam perto da viewport. Mesmo padrão de /vesiuol/estante/.
+let _chartLibsReady = false, pendingStarsArgs = null;
+const chartsObs = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      chartsObs.disconnect();
+      ensureChartJs().then(()=>{
+        _chartLibsReady = true;
+        buildGerais();
+        buildDiversidade();
+        if(pendingStarsArgs) buildAnoStarsChart(pendingStarsArgs);
+      });
+    }
+  });
+}, {rootMargin:'400px 0px'});
+
+const mapObs = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      mapObs.disconnect();
+      ensureLeaflet().then(()=>{ buildMap(); });
+    }
+  });
+}, {rootMargin:'400px 0px'});
+
+const _cAnosCanvas = document.getElementById('c-anos');
+if(_cAnosCanvas) chartsObs.observe(_cAnosCanvas);
+const _histMapEl = document.getElementById('hist-map');
+if(_histMapEl) mapObs.observe(_histMapEl);
 
 init();
 </script>
