@@ -1,0 +1,21 @@
+# Biblioteca Vesiuol
+
+> Site pessoal de leitura de Louise Victoria (Lo): um arquivo literário que transforma anos de registros de leitura em painéis, gráficos e histórias navegáveis. Documenta também o Desafio Livros pelo Mundo — a meta de ler um livro de cada um dos 209 países do mundo.
+
+Biblioteca Vesiuol é mantida por uma pessoa, atualizada com dados reais de leitura (não gerados por IA), e publicada como site estático via GitHub Pages. Os gráficos e números refletem o histórico de leitura pessoal da autora desde 2013.
+
+## Páginas principais
+
+- [Início](https://vesiuol.github.io/vesiuol/): KPIs gerais — livros lidos, páginas, autores, países e idiomas.
+- [Estante](https://vesiuol.github.io/vesiuol/estante/): todos os livros lidos desde 2020, com filtros e gráficos por gênero, formato, faixa etária e diversidade de autoria.
+- [2026](https://vesiuol.github.io/vesiuol/2026/): leituras do ano corrente, atualizadas automaticamente.
+- [Histórico](https://vesiuol.github.io/vesiuol/historico/): evolução ano a ano das leituras desde 2013.
+- [Desafio Livros pelo Mundo](https://vesiuol.github.io/vesiuol/desafio/): mapa e tabela dos 209 países do mundo, com status de leitura por país.
+- [Sobre](https://vesiuol.github.io/vesiuol/sobre/): apresentação da autora e a história por trás do projeto.
+- [Blog](https://vesiuol.github.io/vesiuol/blog/): textos e resenhas sobre o processo de leitura e o Desafio Livros pelo Mundo.
+
+## Observações
+
+- Os dados de leitura vêm de planilhas do Google Sheets e de uma base do Notion, preenchidas manualmente pela autora, e são publicados como snapshots estáticos via GitHub Actions.
+- O site não oferece API pública nem ferramentas acionáveis por agentes (sem WebMCP); é um site de conteúdo/leitura, não uma aplicação transacional.
+- Todo o conteúdo é de autoria de Louise Victoria e reflete experiências pessoais de leitura.
