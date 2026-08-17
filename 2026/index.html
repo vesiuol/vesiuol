@@ -81,7 +81,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   ]
 }
 </script>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<!-- CSS do Leaflet carregado sob demanda via loadCSS() (Governança Lighthouse Nível 4, Fase A) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -615,16 +615,57 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="footer-dots">
     <div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div>
   </div>
-  <span class="footer-text"><span id="footer-autora"></span>&nbsp;&nbsp;|&nbsp;&nbsp;© <span id="footer-ano"></span>&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">16 de agosto de 2026</span></span>
+  <span class="footer-text"><span id="footer-autora"></span>&nbsp;&nbsp;|&nbsp;&nbsp;© <span id="footer-ano"></span>&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">17 de agosto de 2026</span></span>
 </footer>
 <!-- FOOTER:END -->
 
-<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-Chart.register(ChartDataLabels);
+// ── Governança Lighthouse — Nível 4, Fase A (lazy-load) ──
+// Chart.js, chartjs-plugin-datalabels, Leaflet e PapaParse só são baixados/executados quando
+// necessário (gráfico/mapa perto da viewport). Reduz JS não usado e TBT no carregamento
+// inicial. Mesmo padrão já aplicado em /vesiuol/estante/, /vesiuol/historico/ e /vesiuol/desafio/.
+function loadScript(src){
+  return new Promise((resolve, reject)=>{
+    const s = document.createElement('script');
+    s.src = src; s.onload = resolve; s.onerror = reject;
+    document.body.appendChild(s);
+  });
+}
+function loadCSS(href){
+  return new Promise((resolve, reject)=>{
+    const l = document.createElement('link');
+    l.rel = 'stylesheet'; l.href = href; l.onload = resolve; l.onerror = reject;
+    document.head.appendChild(l);
+  });
+}
+let _chartJsPromise = null;
+function ensureChartJs(){
+  if(!_chartJsPromise){
+    _chartJsPromise = loadScript('https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js')
+      .then(()=>loadScript('https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js'))
+      .then(()=>{ Chart.register(ChartDataLabels); });
+  }
+  return _chartJsPromise;
+}
+let _leafletPromise = null;
+function ensureLeaflet(){
+  if(!_leafletPromise){
+    _leafletPromise = Promise.all([
+      loadCSS('https://unpkg.com/leaflet@1.9.4/dist/leaflet.css'),
+      loadScript('https://unpkg.com/leaflet@1.9.4/dist/leaflet.js')
+    ]);
+  }
+  return _leafletPromise;
+}
+let _papaPromise = null;
+function ensurePapaParse(){
+  if(!_papaPromise){
+    _papaPromise = loadScript('https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js');
+  }
+  return _papaPromise;
+}
+let _dataReadyResolve;
+const dataReadyPromise = new Promise(res=>{ _dataReadyResolve = res; });
 
 // ── FONTE DE DADOS ──────────────────────────────────────────────────────
 // A página agora lê um CSV LOCAL (data/2026.csv), que fica no mesmo
@@ -679,7 +720,8 @@ function formatHorasMin(v){
 
 let dataLoadFailed = false;
 
-function parseCSVText(t){
+async function parseCSVText(t){
+  await ensurePapaParse();
   const clean = t.replace(/^\uFEFF/,'');
   const parsed = Papa.parse(clean, {header:true, skipEmptyLines:'greedy'});
   const headers = parsed.meta && parsed.meta.fields ? parsed.meta.fields : [];
@@ -697,7 +739,7 @@ async function fetchCSV(targetUrl){
     const r = await fetch(localUrl, {cache:'no-store'});
     if(r.ok){
       const t = await r.text();
-      const data = parseCSVText(t);
+      const data = await parseCSVText(t);
       if(data && data.length){
         console.log('Dados carregados do arquivo local data/2026.csv');
         return data;
@@ -717,7 +759,7 @@ async function fetchCSV(targetUrl){
       const r = await fetch(proxied);
       if(!r.ok) throw new Error('HTTP '+r.status+' via '+proxied);
       const t = await r.text();
-      const data = parseCSVText(t);
+      const data = await parseCSVText(t);
       if(!data){
         console.warn('CSV inesperado via', proxied, '— tentando próximo.');
         continue;
@@ -859,51 +901,53 @@ async function init(){
     buildRank('rank-faixa',   fxObj, 999);
     buildRank('rank-serie',   countField(lidos,'Série ou único?'), 999);
 
-    const notasLabels=['1','1,5','2','2,5','3','3,5','4','4,5','5'];
-    const notasVals=new Array(notasLabels.length).fill(0);
-    lidos.forEach(b=>{
-      const n=parseFloat((b['NOTA']||'').replace(',','.'));
-      if(n>=1&&n<=5){
-        const key=(n%1===0)?String(n):String(n).replace('.',',');
-        const idx=notasLabels.indexOf(key);
-        if(idx>-1) notasVals[idx]++;
-      }
-    });
-    const notasEl=document.getElementById('c-notas-2026');
-    if(notasEl){
-      new Chart(notasEl,{type:'line',
-        data:{labels:notasLabels,datasets:[{data:notasVals,borderColor:GREEN,backgroundColor:GREEN+'22',
-          borderWidth:2.5,pointRadius:5,pointBackgroundColor:GREEN,fill:true,tension:.35}]},
-        options:{maintainAspectRatio:false,layout:{padding:{top:22}},
-          plugins:{legend:{display:false},datalabels:{display:ctx=>ctx.dataset.data[ctx.dataIndex]>0,
-            anchor:'end',align:'top',color:BLACK,font:{family:'DM Sans',size:10,weight:'500'},
-            formatter:v=>v>0?v:'',clamp:true}},
-          scales:{
-            x:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:MUTED},border:{display:false}},
-            y:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:MUTED},border:{display:false},beginAtZero:true}
-          }}});
-      /* ── ACESSIBILIDADE: tabela sr-only de apoio ao gráfico (mesmo padrão de /vesiuol/historico/) ──
-         Não altera nada visual: só injeta uma tabela oculta visualmente, acessível a leitor de tela,
-         logo após o canvas, com os mesmos dados usados pra desenhar o gráfico. */
-      (function accessibleChart(canvasId, caption, labels, data){
-        const canvas=document.getElementById(canvasId); if(!canvas) return;
-        const summary=labels.map((l,i)=>`${l}: ${data[i]}`).join(', ');
-        canvas.setAttribute('role','img');
-        canvas.setAttribute('aria-label', canvas.getAttribute('aria-label') || (caption+'. '+summary));
-        const tableId=canvasId+'-table';
-        const existing=document.getElementById(tableId); if(existing) existing.remove();
-        const table=document.createElement('table');
-        table.id=tableId; table.className='sr-only';
-        table.innerHTML=`<caption>${caption}</caption><thead><tr><th scope="col">Nota</th><th scope="col">Quantidade de livros</th></tr></thead><tbody>${
-          labels.map((l,i)=>`<tr><td>${l}</td><td>${data[i]}</td></tr>`).join('')
-        }</tbody></table>`;
-        canvas.insertAdjacentElement('afterend', table);
-        canvas.setAttribute('aria-describedby', tableId);
-      })('c-notas-2026', 'Distribuição de avaliações por nota (estrelas), 2026', notasLabels, notasVals);
+function buildNotasChart(lidos){
+  const notasLabels=['1','1,5','2','2,5','3','3,5','4','4,5','5'];
+  const notasVals=new Array(notasLabels.length).fill(0);
+  lidos.forEach(b=>{
+    const n=parseFloat((b['NOTA']||'').replace(',','.'));
+    if(n>=1&&n<=5){
+      const key=(n%1===0)?String(n):String(n).replace('.',',');
+      const idx=notasLabels.indexOf(key);
+      if(idx>-1) notasVals[idx]++;
     }
+  });
+  const notasEl=document.getElementById('c-notas-2026');
+  if(notasEl){
+    new Chart(notasEl,{type:'line',
+      data:{labels:notasLabels,datasets:[{data:notasVals,borderColor:GREEN,backgroundColor:GREEN+'22',
+        borderWidth:2.5,pointRadius:5,pointBackgroundColor:GREEN,fill:true,tension:.35}]},
+      options:{maintainAspectRatio:false,layout:{padding:{top:22}},
+        plugins:{legend:{display:false},datalabels:{display:ctx=>ctx.dataset.data[ctx.dataIndex]>0,
+          anchor:'end',align:'top',color:BLACK,font:{family:'DM Sans',size:10,weight:'500'},
+          formatter:v=>v>0?v:'',clamp:true}},
+        scales:{
+          x:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:MUTED},border:{display:false}},
+          y:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:MUTED},border:{display:false},beginAtZero:true}
+        }}});
+    /* ── ACESSIBILIDADE: tabela sr-only de apoio ao gráfico (mesmo padrão de /vesiuol/historico/) ──
+       Não altera nada visual: só injeta uma tabela oculta visualmente, acessível a leitor de tela,
+       logo após o canvas, com os mesmos dados usados pra desenhar o gráfico. */
+    (function accessibleChart(canvasId, caption, labels, data){
+      const canvas=document.getElementById(canvasId); if(!canvas) return;
+      const summary=labels.map((l,i)=>`${l}: ${data[i]}`).join(', ');
+      canvas.setAttribute('role','img');
+      canvas.setAttribute('aria-label', canvas.getAttribute('aria-label') || (caption+'. '+summary));
+      const tableId=canvasId+'-table';
+      const existing=document.getElementById(tableId); if(existing) existing.remove();
+      const table=document.createElement('table');
+      table.id=tableId; table.className='sr-only';
+      table.innerHTML=`<caption>${caption}</caption><thead><tr><th scope="col">Nota</th><th scope="col">Quantidade de livros</th></tr></thead><tbody>${
+        labels.map((l,i)=>`<tr><td>${l}</td><td>${data[i]}</td></tr>`).join('')
+      }</tbody></table>`;
+      canvas.insertAdjacentElement('afterend', table);
+      canvas.setAttribute('aria-describedby', tableId);
+    })('c-notas-2026', 'Distribuição de avaliações por nota (estrelas), 2026', notasLabels, notasVals);
+  }
+}
 
-    buildMap(lidos);
     document.getElementById('mapa-sub').textContent = paises+' país'+(paises!==1?'es':'')+' · '+lidos.length+' livros';
+    _dataReadyResolve(lidos);
 
     buildFilters();
     filtered=[...allRows];
@@ -1010,6 +1054,36 @@ function renderTable(){
     pag.appendChild(btn);
   }
 }
+
+// Governança Lighthouse Nível 4, Fase A: observers que disparam o carregamento das libs
+// pesadas só quando as seções correspondentes chegam perto da viewport. Mesmo padrão de
+// /vesiuol/estante/, /vesiuol/historico/ e /vesiuol/desafio/.
+const chartsObs = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      chartsObs.disconnect();
+      Promise.all([ensureChartJs(), dataReadyPromise]).then(([_, lidos])=>{
+        buildNotasChart(lidos);
+      });
+    }
+  });
+}, {rootMargin:'400px 0px'});
+
+const mapObs = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      mapObs.disconnect();
+      Promise.all([ensureLeaflet(), dataReadyPromise]).then(([_, lidos])=>{
+        buildMap(lidos);
+      });
+    }
+  });
+}, {rootMargin:'400px 0px'});
+
+const _notasChartEl = document.getElementById('c-notas-2026');
+if(_notasChartEl) chartsObs.observe(_notasChartEl);
+const _mapa2026El = document.getElementById('map-2026');
+if(_mapa2026El) mapObs.observe(_mapa2026El);
 
 init();
 </script>
