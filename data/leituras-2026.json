@@ -951,6 +951,31 @@
   },
   {
     "_col0": "",
+    "Título": "Os Relógios",
+    "Páginas": "253",
+    "Horas": "00:00:00.00",
+    "Gênero": "Investigação",
+    "Faixa etária": "Adulto",
+    "Formato": "Brochura",
+    "Editora": "Record",
+    "Idioma": "Português",
+    "Série ou único?": "Livro único",
+    "Por que li?": "Diversão",
+    "Origem do livro?": "Estava na estante",
+    "Como conheci?": "Já conhecia autore",
+    "Nome": "Agatha Chrstie",
+    "País": "EUA",
+    "Cor": "Branco",
+    "Se identifica como...": "Feminino",
+    "Primeira vez lendo autore": "FALSE",
+    "Protagonista LGBTQ+": "FALSE",
+    "Diversidade etnica/racial": "FALSE",
+    "#OwnVoices?": "FALSE",
+    "NOTA": "3,5",
+    "LIDO": "LIDO"
+  },
+  {
+    "_col0": "",
     "Título": "Se deus me chamar não vou",
     "Páginas": "",
     "Horas": "01:36:00",
@@ -1201,8 +1226,8 @@
   },
   {
     "_col0": "",
-    "Título": "47",
-    "Páginas": "8.845",
+    "Título": "48",
+    "Páginas": "9.098",
     "Horas": "93:06:00",
     "Gênero": "(gráfico)",
     "Faixa etária": "(gráfico)",
@@ -1222,6 +1247,6 @@
     "Diversidade etnica/racial": "(resumo)",
     "#OwnVoices?": "(resumo)",
     "NOTA": "(gráfico)",
-    "LIDO": "35"
+    "LIDO": "36"
   }
 ]
