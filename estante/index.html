@@ -701,7 +701,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </footer>
 <!-- FOOTER:END -->
 
-<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 <script>
 // ── Governança Lighthouse — Nível 4, Fase A (lazy-load) ──
 // Chart.js, chartjs-plugin-datalabels e Leaflet só são baixados/executados quando as
@@ -757,7 +756,33 @@ const COORDS = {
 function norm(s){ return (s||'').trim().toLowerCase(); }
 function isTrue(v){ const s=norm(v||''); return ['sim','yes','true','1','✓','x','verdadeiro'].includes(s); }
 function isDataRow(b){ const t=norm(b['Livros']||b[Object.keys(b)[0]]||''); if(!t) return false; if(t.includes('(resumo)')||t.includes('(gráfico)')||t.includes('(grafico)')) return false; return true; }
-function fetchCSV(url){ return new Promise((res,rej)=>{ Papa.parse(url,{download:true,header:true,skipEmptyLines:true,complete:r=>res(r.data),error:rej}); }); }
+// Governança Lighthouse Nível 4, Fase A: cache local via GitHub Actions (data/estante.json).
+// PapaParse só é baixado (lazy) se o cache local não existir ou falhar — reduz JS carregado
+// no caminho comum, além do carregamento sob demanda de Chart.js/Leaflet já implementado.
+let _papaPromise = null;
+function ensurePapaParse(){
+  if(!_papaPromise){
+    _papaPromise = loadScript('https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js');
+  }
+  return _papaPromise;
+}
+async function fetchBooksLocal(){
+  const res = await fetch('/vesiuol/data/estante.json');
+  if(!res.ok) throw new Error('cache local indisponível (' + res.status + ')');
+  return await res.json();
+}
+async function fetchBooksLive(url){
+  await ensurePapaParse();
+  return new Promise((res,rej)=>{ Papa.parse(url,{download:true,header:true,skipEmptyLines:true,complete:r=>res(r.data),error:rej}); });
+}
+async function fetchBooks(){
+  try{
+    return await fetchBooksLocal();
+  } catch(e){
+    console.warn('Estante: cache local indisponível, buscando direto da planilha —', e.message);
+    return await fetchBooksLive(CSV_ESTANTE);
+  }
+}
 
 function countField(arr, key){
   const c={};
@@ -910,7 +935,7 @@ const PER=20;
 let allBooks=[], filtered=[], activeTag='', page=1;
 
 async function init(){
-  try{ allBooks=await fetchCSV(CSV_ESTANTE); } catch(e){ console.error(e); ['s-total','s-lidos','s-paginas','s-autores','s-paises','s-idiomas'].forEach(id=>{const el=document.getElementById(id); if(el) el.classList.remove('skeleton');}); return; }
+  try{ allBooks=await fetchBooks(); } catch(e){ console.error(e); ['s-total','s-lidos','s-paginas','s-autores','s-paises','s-idiomas'].forEach(id=>{const el=document.getElementById(id); if(el) el.classList.remove('skeleton');}); return; }
   allBooks=allBooks.filter(isDataRow);
   detectTagColumns(allBooks);
 
