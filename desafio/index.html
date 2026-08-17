@@ -66,7 +66,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<!-- CSS do Leaflet carregado sob demanda via loadCSS() (Governança Lighthouse Nível 4, Fase A) -->
 <link rel="stylesheet" href="/vesiuol/assets/theme.css">
 <style>
 /* ── TOKENS (governança) ── */
@@ -982,16 +982,59 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="footer-dots">
     <div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div>
   </div>
-  <span class="footer-text"><span id="footer-autora"></span>&nbsp;&nbsp;|&nbsp;&nbsp;© <span id="footer-ano"></span>&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">16 de agosto de 2026</span></span>
+  <span class="footer-text"><span id="footer-autora"></span>&nbsp;&nbsp;|&nbsp;&nbsp;© <span id="footer-ano"></span>&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">17 de agosto de 2026</span></span>
 </footer>
 <!-- FOOTER:END -->
 
-<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-Chart.register(ChartDataLabels);
+// ── Governança Lighthouse — Nível 4, Fase A (lazy-load) ──
+// Chart.js, chartjs-plugin-datalabels, Leaflet e PapaParse só são baixados/executados quando
+// necessário (gráficos/mapa perto da viewport). Reduz JS não usado e TBT no carregamento
+// inicial. Mesmo padrão já aplicado em /vesiuol/estante/ e /vesiuol/historico/.
+function loadScript(src){
+  return new Promise((resolve, reject)=>{
+    const s = document.createElement('script');
+    s.src = src; s.onload = resolve; s.onerror = reject;
+    document.body.appendChild(s);
+  });
+}
+function loadCSS(href){
+  return new Promise((resolve, reject)=>{
+    const l = document.createElement('link');
+    l.rel = 'stylesheet'; l.href = href; l.onload = resolve; l.onerror = reject;
+    document.head.appendChild(l);
+  });
+}
+let _chartJsPromise = null;
+function ensureChartJs(){
+  if(!_chartJsPromise){
+    _chartJsPromise = loadScript('https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js')
+      .then(()=>loadScript('https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js'))
+      .then(()=>{ Chart.register(ChartDataLabels); });
+  }
+  return _chartJsPromise;
+}
+let _leafletPromise = null;
+function ensureLeaflet(){
+  if(!_leafletPromise){
+    _leafletPromise = Promise.all([
+      loadCSS('https://unpkg.com/leaflet@1.9.4/dist/leaflet.css'),
+      loadScript('https://unpkg.com/leaflet@1.9.4/dist/leaflet.js')
+    ]);
+  }
+  return _leafletPromise;
+}
+let _papaPromise = null;
+function ensurePapaParse(){
+  if(!_papaPromise){
+    _papaPromise = loadScript('https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js');
+  }
+  return _papaPromise;
+}
+let _dataReadyResolve;
+const dataReadyPromise = new Promise(res=>{ _dataReadyResolve = res; });
+let _notionReadyResolve;
+const notionReadyPromise = new Promise(res=>{ _notionReadyResolve = res; });
 
 /* Fonte única e centralizada do Desafio LPM (Planilha A, aba DESAFIO, gid=524970956).
    Decisão Governança 2026-07-19: substitui o antigo fetch triplo (CSV_2024 + CSV_2025 + CSV_DESAFIO,
@@ -1050,7 +1093,8 @@ const COORDS = {
 };
 
 function norm(s){ return (s||'').trim().toLowerCase(); }
-function parseCSVText(t){
+async function parseCSVText(t){
+  await ensurePapaParse();
   const clean = t.replace(/^\uFEFF/,'');
   const parsed = Papa.parse(clean, {header:true, skipEmptyLines:'greedy'});
   const headers = parsed.meta && parsed.meta.fields ? parsed.meta.fields : [];
@@ -1065,7 +1109,7 @@ async function fetchCSV(targetUrl){
     const r = await fetch(localUrl, {cache:'no-store'});
     if(r.ok){
       const t = await r.text();
-      const data = parseCSVText(t);
+      const data = await parseCSVText(t);
       if(data && data.length){
         console.log('Dados do Desafio carregados do arquivo local '+LOCAL_CSV_DESAFIO);
         return data;
@@ -1086,7 +1130,7 @@ async function fetchCSV(targetUrl){
       const r = await fetch(proxied);
       if(!r.ok) throw new Error('HTTP '+r.status+' via '+proxied);
       const t = await r.text();
-      const data = parseCSVText(t);
+      const data = await parseCSVText(t);
       if(!data){ console.warn('CSV inesperado via', proxied, '— tentando próximo.'); continue; }
       return data;
     }catch(e){
@@ -1195,9 +1239,7 @@ async function init(){
     document.getElementById('prog-m-fill').style.width = mPct+'%';
   },300);
 
-  buildPerfil(allLPM);
-  buildMap();
-  buildEvolucao(rowsByYear);
+  _dataReadyResolve({allLPM, rowsByYear});
   renderNotion();
 
   const cl = document.getElementById('charts-loading');
@@ -1538,8 +1580,40 @@ async function loadNotionData(){
     if (searchEl) searchEl.value = paisParam;
   }
   renderNotion();
+  _notionReadyResolve();
   init();
 }
+// Governança Lighthouse Nível 4, Fase A: observers que disparam o carregamento das libs
+// pesadas só quando as seções correspondentes chegam perto da viewport. Mesmo padrão de
+// /vesiuol/estante/ e /vesiuol/historico/.
+const chartsObs = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      chartsObs.disconnect();
+      Promise.all([ensureChartJs(), dataReadyPromise]).then(([_, data])=>{
+        buildPerfil(data.allLPM);
+        buildEvolucao(data.rowsByYear);
+      });
+    }
+  });
+}, {rootMargin:'400px 0px'});
+
+const mapObs = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      mapObs.disconnect();
+      Promise.all([ensureLeaflet(), notionReadyPromise]).then(()=>{ buildMap(); });
+    }
+  });
+}, {rootMargin:'400px 0px'});
+
+const _perfilChartEl = document.getElementById('c-genero-mini');
+if(_perfilChartEl) chartsObs.observe(_perfilChartEl);
+const _evolucaoChartEl = document.getElementById('c-evolucao-linha');
+if(_evolucaoChartEl) chartsObs.observe(_evolucaoChartEl);
+const _desafioMapEl = document.getElementById('dlm-map');
+if(_desafioMapEl) mapObs.observe(_desafioMapEl);
+
 loadNotionData();
 </script>
 <script src="/vesiuol/assets/config.js"></script>
