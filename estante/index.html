@@ -40,7 +40,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link rel="stylesheet" href="/vesiuol/assets/theme.css">
 <style>
 /* ── TOKENS (governança) ── */
@@ -703,11 +702,46 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- FOOTER:END -->
 
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-Chart.register(ChartDataLabels);
+// ── Governança Lighthouse — Nível 4, Fase A (lazy-load) ──
+// Chart.js, chartjs-plugin-datalabels e Leaflet só são baixados/executados quando as
+// seções que os usam (gráficos, mapa) chegam perto da viewport. Reduz JS não usado e
+// TBT no carregamento inicial, já que o Lighthouse não simula scroll do usuário.
+function loadScript(src){
+  return new Promise((resolve, reject)=>{
+    const s = document.createElement('script');
+    s.src = src; s.onload = resolve; s.onerror = reject;
+    document.body.appendChild(s);
+  });
+}
+function loadCSS(href){
+  return new Promise((resolve, reject)=>{
+    const l = document.createElement('link');
+    l.rel = 'stylesheet'; l.href = href; l.onload = resolve; l.onerror = reject;
+    document.head.appendChild(l);
+  });
+}
+let _chartJsPromise = null;
+function ensureChartJs(){
+  if(!_chartJsPromise){
+    _chartJsPromise = loadScript('https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js')
+      .then(()=>loadScript('https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js'))
+      .then(()=>{ Chart.register(ChartDataLabels); });
+  }
+  return _chartJsPromise;
+}
+let _leafletPromise = null;
+function ensureLeaflet(){
+  if(!_leafletPromise){
+    _leafletPromise = Promise.all([
+      loadCSS('https://unpkg.com/leaflet@1.9.4/dist/leaflet.css'),
+      loadScript('https://unpkg.com/leaflet@1.9.4/dist/leaflet.js')
+    ]);
+  }
+  return _leafletPromise;
+}
+let _dataReadyResolve;
+const dataReadyPromise = new Promise(res=>{ _dataReadyResolve = res; });
 
 const CSV_ESTANTE = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQWGv70Tc2vz-YUKxwU_0_H8F7UuHom1tCJQlE2Tfi8AMNem2c5X3WSs6z4CPjoTb2AaFKmJ8bihlPV/pub?gid=0&single=true&output=csv';
 
@@ -784,6 +818,67 @@ function buildBarChart(canvasId, obj, caption){
       }}});
   accessibleChart(canvasId, caption || canvasId, pairs.map(p=>p[0]), pairs.map(p=>p[1]));
 }
+
+// Distribuição de notas — padronizado no formato de linha/área usado em /vesiuol/historico/
+// (Governança, decisão de padronização 2026-07-04). Extraído em função própria (Governança
+// Lighthouse Nível 4, Fase A) para ser chamado junto dos outros gráficos Chart.js, sob demanda.
+function buildNotasChart(lidos){
+  const notasLabels=['★','★★','★★★','★★★★','★★★★★','❤️'];
+  const notasVals=[0,0,0,0,0,0];
+  lidos.forEach(b=>{
+    const nota=(b['Estrelas']||Object.values(b)[9]||'').toString().trim();
+    if(norm(nota)==='favorito'){ notasVals[5]++; return; }
+    const n=parseInt(nota);
+    if(n>=1&&n<=5) notasVals[n-1]++;
+  });
+  const notasEl=document.getElementById('c-notas-estante');
+  if(notasEl){
+    new Chart(notasEl,{type:'line',
+      data:{labels:notasLabels,datasets:[{data:notasVals,borderColor:GREEN,backgroundColor:GREEN+'22',
+        borderWidth:2.5,pointRadius:5,pointBackgroundColor:GREEN,fill:true,tension:.35}]},
+      options:{maintainAspectRatio:false,layout:{padding:{top:22}},
+        plugins:{legend:{display:false},datalabels:{display:ctx=>ctx.dataset.data[ctx.dataIndex]>0,
+          anchor:'end',align:'top',color:BLACK,font:{family:'DM Sans',size:10,weight:'500'},
+          formatter:v=>v>0?v:'',clamp:true}},
+        scales:{
+          x:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:'#555'},border:{display:false}},
+          y:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:'#555'},border:{display:false},beginAtZero:true}
+        }}});
+    accessibleChart('c-notas-estante', 'Distribuição de avaliações por nota',
+      ['1 estrela','2 estrelas','3 estrelas','4 estrelas','5 estrelas','Favorito'], notasVals);
+  }
+}
+
+// Governança Lighthouse Nível 4, Fase A: observers que disparam o carregamento das libs
+// pesadas só quando as seções correspondentes chegam perto da viewport.
+const chartsObs = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      chartsObs.disconnect();
+      Promise.all([ensureChartJs(), dataReadyPromise]).then(([_, data])=>{
+        buildBarChart('c-cor', countField(data.lidos,'Cor'), 'Cor/raça dos autores');
+        buildBarChart('c-ga',  countField(data.lidos,'Se identifica como...'), 'Gênero dos autores');
+        buildNotasChart(data.lidos);
+      });
+    }
+  });
+}, {rootMargin:'400px 0px'});
+
+const mapObs = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      mapObs.disconnect();
+      Promise.all([ensureLeaflet(), dataReadyPromise]).then(([_, data])=>{
+        buildMap(data.allBooks);
+      });
+    }
+  });
+}, {rootMargin:'400px 0px'});
+
+const _corCanvas = document.getElementById('c-cor');
+if(_corCanvas) chartsObs.observe(_corCanvas);
+const _mapEl = document.getElementById('map');
+if(_mapEl) mapObs.observe(_mapEl);
 
 // detect tag columns
 let COL_LGBTQIA='', COL_DIV='', COL_OWN='', COL_PSICO='';
@@ -876,43 +971,20 @@ async function init(){
   // container com altura fixa + scroll (ver CSS ".chart-body" dessas seções) e passar sem limite
   // de itens para buildRank(), igual ao padrão já aplicado em "Países dos autores" (decisão #013).
   buildRank('rank-generos', gnObj, 999);
-  buildBarChart('c-cor', countField(lidos,'Cor'), 'Cor/raça dos autores');
-  buildBarChart('c-ga',  gaObj, 'Gênero dos autores');
   buildRank('rank-idioma',  idObj, 999);
   buildRank('rank-formato', fmObj, 999);
   buildRank('rank-faixa',   fxObj, 999);
   buildRank('rank-paises',  countField(allBooks,'País'), 999);
 
-  // Distribuição de notas — padronizado no formato de linha/área usado em /vesiuol/historico/ (Governança, decisão de padronização 2026-07-04)
-  const notasLabels=['★','★★','★★★','★★★★','★★★★★','❤️'];
-  const notasVals=[0,0,0,0,0,0];
-  lidos.forEach(b=>{
-    const nota=(b['Estrelas']||Object.values(b)[9]||'').toString().trim();
-    if(norm(nota)==='favorito'){ notasVals[5]++; return; }
-    const n=parseInt(nota);
-    if(n>=1&&n<=5) notasVals[n-1]++;
-  });
-  const notasEl=document.getElementById('c-notas-estante');
-  if(notasEl){
-    new Chart(notasEl,{type:'line',
-      data:{labels:notasLabels,datasets:[{data:notasVals,borderColor:GREEN,backgroundColor:GREEN+'22',
-        borderWidth:2.5,pointRadius:5,pointBackgroundColor:GREEN,fill:true,tension:.35}]},
-      options:{maintainAspectRatio:false,layout:{padding:{top:22}},
-        plugins:{legend:{display:false},datalabels:{display:ctx=>ctx.dataset.data[ctx.dataIndex]>0,
-          anchor:'end',align:'top',color:BLACK,font:{family:'DM Sans',size:10,weight:'500'},
-          formatter:v=>v>0?v:'',clamp:true}},
-        scales:{
-          x:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:'#555'},border:{display:false}},
-          y:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:'#555'},border:{display:false},beginAtZero:true}
-        }}});
-    accessibleChart('c-notas-estante', 'Distribuição de avaliações por nota',
-      ['1 estrela','2 estrelas','3 estrelas','4 estrelas','5 estrelas','Favorito'], notasVals);
-  }
-
   const sub=document.getElementById('dados-sub');
   if(sub) sub.textContent=total+' livros catalogados';
 
-  buildMap(allBooks);
+  // Governança Lighthouse Nível 4, Fase A: gráficos Chart.js e mapa Leaflet não são mais
+  // criados aqui direto — ficam a cargo de chartsObs/mapObs, que só carregam as libs e
+  // renderizam quando as seções correspondentes chegam perto da viewport. Aqui só avisamos
+  // que os dados já estão prontos, caso os observers já tenham disparado antes.
+  _dataReadyResolve({ allBooks, lidos });
+
   buildFilters();
   filtered=[...allBooks];
   renderTable();
