@@ -1,3 +1,18 @@
+<!-- Google Consent Mode v2 — precisa rodar ANTES do GTM/gtag carregarem.
+     Defaults negados: nenhum cookie de analytics/ads roda até a pessoa
+     aceitar no banner (ver partials/gtm-body.html). Decisão: Registro de
+     Decisões, 2026-08-18 (banner de consentimento de cookies). -->
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('consent', 'default', {
+  'ad_storage': 'denied',
+  'ad_user_data': 'denied',
+  'ad_personalization': 'denied',
+  'analytics_storage': 'denied',
+  'wait_for_update': 500
+});
+</script>
 <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
