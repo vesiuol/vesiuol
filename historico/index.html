@@ -841,14 +841,27 @@ function accessibleChart(canvasId, caption, labels, data, fmtFn) {
   canvas.setAttribute('aria-describedby', tableId);
 }
 
-// Governança Lighthouse Nível 4, Fase A: PapaParse só é baixado (lazy) na hora de processar
-// o CSV, junto com Chart.js/Leaflet sob demanda — mesmo padrão já aplicado em /vesiuol/estante/.
-async function fetchCSV(url) {
+// Governança Lighthouse Nível 4, Fase B: cache local via GitHub Actions (data/historico-visao-geral.json).
+// PapaParse só é baixado (lazy) se o cache local não existir ou falhar — mesmo padrão já aplicado em /vesiuol/estante/.
+async function fetchVISLocal(){
+  const res = await fetch('/vesiuol/data/historico-visao-geral.json');
+  if(!res.ok) throw new Error('cache local indisponível (' + res.status + ')');
+  return await res.json();
+}
+async function fetchVISLive(url) {
   await ensurePapaParse();
   return fetch(url)
     .then(r => { if (!r.ok) throw new Error('HTTP '+r.status); return r.text(); })
-    .then(t  => Papa.parse(t.replace(/^\uFEFF/,''), {header:true, skipEmptyLines:true}).data)
-    .catch(e => { console.error('fetchCSV:', e); return []; });
+    .then(t  => Papa.parse(t.replace(/^\uFEFF/,''), {header:true, skipEmptyLines:true}).data);
+}
+async function fetchVIS() {
+  try{
+    return await fetchVISLocal();
+  } catch(e){
+    console.warn('Histórico: cache local indisponível, buscando direto da planilha —', e.message);
+    try{ return await fetchVISLive(URL_VIS); }
+    catch(e2){ console.error('fetchVISLive:', e2); return []; }
+  }
 }
 
 function getRow(label) { return VIS.find(r => (r['']||'').trim()===label)||null; }
@@ -1109,7 +1122,7 @@ function mkWaffle(containerId, entries) {
 let VIS=[], anoCharts={}, leafMap=null;
 
 async function init() {
-  VIS = await fetchCSV(URL_VIS);
+  VIS = await fetchVIS();
   set('loading-note','');
   buildSidebarKPIs();
   buildFilters();
