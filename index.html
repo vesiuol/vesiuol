@@ -502,12 +502,27 @@ const CAT_NOTAS  = ['1','1,5','2','2,5','3','3,5','4','4,5','5'];
 
 const pi = v => parseInt(String(v||'').replace(/[^0-9]/g,'')) || 0;
 
-async function fetchCSV(url){
+// Governança Lighthouse Nível 4, Fase B: cache local via GitHub Actions (data/historico-visao-geral.json).
+// PapaParse só é baixado (lazy) se o cache local não existir ou falhar — mesmo padrão já usado em /vesiuol/estante/.
+async function fetchVISLocal(){
+  const res = await fetch('/vesiuol/data/historico-visao-geral.json');
+  if(!res.ok) throw new Error('cache local indisponível (' + res.status + ')');
+  return await res.json();
+}
+async function fetchVISLive(url){
   await ensurePapaParse();
   return fetch(url)
     .then(r => { if (!r.ok) throw new Error('HTTP '+r.status); return r.text(); })
-    .then(t => Papa.parse(t.replace(/^\uFEFF/,''), {header:true, skipEmptyLines:true}).data)
-    .catch(e => { console.error('fetchCSV:', e); return []; });
+    .then(t => Papa.parse(t.replace(/^\uFEFF/,''), {header:true, skipEmptyLines:true}).data);
+}
+async function fetchVIS(){
+  try{
+    return await fetchVISLocal();
+  } catch(e){
+    console.warn('Home: cache local indisponível, buscando direto da planilha —', e.message);
+    try{ return await fetchVISLive(URL_VIS); }
+    catch(e2){ console.error('fetchVISLive:', e2); return []; }
+  }
 }
 
 // getRow/vals/subVals/getPaises: idênticos ao que /vesiuol/historico/ já usa com sucesso
@@ -550,7 +565,7 @@ function formatMinutosParaHoraMin(totalMin){
 
 async function init(){
   try {
-    const VIS = await fetchCSV(URL_VIS);
+    const VIS = await fetchVIS();
 
     const livRow   = getRow(VIS, 'Livros');
     const pagRow   = getRow(VIS, 'Páginas');
