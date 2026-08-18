@@ -13,6 +13,7 @@ Biblioteca Vesiuol é mantida por uma pessoa, atualizada com dados reais de leit
 - [Desafio Livros pelo Mundo](https://vesiuol.github.io/vesiuol/desafio/): mapa e tabela dos 209 países do mundo, com status de leitura por país.
 - [Sobre](https://vesiuol.github.io/vesiuol/sobre/): apresentação da autora e a história por trás do projeto.
 - [Blog](https://vesiuol.github.io/vesiuol/blog/): textos e resenhas sobre o processo de leitura e o Desafio Livros pelo Mundo.
+- [Privacidade e Cookies](https://vesiuol.github.io/vesiuol/privacidade/): como o site usa cookies de análise (Google Analytics/Tag Manager) e como aceitar ou recusar.
 
 ## Observações
 
