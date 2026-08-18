@@ -453,6 +453,24 @@ function updateArticleContent(existingHtml, post) {
 
 // --- 4. Atualizar blog/index.html (card novo + contador) --------------------
 
+// Atualiza só o título e as tags (normais + extras) de um card JÁ existente em
+// blog/index.html — usado pelo status "Atualizar" quando o post muda de nome
+// ou de tags depois de publicado. Não mexe em desc/data/tempo de leitura do
+// card, só no que foi pedido (título, tags).
+function updateCardTitleAndTags(indexHtml, post) {
+  const cardRe = new RegExp(`(<a class="post-card" href="/vesiuol/blog/${post.slug}/">[\\s\\S]*?<\\/a>)`);
+  const match = indexHtml.match(cardRe);
+  if (!match) return indexHtml;
+  let card = match[1];
+
+  card = card.replace(/<h3 class="post-title">[^<]*<\/h3>/, `<h3 class="post-title">${escapeHtml(post.title)}</h3>`);
+
+  const tagsHtml = post.tags.map((t) => `<span class="post-tag">${escapeHtml(t)}</span>`).join('');
+  card = card.replace(/<div class="post-tags">[\s\S]*?<\/div>/, `<div class="post-tags">${tagsHtml}</div>`);
+
+  return indexHtml.replace(cardRe, card);
+}
+
 function insertCardIntoIndex(indexHtml, post) {
   const newCard = `        <a class="post-card" href="/vesiuol/blog/${post.slug}/">
           <div class="post-wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div></div>
@@ -507,6 +525,19 @@ function updateManifest(post) {
     readingTime: post.readingTime
   });
   fs.mkdirSync(path.dirname(MANIFEST_PATH), { recursive: true });
+  fs.writeFileSync(MANIFEST_PATH, JSON.stringify(manifest, null, 2) + '\n', 'utf8');
+}
+
+// Atualiza título e tags (normais + extras) de uma entrada JÁ existente no
+// manifesto — não mexe em dateISO/readingTime, só no que foi pedido.
+function updateManifestEntryTitleTags(post) {
+  if (!fs.existsSync(MANIFEST_PATH)) return;
+  const manifest = JSON.parse(fs.readFileSync(MANIFEST_PATH, 'utf8'));
+  const entry = manifest.find((p) => p.slug === post.slug);
+  if (!entry) return;
+  entry.title = post.title;
+  entry.tags = post.tags;
+  entry.extraTags = post.extraTags || [];
   fs.writeFileSync(MANIFEST_PATH, JSON.stringify(manifest, null, 2) + '\n', 'utf8');
 }
 
@@ -620,18 +651,29 @@ async function main() {
         indexHtml = insertCardIntoIndex(indexHtml, post);
         fs.writeFileSync(INDEX_PATH, indexHtml, 'utf8');
         restored = true;
+      } else {
+        indexHtml = updateCardTitleAndTags(indexHtml, post);
+        fs.writeFileSync(INDEX_PATH, indexHtml, 'utf8');
       }
       if (!inManifest) {
         updateManifest(post);
         manifest.unshift({ slug, title, dateISO, tags, extraTags, readingTime: post.readingTime });
         restored = true;
+      } else {
+        updateManifestEntryTitleTags(post);
+        const entry = manifest.find((p) => p.slug === slug);
+        if (entry) {
+          entry.title = title;
+          entry.tags = tags;
+          entry.extraTags = extraTags;
+        }
       }
 
       await markAsPublished(page.id);
       console.log(
         restored
           ? `OK: ${title} sincronizado e RESTAURADO na home (estava oculto por um "Rascunho" anterior — card e/ou manifesto recriados, contador ajustado).`
-          : `OK: ${title} sincronizado (corpo, tags, tempo de leitura, título/meta/JSON-LD atualizados; card da home não foi tocado).`
+          : `OK: ${title} sincronizado (corpo, tags, tempo de leitura, título/meta/JSON-LD, card da home e manifesto atualizados).`
       );
       continue;
     }
