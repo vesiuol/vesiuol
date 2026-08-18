@@ -207,3 +207,49 @@
   align-items: center;
   justify-content: center;
 }
+
+/* ── Banner de consentimento de cookies (Google Consent Mode v2) ──
+   Barra flutuante, centralizada, discreta — pousa acima do rodapé em vez
+   de grudar na borda inferior da viewport. Injetada via partials/gtm-body.html
+   nas 14 páginas + privacidade/index.html. Decisão: Registro de Decisões,
+   2026-08-18. */
+.cookie-consent {
+  position: fixed;
+  left: 50%;
+  bottom: 1.1rem;
+  transform: translate(-50%, 14px);
+  width: min(92vw, 640px);
+  background: var(--green);
+  border: 1.5px solid var(--green-dark);
+  border-radius: 12px;
+  box-shadow: 2px 2px 0 var(--border);
+  color: var(--white);
+  padding: .85rem 1.1rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .6rem 1rem;
+  z-index: 180;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .3s ease, transform .3s ease, visibility .3s;
+}
+.cookie-consent.visible { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
+.cookie-consent p { font-family:'DM Sans',sans-serif; font-size:.78rem; line-height:1.45; margin:0; flex:1 1 260px; color: var(--white); }
+.cookie-consent a { color: var(--white); text-decoration: underline; text-underline-offset: 2px; }
+.cc-actions { display:flex; gap:.5rem; flex-shrink:0; margin-left:auto; }
+.cc-btn { font-family:'DM Sans',sans-serif; font-size:.7rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; padding:.45rem .95rem; border-radius:100px; cursor:pointer; transition:all .2s ease; border:1.5px solid transparent; }
+.cc-btn-accept { background: var(--white); color: var(--green-dark); border-color: var(--white); }
+.cc-btn-accept:hover { background: var(--green-light); }
+.cc-btn-decline { background: transparent; color: var(--white); border-color: rgba(255,255,255,.7); }
+.cc-btn-decline:hover { background: rgba(255,255,255,.18); }
+@media (max-width:600px){
+  .cookie-consent { bottom:.6rem; padding:.8rem .9rem; }
+  .cc-actions { width:100%; justify-content:flex-end; margin-left:0; }
+}
+/* Evita que o banner tape o botão "voltar ao topo" em telas estreitas,
+   onde o banner chega perto da largura total. */
+body.cc-open .back-to-top { bottom: 6.4rem; }
+@media (max-width:600px){
+  body.cc-open .back-to-top { bottom: 5.6rem; }
+}
