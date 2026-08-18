@@ -73,13 +73,17 @@
   },
   {
     "slug": "resenha-a-guerra-nao-tem-rosto-de-mulher-svetlana-alexijevich",
-    "title": "A guerra não tem rosto de mulher — Svetlana Alexijevich",
+    "title": "Como A guerra não tem rosto de mulher? ",
     "dateISO": "2021-06-13",
     "tags": [
       "Resenha",
       "Literatura"
     ],
-    "extraTags": [],
+    "extraTags": [
+      "Svetlana Aleksiévitch",
+      "A guerra não tem rosto de mulher",
+      "Segunda Guerra Mundial"
+    ],
     "readingTime": 7
   }
 ]
