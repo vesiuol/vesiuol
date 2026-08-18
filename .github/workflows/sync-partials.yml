@@ -15,6 +15,7 @@ on:
       - "2026/index.html"
       - "desafio/index.html"
       - "sobre/index.html"
+      - "privacidade/index.html"
       - "blog/**"
   workflow_dispatch: {}
 
