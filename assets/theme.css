@@ -218,7 +218,7 @@
   left: 50%;
   bottom: 1.1rem;
   transform: translate(-50%, 14px);
-  width: min(92vw, 640px);
+  width: min(94vw, 820px);
   background: var(--green);
   border: 1.5px solid var(--green-dark);
   border-radius: 12px;
@@ -235,7 +235,7 @@
   transition: opacity .3s ease, transform .3s ease, visibility .3s;
 }
 .cookie-consent.visible { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
-.cookie-consent p { font-family:'DM Sans',sans-serif; font-size:.78rem; line-height:1.45; margin:0; flex:1 1 260px; color: var(--white); }
+.cookie-consent p { font-family:'DM Sans',sans-serif; font-size:.78rem; line-height:1.45; margin:0; flex:0 1 auto; white-space:nowrap; color: var(--white); }
 .cookie-consent a { color: var(--white); text-decoration: underline; text-underline-offset: 2px; }
 .cc-actions { display:flex; gap:.5rem; flex-shrink:0; margin-left:auto; }
 .cc-btn { font-family:'DM Sans',sans-serif; font-size:.7rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; padding:.45rem .95rem; border-radius:100px; cursor:pointer; transition:all .2s ease; border:1.5px solid transparent; }
@@ -245,6 +245,7 @@
 .cc-btn-decline:hover { background: rgba(255,255,255,.18); }
 @media (max-width:600px){
   .cookie-consent { bottom:.6rem; padding:.8rem .9rem; }
+  .cookie-consent p { white-space:normal; flex:1 1 260px; }
   .cc-actions { width:100%; justify-content:flex-end; margin-left:0; }
 }
 /* Evita que o banner tape o botão "voltar ao topo" em telas estreitas,
