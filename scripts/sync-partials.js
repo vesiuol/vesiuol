@@ -40,7 +40,6 @@ const PAGES = [
   { file: "2026/index.html", active: "historico-2026" },
   { file: "desafio/index.html", active: "desafio" },
   { file: "sobre/index.html", active: "sobre" },
-  { file: "privacidade/index.html", active: null },
   { file: "blog/index.html", active: "blog" },
   { file: "blog/como-escolhi-um-livro-por-pais-rota-1/index.html", active: "blog" },
   { file: "blog/desafio-livros-pelo-mundo/index.html", active: "blog" },
