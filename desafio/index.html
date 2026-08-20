@@ -375,7 +375,9 @@ nav ul li a.active {
 @media (max-width: 600px) { .perfil-mini-charts { grid-template-columns: 1fr; } }
 
 /* ── MAPA ── */
-#dlm-map { height: 420px; border-radius: 0 0 12px 12px; }
+.section-intro-line { font-size: .88rem; color: var(--muted); margin: -.6rem 0 1rem; }
+#dlm-map { height: 420px; border-radius: 0 0 12px 12px; background: #eef0ea; }
+#dlm-map .leaflet-tile-pane { filter: saturate(.35) brightness(1.04); }
 .map-legend { display: flex; gap: 1.2rem; flex-wrap: wrap; margin-top: .8rem; font-size: .78rem; color: var(--muted); }
 .legend-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 4px; vertical-align: middle; }
 .dlm-country { cursor: pointer; transition: fill-opacity .15s ease; }
@@ -983,13 +985,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <h2 class="section-h2">De onde vieram meus livros?</h2>
         <span class="section-sub">Autores por país</span>
       </div>
+      <p class="section-intro-line">Clique no mapa e veja os livros nos seus países.</p>
       <div class="wcard">
         <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Mapa do desafio</span></div>
         <div id="dlm-map"></div>
       </div>
       <div class="map-legend">
         <span><span class="legend-dot" style="background:#2d5a3d"></span>Lido</span>
-        <span><span class="legend-dot" style="background:#a8a296"></span>Livro mapeado</span>
+        <span><span class="legend-dot" style="background:#b8b2a3"></span>Livro mapeado</span>
       </div>
     </section>
 
@@ -1066,7 +1069,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="footer-dots">
     <div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div>
   </div>
-  <span class="footer-text"><span id="footer-autora"></span>&nbsp;&nbsp;|&nbsp;&nbsp;© <span id="footer-ano"></span>&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">20 de agosto de 2026</span></span>
+  <span class="footer-text"><span id="footer-autora"></span>&nbsp;&nbsp;|&nbsp;&nbsp;© <span id="footer-ano"></span>&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">19 de agosto de 2026</span></span>
 </footer>
 <!-- FOOTER:END -->
 
@@ -1530,7 +1533,7 @@ function buildPerfil(allLPM){
 
 function popupHTML(n){
   const sr = getStatusReal(n);
-  const badge = sr==='lido' ? '<span class="badge badge-lido">Lido ✓</span>' : '';
+  const badge = sr==='lido' ? '<span class="badge badge-lido">Lido ✓</span>' : '<span class="badge badge-mapeado">Não lido</span>';
   return '<div class="dlm-popup-head"><strong>'+n.pais+'</strong>'+badge+'</div>'+(n.livro?'<em>'+n.livro+'</em>':'')+(n.autor?'<br>'+n.autor:'');
 }
 function temLivro(n){ return !!(n && n.livro && n.livro.trim()); }
@@ -1542,11 +1545,16 @@ function temLivro(n){ return !!(n && n.livro && n.livro.trim()); }
    Se o GeoJSON não carregar (rede/CDN fora do ar), cai automaticamente pro mapa de pontos
    original — nenhuma quebra de página. Decisão registrada 2026-08-20. */
 function buildMap(){
-  const map=L.map('dlm-map').setView([20,10],2);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map);
+  const map=L.map('dlm-map',{
+    worldCopyJump:false,
+    maxBounds:[[-85,-180],[85,180]],
+    maxBoundsViscosity:1.0,
+    minZoom:2
+  }).setView([20,10],2);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',noWrap:true}).addTo(map);
 
   const LIDO_COR = '#2d5a3d';
-  const MAPEADO_COR = '#a8a296';
+  const MAPEADO_COR = '#b8b2a3';
 
   // índice por país (sem sufixos tipo **/***) pra casar com o GeoJSON e com o fallback de pontos
   const porPais = {};
