@@ -375,9 +375,14 @@ nav ul li a.active {
 @media (max-width: 600px) { .perfil-mini-charts { grid-template-columns: 1fr; } }
 
 /* ── MAPA ── */
-#dlm-map { height: 380px; border-radius: 0 0 12px 12px; }
+#dlm-map { height: 420px; border-radius: 0 0 12px 12px; }
 .map-legend { display: flex; gap: 1.2rem; flex-wrap: wrap; margin-top: .8rem; font-size: .78rem; color: var(--muted); }
 .legend-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 4px; vertical-align: middle; }
+.dlm-country { cursor: pointer; transition: fill-opacity .15s ease; }
+.dlm-country:hover, .dlm-country-hover { fill-opacity: .95 !important; }
+.dlm-map-popup .leaflet-popup-content { font-family: 'DM Sans', sans-serif; font-size: .82rem; line-height: 1.4; margin: .6rem .8rem; }
+.dlm-map-popup .leaflet-popup-content strong { font-size: .88rem; }
+.dlm-popup-head { display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin-bottom: .2rem; }
 
 /* ── EVOLUÇÃO — estrutura original preservada ── */
 .desafio-wrap {
@@ -983,9 +988,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div id="dlm-map"></div>
       </div>
       <div class="map-legend">
-        <span><span class="legend-dot" style="background:#849974"></span>Lido</span>
-        <span><span class="legend-dot" style="background:#c8d4b8"></span>Livro mapeado</span>
-        <span><span class="legend-dot" style="background:#ccc"></span>Ainda não mapeado</span>
+        <span><span class="legend-dot" style="background:#2d5a3d"></span>Lido</span>
+        <span><span class="legend-dot" style="background:#a8a296"></span>Livro mapeado</span>
       </div>
     </section>
 
@@ -1171,6 +1175,61 @@ const COORDS = {
   'Indonésia':[-6.2,106.8],'Filipinas':[14.6,121.0],'Afeganistão':[34.5,69.2],'Cazaquistão':[51.2,71.4],
   'Suíça':[46.8,8.2],'Áustria':[48.2,16.4],'Irlanda':[53.3,-6.3],
 };
+
+/* Mapa clicável por país (evolução do mapa de pontos — Governança de Apresentação Profissional,
+   item 5, decisão registrada). Converte o nome do país como cadastrado na base Notion (em português)
+   para o nome usado no GeoJSON de fronteiras mundiais (em inglês, dataset johan/world.geo.json,
+   180 países). Países sem correspondência no GeoJSON (ilhas e territórios muito pequenos, ex:
+   Aruba, Vaticano, Malta, São Marino) continuam representados como pontinho via COORDS, igual ao
+   comportamento anterior — não há polígono leve disponível para eles em nenhum dataset público. */
+const PAIS_PT_PARA_GEOJSON = {
+  'Afeganistão':'Afghanistan','Albânia':'Albania','Alemanha':'Germany','Angola':'Angola','Argentina':'Argentina',
+  'Argélia':'Algeria','Armênia':'Armenia','Arábia Saudita':'Saudi Arabia','Austrália':'Australia','Azerbaijão':'Azerbaijan',
+  'Bahamas':'The Bahamas','Bangladesh':'Bangladesh','Belarus':'Belarus','Belize':'Belize','Benim':'Benin',
+  'Bielorrússia':'Belarus','Bolívia':'Bolivia','Botsuana':'Botswana','Brasil':'Brazil','Brunei':'Brunei',
+  'Bulgária':'Bulgaria','Burkina Faso':'Burkina Faso','Burundi':'Burundi','Butão':'Bhutan','Bélgica':'Belgium',
+  'Bósnia e Herzegovina':'Bosnia and Herzegovina','Camarões':'Cameroon','Camboja':'Cambodia','Canadá':'Canada',
+  'Cazaquistão':'Kazakhstan','Chade':'Chad','Chile':'Chile','China':'China','Chipre':'Cyprus','Colômbia':'Colombia',
+  'República do Congo':'Republic of the Congo','República Democrática do Congo':'Democratic Republic of the Congo',
+  'Coreia do Norte':'North Korea','Coreia do Sul':'South Korea','Costa do Marfim':'Ivory Coast','Costa Rica':'Costa Rica',
+  'Croácia':'Croatia','Cuba':'Cuba','Dinamarca':'Denmark','Djibouti':'Djibouti',
+  'Dominicana':'Dominican Republic','República Dominicana':'Dominican Republic',
+  'Egito':'Egypt','El Salvador':'El Salvador','Emirados Árabes Unidos':'United Arab Emirates','Equador':'Ecuador',
+  'Eritreia':'Eritrea','Eslováquia':'Slovakia','Eslovênia':'Slovenia','Espanha':'Spain',
+  'Estados Unidos':'United States of America','Estônia':'Estonia','Eswatini':'Swaziland','Etiópia':'Ethiopia',
+  'Fiji':'Fiji','Filipinas':'Philippines','Finlândia':'Finland','França':'France','Gabão':'Gabon','Gana':'Ghana',
+  'Geórgia':'Georgia','Groenlândia':'Greenland','Grécia':'Greece','Guatemala':'Guatemala','Guiana':'Guyana',
+  'Guiné':'Guinea','Guiné Equatorial':'Equatorial Guinea','Guiné-Bissau':'Guinea Bissau','Gâmbia':'Gambia',
+  'Haiti':'Haiti','Holanda':'Netherlands','Países baixos':'Netherlands','Honduras':'Honduras','Hungria':'Hungary',
+  'Ilhas Salomão':'Solomon Islands','Indonésia':'Indonesia','Iraque':'Iraq','Irlanda':'Ireland','Irã':'Iran',
+  'Islândia':'Iceland','Israel':'Israel','Itália':'Italy',
+  'Iêmen':'Yemen','Jamaica':'Jamaica','Japão':'Japan','Jordânia':'Jordan','Kuwait':'Kuwait','Laos':'Laos',
+  'Lesoto':'Lesotho','Letônia':'Latvia','Libéria':'Liberia','Lituânia':'Lithuania','Luxemburgo':'Luxembourg',
+  'Líbano':'Lebanon','Líbia':'Libya','Madagascar':'Madagascar','Malawi':'Malawi','Mali':'Mali','Malta':'Malta',
+  'Malásia':'Malaysia','Marrocos':'Morocco','Mauritânia':'Mauritania','Mianmar':'Myanmar','Moldávia':'Moldova',
+  'Mongólia':'Mongolia','Montenegro':'Montenegro','Moçambique':'Mozambique','México':'Mexico','Namíbia':'Namibia',
+  'Nepal':'Nepal','Nicarágua':'Nicaragua','Nigéria':'Nigeria','Norte da Macedônia':'Macedonia','Noruega':'Norway',
+  'Nova Zelândia':'New Zealand','Níger':'Niger','Omã':'Oman','Panamá':'Panama','Papua-Nova Guiné':'Papua New Guinea',
+  'Paquistão':'Pakistan','Paraguai':'Paraguay','Peru':'Peru','Polônia':'Poland','Porto Rico':'Puerto Rico',
+  'Portugal':'Portugal','Qatar':'Qatar','Quirguistão':'Kyrgyzstan','Quênia':'Kenya','Reino Unido':'United Kingdom',
+  'República Centro-Africana':'Central African Republic','República Tcheca':'Czech Republic','Romênia':'Romania',
+  'Ruanda':'Rwanda','Rússia':'Russia','Senegal':'Senegal','Serra Leoa':'Sierra Leone','Somália':'Somalia',
+  'Sri Lanka':'Sri Lanka','Sudão':'Sudan','Sudão do Sul':'South Sudan','Suriname':'Suriname','Suécia':'Sweden',
+  'Suíça':'Switzerland','Sérvia':'Republic of Serbia','Síria':'Syria','Tailândia':'Thailand','Taiwan':'Taiwan',
+  'Tajiquistão':'Tajikistan','Tanzânia':'United Republic of Tanzania','Timor-Leste':'East Timor','Togo':'Togo',
+  'Trinidad e Tobago':'Trinidad and Tobago','Tunísia':'Tunisia','Turcomenistão':'Turkmenistan','Turquia':'Turkey',
+  'Ucrânia':'Ukraine','Uganda':'Uganda','Uruguai':'Uruguay','Uzbequistão':'Uzbekistan',
+  'Vanuatu':'Vanuatu','Venezuela':'Venezuela','Vietnã':'Vietnam','Zimbábue':'Zimbabwe','Zâmbia':'Zambia',
+  'África do Sul':'South Africa','Áustria':'Austria','Índia':'India',
+};
+const WORLD_GEOJSON_URL = '/vesiuol/data/world-countries.geo.json';
+let _worldGeoPromise = null;
+function ensureWorldGeo(){
+  if(!_worldGeoPromise){
+    _worldGeoPromise = fetch(WORLD_GEOJSON_URL).then(r=>{ if(!r.ok) throw new Error('geojson fetch failed'); return r.json(); });
+  }
+  return _worldGeoPromise;
+}
 
 function norm(s){ return (s||'').trim().toLowerCase(); }
 async function parseCSVText(t){
@@ -1469,16 +1528,86 @@ function buildPerfil(allLPM){
   }
 }
 
+function popupHTML(n){
+  const sr = getStatusReal(n);
+  const badge = sr==='lido' ? '<span class="badge badge-lido">Lido ✓</span>' : '';
+  return '<div class="dlm-popup-head"><strong>'+n.pais+'</strong>'+badge+'</div>'+(n.livro?'<em>'+n.livro+'</em>':'')+(n.autor?'<br>'+n.autor:'');
+}
+function temLivro(n){ return !!(n && n.livro && n.livro.trim()); }
+
+/* Mapa clicável por país — evolui o antigo mapa de pontos (Governança de Apresentação
+   Profissional, item 5). Cada país vira um polígono clicável em qualquer ponto da sua área,
+   pintado pelo status do desafio, com popup mostrando livro e autor. Países sem polígono
+   disponível (territórios/ilhas pequenas) continuam como ponto, igual ao comportamento anterior.
+   Se o GeoJSON não carregar (rede/CDN fora do ar), cai automaticamente pro mapa de pontos
+   original — nenhuma quebra de página. Decisão registrada 2026-08-20. */
 function buildMap(){
   const map=L.map('dlm-map').setView([20,10],2);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map);
-  NOTION_DATA.forEach(n=>{
-    const pais=n.pais.replace(/\*+$/,'').trim();
-    const c=COORDS[pais]; if(!c) return;
-    const sr=getStatusReal(n);
-    const color = sr==='lido' ? GREEN : n.livro ? GREEN_LIGHT : '#bbb';
-    L.circleMarker(c,{radius:7,fillColor:color,color:'#fff',weight:1.5,fillOpacity:.85}).addTo(map)
-      .bindPopup('<strong>'+n.pais+'</strong>'+(n.livro?'<br><em>'+n.livro+'</em>':'')+(n.autor?'<br>'+n.autor:''));
+
+  const LIDO_COR = '#2d5a3d';
+  const MAPEADO_COR = '#a8a296';
+
+  // índice por país (sem sufixos tipo **/***) pra casar com o GeoJSON e com o fallback de pontos
+  const porPais = {};
+  NOTION_DATA.forEach(n=>{ porPais[n.pais.replace(/\*+$/,'').trim()] = n; });
+
+  const paisesComPoligono = new Set(Object.values(PAIS_PT_PARA_GEOJSON));
+  const pontosFallback = NOTION_DATA.filter(n=>{
+    const pais = n.pais.replace(/\*+$/,'').trim();
+    return !PAIS_PT_PARA_GEOJSON[pais] && temLivro(n);
+  });
+
+  function desenharPontosFallback(){
+    pontosFallback.forEach(n=>{
+      const pais=n.pais.replace(/\*+$/,'').trim();
+      const c=COORDS[pais]; if(!c) return;
+      const sr=getStatusReal(n);
+      const color = sr==='lido' ? LIDO_COR : MAPEADO_COR;
+      L.circleMarker(c,{radius:6,fillColor:color,color:'#fff',weight:1.5,fillOpacity:.9}).addTo(map)
+        .bindPopup(popupHTML(n),{className:'dlm-map-popup'});
+    });
+  }
+
+  ensureWorldGeo().then(geo=>{
+    const geoParaPais = {};
+    Object.entries(PAIS_PT_PARA_GEOJSON).forEach(([pt,en])=>{ geoParaPais[en] = pt; });
+
+    L.geoJSON(geo, {
+      filter: f => {
+        const pt = geoParaPais[f.properties.name];
+        const n = pt && porPais[pt];
+        return paisesComPoligono.has(f.properties.name) && temLivro(n);
+      },
+      style: f => {
+        const pt = geoParaPais[f.properties.name];
+        const n = porPais[pt];
+        const sr = getStatusReal(n);
+        const color = sr==='lido' ? LIDO_COR : MAPEADO_COR;
+        return { className:'dlm-country', fillColor:color, fillOpacity:.85, color:'#fff', weight:1 };
+      },
+      onEachFeature: (feature, layer) => {
+        const pt = geoParaPais[feature.properties.name];
+        const n = pt && porPais[pt];
+        if(!n) return;
+        layer.bindPopup(popupHTML(n),{className:'dlm-map-popup'});
+        layer.on('mouseover', ()=>layer.getElement()&&layer.getElement().classList.add('dlm-country-hover'));
+        layer.on('mouseout', ()=>layer.getElement()&&layer.getElement().classList.remove('dlm-country-hover'));
+      }
+    }).addTo(map);
+
+    desenharPontosFallback();
+  }).catch(e=>{
+    console.warn('GeoJSON de países indisponível, usando mapa de pontos original', e);
+    NOTION_DATA.forEach(n=>{
+      if(!temLivro(n)) return;
+      const pais=n.pais.replace(/\*+$/,'').trim();
+      const c=COORDS[pais]; if(!c) return;
+      const sr=getStatusReal(n);
+      const color = sr==='lido' ? LIDO_COR : MAPEADO_COR;
+      L.circleMarker(c,{radius:7,fillColor:color,color:'#fff',weight:1.5,fillOpacity:.9}).addTo(map)
+        .bindPopup(popupHTML(n),{className:'dlm-map-popup'});
+    });
   });
 }
 
