@@ -376,8 +376,14 @@ nav ul li a.active {
 
 /* ── MAPA ── */
 .section-intro-line { font-size: .88rem; color: var(--muted); margin: -.6rem 0 1rem; }
-#dlm-map { height: 420px; border-radius: 0 0 12px 12px; background: #eef0ea; }
-#dlm-map .leaflet-tile-pane { filter: saturate(.35) brightness(1.04); }
+/* Fundo do card agora é o mesmo azul do mar dos tiles — se sobrar alguma faixa lateral,
+   ela lê como oceano, não como espaço vazio (ajuste de layout, 2026-08-20). */
+#dlm-map { height: 420px; border-radius: 0 0 12px 12px; background: #aad3df; }
+/* Trocado de OpenStreetMap padrão pra CartoDB Positron: terra já nasce cinza-clara (com leve
+   variação de tom por relevo/zona urbana) e mar já nasce azul — daí só precisa de mais
+   saturação em cima, sem inventar cor artificial. Países do desafio continuam cobertos pelos
+   polígonos (verde/cinza), então esse filtro afeta sobretudo o mar. */
+#dlm-map .leaflet-tile-pane { filter: saturate(1.5) brightness(.99); }
 .map-legend { display: flex; gap: 1.2rem; flex-wrap: wrap; margin-top: .8rem; font-size: .78rem; color: var(--muted); }
 .legend-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 4px; vertical-align: middle; }
 .dlm-country { cursor: pointer; transition: fill-opacity .15s ease; }
@@ -385,6 +391,13 @@ nav ul li a.active {
 .dlm-map-popup .leaflet-popup-content { font-family: 'DM Sans', sans-serif; font-size: .82rem; line-height: 1.4; margin: .6rem .8rem; }
 .dlm-map-popup .leaflet-popup-content strong { font-size: .88rem; }
 .dlm-popup-head { display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin-bottom: .2rem; }
+/* Tooltip discreto com o nome do país ao passar o mouse (ajuste de layout, 2026-08-20) */
+.dlm-country-tooltip {
+  background: #4a4a46; color: #fff; border: none; box-shadow: none; border-radius: 4px;
+  padding: 2px 8px; font-family: 'DM Sans', sans-serif; font-size: .68rem; font-weight: 500;
+  opacity: .85 !important;
+}
+.dlm-country-tooltip::before { display: none; }
 
 /* ── EVOLUÇÃO — estrutura original preservada ── */
 .desafio-wrap {
@@ -992,7 +1005,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
       <div class="map-legend">
         <span><span class="legend-dot" style="background:#2d5a3d"></span>Lido</span>
-        <span><span class="legend-dot" style="background:#b8b2a3"></span>Livro mapeado</span>
+        <span><span class="legend-dot" style="background:#9a9a92"></span>Livro mapeado</span>
       </div>
     </section>
 
@@ -1545,16 +1558,26 @@ function temLivro(n){ return !!(n && n.livro && n.livro.trim()); }
    Se o GeoJSON não carregar (rede/CDN fora do ar), cai automaticamente pro mapa de pontos
    original — nenhuma quebra de página. Decisão registrada 2026-08-20. */
 function buildMap(){
+  /* Limites recortados (sem a Antártida vazia) + fitBounds em vez de zoom fixo: no zoom fixo
+     anterior, telas largas sobravam faixas vazias nas laterais porque o mundo não esticava
+     até as bordas do card. Com fitBounds o Leaflet calcula o zoom que melhor preenche a
+     largura real do container (ajuste de layout, 2026-08-20). */
+  const MAP_BOUNDS = [[-58,-180],[80,180]];
   const map=L.map('dlm-map',{
     worldCopyJump:false,
-    maxBounds:[[-85,-180],[85,180]],
+    maxBounds:MAP_BOUNDS,
     maxBoundsViscosity:1.0,
-    minZoom:2
-  }).setView([20,10],2);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',noWrap:true}).addTo(map);
+    zoomSnap:0.1
+  });
+  map.fitBounds(MAP_BOUNDS);
+  map.setMinZoom(map.getZoom());
+  window.addEventListener('resize', ()=>{ map.invalidateSize(); map.fitBounds(MAP_BOUNDS); });
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{
+    attribution:'© OpenStreetMap contributors © CARTO', subdomains:'abcd', noWrap:true, maxZoom:19
+  }).addTo(map);
 
   const LIDO_COR = '#2d5a3d';
-  const MAPEADO_COR = '#b8b2a3';
+  const MAPEADO_COR = '#9a9a92';
 
   // índice por país (sem sufixos tipo **/***) pra casar com o GeoJSON e com o fallback de pontos
   const porPais = {};
@@ -1573,7 +1596,8 @@ function buildMap(){
       const sr=getStatusReal(n);
       const color = sr==='lido' ? LIDO_COR : MAPEADO_COR;
       L.circleMarker(c,{radius:6,fillColor:color,color:'#fff',weight:1.5,fillOpacity:.9}).addTo(map)
-        .bindPopup(popupHTML(n),{className:'dlm-map-popup'});
+        .bindPopup(popupHTML(n),{className:'dlm-map-popup'})
+        .bindTooltip(n.pais,{className:'dlm-country-tooltip',direction:'top',sticky:true,opacity:.85});
     });
   }
 
@@ -1599,6 +1623,7 @@ function buildMap(){
         const n = pt && porPais[pt];
         if(!n) return;
         layer.bindPopup(popupHTML(n),{className:'dlm-map-popup'});
+        layer.bindTooltip(pt,{className:'dlm-country-tooltip',direction:'top',sticky:true,opacity:.85});
         layer.on('mouseover', ()=>layer.getElement()&&layer.getElement().classList.add('dlm-country-hover'));
         layer.on('mouseout', ()=>layer.getElement()&&layer.getElement().classList.remove('dlm-country-hover'));
       }
@@ -1614,7 +1639,8 @@ function buildMap(){
       const sr=getStatusReal(n);
       const color = sr==='lido' ? LIDO_COR : MAPEADO_COR;
       L.circleMarker(c,{radius:7,fillColor:color,color:'#fff',weight:1.5,fillOpacity:.9}).addTo(map)
-        .bindPopup(popupHTML(n),{className:'dlm-map-popup'});
+        .bindPopup(popupHTML(n),{className:'dlm-map-popup'})
+        .bindTooltip(n.pais,{className:'dlm-country-tooltip',direction:'top',sticky:true,opacity:.85});
     });
   });
 }
