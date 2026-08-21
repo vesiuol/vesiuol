@@ -384,8 +384,8 @@ nav ul li a.active {
    cinzas já usados nos países (ajuste de layout, 2026-08-20). */
 /* Meio-termo entre o verde mais saturado (forte demais) e o quase-branco (fraco demais)
    (ajuste de layout, 2026-08-20). */
-#dlm-map { height: 420px; border-radius: 0 0 12px 12px; background: #d9e3d2; }
-#dlm-map .leaflet-tile-pane { filter: grayscale(1) brightness(1.15) opacity(.3); }
+#dlm-map { height: 420px; border-radius: 0 0 12px 12px; background: #9fc0d1; }
+#dlm-map .leaflet-tile-pane { filter: grayscale(1) brightness(1.25) opacity(.35); }
 /* Some com o contorno preto de foco que o navegador desenha ao clicar num país (ajuste de
    layout, 2026-08-20). */
 #dlm-map .leaflet-interactive:focus { outline: none; }
@@ -1008,9 +1008,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div id="dlm-map"></div>
       </div>
       <div class="map-legend">
-        <span><span class="legend-dot" style="background:#2d5a3d"></span>Lido</span>
-        <span><span class="legend-dot" style="background:#9a9a92"></span>Livro mapeado</span>
-        <span><span class="legend-dot" style="background:#e2e0d6"></span>Sem livro ainda</span>
+        <span><span class="legend-dot" style="background:#195733"></span>Lido</span>
+        <span><span class="legend-dot" style="background:#c69239"></span>Livro mapeado</span>
+        <span><span class="legend-dot" style="background:#f3f2ed;border:1px solid #c8c8c8"></span>Sem livro ainda</span>
       </div>
     </section>
 
@@ -1572,9 +1572,9 @@ function buildMap(){
   const map=L.map('dlm-map',{scrollWheelZoom:true}).setView([20,10],2);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map);
 
-  const LIDO_COR = '#2d5a3d';
-  const MAPEADO_COR = '#9a9a92';
-  const SEM_LIVRO_COR = '#e2e0d6';
+  const LIDO_COR = '#195733';
+  const MAPEADO_COR = '#c69239';
+  const SEM_LIVRO_COR = '#f3f2ed';
 
   function corPorStatus(n){
     const sr = getStatusReal(n);
@@ -1612,7 +1612,7 @@ function buildMap(){
       style: f => {
         const pt = geoParaPais[f.properties.name];
         const n = porPais[pt];
-        return { className:'dlm-country', fillColor:corPorStatus(n), fillOpacity:.85, color:'#fff', weight:1 };
+        return { className:'dlm-country', fillColor:corPorStatus(n), fillOpacity:.9, color:'#fff', weight:1.5 };
       },
       onEachFeature: (feature, layer) => {
         const pt = geoParaPais[feature.properties.name];
