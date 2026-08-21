@@ -376,9 +376,11 @@ nav ul li a.active {
 
 /* ── MAPA ── */
 .section-intro-line { font-size: .88rem; color: var(--muted); margin: -.6rem 0 1rem; }
-/* Fundo do card agora é o mesmo azul do mar dos tiles — se sobrar alguma faixa lateral,
-   ela lê como oceano, não como espaço vazio (ajuste de layout, 2026-08-20). */
-#dlm-map { height: 420px; border-radius: 0 0 12px 12px; background: #aad3df; }
+/* Fundo do card no mesmo tom real do mar renderizado pelos tiles (sampleado do print:
+   rgb(207,216,219) — o #aad3df anterior não batia porque o filtro do tile-pane não se
+   aplica ao background do container, então a lateral ficava com um azul mais forte que
+   o mar de dentro do mapa) (ajuste de layout, 2026-08-20). */
+#dlm-map { height: 420px; border-radius: 0 0 12px 12px; background: #cfd8db; }
 /* Trocado de OpenStreetMap padrão pra CartoDB Positron: terra já nasce cinza-clara (com leve
    variação de tom por relevo/zona urbana) e mar já nasce azul — daí só precisa de mais
    saturação em cima, sem inventar cor artificial. Países do desafio continuam cobertos pelos
@@ -1569,9 +1571,9 @@ function buildMap(){
     maxBoundsViscosity:1.0,
     zoomSnap:0.1
   });
-  map.fitBounds(MAP_BOUNDS);
+  map.fitBounds(MAP_BOUNDS,{padding:[26,26]});
   map.setMinZoom(map.getZoom());
-  window.addEventListener('resize', ()=>{ map.invalidateSize(); map.fitBounds(MAP_BOUNDS); });
+  window.addEventListener('resize', ()=>{ map.invalidateSize(); map.fitBounds(MAP_BOUNDS,{padding:[26,26]}); });
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{
     attribution:'© OpenStreetMap contributors © CARTO', subdomains:'abcd', noWrap:true, maxZoom:19
   }).addTo(map);
