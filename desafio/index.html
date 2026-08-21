@@ -384,7 +384,7 @@ nav ul li a.active {
    cinzas já usados nos países (ajuste de layout, 2026-08-20). */
 /* Meio-termo entre o verde mais saturado (forte demais) e o quase-branco (fraco demais)
    (ajuste de layout, 2026-08-20). */
-#dlm-map { height: 420px; border-radius: 0 0 12px 12px; background: #9fc0d1; }
+#dlm-map { height: 420px; border-radius: 0 0 12px 12px; background: #c3d8e0; }
 #dlm-map .leaflet-tile-pane { filter: grayscale(1) brightness(1.25) opacity(.35); }
 /* Some com o contorno preto de foco que o navegador desenha ao clicar num país (ajuste de
    layout, 2026-08-20). */
@@ -1008,8 +1008,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div id="dlm-map"></div>
       </div>
       <div class="map-legend">
-        <span><span class="legend-dot" style="background:#195733"></span>Lido</span>
-        <span><span class="legend-dot" style="background:#c69239"></span>Livro mapeado</span>
+        <span><span class="legend-dot" style="background:#2a6b42"></span>Lido</span>
+        <span><span class="legend-dot" style="background:#e0ac5c"></span>Livro mapeado</span>
         <span><span class="legend-dot" style="background:#f3f2ed;border:1px solid #c8c8c8"></span>Sem livro ainda</span>
       </div>
     </section>
@@ -1572,8 +1572,8 @@ function buildMap(){
   const map=L.map('dlm-map',{scrollWheelZoom:true}).setView([20,10],2);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map);
 
-  const LIDO_COR = '#195733';
-  const MAPEADO_COR = '#c69239';
+  const LIDO_COR = '#2a6b42';
+  const MAPEADO_COR = '#e0ac5c';
   const SEM_LIVRO_COR = '#f3f2ed';
 
   function corPorStatus(n){
