@@ -205,7 +205,10 @@ nav ul li a.active{background:var(--green);color:var(--white);padding:.28rem .7r
 .rank-fill.light{background:var(--green-light);}
 
 /* Mapa */
-#map{height:420px;border-radius:0 0 12px 12px;}
+/* Mesmo tom de fundo e filtro de tile do mapa do Desafio (desafio/index.html, #dlm-map) —
+   tira o azul do mar, deixando um verde suave. */
+#map{height:420px;border-radius:0 0 12px 12px;background:#eef1ea;}
+#map .leaflet-tile-pane{filter:grayscale(1) brightness(1.2) opacity(.25);}
 .map-legend{display:flex;gap:1.2rem;flex-wrap:wrap;margin-top:.8rem;font-size:.78rem;color:var(--muted);}
 .legend-dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:4px;vertical-align:middle;}
 
@@ -777,7 +780,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="footer-dots">
     <div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div>
   </div>
-  <span class="footer-text"><span id="footer-autora"></span>&nbsp;&nbsp;|&nbsp;&nbsp;© <span id="footer-ano"></span>&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">19 de agosto de 2026</span></span>
+  <span class="footer-text"><span id="footer-autora"></span>&nbsp;&nbsp;|&nbsp;&nbsp;© <span id="footer-ano"></span>&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">21 de agosto de 2026</span></span>
 </footer>
 <!-- FOOTER:END -->
 
@@ -1096,7 +1099,7 @@ async function init(){
 }
 
 function buildMap(books){
-  const map=L.map('map',{scrollWheelZoom:false}).setView([20,10],2);
+  const map=L.map('map',{scrollWheelZoom:true}).setView([20,10],2);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map);
   const pc=countField(books,'País');
   Object.entries(pc).forEach(([p,q])=>{
