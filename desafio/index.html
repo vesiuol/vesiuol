@@ -382,8 +382,11 @@ nav ul li a.active {
    2026-08-20). */
 /* Tile em escala de cinza — tira o azul do mar, deixando um tom discreto que combina com os
    cinzas já usados nos países (ajuste de layout, 2026-08-20). */
-#dlm-map { height: 420px; border-radius: 0 0 12px 12px; background: #dcdfd7; }
-#dlm-map .leaflet-tile-pane { filter: grayscale(1) brightness(1.05); }
+/* Verde quase branco em vez do cinza anterior — ficava perto demais do cinza de "sem livro"
+   (#e2e0d6) e confundia mar com país. Esse tom puxa pro --green do site, então some o azul
+   sem reintroduzir contraste estranho (ajuste de layout, 2026-08-20). */
+#dlm-map { height: 420px; border-radius: 0 0 12px 12px; background: #eef2e9; }
+#dlm-map .leaflet-tile-pane { filter: grayscale(1) brightness(1.5) opacity(.5); }
 /* Some com o contorno preto de foco que o navegador desenha ao clicar num país (ajuste de
    layout, 2026-08-20). */
 #dlm-map .leaflet-interactive:focus { outline: none; }
