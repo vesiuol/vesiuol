@@ -380,7 +380,13 @@ nav ul li a.active {
    maxBounds nem noWrap, o tile padrão do OSM se repete e preenche o container inteiro
    sozinho, então não sobra faixa vazia nem corta países nas bordas (ajuste de layout,
    2026-08-20). */
-#dlm-map { height: 420px; border-radius: 0 0 12px 12px; }
+/* Tile em escala de cinza — tira o azul do mar, deixando um tom discreto que combina com os
+   cinzas já usados nos países (ajuste de layout, 2026-08-20). */
+#dlm-map { height: 420px; border-radius: 0 0 12px 12px; background: #dcdfd7; }
+#dlm-map .leaflet-tile-pane { filter: grayscale(1) brightness(1.05); }
+/* Some com o contorno preto de foco que o navegador desenha ao clicar num país (ajuste de
+   layout, 2026-08-20). */
+#dlm-map .leaflet-interactive:focus { outline: none; }
 .map-legend { display: flex; gap: 1.2rem; flex-wrap: wrap; margin-top: .8rem; font-size: .78rem; color: var(--muted); }
 .legend-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 4px; vertical-align: middle; }
 .dlm-country { cursor: pointer; transition: fill-opacity .15s ease; }
@@ -1543,7 +1549,10 @@ function buildPerfil(allLPM){
 
 function popupHTML(n){
   const sr = getStatusReal(n);
-  const badge = sr==='lido' ? '<span class="badge badge-lido">Lido ✓</span>' : '<span class="badge badge-mapeado">Não lido</span>';
+  const badge = sr==='lido' ? '<span class="badge badge-lido">Lido ✓</span>'
+    : sr==='andamento' ? '<span class="badge badge-andamento">Lendo…</span>'
+    : sr==='mapeado' ? '<span class="badge badge-mapeado">Não lido</span>'
+    : '<span class="badge badge-nao">Sem livro ainda</span>';
   return '<div class="dlm-popup-head"><strong>'+n.pais+'</strong>'+badge+'</div>'+(n.livro?'<em>'+n.livro+'</em>':'')+(n.autor?'<br>'+n.autor:'');
 }
 function temLivro(n){ return !!(n && n.livro && n.livro.trim()); }
@@ -1558,7 +1567,7 @@ function buildMap(){
   /* Mesma config de tile/zoom do mapa da Estante (estante/index.html, #map): setView fixo
      sem maxBounds/noWrap. O tile se repete e preenche o container sozinho, sem cortar países
      nem sobrar espaço vazio nas laterais (ajuste de layout, 2026-08-20). */
-  const map=L.map('dlm-map',{scrollWheelZoom:false}).setView([20,10],2);
+  const map=L.map('dlm-map',{scrollWheelZoom:true}).setView([20,10],2);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map);
 
   const LIDO_COR = '#2d5a3d';
