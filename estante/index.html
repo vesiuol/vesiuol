@@ -208,7 +208,7 @@ nav ul li a.active{background:var(--green);color:var(--white);padding:.28rem .7r
 /* Mesmo tom de fundo e filtro de tile do mapa do Desafio (desafio/index.html, #dlm-map) —
    tira o azul do mar, deixando um verde suave. */
 #map{height:420px;border-radius:0 0 12px 12px;background:var(--green-light);}
-#map .leaflet-tile-pane{filter:grayscale(1) brightness(1.2) opacity(.25);}
+#map .leaflet-tile-pane{filter:grayscale(1) brightness(1.05) opacity(.85);}
 .map-legend{display:flex;gap:1.2rem;flex-wrap:wrap;margin-top:.8rem;font-size:.78rem;color:var(--muted);}
 .legend-dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:4px;vertical-align:middle;}
 
@@ -1099,7 +1099,7 @@ async function init(){
 }
 
 function buildMap(books){
-  const map=L.map('map',{scrollWheelZoom:false}).setView([20,10],2);
+  const map=L.map('map',{scrollWheelZoom:true}).setView([20,10],2);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map);
   const pc=countField(books,'País');
   Object.entries(pc).forEach(([p,q])=>{
