@@ -189,6 +189,8 @@ nav ul li a.active{background:var(--green);color:var(--white);padding:.28rem .7r
 .rank-fill.light{background:var(--green-light);}
 .chart-body{padding:1rem 1.2rem;position:relative;}
 .chart-body canvas{max-height:200px;}
+.chart-body.tall{height:280px;}
+.chart-body.tall canvas{max-height:340px;}
 .chart-body.barh canvas{max-height:240px;}
 /* Mapa — mesmo padrão do mapa da Estante (governança: mapas fora do Desafio seguem este padrão) */
 #map-2026{height:380px;border-radius:0 0 12px 12px;background:var(--green-light);}
@@ -565,7 +567,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="charts-2col">
         <div class="wcard">
           <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Distribuição de notas</span></div>
-          <div class="chart-body reveal"><canvas id="c-notas-2026" role="img" aria-label="Gráfico de linha mostrando a quantidade de livros lidos por nota, de 1 a 5 estrelas, incluindo notas fracionadas."></canvas></div>
+          <div class="chart-body tall reveal"><canvas id="c-notas-2026" role="img" aria-label="Gráfico de linha mostrando a quantidade de livros lidos por nota, de 1 a 5 estrelas, incluindo notas fracionadas."></canvas></div>
         </div>
         <div class="wcard">
           <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Origem do livro</span></div>
@@ -818,6 +820,13 @@ function formatHorasMin(v){
   if(h>0) return h+'h';
   return m+'min';
 }
+// Usada EXCLUSIVAMENTE no KPI "horas ouvidas" do topo da página — arredonda pra
+// hora cheia, sem minutos (ex: "5h" em vez de "5h 30min"). Em todo o resto do site
+// (coluna Áudio da tabela, etc.) continua usando formatHorasMin() normalmente.
+function formatHorasArredondado(numHoras){
+  if(!isFinite(numHoras) || numHoras<=0) return null;
+  return Math.round(numHoras)+'h';
+}
 
 let dataLoadFailed = false;
 
@@ -941,7 +950,7 @@ async function init(){
     document.getElementById('kpi-meta').textContent = totalMeta;
     document.getElementById('kpi-pct').textContent = pctMeta+'%';
     document.getElementById('kpi-paginas').textContent = totalPaginas.toLocaleString('pt-BR');
-    document.getElementById('kpi-horas').textContent = formatHorasMin(totalHorasNum) || '0h';
+    document.getElementById('kpi-horas').textContent = formatHorasArredondado(totalHorasNum) || '0h';
     document.getElementById('kpi-autores-novos').textContent = autoresNovos;
     document.getElementById('kpi-paises').textContent = paises;
     ['kpi-lidos','kpi-meta','kpi-pct','kpi-paginas','kpi-horas','kpi-autores-novos','kpi-paises'].forEach(id=>document.getElementById(id).classList.remove('skeleton'));
