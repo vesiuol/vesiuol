@@ -916,6 +916,54 @@ function showDataError(){
   ['kpi-lidos','kpi-meta','kpi-pct','kpi-paginas','kpi-horas','kpi-autores-novos','kpi-paises'].forEach(id=>{const e=document.getElementById(id); if(e) e.classList.remove('skeleton');});
 }
 
+// Precisa ficar FORA de init() — é chamada pelo IntersectionObserver (chartsObs, lá embaixo),
+// que roda no escopo global. Uma função declarada dentro de init() só existe lá dentro
+// (bug anterior: "buildNotasChart is not defined" no console, o gráfico nunca desenhava).
+function buildNotasChart(lidos){
+  const notasLabels=['1','1,5','2','2,5','3','3,5','4','4,5','5'];
+  const notasVals=new Array(notasLabels.length).fill(0);
+  lidos.forEach(b=>{
+    const n=parseFloat((b['NOTA']||'').replace(',','.'));
+    if(n>=1&&n<=5){
+      const key=(n%1===0)?String(n):String(n).replace('.',',');
+      const idx=notasLabels.indexOf(key);
+      if(idx>-1) notasVals[idx]++;
+    }
+  });
+  const notasEl=document.getElementById('c-notas-2026');
+  if(notasEl){
+    new Chart(notasEl,{type:'line',
+      data:{labels:notasLabels,datasets:[{data:notasVals,borderColor:GREEN,backgroundColor:GREEN+'22',
+        borderWidth:2.5,pointRadius:5,pointBackgroundColor:GREEN,fill:true,tension:.35}]},
+      options:{maintainAspectRatio:false,layout:{padding:{top:22}},
+        plugins:{legend:{display:false},datalabels:{display:ctx=>ctx.dataset.data[ctx.dataIndex]>0,
+          anchor:'end',align:'top',color:BLACK,font:{family:'DM Sans',size:10,weight:'500'},
+          formatter:v=>v>0?v:'',clamp:true}},
+        scales:{
+          x:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:MUTED},border:{display:false}},
+          y:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:MUTED},border:{display:false},beginAtZero:true}
+        }}});
+    /* ── ACESSIBILIDADE: tabela sr-only de apoio ao gráfico (mesmo padrão de /vesiuol/historico/) ──
+       Não altera nada visual: só injeta uma tabela oculta visualmente, acessível a leitor de tela,
+       logo após o canvas, com os mesmos dados usados pra desenhar o gráfico. */
+    (function accessibleChart(canvasId, caption, labels, data){
+      const canvas=document.getElementById(canvasId); if(!canvas) return;
+      const summary=labels.map((l,i)=>`${l}: ${data[i]}`).join(', ');
+      canvas.setAttribute('role','img');
+      canvas.setAttribute('aria-label', canvas.getAttribute('aria-label') || (caption+'. '+summary));
+      const tableId=canvasId+'-table';
+      const existing=document.getElementById(tableId); if(existing) existing.remove();
+      const table=document.createElement('table');
+      table.id=tableId; table.className='sr-only';
+      table.innerHTML=`<caption>${caption}</caption><thead><tr><th scope="col">Nota</th><th scope="col">Quantidade de livros</th></tr></thead><tbody>${
+        labels.map((l,i)=>`<tr><td>${l}</td><td>${data[i]}</td></tr>`).join('')
+      }</tbody></table>`;
+      canvas.insertAdjacentElement('afterend', table);
+      canvas.setAttribute('aria-describedby', tableId);
+    })('c-notas-2026', 'Distribuição de avaliações por nota (estrelas), 2026', notasLabels, notasVals);
+  }
+}
+
 async function init(){
   try{
     allRows = await fetchCSV(SHEET_URL_2026);
@@ -1007,51 +1055,6 @@ async function init(){
     buildRank('rank-formato', fmObj, 999);
     buildRank('rank-faixa',   fxObj, 999);
     buildRank('rank-serie',   countField(lidos,'Série ou único?'), 999);
-
-function buildNotasChart(lidos){
-  const notasLabels=['1','1,5','2','2,5','3','3,5','4','4,5','5'];
-  const notasVals=new Array(notasLabels.length).fill(0);
-  lidos.forEach(b=>{
-    const n=parseFloat((b['NOTA']||'').replace(',','.'));
-    if(n>=1&&n<=5){
-      const key=(n%1===0)?String(n):String(n).replace('.',',');
-      const idx=notasLabels.indexOf(key);
-      if(idx>-1) notasVals[idx]++;
-    }
-  });
-  const notasEl=document.getElementById('c-notas-2026');
-  if(notasEl){
-    new Chart(notasEl,{type:'line',
-      data:{labels:notasLabels,datasets:[{data:notasVals,borderColor:GREEN,backgroundColor:GREEN+'22',
-        borderWidth:2.5,pointRadius:5,pointBackgroundColor:GREEN,fill:true,tension:.35}]},
-      options:{maintainAspectRatio:false,layout:{padding:{top:22}},
-        plugins:{legend:{display:false},datalabels:{display:ctx=>ctx.dataset.data[ctx.dataIndex]>0,
-          anchor:'end',align:'top',color:BLACK,font:{family:'DM Sans',size:10,weight:'500'},
-          formatter:v=>v>0?v:'',clamp:true}},
-        scales:{
-          x:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:MUTED},border:{display:false}},
-          y:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:MUTED},border:{display:false},beginAtZero:true}
-        }}});
-    /* ── ACESSIBILIDADE: tabela sr-only de apoio ao gráfico (mesmo padrão de /vesiuol/historico/) ──
-       Não altera nada visual: só injeta uma tabela oculta visualmente, acessível a leitor de tela,
-       logo após o canvas, com os mesmos dados usados pra desenhar o gráfico. */
-    (function accessibleChart(canvasId, caption, labels, data){
-      const canvas=document.getElementById(canvasId); if(!canvas) return;
-      const summary=labels.map((l,i)=>`${l}: ${data[i]}`).join(', ');
-      canvas.setAttribute('role','img');
-      canvas.setAttribute('aria-label', canvas.getAttribute('aria-label') || (caption+'. '+summary));
-      const tableId=canvasId+'-table';
-      const existing=document.getElementById(tableId); if(existing) existing.remove();
-      const table=document.createElement('table');
-      table.id=tableId; table.className='sr-only';
-      table.innerHTML=`<caption>${caption}</caption><thead><tr><th scope="col">Nota</th><th scope="col">Quantidade de livros</th></tr></thead><tbody>${
-        labels.map((l,i)=>`<tr><td>${l}</td><td>${data[i]}</td></tr>`).join('')
-      }</tbody></table>`;
-      canvas.insertAdjacentElement('afterend', table);
-      canvas.setAttribute('aria-describedby', tableId);
-    })('c-notas-2026', 'Distribuição de avaliações por nota (estrelas), 2026', notasLabels, notasVals);
-  }
-}
 
     document.getElementById('mapa-sub').textContent = paises+' país'+(paises!==1?'es':'')+' · '+lidos.length+' livros';
     _dataReadyResolve(lidos);
