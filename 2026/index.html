@@ -211,6 +211,8 @@ tr:hover td{background:rgba(132,153,116,.05);}
 .badge-lendo{background:#fef3cd;color:#7a5c00;}
 .badge-nao{background:#f5e4e4;color:#7a2020;}
 .stars{color:var(--green-dark);}
+.book-cover{width:26px;height:38px;object-fit:cover;border-radius:2px;display:block;}
+.cover-ph{width:26px;height:38px;background:#f0ede8;border:1.5px dashed var(--border);border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:.55rem;color:#999;}
 .table-footer{padding:.7rem 0;display:flex;justify-content:space-between;align-items:center;font-family:'DM Sans',sans-serif;font-size:.78rem;color:var(--muted);}
 .pagination{display:flex;gap:.3rem;}
 footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center;gap:1rem;border-top:1.5px solid var(--green-dark);flex-shrink:0;}
@@ -674,12 +676,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div style="overflow-x:auto">
         <table>
           <thead><tr>
+            <th style="width:34px"></th>
             <th>Título ↕</th><th>Autor/a ↕</th><th>Gênero ↕</th>
             <th>Pág. ↕</th><th>Áudio ↕</th><th>País ↕</th>
             <th>Status ↕</th><th>⭐</th>
           </tr></thead>
           <tbody id="tbody">
-            <tr><td colspan="8" style="text-align:center;padding:2rem;color:var(--muted)">Carregando…</td></tr>
+            <tr><td colspan="9" style="text-align:center;padding:2rem;color:var(--muted)">Carregando…</td></tr>
           </tbody>
         </table>
       </div>
@@ -884,7 +887,7 @@ function showDataError(){
   const el=document.getElementById('data-error');
   if(el) el.classList.add('show');
   document.getElementById('tbody').innerHTML =
-    '<tr><td colspan="8" style="text-align:center;padding:2rem;color:var(--muted)">Não foi possível carregar os dados agora. Recarregue a página.</td></tr>';
+    '<tr><td colspan="9" style="text-align:center;padding:2rem;color:var(--muted)">Não foi possível carregar os dados agora. Recarregue a página.</td></tr>';
   ['kpi-lidos','kpi-meta','kpi-pct','kpi-paginas','kpi-horas','kpi-autores-novos','kpi-paises'].forEach(id=>{const e=document.getElementById(id); if(e) e.classList.remove('skeleton');});
 }
 
@@ -1102,7 +1105,7 @@ function renderTable(){
   const tbody=document.getElementById('tbody');
   document.getElementById('lista-count').textContent=filtered.length+' livro'+(filtered.length!==1?'s':'');
   if(!filtered.length){
-    tbody.innerHTML='<tr><td colspan="8" style="text-align:center;padding:2rem;color:var(--muted)">Nenhum encontrado.</td></tr>';
+    tbody.innerHTML='<tr><td colspan="9" style="text-align:center;padding:2rem;color:var(--muted)">Nenhum encontrado.</td></tr>';
     document.getElementById('t-info').textContent='';
     document.getElementById('pagination').innerHTML='';
     return;
@@ -1114,7 +1117,9 @@ function renderTable(){
     const notaFmt = formatNota(b['NOTA']);
     const starsHtml = notaFmt ? '<span class="stars">'+notaFmt+' ★</span>' : '—';
     const audio = norm(b['Formato']).includes('audio') ? (formatHorasMin(b['Horas']) || '—') : '—';
+    const capa = b['Capa do livro'] ? `<img class="book-cover" src="${b['Capa do livro']}" alt="${b['Título']||''}" loading="lazy" onerror="this.outerHTML='<div class=\\'cover-ph\\'>—</div>'">` : `<div class="cover-ph">—</div>`;
     return `<tr>
+      <td>${capa}</td>
       <td><strong>${b['Título']||'—'}</strong></td>
       <td>${b['Nome']||'—'}</td>
       <td>${b['Gênero']||'—'}</td>
