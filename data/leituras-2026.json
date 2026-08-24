@@ -287,7 +287,7 @@
   },
   {
     "_col0": "",
-    "Capa do livro": "",
+    "Capa do livro": "https://m.media-amazon.com/images/I/61EKKftXl1L._SY342_.jpg",
     "Título": "Razão e Sensibilidade",
     "Páginas": "",
     "Horas": "6:07:00",
@@ -313,7 +313,7 @@
   },
   {
     "_col0": "",
-    "Capa do livro": "",
+    "Capa do livro": "https://m.media-amazon.com/images/I/41+WFnfYX9L._SY445_SX342_ML2_.jpg",
     "Título": "O alforje",
     "Páginas": "",
     "Horas": "4:20:00",
@@ -339,7 +339,7 @@
   },
   {
     "_col0": "",
-    "Capa do livro": "",
+    "Capa do livro": "https://m.media-amazon.com/images/I/81TmOZIXvzL._SY466_.jpg",
     "Título": "O Pequeno Príncipe",
     "Páginas": "",
     "Horas": "0:58:00",
@@ -391,7 +391,7 @@
   },
   {
     "_col0": "",
-    "Capa do livro": "",
+    "Capa do livro": "https://m.media-amazon.com/images/I/51VP8XyWQrL._SY445_SX342_ML2_.jpg",
     "Título": "A Morte de Ivan Ilitch",
     "Páginas": "96",
     "Horas": "0:00:00",
@@ -417,7 +417,7 @@
   },
   {
     "_col0": "",
-    "Capa do livro": "",
+    "Capa do livro": "https://m.media-amazon.com/images/I/51e31zd+pxL._SX342_SY445_ML2_.jpg",
     "Título": "Disney English Comics - Ed. 20",
     "Páginas": "96",
     "Horas": "0:00:00",
@@ -443,7 +443,7 @@
   },
   {
     "_col0": "",
-    "Capa do livro": "",
+    "Capa do livro": "https://m.media-amazon.com/images/I/61COaZZFwDL._SY425_.jpg",
     "Título": "O vício dos livros",
     "Páginas": "",
     "Horas": "00:53:00",
@@ -469,7 +469,7 @@
   },
   {
     "_col0": "",
-    "Capa do livro": "",
+    "Capa do livro": "https://m.media-amazon.com/images/I/71ttxj7KaEL._SY466_.jpg",
     "Título": "A casa na Rua Mango",
     "Páginas": "",
     "Horas": "01:27:00",
@@ -495,7 +495,7 @@
   },
   {
     "_col0": "",
-    "Capa do livro": "",
+    "Capa do livro": "https://m.media-amazon.com/images/I/61BHwMFD9iL._SY445_SX342_ML2_.jpg",
     "Título": "O monge endinheirado, a mulher do bandido e outras histórias de um rio indiano",
     "Páginas": "208",
     "Horas": "0:00:00",
@@ -547,7 +547,7 @@
   },
   {
     "_col0": "",
-    "Capa do livro": "",
+    "Capa do livro": "https://m.media-amazon.com/images/I/51UnrBFQf5L._SY445_SX342_ML2_.jpg",
     "Título": "Rainhas da Noite - As travestis que tinham São Paulo a seus pés",
     "Páginas": "",
     "Horas": "4:34:00",
@@ -573,7 +573,33 @@
   },
   {
     "_col0": "",
-    "Capa do livro": "",
+    "Capa do livro": "https://static.skeelo.com/remote/320/480/100/https://skoob.s3.amazonaws.com/livros/12196723/GALATEIA_173596773812196723SK-V11735967738B.jpg",
+    "Título": "Galateia - Um conto",
+    "Páginas": "",
+    "Horas": "0:54:00",
+    "Gênero": "Conto",
+    "Faixa etária": "Adulto",
+    "Formato": "Audiolivro",
+    "Editora": "Planeta Minotauro",
+    "Idioma": "Português",
+    "Série ou único?": "Livro único",
+    "Por que li?": "Diversão",
+    "Origem do livro?": "Assinatura digital",
+    "Como conheci?": "Outro",
+    "Nome": "Madeline Miller",
+    "País": "EUA",
+    "Cor": "Branco",
+    "Se identifica como...": "Feminino",
+    "Primeira vez lendo autore": "TRUE",
+    "Protagonista LGBTQ+": "FALSE",
+    "Diversidade etnica/racial": "FALSE",
+    "#OwnVoices?": "FALSE",
+    "NOTA": "2,5",
+    "LIDO": "LIDO"
+  },
+  {
+    "_col0": "",
+    "Capa do livro": "https://m.media-amazon.com/images/I/515qsaIm8uL._SY445_SX342_ML2_.jpg",
     "Título": "Eu que nunca conheci os homens",
     "Páginas": "192",
     "Horas": "0:00:00",
@@ -599,7 +625,7 @@
   },
   {
     "_col0": "",
-    "Capa do livro": "",
+    "Capa do livro": "https://m.media-amazon.com/images/I/41pOFwJgAIL._SY445_SX342_ML2_.jpg",
     "Título": "Um belo diploma",
     "Páginas": "260",
     "Horas": "0:00:00",
@@ -651,7 +677,7 @@
   },
   {
     "_col0": "",
-    "Capa do livro": "",
+    "Capa do livro": "https://m.media-amazon.com/images/I/81E-X4rpSdL._SY385_.jpg",
     "Título": "Talvez você deva conversar com alguém",
     "Páginas": "",
     "Horas": "09:28:00",
@@ -677,7 +703,7 @@
   },
   {
     "_col0": "",
-    "Capa do livro": "",
+    "Capa do livro": "https://m.media-amazon.com/images/I/71cPWfWtmaL._SY466_.jpg",
     "Título": "Ring Shout: Grito de Liberdade",
     "Páginas": "176",
     "Horas": "0:00:00",
@@ -703,7 +729,7 @@
   },
   {
     "_col0": "",
-    "Capa do livro": "",
+    "Capa do livro": "https://m.media-amazon.com/images/I/91EmOEDkGiL._SY466_.jpg",
     "Título": "E eu não sou uma mulher?",
     "Páginas": "",
     "Horas": "2:25:00",
@@ -755,7 +781,7 @@
   },
   {
     "_col0": "",
-    "Capa do livro": "",
+    "Capa do livro": "https://static.skeelo.com/remote/320/480/100/https://skoob.s3.amazonaws.com/livros/122364042/A_MORTE_DE_ARTHUR_1695250147122364042SK-V11695250148B.jpg",
     "Título": "A morte de Arthur",
     "Páginas": "",
     "Horas": "2:12:00",
@@ -807,7 +833,7 @@
   },
   {
     "_col0": "",
-    "Capa do livro": "",
+    "Capa do livro": "https://m.media-amazon.com/images/I/41RXNf0VC6L._SY445_SX342_ML2_.jpg",
     "Título": "A Menina da Foto",
     "Páginas": "",
     "Horas": "05:22:00",
@@ -833,7 +859,7 @@
   },
   {
     "_col0": "",
-    "Capa do livro": "",
+    "Capa do livro": "https://m.media-amazon.com/images/I/319sNzusNeS._SY445_SX342_ML2_.jpg",
     "Título": "A cabeça do santo",
     "Páginas": "176",
     "Horas": "0:00:00",
@@ -859,7 +885,7 @@
   },
   {
     "_col0": "",
-    "Capa do livro": "",
+    "Capa do livro": "https://m.media-amazon.com/images/I/81JBTWSOI3L._SY466_.jpg",
     "Título": "Nihonjin",
     "Páginas": "",
     "Horas": "02:12:00",
@@ -885,7 +911,7 @@
   },
   {
     "_col0": "",
-    "Capa do livro": "",
+    "Capa do livro": "https://static.skeelo.com/remote/320/480/100/https://skoob.s3.amazonaws.com/livros/1724/A_NOITE_DAS_BRUXAS_1246214490B.jpg",
     "Título": "A Noite das Bruxas",
     "Páginas": "213",
     "Horas": "",
@@ -937,7 +963,7 @@
   },
   {
     "_col0": "",
-    "Capa do livro": "",
+    "Capa do livro": "https://static.skeelo.com/remote/320/480/100/https://skoob.s3.amazonaws.com/livros/5165/OS_RELOGIOS_1246213293B.jpg",
     "Título": "Os Relógios",
     "Páginas": "253",
     "Horas": "00:00:00.00",
@@ -963,7 +989,7 @@
   },
   {
     "_col0": "",
-    "Capa do livro": "",
+    "Capa do livro": "https://static.skeelo.com/remote/320/480/100/https://skoob.s3.amazonaws.com/livros/926773/SE_DEUS_ME_CHAMAR_NAO_VOU_1665802770926773SK-V11665802772B.jpg",
     "Título": "Se deus me chamar não vou",
     "Páginas": "",
     "Horas": "01:36:00",
@@ -1015,7 +1041,7 @@
   },
   {
     "_col0": "",
-    "Capa do livro": "",
+    "Capa do livro": "https://m.media-amazon.com/images/I/41SI+85GteL._SY445_SX342_ML2_.jpg",
     "Título": "Vamos comprar um poeta",
     "Páginas": "",
     "Horas": "1:24:00",
@@ -1041,7 +1067,7 @@
   },
   {
     "_col0": "",
-    "Capa do livro": "",
+    "Capa do livro": "https://m.media-amazon.com/images/I/71h7vegO0cL._SY466_.jpg",
     "Título": "A gente mira no amor e acerta na solidão",
     "Páginas": "",
     "Horas": "3:43:00",
@@ -1067,7 +1093,7 @@
   },
   {
     "_col0": "",
-    "Capa do livro": "",
+    "Capa do livro": "https://static.skeelo.com/remote/320/480/100/https://skoob.s3.amazonaws.com/livros/106468/JOGOS_VORAZES_1447803914106468SK1447803914B.jpg",
     "Título": "Jogos Vorazes",
     "Páginas": "",
     "Horas": "06:18:00",
@@ -1093,7 +1119,7 @@
   },
   {
     "_col0": "",
-    "Capa do livro": "",
+    "Capa do livro": "https://static.skeelo.com/remote/320/480/100/https://skoob.s3.amazonaws.com/livros/144526/EM_CHAMAS_1362102330B.jpg",
     "Título": "Em Chamas",
     "Páginas": "",
     "Horas": "06:18:00",
@@ -1119,7 +1145,7 @@
   },
   {
     "_col0": "",
-    "Capa do livro": "",
+    "Capa do livro": "https://static.skeelo.com/remote/320/480/100/https://skoob.s3.amazonaws.com/livros/175390/A_ESPERANCA_1447804227175390SK1447804227B.jpg",
     "Título": "A Esperança",
     "Páginas": "",
     "Horas": "06:18:00",
@@ -1145,7 +1171,7 @@
   },
   {
     "_col0": "",
-    "Capa do livro": "",
+    "Capa do livro": "https://m.media-amazon.com/images/I/41XG4g5elGL._SY445_SX342_ML2_.jpg",
     "Título": "Antes Que O Café Esfrie 4",
     "Páginas": "",
     "Horas": "2:17:00",
@@ -1171,7 +1197,7 @@
   },
   {
     "_col0": "",
-    "Capa do livro": "",
+    "Capa do livro": "https://static.skeelo.com/remote/320/480/100/https://skoob.s3.amazonaws.com/livros/848/O_RETRATO_DE_DORIAN_GRAY_1529585782848SK1529585795B.jpg",
     "Título": "O retrato de Dorian Gray",
     "Páginas": "",
     "Horas": "",
@@ -1197,7 +1223,7 @@
   },
   {
     "_col0": "",
-    "Capa do livro": "",
+    "Capa do livro": "https://m.media-amazon.com/images/I/91gBa45ju2L._SY466_.jpg",
     "Título": "Mar da tranquilidade",
     "Páginas": "256",
     "Horas": "0:00:00",
@@ -1224,9 +1250,9 @@
   {
     "_col0": "",
     "Capa do livro": "",
-    "Título": "47",
+    "Título": "48",
     "Páginas": "8.618",
-    "Horas": "79:10:00",
+    "Horas": "80:04:00",
     "Gênero": "(gráfico)",
     "Faixa etária": "(gráfico)",
     "Formato": "(gráfico)",
@@ -1245,6 +1271,6 @@
     "Diversidade etnica/racial": "(resumo)",
     "#OwnVoices?": "(resumo)",
     "NOTA": "(gráfico)",
-    "LIDO": "36"
+    "LIDO": "37"
   }
 ]
