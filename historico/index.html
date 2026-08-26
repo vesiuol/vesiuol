@@ -1329,8 +1329,7 @@ function buildDiversidade() {
 function buildMap() {
   if (leafMap) return;
   leafMap = L.map('hist-map',{scrollWheelZoom:true}).setView([20,10],2);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
-    {attribution:'© OpenStreetMap © CARTO',maxZoom:19}).addTo(leafMap);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(leafMap);
   Object.entries(getPaises(null)).forEach(([p,v])=>{
     const c=COORDS[p]; if(!c) return;
     L.circleMarker(c,{radius:Math.max(5,Math.sqrt(v)*3.5),
