@@ -266,6 +266,34 @@ nav ul.open { display: flex; }
 .intro-body { font-size: 1.02rem; line-height: 1.85; color: var(--text); }
 .intro-body + .intro-body { margin-top: .9rem; }
 
+/* ── CTA SKOOB (compacto, mesmo padrão do notion-cta em desafio.html) ── */
+.skoob-cta {
+  background: var(--green); border: 1.5px solid var(--green-dark);
+  border-radius: 14px; padding: 1.1rem 1.6rem;
+  display: flex; align-items: center; justify-content: center; gap: 2rem;
+  margin-top: 1.6rem;
+}
+.skoob-cta p {
+  color: var(--white); font-size: .92rem; line-height: 1.6; margin: 0;
+  flex: 0 1 auto; text-align: center;
+}
+.skoob-btn {
+  flex-shrink: 0;
+  display: inline-block;
+  background: transparent; border: 1.5px solid var(--white); color: var(--white);
+  font-size: .74rem; letter-spacing: .1em; text-transform: uppercase;
+  font-weight: 500; padding: .55rem 1.2rem;
+  border-radius: 100px; white-space: nowrap;
+  font-family: 'DM Sans', sans-serif;
+  transition: all .2s;
+}
+.skoob-btn:hover { background: var(--white); color: var(--green); }
+@media (max-width: 600px) {
+  .skoob-cta { flex-direction: column; align-items: flex-start; }
+  .skoob-cta p { max-width: 100%; }
+  .skoob-btn { width: 100%; text-align: center; }
+}
+
 .section-gap { margin-top: 3rem; }
 .section-hr  { border: none; border-top: 1px solid var(--border-soft); margin-bottom: 1.6rem; }
 .section-head { display: flex; align-items: baseline; gap: .8rem; margin-bottom: 1.4rem; }
@@ -568,7 +596,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="intro-title-wrap">
     <h1 class="intro-headline">Vida de Leitora</h1>
   </div>
-  <p class="intro-body">A parte mais interessante de acompanhar meus dados de leitura ao longo dos anos é perceber como fui mudando, amadurecendo e ampliando meu mundo através dos livros. Mais do que números, isso conta a história de como a Louise se desenvolveu e de como as leituras também refletem quem sou hoje.</p>
+  <p class="intro-body">A parte mais interessante de acompanhar meus dados de leitura ao longo dos anos, mesmo que de forma parcial até 2020, é perceber como fui mudando, amadurecendo e ampliando meu mundo através dos livros. Mas mais do que números, isso conta a história de como a Louise se desenvolveu e de como as leituras também refletem quem sou hoje.</p>
 </div>
 
 <div class="page-wrap">
@@ -628,7 +656,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="intro-title-wrap">
         <p class="intro-headline">Vida de Leitora</p>
       </div>
-      <p class="intro-body">A parte mais interessante de acompanhar meus dados de leitura ao longo dos anos é perceber como fui mudando, amadurecendo e ampliando meu mundo através dos livros. Mais do que números, isso conta a história de como a Louise se desenvolveu e de como as leituras também refletem quem sou hoje.</p>
+      <p class="intro-body">A parte mais interessante de acompanhar meus dados de leitura ao longo dos anos, mesmo que de forma parcial até 2020, é perceber como fui mudando, amadurecendo e ampliando meu mundo através dos livros. Mas mais do que números, isso conta a história de como a Louise se desenvolveu e de como as leituras também refletem quem sou hoje.</p>
+
+      <!-- CTA SKOOB -->
+      <div class="skoob-cta">
+        <p>Comecei a usar o Skoob muito tempo antes das minhas planilhas e apesar de adorar catalogar, hoje a plataforma não contabiliza mais automaticamente os livros lidos no ano — é preciso cadastrar a data início/fim da leitura, o que eu não fazia todas as vezes em 2013, por exemplo.</p>
+        <a class="skoob-btn" href="https://www.skoob.com.br/usuario/5346682-louise" target="_blank" rel="noopener">Meu perfil no Skoob →</a>
+      </div>
     </section>
 
     <!-- EVOLUÇÃO -->
