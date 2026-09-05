@@ -318,7 +318,7 @@
     "Páginas": "434",
     "Horas": "",
     "Gênero": "Fantasia",
-    "Faixa etária": "Jovem adulto (YA)",
+    "Faixa etária": "Adulto",
     "Formato": "Brochura",
     "Editora": "Verus",
     "Idioma": "Português",
@@ -344,7 +344,7 @@
     "Páginas": "434",
     "Horas": "",
     "Gênero": "Fantasia",
-    "Faixa etária": "Jovem adulto (YA)",
+    "Faixa etária": "Adulto",
     "Formato": "Brochura",
     "Editora": "Verus",
     "Idioma": "Português",
@@ -370,7 +370,7 @@
     "Páginas": "434",
     "Horas": "",
     "Gênero": "Fantasia",
-    "Faixa etária": "Jovem adulto (YA)",
+    "Faixa etária": "Adulto",
     "Formato": "Brochura",
     "Editora": "Verus",
     "Idioma": "Português",
@@ -396,7 +396,7 @@
     "Páginas": "490",
     "Horas": "",
     "Gênero": "Fantasia",
-    "Faixa etária": "Jovem adulto (YA)",
+    "Faixa etária": "Adulto",
     "Formato": "Brochura",
     "Editora": "Verus",
     "Idioma": "Português",
@@ -412,8 +412,34 @@
     "Protagonista LGBTQ+": "FALSE",
     "Diversidade etnica/racial": "TRUE",
     "#OwnVoices?": "FALSE",
-    "NOTA": "",
-    "LIDO": "LENDO"
+    "NOTA": "4,5",
+    "LIDO": "LIDO"
+  },
+  {
+    "_col0": "",
+    "Capa do livro": "https://m.media-amazon.com/images/I/91OyvkdraSL._SY466_.jpg",
+    "Título": "Um Ladrão Entre as Árvores",
+    "Páginas": "144",
+    "Horas": "",
+    "Gênero": "Fantasia",
+    "Faixa etária": "Jovem adulto (YA)",
+    "Formato": "Brochura",
+    "Editora": "Verus",
+    "Idioma": "Português",
+    "Série ou único?": "Livro único",
+    "Por que li?": "Diversão",
+    "Origem do livro?": "Estava na estante",
+    "Como conheci?": "Booktube",
+    "Nome": "Sabaa Tahir",
+    "País": "Reino Unido",
+    "Cor": "Negro",
+    "Se identifica como...": "Feminino",
+    "Primeira vez lendo autore": "FALSE",
+    "Protagonista LGBTQ+": "FALSE",
+    "Diversidade etnica/racial": "TRUE",
+    "#OwnVoices?": "FALSE",
+    "NOTA": "4",
+    "LIDO": "LIDO"
   },
   {
     "_col0": "",
@@ -569,7 +595,7 @@
     "Diversidade etnica/racial": "FALSE",
     "#OwnVoices?": "FALSE",
     "NOTA": "",
-    "LIDO": "NÃO LIDO"
+    "LIDO": "LENDO"
   },
   {
     "_col0": "",
@@ -1250,8 +1276,8 @@
   {
     "_col0": "",
     "Capa do livro": "",
-    "Título": "48",
-    "Páginas": "9.230",
+    "Título": "49",
+    "Páginas": "9.374",
     "Horas": "80:04:00",
     "Gênero": "(gráfico)",
     "Faixa etária": "(gráfico)",
@@ -1271,6 +1297,6 @@
     "Diversidade etnica/racial": "(resumo)",
     "#OwnVoices?": "(resumo)",
     "NOTA": "(gráfico)",
-    "LIDO": "40"
+    "LIDO": "42"
   }
 ]
