@@ -573,7 +573,7 @@
   },
   {
     "_col0": "",
-    "Capa do livro": "",
+    "Capa do livro": "https://m.media-amazon.com/images/I/81ncjANCnAL._SY425_.jpg",
     "Título": "Locklands:Os abismos esquecidos",
     "Páginas": "704",
     "Horas": "0:00:00",
@@ -592,7 +592,7 @@
     "Se identifica como...": "Masculino",
     "Primeira vez lendo autore": "FALSE",
     "Protagonista LGBTQ+": "TRUE",
-    "Diversidade etnica/racial": "FALSE",
+    "Diversidade etnica/racial": "TRUE",
     "#OwnVoices?": "FALSE",
     "NOTA": "",
     "LIDO": "LENDO"
