@@ -36,6 +36,16 @@
    Governança > Registro de Decisões, ver auditoria de acessibilidade 2026-08-06. */
 :focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
 
+/* Foco visível dentro de .wcard — o outline acima é cortado pelo overflow:hidden do
+   .wcard quando o elemento focável está encostado nas bordas dele (ex.: listas roláveis
+   .chart-body[tabindex] em estante/historico/desafio). Box-shadow interno não é cortado,
+   pois é desenhado por dentro da própria caixa. Identificado na auditoria manual de
+   teclado, 2026-09-09 (Louise) — pendente registro em Registro de Decisões após confirmação. */
+.chart-body[tabindex]:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 3px var(--green);
+}
+
 /* Estado de carregamento (skeleton) para números de KPI/stat.
    Centralizado aqui para que qualquer página atual ou futura baste adicionar a classe
    "skeleton" ao elemento (junto de .stat-num ou .kpi-num) para ganhar o efeito — sem
