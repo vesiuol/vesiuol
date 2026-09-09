@@ -36,12 +36,34 @@
    Governança > Registro de Decisões, ver auditoria de acessibilidade 2026-08-06. */
 :focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
 
-/* Foco visível dentro de .wcard — o outline acima é cortado pelo overflow:hidden do
-   .wcard quando o elemento focável está encostado nas bordas dele (ex.: listas roláveis
-   .chart-body[tabindex] em estante/historico/desafio). Box-shadow interno não é cortado,
-   pois é desenhado por dentro da própria caixa. Identificado na auditoria manual de
-   teclado, 2026-09-09 (Louise) — pendente registro em Registro de Decisões após confirmação. */
+/* Foco visível dentro de .wcard — o outline padrão acima é cortado pelo overflow:hidden
+   do .wcard quando o elemento focável está encostado nas bordas dele (listas roláveis
+   .chart-body[tabindex] e o mapa #map em estante/historico/desafio).
+   Identificado na auditoria manual de teclado, 2026-09-09 (Louise).
+   Decisão registrada em Governança > Registro de Decisões, 2026-09-09.
+
+   .chart-body[tabindex]: usa border sólida (não box-shadow) porque nas duas listas que
+   realmente rolam (Gêneros literários, Países dos autores — conteúdo extenso, com
+   scrollbar nativa) o box-shadow: inset ficava colado na mesma faixa de 3px onde o
+   navegador desenha a scrollbar, e ela cobria o lado direito da "borda". A border real
+   fica fora dessa faixa e nunca é coberta. border transparent por padrão reserva o
+   espaço sempre, evitando salto de layout ao focar.
+
+   #map: o Leaflet aplica tabindex="0" diretamente no container do mapa (não é um
+   .chart-body), então caía na regra genérica de outline, que ficava cortada nos três
+   lados encostados no .wcard (só sobrava uma linha fina no topo). Recebe o mesmo padrão
+   de box-shadow inset usado antes nas listas, já que o mapa não tem o problema de
+   scrollbar sobreposta (não é rolável). */
+.chart-body[tabindex] {
+  box-sizing: border-box;
+  border: 3px solid transparent;
+}
 .chart-body[tabindex]:focus-visible {
+  outline: none;
+  border-color: var(--green);
+}
+
+#map:focus-visible {
   outline: none;
   box-shadow: inset 0 0 0 3px var(--green);
 }
