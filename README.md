@@ -8,7 +8,9 @@
 
 ## Sobre o projeto
 
-Biblioteca Vesiuol é o arquivo literário pessoal de Louise Victoria: um site que transforma anos de registros de leitura em painéis, gráficos e histórias navegáveis. Além do histórico de leituras, o site documenta o **Desafio Livros pelo Mundo** — a meta de ler um livro de cada um dos 209 países do mundo, com mapa, status por país e progresso ao vivo.
+Biblioteca Vesiuol é o arquivo literário pessoal de Louise Victoria: um site que transforma anos de registros de leitura em painéis, gráficos e histórias navegáveis com a ajuda do Claude. Um pensa, o outro executa. 
+
+Além do histórico de leituras, o site documenta o **Desafio Livros pelo Mundo** — a meta de ler um livro de cada um dos 209 países do mundo, com mapa, status por país e progresso ao vivo.
 
 Mais do que um dashboard, o projeto nasceu do olhar de jornalismo de dados da autora: cada gráfico existe para contar uma história sobre hábitos de leitura, diversidade de autoria e representatividade — não só para exibir números.
 
