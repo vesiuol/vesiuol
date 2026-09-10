@@ -57,14 +57,22 @@
 /* Foco visível no mapa (Leaflet) — mesmo problema do outline cortado pelo .wcard,
    mas o Leaflet coloca tabindex no próprio container do mapa (#map na Estante,
    #dlm-map no Desafio), não em .chart-body, então a regra acima não cobria o mapa.
-   Sem scrollbar nativa aqui (o Leaflet não usa overflow do navegador), então
-   box-shadow: inset funciona sem o problema que afetou as listas acima.
-   Identificado na auditoria manual de teclado, 2026-09-09 (Louise).
-   Decisão: Registro de Decisões, 2026-09-09. */
+   v1 (2026-09-09) usava box-shadow: inset — testado ao vivo e não aparecia: as tiles
+   do Leaflet (ladrilhos do mapa) são conteúdo (filho de #map) e são pintadas por cima
+   do box-shadow inset do próprio #map, cobrindo o contorno inteiro (só os botões +/-
+   do zoom, que ficam por cima do mapa, mostravam um resto do outline padrão antigo).
+   v2: outline com outline-offset NEGATIVO. Outline é desenhado numa camada acima de
+   todo o conteúdo do elemento (diferente de border/box-shadow, que ficam por baixo dos
+   filhos) — por isso não é coberto pelas tiles. E como o offset negativo mantém o
+   outline inteiro DENTRO da própria caixa de #map, ele nunca ultrapassa os limites de
+   #map, então não é cortado pelo overflow:hidden do .wcard (só o outline que "vaza"
+   pra fora da caixa do filho é que seria cortado). Identificado na auditoria manual de
+   teclado, 2026-09-09 (Louise), v2 confirmada ao vivo 2026-09-10.
+   Decisão: Registro de Decisões, 2026-09-09 (atualizada 2026-09-10). */
 #map:focus-visible,
 #dlm-map:focus-visible {
-  outline: none;
-  box-shadow: inset 0 0 0 3px var(--green);
+  outline: 3px solid var(--green);
+  outline-offset: -3px;
 }
 
 /* Estado de carregamento (skeleton) para números de KPI/stat.
