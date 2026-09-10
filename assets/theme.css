@@ -70,11 +70,30 @@
    (mais escuro/mais contraste) e engrossa pra 4px, só neste componente — não altera a
    regra genérica de foco do resto do site.
    Identificado na auditoria manual de teclado, 2026-09-09/10 (Louise).
+   v4 (2026-09-10): v3 (outline direto no #map) foi testada ao vivo e o contorno some
+   nos trechos em que passa por cima dos tiles do Leaflet — o pane de tiles usa
+   transform: translate3d() (aceleração por GPU), o que cria uma camada composta
+   própria; nessa configuração o outline do elemento pai é pintado ATRÁS dessa camada
+   onde ela tem conteúdo, então some sobre o mapa e só sobrava visível sobre o fundo
+   --green-light nas bordas sem tile. Trocado para uma camada ::after própria,
+   posicionada por cima de tudo (position:absolute + z-index alto, pointer-events:none
+   pra não atrapalhar clique/arrasto do mapa), com borda em vez de outline — não sofre
+   do mesmo problema de composição pois não é a mesma caixa que o Leaflet transforma.
    Decisão: Registro de Decisões, 2026-09-09 (atualizada 2026-09-10). */
-#map:focus-visible,
-#dlm-map:focus-visible {
-  outline: 4px solid var(--green-dark);
-  outline-offset: -4px;
+#map, #dlm-map { position: relative; }
+#map::after, #dlm-map::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 1000;
+  display: none;
+}
+#map:focus-visible::after,
+#dlm-map:focus-visible::after {
+  display: block;
+  border: 4px solid var(--green-dark);
 }
 
 /* Estado de carregamento (skeleton) para números de KPI/stat.
