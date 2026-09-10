@@ -501,6 +501,11 @@ tr:hover td { background: rgba(132,153,116,.05); }
   transition: all .2s;
 }
 .notion-btn:hover { background: var(--white); color: var(--green); }
+/* Foco do teclado sobre fundo verde: o outline global (:focus-visible, var(--green))
+   se mistura no fundo verde do .notion-cta e fica invisível — mesmo problema
+   identificado e corrigido no .skoob-btn de /vesiuol/historico/ (2026-09-10).
+   Correção local, só neste botão. */
+.notion-btn:focus-visible { outline: 2px solid var(--white); outline-offset: 2px; }
 
 /* Tabela de apoio para leitores de tela — alternativa textual aos gráficos Chart.js */
 .sr-only {
@@ -941,13 +946,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="charts-2col">
         <div class="wcard">
           <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Regiões mais lidas</span></div>
-          <div style="padding:1rem 1.2rem;overflow-y:auto;height:280px" tabindex="0" aria-label="Lista rolável de regiões mais lidas">
+          <div class="chart-body" style="padding:1rem 1.2rem;overflow-y:auto;height:280px" tabindex="0" aria-label="Lista rolável de regiões mais lidas">
             <div class="rank-list" id="rank-regioes"></div>
           </div>
         </div>
         <div class="wcard">
           <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Gêneros literários</span></div>
-          <div style="padding:1rem 1.2rem;overflow-y:auto;height:280px" tabindex="0" aria-label="Lista rolável de gêneros literários">
+          <div class="chart-body" style="padding:1rem 1.2rem;overflow-y:auto;height:280px" tabindex="0" aria-label="Lista rolável de gêneros literários">
             <div class="rank-list" id="rank-generos"></div>
           </div>
         </div>
@@ -1005,7 +1010,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p class="section-intro-line">Clique no mapa e veja os livros nos seus países.</p>
       <div class="wcard">
         <div class="wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><span class="wtitle">Mapa do desafio</span></div>
+        <!-- Link de pular países do mapa — invisível para quem usa mouse, só aparece
+             ao navegar por teclado (mesmo padrão do .skip-link no topo da página).
+             O mapa tem ~209 países clicáveis por Tab; sem isso, quem usa só teclado
+             precisa passar por todos eles pra sair da seção. Achado por Louise em
+             2026-09-10 na auditoria manual. -->
+        <a href="#mapa-fim" class="skip-link">Pular lista de países do mapa</a>
         <div id="dlm-map"></div>
+        <span id="mapa-fim" tabindex="-1" style="outline:none"></span>
       </div>
       <div class="map-legend">
         <span><span class="legend-dot" style="background:#4f5f45"></span>Lido</span>
