@@ -80,8 +80,8 @@
    pra não atrapalhar clique/arrasto do mapa), com borda em vez de outline — não sofre
    do mesmo problema de composição pois não é a mesma caixa que o Leaflet transforma.
    Decisão: Registro de Decisões, 2026-09-09 (atualizada 2026-09-10). */
-#map, #dlm-map { position: relative; }
-#map::after, #dlm-map::after {
+#map, #dlm-map, #hist-map { position: relative; }
+#map::after, #dlm-map::after, #hist-map::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -91,7 +91,8 @@
   display: none;
 }
 #map:focus-visible::after,
-#dlm-map:focus-visible::after {
+#dlm-map:focus-visible::after,
+#hist-map:focus-visible::after {
   display: block;
   border: 4px solid var(--green-dark);
 }
