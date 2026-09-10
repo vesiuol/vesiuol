@@ -61,18 +61,20 @@
    do Leaflet (ladrilhos do mapa) são conteúdo (filho de #map) e são pintadas por cima
    do box-shadow inset do próprio #map, cobrindo o contorno inteiro (só os botões +/-
    do zoom, que ficam por cima do mapa, mostravam um resto do outline padrão antigo).
-   v2: outline com outline-offset NEGATIVO. Outline é desenhado numa camada acima de
-   todo o conteúdo do elemento (diferente de border/box-shadow, que ficam por baixo dos
-   filhos) — por isso não é coberto pelas tiles. E como o offset negativo mantém o
-   outline inteiro DENTRO da própria caixa de #map, ele nunca ultrapassa os limites de
-   #map, então não é cortado pelo overflow:hidden do .wcard (só o outline que "vaza"
-   pra fora da caixa do filho é que seria cortado). Identificado na auditoria manual de
-   teclado, 2026-09-09 (Louise), v2 confirmada ao vivo 2026-09-10.
+   v2: outline com outline-offset negativo (mantém dentro da caixa, acima do conteúdo,
+   não cortado). Apareceu, mas em cor var(--green) normal — testado ao vivo 2026-09-10
+   e ficou fraco/acinzentado: o fundo do mapa (#map usa --green-light + tiles em
+   grayscale/baixa opacidade — ver regras de #map/#dlm-map em cada página) é claro e
+   dessaturado, então o --green normal (já um tom suave) quase se mistura nele. Nos
+   outros cards isso não acontece pois o fundo ali é branco puro. v3: usa var(--green-dark)
+   (mais escuro/mais contraste) e engrossa pra 4px, só neste componente — não altera a
+   regra genérica de foco do resto do site.
+   Identificado na auditoria manual de teclado, 2026-09-09/10 (Louise).
    Decisão: Registro de Decisões, 2026-09-09 (atualizada 2026-09-10). */
 #map:focus-visible,
 #dlm-map:focus-visible {
-  outline: 3px solid var(--green);
-  outline-offset: -3px;
+  outline: 4px solid var(--green-dark);
+  outline-offset: -4px;
 }
 
 /* Estado de carregamento (skeleton) para números de KPI/stat.
