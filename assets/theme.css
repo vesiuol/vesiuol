@@ -79,9 +79,11 @@
    posicionada por cima de tudo (position:absolute + z-index alto, pointer-events:none
    pra não atrapalhar clique/arrasto do mapa), com borda em vez de outline — não sofre
    do mesmo problema de composição pois não é a mesma caixa que o Leaflet transforma.
-   Decisão: Registro de Decisões, 2026-09-09 (atualizada 2026-09-10). */
-#map, #dlm-map, #hist-map { position: relative; }
-#map::after, #dlm-map::after, #hist-map::after {
+   Decisão: Registro de Decisões, 2026-09-09 (atualizada 2026-09-10).
+   Estendido a #map-2026 (página 2026) em 2026-09-10 — mesmo padrão Leaflet,
+   ID próprio não coberto pela regra até então. Achado por Louise ao testar Tab. */
+#map, #dlm-map, #hist-map, #map-2026 { position: relative; }
+#map::after, #dlm-map::after, #hist-map::after, #map-2026::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -92,7 +94,8 @@
 }
 #map:focus-visible::after,
 #dlm-map:focus-visible::after,
-#hist-map:focus-visible::after {
+#hist-map:focus-visible::after,
+#map-2026:focus-visible::after {
   display: block;
   border: 4px solid var(--green-dark);
 }
