@@ -253,6 +253,11 @@ nav ul li a.active {
   background: transparent; transition: all .2s;
 }
 .insp-link:hover { background: var(--white); border-color: var(--white); color: var(--green); }
+/* Foco do teclado sobre fundo verde: o outline global (:focus-visible, var(--green))
+   se mistura no fundo verde de .insp-footer/.insp-body e fica invisível — mesmo
+   problema identificado e corrigido em .skoob-btn (historico) e .notion-btn (desafio),
+   2026-09-10. Correção local, só neste botão. */
+.insp-link:focus-visible { outline: 2px solid var(--white); outline-offset: 2px; }
 
 /* ── FOOTER ── */
 footer {
