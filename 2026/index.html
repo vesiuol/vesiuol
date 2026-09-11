@@ -1124,6 +1124,13 @@ function applyFilters(){
   page=1; renderTable();
 }
 
+function altTextCapa(b){
+  const esc=s=>String(s||'').replace(/"/g,'&quot;');
+  const titulo=b['Título'], nome=b['Nome'];
+  if(titulo) return esc(`Capa do livro ${titulo}${nome?`, de ${nome}`:''}`);
+  if(nome) return esc(`Capa de livro de ${nome}`);
+  return esc('Capa de livro');
+}
 function renderTable(){
   const start=(page-1)*PER;
   const pg=filtered.slice(start,start+PER);
@@ -1142,7 +1149,7 @@ function renderTable(){
     const notaFmt = formatNota(b['NOTA']);
     const starsHtml = notaFmt ? '<span class="stars">'+notaFmt+' ★</span>' : '—';
     const audio = norm(b['Formato']).includes('audio') ? (formatHorasMin(b['Horas']) || '—') : '—';
-    const capa = b['Capa do livro'] ? `<img class="book-cover" src="${b['Capa do livro']}" alt="${b['Título']||''}" loading="lazy" onerror="this.outerHTML='<div class=\\'cover-ph\\'>—</div>'">` : `<div class="cover-ph">—</div>`;
+    const capa = b['Capa do livro'] ? `<img class="book-cover" src="${b['Capa do livro']}" alt="${altTextCapa(b)}" loading="lazy" onerror="this.outerHTML='<div class=\\'cover-ph\\'>—</div>'">` : `<div class="cover-ph">—</div>`;
     return `<tr>
       <td>${capa}</td>
       <td><strong>${b['Título']||'—'}</strong></td>
