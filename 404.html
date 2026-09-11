@@ -223,30 +223,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
 
   /* ---------- FOOTER ---------- */
-  footer{
-    background:var(--green);
-    color:var(--white);
-    text-align:center;
-    padding:1.4rem 1.25rem;
+  footer {
+    background: var(--green); padding: 1rem 2rem;
+    display: flex; align-items: center; gap: 1rem;
+    border-top: 1.5px solid var(--green-dark);
   }
-  footer .footer-dots{
-    display:flex;
-    justify-content:center;
-    gap:6px;
-    margin-bottom:.6rem;
-  }
-  footer .footer-dot{
-    width:6px; height:6px;
-    border-radius:50%;
-    background:rgba(255,255,255,.55);
-    display:block;
-  }
+  .footer-dots { display: flex; gap: 5px; }
+  .footer-dot  { width: 10px; height: 10px; border-radius: 50%; background: var(--white); }
   .footer-text{
     font-family:'DM Sans', sans-serif;
     font-size:.60rem;
     letter-spacing:.1em;
     font-weight:500;
     text-transform:uppercase;
+    color: var(--white);
   }
 
 /* ── NAV DROPDOWN: Histórico > Visão geral / 2026 — governança 2026-08-02 ── */
@@ -289,6 +279,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   color: var(--black);
   font-family: 'DM Sans', sans-serif;
   font-weight: 500;
+  text-align: center;
 }
 .nav-submenu li a:hover { background: var(--green); color: var(--white); }
 @media (max-width: 600px) {
