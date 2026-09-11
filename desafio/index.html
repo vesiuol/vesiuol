@@ -1776,6 +1776,12 @@ function sortNotion(key){
   if(notionSortKey===key) notionSortDir*=-1; else{notionSortKey=key;notionSortDir=1;}
   renderNotion();
 }
+function altTextCapa(n){
+  const esc=s=>String(s||'').replace(/"/g,'&quot;');
+  if(n.livro) return esc(`Capa do livro ${n.livro}${n.autor?`, de ${n.autor}`:''}`);
+  if(n.autor) return esc(`Capa de livro de ${n.autor} (${n.pais})`);
+  return esc(`Capa de livro para ${n.pais}`);
+}
 function renderNotion(){
   const q=(document.getElementById('search-notion')?.value||'').toLowerCase();
   notionFiltered=notionData.filter(n=>{
@@ -1796,7 +1802,7 @@ function renderNotion(){
     const sr=getStatusReal(n);
     const rowBg=sr==='lido'?'background:rgba(132,153,116,.05)':'';
     const badge=sr==='lido'?'<span class="badge badge-lido">Lido ✓</span>':sr==='andamento'?'<span class="badge badge-andamento">Lendo…</span>':sr==='mapeado'?'<span class="badge badge-mapeado">Mapeado</span>':'<span class="badge badge-nao">—</span>';
-    const capa=n.capa?`<img class="book-cover" src="${n.capa}" alt="${n.livro||''}" loading="lazy" onerror="this.outerHTML='<div class=\\'cover-ph\\'>—</div>'">`:`<div class="cover-ph">—</div>`;
+    const capa=n.capa?`<img class="book-cover" src="${n.capa}" alt="${altTextCapa(n)}" loading="lazy" onerror="this.outerHTML='<div class=\\'cover-ph\\'>—</div>'">`:`<div class="cover-ph">—</div>`;
     const livroText=n.livro?`<span style="font-weight:500">${n.livro}</span>`:'<span style="color:#aaa">—</span>';
     return `<tr style="${rowBg}"><td>${capa}</td><td><strong>${n.pais}</strong></td><td>${livroText}</td><td>${n.autor||'—'}</td><td>${n.ga||'—'}</td><td>${badge}</td></tr>`;
   }).join('');
