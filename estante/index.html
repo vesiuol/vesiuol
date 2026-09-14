@@ -838,7 +838,7 @@ const COORDS = {
 
 function norm(s){ return (s||'').trim().toLowerCase(); }
 function isTrue(v){ const s=norm(v||''); return ['sim','yes','true','1','✓','x','verdadeiro'].includes(s); }
-function isDataRow(b){ const t=norm(b['Livros']||b[Object.keys(b)[0]]||''); if(!t) return false; if(t.includes('(resumo)')||t.includes('(gráfico)')||t.includes('(grafico)')) return false; return true; }
+function isDataRow(b){ const t=norm(b['Livros']||b[Object.keys(b)[0]]||''); if(!t) return false; if(t.includes('(resumo)')||t.includes('(gráfico)')||t.includes('(grafico)')) return false; const marker=(v)=>{ const n=norm(v||''); return n.includes('(resumo)')||n.includes('(gráfico)')||n.includes('(grafico)'); }; if(marker(b['Gênero'])||marker(b['Questões psicológicas'])) return false; return true; }
 // Governança Lighthouse Nível 4, Fase A: cache local via GitHub Actions (data/estante.json).
 // PapaParse só é baixado (lazy) se o cache local não existir ou falhar — reduz JS carregado
 // no caminho comum, além do carregamento sob demanda de Chart.js/Leaflet já implementado.
