@@ -1251,8 +1251,13 @@ function mkWaffle(containerId, entries) {
 
 let VIS=[], anoCharts={}, leafMap=null;
 
+// Promise compartilhada: além de init() usar, o observer de gráficos (chartsObs)
+// também precisa esperar por ela — se não, corre o risco de montar os gráficos
+// com VIS ainda vazio quando o Chart.js termina de baixar antes dos dados.
+const visReady = fetchVIS().then(data => { VIS = data; return data; });
+
 async function init() {
-  VIS = await fetchVIS();
+  await visReady;
   set('loading-note','');
   buildSidebarKPIs();
   buildFilters();
@@ -1497,7 +1502,9 @@ const chartsObs = new IntersectionObserver((entries)=>{
   entries.forEach(entry=>{
     if(entry.isIntersecting){
       chartsObs.disconnect();
-      ensureChartJs().then(()=>{
+      // Espera Chart.js E os dados (visReady) — qualquer um dos dois pode terminar
+      // primeiro dependendo da rede, e os dois são obrigatórios antes de desenhar.
+      Promise.all([ensureChartJs(), visReady]).then(()=>{
         _chartLibsReady = true;
         buildGerais();
         buildDiversidade();
@@ -1511,7 +1518,9 @@ const mapObs = new IntersectionObserver((entries)=>{
   entries.forEach(entry=>{
     if(entry.isIntersecting){
       mapObs.disconnect();
-      ensureLeaflet().then(()=>{ buildMap(); });
+      // Mesma correção do chartsObs: buildMap() também lê VIS, então precisa
+      // esperar visReady além do Leaflet, senão o mapa pode montar sem pontos.
+      Promise.all([ensureLeaflet(), visReady]).then(()=>{ buildMap(); });
     }
   });
 }, {rootMargin:'400px 0px'});
