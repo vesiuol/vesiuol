@@ -594,9 +594,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <!-- Grid texto: dados qualitativos principais -->
       <div class="perfil-text-grid">
         <div class="ptg-cell">
-          <div class="ptg-label">Gênero mais lido</div>
+          <div class="ptg-label">Gênero mais comum</div>
           <div class="ptg-val" id="pg-genero">—</div>
-          <div class="ptg-sub" id="pg-genero-sub">dos livros lidos</div>
+          <div class="ptg-sub" id="pg-genero-sub">da estante</div>
         </div>
         <div class="ptg-cell">
           <div class="ptg-label">Quem escreve</div>
@@ -604,7 +604,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="ptg-sub" id="pg-ga-sub">dos autores</div>
         </div>
         <div class="ptg-cell">
-          <div class="ptg-label">Idioma mais lido</div>
+          <div class="ptg-label">Idioma mais comum</div>
           <div class="ptg-val" id="pg-idioma">—</div>
           <div class="ptg-sub">idioma original</div>
         </div>
@@ -642,25 +642,25 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="div-card">
           <div class="div-num" id="dc-lgbtq">—</div>
           <div class="div-lbl">Protagonista LGBTQIA+</div>
-          <div class="div-sub" id="dc-lgbtq-sub">dos livros lidos</div>
+          <div class="div-sub" id="dc-lgbtq-sub">da estante</div>
           <div class="div-track"><div class="div-fill" id="dc-lgbtq-bar" style="width:0%"></div></div>
         </div>
         <div class="div-card">
           <div class="div-num" id="dc-div">—</div>
           <div class="div-lbl">Diversidade étnica</div>
-          <div class="div-sub" id="dc-div-sub">dos livros lidos</div>
+          <div class="div-sub" id="dc-div-sub">da estante</div>
           <div class="div-track"><div class="div-fill" id="dc-div-bar" style="width:0%"></div></div>
         </div>
         <div class="div-card">
           <div class="div-num" id="dc-own">—</div>
           <div class="div-lbl">#OwnVoices</div>
-          <div class="div-sub" id="dc-own-sub">dos livros lidos</div>
+          <div class="div-sub" id="dc-own-sub">da estante</div>
           <div class="div-track"><div class="div-fill" id="dc-own-bar" style="width:0%"></div></div>
         </div>
         <div class="div-card">
           <div class="div-num" id="dc-psico">—</div>
           <div class="div-lbl">Questões psicológicas</div>
-          <div class="div-sub" id="dc-psico-sub">dos livros lidos</div>
+          <div class="div-sub" id="dc-psico-sub">da estante</div>
           <div class="div-track"><div class="div-fill" id="dc-psico-bar" style="width:0%"></div></div>
         </div>
       </div>
@@ -964,8 +964,8 @@ const chartsObs = new IntersectionObserver((entries)=>{
     if(entry.isIntersecting){
       chartsObs.disconnect();
       Promise.all([ensureChartJs(), dataReadyPromise]).then(([_, data])=>{
-        buildBarChart('c-cor', countField(data.lidos,'Cor'), 'Cor/raça dos autores');
-        buildBarChart('c-ga',  countField(data.lidos,'Se identifica como...'), 'Gênero dos autores');
+        buildBarChart('c-cor', countField(data.allBooks,'Cor'), 'Cor/raça dos autores');
+        buildBarChart('c-ga',  countField(data.allBooks,'Se identifica como...'), 'Gênero dos autores');
         buildNotasChart(data.lidos);
       });
     }
@@ -1028,7 +1028,7 @@ async function init(){
   const paginas=lidos.reduce((s,b)=>s+(parseInt((b['Páginas']||'').replace(/\D/g,''))||0),0);
   const autores=new Set(allBooks.map(b=>b['Nome']).filter(Boolean)).size;
   const paises=new Set(allBooks.map(b=>b['País']).filter(Boolean)).size;
-  const idiomas=new Set(lidos.map(b=>b['Idioma']).filter(Boolean)).size;
+  const idiomas=new Set(allBooks.map(b=>b['Idioma']).filter(Boolean)).size;
 
   document.getElementById('s-total').textContent=total;
   document.getElementById('s-lidos').textContent=totalLidos;
@@ -1044,9 +1044,9 @@ async function init(){
   setTimeout(()=>{ document.getElementById('prog-lidos-fill').style.width=pct+'%'; },300);
 
   // Grid texto
-  const gnObj=countField(lidos,'Gênero'); const topGn=topN(gnObj,1)[0];
-  const gaObj=countField(lidos,'Se identifica como...'); const topGa=topN(gaObj,1)[0];
-  const idObj=countField(lidos,'Idioma'); const topId=topN(idObj,1)[0];
+  const gnObj=countField(allBooks,'Gênero'); const topGn=topN(gnObj,1)[0];
+  const gaObj=countField(allBooks,'Se identifica como...'); const topGa=topN(gaObj,1)[0];
+  const idObj=countField(allBooks,'Idioma'); const topId=topN(idObj,1)[0];
   const fmObj=countField(allBooks,'Formato'); const topFm=topN(fmObj,1)[0];
   const fxObj=countField(allBooks,'Faixa etária'); const topFx=topN(fxObj,1)[0];
   const seObj=countField(allBooks,'Série ou único?'); const topSe=topN(seObj,1)[0];
@@ -1066,13 +1066,13 @@ async function init(){
   }
   function setDiv(prefix, data){
     document.getElementById('dc-'+prefix).textContent=data.pct+'%';
-    document.getElementById('dc-'+prefix+'-sub').textContent='de '+data.tot+' livros lidos';
+    document.getElementById('dc-'+prefix+'-sub').textContent='de '+data.tot+' livros';
     setTimeout(()=>{ document.getElementById('dc-'+prefix+'-bar').style.width=data.pct+'%'; },300);
   }
-  setDiv('lgbtq', pctSim(lidos, COL_LGBTQIA||'Protagonista LGBTQIA+?'));
-  setDiv('div',   pctSim(lidos, COL_DIV||'Diversidade étnica/racial ?'));
-  setDiv('own',   pctSim(lidos, COL_OWN||'#OwnVoices ?'));
-  setDiv('psico', pctSim(lidos, COL_PSICO||'Questões psicológicas'));
+  setDiv('lgbtq', pctSim(allBooks, COL_LGBTQIA||'Protagonista LGBTQIA+?'));
+  setDiv('div',   pctSim(allBooks, COL_DIV||'Diversidade étnica/racial ?'));
+  setDiv('own',   pctSim(allBooks, COL_OWN||'#OwnVoices ?'));
+  setDiv('psico', pctSim(allBooks, COL_PSICO||'Questões psicológicas'));
 
   // Rankings
   // Governança: listas longas (gêneros, países, etc.) não devem ser truncadas em top-N — usar
