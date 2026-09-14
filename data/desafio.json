@@ -671,7 +671,7 @@
     "autor": "Maja Lunde",
     "ga": "Feminino",
     "status_notion": "Não iniciada",
-    "tenho": "Não",
+    "tenho": "Sim",
     "capa": "https://m.media-amazon.com/images/I/61yLCMQ3V1L._SY466_.jpg"
   },
   {
@@ -1450,12 +1450,12 @@
   },
   {
     "pais": "Coreia do Sul",
-    "livro": "Castella",
-    "autor": "Min-gyu Park",
-    "ga": "Masculino",
+    "livro": "Kim Jiyoung, nascida em 1982",
+    "autor": "Cho Nam-joo",
+    "ga": "Feminino",
     "status_notion": "Não iniciada",
-    "tenho": "Não",
-    "capa": "https://m.media-amazon.com/images/I/51nSOhvSFoL.jpg"
+    "tenho": "Sim",
+    "capa": "https://m.media-amazon.com/images/I/61yRrzRAoCL._SL1500_.jpg"
   },
   {
     "pais": "Costa Rica",
@@ -1468,12 +1468,12 @@
   },
   {
     "pais": "Congo",
-    "livro": "O involuntário ato de respirar",
-    "autor": "JJ Bola",
-    "ga": "Masculino",
-    "status_notion": "Não iniciada",
-    "tenho": "Sim",
-    "capa": "https://m.media-amazon.com/images/I/51FLeh+dBrL.jpg"
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "",
+    "tenho": "",
+    "capa": ""
   },
   {
     "pais": "Croácia",
@@ -1513,12 +1513,12 @@
   },
   {
     "pais": "China",
-    "livro": "Expiração ",
-    "autor": "Ted Chiang ",
-    "ga": "Masculino",
-    "status_notion": "Não iniciada",
-    "tenho": "Não",
-    "capa": "https://m.media-amazon.com/images/I/61pmdZryUyS._SL1500_.jpg"
+    "livro": "",
+    "autor": "",
+    "ga": "",
+    "status_notion": "",
+    "tenho": "",
+    "capa": ""
   },
   {
     "pais": "Comores",
