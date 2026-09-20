@@ -469,6 +469,10 @@ thead tr { border-bottom: 2px solid var(--black); }
 th { padding: .55rem .8rem; text-align: left; font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); white-space: nowrap; cursor: pointer; user-select: none; }
 th:hover { color: var(--text); }
 td { padding: .65rem .8rem; border-bottom: 1px solid #eee; vertical-align: middle; }
+/* Título muito longo (ex: livro da Índia) não deve espremer as colunas
+   seguintes — limita a largura da coluna Livro e deixa o texto quebrar
+   dentro dela, em vez de crescer a tabela inteira. */
+#notion-table td:nth-child(3) { max-width: 200px; overflow-wrap: break-word; }
 tr:hover td { background: rgba(132,153,116,.05); }
 .book-cover { width: 26px; height: 38px; object-fit: cover; border-radius: 2px; display: block; }
 .cover-ph { width: 26px; height: 38px; background: #f0ede8; border: 1.5px dashed var(--border); border-radius: 2px; display: flex; align-items: center; justify-content: center; font-size: .55rem; color: #999; }
@@ -1109,7 +1113,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="footer-dots">
     <div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div>
   </div>
-  <span class="footer-text"><span id="footer-autora"></span>&nbsp;&nbsp;|&nbsp;&nbsp;© <span id="footer-ano"></span>&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">20 de setembro de 2026</span></span>
+  <span class="footer-text"><span id="footer-autora"></span>&nbsp;&nbsp;|&nbsp;&nbsp;© <span id="footer-ano"></span>&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">11 de setembro de 2026</span></span>
 </footer>
 <!-- FOOTER:END -->
 
