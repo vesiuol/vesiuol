@@ -6,7 +6,13 @@
     "ga": "Feminino",
     "status_notion": "Não iniciada",
     "tenho": "Não",
-    "capa": "https://m.media-amazon.com/images/I/81OMSeNLE6L._SY466_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/81OMSeNLE6L._SY466_.jpg",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Países baixos",
@@ -15,7 +21,13 @@
     "ga": "",
     "status_notion": "",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Norte da Macedônia",
@@ -24,7 +36,13 @@
     "ga": "",
     "status_notion": "",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Dominicana",
@@ -33,7 +51,13 @@
     "ga": "",
     "status_notion": "",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Belarus",
@@ -42,7 +66,13 @@
     "ga": "",
     "status_notion": "",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Ilhas Salomão",
@@ -51,7 +81,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Porto Rico***",
@@ -60,7 +96,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Polinésia Francesa",
@@ -69,7 +111,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Ilhas Virgens",
@@ -78,7 +126,13 @@
     "ga": "Trans",
     "status_notion": "Concluído",
     "tenho": "Sim",
-    "capa": "https://m.media-amazon.com/images/I/61qNJZl4o0L._SY466_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/61qNJZl4o0L._SY466_.jpg",
+    "nota": "3",
+    "cor": "Negro",
+    "genero_livro": "Ficção",
+    "diversidade_etnica": "Não",
+    "lgbtq": "Sim",
+    "ownvoices": "Não"
   },
   {
     "pais": "Ilhas Marshall\t",
@@ -87,7 +141,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Groenlândia**",
@@ -96,7 +156,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Curaçao**",
@@ -105,7 +171,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Aruba***",
@@ -114,7 +186,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Vietnã",
@@ -123,7 +201,13 @@
     "ga": "Feminino",
     "status_notion": "Concluído",
     "tenho": "Não",
-    "capa": "https://m.media-amazon.com/images/I/41B8CVh-6uL._SY445_SX342_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/41B8CVh-6uL._SY445_SX342_.jpg",
+    "nota": "3",
+    "cor": "Asiático",
+    "genero_livro": "Autobiografia",
+    "diversidade_etnica": "Sim",
+    "lgbtq": "Não",
+    "ownvoices": "Sim"
   },
   {
     "pais": "Zâmbia",
@@ -132,7 +216,13 @@
     "ga": "Feminino",
     "status_notion": "Concluído",
     "tenho": "Sim",
-    "capa": "https://a-static.mlcdn.com.br/470x352/assando-bolos-em-kigali/biruta/289744/3cebf783ea7ee8d9aa964cb6a2139acb.jpeg"
+    "capa": "https://a-static.mlcdn.com.br/470x352/assando-bolos-em-kigali/biruta/289744/3cebf783ea7ee8d9aa964cb6a2139acb.jpeg",
+    "nota": "4",
+    "cor": "Branco",
+    "genero_livro": "Romance",
+    "diversidade_etnica": "Sim",
+    "lgbtq": "Não",
+    "ownvoices": "Não"
   },
   {
     "pais": "Zimbábue",
@@ -141,7 +231,13 @@
     "ga": "Masculino",
     "status_notion": "Concluído",
     "tenho": "Sim",
-    "capa": "https://m.media-amazon.com/images/I/91SzxuEeSQL._SY425_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/91SzxuEeSQL._SY425_.jpg",
+    "nota": "3",
+    "cor": "Branco",
+    "genero_livro": "Investigação",
+    "diversidade_etnica": "Sim",
+    "lgbtq": "Não",
+    "ownvoices": "Não"
   },
   {
     "pais": "Tunísia",
@@ -150,7 +246,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Venezuela",
@@ -159,7 +261,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Uzbequistão",
@@ -168,7 +276,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Vaticano**",
@@ -177,7 +291,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Ucrânia",
@@ -186,7 +306,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Uruguai",
@@ -195,7 +321,13 @@
     "ga": "Masculino",
     "status_notion": "Concluído",
     "tenho": "Não",
-    "capa": "https://m.media-amazon.com/images/I/81TLZQ4DlxL._SY466_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/81TLZQ4DlxL._SY466_.jpg",
+    "nota": "2,5",
+    "cor": "Branco",
+    "genero_livro": "Ficção",
+    "diversidade_etnica": "Não",
+    "lgbtq": "Não",
+    "ownvoices": "Não"
   },
   {
     "pais": "Turquia",
@@ -204,7 +336,13 @@
     "ga": "Feminino",
     "status_notion": "Não iniciada",
     "tenho": "Não",
-    "capa": "https://m.media-amazon.com/images/I/816biVSrVDL._SY466_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/816biVSrVDL._SY466_.jpg",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Tuvalu",
@@ -213,7 +351,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Uganda",
@@ -222,7 +366,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Vanuatu",
@@ -231,7 +381,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Turcomenistão",
@@ -240,7 +396,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Tanzânia",
@@ -249,7 +411,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Togo",
@@ -258,7 +426,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Suíça",
@@ -267,7 +441,13 @@
     "ga": "Masculino",
     "status_notion": "Não iniciada",
     "tenho": "Não",
-    "capa": "https://m.media-amazon.com/images/I/81SksFX50mL._SY466_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/81SksFX50mL._SY466_.jpg",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Tajiquistão",
@@ -276,7 +456,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Tonga",
@@ -285,16 +471,28 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Trinidad e Tobago",
     "livro": "Menino de ouro",
     "autor": "Claire Adam",
     "ga": "Feminino",
-    "status_notion": "Em andamento",
+    "status_notion": "Não iniciada",
     "tenho": "Sim",
-    "capa": "https://m.media-amazon.com/images/I/91sNbK-KzvL._SY466_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/91sNbK-KzvL._SY466_.jpg",
+    "nota": "",
+    "cor": "Branco",
+    "genero_livro": "Romance",
+    "diversidade_etnica": "Não",
+    "lgbtq": "Não",
+    "ownvoices": "Não"
   },
   {
     "pais": "Timor-Leste",
@@ -303,7 +501,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Tailândia",
@@ -312,7 +516,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "República Tcheca",
@@ -321,7 +531,13 @@
     "ga": "Masculino",
     "status_notion": "Concluído",
     "tenho": "Sim",
-    "capa": "https://m.media-amazon.com/images/I/818ShC1u68L._SL1500_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/818ShC1u68L._SL1500_.jpg",
+    "nota": "3",
+    "cor": "Branco",
+    "genero_livro": "Romance",
+    "diversidade_etnica": "Não",
+    "lgbtq": "Não",
+    "ownvoices": "Não"
   },
   {
     "pais": "Suriname",
@@ -330,7 +546,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Taiwan**",
@@ -339,7 +561,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Suécia",
@@ -348,7 +576,13 @@
     "ga": "Masculino",
     "status_notion": "Concluído",
     "tenho": "Sim",
-    "capa": "https://m.media-amazon.com/images/I/51K-O9uzclL.jpg"
+    "capa": "https://m.media-amazon.com/images/I/51K-O9uzclL.jpg",
+    "nota": "5",
+    "cor": "Branco",
+    "genero_livro": "Romance",
+    "diversidade_etnica": "Sim",
+    "lgbtq": "Não",
+    "ownvoices": "Não"
   },
   {
     "pais": "Sudão",
@@ -357,7 +591,13 @@
     "ga": "Masculino",
     "status_notion": "Não iniciada",
     "tenho": "Não",
-    "capa": "https://m.media-amazon.com/images/I/51O4mU0B3gL._SY466_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/51O4mU0B3gL._SY466_.jpg",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Sudão do Sul",
@@ -366,7 +606,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Sri Lanka",
@@ -375,7 +621,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Sérvia",
@@ -384,7 +636,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Singapura",
@@ -393,7 +651,13 @@
     "ga": "Feminino",
     "status_notion": "Não iniciada",
     "tenho": "Não",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Seychelles",
@@ -402,7 +666,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Senegal",
@@ -411,7 +681,13 @@
     "ga": "Feminino",
     "status_notion": "Não iniciada",
     "tenho": "Não",
-    "capa": "https://m.media-amazon.com/images/I/81Cxpl3a2+L._SY466_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/81Cxpl3a2+L._SY466_.jpg",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Serra Leoa",
@@ -420,7 +696,13 @@
     "ga": "Masculino",
     "status_notion": "Não iniciada",
     "tenho": "Sim",
-    "capa": "https://m.media-amazon.com/images/I/91kBeCnZ4YL._SY425_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/91kBeCnZ4YL._SY425_.jpg",
+    "nota": "",
+    "cor": "Negro",
+    "genero_livro": "Romance",
+    "diversidade_etnica": "Não",
+    "lgbtq": "Não",
+    "ownvoices": "Sim"
   },
   {
     "pais": "Somália",
@@ -429,7 +711,13 @@
     "ga": "Feminino",
     "status_notion": "Em andamento",
     "tenho": "Sim",
-    "capa": "https://m.media-amazon.com/images/I/91UtcPIPByL._SY466_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/91UtcPIPByL._SY466_.jpg",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Síria",
@@ -438,7 +726,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "São Vicente e Granadinas",
@@ -447,7 +741,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "São Tomé e Príncipe",
@@ -456,7 +756,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Rússia",
@@ -465,7 +771,13 @@
     "ga": "Masculino",
     "status_notion": "Concluído",
     "tenho": "Não",
-    "capa": "https://m.media-amazon.com/images/I/81U5uhi2vML._UF1000,1000_QL80_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/81U5uhi2vML._UF1000,1000_QL80_.jpg",
+    "nota": "3",
+    "cor": "Branco",
+    "genero_livro": "Clássico",
+    "diversidade_etnica": "Não",
+    "lgbtq": "Não",
+    "ownvoices": "Não"
   },
   {
     "pais": "República Democrática do Congo**",
@@ -474,7 +786,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "República do Congo",
@@ -483,7 +801,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Samoa",
@@ -492,7 +816,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Ruanda",
@@ -501,7 +831,13 @@
     "ga": "Feminino",
     "status_notion": "Concluído",
     "tenho": "Sim",
-    "capa": "https://m.media-amazon.com/images/I/71kxBKomPML._SY466_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/71kxBKomPML._SY466_.jpg",
+    "nota": "4",
+    "cor": "Negro",
+    "genero_livro": "Autobiografia",
+    "diversidade_etnica": "Sim",
+    "lgbtq": "Não",
+    "ownvoices": "Sim"
   },
   {
     "pais": "Santa Lúcia",
@@ -510,7 +846,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "São Marino",
@@ -519,7 +861,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "República Dominicana",
@@ -528,7 +876,13 @@
     "ga": "Masculino",
     "status_notion": "Não iniciada",
     "tenho": "Não",
-    "capa": "https://m.media-amazon.com/images/I/71MjVW+tRmL._SY466_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/71MjVW+tRmL._SY466_.jpg",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Romênia",
@@ -537,7 +891,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "República Centro-Africana**",
@@ -546,7 +906,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Reino Unido",
@@ -555,7 +921,13 @@
     "ga": "Feminino",
     "status_notion": "Concluído",
     "tenho": "Sim",
-    "capa": "https://m.media-amazon.com/images/I/71wQ7qes-XL._SL1000_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/71wQ7qes-XL._SL1000_.jpg",
+    "nota": "3",
+    "cor": "Branco",
+    "genero_livro": "Fantasia",
+    "diversidade_etnica": "Sim",
+    "lgbtq": "Sim",
+    "ownvoices": "Não"
   },
   {
     "pais": "Quirguistão",
@@ -564,7 +936,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Papua-Nova Guiné",
@@ -573,7 +951,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Portugal",
@@ -582,7 +966,13 @@
     "ga": "Masculino",
     "status_notion": "Concluído",
     "tenho": "Não",
-    "capa": "https://static.skeelo.com/remote/320/480/100/https://skoob.s3.amazonaws.com/livros/608779/VAMOS_COMPRAR_UM_POETA_1656275729608779SK-V11656275730B.jpg"
+    "capa": "https://static.skeelo.com/remote/320/480/100/https://skoob.s3.amazonaws.com/livros/608779/VAMOS_COMPRAR_UM_POETA_1656275729608779SK-V11656275730B.jpg",
+    "nota": "4",
+    "cor": "Branco",
+    "genero_livro": "Ficção",
+    "diversidade_etnica": "Não",
+    "lgbtq": "Não",
+    "ownvoices": "Não"
   },
   {
     "pais": "Polônia",
@@ -591,7 +981,13 @@
     "ga": "Masculino",
     "status_notion": "Não iniciada",
     "tenho": "Não",
-    "capa": "https://m.media-amazon.com/images/I/61wluSJ2bjL._AC_UY218_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/61wluSJ2bjL._AC_UY218_.jpg",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Paraguai",
@@ -600,7 +996,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Paquistão",
@@ -609,7 +1011,13 @@
     "ga": "Masculino",
     "status_notion": "Concluído",
     "tenho": "Sim",
-    "capa": "https://m.media-amazon.com/images/I/61q+S9pZioL._SY466_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/61q+S9pZioL._SY466_.jpg",
+    "nota": "3",
+    "cor": "Branco",
+    "genero_livro": "Ficção Especulativa",
+    "diversidade_etnica": "Não",
+    "lgbtq": "Não",
+    "ownvoices": "Não"
   },
   {
     "pais": "Quênia",
@@ -618,7 +1026,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Peru",
@@ -627,7 +1041,13 @@
     "ga": "Feminino",
     "status_notion": "Não iniciada",
     "tenho": "Não",
-    "capa": "https://m.media-amazon.com/images/I/61r+-p70SEL._SY466_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/61r+-p70SEL._SY466_.jpg",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Omã",
@@ -636,7 +1056,13 @@
     "ga": "Feminino",
     "status_notion": "Não iniciada",
     "tenho": "Não",
-    "capa": "https://m.media-amazon.com/images/I/813ZrKq5TiL._SY466_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/813ZrKq5TiL._SY466_.jpg",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Palau",
@@ -645,7 +1071,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "País de Gales",
@@ -654,7 +1086,13 @@
     "ga": "Feminino",
     "status_notion": "Não iniciada",
     "tenho": "Não",
-    "capa": "https://m.media-amazon.com/images/I/81olQWTv5lL._SY466_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/81olQWTv5lL._SY466_.jpg",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Panamá",
@@ -663,7 +1101,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Noruega",
@@ -672,7 +1116,13 @@
     "ga": "Feminino",
     "status_notion": "Não iniciada",
     "tenho": "Sim",
-    "capa": "https://m.media-amazon.com/images/I/61yLCMQ3V1L._SY466_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/61yLCMQ3V1L._SY466_.jpg",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Namíbia",
@@ -681,7 +1131,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Níger",
@@ -690,7 +1146,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Nova Zelândia",
@@ -699,7 +1161,13 @@
     "ga": "Feminino",
     "status_notion": "Não iniciada",
     "tenho": "Não",
-    "capa": "https://m.media-amazon.com/images/I/61XtKla65VL._SX445_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/61XtKla65VL._SX445_.jpg",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Nicarágua",
@@ -708,7 +1176,13 @@
     "ga": "Feminino",
     "status_notion": "Não iniciada",
     "tenho": "Não",
-    "capa": "https://m.media-amazon.com/images/I/71WJQenuTWL._SY466_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/71WJQenuTWL._SY466_.jpg",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Nepal",
@@ -717,7 +1191,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Nigéria",
@@ -726,7 +1206,13 @@
     "ga": "Feminino",
     "status_notion": "Não iniciada",
     "tenho": "Não",
-    "capa": "https://m.media-amazon.com/images/I/91tzCiK7ozL._SY466_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/91tzCiK7ozL._SY466_.jpg",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Nauru",
@@ -735,7 +1221,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "México",
@@ -744,7 +1236,13 @@
     "ga": "Feminino",
     "status_notion": "Não iniciada",
     "tenho": "Não",
-    "capa": "https://m.media-amazon.com/images/I/51nqEy57vVL._SY466_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/51nqEy57vVL._SY466_.jpg",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Micronésia",
@@ -753,7 +1251,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Montenegro",
@@ -762,7 +1266,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Mônaco",
@@ -771,7 +1281,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Moçambique",
@@ -780,7 +1296,13 @@
     "ga": "Masculino",
     "status_notion": "Não iniciada",
     "tenho": "Não",
-    "capa": "https://m.media-amazon.com/images/I/71d1x8XT4GL._SY466_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/71d1x8XT4GL._SY466_.jpg",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Moldávia",
@@ -789,7 +1311,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Mongólia",
@@ -798,7 +1326,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Mauritânia",
@@ -807,7 +1341,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Mianmar",
@@ -816,7 +1356,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Madagascar",
@@ -825,7 +1371,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Maldivas",
@@ -834,7 +1386,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Malásia",
@@ -843,7 +1401,13 @@
     "ga": "Feminino",
     "status_notion": "Não iniciada",
     "tenho": "Não",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Luxemburgo",
@@ -852,7 +1416,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Marrocos",
@@ -861,7 +1431,13 @@
     "ga": "Feminino",
     "status_notion": "Não iniciada",
     "tenho": "Sim",
-    "capa": "https://m.media-amazon.com/images/I/71b890mPU5L._SY425_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/71b890mPU5L._SY425_.jpg",
+    "nota": "",
+    "cor": "Branco",
+    "genero_livro": "Ficção Científica",
+    "diversidade_etnica": "Não",
+    "lgbtq": "Não",
+    "ownvoices": "Não"
   },
   {
     "pais": "Mali",
@@ -870,7 +1446,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Malta",
@@ -879,7 +1461,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Lituânia",
@@ -888,7 +1476,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Maurício",
@@ -897,7 +1491,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Liechtenstein",
@@ -906,7 +1506,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Malawi",
@@ -915,7 +1521,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Líbia",
@@ -924,7 +1536,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Kuwait",
@@ -933,7 +1551,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Lesoto",
@@ -942,7 +1566,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Libéria",
@@ -951,7 +1581,13 @@
     "ga": "Feminino",
     "status_notion": "Não iniciada",
     "tenho": "Não",
-    "capa": "https://m.media-amazon.com/images/I/81MkXxUG6NL._SL1500_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/81MkXxUG6NL._SL1500_.jpg",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Kiribati\t",
@@ -960,7 +1596,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Laos",
@@ -969,7 +1611,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Líbano",
@@ -978,7 +1626,13 @@
     "ga": "Masculino",
     "status_notion": "Não iniciada",
     "tenho": "Não",
-    "capa": "https://m.media-amazon.com/images/I/71+jkvhgFVL._SY466_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/71+jkvhgFVL._SY466_.jpg",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Letônia",
@@ -987,7 +1641,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Jamaica",
@@ -996,16 +1656,28 @@
     "ga": "Feminino",
     "status_notion": "Não iniciada",
     "tenho": "Não",
-    "capa": "https://m.media-amazon.com/images/I/41dg-o5iXcS.jpg"
+    "capa": "https://m.media-amazon.com/images/I/41dg-o5iXcS.jpg",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Japão",
-    "livro": "Diário dos Gatos: Yon & M",
+    "livro": "Diário dos Gatos: Yon & Mu",
     "autor": "Junji Ito",
     "ga": "Masculino",
     "status_notion": "Concluído",
     "tenho": "Sim",
-    "capa": "https://m.media-amazon.com/images/I/51y+Ul4umeL._SY425_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/51y+Ul4umeL._SY425_.jpg",
+    "nota": "5",
+    "cor": "Asiático",
+    "genero_livro": "Mangá",
+    "diversidade_etnica": "Não",
+    "lgbtq": "Não",
+    "ownvoices": "Não"
   },
   {
     "pais": "Jordânia",
@@ -1014,7 +1686,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Israel",
@@ -1023,7 +1701,13 @@
     "ga": "Masculino",
     "status_notion": "Não iniciada",
     "tenho": "Não",
-    "capa": "https://m.media-amazon.com/images/I/51N39cvcL8L.jpg"
+    "capa": "https://m.media-amazon.com/images/I/51N39cvcL8L.jpg",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Itália",
@@ -1032,7 +1716,13 @@
     "ga": "Feminino",
     "status_notion": "Não iniciada",
     "tenho": "Não",
-    "capa": "https://m.media-amazon.com/images/I/71ssdjzNbXL._SL1500_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/71ssdjzNbXL._SL1500_.jpg",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Islândia",
@@ -1041,7 +1731,13 @@
     "ga": "Feminino",
     "status_notion": "Não iniciada",
     "tenho": "Não",
-    "capa": "https://m.media-amazon.com/images/I/81QXOavKKbL._SY466_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/81QXOavKKbL._SY466_.jpg",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Irlanda",
@@ -1050,7 +1746,13 @@
     "ga": "Feminino",
     "status_notion": "Concluído",
     "tenho": "Sim",
-    "capa": "https://m.media-amazon.com/images/I/81XDzrd6jxL._SY466_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/81XDzrd6jxL._SY466_.jpg",
+    "nota": "2,5",
+    "cor": "Branco",
+    "genero_livro": "Romance",
+    "diversidade_etnica": "Não",
+    "lgbtq": "Não",
+    "ownvoices": "Não"
   },
   {
     "pais": "Iraque",
@@ -1059,7 +1761,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Inglaterra",
@@ -1068,7 +1776,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Irã",
@@ -1077,7 +1791,13 @@
     "ga": "Feminino",
     "status_notion": "Não iniciada",
     "tenho": "Sim",
-    "capa": "https://m.media-amazon.com/images/I/81LQST9hn6L._SL1500_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/81LQST9hn6L._SL1500_.jpg",
+    "nota": "",
+    "cor": "Branco",
+    "genero_livro": "Não Ficção",
+    "diversidade_etnica": "Não",
+    "lgbtq": "Não",
+    "ownvoices": "Não"
   },
   {
     "pais": "Indonésia",
@@ -1086,7 +1806,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Iêmen",
@@ -1095,7 +1821,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Índia",
@@ -1104,7 +1836,13 @@
     "ga": "Feminino",
     "status_notion": "Concluído",
     "tenho": "Sim",
-    "capa": "https://m.media-amazon.com/images/I/917ynGrPvVL._SY425_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/917ynGrPvVL._SY425_.jpg",
+    "nota": "4,5",
+    "cor": "Asiático",
+    "genero_livro": "Conto",
+    "diversidade_etnica": "Sim",
+    "lgbtq": "Não",
+    "ownvoices": "Não"
   },
   {
     "pais": "Hungria",
@@ -1113,7 +1851,13 @@
     "ga": "Feminino",
     "status_notion": "Não iniciada",
     "tenho": "Não",
-    "capa": "https://m.media-amazon.com/images/I/51xTVPNfLIL._SY466_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/51xTVPNfLIL._SY466_.jpg",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Honduras",
@@ -1122,7 +1866,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Haiti",
@@ -1131,7 +1881,13 @@
     "ga": "Feminino",
     "status_notion": "Não iniciada",
     "tenho": "Não",
-    "capa": "https://m.media-amazon.com/images/I/61TsY-o+++L._SY466_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/61TsY-o+++L._SY466_.jpg",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Holanda",
@@ -1140,7 +1896,13 @@
     "ga": "Feminino",
     "status_notion": "Não iniciada",
     "tenho": "Não",
-    "capa": "https://m.media-amazon.com/images/I/41hg5ZoZ2bL.jpg"
+    "capa": "https://m.media-amazon.com/images/I/41hg5ZoZ2bL.jpg",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Guiné",
@@ -1149,7 +1911,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Guiné Equatorial",
@@ -1158,7 +1926,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Guiné-Bissau",
@@ -1167,7 +1941,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Guiana",
@@ -1176,7 +1956,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Grenada",
@@ -1185,7 +1971,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Guatemala",
@@ -1194,7 +1986,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Gana",
@@ -1203,7 +2001,13 @@
     "ga": "Feminino",
     "status_notion": "Não iniciada",
     "tenho": "Não",
-    "capa": "https://m.media-amazon.com/images/I/81gT6tf0k0L._SY466_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/81gT6tf0k0L._SY466_.jpg",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Geórgia",
@@ -1212,7 +2016,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Grécia",
@@ -1221,7 +2031,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Gabão",
@@ -1230,7 +2046,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Gâmbia",
@@ -1239,7 +2061,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Filipinas",
@@ -1248,7 +2076,13 @@
     "ga": "Feminino",
     "status_notion": "Não iniciada",
     "tenho": "Não",
-    "capa": "https://m.media-amazon.com/images/I/71yG3+3+2qL._SY425_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/71yG3+3+2qL._SY425_.jpg",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Finlândia",
@@ -1257,7 +2091,13 @@
     "ga": "Feminino",
     "status_notion": "Não iniciada",
     "tenho": "Não",
-    "capa": "https://m.media-amazon.com/images/I/71S+pufvpWL._SL1447_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/71S+pufvpWL._SL1447_.jpg",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "França",
@@ -1266,7 +2106,13 @@
     "ga": "Feminino",
     "status_notion": "Não iniciada",
     "tenho": "Não",
-    "capa": "https://m.media-amazon.com/images/I/81FSZu-pIGS._SY425_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/81FSZu-pIGS._SY425_.jpg",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Fiji",
@@ -1275,16 +2121,28 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Etiópia",
-    "livro": "O décimo primeiro mandamento",
+    "livro": "O 11º Mandamento",
     "autor": "Abraham Verghese",
     "ga": "Masculino",
     "status_notion": "Não iniciada",
     "tenho": "Sim",
-    "capa": "https://m.media-amazon.com/images/I/91L7fuzfm4S._SY466_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/91L7fuzfm4S._SY466_.jpg",
+    "nota": "",
+    "cor": "Asiático",
+    "genero_livro": "Ficção",
+    "diversidade_etnica": "Não",
+    "lgbtq": "Não",
+    "ownvoices": "Não"
   },
   {
     "pais": "Estônia",
@@ -1293,7 +2151,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Estados Federados da Micronésia***",
@@ -1302,7 +2166,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Estados Unidos",
@@ -1311,7 +2181,13 @@
     "ga": "Feminino",
     "status_notion": "Concluído",
     "tenho": "Sim",
-    "capa": "https://http2.mlstatic.com/D_NQ_NP_2X_859906-MLA99526853820_122025-F.webp"
+    "capa": "https://http2.mlstatic.com/D_NQ_NP_2X_859906-MLA99526853820_122025-F.webp",
+    "nota": "4",
+    "cor": "Negro",
+    "genero_livro": "Não Ficção",
+    "diversidade_etnica": "Não",
+    "lgbtq": "Não",
+    "ownvoices": "Sim"
   },
   {
     "pais": "Eswatini",
@@ -1320,7 +2196,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Equador",
@@ -1329,7 +2211,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Eslovênia",
@@ -1338,7 +2226,13 @@
     "ga": "Masculino",
     "status_notion": "Não iniciada",
     "tenho": "Não",
-    "capa": "https://m.media-amazon.com/images/I/91fk9rfFqTL._SY466_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/91fk9rfFqTL._SY466_.jpg",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Eritreia",
@@ -1347,7 +2241,13 @@
     "ga": "Masculino",
     "status_notion": "Não iniciada",
     "tenho": "Não",
-    "capa": "https://m.media-amazon.com/images/I/71cTrCZc+HL._SY466_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/71cTrCZc+HL._SY466_.jpg",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Escócia**",
@@ -1356,7 +2256,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Espanha",
@@ -1365,7 +2271,13 @@
     "ga": "Masculino",
     "status_notion": "Não iniciada",
     "tenho": "Sim",
-    "capa": "https://m.media-amazon.com/images/I/81k74t+lqyL._SY466_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/81k74t+lqyL._SY466_.jpg",
+    "nota": "",
+    "cor": "Branco",
+    "genero_livro": "Clássico",
+    "diversidade_etnica": "Não",
+    "lgbtq": "Não",
+    "ownvoices": "Não"
   },
   {
     "pais": "Eslováquia",
@@ -1374,7 +2286,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "El Salvador",
@@ -1383,7 +2301,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Egito",
@@ -1392,7 +2316,13 @@
     "ga": "Masculino",
     "status_notion": "Não iniciada",
     "tenho": "Não",
-    "capa": "https://m.media-amazon.com/images/I/81lxBn+MHrL._SY466_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/81lxBn+MHrL._SY466_.jpg",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Emirados Árabes Unidos",
@@ -1401,7 +2331,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Dominica",
@@ -1410,7 +2346,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Djibouti",
@@ -1419,16 +2361,28 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Dinamarca",
-    "livro": "Os funcionários ",
+    "livro": "Os funcionários",
     "autor": "Olga Ravn",
     "ga": "Feminino",
     "status_notion": "Não iniciada",
     "tenho": "Sim",
-    "capa": "https://m.media-amazon.com/images/I/71NNwTzLGSL._SY466_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/71NNwTzLGSL._SY466_.jpg",
+    "nota": "",
+    "cor": "Branco",
+    "genero_livro": "Ficção Distópica",
+    "diversidade_etnica": "Não",
+    "lgbtq": "Não",
+    "ownvoices": "Não"
   },
   {
     "pais": "Cuba",
@@ -1437,7 +2391,13 @@
     "ga": "Feminino",
     "status_notion": "Concluído",
     "tenho": "Sim",
-    "capa": "https://m.media-amazon.com/images/I/61YbM0CxNIL._SY466_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/61YbM0CxNIL._SY466_.jpg",
+    "nota": "4",
+    "cor": "Negro",
+    "genero_livro": "Romance",
+    "diversidade_etnica": "Sim",
+    "lgbtq": "Não",
+    "ownvoices": "Sim"
   },
   {
     "pais": "Costa do Marfim",
@@ -1446,7 +2406,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Coreia do Sul",
@@ -1455,7 +2421,13 @@
     "ga": "Feminino",
     "status_notion": "Não iniciada",
     "tenho": "Sim",
-    "capa": "https://m.media-amazon.com/images/I/61yRrzRAoCL._SL1500_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/61yRrzRAoCL._SL1500_.jpg",
+    "nota": "",
+    "cor": "Asiático",
+    "genero_livro": "Romance",
+    "diversidade_etnica": "Não",
+    "lgbtq": "Não",
+    "ownvoices": "Não"
   },
   {
     "pais": "Costa Rica",
@@ -1464,7 +2436,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Congo",
@@ -1473,7 +2451,13 @@
     "ga": "",
     "status_notion": "",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Croácia",
@@ -1482,7 +2466,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Coreia do Norte",
@@ -1491,16 +2481,28 @@
     "ga": "Desconhecide",
     "status_notion": "Não iniciada",
     "tenho": "Não",
-    "capa": "https://m.media-amazon.com/images/I/81Zb5YuQWxS._SL1500_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/81Zb5YuQWxS._SL1500_.jpg",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Chile",
-    "livro": "O vento sabe o meu nome",
+    "livro": "O vento sabe meu nome",
     "autor": "Isabel Allende",
     "ga": "Feminino",
     "status_notion": "Concluído",
     "tenho": "Sim",
-    "capa": "https://m.media-amazon.com/images/I/919QiNB2-6L._SY466_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/919QiNB2-6L._SY466_.jpg",
+    "nota": "4",
+    "cor": "Branco",
+    "genero_livro": "Romance",
+    "diversidade_etnica": "Sim",
+    "lgbtq": "Não",
+    "ownvoices": "Não"
   },
   {
     "pais": "Chipre",
@@ -1509,7 +2511,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "China",
@@ -1518,7 +2526,13 @@
     "ga": "",
     "status_notion": "",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Comores",
@@ -1527,7 +2541,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Colômbia",
@@ -1536,7 +2556,13 @@
     "ga": "Masculino",
     "status_notion": "Não iniciada",
     "tenho": "Sim",
-    "capa": "https://m.media-amazon.com/images/I/817esPahlrL._SY466_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/817esPahlrL._SY466_.jpg",
+    "nota": "",
+    "cor": "Branco",
+    "genero_livro": "Realismo Mágico",
+    "diversidade_etnica": "Não",
+    "lgbtq": "Não",
+    "ownvoices": "Não"
   },
   {
     "pais": "Canadá",
@@ -1545,7 +2571,13 @@
     "ga": "Feminino",
     "status_notion": "Concluído",
     "tenho": "Sim",
-    "capa": "https://m.media-amazon.com/images/I/41nuwM6VUSL._SY445_SX342_ML2_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/41nuwM6VUSL._SY445_SX342_ML2_.jpg",
+    "nota": "4",
+    "cor": "Branco",
+    "genero_livro": "Ficção Científica",
+    "diversidade_etnica": "Não",
+    "lgbtq": "Sim",
+    "ownvoices": "Não"
   },
   {
     "pais": "Chade",
@@ -1554,7 +2586,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Cazaquistão",
@@ -1563,7 +2601,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Camarões",
@@ -1572,7 +2616,13 @@
     "ga": "Feminino",
     "status_notion": "Concluído",
     "tenho": "Sim",
-    "capa": "https://m.media-amazon.com/images/I/51pFP4T4XEL.jpg"
+    "capa": "https://m.media-amazon.com/images/I/51pFP4T4XEL.jpg",
+    "nota": "4",
+    "cor": "Negro",
+    "genero_livro": "Romance",
+    "diversidade_etnica": "Sim",
+    "lgbtq": "Não",
+    "ownvoices": "Não"
   },
   {
     "pais": "Camboja",
@@ -1581,7 +2631,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Qatar",
@@ -1590,7 +2646,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Cabo Verde",
@@ -1599,7 +2661,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Butão",
@@ -1608,7 +2676,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Burundi",
@@ -1617,7 +2691,13 @@
     "ga": "Masculino",
     "status_notion": "Não iniciada",
     "tenho": "Não",
-    "capa": "https://m.media-amazon.com/images/I/71jBut2DyML._SY466_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/71jBut2DyML._SY466_.jpg",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Bulgária",
@@ -1626,7 +2706,13 @@
     "ga": "Masculino",
     "status_notion": "Concluído",
     "tenho": "Sim",
-    "capa": "https://m.media-amazon.com/images/I/81gEa09B+nL._SY466_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/81gEa09B+nL._SY466_.jpg",
+    "nota": "3",
+    "cor": "Branco",
+    "genero_livro": "Autobiografia",
+    "diversidade_etnica": "Sim",
+    "lgbtq": "Não",
+    "ownvoices": "Sim"
   },
   {
     "pais": "Burkina Faso",
@@ -1635,7 +2721,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Brunei",
@@ -1644,7 +2736,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Brasil",
@@ -1653,7 +2751,13 @@
     "ga": "Masculino",
     "status_notion": "Concluído",
     "tenho": "Sim",
-    "capa": "https://m.media-amazon.com/images/I/618-b9Im6dL._SY425_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/618-b9Im6dL._SY425_.jpg",
+    "nota": "3",
+    "cor": "Branco",
+    "genero_livro": "Clássico",
+    "diversidade_etnica": "Não",
+    "lgbtq": "Não",
+    "ownvoices": "Não"
   },
   {
     "pais": "Benim",
@@ -1662,16 +2766,28 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Bielorrússia",
     "livro": "Vozes De Tchernóbil ",
-    "autor": "Svetlana Alexijevich",
+    "autor": "Svetlana Aleksiévitch",
     "ga": "Feminino",
     "status_notion": "Concluído",
     "tenho": "Sim",
-    "capa": "https://m.media-amazon.com/images/I/91RcGh5EDaL._SL1500_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/91RcGh5EDaL._SL1500_.jpg",
+    "nota": "5",
+    "cor": "Branco",
+    "genero_livro": "Não Ficção",
+    "diversidade_etnica": "Não",
+    "lgbtq": "Não",
+    "ownvoices": "Sim"
   },
   {
     "pais": "Botsuana",
@@ -1680,7 +2796,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Bolívia",
@@ -1689,7 +2811,13 @@
     "ga": "Masculino",
     "status_notion": "Concluído",
     "tenho": "Sim",
-    "capa": "https://m.media-amazon.com/images/I/61zbEahX4+L._SY466_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/61zbEahX4+L._SY466_.jpg",
+    "nota": "4",
+    "cor": "Branco",
+    "genero_livro": "Romance",
+    "diversidade_etnica": "Sim",
+    "lgbtq": "Não",
+    "ownvoices": "Não"
   },
   {
     "pais": "Bósnia e Herzegovina",
@@ -1698,7 +2826,13 @@
     "ga": "Masculino",
     "status_notion": "Não iniciada",
     "tenho": "Sim",
-    "capa": "https://m.media-amazon.com/images/I/91nrIr1awJL._SY466_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/91nrIr1awJL._SY466_.jpg",
+    "nota": "",
+    "cor": "Branco",
+    "genero_livro": "Ficção Contemporânea",
+    "diversidade_etnica": "Não",
+    "lgbtq": "Não",
+    "ownvoices": "Não"
   },
   {
     "pais": "Belize",
@@ -1707,7 +2841,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Barbados",
@@ -1716,7 +2856,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Bahrein",
@@ -1725,7 +2871,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Bangladesh",
@@ -1734,7 +2886,13 @@
     "ga": "Feminino",
     "status_notion": "Não iniciada",
     "tenho": "Não",
-    "capa": "https://m.media-amazon.com/images/I/91lWcKAzBNL._SY466_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/91lWcKAzBNL._SY466_.jpg",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Bélgica",
@@ -1743,7 +2901,13 @@
     "ga": "Feminino",
     "status_notion": "Concluído",
     "tenho": "Sim",
-    "capa": "https://m.media-amazon.com/images/I/81IKyAwkU7L._SY466_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/81IKyAwkU7L._SY466_.jpg",
+    "nota": "4",
+    "cor": "Branco",
+    "genero_livro": "Ficção",
+    "diversidade_etnica": "Não",
+    "lgbtq": "Não",
+    "ownvoices": "Não"
   },
   {
     "pais": "Bahamas",
@@ -1752,7 +2916,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Áustria",
@@ -1761,7 +2931,13 @@
     "ga": "Masculino",
     "status_notion": "Concluído",
     "tenho": "Sim",
-    "capa": "https://m.media-amazon.com/images/I/71PkeoTg8+L._AC_UF1000,1000_QL80_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/71PkeoTg8+L._AC_UF1000,1000_QL80_.jpg",
+    "nota": "3",
+    "cor": "Branco",
+    "genero_livro": "Romance",
+    "diversidade_etnica": "Não",
+    "lgbtq": "Não",
+    "ownvoices": "Não"
   },
   {
     "pais": "Azerbaijão",
@@ -1770,7 +2946,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Austrália",
@@ -1779,7 +2961,13 @@
     "ga": "Feminino",
     "status_notion": "Não iniciada",
     "tenho": "Sim",
-    "capa": "https://m.media-amazon.com/images/I/61Zgm1zfwBL._SY466_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/61Zgm1zfwBL._SY466_.jpg",
+    "nota": "",
+    "cor": "Branco",
+    "genero_livro": "Romance",
+    "diversidade_etnica": "Não",
+    "lgbtq": "Não",
+    "ownvoices": "Não"
   },
   {
     "pais": "Argentina",
@@ -1788,7 +2976,13 @@
     "ga": "Trans",
     "status_notion": "Concluído",
     "tenho": "Não",
-    "capa": "https://m.media-amazon.com/images/I/81cp3Fo+HWL._SY425_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/81cp3Fo+HWL._SY425_.jpg",
+    "nota": "3,5",
+    "cor": "Branco",
+    "genero_livro": "Conto",
+    "diversidade_etnica": "Sim",
+    "lgbtq": "Sim",
+    "ownvoices": "Sim"
   },
   {
     "pais": "Armênia",
@@ -1797,7 +2991,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Argélia",
@@ -1806,7 +3006,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Arábia Saudita",
@@ -1815,7 +3021,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Antígua e Barbuda",
@@ -1824,7 +3036,13 @@
     "ga": "Feminino",
     "status_notion": "Não iniciada",
     "tenho": "Não",
-    "capa": "https://m.media-amazon.com/images/I/71fbcgEr6fL._SY466_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/71fbcgEr6fL._SY466_.jpg",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Angola",
@@ -1833,7 +3051,13 @@
     "ga": "Masculino",
     "status_notion": "Não iniciada",
     "tenho": "Não",
-    "capa": "https://m.media-amazon.com/images/I/91el+MIrHCL._SY466_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/91el+MIrHCL._SY466_.jpg",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Andorra",
@@ -1842,7 +3066,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Alemanha",
@@ -1851,7 +3081,13 @@
     "ga": "Feminino",
     "status_notion": "Não iniciada",
     "tenho": "Não",
-    "capa": "https://m.media-amazon.com/images/I/81FjbMeOVfL._SL1500_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/81FjbMeOVfL._SL1500_.jpg",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "Albânia",
@@ -1860,7 +3096,13 @@
     "ga": "",
     "status_notion": "Não iniciada",
     "tenho": "",
-    "capa": ""
+    "capa": "",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   },
   {
     "pais": "África do Sul",
@@ -1869,7 +3111,13 @@
     "ga": "Masculino",
     "status_notion": "Concluído",
     "tenho": "Sim",
-    "capa": "https://site.taglivros.com/static/11c78ed3732ef3826fa87fb9266ced83/94cf1/ine_2020_01_cover_7964d44ba5.webp"
+    "capa": "https://site.taglivros.com/static/11c78ed3732ef3826fa87fb9266ced83/94cf1/ine_2020_01_cover_7964d44ba5.webp",
+    "nota": "-",
+    "cor": "Negro",
+    "genero_livro": "Autobiografia",
+    "diversidade_etnica": "Sim",
+    "lgbtq": "Não",
+    "ownvoices": "Sim"
   },
   {
     "pais": "Afeganistão",
@@ -1878,6 +3126,12 @@
     "ga": "Feminino",
     "status_notion": "Não iniciada",
     "tenho": "Não",
-    "capa": "https://m.media-amazon.com/images/I/A10nRwdDrQL._SY466_.jpg"
+    "capa": "https://m.media-amazon.com/images/I/A10nRwdDrQL._SY466_.jpg",
+    "nota": "",
+    "cor": "",
+    "genero_livro": "",
+    "diversidade_etnica": "",
+    "lgbtq": "",
+    "ownvoices": ""
   }
 ]
