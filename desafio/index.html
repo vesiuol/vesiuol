@@ -463,6 +463,14 @@ nav ul li a.active {
 }
 .search-wrap input:focus { border-color: var(--green); }
 .search-wrap::before { content: '⌕'; position: absolute; left: .6rem; top: 50%; transform: translateY(-50%); color: var(--muted); }
+.lista-filters-avancados { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; margin-bottom: 1rem; }
+.filter-select {
+  font-size: .78rem; padding: .35rem 1.6rem .35rem .9rem;
+  border-radius: 100px; border: 1.5px solid var(--border-interactive);
+  background: transparent; color: var(--muted); cursor: pointer;
+  font-family: 'DM Sans', sans-serif; transition: all .2s;
+}
+.filter-select:hover, .filter-select:focus { border-color: var(--green); color: var(--text); outline: none; }
 table { width: 100%; border-collapse: collapse; font-size: .85rem; }
 thead tr { border-bottom: 2px solid var(--black); }
 th { padding: .55rem .8rem; text-align: left; font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); white-space: nowrap; cursor: pointer; user-select: none; }
@@ -476,6 +484,7 @@ tr:hover td { background: rgba(132,153,116,.05); }
 .badge-mapeado { background: #FFF3CD; color: #8A6200; }
 .badge-nao     { background: #f0f0f0; color: #666; }
 .badge-andamento { background: #E6F1FB; color: #185FA5; }
+.badge-tenho   { background: #EAF3E3; color: #4C6B3E; margin-left: .3rem; }
 .table-footer { padding: .7rem 0; display: flex; justify-content: space-between; align-items: center; font-size: .78rem; color: var(--muted); }
 .pagination { display: flex; gap: .3rem; flex-wrap: wrap; }
 
@@ -1069,6 +1078,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <input type="text" id="search-notion" placeholder="Buscar país, livro ou autor…" oninput="renderNotion()">
         </div>
       </div>
+      <div class="lista-filters-avancados">
+        <select class="filter-select" id="filtro-genero-livro" onchange="filtroGenero=this.value; notionPage=1; renderNotion();">
+          <option value="">Gênero literário</option>
+        </select>
+        <select class="filter-select" id="filtro-cor" onchange="filtroCor=this.value; notionPage=1; renderNotion();">
+          <option value="">Cor do/a autor/a</option>
+        </select>
+        <button class="filter-pill" data-bin="tenho"        onclick="toggleFiltroBin('tenho',this)">📗 Já tenho</button>
+        <button class="filter-pill" data-bin="diversidade"  onclick="toggleFiltroBin('diversidade',this)">Diversidade étnica</button>
+        <button class="filter-pill" data-bin="lgbtq"        onclick="toggleFiltroBin('lgbtq',this)">Protagonista LGBTQIA+</button>
+        <button class="filter-pill" data-bin="ownvoices"    onclick="toggleFiltroBin('ownvoices',this)">#OwnVoices</button>
+      </div>
       <div style="overflow-x:auto">
         <table id="notion-table">
           <thead>
@@ -1077,7 +1098,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <th onclick="sortNotion('pais')" scope="col">País ↕</th>
               <th onclick="sortNotion('livro')" scope="col">Livro ↕</th>
               <th onclick="sortNotion('autor')" scope="col">Autor/a ↕</th>
-              <th onclick="sortNotion('ga')" scope="col">Gênero</th>
+              <th onclick="sortNotion('ga')" scope="col">Gênero (autor/a) ↕</th>
+              <th onclick="sortNotion('genero_livro')" scope="col">Gênero (livro) ↕</th>
+              <th onclick="sortNotion('cor')" scope="col">Cor ↕</th>
+              <th onclick="sortNotion('nota')" scope="col">Nota ↕</th>
               <th scope="col">Status</th>
             </tr>
           </thead>
@@ -1760,6 +1784,26 @@ let notionSortKey='pais', notionSortDir=1;
 let notionPage=1, pillFilter='todos';
 const NOTION_PAGE=15;
 
+// Filtros avançados (dados cruzados com a Estante): gênero literário e cor
+// são de valor único por vez (select); os demais são pílulas independentes
+// que podem ser ligadas/desligadas junto com qualquer outro filtro.
+let filtroGenero='', filtroCor='';
+let filtrosBin={tenho:false, diversidade:false, lgbtq:false, ownvoices:false};
+function toggleFiltroBin(campo, btn){
+  filtrosBin[campo] = btn.classList.toggle('active');
+  notionPage=1; renderNotion();
+}
+// Monta as opções dos selects a partir dos valores realmente presentes nos
+// dados já cruzados — evita listar valores fantasma/desatualizados.
+function popularFiltrosAvancados(){
+  const generos=[...new Set(notionData.map(n=>n.genero_livro).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'pt'));
+  const cores=[...new Set(notionData.map(n=>n.cor).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'pt'));
+  const selGenero=document.getElementById('filtro-genero-livro');
+  const selCor=document.getElementById('filtro-cor');
+  if(selGenero) selGenero.innerHTML='<option value="">Gênero literário</option>'+generos.map(g=>`<option value="${g}">${g}</option>`).join('');
+  if(selCor) selCor.innerHTML='<option value="">Cor do/a autor/a</option>'+cores.map(c=>`<option value="${c}">${c}</option>`).join('');
+}
+
 function getStatusReal(n){
   if(n.status_notion==='Concluído') return 'lido';
   if(n.status_notion==='Em andamento') return 'andamento';
@@ -1789,6 +1833,12 @@ function renderNotion(){
     if(pillFilter==='lido'    && sr!=='lido') return false;
     if(pillFilter==='mapeado' && sr!=='mapeado'&&sr!=='andamento') return false;
     if(pillFilter==='nao'     && sr!=='nao') return false;
+    if(filtroGenero && n.genero_livro!==filtroGenero) return false;
+    if(filtroCor && n.cor!==filtroCor) return false;
+    if(filtrosBin.tenho       && n.tenho!=='Sim') return false;
+    if(filtrosBin.diversidade && n.diversidade_etnica!=='Sim') return false;
+    if(filtrosBin.lgbtq       && n.lgbtq!=='Sim') return false;
+    if(filtrosBin.ownvoices   && n.ownvoices!=='Sim') return false;
     if(q&&!(n.pais+n.livro+n.autor).toLowerCase().includes(q)) return false;
     return true;
   });
@@ -1802,9 +1852,10 @@ function renderNotion(){
     const sr=getStatusReal(n);
     const rowBg=sr==='lido'?'background:rgba(132,153,116,.05)':'';
     const badge=sr==='lido'?'<span class="badge badge-lido">Lido ✓</span>':sr==='andamento'?'<span class="badge badge-andamento">Lendo…</span>':sr==='mapeado'?'<span class="badge badge-mapeado">Mapeado</span>':'<span class="badge badge-nao">—</span>';
+    const tenhoBadge=n.tenho==='Sim'?'<span class="badge badge-tenho">📗 Tenho</span>':'';
     const capa=n.capa?`<img class="book-cover" src="${n.capa}" alt="${altTextCapa(n)}" loading="lazy" onerror="this.outerHTML='<div class=\\'cover-ph\\'>—</div>'">`:`<div class="cover-ph">—</div>`;
     const livroText=n.livro?`<span style="font-weight:500">${n.livro}</span>`:'<span style="color:#aaa">—</span>';
-    return `<tr style="${rowBg}"><td>${capa}</td><td><strong>${n.pais}</strong></td><td>${livroText}</td><td>${n.autor||'—'}</td><td>${n.ga||'—'}</td><td>${badge}</td></tr>`;
+    return `<tr style="${rowBg}"><td>${capa}</td><td><strong>${n.pais}</strong></td><td>${livroText}</td><td>${n.autor||'—'}</td><td>${n.ga||'—'}</td><td>${n.genero_livro||'—'}</td><td>${n.cor||'—'}</td><td>${n.nota||'—'}</td><td>${badge}${tenhoBadge}</td></tr>`;
   }).join('');
   const pg=document.getElementById('notion-pagination');
   pg.innerHTML='';
@@ -1829,6 +1880,7 @@ async function loadNotionData(){
   }
   notionData = NOTION_DATA.map(r=>({...r}));
   notionFiltered = [...notionData];
+  popularFiltrosAvancados();
   const paisParam = new URLSearchParams(location.search).get('pais');
   if (paisParam) {
     const searchEl = document.getElementById('search-notion');
