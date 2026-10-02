@@ -189,6 +189,27 @@
     "#OwnVoices?": "FALSE"
   },
   {
+    "Livros": "Ordem",
+    "Páginas": "512",
+    "Gênero": "Ficção Científica",
+    "Faixa etária": "Adulto",
+    "Formato": "Brochura",
+    "Editora": "Intrínseca",
+    "Idioma": "Português",
+    "Série ou único?": "Trilogia",
+    "Lido/Não Lido": "Não Lido",
+    "Estrelas": "",
+    "Cor": "Branco",
+    "Nome": "Hugh Howey",
+    "País": "EUA",
+    "Etnia": "Norte Americano",
+    "Se identifica como...": "Masculino",
+    "Questões psicológicas": "FALSE",
+    "Protagonista LGBTQIA+?": "FALSE",
+    "Diversidade etnica/racial?": "FALSE",
+    "#OwnVoices?": "FALSE"
+  },
+  {
     "Livros": "The Husband's Secret",
     "Páginas": "416",
     "Gênero": "Romance",
@@ -5901,8 +5922,8 @@
     "#OwnVoices?": "FALSE"
   },
   {
-    "Livros": "279",
-    "Páginas": "94.631",
+    "Livros": "280",
+    "Páginas": "95.143",
     "Gênero": "(gráfico)",
     "Faixa etária": "(gráfico)",
     "Formato": "(gráfico)",
