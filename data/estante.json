@@ -1268,8 +1268,8 @@
     "Editora": "Intrínseca",
     "Idioma": "Português",
     "Série ou único?": "Livro único",
-    "Lido/Não Lido": "Lendo",
-    "Estrelas": "",
+    "Lido/Não Lido": "Lido",
+    "Estrelas": "Favorito",
     "Cor": "Asiático",
     "Nome": "R.F. Kuang",
     "País": "EUA",
@@ -1277,7 +1277,7 @@
     "Se identifica como...": "Feminino",
     "Questões psicológicas": "FALSE",
     "Protagonista LGBTQIA+?": "FALSE",
-    "Diversidade etnica/racial?": "FALSE",
+    "Diversidade etnica/racial?": "TRUE",
     "#OwnVoices?": "FALSE"
   },
   {
@@ -6182,7 +6182,7 @@
     "Editora": "(gráfico)",
     "Idioma": "(gráfico)",
     "Série ou único?": "(gráfico)",
-    "Lido/Não Lido": "210",
+    "Lido/Não Lido": "211",
     "Estrelas": "(gráfico)",
     "Cor": "(gráfico)",
     "Nome": "",
