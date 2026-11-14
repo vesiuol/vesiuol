@@ -148,12 +148,12 @@
     "País": "EUA",
     "Cor": "Asiático",
     "Se identifica como...": "Feminino",
-    "Primeira vez lendo autore": "FALSE",
+    "Primeira vez lendo autore": "TRUE",
     "Protagonista LGBTQ+": "FALSE",
     "Diversidade etnica/racial": "TRUE",
     "#OwnVoices?": "FALSE",
-    "NOTA": "",
-    "LIDO": "LENDO"
+    "NOTA": "4,5",
+    "LIDO": "LIDO"
   },
   {
     "_col0": "",
@@ -1375,6 +1375,6 @@
     "Diversidade etnica/racial": "(resumo)",
     "#OwnVoices?": "(resumo)",
     "NOTA": "(gráfico)",
-    "LIDO": "45"
+    "LIDO": "46"
   }
 ]
