@@ -807,6 +807,32 @@
   },
   {
     "_col0": "",
+    "Capa do livro": "",
+    "Título": "Messias de Duna",
+    "Páginas": "272",
+    "Horas": "",
+    "Gênero": "Ficção Científica",
+    "Faixa etária": "Adulto",
+    "Formato": "Capa dura",
+    "Editora": "Aleph",
+    "Idioma": "Português",
+    "Série ou único?": "Série",
+    "Por que li?": "Diversão",
+    "Origem do livro?": "Estava na estante",
+    "Como conheci?": "Já conhecia autore",
+    "Nome": "Frank Herbert",
+    "País": "EUA",
+    "Cor": "Branco",
+    "Se identifica como...": "Masculino",
+    "Primeira vez lendo autore": "FALSE",
+    "Protagonista LGBTQ+": "FALSE",
+    "Diversidade etnica/racial": "TRUE",
+    "#OwnVoices?": "FALSE",
+    "NOTA": "4,5",
+    "LIDO": "LIDO"
+  },
+  {
+    "_col0": "",
     "Capa do livro": "https://m.media-amazon.com/images/I/81E-X4rpSdL._SY385_.jpg",
     "Título": "Talvez você deva conversar com alguém",
     "Páginas": "",
@@ -891,7 +917,7 @@
     "Horas": "0:00:00",
     "Gênero": "Autobiografia",
     "Faixa etária": "Adulto",
-    "Formato": "Paperback",
+    "Formato": "Brochura",
     "Editora": "Companhia Das Letras",
     "Idioma": "Português",
     "Série ou único?": "Livro único",
@@ -1354,8 +1380,8 @@
   {
     "_col0": "",
     "Capa do livro": "",
-    "Título": "52",
-    "Páginas": "9.982",
+    "Título": "53",
+    "Páginas": "10.254",
     "Horas": "80:04:00",
     "Gênero": "(gráfico)",
     "Faixa etária": "(gráfico)",
@@ -1375,6 +1401,6 @@
     "Diversidade etnica/racial": "(resumo)",
     "#OwnVoices?": "(resumo)",
     "NOTA": "(gráfico)",
-    "LIDO": "46"
+    "LIDO": "47"
   }
 ]
