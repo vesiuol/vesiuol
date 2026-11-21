@@ -96,7 +96,7 @@
     "ownvoices": ""
   },
   {
-    "pais": "Porto Rico***",
+    "pais": "Porto Rico",
     "livro": "",
     "autor": "",
     "ga": "",
@@ -160,7 +160,7 @@
     "ownvoices": ""
   },
   {
-    "pais": "Groenlândia**",
+    "pais": "Groenlândia",
     "livro": "",
     "autor": "",
     "ga": "",
@@ -176,7 +176,7 @@
     "ownvoices": ""
   },
   {
-    "pais": "Curaçao**",
+    "pais": "Curaçao",
     "livro": "",
     "autor": "",
     "ga": "",
@@ -192,7 +192,7 @@
     "ownvoices": ""
   },
   {
-    "pais": "Aruba***",
+    "pais": "Aruba",
     "livro": "",
     "autor": "",
     "ga": "",
@@ -304,7 +304,7 @@
     "ownvoices": ""
   },
   {
-    "pais": "Vaticano**",
+    "pais": "Vaticano",
     "livro": "",
     "autor": "",
     "ga": "",
@@ -592,7 +592,7 @@
     "ownvoices": ""
   },
   {
-    "pais": "Taiwan**",
+    "pais": "Taiwan",
     "livro": "",
     "autor": "",
     "ga": "",
@@ -759,7 +759,7 @@
     "status_notion": "Em andamento",
     "tenho": "Sim",
     "capa": "https://m.media-amazon.com/images/I/91UtcPIPByL._SY466_.jpg",
-    "bandeira": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKYAAACgCAMAAACxD+dYAAAAWlBMVEVBj97///89jd7s8vtGkt82it3w9fz7/P4cgtsqhtxUmODW5PdmouPA1vKNt+n1+P3g6/mnx+5yqOWdwezP4PWUu+qFs+iwzO/l7/pbnOLK3PS50vF8reYKfto1K/NVAAAC4UlEQVR4nO2a2bKqMBBFSUMTwiAoIjj9/29eHBmUwXNKOnXuXo8WD6uy6aRJ6zgAAAAAAAAAAAAAAAAAAAAA/A+E0gKzMJmRVpgBx2rP0hLTBIla27+cZHwVGZLWmII3Wrmx9anXmSttf+qUKaUOtofOu7TWrDaWp26O6kJutyaF0VUz8aRNRuGdf9Ws7K51XqsbK5uLiMLtXfNoc+q88e+abmjxclKuHpzs1Wwyr2vd3hqiWD81U2mZYahQDSdrl5OiluYhkNYZIlRtbNXkoqNpa/txrjqalqZO1LFUKVm5dZpu5krv5FKnYc5ZV7NOfeTpr1p6oTfIXvc0q5GHw6+2JlSm7hB+z1Jpf/jZ/LvLaXZ9mR/x9a7ZhP1X8GN0ZL5fXOyU6a8s/WW+54hXv1nQ6LTQXQNxfPyxZbngdR07+bTQO/TOWXLPJ978JPgoXPpgYif52HLNy5/yFBTuR5LVUrXTw8TbabknyV7qNpH5OHcL9dcs2C/N3UIX2yyHPOM5lVQuXuEvopT3G7iXwFc29PEmfmnhOmShwD70Bj6P7UyHs3TgD85j9Z7Z8oHJ8Vjm6d6KyB0nGO2XrBkS8fihGdnxbl7Gf2NYMi4IJjZ4S1L3ps7Lg7ThhccoaCR1G+7mTDlhqXQhr0le1Nd6+cGC0SCfepnrIlz3NC2oddNzymImPvV2UsErxBvtUdCFI12M2Ov9KmxZZ95uO6rVvc+gIG+/C774aLB9r7CNm4086HzIS48GvUOzZCW1X0EOk2ahhUeD3Iz/sn6dEBXP0YbwuKAZ/yVvrrC4+ZCXPYj4vpXr4t1yET0n14loD+/dJFxv4O9mZB6DA0nN2yhIJ+fhN4/pcBWVHAhfR0HVarSfJM5d4dTpspTxVNdrNnUl+XKlXmeuc286Ta6bEcHRYOBWm1kbItEp3Up9atD+6MyNkvel3Ln+QY4k3csBAAAAAAAAAAAAAAAAAAAAAAAAf4d/J3ocDPukVpMAAAAASUVORK5CYII=",
+    "bandeira": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a0/Flag_of_Somalia.svg/1280px-Flag_of_Somalia.svg.png?utm_source=pt.wikipedia.org&utm_campaign=index&utm_content=thumbnail",
     "nota": "",
     "cor": "Negro",
     "genero_livro": "Autobiografia",
@@ -832,7 +832,7 @@
     "ownvoices": "Não"
   },
   {
-    "pais": "República Democrática do Congo**",
+    "pais": "República Democrática do Congo",
     "livro": "",
     "autor": "",
     "ga": "",
@@ -960,7 +960,7 @@
     "ownvoices": ""
   },
   {
-    "pais": "República Centro-Africana**",
+    "pais": "República Centro-Africana",
     "livro": "",
     "autor": "",
     "ga": "",
@@ -1239,7 +1239,7 @@
     "status_notion": "Não iniciada",
     "tenho": "Sim",
     "capa": "https://m.media-amazon.com/images/I/61XtKla65VL._SX445_.jpg",
-    "bandeira": "data:image/png;base64,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",
+    "bandeira": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3e/Flag_of_New_Zealand.svg/960px-Flag_of_New_Zealand.svg.png?utm_source=pt.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
     "nota": "",
     "cor": "Branco",
     "genero_livro": "Investigação",
@@ -2215,7 +2215,7 @@
     "status_notion": "Não iniciada",
     "tenho": "Não",
     "capa": "https://m.media-amazon.com/images/I/71yG3+3+2qL._SY425_.jpg",
-    "bandeira": "data:image/webp;base64,UklGRjwRAABXRUJQVlA4TC8RAAAvAoEdAOpQ0LaN5PKnfV93BCJiAqSOAUojLQfwj/NaHh/k+S4fQy+t1Olm/7/KUkqiRWrQImjF7jkj98ycOWd8zh1314c7M2f+579bBZ6Su7uVQH4LICMi9NQh2ohMM9d0s22AdEugBOtjc1xSwiV0h9jdJaIctwY2xF1iQlpgC9gYl+g+myENbIgM7hEUQEgV7kXcEiYntxY09sxdQnc5BSCDhe5kPFRh6UpKARTAP8e2AR4idyvBLbvxoE24iSTJkdAekYenvIfw3vu6qloCAABk22S2bdu2bdu2bdu27e2cbdu2bfbfEdu2kSTN3udrt5N42j+dav/XS853mYeWmZmZmZkhzMzMzMzMzMzMzMzMyTDTf2ex/X4UTBcVt01HNv5V+hESUBANqfdET0SMg0iIhK1zzvd/0q6W6WNiz9ZXSJhTjr+AmVTXwSqZNiqG6nGyoCTComKrqIi86+AbUrD1FRQGGetAEiTZpm2tb9u2bdu2bY9evNm3zZltPUy//f85ax9e2/a97+pAEgAAZBv1bJt1e7Zt27772bZt2xfVtm1ztm0m7b8jN5IUyTGwvMeGJ8T2k+R9tpqtj7sHjBDWB7gBwI0BaQII5hCLl34v2LjU3qMvvwEgDQFGT/3DjWdX5iyzWt+iLrMuQMng6VA54e2v3/9WZOBIUVUA6gEEWYordxmqdr8U6NNVVAeg+gCBFtsXGr0YJXH13+L1D9k79+W4GgGMWGyfvq0H2h/VULU5RsVUvf31p5VlrrzL8EwtAAGL7tNWq06fcDVppBAlEKAYDLVBVY0i9qCz9vAHSb36C4rCHyfeJ57N5SssRsTbDArswGQuAZ+91hKUIHG7bug03a47uyaAJlqR3cg0zgMgEFHrK0W5cQBS5dAuUZIRvq+lStbdZ2vfm10dAAur2N5V+uPA4yDjIGFANwZgrS66L8RiUKz5jMrMRVeq6gFcG8CmgCDl3qQMLRxUHIwMDpoQ0lD7iFVDSjzoqjv8YVKfwfyS8LcxwDBF98KUmA9v5QwOZjaDAW40M7o3lMJ7LTVbH3VXgP8ZJkaepiSI4MDiABgABhwOFg4mBjIGFK8xJLTrVFv8tf9KV91tbNmeaYcosENXY47+m6vSmkAg8IEALBE0BPwiyMqr9RwfpTI01frofMvljyWAnJjH9sYUP4MYHnP1vlY9zdobsdcX3ClK7YOu2r1vhlo1Y1WC/xbGtYmtjkYBFFqHdopA/eoOQ+WqO0wl4G8NAC2EfC0IIbbVhbh4C6lcbLlqRoKFT7B9vbH+HXBCo/LY4beTF5yvagSMSfBE9jhlEeLoffaaPa+E2rdlNwSGAxWIRuRaH/bVrrzV1BCQ3y3wVOMv/li40kZT69asZyzwVINiLcc/T1twgbJZLeYkCzzV27QVe1wIzTpB6nTYwNOwqtZr/xdvVGLv3IVbBf6b4KlGZNELP+avst7SvAkjyQJPNSDSdOyT1EWXqps2QZKSwVNDwm7XVe5zMzxkosjlBE81oqr1yt9FG5c62rZhZSSDpxoYbTqjInuJZZrK8N+VDJ5qWAo96U36rONkDRrCLvR0/ON73QoOHi2uDIBlQ8nfuqXm6J4RmMHP142kbNPDjrIAVgPAhlFg2xQGnRstie0DARqZR08vy55pitgLfidAZKgCA4yXIOdvDwEbnkFPfp0xaLqoNkAJ6MT27d9WeDfmmgTg5AHI1A/u3N1EZHcIWD9/07an3J0Hcl42sfFuWa6po3577ULIeFqHyF5IFXTGI3CjC9jlvwvXOWirCVAtAG3IuDZKIGSuxd2QCHJeoXds3yKEKLQRF0PTLRd+zuvdW/DDJGD6p1AsqNDdDAFvWmPymALYC4xEHN33VqRLX47LCcSYQ5ag6F7Du1ssicieaQ0Ys31bWyDNWBjcPga+o45kzgnvfjxUOuTmKKX3Wqu3P+Ht0YdfB+CGAKMQ2rnOFLVhxqqKA9uhtbdYf04ipWpDtEYHty1BaoYCS71NpCO7TyKwfZUBBWZF9uDbttpwlSH2ekoAPkN4Pqv3GG4F7PqAWBj4W8MhSeNgm6uL7VVtsADCqZJeZqpBgYN/q1KUZjBYZas5h5JSQIxJOIj2esdX6DhDH7oyAEBo9dPLsuacJk9yQRDaST7CaQzE6Rz1vkCrLUMz0AFK0NMSrb5nixI08gCe15lGK5XEVhjopuqmfGlyDHjeUAkQSP1Cjftcig4ZLbZPSgbwsntTUuR4DBgcOPemfduQoawzLrLXBHxtyzX0b51Em7fWqjCIMSERb6sk8lpDKurNap7HIdAZH9oFAvV2oWrbE+6+gwWTnOyb/2tPq23jQPOkEt4W6kiRstedwNxybYZUaJ6x95/SybXpBMK7fZ3Wwr/NlQSQ8CKIDJWGdlY1tm/gLaqAXvwlf429pvbt2TUAsJjn2iSp/vhLqPXPA3h6H08zBWXL1Nkz4UdHa7yraaUuQmisNZLoBHeRgK3/MjScDVvXLoSCF8FkrT6yG1M1hopqInD9wg0nvkyba5asUU3EzruhCIRFsDvqe8ZgWi6n1su7RZXujClFhUT3yJjJlCFXRwCNzhAp4t6txPFvV66J2ZrXRLCkCcSXDO9aW2xOX3YRp26Pb6hh36vRWUdLMxzJnL/sb1eljwiSgmLXNFsqhJZXG/iQWntr/2v6t2GwUK61GOYcBnyV3K+EwrdXC+6yVGOQxkhH3QSiaZkGzo16NkNpIIbDXE3LiKMzdjoR6NKbM2kS57PSqq2RKMm1dW/WUpMEaQwEpoRe3lhqilx6w2xcPi2ESqmXqQIa08MpjPjr3Y1bapShK8fSs4XxEGdDUi2XfMtfe7+lYw92TQAtxifmJZ4trU9pbK3ZXqsUNQFYW8vUwkHBgMjUzSZQt+7RODBiqFXaKPURgKw12NVI1xR6xkoDO0FQfMhdd8LrtOXWGsbYOV+bFFtqoNXSl+Koi9YcA0UAEQ56lt3/vxdCM5ujHq1u47ibqgmtyO/ta9jjSqh7J0FZ+OfgfHnm346uBJUOtEobZrKpxEETQKbAWqujqcqaCKZ36qp3OO3tMYT3TAOAGV+hBndKa7Z7FsAKYijMlS2GoGGoda+pakiy5ZJvBRsecjauzhiTzLXYvl2NE4gdDUL2aZV+kT1C4+nPXx1lYA6KtRz/Mm3BxQq7w8apdlgo1ZWMAZoB4mgR9K76WVisiBshqv9mafWno/3HHfqqPa8Fk8vDP4tPm1UXI0irrzXU2q/wHkYo5ZFvmxKVc1kg6s7AlITQ5jVfDXRg7w9jCKmKEHqVzscC4qcIfBT4TUNt1Ci14iZ59tUSaTSq4x/x1K+z31qvJWS3mBTdh6vBckr9KV1JDWaSwKpQaVG9uY7GRhVBhIEERjYPgFTd3qC1DsZYpSaUwtUlSJKa0rr9pzenB0Ae/uFCuZamqpV6zvAYC0hj5MRVf4qW2qquA1BNAG0c8rflbnT/4PbCO4/sNryLm7zNORow989Q/WwkKk9nAcl0pdJRb4GhBkv/7vK1XPvN8C4rjuRp2ll/Z2Cbo8FGADBgcZArV15IX945iM2gRPMJZSlzz1AUgD8Wf1xNkmiIYcpHsE8pqjL0KC3lusj1OkBjuL5ko4m0mi2CUkMIUYEhJksMZetMXl+uB60jpRmJVnkCiXz4hJBqDIvtDWybJJ3NZDMimEmNDGUEd4jY/GaPm4GaANcHVjPg8VMT4LLTlEzdxgGexoDM5fhC0+k031cW2AwGfPyL8YXmch9ggPMGi8AI7oSAtcVsNrMhz+MQagwO7wqxeZEuqV3JrfKbjlXacoKZKm05XmX7ya5XriN23ydRPyHhjNYl4exy8DMhhMeYKmE9Y4yBeXZ/rnAzzzviupMWl884kJ3yGQfk0PdLfbenheS7DdUxppJq7g6MCBIYd1/9RSUBCBVS3u0nVR0dEnc1bKH/uDxI9iR0T0JjqNS7Za6Gyh1A65r0MkOF4C+j1ILxsnzYhJA0abFCpWeKl+l5SeecpqN5cTgxQ0c8YhDaLB8RCOORNOt4RKlbaJfA45ERilE/UnkFkLAQ3ffDhdIl7de9cCThIDdCEabiNiplSlm9rBmVGip6ezZrW9/3nIREVA83QhVhCyddTa1dluybaIBcc0hI0E9/gLhheRiiMFYZ2EP9Xwy5uYrNIe+hhsj15yedy9tu5WYoRA92Q4pwpozUKTQ6wa1TGCp2SzZ9Y9/HhoYlREbmQZLwFoRqFQ5aymrVTnCrVfF3ZLO38XyrwM8kCpcZ8R6EJszhXrOk1BGAOTlLzTK74fBXqbRW6AmzZjnxgULRwWHBbJbD4whHeBG6CM9ejVeue4lXrtV66kyiNcylKyWOQ/i9WzBVQGNir4PCGF7l+rOzktalrdcr8bOIHeFOqCJM6/LUJvoXgR0l9y/+HEShAwEXDlCpSg4HUar07bbag7ss1RiqMSzev3BuDEr/4uaqtC18X6pxs7MhIRcShcWAu1jrBncG3MVaXq4xpC6W/r+593Mr3QYiwyZ4EKrwCGYvk1QnuZfpbBBGL9O7UHZEWNJNt9NNoBMz3BQug9fRrrHfMK4mkjralCb+Njl3tEPlht8Ws1wqz04jeuB04TOouQbGOJSgrw0ZSpxzDTdmU1Z3PWmsWZWLkLIjwYvQPAmNeRXzEUpMt5BosqRbPk6VbjHX0NRpHNItjxTLtvP+aK7fQPSgPIT8t7Aal4yTxgABRCwZJwWOvhbhZZy8i+VHRaRdjLuIDP3AFGaDlHTTGvPie/Gk277J/1RqA4CTbuFK06Up3wKWc17MqNhEYTdYeUff1qvH846OOlkG7aB5xzty2Ws7nlbj5xIOSxSGg5V6XYuAE0rqdSffn+riAsKROZEoLAct+yyEPJ59lqHNbRR+WkxfTjM7/fnhfwJLfz12YVsr5wR8lNp6cdK7tOUK4QCihyQL18E6DmI+rsdBjF3f87ouP5fobvkIWQQZhJDBCm5Hw0QozUdGZB3FVeOyI/4dgec8CsMqJksXAyVAqj4pqm2tW02II8SLCD7I16al36CnDq9Mh9eyPyIKR/SAZOFemTW6H/XnsL5HVlNhOVGdTBHkgqTao2Ly9tr1XjyZcLgIcoFSzZkJ65ymE0T3zYyE7wS5Jy9KedZyPSvPTn1qxCPgDAW9NZexY+BPC3E1MfgcSPhCkPOTqg4NC2cxHfZgR8X+LQJcpNJ8clw/l/lEYX5SbJwIcOFK4xXp0Mr2exXEOUT3HrEUR+6mTMrW3m8dtFtyIik2WZD7/pCwsK/pkBuhTh3xKnATz4iZ5rKeLMKOz05IcSLARchNLy1kv0Qchej+0wVREOdZvD2btY3naxlhxq85kfCFQBPsgOtsm9/u5vvXXbeDCCEr4gVVsOZcvSIT6qPbmwnxr7gTisACZebd+Fuq0hayXSAe9/rfAiwY8y/fk8vbzvO9uDCeqA5uSPlCwFne2bCjVi6zcAfJdcfGVP10u4numoclvCOCjqcpCULrgM/FruZClrNFmNGEQ0UEH1QTeEb+CKX51mzGGo5HRHUhHBIn+HBZl8FQsXvz+Xv4gYaaFWNHbEgClGJ1DksNJWwEyrXHRhVzWo5kJ3iiBwvG2NZo0eg7VlqqKkuefeirqiLL2G5UYMcTGZSPUAQqz+bECFFKp1iph3htXFqVnfZ1biSJQDVetbHPRgihE+11FRcS6lPzPWr42VTPXeigrEgQQYt91S7vYtlRUflcpqO//poscKEStqL8JUnfsrabVfjZhAMTBWspizE3ZdO28nypzS+YlhOJpgBnqNj/u/r/NdeuI+z7oogA51usOD6qmsN8vDAzbpo7oQhyT56VsK7kfFBDmP/8BBHk3ljF8aCxdlVuQnnBFMgEAA==",
+    "bandeira": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Flag_of_the_Philippines.svg/960px-Flag_of_the_Philippines.svg.png?utm_source=pt.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
     "nota": "",
     "cor": "",
     "genero_livro": "",
@@ -2304,7 +2304,7 @@
     "ownvoices": ""
   },
   {
-    "pais": "Estados Federados da Micronésia***",
+    "pais": "Estados Federados da Micronésia",
     "livro": "",
     "autor": "",
     "ga": "",
@@ -2400,7 +2400,7 @@
     "ownvoices": ""
   },
   {
-    "pais": "Escócia**",
+    "pais": "Escócia",
     "livro": "Sherlock Holmes",
     "autor": "Arthur Conan Doyle",
     "ga": "",
