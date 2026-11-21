@@ -127,6 +127,12 @@ async function run() {
       status_notion: getText(p['Estatus']),
       tenho: getText(p['Tenho']),
       capa: getText(p['Capa do livro']),
+      // Bandeira = ícone da página do país no Notion (URL externa estável ou emoji).
+      // Ícones do tipo "file" têm URL que expira, então são ignorados.
+      bandeira: page.icon
+        ? (page.icon.type === 'external' ? page.icon.external.url
+          : page.icon.type === 'emoji' ? page.icon.emoji : '')
+        : '',
       // Campos vindos da Estante/Leituras (planilhas), preenchidos abaixo quando há match:
       nota: '',
       cor: '',
