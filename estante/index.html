@@ -817,7 +817,8 @@ function ensureLeaflet(){
   if(!_leafletPromise){
     _leafletPromise = Promise.all([
       loadCSS('https://unpkg.com/leaflet@1.9.4/dist/leaflet.css'),
-      loadScript('https://unpkg.com/leaflet@1.9.4/dist/leaflet.js')
+      loadScript('https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'),
+      loadScript('/vesiuol/assets/paises.js')   // cadastro único de países (assets/paises.js): coordenada, variações de nome
     ]);
   }
   return _leafletPromise;
@@ -832,10 +833,8 @@ const _cv = (name, fallback) => (_cs.getPropertyValue(name).trim() || fallback);
 const GREEN = _cv('--green', '#6b7e5e'), GREEN_LIGHT = _cv('--green-light', '#c8d4b8'), BLACK = _cv('--text', '#1a1a1a');
 const PALETTE = ['#7a9e7e','#c4a882','#6b8e9f','#b5835a','#8a9a5b','#9b7fa6','#4e7c5f','#c4855a','#7ba3a8','#a07850','#849974','#b09080'];
 
-const COORDS = {
-  'Brasil':[-15.8,-47.9],'EUA':[37.1,-95.7],'Estados Unidos':[37.1,-95.7],'Reino Unido':[51.5,-0.1],'Japão':[35.7,139.7],'França':[46.2,2.2],'Canadá':[56.1,-106.3],'Argentina':[-34.6,-58.4],'Portugal':[38.7,-9.1],'Alemanha':[52.5,13.4],'Espanha':[40.4,-3.7],'Itália':[41.9,12.5],'México':[19.4,-99.1],'Colômbia':[4.7,-74.1],'Chile':[-33.4,-70.6],'Índia':[28.6,77.2],'China':[39.9,116.4],'Rússia':[55.8,37.6],'Austrália':[-35.3,149.1],'Nigéria':[9.1,7.5],'África do Sul':[-25.7,28.2],'Noruega':[59.9,10.7],'Holanda':[52.4,4.9],'Cuba':[23.1,-82.4],'Suécia':[59.3,18.1],'Irlanda':[53.3,-6.3],'Grécia':[37.9,23.7],'Polônia':[52.2,21.0],'Turquia':[39.9,32.9],'Egito':[30.1,31.2],'Marrocos':[34.0,-6.8],'Zâmbia':[-15.4,28.3],'Camarões':[3.9,11.5],'Irã':[35.7,51.4],'Ucrânia':[50.5,30.5],'Angola':[-8.8,13.2],'Moçambique':[-18.7,35.5],'Quênia':[-1.3,36.8],'Gana':[5.6,-0.2],'Senegal':[14.7,-17.4],'Peru':[-12.0,-77.0],'Venezuela':[10.5,-66.9],'Ruanda':[-1.9,30.1],'Somália':[2.0,45.3],'Etiópia':[9.0,38.7],'Nova Zelândia':[-41.3,174.8],'Uruguai':[-34.9,-56.2],'Bolívia':[-16.5,-68.1],'Paquistão':[33.7,73.1],'Israel':[31.8,35.2],'Afeganistão':[34.5,69.2],'Coreia do Sul':[37.6,127.0],'Indonésia':[-6.2,106.8],'Suíça':[46.8,8.2],'Áustria':[48.2,16.4],'Bélgica':[50.8,4.4],'República Tcheca':[50.1,14.4],'Gâmbia':[13.5,-15.6],'Serra Leoa':[8.5,-13.2],'Congo':[-4.3,15.3],'Namíbia':[-22.6,17.1],'Tanzânia':[-6.4,34.9],'Ilhas Virgens':[18.3,-64.9],
-};
-
+/* COORDS (coordenada de cada país) saiu daqui: agora vive em assets/paises.js, cadastro único usado pelos 4 mapas
+   e conferido todo dia pelo workflow check-paises.yml. Decisão registrada na Governança (2026-11-21). */
 function norm(s){ return (s||'').trim().toLowerCase(); }
 function isTrue(v){ const s=norm(v||''); return ['sim','yes','true','1','✓','x','verdadeiro'].includes(s); }
 function isDataRow(b){ const t=norm(b['Livros']||b[Object.keys(b)[0]]||''); if(!t) return false; if(t.includes('(resumo)')||t.includes('(gráfico)')||t.includes('(grafico)')) return false; const marker=(v)=>{ const n=norm(v||''); return n.includes('(resumo)')||n.includes('(gráfico)')||n.includes('(grafico)'); }; if(marker(b['Gênero'])||marker(b['Questões psicológicas'])) return false; return true; }
@@ -1103,7 +1102,7 @@ function buildMap(books){
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map);
   const pc=countField(books,'País');
   Object.entries(pc).forEach(([p,q])=>{
-    const c=COORDS[p]; if(!c) return;
+    const c=window.PAISES && PAISES.coord(p); if(!c) return;   // "(gráfico)", "Diversos" e vazio não têm coordenada: ficam fora do mapa
     L.circleMarker(c,{radius:Math.max(6,Math.min(22,6+Math.sqrt(q)*4)),fillColor:GREEN,color:'#fff',weight:1.5,fillOpacity:.8})
       .addTo(map).bindPopup('<strong>'+p+'</strong><br>'+q+' livro'+(q>1?'s':''));
   });
