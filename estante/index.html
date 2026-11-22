@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -26,15 +25,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','GTM-59CR472H');</script>
 <!-- End Google Tag Manager -->
 <!-- GTM:HEAD:END -->
-<!-- Google tag (gtag.js) -->
+  <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-JE6ED0PYHR"></script>
 <script>
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'G-JE6ED0PYHR');
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-JE6ED0PYHR');
 </script>
-
+  
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Estante — Biblioteca Vesiuol</title>
@@ -60,8 +59,8 @@ gtag('config', 'G-JE6ED0PYHR');
 <style>
 /* ── TOKENS (governança) ── */
 :root {
---sidebar-w:272px;
---header-h:52px;
+  --sidebar-w:272px;
+  --header-h:52px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 body{background:var(--white);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:500;}
@@ -69,10 +68,10 @@ a{color:inherit;text-decoration:none;}
 
 /* ── SKIP LINK (acessibilidade — só aparece com foco de teclado) ── */
 .skip-link {
-position: absolute; left: -999px; top: 0; z-index: 200;
-background: var(--green); color: var(--white);
-padding: .6rem 1.2rem; font-family: 'DM Sans', sans-serif;
-font-size: .8rem; font-weight: 600;
+  position: absolute; left: -999px; top: 0; z-index: 200;
+  background: var(--green); color: var(--white);
+  padding: .6rem 1.2rem; font-family: 'DM Sans', sans-serif;
+  font-size: .8rem; font-weight: 600;
 }
 .skip-link:focus { left: 1rem; top: .6rem; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
@@ -90,15 +89,15 @@ nav ul li a.active{background:var(--green);color:var(--white);padding:.28rem .7r
 /* ── LAYOUT 2 COLUNAS ── */
 .page-wrap{position:relative;display:grid;grid-template-columns:var(--sidebar-w) 1fr;align-items:start;}
 /* Fundo + linha divisória da sidebar estendidos até o fim do conteúdo real da página —
-a sidebar em si é sticky com altura própria (viewport), então seu fundo não alcançava
-o fim do .page-wrap quando o conteúdo principal era mais alto que a tela. */
+   a sidebar em si é sticky com altura própria (viewport), então seu fundo não alcançava
+   o fim do .page-wrap quando o conteúdo principal era mais alto que a tela. */
 .page-wrap::before{
-content:'';
-position:absolute; top:0; left:0;
-width:var(--sidebar-w); height:100%;
-background:var(--surface);
-border-right:1.5px solid var(--border);
-z-index:0;
+  content:'';
+  position:absolute; top:0; left:0;
+  width:var(--sidebar-w); height:100%;
+  background:var(--surface);
+  border-right:1.5px solid var(--border);
+  z-index:0;
 }
 
 /* Intro mobile — só aparece no mobile, antes da sidebar/dados */
@@ -178,16 +177,16 @@ z-index:0;
 .charts-2col{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:.8rem;}
 .charts-3col{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin-bottom:.8rem;}
 /* Governança 2026-08-09: no desktop, o grid .charts-2col não define align-items e usa o padrão
-'stretch' — isso fazia o card "Distribuição de notas" ser esticado para acompanhar a altura do
-card vizinho ("Países dos autores"), sobrando espaço vazio abaixo do canvas (que tem max-height
-fixo e não cresce). Trava aplicada apenas no desktop; no mobile o grid já vira 1 coluna e o
-problema não existe. */
+   'stretch' — isso fazia o card "Distribuição de notas" ser esticado para acompanhar a altura do
+   card vizinho ("Países dos autores"), sobrando espaço vazio abaixo do canvas (que tem max-height
+   fixo e não cresce). Trava aplicada apenas no desktop; no mobile o grid já vira 1 coluna e o
+   problema não existe. */
 @media(min-width:901px){
-#dados .charts-2col{align-items:start;}
-/* Governança 2026-07-10: mesma trava aplicada ao charts-3col — sem isso, o grid esticava
-todos os cards de uma linha (ex: Idioma/Formato/Faixa etária) para a altura do mais alto,
-mesmo com max-height + conteúdo menor nos outros, sobrando espaço vazio embaixo. */
-#dados .charts-3col{align-items:start;}
+  #dados .charts-2col{align-items:start;}
+  /* Governança 2026-07-10: mesma trava aplicada ao charts-3col — sem isso, o grid esticava
+     todos os cards de uma linha (ex: Idioma/Formato/Faixa etária) para a altura do mais alto,
+     mesmo com max-height + conteúdo menor nos outros, sobrando espaço vazio embaixo. */
+  #dados .charts-3col{align-items:start;}
 }
 .chart-body{padding:1rem 1.2rem;position:relative;}
 .chart-body canvas{max-height:220px;}
@@ -211,7 +210,7 @@ mesmo com max-height + conteúdo menor nos outros, sobrando espaço vazio embaix
 
 /* Mapa */
 /* Mesmo tom de fundo e filtro de tile do mapa do Desafio (desafio/index.html, #dlm-map) —
-tira o azul do mar, deixando um verde suave. */
+   tira o azul do mar, deixando um verde suave. */
 #map{height:420px;border-radius:0 0 12px 12px;background:var(--green-light);}
 #map .leaflet-tile-pane{filter:grayscale(1) brightness(1.05) opacity(.85);}
 .map-legend{display:flex;gap:1.2rem;flex-wrap:wrap;margin-top:.8rem;font-size:.78rem;color:var(--muted);}
@@ -247,133 +246,133 @@ footer{background:var(--green);padding:1rem 2rem;display:flex;align-items:center
 
 /* Responsive */
 @media(max-width:900px){
-.page-wrap{grid-template-columns:1fr;}
-.page-wrap::before{display:none;}
-.sidebar{position:static;height:auto;max-height:none;overflow:visible;width:100%;min-width:0;background:var(--surface);border-right:none;border-bottom:1.5px solid var(--border);}
-.main{min-width:0;}
-.charts-2col,.charts-3col{grid-template-columns:1fr;}
-.div-cards{grid-template-columns:1fr 1fr;}
-.perfil-text-grid{grid-template-columns:1fr 1fr;}
-.main{padding:2rem 2rem 3rem;}
+  .page-wrap{grid-template-columns:1fr;}
+  .page-wrap::before{display:none;}
+  .sidebar{position:static;height:auto;max-height:none;overflow:visible;width:100%;min-width:0;background:var(--surface);border-right:none;border-bottom:1.5px solid var(--border);}
+  .main{min-width:0;}
+  .charts-2col,.charts-3col{grid-template-columns:1fr;}
+  .div-cards{grid-template-columns:1fr 1fr;}
+  .perfil-text-grid{grid-template-columns:1fr 1fr;}
+  .main{padding:2rem 2rem 3rem;}
 }
 @media(max-width:600px){
-nav ul{display:none;position:absolute;top:52px;left:0;right:0;background:var(--white);flex-direction:column;padding:1rem 2rem;gap:1rem;border-bottom:1px solid var(--border);z-index:99;}
-nav ul.open{display:flex;}
-.nav-hamburger{display:block;}
-/* Governança 2026-07-09: padding horizontal da nav é sempre "0 2rem" em qualquer breakpoint —
-a sobrescrita "nav{padding:0 1rem}" que existia aqui foi removida por desalinhar a logo
-(nav-logo, três pontinhos) em relação às demais páginas do site no mobile. Ver Registro de
-Decisões, "Regra: Padding horizontal da nav (posição da logo)". */
-/* Mobile: intro (título + texto de apoio) aparece antes dos dados */
-.intro-mobile{display:block;padding:1.4rem 1.2rem 0;}
-.main > section.intro-desktop{display:none;}
-.main{padding:0 0 2rem;}
-.main section.section-gap{padding:0 1.2rem;}
-.div-cards{grid-template-columns:1fr 1fr;}
-.perfil-text-grid{grid-template-columns:1fr;}
-.table-controls{flex-direction:column;align-items:stretch;}
-.search-wrap{max-width:100%;}
-table{font-size:.75rem;}
-td,th{padding:.45rem .5rem;}
-footer{padding:1rem;flex-wrap:wrap;gap:.5rem;}
-/* Governança 2026-07-10: gráficos de barras (Cor/Gênero dos autores) mais baixos no mobile —
-300px (padrão desktop) fica alto demais numa tela estreita com uma coluna só. */
-.chart-body.barh canvas{max-height:220px;}
+  nav ul{display:none;position:absolute;top:52px;left:0;right:0;background:var(--white);flex-direction:column;padding:1rem 2rem;gap:1rem;border-bottom:1px solid var(--border);z-index:99;}
+  nav ul.open{display:flex;}
+  .nav-hamburger{display:block;}
+  /* Governança 2026-07-09: padding horizontal da nav é sempre "0 2rem" em qualquer breakpoint —
+     a sobrescrita "nav{padding:0 1rem}" que existia aqui foi removida por desalinhar a logo
+     (nav-logo, três pontinhos) em relação às demais páginas do site no mobile. Ver Registro de
+     Decisões, "Regra: Padding horizontal da nav (posição da logo)". */
+  /* Mobile: intro (título + texto de apoio) aparece antes dos dados */
+  .intro-mobile{display:block;padding:1.4rem 1.2rem 0;}
+  .main > section.intro-desktop{display:none;}
+  .main{padding:0 0 2rem;}
+  .main section.section-gap{padding:0 1.2rem;}
+  .div-cards{grid-template-columns:1fr 1fr;}
+  .perfil-text-grid{grid-template-columns:1fr;}
+  .table-controls{flex-direction:column;align-items:stretch;}
+  .search-wrap{max-width:100%;}
+  table{font-size:.75rem;}
+  td,th{padding:.45rem .5rem;}
+  footer{padding:1rem;flex-wrap:wrap;gap:.5rem;}
+  /* Governança 2026-07-10: gráficos de barras (Cor/Gênero dos autores) mais baixos no mobile —
+     300px (padrão desktop) fica alto demais numa tela estreita com uma coluna só. */
+  .chart-body.barh canvas{max-height:220px;}
 }
 
 /* ── NAV DROPDOWN: Histórico > Visão geral / 2026 — governança 2026-08-02 ── */
 .nav-dropdown { position: relative; display: flex; align-items: center; }
 .nav-dropdown::after { content: ""; position: absolute; top: 100%; left: 0; width: 100%; height: 6px; }
 .nav-caret {
-background: none; border: none; cursor: pointer;
-color: var(--black); font-size: .6rem; line-height: 1;
-padding: .2rem .15rem; margin-left: -.1rem;
-font-family: inherit;
+  background: none; border: none; cursor: pointer;
+  color: var(--black); font-size: .6rem; line-height: 1;
+  padding: .2rem .15rem; margin-left: -.1rem;
+  font-family: inherit;
 }
 .nav-submenu {
-list-style: none;
-position: absolute; top: calc(100% + 6px); left: 0;
-background: var(--white);
-border: 1.5px solid var(--border);
-border-radius: 8px;
-box-shadow: 2px 2px 0 var(--border);
-min-width: 150px;
-padding: .4rem;
-margin: 0;
-display: none;
-flex-direction: column;
-gap: .15rem;
-z-index: 300;
+  list-style: none;
+  position: absolute; top: calc(100% + 6px); left: 0;
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 2px 2px 0 var(--border);
+  min-width: 150px;
+  padding: .4rem;
+  margin: 0;
+  display: none;
+  flex-direction: column;
+  gap: .15rem;
+  z-index: 300;
 }
 .nav-dropdown:hover .nav-submenu,
 .nav-dropdown:focus-within .nav-submenu,
 .nav-dropdown.submenu-open .nav-submenu {
-display: flex;
+  display: flex;
 }
 .nav-submenu li { list-style: none; }
 .nav-submenu li a {
-display: block;
-padding: .4rem .6rem;
-font-size: .74rem;
-letter-spacing: .06em;
-text-transform: uppercase;
-border-radius: 4px;
-white-space: nowrap;
-color: var(--black);
-font-family: 'DM Sans', sans-serif;
-font-weight: 500;
+  display: block;
+  padding: .4rem .6rem;
+  font-size: .74rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  white-space: nowrap;
+  color: var(--black);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
 }
 .nav-submenu li a:hover { background: var(--green); color: var(--white); }
 @media (max-width: 600px) {
-.nav-dropdown { flex-direction: column; align-items: center; width: 100%; } .nav-dropdown::after { display: none; }
-.nav-dropdown:hover .nav-submenu { display: none; }
-.nav-submenu {
-position: static;
-border: none; box-shadow: none;
-padding: .2rem 0 .4rem 0;
-width: 100%;
-}
-.nav-submenu li a { text-align: center; }
-.nav-dropdown.submenu-open .nav-submenu { display: flex; }
+  .nav-dropdown { flex-direction: column; align-items: center; width: 100%; } .nav-dropdown::after { display: none; }
+  .nav-dropdown:hover .nav-submenu { display: none; }
+  .nav-submenu {
+    position: static;
+    border: none; box-shadow: none;
+    padding: .2rem 0 .4rem 0;
+    width: 100%;
+  }
+  .nav-submenu li a { text-align: center; }
+  .nav-dropdown.submenu-open .nav-submenu { display: flex; }
 }
 </style>
 <script type="application/ld+json">
 {
-"@context": "https://schema.org",
-"@type": "Dataset",
-"name": "Estante — Biblioteca Vesiuol",
-"description": "Acervo pessoal de livros de Louise Victoria desde 2020, reunindo o perfil de leitura por gênero literário, formato, idioma, faixa etária, avaliações e indicadores de diversidade autoral e representatividade.",
-"url": "https://vesiuol.github.io/vesiuol//vesiuol/estante/",
-"creator": {
-"@type": "Person",
-"name": "Louise Victoria",
-"url": "https://vesiuol.github.io/vesiuol/",
-"sameAs": [
-"https://www.linkedin.com/in/louise-victoria/",
-"https://www.instagram.com/vesiuol/",
-"https://medium.com/@vesiuol",
-"https://github.com/vesiuol"
-]
-},
-"variableMeasured": [
-"Total de livros na estante",
-"Páginas lidas",
-"Livros lidos",
-"Autores únicos",
-"Países de origem dos autores",
-"Idiomas",
-"Gênero literário",
-"Faixa etária",
-"Formato de leitura",
-"Série ou único",
-"Avaliações (estrelas)",
-"Cor dos autores",
-"Gênero dos autores",
-"Questões psicológicas",
-"Protagonista LGBTQIA+",
-"Diversidade étnico-racial",
-"#OwnVoices"
-]
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  "name": "Estante — Biblioteca Vesiuol",
+  "description": "Acervo pessoal de livros de Louise Victoria desde 2020, reunindo o perfil de leitura por gênero literário, formato, idioma, faixa etária, avaliações e indicadores de diversidade autoral e representatividade.",
+  "url": "https://vesiuol.github.io/vesiuol//vesiuol/estante/",
+  "creator": {
+    "@type": "Person",
+    "name": "Louise Victoria",
+    "url": "https://vesiuol.github.io/vesiuol/",
+    "sameAs": [
+      "https://www.linkedin.com/in/louise-victoria/",
+      "https://www.instagram.com/vesiuol/",
+      "https://medium.com/@vesiuol",
+      "https://github.com/vesiuol"
+    ]
+  },
+  "variableMeasured": [
+    "Total de livros na estante",
+    "Páginas lidas",
+    "Livros lidos",
+    "Autores únicos",
+    "Países de origem dos autores",
+    "Idiomas",
+    "Gênero literário",
+    "Faixa etária",
+    "Formato de leitura",
+    "Série ou único",
+    "Avaliações (estrelas)",
+    "Cor dos autores",
+    "Gênero dos autores",
+    "Questões psicológicas",
+    "Protagonista LGBTQIA+",
+    "Diversidade étnico-racial",
+    "#OwnVoices"
+  ]
 }
 </script>
 </head>
@@ -480,365 +479,365 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <!-- INTRO MOBILE: título + texto de apoio aparecem antes dos dados no mobile -->
 <div class="intro-mobile">
-<div class="intro-headline-wrap">
-<h1 class="intro-headline">Livros na Estante</h1>
-</div>
-<p class="intro-body">
-Tenho uma política pessoal: não deixo na minha estante os livros dos quais não gostei, não achei relevantes ou que simplesmente não me marcaram. Não importa se são bonitos ou se isso vai deixá-la mais vazia. Para mim, é importante que ela represente quem eu sou: uma pessoa que tem sim seus gêneros literários preferidos, mas que também gosta de explorar diferentes caminhos e buscar cada vez mais diversidade.
-</p>
-<p class="intro-body">
-Existem diferentes definições sobre o que realmente oficializa a nomenclatura “biblioteca pessoal”. Algumas pessoas defendem que é um número mínimo de livros; outras acreditam que ela é um acervo construído ao longo dos anos, refletindo os gostos e a trajetória do dono. Confesso que simpatizo mais com a segunda opção.
-</p>
-<p class="intro-body">
-Minha estante é uma conquista da vida adulta, mas também a realização de um sonho que cultivo desde o ensino médio. Adoro participar das reuniões do trabalho com ela ao fundo, não para parecer culta, mas porque acho bonito ter algo que representa uma parte tão importante de quem sou. Cada livro foi adquirido aos poucos, desde a época de estagiária. Entre cupons, promoções e passeios em sebos, fui montando esse espaço com muito carinho.
-</p>
-<p class="intro-body" style="margin-bottom:1.2rem;">
-Mas, afinal, o que a minha estante realmente representa? É exatamente isso que eu quero mostrar.
-</p>
+  <div class="intro-headline-wrap">
+    <h1 class="intro-headline">Livros na Estante</h1>
+  </div>
+  <p class="intro-body">
+    Tenho uma política pessoal: não deixo na minha estante os livros dos quais não gostei, não achei relevantes ou que simplesmente não me marcaram. Não importa se são bonitos ou se isso vai deixá-la mais vazia. Para mim, é importante que ela represente quem eu sou: uma pessoa que tem sim seus gêneros literários preferidos, mas que também gosta de explorar diferentes caminhos e buscar cada vez mais diversidade.
+  </p>
+  <p class="intro-body">
+    Existem diferentes definições sobre o que realmente oficializa a nomenclatura “biblioteca pessoal”. Algumas pessoas defendem que é um número mínimo de livros; outras acreditam que ela é um acervo construído ao longo dos anos, refletindo os gostos e a trajetória do dono. Confesso que simpatizo mais com a segunda opção.
+  </p>
+  <p class="intro-body">
+    Minha estante é uma conquista da vida adulta, mas também a realização de um sonho que cultivo desde o ensino médio. Adoro participar das reuniões do trabalho com ela ao fundo, não para parecer culta, mas porque acho bonito ter algo que representa uma parte tão importante de quem sou. Cada livro foi adquirido aos poucos, desde a época de estagiária. Entre cupons, promoções e passeios em sebos, fui montando esse espaço com muito carinho.
+  </p>
+  <p class="intro-body" style="margin-bottom:1.2rem;">
+    Mas, afinal, o que a minha estante realmente representa? É exatamente isso que eu quero mostrar.
+  </p>
 </div>
 
 <div class="page-wrap">
 
-<!-- ── SIDEBAR ── -->
-<aside class="sidebar">
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar">
 
-<!-- KPIs -->
-<div>
-<div class="sb-label">Estante em números</div>
-<div class="kpi-grid">
-<div class="kpi-card accent reveal">
-<div class="kpi-num skeleton" id="s-total">—</div>
-<div class="kpi-lbl">livros na estante</div>
-</div>
-<div class="kpi-card accent reveal">
-<div class="kpi-num skeleton" id="s-paginas">—</div>
-<div class="kpi-lbl">páginas lidas</div>
-</div>
-<div class="kpi-card reveal">
-<div class="kpi-num skeleton" id="s-lidos">—</div>
-<div class="kpi-lbl">lidos</div>
-</div>
-<div class="kpi-card reveal">
-<div class="kpi-num skeleton" id="s-autores">—</div>
-<div class="kpi-lbl">autores únicos</div>
-</div>
-<div class="kpi-card reveal">
-<div class="kpi-num skeleton" id="s-paises">—</div>
-<div class="kpi-lbl">países</div>
-</div>
-<div class="kpi-card reveal">
-<div class="kpi-num skeleton" id="s-idiomas">—</div>
-<div class="kpi-lbl">idiomas</div>
-</div>
-</div>
-</div>
+    <!-- KPIs -->
+    <div>
+      <div class="sb-label">Estante em números</div>
+      <div class="kpi-grid">
+        <div class="kpi-card accent reveal">
+          <div class="kpi-num skeleton" id="s-total">—</div>
+          <div class="kpi-lbl">livros na estante</div>
+        </div>
+        <div class="kpi-card accent reveal">
+          <div class="kpi-num skeleton" id="s-paginas">—</div>
+          <div class="kpi-lbl">páginas lidas</div>
+        </div>
+        <div class="kpi-card reveal">
+          <div class="kpi-num skeleton" id="s-lidos">—</div>
+          <div class="kpi-lbl">lidos</div>
+        </div>
+        <div class="kpi-card reveal">
+          <div class="kpi-num skeleton" id="s-autores">—</div>
+          <div class="kpi-lbl">autores únicos</div>
+        </div>
+        <div class="kpi-card reveal">
+          <div class="kpi-num skeleton" id="s-paises">—</div>
+          <div class="kpi-lbl">países</div>
+        </div>
+        <div class="kpi-card reveal">
+          <div class="kpi-num skeleton" id="s-idiomas">—</div>
+          <div class="kpi-lbl">idiomas</div>
+        </div>
+      </div>
+    </div>
 
-<!-- Progresso lidos -->
-<div class="prog-block">
-<div class="sb-label">Progresso de leitura</div>
-<div>
-<div class="prog-meta"><span>Lidos</span><b id="prog-lidos-txt">— / —</b></div>
-<div class="prog-track"><div class="prog-fill" id="prog-lidos-fill" style="width:0%"></div></div>
-</div>
-</div>
+    <!-- Progresso lidos -->
+    <div class="prog-block">
+      <div class="sb-label">Progresso de leitura</div>
+      <div>
+        <div class="prog-meta"><span>Lidos</span><b id="prog-lidos-txt">— / —</b></div>
+        <div class="prog-track"><div class="prog-fill" id="prog-lidos-fill" style="width:0%"></div></div>
+      </div>
+    </div>
 
-<!-- Navegação por seções -->
-<div>
-<div class="sb-label">Ir para a seção</div>
-<div class="sb-nav-pills">
-<button class="sb-nav-pill" onclick="document.getElementById('dados').scrollIntoView({behavior:'smooth'})">
-<span class="pill-dot">✦</span>Visão geral da estante
-</button>
-<button class="sb-nav-pill" onclick="document.getElementById('bloco-diversidade').scrollIntoView({behavior:'smooth'})">
-<span class="pill-dot">✦</span>Diversidade e representatividade
-</button>
-<button class="sb-nav-pill" onclick="document.getElementById('bloco-perfil').scrollIntoView({behavior:'smooth'})">
-<span class="pill-dot">✦</span>Perfil de leitura
-</button>
-<button class="sb-nav-pill" onclick="document.getElementById('series').scrollIntoView({behavior:'smooth'})">
-<span class="pill-dot">✦</span>Séries e livros únicos
-</button>
-<button class="sb-nav-pill" onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">
-<span class="pill-dot">✦</span>De onde vêm meus livros?
-</button>
-<button class="sb-nav-pill" onclick="document.getElementById('lista').scrollIntoView({behavior:'smooth'})">
-<span class="pill-dot">✦</span>Todos os livros
-</button>
-</div>
-</div>
+    <!-- Navegação por seções -->
+    <div>
+      <div class="sb-label">Ir para a seção</div>
+      <div class="sb-nav-pills">
+        <button class="sb-nav-pill" onclick="document.getElementById('dados').scrollIntoView({behavior:'smooth'})">
+          <span class="pill-dot">✦</span>Visão geral da estante
+        </button>
+        <button class="sb-nav-pill" onclick="document.getElementById('bloco-diversidade').scrollIntoView({behavior:'smooth'})">
+          <span class="pill-dot">✦</span>Diversidade e representatividade
+        </button>
+        <button class="sb-nav-pill" onclick="document.getElementById('bloco-perfil').scrollIntoView({behavior:'smooth'})">
+          <span class="pill-dot">✦</span>Perfil de leitura
+        </button>
+        <button class="sb-nav-pill" onclick="document.getElementById('series').scrollIntoView({behavior:'smooth'})">
+          <span class="pill-dot">✦</span>Séries e livros únicos
+        </button>
+        <button class="sb-nav-pill" onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">
+          <span class="pill-dot">✦</span>De onde vêm meus livros?
+        </button>
+        <button class="sb-nav-pill" onclick="document.getElementById('lista').scrollIntoView({behavior:'smooth'})">
+          <span class="pill-dot">✦</span>Todos os livros
+        </button>
+      </div>
+    </div>
 
-</aside>
+  </aside>
 
-<!-- ── MAIN ── -->
-<main class="main" id="conteudo-principal">
+  <!-- ── MAIN ── -->
+  <main class="main" id="conteudo-principal">
 
-<!-- INTRO EDITORIAL -->
-<section class="intro-desktop">
-<div class="intro-headline-wrap">
-<p class="intro-headline">Livros na Estante</p>
-</div>
-<p class="intro-body">
-Tenho uma política pessoal: não deixo na minha estante os livros dos quais não gostei, não achei relevantes ou que simplesmente não me marcaram. Não importa se são bonitos ou se isso vai deixá-la mais vazia. Para mim, é importante que ela represente quem eu sou: uma pessoa que tem sim seus gêneros literários preferidos, mas que também gosta de explorar diferentes caminhos e buscar cada vez mais diversidade.
-</p>
-<p class="intro-body">
-Existem diferentes definições sobre o que realmente oficializa a nomenclatura “biblioteca pessoal”. Algumas pessoas defendem que é um número mínimo de livros; outras acreditam que ela é um acervo construído ao longo dos anos, refletindo os gostos e a trajetória do dono. Confesso que simpatizo mais com a segunda opção.
-</p>
-<p class="intro-body">
-Minha estante é uma conquista da vida adulta, mas também a realização de um sonho que cultivo desde o ensino médio. Adoro participar das reuniões do trabalho com ela ao fundo, não para parecer culta, mas porque acho bonito ter algo que representa uma parte tão importante de quem sou. Cada livro foi adquirido aos poucos, desde a época de estagiária. Entre cupons, promoções e passeios em sebos, fui montando esse espaço com muito carinho.
-</p>
-<p class="intro-body">
-Mas, afinal, o que a minha estante realmente representa? É exatamente isso que eu quero mostrar.
-</p>
-</section>
+    <!-- INTRO EDITORIAL -->
+    <section class="intro-desktop">
+      <div class="intro-headline-wrap">
+        <p class="intro-headline">Livros na Estante</p>
+      </div>
+      <p class="intro-body">
+        Tenho uma política pessoal: não deixo na minha estante os livros dos quais não gostei, não achei relevantes ou que simplesmente não me marcaram. Não importa se são bonitos ou se isso vai deixá-la mais vazia. Para mim, é importante que ela represente quem eu sou: uma pessoa que tem sim seus gêneros literários preferidos, mas que também gosta de explorar diferentes caminhos e buscar cada vez mais diversidade.
+      </p>
+      <p class="intro-body">
+        Existem diferentes definições sobre o que realmente oficializa a nomenclatura “biblioteca pessoal”. Algumas pessoas defendem que é um número mínimo de livros; outras acreditam que ela é um acervo construído ao longo dos anos, refletindo os gostos e a trajetória do dono. Confesso que simpatizo mais com a segunda opção.
+      </p>
+      <p class="intro-body">
+        Minha estante é uma conquista da vida adulta, mas também a realização de um sonho que cultivo desde o ensino médio. Adoro participar das reuniões do trabalho com ela ao fundo, não para parecer culta, mas porque acho bonito ter algo que representa uma parte tão importante de quem sou. Cada livro foi adquirido aos poucos, desde a época de estagiária. Entre cupons, promoções e passeios em sebos, fui montando esse espaço com muito carinho.
+      </p>
+      <p class="intro-body">
+        Mas, afinal, o que a minha estante realmente representa? É exatamente isso que eu quero mostrar.
+      </p>
+    </section>
 
-<!-- Visão geral da estante -->
-<section class="section-gap" id="dados">
-<hr class="section-hr">
-<div class="section-head">
-<h2 class="section-h2">Visão geral da estante</h2>
-<span class="section-sub" id="dados-sub">carregando…</span>
-</div>
+    <!-- Visão geral da estante -->
+    <section class="section-gap" id="dados">
+      <hr class="section-hr">
+      <div class="section-head">
+        <h2 class="section-h2">Visão geral da estante</h2>
+        <span class="section-sub" id="dados-sub">carregando…</span>
+      </div>
 
-<!-- Grid texto: dados qualitativos principais -->
-<div class="perfil-text-grid">
-<div class="ptg-cell">
-<div class="ptg-label">Gênero mais comum</div>
-<div class="ptg-val" id="pg-genero">—</div>
-<div class="ptg-sub" id="pg-genero-sub">da estante</div>
-</div>
-<div class="ptg-cell">
-<div class="ptg-label">Quem escreve</div>
-<div class="ptg-val" id="pg-ga">—</div>
-<div class="ptg-sub" id="pg-ga-sub">dos autores</div>
-</div>
-<div class="ptg-cell">
-<div class="ptg-label">Idioma mais comum</div>
-<div class="ptg-val" id="pg-idioma">—</div>
-<div class="ptg-sub">idioma original</div>
-</div>
-<div class="ptg-cell">
-<div class="ptg-label">Formato</div>
-<div class="ptg-val" id="pg-formato">—</div>
-<div class="ptg-sub">modo preferido</div>
-</div>
-<div class="ptg-cell">
-<div class="ptg-label">Faixa etária</div>
-<div class="ptg-val" id="pg-faixa">—</div>
-<div class="ptg-sub">público principal</div>
-</div>
-<div class="ptg-cell">
-<div class="ptg-label">Série ou único</div>
-<div class="ptg-val" id="pg-serie">—</div>
-<div class="ptg-sub">preferência</div>
-</div>
-</div>
+      <!-- Grid texto: dados qualitativos principais -->
+      <div class="perfil-text-grid">
+        <div class="ptg-cell">
+          <div class="ptg-label">Gênero mais comum</div>
+          <div class="ptg-val" id="pg-genero">—</div>
+          <div class="ptg-sub" id="pg-genero-sub">da estante</div>
+        </div>
+        <div class="ptg-cell">
+          <div class="ptg-label">Quem escreve</div>
+          <div class="ptg-val" id="pg-ga">—</div>
+          <div class="ptg-sub" id="pg-ga-sub">dos autores</div>
+        </div>
+        <div class="ptg-cell">
+          <div class="ptg-label">Idioma mais comum</div>
+          <div class="ptg-val" id="pg-idioma">—</div>
+          <div class="ptg-sub">idioma original</div>
+        </div>
+        <div class="ptg-cell">
+          <div class="ptg-label">Formato</div>
+          <div class="ptg-val" id="pg-formato">—</div>
+          <div class="ptg-sub">modo preferido</div>
+        </div>
+        <div class="ptg-cell">
+          <div class="ptg-label">Faixa etária</div>
+          <div class="ptg-val" id="pg-faixa">—</div>
+          <div class="ptg-sub">público principal</div>
+        </div>
+        <div class="ptg-cell">
+          <div class="ptg-label">Série ou único</div>
+          <div class="ptg-val" id="pg-serie">—</div>
+          <div class="ptg-sub">preferência</div>
+        </div>
+      </div>
 
-<!-- Governança 2026-08-08: seção reorganizada em 4 blocos temáticos (narrativa), substituindo
-o agrupamento por tamanho de lista de 2026-07-10. Nenhum wcard/canvas/rank-list teve
-dimensão, classe de altura (tall/barh/max-height) ou configuração alterada — só a
-posição de cada um dentro da seção mudou. Cada bloco tem título (mesmo estilo do
-.section-h2 da página) + um espaço reservado em comentário pra Louise escrever a
-legenda/insight editorial direto no HTML. -->
+      <!-- Governança 2026-08-08: seção reorganizada em 4 blocos temáticos (narrativa), substituindo
+           o agrupamento por tamanho de lista de 2026-07-10. Nenhum wcard/canvas/rank-list teve
+           dimensão, classe de altura (tall/barh/max-height) ou configuração alterada — só a
+           posição de cada um dentro da seção mudou. Cada bloco tem título (mesmo estilo do
+           .section-h2 da página) + um espaço reservado em comentário pra Louise escrever a
+           legenda/insight editorial direto no HTML. -->
 
-<!-- BLOCO — Diversidade e representatividade -->
-<div class="block-head" id="bloco-diversidade">
-<h3 class="section-h2 block-h2">Diversidade e representatividade</h3>
-<p class="block-note">Uma estante de livros é o reflexo do leitor, o que ela representa sobre ele. Pelo menos é isso que penso. Por isso, eu Louise, quero que a minha seja cada vez mais diversa.</p>
-</div>
+      <!-- BLOCO — Diversidade e representatividade -->
+      <div class="block-head" id="bloco-diversidade">
+        <h3 class="section-h2 block-h2">Diversidade e representatividade</h3>
+        <p class="block-note">Uma estante de livros é o reflexo do leitor, o que ela representa sobre ele. Pelo menos é isso que penso. Por isso, eu Louise, quero que a minha seja cada vez mais diversa.</p>
+      </div>
 
-<div class="div-cards">
-<div class="div-card">
-<div class="div-num" id="dc-lgbtq">—</div>
-<div class="div-lbl">Protagonista LGBTQIA+</div>
-<div class="div-sub" id="dc-lgbtq-sub">da estante</div>
-<div class="div-track"><div class="div-fill" id="dc-lgbtq-bar" style="width:0%"></div></div>
-</div>
-<div class="div-card">
-<div class="div-num" id="dc-div">—</div>
-<div class="div-lbl">Diversidade étnica</div>
-<div class="div-sub" id="dc-div-sub">da estante</div>
-<div class="div-track"><div class="div-fill" id="dc-div-bar" style="width:0%"></div></div>
-</div>
-<div class="div-card">
-<div class="div-num" id="dc-own">—</div>
-<div class="div-lbl">#OwnVoices</div>
-<div class="div-sub" id="dc-own-sub">da estante</div>
-<div class="div-track"><div class="div-fill" id="dc-own-bar" style="width:0%"></div></div>
-</div>
-<div class="div-card">
-<div class="div-num" id="dc-psico">—</div>
-<div class="div-lbl">Questões psicológicas</div>
-<div class="div-sub" id="dc-psico-sub">da estante</div>
-<div class="div-track"><div class="div-fill" id="dc-psico-bar" style="width:0%"></div></div>
-</div>
-</div>
+      <div class="div-cards">
+        <div class="div-card">
+          <div class="div-num" id="dc-lgbtq">—</div>
+          <div class="div-lbl">Protagonista LGBTQIA+</div>
+          <div class="div-sub" id="dc-lgbtq-sub">da estante</div>
+          <div class="div-track"><div class="div-fill" id="dc-lgbtq-bar" style="width:0%"></div></div>
+        </div>
+        <div class="div-card">
+          <div class="div-num" id="dc-div">—</div>
+          <div class="div-lbl">Diversidade étnica</div>
+          <div class="div-sub" id="dc-div-sub">da estante</div>
+          <div class="div-track"><div class="div-fill" id="dc-div-bar" style="width:0%"></div></div>
+        </div>
+        <div class="div-card">
+          <div class="div-num" id="dc-own">—</div>
+          <div class="div-lbl">#OwnVoices</div>
+          <div class="div-sub" id="dc-own-sub">da estante</div>
+          <div class="div-track"><div class="div-fill" id="dc-own-bar" style="width:0%"></div></div>
+        </div>
+        <div class="div-card">
+          <div class="div-num" id="dc-psico">—</div>
+          <div class="div-lbl">Questões psicológicas</div>
+          <div class="div-sub" id="dc-psico-sub">da estante</div>
+          <div class="div-track"><div class="div-fill" id="dc-psico-bar" style="width:0%"></div></div>
+        </div>
+      </div>
 
-<div class="charts-2col">
-<div class="wcard">
-<div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Cor / raça dos autores</span></div>
-<div class="chart-body barh reveal"><canvas id="c-cor"></canvas></div>
-</div>
-<div class="wcard">
-<div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Gênero dos autores</span></div>
-<div class="chart-body barh reveal"><canvas id="c-ga"></canvas></div>
-</div>
-</div>
+      <div class="charts-2col">
+        <div class="wcard">
+          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Cor / raça dos autores</span></div>
+          <div class="chart-body barh reveal"><canvas id="c-cor"></canvas></div>
+        </div>
+        <div class="wcard">
+          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Gênero dos autores</span></div>
+          <div class="chart-body barh reveal"><canvas id="c-ga"></canvas></div>
+        </div>
+      </div>
 
-<div class="wcard" style="margin:.8rem 0">
-<div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Países dos autores</span></div>
-<div class="chart-body reveal" style="max-height:380px;overflow-y:auto" tabindex="0" aria-label="Lista rolável de países dos autores"><div class="rank-list" id="rank-paises"></div></div>
-</div>
+      <div class="wcard" style="margin:.8rem 0">
+        <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Países dos autores</span></div>
+        <div class="chart-body reveal" style="max-height:380px;overflow-y:auto" tabindex="0" aria-label="Lista rolável de países dos autores"><div class="rank-list" id="rank-paises"></div></div>
+      </div>
 
-<!-- BLOCO — Perfil de leitura (Governança 2026-08-08: renomeado de "Hábitos de leitura" —
-passou a incluir Distribuição de notas e Gêneros literários, que vieram do bloco
-"Quem sou eu como leitora", removido e agregado aqui a pedido da Louise) -->
-<div class="block-head" id="bloco-perfil">
-<h3 class="section-h2 block-h2">Perfil de leitura</h3>
-<p class="block-note">Que tipo de formato tem na minha estante? E gêneros literários? Tenho livros com notas baixas?</p>
-</div>
+      <!-- BLOCO — Perfil de leitura (Governança 2026-08-08: renomeado de "Hábitos de leitura" —
+           passou a incluir Distribuição de notas e Gêneros literários, que vieram do bloco
+           "Quem sou eu como leitora", removido e agregado aqui a pedido da Louise) -->
+      <div class="block-head" id="bloco-perfil">
+        <h3 class="section-h2 block-h2">Perfil de leitura</h3>
+        <p class="block-note">Que tipo de formato tem na minha estante? E gêneros literários? Tenho livros com notas baixas?</p>
+      </div>
 
-<div class="charts-2col">
-<div class="wcard">
-<div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Distribuição de notas</span></div>
-<div class="chart-body tall reveal"><canvas id="c-notas-estante"></canvas></div>
-</div>
-<div class="wcard">
-<div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Gêneros literários</span></div>
-<div class="chart-body reveal" style="height:280px;overflow-y:auto" tabindex="0" aria-label="Lista rolável de gêneros literários"><div class="rank-list" id="rank-generos"></div></div>
-</div>
-</div>
+      <div class="charts-2col">
+        <div class="wcard">
+          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Distribuição de notas</span></div>
+          <div class="chart-body tall reveal"><canvas id="c-notas-estante"></canvas></div>
+        </div>
+        <div class="wcard">
+          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Gêneros literários</span></div>
+          <div class="chart-body reveal" style="height:280px;overflow-y:auto" tabindex="0" aria-label="Lista rolável de gêneros literários"><div class="rank-list" id="rank-generos"></div></div>
+        </div>
+      </div>
 
-<div class="charts-3col">
-<div class="wcard">
-<div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Idioma original</span></div>
-<div class="chart-body reveal" style="max-height:260px;overflow-y:auto" tabindex="0" aria-label="Lista rolável de idiomas"><div class="rank-list" id="rank-idioma"></div></div>
-</div>
-<div class="wcard">
-<div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Formato de leitura</span></div>
-<div class="chart-body reveal" style="max-height:260px;overflow-y:auto" tabindex="0" aria-label="Lista rolável de formatos de leitura"><div class="rank-list" id="rank-formato"></div></div>
-</div>
-<div class="wcard">
-<div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Faixa etária</span></div>
-<div class="chart-body reveal" style="max-height:260px;overflow-y:auto" tabindex="0" aria-label="Lista rolável de faixas etárias"><div class="rank-list" id="rank-faixa"></div></div>
-</div>
-</div>
+      <div class="charts-3col">
+        <div class="wcard">
+          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Idioma original</span></div>
+          <div class="chart-body reveal" style="max-height:260px;overflow-y:auto" tabindex="0" aria-label="Lista rolável de idiomas"><div class="rank-list" id="rank-idioma"></div></div>
+        </div>
+        <div class="wcard">
+          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Formato de leitura</span></div>
+          <div class="chart-body reveal" style="max-height:260px;overflow-y:auto" tabindex="0" aria-label="Lista rolável de formatos de leitura"><div class="rank-list" id="rank-formato"></div></div>
+        </div>
+        <div class="wcard">
+          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Faixa etária</span></div>
+          <div class="chart-body reveal" style="max-height:260px;overflow-y:auto" tabindex="0" aria-label="Lista rolável de faixas etárias"><div class="rank-list" id="rank-faixa"></div></div>
+        </div>
+      </div>
 
-</section>
+    </section>
 
-<!-- SÉRIES E LIVROS ÚNICOS -->
-<section class="section-gap" id="series">
-<hr class="section-hr">
-<div class="section-head">
-<h2 class="section-h2">Séries e livros únicos</h2>
-<span class="section-sub" id="series-sub">carregando…</span>
-</div>
-<p class="block-note">Quantos dos meus livros são únicos, duologias, trilogias ou séries? E quanto falta para completar cada saga da minha coleção?</p>
+    <!-- SÉRIES E LIVROS ÚNICOS -->
+    <section class="section-gap" id="series">
+      <hr class="section-hr">
+      <div class="section-head">
+        <h2 class="section-h2">Séries e livros únicos</h2>
+        <span class="section-sub" id="series-sub">carregando…</span>
+      </div>
+      <p class="block-note">Quantos dos meus livros são únicos, duologias, trilogias ou séries? E quanto falta para completar cada saga da minha coleção?</p>
 
-<div class="perfil-text-grid">
-<div class="ptg-cell">
-<div class="ptg-label">Séries na coleção</div>
-<div class="ptg-val" id="sg-total">—</div>
-<div class="ptg-sub" id="sg-total-sub">duologias, trilogias e séries</div>
-</div>
-<div class="ptg-cell">
-<div class="ptg-label">Em andamento</div>
-<div class="ptg-val" id="sg-andamento">—</div>
-<div class="ptg-sub">séries</div>
-</div>
-<div class="ptg-cell">
-<div class="ptg-label">Concluídas</div>
-<div class="ptg-val" id="sg-concluidas">—</div>
-<div class="ptg-sub">séries</div>
-</div>
-<div class="ptg-cell">
-<div class="ptg-label">Faltam para completar</div>
-<div class="ptg-val" id="sg-faltam-ter">—</div>
-<div class="ptg-sub">livros que ainda não tenho</div>
-</div>
-<div class="ptg-cell">
-<div class="ptg-label">Faltam ler</div>
-<div class="ptg-val" id="sg-faltam-ler">—</div>
-<div class="ptg-sub">livros para terminar todas</div>
-</div>
-<div class="ptg-cell">
-<div class="ptg-label">Livros únicos</div>
-<div class="ptg-val" id="sg-unicos">—</div>
-<div class="ptg-sub">na estante</div>
-</div>
-</div>
+      <div class="perfil-text-grid">
+        <div class="ptg-cell">
+          <div class="ptg-label">Séries na coleção</div>
+          <div class="ptg-val" id="sg-total">—</div>
+          <div class="ptg-sub" id="sg-total-sub">duologias, trilogias e séries</div>
+        </div>
+        <div class="ptg-cell">
+          <div class="ptg-label">Incompletas</div>
+          <div class="ptg-val" id="sg-andamento">—</div>
+          <div class="ptg-sub">séries</div>
+        </div>
+        <div class="ptg-cell">
+          <div class="ptg-label">Completas</div>
+          <div class="ptg-val" id="sg-concluidas">—</div>
+          <div class="ptg-sub">séries</div>
+        </div>
+        <div class="ptg-cell">
+          <div class="ptg-label">Faltam para completar</div>
+          <div class="ptg-val" id="sg-faltam-ter">—</div>
+          <div class="ptg-sub">livros que ainda não tenho</div>
+        </div>
+        <div class="ptg-cell">
+          <div class="ptg-label">Faltam ler</div>
+          <div class="ptg-val" id="sg-faltam-ler">—</div>
+          <div class="ptg-sub">livros para terminar todas</div>
+        </div>
+        <div class="ptg-cell">
+          <div class="ptg-label">Livros únicos</div>
+          <div class="ptg-val" id="sg-unicos">—</div>
+          <div class="ptg-sub">na estante</div>
+        </div>
+      </div>
 
-<div class="charts-2col">
-<div class="wcard">
-<div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Livros por tipo</span></div>
-<div class="chart-body reveal"><div class="rank-list" id="rank-tipo"></div></div>
-</div>
-<div class="wcard">
-<div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Quanto falta para completar</span></div>
-<div class="chart-body reveal" style="height:280px;overflow-y:auto" tabindex="0" aria-label="Lista rolável das séries com livros que ainda faltam, da mais próxima de completar para a mais distante"><div class="rank-list" id="lista-faltam"></div></div>
-</div>
-</div>
+      <div class="charts-2col">
+        <div class="wcard">
+          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Livros por tipo</span></div>
+          <div class="chart-body reveal"><div class="rank-list" id="rank-tipo"></div></div>
+        </div>
+        <div class="wcard">
+          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Quanto falta para completar</span></div>
+          <div class="chart-body reveal" style="height:280px;overflow-y:auto" tabindex="0" aria-label="Lista rolável das séries com livros que ainda faltam, da mais próxima de completar para a mais distante"><div class="rank-list" id="lista-faltam"></div></div>
+        </div>
+      </div>
 
-<div class="wcard">
-<div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Minhas séries por status</span></div>
-<div class="chart-body reveal" style="max-height:420px;overflow-y:auto" tabindex="0" aria-label="Lista rolável das minhas séries, agrupadas por status, com quantos livros eu li de cada uma"><div class="rank-list" id="lista-series"></div></div>
-</div>
-</section>
+      <div class="wcard">
+        <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Minhas séries por status</span></div>
+        <div class="chart-body reveal" style="max-height:420px;overflow-y:auto" tabindex="0" aria-label="Lista rolável das minhas séries, agrupadas por status, com quantos livros eu li de cada uma"><div class="rank-list" id="lista-series"></div></div>
+      </div>
+    </section>
 
-<!-- MAPA -->
-<section class="section-gap" id="mapa">
-<hr class="section-hr">
-<div class="section-head">
-<h2 class="section-h2">De onde vêm meus livros?</h2>
-<span class="section-sub">Autores por país</span>
-</div>
-<!-- BLOCO 4 — Geografia -->
-<p class="block-note">Antes mesmo do Desafio Livros pelo Mundo eu já adorava colocar pins no meu mapa pessoal. Todos esses países representam os escritores da minha estante.</p>
-<div class="wcard">
-<div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Mapa da estante</span></div>
-<div id="map"></div>
-</div>
-<div class="map-legend">
-<span><span class="legend-dot" style="background:var(--green)"></span>Autores mapeados</span>
-</div>
-</section>
+    <!-- MAPA -->
+    <section class="section-gap" id="mapa">
+      <hr class="section-hr">
+      <div class="section-head">
+        <h2 class="section-h2">De onde vêm meus livros?</h2>
+        <span class="section-sub">Autores por país</span>
+      </div>
+      <!-- BLOCO 4 — Geografia -->
+      <p class="block-note">Antes mesmo do Desafio Livros pelo Mundo eu já adorava colocar pins no meu mapa pessoal. Todos esses países representam os escritores da minha estante.</p>
+      <div class="wcard">
+        <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Mapa da estante</span></div>
+        <div id="map"></div>
+      </div>
+      <div class="map-legend">
+        <span><span class="legend-dot" style="background:var(--green)"></span>Autores mapeados</span>
+      </div>
+    </section>
 
-<!-- LISTA -->
-<section class="section-gap" id="lista" style="padding-bottom:3rem;">
-<hr class="section-hr">
-<div class="section-head">
-<h2 class="section-h2">Todos os livros</h2>
-<span class="section-sub" id="lista-count">—</span>
-</div>
-<div class="tag-filters">
-<button class="tag-btn active" data-tag="">Todos</button>
-<button class="tag-btn" data-tag="lgbtqia">LGBTQIA+</button>
-<button class="tag-btn" data-tag="diversidade">Diversidade étnica</button>
-<button class="tag-btn" data-tag="ownvoices">#OwnVoices</button>
-<button class="tag-btn" data-tag="psico">Questões psicológicas</button>
-</div>
-<div class="table-controls">
-<div class="search-wrap"><input type="text" id="search" placeholder="Buscar título ou autor…"></div>
-<select class="filter-select" id="f-status" aria-label="Filtrar por status de leitura"><option value="">Todos</option><option>Lido</option><option>Não Lido</option><option>Lendo</option></select>
-<select class="filter-select" id="f-genero" aria-label="Filtrar por gênero"><option value="">Todos os gêneros</option></select>
-<select class="filter-select" id="f-idioma" aria-label="Filtrar por idioma"><option value="">Todos os idiomas</option></select>
-<select class="filter-select" id="f-cor" aria-label="Filtrar por cor do autor/a"><option value="">Toda cor</option></select>
-</div>
-<div style="overflow-x:auto">
-<table>
-<thead><tr>
-<th>Título</th><th>Autor/a</th><th>Gênero</th><th>Páginas</th>
-<th>Idioma</th><th>Cor</th><th>País</th><th>Status</th><th>⭐</th>
-</tr></thead>
-<tbody id="tbody"></tbody>
-</table>
-</div>
-<div class="table-footer">
-<span id="t-info">—</span>
-<div class="pagination" id="pagination"></div>
-</div>
-</section>
+    <!-- LISTA -->
+    <section class="section-gap" id="lista" style="padding-bottom:3rem;">
+      <hr class="section-hr">
+      <div class="section-head">
+        <h2 class="section-h2">Todos os livros</h2>
+        <span class="section-sub" id="lista-count">—</span>
+      </div>
+      <div class="tag-filters">
+        <button class="tag-btn active" data-tag="">Todos</button>
+        <button class="tag-btn" data-tag="lgbtqia">LGBTQIA+</button>
+        <button class="tag-btn" data-tag="diversidade">Diversidade étnica</button>
+        <button class="tag-btn" data-tag="ownvoices">#OwnVoices</button>
+        <button class="tag-btn" data-tag="psico">Questões psicológicas</button>
+      </div>
+      <div class="table-controls">
+        <div class="search-wrap"><input type="text" id="search" placeholder="Buscar título ou autor…"></div>
+        <select class="filter-select" id="f-status" aria-label="Filtrar por status de leitura"><option value="">Todos</option><option>Lido</option><option>Não Lido</option><option>Lendo</option></select>
+        <select class="filter-select" id="f-genero" aria-label="Filtrar por gênero"><option value="">Todos os gêneros</option></select>
+        <select class="filter-select" id="f-idioma" aria-label="Filtrar por idioma"><option value="">Todos os idiomas</option></select>
+        <select class="filter-select" id="f-cor" aria-label="Filtrar por cor do autor/a"><option value="">Toda cor</option></select>
+      </div>
+      <div style="overflow-x:auto">
+        <table>
+          <thead><tr>
+            <th>Título</th><th>Autor/a</th><th>Gênero</th><th>Páginas</th>
+            <th>Idioma</th><th>Cor</th><th>País</th><th>Status</th><th>⭐</th>
+          </tr></thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+      <div class="table-footer">
+        <span id="t-info">—</span>
+        <div class="pagination" id="pagination"></div>
+      </div>
+    </section>
 
-</main>
+  </main>
 </div>
 
 <!-- FOOTER -->
@@ -857,38 +856,38 @@ passou a incluir Distribuição de notas e Gêneros literários, que vieram do b
 // seções que os usam (gráficos, mapa) chegam perto da viewport. Reduz JS não usado e
 // TBT no carregamento inicial, já que o Lighthouse não simula scroll do usuário.
 function loadScript(src){
-return new Promise((resolve, reject)=>{
-const s = document.createElement('script');
-s.src = src; s.onload = resolve; s.onerror = reject;
-document.body.appendChild(s);
-});
+  return new Promise((resolve, reject)=>{
+    const s = document.createElement('script');
+    s.src = src; s.onload = resolve; s.onerror = reject;
+    document.body.appendChild(s);
+  });
 }
 function loadCSS(href){
-return new Promise((resolve, reject)=>{
-const l = document.createElement('link');
-l.rel = 'stylesheet'; l.href = href; l.onload = resolve; l.onerror = reject;
-document.head.appendChild(l);
-});
+  return new Promise((resolve, reject)=>{
+    const l = document.createElement('link');
+    l.rel = 'stylesheet'; l.href = href; l.onload = resolve; l.onerror = reject;
+    document.head.appendChild(l);
+  });
 }
 let _chartJsPromise = null;
 function ensureChartJs(){
-if(!_chartJsPromise){
-_chartJsPromise = loadScript('https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js')
-.then(()=>loadScript('https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js'))
-.then(()=>{ Chart.register(ChartDataLabels); });
-}
-return _chartJsPromise;
+  if(!_chartJsPromise){
+    _chartJsPromise = loadScript('https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js')
+      .then(()=>loadScript('https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js'))
+      .then(()=>{ Chart.register(ChartDataLabels); });
+  }
+  return _chartJsPromise;
 }
 let _leafletPromise = null;
 function ensureLeaflet(){
-if(!_leafletPromise){
-_leafletPromise = Promise.all([
-loadCSS('https://unpkg.com/leaflet@1.9.4/dist/leaflet.css'),
-loadScript('https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'),
-loadScript('/vesiuol/assets/paises.js') // cadastro único de países (assets/paises.js): coordenada, variações de nome
-]);
-}
-return _leafletPromise;
+  if(!_leafletPromise){
+    _leafletPromise = Promise.all([
+      loadCSS('https://unpkg.com/leaflet@1.9.4/dist/leaflet.css'),
+      loadScript('https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'),
+      loadScript('/vesiuol/assets/paises.js')   // cadastro único de países (assets/paises.js): coordenada, variações de nome
+    ]);
+  }
+  return _leafletPromise;
 }
 let _dataReadyResolve;
 const dataReadyPromise = new Promise(res=>{ _dataReadyResolve = res; });
@@ -901,7 +900,7 @@ const GREEN = _cv('--green', '#6b7e5e'), GREEN_LIGHT = _cv('--green-light', '#c8
 const PALETTE = ['#7a9e7e','#c4a882','#6b8e9f','#b5835a','#8a9a5b','#9b7fa6','#4e7c5f','#c4855a','#7ba3a8','#a07850','#849974','#b09080'];
 
 /* COORDS (coordenada de cada país) saiu daqui: agora vive em assets/paises.js, cadastro único usado pelos 4 mapas
-e conferido todo dia pelo workflow check-paises.yml. Decisão registrada na Governança (2026-11-21). */
+   e conferido todo dia pelo workflow check-paises.yml. Decisão registrada na Governança (2026-11-21). */
 function norm(s){ return (s||'').trim().toLowerCase(); }
 function isTrue(v){ const s=norm(v||''); return ['sim','yes','true','1','✓','x','verdadeiro'].includes(s); }
 function isDataRow(b){ const t=norm(b['Livros']||b[Object.keys(b)[0]]||''); if(!t) return false; if(t.includes('(resumo)')||t.includes('(gráfico)')||t.includes('(grafico)')) return false; const marker=(v)=>{ const n=norm(v||''); return n.includes('(resumo)')||n.includes('(gráfico)')||n.includes('(grafico)'); }; if(marker(b['Gênero'])||marker(b['Questões psicológicas'])) return false; return true; }
@@ -910,178 +909,465 @@ function isDataRow(b){ const t=norm(b['Livros']||b[Object.keys(b)[0]]||''); if(!
 // no caminho comum, além do carregamento sob demanda de Chart.js/Leaflet já implementado.
 let _papaPromise = null;
 function ensurePapaParse(){
-if(!_papaPromise){
-_papaPromise = loadScript('https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js');
-}
-return _papaPromise;
+  if(!_papaPromise){
+    _papaPromise = loadScript('https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js');
+  }
+  return _papaPromise;
 }
 async function fetchBooksLocal(){
-const res = await fetch('/vesiuol/data/estante.json');
-if(!res.ok) throw new Error('cache local indisponível (' + res.status + ')');
-return await res.json();
+  const res = await fetch('/vesiuol/data/estante.json');
+  if(!res.ok) throw new Error('cache local indisponível (' + res.status + ')');
+  return await res.json();
 }
 async function fetchBooksLive(url){
-await ensurePapaParse();
-return new Promise((res,rej)=>{ Papa.parse(url,{download:true,header:true,skipEmptyLines:true,complete:r=>res(r.data),error:rej}); });
+  await ensurePapaParse();
+  return new Promise((res,rej)=>{ Papa.parse(url,{download:true,header:true,skipEmptyLines:true,complete:r=>res(r.data),error:rej}); });
 }
 async function fetchBooks(){
-try{
-return await fetchBooksLocal();
-} catch(e){
-console.warn('Estante: cache local indisponível, buscando direto da planilha —', e.message);
-return await fetchBooksLive(CSV_ESTANTE);
-}
+  try{
+    return await fetchBooksLocal();
+  } catch(e){
+    console.warn('Estante: cache local indisponível, buscando direto da planilha —', e.message);
+    return await fetchBooksLive(CSV_ESTANTE);
+  }
 }
 
 function countField(arr, key){
-const c={};
-arr.forEach(b=>{ const v=(b[key]||'').trim(); if(v && !norm(v).includes('(gráfico)') && !norm(v).includes('(grafico)')) c[v]=(c[v]||0)+1; });
-return c;
+  const c={};
+  arr.forEach(b=>{ const v=(b[key]||'').trim(); if(v && !norm(v).includes('(gráfico)') && !norm(v).includes('(grafico)')) c[v]=(c[v]||0)+1; });
+  return c;
 }
 function topN(obj,n){ return Object.entries(obj).sort((a,b)=>b[1]-a[1]).slice(0,n); }
 
 // Séries e livros únicos — duas fontes diferentes, de propósito:
-// • "Livros por tipo" e "Livros únicos" vêm da Estante (coluna "Série ou único?", já em allBooks);
-// • todo o resto vem do Notion ("Séries — Minha Coleção"), via data/series.json
-// (gerado por scripts/fetch-notion-series.js / workflow update-series.yml).
+//  • "Livros por tipo" e "Livros únicos" vêm da Estante (coluna "Série ou único?", já em allBooks);
+//  • todo o resto vem do Notion ("Séries — Minha Coleção"), via data/series.json
+//    (gerado por scripts/fetch-notion-series.js / workflow update-series.yml).
 function escHtml(t){ return String(t==null?'':t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function tipoSerie(total){ return total===2?'Duologia':(total===3?'Trilogia':'Série'); }
 function setTxt(id,v){ const e=document.getElementById(id); if(e) e.textContent=v; }
 async function fetchSeriesLocal(){
-const res = await fetch('/vesiuol/data/series.json');
-if(!res.ok) throw new Error('series.json indisponível (' + res.status + ')');
-return await res.json();
+  const res = await fetch('/vesiuol/data/series.json');
+  if(!res.ok) throw new Error('series.json indisponível (' + res.status + ')');
+  return await res.json();
 }
 function serieItem(x, modo){
-const total=Number(x.total)||0, leu=Number(x.leu)||0, tem=(x.tenho==null?null:Number(x.tenho));
-const autor=x.autor?escHtml(x.autor)+' · ':'';
-const nome=escHtml(x.nome)+'<span class="rank-tipo">'+tipoSerie(total)+'</span>';
-if(modo==='faltam'){
-const falta=total-(tem||0);
-const pct=total>0?Math.min(100,Math.round((tem||0)/total*100)):0;
-return `
-<div class="rank-item">
-<div class="rank-header"><span>${nome}</span><span class="rank-val">faltam ${falta}</span></div>
-<div class="rank-sub">${autor}tenho ${tem} de ${total} · li ${leu}</div>
-<div class="rank-track"><div class="rank-fill" style="width:${pct}%"></div></div>
-</div>`;
-}
-const pct=total>0?Math.min(100,Math.round(leu/total*100)):0;
-return `
-<div class="rank-item">
-<div class="rank-header"><span>${nome}</span><span class="rank-val">${total>0?'li '+leu+' de '+total:'—'}</span></div>
-<div class="rank-sub">${autor}tenho ${tem==null?'—':tem}</div>
-<div class="rank-track"><div class="rank-fill" style="width:${pct}%"></div></div>
-</div>`;
+  const total=Number(x.total)||0, leu=Number(x.leu)||0, tem=(x.tenho==null?null:Number(x.tenho));
+  const autor=x.autor?escHtml(x.autor)+' · ':'';
+  const nome=escHtml(x.nome)+'<span class="rank-tipo">'+tipoSerie(total)+'</span>';
+  if(modo==='faltam'){
+    const falta=total-(tem||0);
+    const pct=total>0?Math.min(100,Math.round((tem||0)/total*100)):0;
+    return `
+    <div class="rank-item">
+      <div class="rank-header"><span>${nome}</span><span class="rank-val">faltam ${falta}</span></div>
+      <div class="rank-sub">${autor}tenho ${tem} de ${total} · li ${leu}</div>
+      <div class="rank-track"><div class="rank-fill" style="width:${pct}%"></div></div>
+    </div>`;
+  }
+  const pct=total>0?Math.min(100,Math.round(leu/total*100)):0;
+  return `
+    <div class="rank-item">
+      <div class="rank-header"><span>${nome}</span><span class="rank-val">${total>0?'li '+leu+' de '+total:'—'}</span></div>
+      <div class="rank-sub">${autor}tenho ${tem==null?'—':tem}</div>
+      <div class="rank-track"><div class="rank-fill" style="width:${pct}%"></div></div>
+    </div>`;
 }
 async function buildSeries(books){
-const tipos=countField(books,'Série ou único?');
-buildRank('rank-tipo', tipos, 999);
-setTxt('sg-unicos', tipos['Livro único']||0);
-let series=[];
-try{ series=await fetchSeriesLocal(); }catch(e){ console.warn('Estante: séries do Notion indisponíveis —', e.message); }
-series=(Array.isArray(series)?series:[]).filter(x=>x&&x.nome);
-if(!series.length){
-['lista-faltam','lista-series'].forEach(id=>{ const e=document.getElementById(id); if(e) e.innerHTML='<div style="font-size:.78rem;color:var(--muted)">Sem dados</div>'; });
-setTxt('series-sub','');
-return;
-}
-series.sort((a,b)=>_collator.compare(a.nome,b.nome));
-const completos=series.filter(x=>x.total!=null && x.tenho!=null && x.leu!=null);
-const faltamTer=completos.reduce((n,x)=>n+Math.max(0,x.total-x.tenho),0);
-const faltamLer=completos.reduce((n,x)=>n+Math.max(0,x.total-x.leu),0);
-const st=(x)=>norm(x.status);
-setTxt('series-sub', series.length+' séries na coleção');
-setTxt('sg-total', series.length);
-setTxt('sg-andamento', series.filter(x=>st(x)==='em andamento').length);
-setTxt('sg-concluidas', series.filter(x=>st(x)==='concluída'||st(x)==='concluida').length);
-setTxt('sg-faltam-ter', faltamTer);
-setTxt('sg-faltam-ler', faltamLer);
-const semNum=series.length-completos.length;
-if(semNum>0) setTxt('sg-total-sub', semNum+' com número em branco no Notion');
+  const tipos=countField(books,'Série ou único?');
+  buildRank('rank-tipo', tipos, 999);
+  setTxt('sg-unicos', tipos['Livro único']||0);
+  let series=[];
+  try{ series=await fetchSeriesLocal(); }catch(e){ console.warn('Estante: séries do Notion indisponíveis —', e.message); }
+  series=(Array.isArray(series)?series:[]).filter(x=>x&&x.nome);
+  if(!series.length){
+    ['lista-faltam','lista-series'].forEach(id=>{ const e=document.getElementById(id); if(e) e.innerHTML='<div style="font-size:.78rem;color:var(--muted)">Sem dados</div>'; });
+    setTxt('series-sub','');
+    return;
+  }
+  series.sort((a,b)=>_collator.compare(a.nome,b.nome));
+  const st=(x)=>norm(x.status);
+  const semInt=series.filter(x=>st(x)==='sem interesse');
+  const ativas=series.filter(x=>st(x)!=='sem interesse');
+  const completos=ativas.filter(x=>x.total!=null && x.tenho!=null && x.leu!=null);
+  const faltamTer=completos.reduce((n,x)=>n+Math.max(0,x.total-x.tenho),0);
+  const faltamLer=completos.reduce((n,x)=>n+Math.max(0,x.total-x.leu),0);
+  setTxt('series-sub', series.length+' séries na coleção');
+  setTxt('sg-total', series.length);
+  setTxt('sg-total-sub', semInt.length ? semInt.length+' sem interesse em continuar' : 'duologias, trilogias e séries');
+  setTxt('sg-concluidas', series.filter(x=>st(x)==='completa').length);
+  setTxt('sg-andamento', series.filter(x=>st(x)==='incompleta').length);
+  setTxt('sg-faltam-ter', faltamTer);
+  setTxt('sg-faltam-ler', faltamLer);
+  const semNum=ativas.length-completos.length;
+  if(semNum>0) setTxt('sg-total-sub', semNum+' com número em branco no Notion');
 
-// Quanto falta para completar: só séries com livro faltando, da mais perto de completar para a mais longe
-const faltam=completos.filter(x=>x.total>x.tenho).sort((a,b)=>((a.total-a.tenho)-(b.total-b.tenho))||_collator.compare(a.nome,b.nome));
-document.getElementById('lista-faltam').innerHTML = faltam.length
-? faltam.map(x=>serieItem(x,'faltam')).join('')
-: '<div style="font-size:.78rem;color:var(--muted)">Nenhuma série com livro faltando</div>';
+  // Quanto falta para completar: só séries com livro faltando, da mais perto de completar para a mais longe
+  const faltam=completos.filter(x=>x.total>x.tenho && st(x)==='incompleta').sort((a,b)=>((a.total-a.tenho)-(b.total-b.tenho))||_collator.compare(a.nome,b.nome));
+  document.getElementById('lista-faltam').innerHTML = faltam.length
+    ? faltam.map(x=>serieItem(x,'faltam')).join('')
+    : '<div style="font-size:.78rem;color:var(--muted)">Nenhuma série com livro faltando</div>';
 
-// Minhas séries, separadas pelo status do Notion
-const grupos=[['Em andamento',x=>st(x)==='em andamento'],['Concluída',x=>st(x)==='concluída'||st(x)==='concluida'],['Sem status',x=>st(x)!=='em andamento'&&st(x)!=='concluída'&&st(x)!=='concluida']];
-document.getElementById('lista-series').innerHTML = grupos.map(([nome,fn])=>{
-const g=series.filter(fn); if(!g.length) return '';
-return `<div class="ptg-label" style="margin:.2rem 0 -.1rem">${nome} · ${g.length}</div>`+g.map(x=>serieItem(x,'lido')).join('');
-}).join('');
+  // Minhas séries, separadas pelo status do Notion
+  const grupos=[['Incompletas',x=>st(x)==='incompleta'],['Completas',x=>st(x)==='completa'],['Sem interesse em continuar',x=>st(x)==='sem interesse'],['Sem status',x=>!['incompleta','completa','sem interesse'].includes(st(x))]];
+  document.getElementById('lista-series').innerHTML = grupos.map(([nome,fn])=>{
+    const g=series.filter(fn); if(!g.length) return '';
+    return `<div class="ptg-label" style="margin:.2rem 0 -.1rem">${nome} · ${g.length}</div>`+g.map(x=>serieItem(x,'lido')).join('');
+  }).join('');
 }
 
 function buildRank(elId, obj, maxItems){
-const el = document.getElementById(elId); if(!el) return;
-const pairs = topN(obj, maxItems);
-if(!pairs.length){ el.innerHTML='<div style="font-size:.78rem;color:var(--muted)">Sem dados</div>'; return; }
-const max = pairs[0][1];
-el.innerHTML = pairs.map(([label,val],i) => `
-<div class="rank-item">
-<div class="rank-header">
-<span><span class="rank-pos">${i+1}.</span>${label}</span>
-<span class="rank-val">${val}</span>
-</div>
-<div class="rank-track"><div class="rank-fill${i>0?' light':''}" style="width:${Math.round(val/max*100)}%"></div></div>
-</div>`).join('');
+  const el = document.getElementById(elId); if(!el) return;
+  const pairs = topN(obj, maxItems);
+  if(!pairs.length){ el.innerHTML='<div style="font-size:.78rem;color:var(--muted)">Sem dados</div>'; return; }
+  const max = pairs[0][1];
+  el.innerHTML = pairs.map(([label,val],i) => `
+    <div class="rank-item">
+      <div class="rank-header">
+        <span><span class="rank-pos">${i+1}.</span>${label}</span>
+        <span class="rank-val">${val}</span>
+      </div>
+      <div class="rank-track"><div class="rank-fill${i>0?' light':''}" style="width:${Math.round(val/max*100)}%"></div></div>
+    </div>`).join('');
 }
 
 // ── ACESSIBILIDADE: alternativa textual/tabela de apoio para gráficos Chart.js ──
 // Mesmo padrão já usado em /vesiuol/historico///vesiuol/desafio/. Não altera nada visual: só injeta uma
 // tabela oculta visualmente (sr-only), acessível a leitor de tela, logo após o canvas.
 function accessibleChart(canvasId, caption, labels, data){
-const canvas=document.getElementById(canvasId); if(!canvas) return;
-const summary=labels.map((l,i)=>`${l}: ${data[i]}`).join(', ');
-canvas.setAttribute('role','img');
-canvas.setAttribute('aria-label', canvas.getAttribute('aria-label') || (caption+'. '+summary));
-const tableId=canvasId+'-table';
-const existing=document.getElementById(tableId); if(existing) existing.remove();
-const table=document.createElement('table');
-table.id=tableId; table.className='sr-only';
-table.innerHTML=`<caption>${caption}</caption><thead><tr><th scope="col">Categoria</th><th scope="col">Valor</th></tr></thead><tbody>${
-labels.map((l,i)=>`<tr><td>${l}</td><td>${data[i]}</td></tr>`).join('')
-}</tbody></table>`;
-canvas.insertAdjacentElement('afterend', table);
-canvas.setAttribute('aria-describedby', tableId);
+  const canvas=document.getElementById(canvasId); if(!canvas) return;
+  const summary=labels.map((l,i)=>`${l}: ${data[i]}`).join(', ');
+  canvas.setAttribute('role','img');
+  canvas.setAttribute('aria-label', canvas.getAttribute('aria-label') || (caption+'. '+summary));
+  const tableId=canvasId+'-table';
+  const existing=document.getElementById(tableId); if(existing) existing.remove();
+  const table=document.createElement('table');
+  table.id=tableId; table.className='sr-only';
+  table.innerHTML=`<caption>${caption}</caption><thead><tr><th scope="col">Categoria</th><th scope="col">Valor</th></tr></thead><tbody>${
+    labels.map((l,i)=>`<tr><td>${l}</td><td>${data[i]}</td></tr>`).join('')
+  }</tbody></table>`;
+  canvas.insertAdjacentElement('afterend', table);
+  canvas.setAttribute('aria-describedby', tableId);
 }
 
 // Governança 2026-07-10: "Cor / raça dos autores" e "Gênero dos autores" viraram gráfico de
 // barras horizontal (Chart.js) em vez de rank-list — mesmo padrão visual (verde, datalabels)
 // já usado no gráfico "Distribuição de notas" desta página.
 function buildBarChart(canvasId, obj, caption){
-const el = document.getElementById(canvasId); if(!el) return;
-const pairs = topN(obj, 999);
-if(!pairs.length) return;
-new Chart(el,{type:'bar',
-data:{labels:pairs.map(p=>p[0]), datasets:[{data:pairs.map(p=>p[1]), backgroundColor:GREEN, borderRadius:4, maxBarThickness:26}]},
-options:{indexAxis:'y', maintainAspectRatio:false, layout:{padding:{right:26}},
-plugins:{legend:{display:false},datalabels:{anchor:'end',align:'end',color:BLACK,
-font:{family:'DM Sans',size:10,weight:'500'},formatter:v=>v}},
-scales:{
-x:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:'#555'},border:{display:false},beginAtZero:true},
-y:{grid:{display:false},ticks:{font:{family:'DM Sans',size:11},color:'#1a1a1a'},border:{display:false}}
-}}});
-accessibleChart(canvasId, caption || canvasId, pairs.map(p=>p[0]), pairs.map(p=>p[1]));
+  const el = document.getElementById(canvasId); if(!el) return;
+  const pairs = topN(obj, 999);
+  if(!pairs.length) return;
+  new Chart(el,{type:'bar',
+    data:{labels:pairs.map(p=>p[0]), datasets:[{data:pairs.map(p=>p[1]), backgroundColor:GREEN, borderRadius:4, maxBarThickness:26}]},
+    options:{indexAxis:'y', maintainAspectRatio:false, layout:{padding:{right:26}},
+      plugins:{legend:{display:false},datalabels:{anchor:'end',align:'end',color:BLACK,
+        font:{family:'DM Sans',size:10,weight:'500'},formatter:v=>v}},
+      scales:{
+        x:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:'#555'},border:{display:false},beginAtZero:true},
+        y:{grid:{display:false},ticks:{font:{family:'DM Sans',size:11},color:'#1a1a1a'},border:{display:false}}
+      }}});
+  accessibleChart(canvasId, caption || canvasId, pairs.map(p=>p[0]), pairs.map(p=>p[1]));
 }
 
 // Distribuição de notas — padronizado no formato de linha/área usado em /vesiuol/historico/
 // (Governança, decisão de padronização 2026-07-04). Extraído em função própria (Governança
 // Lighthouse Nível 4, Fase A) para ser chamado junto dos outros gráficos Chart.js, sob demanda.
 function buildNotasChart(lidos){
-const notasLabels=['★','★★','★★★','★★★★','★★★★★','❤️'];
-const notasVals=[0,0,0,0,0,0];
-lidos.forEach(b=>{
-const nota=(b['Estrelas']||Object.values(b)[9]||'').toString().trim();
-if(norm(nota)==='favorito'){ notasVals[5]++; return; }
-const n=parseInt(nota);
-if(n>=1&&n<=5) notasVals[n-1]++;
-});
-const notasEl=document.getElementById('c-notas-estante');
-if(notasEl){
-new Chart(notasEl,{type:'line',
-data:{labels:notasLabels,datasets:[{data:notasVals,borderColor:GREEN,backgroundColor:GREEN+'22',
-borderWidth:2.5,pointRadius:5,pointBackgroundColor:GREEN,fill:true,tension:.35}]},
-options:{maintainAspectRatio:false,l
+  const notasLabels=['★','★★','★★★','★★★★','★★★★★','❤️'];
+  const notasVals=[0,0,0,0,0,0];
+  lidos.forEach(b=>{
+    const nota=(b['Estrelas']||Object.values(b)[9]||'').toString().trim();
+    if(norm(nota)==='favorito'){ notasVals[5]++; return; }
+    const n=parseInt(nota);
+    if(n>=1&&n<=5) notasVals[n-1]++;
+  });
+  const notasEl=document.getElementById('c-notas-estante');
+  if(notasEl){
+    new Chart(notasEl,{type:'line',
+      data:{labels:notasLabels,datasets:[{data:notasVals,borderColor:GREEN,backgroundColor:GREEN+'22',
+        borderWidth:2.5,pointRadius:5,pointBackgroundColor:GREEN,fill:true,tension:.35}]},
+      options:{maintainAspectRatio:false,layout:{padding:{top:22}},
+        plugins:{legend:{display:false},datalabels:{display:ctx=>ctx.dataset.data[ctx.dataIndex]>0,
+          anchor:'end',align:'top',color:BLACK,font:{family:'DM Sans',size:10,weight:'500'},
+          formatter:v=>v>0?v:'',clamp:true}},
+        scales:{
+          x:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:'#555'},border:{display:false}},
+          y:{grid:{color:'#eee',lineWidth:.7},ticks:{font:{family:'DM Sans',size:10},color:'#555'},border:{display:false},beginAtZero:true}
+        }}});
+    accessibleChart('c-notas-estante', 'Distribuição de avaliações por nota',
+      ['1 estrela','2 estrelas','3 estrelas','4 estrelas','5 estrelas','Favorito'], notasVals);
+  }
+}
+
+// Governança Lighthouse Nível 4, Fase A: observers que disparam o carregamento das libs
+// pesadas só quando as seções correspondentes chegam perto da viewport.
+const chartsObs = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      chartsObs.disconnect();
+      Promise.all([ensureChartJs(), dataReadyPromise]).then(([_, data])=>{
+        buildBarChart('c-cor', countField(data.allBooks,'Cor'), 'Cor/raça dos autores');
+        buildBarChart('c-ga',  countField(data.allBooks,'Se identifica como...'), 'Gênero dos autores');
+        buildNotasChart(data.lidos);
+      });
+    }
+  });
+}, {rootMargin:'400px 0px'});
+
+const mapObs = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      mapObs.disconnect();
+      Promise.all([ensureLeaflet(), dataReadyPromise]).then(([_, data])=>{
+        buildMap(data.allBooks);
+      });
+    }
+  });
+}, {rootMargin:'400px 0px'});
+
+const _corCanvas = document.getElementById('c-cor');
+if(_corCanvas) chartsObs.observe(_corCanvas);
+const _mapEl = document.getElementById('map');
+if(_mapEl) mapObs.observe(_mapEl);
+
+// detect tag columns
+let COL_LGBTQIA='', COL_DIV='', COL_OWN='', COL_PSICO='';
+function detectTagColumns(books){
+  if(!books.length) return;
+  const headers=Object.keys(books[0]);
+  headers.forEach(h=>{
+    const hn=norm(h);
+    if(!COL_LGBTQIA&&(hn.includes('lgbtqia')||hn.includes('lgbt'))) COL_LGBTQIA=h;
+    if(!COL_DIV&&(hn.includes('étnica')||hn.includes('etnica')||hn.includes('racial'))) COL_DIV=h;
+    if(!COL_OWN&&(hn.includes('ownvoices')||hn.includes('own'))) COL_OWN=h;
+    if(!COL_PSICO&&(hn.includes('psicol')||hn.includes('psico')||hn.includes('questões'))) COL_PSICO=h;
+  });
+  if(!COL_LGBTQIA&&headers[15]) COL_LGBTQIA=headers[15];
+  if(!COL_DIV&&headers[16]) COL_DIV=headers[16];
+  if(!COL_OWN&&headers[17]) COL_OWN=headers[17];
+  if(!COL_PSICO&&headers[18]) COL_PSICO=headers[18];
+}
+function getTagVals(b){
+  return {
+    pVal:b[COL_LGBTQIA]||b['Protagonista LGBTQIA+?']||b['LGBTQIA+']||'',
+    qVal:b[COL_DIV]||b['Diversidade étnica/racial ?']||b['Diversidade étnica']||'',
+    rVal:b[COL_OWN]||b['#OwnVoices ?']||b['OwnVoices']||'',
+    sVal:b[COL_PSICO]||b['Questões psicológicas']||'',
+  };
+}
+
+const PER=20;
+let allBooks=[], listBooks=[], filtered=[], activeTag='', page=1;
+// Ordem da lista "Todos os livros": A–Z pela coluna "Livros" (sem diferenciar maiúsculas/acentos; números em ordem natural).
+// Só vale para a lista da página estante: os gráficos e contagens continuam usando allBooks na ordem original da planilha.
+const _collator = new Intl.Collator('pt-BR',{sensitivity:'base',numeric:true,ignorePunctuation:true});
+function sortLivrosAZ(arr){ return [...arr].sort((x,y)=>_collator.compare((x['Livros']||'').trim(),(y['Livros']||'').trim())); }
+
+async function init(){
+  try{ allBooks=await fetchBooks(); } catch(e){ console.error(e); ['s-total','s-lidos','s-paginas','s-autores','s-paises','s-idiomas'].forEach(id=>{const el=document.getElementById(id); if(el) el.classList.remove('skeleton');}); return; }
+  allBooks=allBooks.filter(isDataRow);
+  detectTagColumns(allBooks);
+
+  const lidos=allBooks.filter(b=>norm(b['Lido/Não Lido'])==='lido');
+  const total=allBooks.length;
+  const totalLidos=lidos.length;
+  const paginas=lidos.reduce((s,b)=>s+(parseInt((b['Páginas']||'').replace(/\D/g,''))||0),0);
+  const autores=new Set(allBooks.map(b=>b['Nome']).filter(Boolean)).size;
+  const paises=new Set(allBooks.map(b=>b['País']).filter(Boolean)).size;
+  const idiomas=new Set(allBooks.map(b=>b['Idioma']).filter(Boolean)).size;
+
+  document.getElementById('s-total').textContent=total;
+  document.getElementById('s-lidos').textContent=totalLidos;
+  document.getElementById('s-paginas').textContent=paginas.toLocaleString('pt-BR');
+  document.getElementById('s-autores').textContent=autores;
+  document.getElementById('s-paises').textContent=paises;
+  document.getElementById('s-idiomas').textContent=idiomas;
+  ['s-total','s-lidos','s-paginas','s-autores','s-paises','s-idiomas'].forEach(id=>document.getElementById(id).classList.remove('skeleton'));
+
+  // Progresso
+  const pct=total>0?Math.round(totalLidos/total*100):0;
+  document.getElementById('prog-lidos-txt').textContent=totalLidos+' / '+total;
+  setTimeout(()=>{ document.getElementById('prog-lidos-fill').style.width=pct+'%'; },300);
+
+  // Grid texto
+  const gnObj=countField(allBooks,'Gênero'); const topGn=topN(gnObj,1)[0];
+  const gaObj=countField(allBooks,'Se identifica como...'); const topGa=topN(gaObj,1)[0];
+  const idObj=countField(allBooks,'Idioma'); const topId=topN(idObj,1)[0];
+  const fmObj=countField(allBooks,'Formato'); const topFm=topN(fmObj,1)[0];
+  const fxObj=countField(allBooks,'Faixa etária'); const topFx=topN(fxObj,1)[0];
+  const seObj=countField(allBooks,'Série ou único?'); const topSe=topN(seObj,1)[0];
+
+  if(topGn){ document.getElementById('pg-genero').textContent=topGn[0]; document.getElementById('pg-genero-sub').textContent=topGn[1]+' livros'; }
+  if(topGa){ document.getElementById('pg-ga').textContent=topGa[0]; document.getElementById('pg-ga-sub').textContent=topGa[1]+' autores'; }
+  if(topId){ document.getElementById('pg-idioma').textContent=topId[0]; }
+  if(topFm){ document.getElementById('pg-formato').textContent=topFm[0]; }
+  if(topFx){ document.getElementById('pg-faixa').textContent=topFx[0]; }
+  if(topSe){ document.getElementById('pg-serie').textContent=topSe[0]; }
+
+  // Diversidade
+  function pctSim(arr, col){
+    const tot=arr.length;
+    const sim=arr.filter(b=>isTrue(b[col]||'')).length;
+    return { pct:tot>0?Math.round(sim/tot*100):0, n:sim, tot };
+  }
+  function setDiv(prefix, data){
+    document.getElementById('dc-'+prefix).textContent=data.pct+'%';
+    document.getElementById('dc-'+prefix+'-sub').textContent='de '+data.tot+' livros';
+    setTimeout(()=>{ document.getElementById('dc-'+prefix+'-bar').style.width=data.pct+'%'; },300);
+  }
+  setDiv('lgbtq', pctSim(allBooks, COL_LGBTQIA||'Protagonista LGBTQIA+?'));
+  setDiv('div',   pctSim(allBooks, COL_DIV||'Diversidade étnica/racial ?'));
+  setDiv('own',   pctSim(allBooks, COL_OWN||'#OwnVoices ?'));
+  setDiv('psico', pctSim(allBooks, COL_PSICO||'Questões psicológicas'));
+
+  // Rankings
+  // Governança: listas longas (gêneros, países, etc.) não devem ser truncadas em top-N — usar
+  // container com altura fixa + scroll (ver CSS ".chart-body" dessas seções) e passar sem limite
+  // de itens para buildRank(), igual ao padrão já aplicado em "Países dos autores" (decisão #013).
+  buildRank('rank-generos', gnObj, 999);
+  buildRank('rank-idioma',  idObj, 999);
+  buildRank('rank-formato', fmObj, 999);
+  buildRank('rank-faixa',   fxObj, 999);
+  buildRank('rank-paises',  countField(allBooks,'País'), 999);
+
+  const sub=document.getElementById('dados-sub');
+  if(sub) sub.textContent=total+' livros catalogados';
+
+  // Governança Lighthouse Nível 4, Fase A: gráficos Chart.js e mapa Leaflet não são mais
+  // criados aqui direto — ficam a cargo de chartsObs/mapObs, que só carregam as libs e
+  // renderizam quando as seções correspondentes chegam perto da viewport. Aqui só avisamos
+  // que os dados já estão prontos, caso os observers já tenham disparado antes.
+  _dataReadyResolve({ allBooks, lidos });
+
+  listBooks=sortLivrosAZ(allBooks);
+  buildFilters();
+  filtered=[...listBooks];
+  renderTable();
+  buildSeries(allBooks);
+}
+
+function buildMap(books){
+  const map=L.map('map',{scrollWheelZoom:true}).setView([20,10],2);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map);
+  const pc=countField(books,'País');
+  Object.entries(pc).forEach(([p,q])=>{
+    const c=window.PAISES && PAISES.coord(p); if(!c) return;   // "(gráfico)", "Diversos" e vazio não têm coordenada: ficam fora do mapa
+    L.circleMarker(c,{radius:Math.max(6,Math.min(22,6+Math.sqrt(q)*4)),fillColor:GREEN,color:'#fff',weight:1.5,fillOpacity:.8})
+      .addTo(map).bindPopup('<strong>'+p+'</strong><br>'+q+' livro'+(q>1?'s':''));
+  });
+}
+
+function buildFilters(){
+  ['Gênero','Idioma','Cor'].forEach((col,i)=>{
+    const ids=['f-genero','f-idioma','f-cor'];
+    const sel=document.getElementById(ids[i]);
+    [...new Set(allBooks.map(b=>b[col]).filter(v=>v&&!norm(v).includes('(gráfico)')))].sort().forEach(v=>{
+      const o=document.createElement('option');o.value=v;o.textContent=v;sel.appendChild(o);
+    });
+  });
+  ['search','f-status','f-genero','f-idioma','f-cor'].forEach(id=>{
+    document.getElementById(id).addEventListener(id==='search'?'input':'change',applyFilters);
+  });
+  document.querySelectorAll('.tag-btn').forEach(btn=>btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tag-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');activeTag=btn.dataset.tag;applyFilters();
+  }));
+}
+
+function applyFilters(){
+  const q=document.getElementById('search').value.toLowerCase();
+  const st=document.getElementById('f-status').value;
+  const gn=document.getElementById('f-genero').value;
+  const id=document.getElementById('f-idioma').value;
+  const cor=document.getElementById('f-cor').value;
+  filtered=listBooks.filter(b=>{
+    if(q&&!((b['Livros']||'')+(b['Nome']||'')).toLowerCase().includes(q)) return false;
+    if(st&&norm(b['Lido/Não Lido'])!==norm(st)) return false;
+    if(gn&&b['Gênero']!==gn) return false;
+    if(id&&b['Idioma']!==id) return false;
+    if(cor&&b['Cor']!==cor) return false;
+    if(activeTag){
+      const {pVal,qVal,rVal,sVal}=getTagVals(b);
+      if(activeTag==='lgbtqia'     &&!isTrue(pVal)) return false;
+      if(activeTag==='diversidade'  &&!isTrue(qVal)) return false;
+      if(activeTag==='ownvoices'   &&!isTrue(rVal)) return false;
+      if(activeTag==='psico'       &&!isTrue(sVal)) return false;
+    }
+    return true;
+  });
+  page=1; renderTable();
+}
+
+function renderTable(){
+  const start=(page-1)*PER;
+  const pg=filtered.slice(start,start+PER);
+  const tbody=document.getElementById('tbody');
+  document.getElementById('lista-count').textContent=filtered.length+' livros';
+  if(!filtered.length){
+    tbody.innerHTML='<tr><td colspan="9" style="text-align:center;padding:2rem;color:var(--muted)">Nenhum encontrado.</td></tr>';
+    document.getElementById('t-info').textContent='';
+    document.getElementById('pagination').innerHTML='';
+    return;
+  }
+  tbody.innerHTML=pg.map(b=>{
+    const st=b['Lido/Não Lido']||'';
+    const bc=norm(st)==='lido'?'badge-lido':norm(st)==='lendo'?'badge-lendo':'badge-nao';
+    const nota=(b['Estrelas']||Object.values(b)[9]||'').toString().trim();
+    let starsHtml='';
+    if(norm(nota)==='favorito') starsHtml='<span class="stars">★★★★★</span> ❤️';
+    else {
+      const n=parseFloat(nota.replace(',','.'));
+      if(n>0){
+        const notaFmt=Number.isInteger(n)?String(n):n.toFixed(1).replace('.',',');
+        starsHtml='<span class="stars">'+notaFmt+' ★</span>';
+      }
+    }
+    return `<tr>
+      <td><strong>${b['Livros']||'—'}</strong></td>
+      <td>${b['Nome']||'—'}</td>
+      <td>${b['Gênero']||'—'}</td>
+      <td>${b['Páginas']||'—'}</td>
+      <td>${b['Idioma']||'—'}</td>
+      <td>${b['Cor']||'—'}</td>
+      <td>${b['País']||'—'}</td>
+      <td><span class="badge ${bc}">${st||'—'}</span></td>
+      <td>${starsHtml}</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('t-info').textContent=(start+1)+'–'+Math.min(start+PER,filtered.length)+' de '+filtered.length;
+  const pages=Math.ceil(filtered.length/PER);
+  const pag=document.getElementById('pagination');pag.innerHTML='';
+  for(let i=1;i<=pages;i++){
+    const btn=document.createElement('button');
+    btn.className='page-btn'+(i===page?' active':'');
+    btn.textContent=i;
+    btn.onclick=()=>{page=i;renderTable();};
+    pag.appendChild(btn);
+  }
+}
+
+init();
+</script>
+<script src="/vesiuol/assets/config.js"></script>
+<script src="/vesiuol/assets/motion.js"></script>
+<script>
+document.getElementById("footer-autora").textContent = SITE_CONFIG.autora;
+document.getElementById("footer-ano").textContent = SITE_CONFIG.copyrightAno;
+</script>
+
+<!-- Botão voltar ao topo -->
+<button class="back-to-top" id="back-to-top" aria-label="Voltar ao topo" title="Voltar ao topo">↑</button>
+<script>
+(function(){
+  var btn = document.getElementById('back-to-top');
+  if(!btn) return;
+  var threshold = window.innerHeight * 0.8;
+  function toggle(){ btn.classList.toggle('visible', window.scrollY > threshold); }
+  window.addEventListener('scroll', toggle, {passive:true});
+  toggle();
+  btn.addEventListener('click', function(){ window.scrollTo({top:0, behavior:'smooth'}); });
+})();
+</script>
+
+</body>
+  </html>
