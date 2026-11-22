@@ -979,7 +979,8 @@ async function buildSeries(books){
   setTxt('sg-unicos', tipos['Livro único']||0);
   let series=[];
   try{ series=await fetchSeriesLocal(); }catch(e){ console.warn('Estante: séries do Notion indisponíveis —', e.message); }
-  series=(Array.isArray(series)?series:[]).filter(x=>x&&x.nome);
+  // Séries marcadas como "Sem interesse" no Notion (não vou continuar) ficam de fora de tudo: contagens, listas e somas.
+  series=(Array.isArray(series)?series:[]).filter(x=>x&&x.nome&&norm(x.status)!=='sem interesse');
   if(!series.length){
     ['lista-faltam','lista-series'].forEach(id=>{ const e=document.getElementById(id); if(e) e.innerHTML='<div style="font-size:.78rem;color:var(--muted)">Sem dados</div>'; });
     setTxt('series-sub','');
@@ -987,15 +988,13 @@ async function buildSeries(books){
   }
   series.sort((a,b)=>_collator.compare(a.nome,b.nome));
   const st=(x)=>norm(x.status);
-  const semInt=series.filter(x=>st(x)==='sem interesse');
-  const ativas=series.filter(x=>st(x)!=='sem interesse');
+  const ativas=series;
   const completos=ativas.filter(x=>x.total!=null && x.tenho!=null && x.leu!=null);
   const faltamTer=completos.reduce((n,x)=>n+Math.max(0,x.total-x.tenho),0);
   const faltamLer=completos.reduce((n,x)=>n+Math.max(0,x.total-x.leu),0);
   setTxt('series-sub', series.length+' séries na coleção');
   setTxt('sg-total', series.length);
-  setTxt('sg-total-sub', semInt.length ? semInt.length+' sem interesse em continuar' : 'duologias, trilogias e séries');
-  setTxt('sg-concluidas', series.filter(x=>st(x)==='completa').length);
+    setTxt('sg-concluidas', series.filter(x=>st(x)==='completa').length);
   setTxt('sg-andamento', series.filter(x=>st(x)==='incompleta').length);
   setTxt('sg-faltam-ter', faltamTer);
   setTxt('sg-faltam-ler', faltamLer);
@@ -1003,15 +1002,17 @@ async function buildSeries(books){
   if(semNum>0) setTxt('sg-total-sub', semNum+' com número em branco no Notion');
 
   // Quanto falta para completar: só séries com livro faltando, da mais perto de completar para a mais longe
-  const faltam=completos.filter(x=>x.total>x.tenho && st(x)==='incompleta').sort((a,b)=>((a.total-a.tenho)-(b.total-b.tenho))||_collator.compare(a.nome,b.nome));
+  const pctTer=x=>x.total>0?x.tenho/x.total:0, pctLeu=x=>x.total>0?x.leu/x.total:0;
+  // Barras do maior para o menor (barra = quanto eu já tenho da série); empate: menos livros faltando, depois A–Z
+  const faltam=completos.filter(x=>x.total>x.tenho && st(x)==='incompleta').sort((a,b)=>(pctTer(b)-pctTer(a))||((a.total-a.tenho)-(b.total-b.tenho))||_collator.compare(a.nome,b.nome));
   document.getElementById('lista-faltam').innerHTML = faltam.length
     ? faltam.map(x=>serieItem(x,'faltam')).join('')
     : '<div style="font-size:.78rem;color:var(--muted)">Nenhuma série com livro faltando</div>';
 
-  // Minhas séries, separadas pelo status do Notion
-  const grupos=[['Incompletas',x=>st(x)==='incompleta'],['Completas',x=>st(x)==='completa'],['Sem interesse em continuar',x=>st(x)==='sem interesse'],['Sem status',x=>!['incompleta','completa','sem interesse'].includes(st(x))]];
+  // Minhas séries, separadas pelo status do Notion; dentro de cada grupo, barras do maior para o menor (quanto eu já li)
+  const grupos=[['Incompletas',x=>st(x)==='incompleta'],['Completas',x=>st(x)==='completa'],['Sem status',x=>!['incompleta','completa'].includes(st(x))]];
   document.getElementById('lista-series').innerHTML = grupos.map(([nome,fn])=>{
-    const g=series.filter(fn); if(!g.length) return '';
+    const g=series.filter(fn).sort((a,b)=>(pctLeu(b)-pctLeu(a))||_collator.compare(a.nome,b.nome)); if(!g.length) return '';
     return `<div class="ptg-label" style="margin:.2rem 0 -.1rem">${nome} · ${g.length}</div>`+g.map(x=>serieItem(x,'lido')).join('');
   }).join('');
 }
