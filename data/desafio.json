@@ -2407,7 +2407,7 @@
     "status_notion": "Não iniciada",
     "tenho": "",
     "capa": "",
-    "bandeira": "",
+    "bandeira": "https://upload.wikimedia.org/wikipedia/commons/1/10/Flag_of_Scotland.svg?utm_source=pt.wikipedia.org&utm_campaign=index&utm_content=original",
     "nota": "",
     "cor": "",
     "genero_livro": "",
@@ -2589,7 +2589,7 @@
     "genero_livro": "Romance",
     "diversidade_etnica": "Não",
     "lgbtq": "Não",
-    "ownvoices": "Não"
+    "ownvoices": "Sim"
   },
   {
     "pais": "Costa Rica",
@@ -2935,7 +2935,7 @@
     "status_notion": "Concluído",
     "tenho": "Sim",
     "capa": "https://m.media-amazon.com/images/I/618-b9Im6dL._SY425_.jpg",
-    "bandeira": "",
+    "bandeira": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/05/Flag_of_Brazil.svg/3840px-Flag_of_Brazil.svg.png?utm_source=pt.wikipedia.org&utm_campaign=index&utm_content=thumbnail",
     "nota": "3",
     "cor": "Branco",
     "genero_livro": "Clássico",
