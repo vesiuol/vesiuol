@@ -777,9 +777,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
       </div>
 
-      <div class="wcard">
-        <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Minhas séries por status</span></div>
-        <div class="chart-body reveal" style="max-height:420px;overflow-y:auto" tabindex="0" aria-label="Lista rolável das minhas séries, agrupadas por status, com quantos livros eu li de cada uma"><div class="rank-list" id="lista-series"></div></div>
+      <div class="charts-2col">
+        <div class="wcard">
+          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle" id="tit-incompletas">Séries incompletas</span></div>
+          <div class="chart-body reveal" style="height:360px;overflow-y:auto" tabindex="0" aria-label="Lista rolável das séries incompletas, com quantos livros eu li de cada uma"><div class="rank-list" id="lista-incompletas"></div></div>
+        </div>
+        <div class="wcard">
+          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle" id="tit-completas">Séries completas</span></div>
+          <div class="chart-body reveal" style="height:360px;overflow-y:auto" tabindex="0" aria-label="Lista rolável das séries completas, com quantos livros eu li de cada uma"><div class="rank-list" id="lista-completas"></div></div>
+        </div>
       </div>
     </section>
 
@@ -982,7 +988,7 @@ async function buildSeries(books){
   // Séries marcadas como "Sem interesse" no Notion (não vou continuar) ficam de fora de tudo: contagens, listas e somas.
   series=(Array.isArray(series)?series:[]).filter(x=>x&&x.nome&&norm(x.status)!=='sem interesse');
   if(!series.length){
-    ['lista-faltam','lista-series'].forEach(id=>{ const e=document.getElementById(id); if(e) e.innerHTML='<div style="font-size:.78rem;color:var(--muted)">Sem dados</div>'; });
+    ['lista-faltam','lista-incompletas','lista-completas'].forEach(id=>{ const e=document.getElementById(id); if(e) e.innerHTML='<div style="font-size:.78rem;color:var(--muted)">Sem dados</div>'; });
     setTxt('series-sub','');
     return;
   }
@@ -1009,12 +1015,17 @@ async function buildSeries(books){
     ? faltam.map(x=>serieItem(x,'faltam')).join('')
     : '<div style="font-size:.78rem;color:var(--muted)">Nenhuma série com livro faltando</div>';
 
-  // Minhas séries, separadas pelo status do Notion; dentro de cada grupo, barras do maior para o menor (quanto eu já li)
-  const grupos=[['Incompletas',x=>st(x)==='incompleta'],['Completas',x=>st(x)==='completa'],['Sem status',x=>!['incompleta','completa'].includes(st(x))]];
-  document.getElementById('lista-series').innerHTML = grupos.map(([nome,fn])=>{
-    const g=series.filter(fn).sort((a,b)=>(pctLeu(b)-pctLeu(a))||_collator.compare(a.nome,b.nome)); if(!g.length) return '';
-    return `<div class="ptg-label" style="margin:.2rem 0 -.1rem">${nome} · ${g.length}</div>`+g.map(x=>serieItem(x,'lido')).join('');
-  }).join('');
+  // Séries incompletas e completas em cards separados; dentro de cada um, barras do maior para o menor (quanto eu já li).
+  // Qualquer série que não seja "Completa" (ex.: status em branco) entra em Incompletas.
+  const ordena=(arr)=>[...arr].sort((a,b)=>(pctLeu(b)-pctLeu(a))||_collator.compare(a.nome,b.nome));
+  const completas=ordena(series.filter(x=>st(x)==='completa'));
+  const incompletas=ordena(series.filter(x=>st(x)!=='completa'));
+  const lista=(id,tit,rotulo,arr)=>{
+    setTxt(tit, rotulo+' · '+arr.length);
+    document.getElementById(id).innerHTML = arr.length ? arr.map(x=>serieItem(x,'lido')).join('') : '<div style="font-size:.78rem;color:var(--muted)">Nenhuma série</div>';
+  };
+  lista('lista-incompletas','tit-incompletas','Séries incompletas',incompletas);
+  lista('lista-completas','tit-completas','Séries completas',completas);
 }
 
 function buildRank(elId, obj, maxItems){
