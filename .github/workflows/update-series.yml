@@ -1,0 +1,24 @@
+name: Atualizar séries (Notion)
+
+on:
+  schedule:
+    - cron: '30 9 * * *'   # todo dia às 9h30 UTC (~6h30 Brasília), depois do Desafio LPM
+  workflow_dispatch:        # permite rodar manualmente pelo botão
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: node scripts/fetch-notion-series.js
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/series.json
+          git diff --staged --quiet || git commit -m "Atualiza séries (Notion)"
+          git push
