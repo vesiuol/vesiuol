@@ -149,7 +149,7 @@
     "Cor": "Asiático",
     "Se identifica como...": "Feminino",
     "Primeira vez lendo autore": "TRUE",
-    "Protagonista LGBTQ+": "FALSE",
+    "Protagonista LGBTQ+": "TRUE",
     "Diversidade etnica/racial": "TRUE",
     "#OwnVoices?": "FALSE",
     "NOTA": "4,5",
@@ -963,7 +963,7 @@
   },
   {
     "_col0": "",
-    "Capa do livro": "",
+    "Capa do livro": "https://m.media-amazon.com/images/I/61yRrzRAoCL._SY522_.jpg",
     "Título": "Kim Jiyoung, nascida em 1982",
     "Páginas": "176",
     "Horas": "0:00:00",
@@ -983,9 +983,9 @@
     "Primeira vez lendo autore": "TRUE",
     "Protagonista LGBTQ+": "FALSE",
     "Diversidade etnica/racial": "FALSE",
-    "#OwnVoices?": "FALSE",
+    "#OwnVoices?": "TRUE",
     "NOTA": "",
-    "LIDO": "NÃO LIDO"
+    "LIDO": "LENDO"
   },
   {
     "_col0": "",
