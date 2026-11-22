@@ -1,1 +1,274 @@
-[]
+[
+  {
+    "nome": "Anna e o Beijo Francês (trilogia)",
+    "autor": "Stephanie Perkins",
+    "status": "Sem interesse",
+    "total": 3,
+    "tenho": 1,
+    "leu": 1
+  },
+  {
+    "nome": "Roderick Alleyn",
+    "autor": "Ngaio Marsh",
+    "status": "Sem interesse",
+    "total": 32,
+    "tenho": 1,
+    "leu": 0
+  },
+  {
+    "nome": "Lock In",
+    "autor": "John Scalzi",
+    "status": "Sem interesse",
+    "total": 2,
+    "tenho": 1,
+    "leu": 1
+  },
+  {
+    "nome": "Ready Player (duologia)",
+    "autor": "Ernest Cline",
+    "status": "Sem interesse",
+    "total": 2,
+    "tenho": 1,
+    "leu": 1
+  },
+  {
+    "nome": "Hercule Poirot",
+    "autor": "Agatha Christie",
+    "status": "Incompleta",
+    "total": 37,
+    "tenho": 37,
+    "leu": 24
+  },
+  {
+    "nome": "Maid-sama!",
+    "autor": "Hiro Fujiwara",
+    "status": "Sem interesse",
+    "total": 18,
+    "tenho": 1,
+    "leu": 1
+  },
+  {
+    "nome": "The No. 1 Ladies' Detective Agency",
+    "autor": "Alexander McCall Smith",
+    "status": "Sem interesse",
+    "total": 26,
+    "tenho": 1,
+    "leu": 1
+  },
+  {
+    "nome": "Fúria Vermelha - 2º fase",
+    "autor": "Pierce Brown",
+    "status": "Incompleta",
+    "total": 3,
+    "tenho": 0,
+    "leu": 0
+  },
+  {
+    "nome": "Série dos Robôs",
+    "autor": "Isaac Asimov",
+    "status": "Incompleta",
+    "total": 5,
+    "tenho": 2,
+    "leu": 2
+  },
+  {
+    "nome": "Trilogia de Daevabad",
+    "autor": "S.A. Chakraborty",
+    "status": "Completa",
+    "total": 3,
+    "tenho": 3,
+    "leu": 0
+  },
+  {
+    "nome": "Antes que o Café Esfrie",
+    "autor": "Toshikazu Kawaguchi",
+    "status": "Sem interesse",
+    "total": 4,
+    "tenho": 1,
+    "leu": 1
+  },
+  {
+    "nome": "Diários de um Robô-Assassino",
+    "autor": "Martha Wells",
+    "status": "Incompleta",
+    "total": 7,
+    "tenho": 3,
+    "leu": 0
+  },
+  {
+    "nome": "Meu Romeu / Minha Julieta",
+    "autor": "Leisa Rayven",
+    "status": "Completa",
+    "total": 2,
+    "tenho": 2,
+    "leu": 2
+  },
+  {
+    "nome": "Despedaçada (trilogia)",
+    "autor": "Teri Terry",
+    "status": "Completa",
+    "total": 3,
+    "tenho": 3,
+    "leu": 3
+  },
+  {
+    "nome": "Reboot",
+    "autor": "Amy Tintera",
+    "status": "Completa",
+    "total": 2,
+    "tenho": 2,
+    "leu": 2
+  },
+  {
+    "nome": "A Ordem dos Mantos Prateados",
+    "autor": "L. K. Steven",
+    "status": "Incompleta",
+    "total": 2,
+    "tenho": 1,
+    "leu": 0
+  },
+  {
+    "nome": "Fúria Vermelha - 1º fase",
+    "autor": "Pierce Brown",
+    "status": "Completa",
+    "total": 3,
+    "tenho": 3,
+    "leu": 0
+  },
+  {
+    "nome": "A Guardiã de Histórias",
+    "autor": "Victoria Schwab",
+    "status": "Sem interesse",
+    "total": 2,
+    "tenho": 1,
+    "leu": 1
+  },
+  {
+    "nome": "Apenas Um Dia (série)",
+    "autor": "Gayle Forman",
+    "status": "Completa",
+    "total": 3,
+    "tenho": 3,
+    "leu": 3
+  },
+  {
+    "nome": "Amada Imortal (trilogia)",
+    "autor": "Cate Tiernan",
+    "status": "Completa",
+    "total": 3,
+    "tenho": 3,
+    "leu": 3
+  },
+  {
+    "nome": "O Priorado da Laranjeira",
+    "autor": "Samantha Shannon",
+    "status": "Completa",
+    "total": 2,
+    "tenho": 2,
+    "leu": 2
+  },
+  {
+    "nome": "Percy Jackson e os Olimpianos",
+    "autor": "Rick Riordan",
+    "status": "Completa",
+    "total": 5,
+    "tenho": 5,
+    "leu": 5
+  },
+  {
+    "nome": "Uma Chama Entre as Cinzas",
+    "autor": "Sabaa Tahir",
+    "status": "Completa",
+    "total": 4,
+    "tenho": 4,
+    "leu": 4
+  },
+  {
+    "nome": "O Guia do Mochileiro das Galáxias",
+    "autor": "Douglas Adams",
+    "status": "Completa",
+    "total": 5,
+    "tenho": 5,
+    "leu": 2
+  },
+  {
+    "nome": "Crônicas de Duna (saga original)",
+    "autor": "Frank Herbert",
+    "status": "Completa",
+    "total": 6,
+    "tenho": 6,
+    "leu": 5
+  },
+  {
+    "nome": "O Projeto Rosie",
+    "autor": "Graeme Simsion",
+    "status": "Sem interesse",
+    "total": 3,
+    "tenho": 1,
+    "leu": 1
+  },
+  {
+    "nome": "Um Estranho Sonhado (duologia)",
+    "autor": "Laini Taylor",
+    "status": "Completa",
+    "total": 2,
+    "tenho": 2,
+    "leu": 2
+  },
+  {
+    "nome": "Carbono Alterado",
+    "autor": "Richard Morgan",
+    "status": "Sem interesse",
+    "total": 3,
+    "tenho": 1,
+    "leu": 0
+  },
+  {
+    "nome": "Os Relatos da Guerra das Tempestades",
+    "autor": "Brandon Sanderson",
+    "status": "Incompleta",
+    "total": 5,
+    "tenho": 4,
+    "leu": 2
+  },
+  {
+    "nome": "Trilogia dos Fundadores",
+    "autor": "Robert Jackson Bennett",
+    "status": "Completa",
+    "total": 3,
+    "tenho": 3,
+    "leu": 2
+  },
+  {
+    "nome": "Heróis do Olimpo",
+    "autor": "Rick Riordan",
+    "status": "Completa",
+    "total": 5,
+    "tenho": 5,
+    "leu": 5
+  },
+  {
+    "nome": "Silo",
+    "autor": "Hugh Howey",
+    "status": "Completa",
+    "total": 3,
+    "tenho": 3,
+    "leu": 0
+  },
+  {
+    "nome": "A Saga do Assassino",
+    "autor": "Robin Hobb",
+    "status": "Completa",
+    "total": 3,
+    "tenho": 3,
+    "leu": 1
+  },
+  {
+    "nome": "Projetos Secretos",
+    "autor": "Brandon Sanderson",
+    "status": "Incompleta",
+    "total": 4,
+    "tenho": 2,
+    "leu": 0
+  }
+]
