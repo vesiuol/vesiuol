@@ -1,5 +1,21 @@
 [
   {
+    "nome": "Livro das Mil e Uma Noites",
+    "autor": "Desconhecido",
+    "status": "Completa",
+    "total": 5,
+    "tenho": 5,
+    "leu": 0
+  },
+  {
+    "nome": "Mistborn: Segunda Era",
+    "autor": "Brandon Sanderson",
+    "status": "Completa",
+    "total": 4,
+    "tenho": 4,
+    "leu": 0
+  },
+  {
     "nome": "Anna e o Beijo Francês (trilogia)",
     "autor": "Stephanie Perkins",
     "status": "Sem interesse",
@@ -104,7 +120,7 @@
     "leu": 2
   },
   {
-    "nome": "Despedaçada (trilogia)",
+    "nome": "Despedaçada",
     "autor": "Teri Terry",
     "status": "Completa",
     "total": 3,
@@ -144,7 +160,7 @@
     "leu": 1
   },
   {
-    "nome": "Apenas Um Dia (série)",
+    "nome": "Apenas Um Dia",
     "autor": "Gayle Forman",
     "status": "Completa",
     "total": 3,
@@ -152,7 +168,7 @@
     "leu": 3
   },
   {
-    "nome": "Amada Imortal (trilogia)",
+    "nome": "Amada Imortal",
     "autor": "Cate Tiernan",
     "status": "Completa",
     "total": 3,
@@ -171,8 +187,8 @@
     "nome": "Percy Jackson e os Olimpianos",
     "autor": "Rick Riordan",
     "status": "Completa",
-    "total": 5,
-    "tenho": 5,
+    "total": 7,
+    "tenho": 7,
     "leu": 5
   },
   {
@@ -192,7 +208,7 @@
     "leu": 2
   },
   {
-    "nome": "Crônicas de Duna (saga original)",
+    "nome": "Crônicas de Duna",
     "autor": "Frank Herbert",
     "status": "Completa",
     "total": 6,
