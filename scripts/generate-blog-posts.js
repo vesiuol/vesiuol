@@ -1,709 +1,571 @@
-#!/usr/bin/env node
-/**
- * Gera posts novos do blog (Biblioteca Vesiuol) a partir da base "Textos blog" no Notion.
- *
- * Como funciona:
- *  1. Busca páginas com Status = "Pronto para publicar" na base Textos blog.
- *  2. Para cada uma, lê o conteúdo (blocos) da própria página do Notion.
- *  3. Clona blog/como-escolhi-um-livro-por-pais-rota-1/index.html (template
- *     canônico, ver Governança Blog) e substitui título, meta tags, JSON-LD,
- *     corpo do texto, tags e "Outras leituras".
- *  4. Escreve o HTML novo em blog/<slug>/index.html — NUNCA sobrescreve um
- *     arquivo que já existe (posts publicados não são reescritos por este
- *     script). Formato de pasta desde a migração de URLs de 12/08/2026.
- *  5. Insere o card do post novo em blog/index.html (topo da grade) e
- *     atualiza o contador "textos publicados".
- *  6. Atualiza data/blog-posts.json (manifesto simples de todos os posts).
- *  7. Marca a página no Notion como Status = "Publicado".
- *
- * Ciclo de vida do campo Status (base Textos blog, ver Governança Blog):
- *  - "Pronto para publicar" → gera o post pela primeira vez (passo 3 acima).
- *    Se blog/<slug>/index.html já existir, pula e avisa (nunca sobrescreve).
- *  - "Atualizar"            → resincroniza um post JÁ publicado: corpo do
- *    texto, tags, tempo de leitura E (desde 2026-08-16, ver Registro de
- *    Decisões) título/meta/JSON-LD na PRÓPRIA página. A URL do post nunca
- *    muda aqui. ALÉM DISSO, se o card não estiver em blog/index.html
- *    e/ou o post não estiver em data/blog-posts.json — porque um "Rascunho"
- *    anterior os removeu (ver abaixo) — este passo os RECRIA automaticamente.
- *    Ou seja, "Atualizar" é também o caminho de volta de um post oculto.
- *  - "Rascunho"             → se o arquivo do post NÃO existe ainda, é só um
- *    rascunho normal sendo escrito (nada a fazer). Se o arquivo JÁ existe
- *    (post publicado antes), este status OCULTA o post: remove o card de
- *    blog/index.html e a entrada de data/blog-posts.json, decrementa o
- *    contador "textos publicados", mas MANTÉM o arquivo blog/<slug>/index.html
- *    no ar (acessível por URL direta). Não publica nada novo nem sincroniza.
- *  - "Excluído"             → apaga de vez: arquivo, card e manifesto.
- *  - "Publicado"            → estado final, estático. NÃO é buscado por
- *    fetchReadyPages() — o script nunca olha pra páginas nesse status. Editar
- *    o Status direto pra "Publicado" no Notion não aciona nada no site.
- *
- * Variáveis de ambiente necessárias:
- *  - NOTION_TOKEN        token de integração interna do Notion (secret do GitHub)
- *  - NOTION_BLOG_DB_ID   ID da base "Textos blog" (sem hífens ou com, tanto faz)
- *
- * IMPORTANTE (leia antes do primeiro uso):
- *  - A base "Textos blog" precisa estar compartilhada com a integração do Notion
- *    que gerou o NOTION_TOKEN (Notion > ... > Conexões > adicionar a integração).
- *  - Convenção de imagem no corpo do texto, escrita direto no Notion como um
- *    parágrafo próprio:
- *        [IMAGEM: nome-do-arquivo.jpg]
- *        Legenda: texto opcional da legenda
- *    A imagem em si precisa ser enviada manualmente para assets/img/blog/ no
- *    repositório — o gerador só referencia o nome do arquivo.
- *  - Rode primeiro manualmente (workflow_dispatch) e confira o resultado antes
- *    de confiar no agendamento automático.
- */
-
-const fs = require('fs');
-const path = require('path');
-
-const NOTION_TOKEN = process.env.NOTION_TOKEN;
-const NOTION_BLOG_DB_ID = process.env.NOTION_BLOG_DB_ID;
-const NOTION_VERSION = '2022-06-28';
-
-const REPO_ROOT = path.join(__dirname, '..');
-const BLOG_DIR = path.join(REPO_ROOT, 'blog');
-const INDEX_PATH = path.join(BLOG_DIR, 'index.html');
-const TEMPLATE_PATH = path.join(BLOG_DIR, 'como-escolhi-um-livro-por-pais-rota-1', 'index.html');
-const MANIFEST_PATH = path.join(REPO_ROOT, 'data', 'blog-posts.json');
-const SITE_BASE = 'https://vesiuol.github.io/vesiuol';
-
-// Valores exatos do template canônico (blog/como-escolhi-um-livro-por-pais-rota-1/index.html),
-// usados como "âncoras" para saber o que substituir. Se o template canônico mudar de
-// verdade (não só o texto do post, mas a estrutura do HTML), essas constantes precisam
-// ser atualizadas junto — ver Governança Blog > Padrão obrigatório.
-const OLD = {
-  slug: 'como-escolhi-um-livro-por-pais-rota-1',
-  title: 'Desafio livros pelo mundo: como escolhi os livros por país',
-  desc: 'Desafio livros pelo mundo — um livro para cada país: como organizo minha lista de leituras, critérios de escolha e os primeiros países da rota.',
-  articleMeta: '26 jul 2024 · 2 min de leitura',
-  datePublished: '2024-07-26',
-  dateModified: '2026-07-27',
-  keywords: '["Livros Pelo Mundo", "Organização", "Desafio Literário"]'
-};
-
-function fail(msg) {
-  console.error('ERRO: ' + msg);
-  process.exit(1);
-}
-
-if (!NOTION_TOKEN || !NOTION_BLOG_DB_ID) {
-  fail('faltam as variáveis de ambiente NOTION_TOKEN e/ou NOTION_BLOG_DB_ID.');
-}
-
-async function notionRequest(url, opts = {}) {
-  const res = await fetch(url, {
-    ...opts,
-    headers: {
-      Authorization: `Bearer ${NOTION_TOKEN}`,
-      'Notion-Version': NOTION_VERSION,
-      'Content-Type': 'application/json',
-      ...(opts.headers || {})
-    }
-  });
-  if (!res.ok) {
-    const body = await res.text();
-    throw new Error(`Notion API ${res.status} em ${url}: ${body}`);
-  }
-  return res.json();
-}
-
-function slugify(str) {
-  return str
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/(^-+|-+$)/g, '');
-}
-
-// O campo "URL" no Notion pode vir de duas formas: só o slug ("meu-post") ou o
-// caminho completo como foi publicado originalmente ("blog/meu-post.html").
-// Normaliza pra sempre extrair só o nome do arquivo, sem pasta nem extensão.
-function normalizeSlugField(rawUrl, title) {
-  if (!rawUrl) return slugify(title);
-  let clean = rawUrl.trim();
-  clean = clean.replace(/^https?:\/\/[^/]+\/(vesiuol\/)?/i, ''); // remove domínio, se colou a URL inteira
-  clean = clean.replace(/^blog\//i, ''); // remove prefixo de pasta
-  clean = clean.replace(/\.html?$/i, ''); // remove extensão
-  clean = clean.replace(/^\/+|\/+$/g, '');
-  return clean ? slugify(clean) : slugify(title);
-}
-
-function escapeHtml(s) {
-  return String(s)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
-}
-
-function getPlainText(richTextArr) {
-  return (richTextArr || []).map((t) => t.plain_text).join('');
-}
-
-function richTextToHtml(richTextArr) {
-  return (richTextArr || [])
-    .map((t) => {
-      let text = escapeHtml(t.plain_text);
-      if (t.annotations && t.annotations.bold) text = `<strong>${text}</strong>`;
-      if (t.annotations && t.annotations.italic) text = `<em>${text}</em>`;
-      if (t.href) text = `<a href="${t.href}" target="_blank" rel="noopener">${text}</a>`;
-      return text;
-    })
-    .join('');
-}
-
-// "Outras leituras": prioriza posts com pelo menos 1 tag em comum; sem match nenhum,
-// cai de volta pro comportamento antigo (mais recentes), já que o manifest já vem
-// ordenado por data (unshift = mais novo primeiro) e o sort abaixo é estável.
-function pickRelatedCards(manifest, post) {
-  const currentTags = post.tags || [];
-  return manifest
-    .filter((m) => m.slug !== post.slug)
-    .map((m) => ({ item: m, shared: (m.tags || []).filter((t) => currentTags.includes(t)).length }))
-    .sort((a, b) => b.shared - a.shared)
-    .slice(0, 3)
-    .map((s) => s.item);
-}
-
-function formatDateShort(iso) {
-  const meses = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
-  const [y, m, d] = iso.split('-');
-  return `${parseInt(d, 10)} ${meses[parseInt(m, 10) - 1]} ${y}`;
-}
-
-function readingTime(wordCount) {
-  return Math.max(1, Math.round(wordCount / 200));
-}
-
-// --- 1. Buscar páginas prontas para publicar --------------------------------
-
-async function fetchReadyPages() {
-  const data = await notionRequest(`https://api.notion.com/v1/databases/${NOTION_BLOG_DB_ID}/query`, {
-    method: 'POST',
-    body: JSON.stringify({
-      filter: {
-        or: [
-          { property: 'Status', select: { equals: 'Pronto para publicar' } },
-          { property: 'Status', select: { equals: 'Atualizar' } },
-          { property: 'Status', select: { equals: 'Rascunho' } },
-          { property: 'Status', select: { equals: 'Excluído' } }
-        ]
-      },
-      sorts: [{ property: 'Data de publicação', direction: 'ascending' }]
-    })
-  });
-  return data.results;
-}
-
-async function fetchAllBlocks(blockId) {
-  let blocks = [];
-  let cursor;
-  do {
-    const url = new URL(`https://api.notion.com/v1/blocks/${blockId}/children`);
-    url.searchParams.set('page_size', '100');
-    if (cursor) url.searchParams.set('start_cursor', cursor);
-    const data = await notionRequest(url.toString());
-    blocks = blocks.concat(data.results);
-    cursor = data.has_more ? data.next_cursor : null;
-  } while (cursor);
-  return blocks;
-}
-
-// --- 2. Converter blocos do Notion em HTML do corpo do artigo ---------------
-
-function blocksToArticle(blocks, tags) {
-  const isDesafioLpm = (tags || []).includes('Livros Pelo Mundo');
-  let html = '';
-  let firstParagraphText = '';
-  let wordCount = 0;
-  let listBuffer = [];
-
-  function flushList() {
-    if (listBuffer.length) {
-      html += `<ul>\n${listBuffer.join('\n')}\n</ul>\n`;
-      listBuffer = [];
-    }
-  }
-
-  for (const block of blocks) {
-    const type = block.type;
-    if (type !== 'bulleted_list_item' && type !== 'numbered_list_item') flushList();
-
-    if (type === 'paragraph') {
-      const text = getPlainText(block.paragraph.rich_text);
-      const rotuloMatch = text.match(/^\[CITACAO-ROTULO:\s*([^\]]+)\]$/i);
-      if (rotuloMatch) {
-        html += `<h3 class="quote-label-pill">${escapeHtml(rotuloMatch[1].trim())}</h3>\n`;
-        continue;
-      }
-      const livroMatch = text.match(/^\[LIVRO:\s*([^|]+)\|([^|]+)\|([^\]]+)\]$/i);
-      if (livroMatch) {
-        const [, country, bookTitle, author] = livroMatch.map((s) => (s || '').trim());
-        const countryHtml = isDesafioLpm
-          ? `<a class="book-country" href="/vesiuol/desafio/?pais=${encodeURIComponent(country)}">${escapeHtml(country)}</a>`
-          : `<span class="book-country">${escapeHtml(country)}</span>`;
-        html += `<p class="book-subhead">${countryHtml}: <strong>${escapeHtml(bookTitle)}</strong><span class="book-author">${escapeHtml(author)}</span></p>\n`;
-        continue;
-      }
-      const imgMatch = text.match(/^\[IMAGEM:\s*([^\]]+)\]$/i);
-      if (imgMatch) {
-        const filename = imgMatch[1].trim();
-        html += `<figure>\n  <img src="/vesiuol/assets/img/blog/${escapeHtml(filename)}" alt="aguardando imagem enviada por Louise" onerror="this.src='https://placehold.co/900x500/c8d4b8/2f3a26?text=aguardando+imagem'">\n</figure>\n`;
-        continue;
-      }
-      const legendaMatch = text.match(/^Legenda:\s*(.+)$/i);
-      if (legendaMatch && html.trimEnd().endsWith('</figure>')) {
-        const trimmed = html.trimEnd();
-        html = trimmed.slice(0, -'</figure>'.length) + `  <figcaption>${escapeHtml(legendaMatch[1])}</figcaption>\n</figure>\n`;
-        continue;
-      }
-      if (!text.trim()) continue;
-      if (!firstParagraphText) firstParagraphText = text;
-      wordCount += text.split(/\s+/).filter(Boolean).length;
-      html += `<p>${richTextToHtml(block.paragraph.rich_text)}</p>\n`;
-    } else if (type === 'heading_1' || type === 'heading_2') {
-      const rt = type === 'heading_1' ? block.heading_1.rich_text : block.heading_2.rich_text;
-      html += `<h2>${richTextToHtml(rt)}</h2>\n`;
-    } else if (type === 'heading_3') {
-      html += `<h3>${richTextToHtml(block.heading_3.rich_text)}</h3>\n`;
-    } else if (type === 'quote') {
-      html += `<blockquote>${richTextToHtml(block.quote.rich_text)}</blockquote>\n`;
-      wordCount += getPlainText(block.quote.rich_text).split(/\s+/).filter(Boolean).length;
-    } else if (type === 'bulleted_list_item') {
-      listBuffer.push(`<li>${richTextToHtml(block.bulleted_list_item.rich_text)}</li>`);
-      wordCount += getPlainText(block.bulleted_list_item.rich_text).split(/\s+/).filter(Boolean).length;
-    } else {
-      // Toggle, callout, tabela etc. não são suportados ainda — ver limitação
-      // conhecida na Governança Blog. Ignorado silenciosamente.
-    }
-  }
-  flushList();
-  return { html: html.trim(), firstParagraphText, wordCount };
-}
-
-// --- 3. Montar o HTML final clonando o template canônico --------------------
-
-function buildPostHtml(templateRaw, post, relatedCards) {
-  let html = templateRaw;
-  const newTitle = post.title;
-  const newDesc = post.metaDescription;
-  const newUrl = `${SITE_BASE}/blog/${post.slug}/`;
-
-  // <title>
-  html = html.replace(`<title>${OLD.title} — Biblioteca Vesiuol</title>`, `<title>${escapeHtml(newTitle)} — Biblioteca Vesiuol</title>`);
-  // meta description / og:description / twitter:description (mesmo texto 3x no template)
-  html = html.split(`content="${OLD.desc}"`).join(`content="${escapeHtml(newDesc)}"`);
-  // canonical + og:url
-  html = html.split(`${SITE_BASE}/blog/${OLD.slug}/`).join(newUrl);
-  // og:title / twitter:title (mesmo texto 2x, mais o <title> já trocado acima)
-  html = html.split(`content="${OLD.title} — Biblioteca Vesiuol"`).join(`content="${escapeHtml(newTitle)} — Biblioteca Vesiuol"`);
-  // JSON-LD: headline
-  html = html.replace(`"headline": "${OLD.title}",`, `"headline": ${JSON.stringify(newTitle)},`);
-  // JSON-LD: description
-  html = html.replace(`"description": "${OLD.desc}",`, `"description": ${JSON.stringify(newDesc)},`);
-  // JSON-LD: datas
-  html = html.replace(`"datePublished": "${OLD.datePublished}",`, `"datePublished": "${post.dateISO}",`);
-  html = html.replace(`"dateModified": "${OLD.dateModified}",`, `"dateModified": "${post.dateISO}",`);
-  // JSON-LD: keywords
-  html = html.replace(`"keywords": ${OLD.keywords}`, `"keywords": ${JSON.stringify(post.tags)}`);
-  // JSON-LD: image — se não tiver capa, remove a linha inteira
-  if (post.coverFilename) {
-    html = html.replace(
-      '"image": "https://vesiuol.github.io/vesiuol/assets/img/blog/estruturando-rota-1-1.jpg",',
-      `"image": "${SITE_BASE}/assets/img/blog/${post.coverFilename}",`
-    );
-  } else {
-    html = html.replace(/\s*"image": "https:\/\/vesiuol\.github\.io\/vesiuol\/assets\/img\/blog\/estruturando-rota-1-1\.jpg",\n/, '\n');
-  }
-
-  // article-meta (data + tempo de leitura)
-  html = html.replace(OLD.articleMeta, `${formatDateShort(post.dateISO)} · ${post.readingTime} min de leitura`);
-
-  // h1
-  html = html.replace(
-    `<h1 class="intro-headline">${OLD.title}</h1>`,
-    `<h1 class="intro-headline">${escapeHtml(newTitle)}</h1>`
-  );
-
-  // breadcrumb — o texto da página atual (não-clicável) é o mesmo título do post.
-  // Só entra na geração inicial (não no updateArticleContent), mesma regra do h1/meta/JSON-LD.
-  html = html.replace(
-    `<span class="breadcrumb-current" aria-current="page">${OLD.title}</span>`,
-    `<span class="breadcrumb-current" aria-current="page">${escapeHtml(newTitle)}</span>`
-  );
-
-  // article-body (âncora: do <div class="article-body"> até o </div> logo antes de <div class="article-tags">)
-  html = html.replace(
-    /<div class="article-body">[\s\S]*?<\/div>\n {4}<div class="article-tags">/,
-    `<div class="article-body">\n${post.bodyHtml}\n</div>\n    <div class="article-tags">`
-  );
-
-  // article-tags (tags normais, clicáveis) + tags extras (linha própria abaixo, não clicável)
-  const tagsHtml = post.tags.map((t) => `<a class="post-tag" href="/vesiuol/blog/?tag=${encodeURIComponent(t)}">${escapeHtml(t)}</a>`).join('');
-  const extraTagsHtml =
-    post.extraTags && post.extraTags.length
-      ? `\n    <div class="article-tags-extra">${post.extraTags.map((t) => `<span class="post-tag-extra">${escapeHtml(t)}</span>`).join('')}</div>`
-      : '';
-  html = html.replace(
-    /<div class="article-tags">[\s\S]*?<\/div>\n {2}<\/div>\n {2}<div class="related-wrap">/,
-    `<div class="article-tags">${tagsHtml}</div>${extraTagsHtml}\n  </div>\n  <div class="related-wrap">`
-  );
-
-  // Outras leituras (posts-grid)
-  const relatedHtml = relatedCards
-    .map(
-      (r) => `        <a class="post-card" href="/vesiuol/blog/${r.slug}/">
-          <div class="post-wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div></div>
-          <div class="post-body">
-            <h3 class="post-title">${escapeHtml(r.title)}</h3>
-          </div>
-          <div class="post-tags">${r.tags
-            .slice(0, 2)
-            .map((t) => `<span class="post-tag">${escapeHtml(t)}</span>`)
-            .join('')}</div>
-          <div class="post-foot"><span>${formatDateShort(r.dateISO)} · ${r.readingTime} min</span><span>→</span></div>
-        </a>`
-    )
-    .join('\n');
-  html = html.replace(
-    /<div class="posts-grid">\n[\s\S]*?\n {4}<\/div>\n {2}<\/div>\n\n<footer>/,
-    `<div class="posts-grid">\n${relatedHtml}\n    </div>\n  </div>\n\n<footer>`
-  );
-
-  return html;
-}
-
-// Troca o content="" de uma <meta> específica, localizando-a por um atributo
-// âncora (name="description", property="og:title" etc.), sem depender da
-// ordem dos atributos nem do valor antigo do content.
-function setMetaContent(html, anchorAttrRegex, newValue) {
-  const tagRegex = new RegExp(`<meta[^>]*${anchorAttrRegex.source}[^>]*>`, 'i');
-  return html.replace(tagRegex, (fullTag) =>
-    fullTag.replace(/content="[^"]*"/, `content="${escapeHtml(newValue)}"`)
-  );
-}
-
-// --- 3b. Atualizar (re-sincronizar) um post JÁ PUBLICADO ---------------------
-// Sincroniza corpo do texto, tags, tempo de leitura E (desde 2026-08-16, ver
-// Registro de Decisões) título/meta/JSON-LD. A URL do post (nome do arquivo,
-// canonical, og:url) NUNCA muda aqui — só o texto exibido é atualizado, então
-// nada que referencia o post pela URL (home, manifesto, sitemap, links
-// internos) é afetado.
-function updateArticleContent(existingHtml, post) {
-  let html = existingHtml;
-  const newTitleFull = `${post.title} — Biblioteca Vesiuol`;
-  const newDesc = post.metaDescription;
-
-  // <title>
-  html = html.replace(/<title>[^<]*<\/title>/, `<title>${escapeHtml(newTitleFull)}</title>`);
-
-  // meta description / og:description / twitter:description
-  html = setMetaContent(html, /name="description"/, newDesc);
-  html = setMetaContent(html, /property="og:description"/, newDesc);
-  html = setMetaContent(html, /name="twitter:description"/, newDesc);
-
-  // og:title / twitter:title
-  html = setMetaContent(html, /property="og:title"/, newTitleFull);
-  html = setMetaContent(html, /name="twitter:title"/, newTitleFull);
-
-  // JSON-LD: headline / description (canonical/URL do JSON-LD não é tocado)
-  html = html.replace(/"headline":\s*"[^"]*",/, `"headline": ${JSON.stringify(post.title)},`);
-  html = html.replace(/"description":\s*"[^"]*",/, `"description": ${JSON.stringify(newDesc)},`);
-
-  // h1
-  html = html.replace(
-    /(<h1 class="intro-headline">)[^<]*(<\/h1>)/,
-    `$1${escapeHtml(post.title)}$2`
-  );
-
-  // breadcrumb (texto da página atual, não-clicável)
-  html = html.replace(
-    /(<span class="breadcrumb-current" aria-current="page">)[^<]*(<\/span>)/,
-    `$1${escapeHtml(post.title)}$2`
-  );
-
-  // corpo do artigo
-  html = html.replace(
-    /<div class="article-body">[\s\S]*?<\/div>\n {4}<div class="article-tags">/,
-    `<div class="article-body">\n${post.bodyHtml}\n</div>\n    <div class="article-tags">`
-  );
-
-  // tags + tags extras
-  const tagsHtml = post.tags.map((t) => `<a class="post-tag" href="/vesiuol/blog/?tag=${encodeURIComponent(t)}">${escapeHtml(t)}</a>`).join('');
-  const extraTagsHtml =
-    post.extraTags && post.extraTags.length
-      ? `\n    <div class="article-tags-extra">${post.extraTags.map((t) => `<span class="post-tag-extra">${escapeHtml(t)}</span>`).join('')}</div>`
-      : '';
-  html = html.replace(/\n {4}<div class="article-tags-extra">[\s\S]*?<\/div>/, '');
-  html = html.replace(
-    /<div class="article-tags">[\s\S]*?<\/div>\n {2}<\/div>\n {2}<div class="related-wrap">/,
-    `<div class="article-tags">${tagsHtml}</div>${extraTagsHtml}\n  </div>\n  <div class="related-wrap">`
-  );
-
-  // article-meta: mantém a data que já estava no arquivo, só recalcula o tempo de leitura
-  html = html.replace(
-    /(<div class="article-meta">[^·]+· )\d+( min de leitura<\/div>)/,
-    `$1${post.readingTime}$2`
-  );
-
-  return html;
-}
-
-// --- 4. Atualizar blog/index.html (card novo + contador) --------------------
-
-// Atualiza só o título e as tags (normais + extras) de um card JÁ existente em
-// blog/index.html — usado pelo status "Atualizar" quando o post muda de nome
-// ou de tags depois de publicado. Não mexe em desc/data/tempo de leitura do
-// card, só no que foi pedido (título, tags).
-function updateCardTitleAndTags(indexHtml, post) {
-  const cardRe = new RegExp(`(<a class="post-card" href="/vesiuol/blog/${post.slug}/">[\\s\\S]*?<\\/a>)`);
-  const match = indexHtml.match(cardRe);
-  if (!match) return indexHtml;
-  let card = match[1];
-
-  card = card.replace(/<h3 class="post-title">[^<]*<\/h3>/, `<h3 class="post-title">${escapeHtml(post.title)}</h3>`);
-
-  const tagsHtml = post.tags.map((t) => `<span class="post-tag">${escapeHtml(t)}</span>`).join('');
-  card = card.replace(/<div class="post-tags">[\s\S]*?<\/div>/, `<div class="post-tags">${tagsHtml}</div>`);
-
-  return indexHtml.replace(cardRe, card);
-}
-
-function insertCardIntoIndex(indexHtml, post) {
-  const newCard = `        <a class="post-card" href="/vesiuol/blog/${post.slug}/">
-          <div class="post-wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div></div>
-          <div class="post-body">
-            <h3 class="post-title">${escapeHtml(post.title)}</h3>
-            <p class="post-desc">${escapeHtml(post.metaDescription)}</p>
-          </div>
-          <div class="post-tags">${post.tags.map((t) => `<span class="post-tag">${escapeHtml(t)}</span>`).join('')}</div>
-          <div class="post-foot"><span>${formatDateShort(post.dateISO)} · ${post.readingTime} min</span><span>→</span></div>
-        </a>
-`;
-  let html = indexHtml.replace(
-    /(<div class="posts-grid" id="posts-grid">\n)/,
-    `$1${newCard}`
-  );
-  // contador "textos publicados"
-  html = html.replace(/(<div class="kpi-num">)(\d+)(<\/div>)/, (m, a, num, c) => `${a}${parseInt(num, 10) + 1}${c}`);
-  return html;
-}
-
-// --- 4b. Ocultar / excluir um post já publicado ------------------------------
-
-function removeCardFromIndex(indexHtml, slug) {
-  const re = new RegExp(`\\s*<a class="post-card" href="/vesiuol/blog/${slug}/">[\\s\\S]*?<\\/a>\\n?`);
-  let html = indexHtml.replace(re, '\n');
-  if (html !== indexHtml) {
-    html = html.replace(/(<div class="kpi-num">)(\d+)(<\/div>)/, (m, a, num, c) => `${a}${Math.max(0, parseInt(num, 10) - 1)}${c}`);
-  }
-  return { html, removed: html !== indexHtml };
-}
-
-function removeFromManifest(slug) {
-  if (!fs.existsSync(MANIFEST_PATH)) return;
-  const manifest = JSON.parse(fs.readFileSync(MANIFEST_PATH, 'utf8'));
-  const filtered = manifest.filter((p) => p.slug !== slug);
-  fs.writeFileSync(MANIFEST_PATH, JSON.stringify(filtered, null, 2) + '\n', 'utf8');
-}
-
-// --- 5. Manifesto data/blog-posts.json --------------------------------------
-
-function updateManifest(post) {
-  let manifest = [];
-  if (fs.existsSync(MANIFEST_PATH)) {
-    manifest = JSON.parse(fs.readFileSync(MANIFEST_PATH, 'utf8'));
-  }
-  manifest.unshift({
-    slug: post.slug,
-    title: post.title,
-    dateISO: post.dateISO,
-    tags: post.tags,
-    extraTags: post.extraTags || [],
-    readingTime: post.readingTime
-  });
-  fs.mkdirSync(path.dirname(MANIFEST_PATH), { recursive: true });
-  fs.writeFileSync(MANIFEST_PATH, JSON.stringify(manifest, null, 2) + '\n', 'utf8');
-}
-
-// Atualiza título e tags (normais + extras) de uma entrada JÁ existente no
-// manifesto — não mexe em dateISO/readingTime, só no que foi pedido.
-function updateManifestEntryTitleTags(post) {
-  if (!fs.existsSync(MANIFEST_PATH)) return;
-  const manifest = JSON.parse(fs.readFileSync(MANIFEST_PATH, 'utf8'));
-  const entry = manifest.find((p) => p.slug === post.slug);
-  if (!entry) return;
-  entry.title = post.title;
-  entry.tags = post.tags;
-  entry.extraTags = post.extraTags || [];
-  fs.writeFileSync(MANIFEST_PATH, JSON.stringify(manifest, null, 2) + '\n', 'utf8');
-}
-
-async function markAsPublished(pageId) {
-  await notionRequest(`https://api.notion.com/v1/pages/${pageId}`, {
-    method: 'PATCH',
-    body: JSON.stringify({ properties: { Status: { select: { name: 'Publicado' } } } })
-  });
-}
-
-// --- Principal ----------------------------------------------------------------
-
-async function main() {
-  if (!fs.existsSync(TEMPLATE_PATH)) fail(`template canônico não encontrado em ${TEMPLATE_PATH}`);
-  const templateRaw = fs.readFileSync(TEMPLATE_PATH, 'utf8');
-
-  let manifest = fs.existsSync(MANIFEST_PATH) ? JSON.parse(fs.readFileSync(MANIFEST_PATH, 'utf8')) : [];
-
-  const pages = await fetchReadyPages();
-  if (!pages.length) {
-    console.log('Nenhuma página com Status = "Pronto para publicar". Nada a fazer.');
-    return;
-  }
-
-  for (const page of pages) {
-    const props = page.properties;
-    const title = getPlainText(props['Nome'].title);
-    const tags = (props['Tags']?.multi_select || []).map((t) => t.name);
-    const extraTags = (props['Tags extras']?.multi_select || []).map((t) => t.name);
-    const dateISO = props['Data de publicação']?.date?.start || new Date().toISOString().slice(0, 10);
-    const coverFilename = props['Capa (nome do arquivo)']?.rich_text ? getPlainText(props['Capa (nome do arquivo)'].rich_text) : '';
-    const urlProp = props['URL'];
-    const customUrl = urlProp?.url || (urlProp?.rich_text ? getPlainText(urlProp.rich_text) : '') || '';
-    const slug = normalizeSlugField(customUrl, title);
-    const outPath = path.join(BLOG_DIR, slug, 'index.html');
-    const status = props['Status']?.select?.name;
-
-    // --- Excluído: apaga de vez (arquivo + card + manifesto) ---
-    if (status === 'Excluído') {
-      let removedSomething = false;
-      if (fs.existsSync(outPath)) {
-        fs.unlinkSync(outPath);
-        removedSomething = true;
-      }
-      let indexHtml = fs.readFileSync(INDEX_PATH, 'utf8');
-      const { html: newIndexHtml, removed } = removeCardFromIndex(indexHtml, slug);
-      if (removed) {
-        fs.writeFileSync(INDEX_PATH, newIndexHtml, 'utf8');
-        removedSomething = true;
-      }
-      removeFromManifest(slug);
-      manifest = manifest.filter((p) => p.slug !== slug);
-      console.log(removedSomething ? `OK: "${title}" excluído (arquivo, card e manifesto removidos).` : `AVISO: "${title}" marcado como Excluído, mas não encontrei blog/${slug}/index.html nem card correspondente — talvez já tenha sido removido antes, ou o campo URL não bate com o nome do arquivo.`);
-      continue;
-    }
-
-    // --- Rascunho num post que JÁ tinha sido publicado: oculta (mantém o arquivo, tira da home/manifesto) ---
-    if (status === 'Rascunho') {
-      if (!fs.existsSync(outPath)) {
-        // Rascunho normal, nunca publicado — nada a fazer, é só um texto sendo escrito.
-        continue;
-      }
-      let indexHtml = fs.readFileSync(INDEX_PATH, 'utf8');
-      const { html: newIndexHtml, removed } = removeCardFromIndex(indexHtml, slug);
-      if (removed) {
-        fs.writeFileSync(INDEX_PATH, newIndexHtml, 'utf8');
-        removeFromManifest(slug);
-        manifest = manifest.filter((p) => p.slug !== slug);
-        console.log(`OK: "${title}" ocultado (card e manifesto removidos; o arquivo blog/${slug}/index.html continua no repositório, só não aparece mais listado).`);
-      } else {
-        console.log(`"${title}" já está como Rascunho e não tinha card na home — nada a fazer.`);
-      }
-      continue;
-    }
-
-    const blocks = await fetchAllBlocks(page.id);
-    const { html: bodyHtml, firstParagraphText, wordCount } = blocksToArticle(blocks, tags);
-    const metaDescription = firstParagraphText.slice(0, 155).trim();
-    const post = {
-      slug,
-      title,
-      tags,
-      extraTags,
-      dateISO,
-      coverFilename,
-      bodyHtml,
-      metaDescription,
-      readingTime: readingTime(wordCount)
-    };
-
-    if (status === 'Atualizar') {
-      if (!fs.existsSync(outPath)) {
-        console.log(`AVISO: Status "Atualizar" em "${title}", mas blog/${slug}/index.html não existe (campo URL lido como: "${customUrl}"). Preencha o campo URL com o nome exato do arquivo já publicado. Pulando.`);
-        continue;
-      }
-      console.log(`Sincronizando: ${title} -> blog/${slug}/index.html`);
-      const existingHtml = fs.readFileSync(outPath, 'utf8');
-      const updatedHtml = updateArticleContent(existingHtml, post);
-      fs.writeFileSync(outPath, updatedHtml, 'utf8');
-
-      // Caminho de volta de um "Rascunho" anterior: se o card sumiu de
-      // blog/index.html e/ou a entrada sumiu do manifesto (porque este post
-      // já foi ocultado antes), "Atualizar" também restaura os dois. Sem
-      // isso, não existia nenhum jeito de tirar um post do estado "oculto".
-      let indexHtml = fs.readFileSync(INDEX_PATH, 'utf8');
-      const cardExists = new RegExp(`<a class="post-card" href="/vesiuol/blog/${slug}/">`).test(indexHtml);
-      const inManifest = manifest.some((p) => p.slug === slug);
-      let restored = false;
-
-      if (!cardExists) {
-        indexHtml = insertCardIntoIndex(indexHtml, post);
-        fs.writeFileSync(INDEX_PATH, indexHtml, 'utf8');
-        restored = true;
-      } else {
-        indexHtml = updateCardTitleAndTags(indexHtml, post);
-        fs.writeFileSync(INDEX_PATH, indexHtml, 'utf8');
-      }
-      if (!inManifest) {
-        updateManifest(post);
-        manifest.unshift({ slug, title, dateISO, tags, extraTags, readingTime: post.readingTime });
-        restored = true;
-      } else {
-        updateManifestEntryTitleTags(post);
-        const entry = manifest.find((p) => p.slug === slug);
-        if (entry) {
-          entry.title = title;
-          entry.tags = tags;
-          entry.extraTags = extraTags;
-        }
-      }
-
-      await markAsPublished(page.id);
-      console.log(
-        restored
-          ? `OK: ${title} sincronizado e RESTAURADO na home (estava oculto por um "Rascunho" anterior — card e/ou manifesto recriados, contador ajustado).`
-          : `OK: ${title} sincronizado (corpo, tags, tempo de leitura, título/meta/JSON-LD, card da home e manifesto atualizados).`
-      );
-      continue;
-    }
-
-    // status === 'Pronto para publicar'
-    if (fs.existsSync(outPath)) {
-      console.log(`AVISO: blog/${slug}/index.html já existe — pulando "${title}" pra não sobrescrever post publicado. Se a intenção era atualizar o texto, mude o Status pra "Atualizar" em vez de "Pronto para publicar".`);
-      continue;
-    }
-
-    console.log(`Gerando: ${title} -> blog/${slug}/index.html`);
-    // "Outras leituras" — por tag em comum (ver pickRelatedCards); sem match, mais recentes
-    const relatedCards = pickRelatedCards(manifest, post);
-    const finalHtml = buildPostHtml(templateRaw, post, relatedCards);
-    fs.mkdirSync(path.dirname(outPath), { recursive: true });
-    fs.writeFileSync(outPath, finalHtml, 'utf8');
-
-    let indexHtml = fs.readFileSync(INDEX_PATH, 'utf8');
-    indexHtml = insertCardIntoIndex(indexHtml, post);
-    fs.writeFileSync(INDEX_PATH, indexHtml, 'utf8');
-
-    updateManifest(post);
-    manifest.unshift({ slug, title, dateISO, tags, extraTags, readingTime: post.readingTime });
-
-    await markAsPublished(page.id);
-    console.log(`OK: ${title} publicado.`);
-  }
-}
-
-main().catch((err) => {
-  console.error(err);
-  process.exit(1);
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<!-- GTM:HEAD:START -->
+<!-- Google Consent Mode v2 — precisa rodar ANTES do GTM/gtag carregarem.
+     Defaults negados: nenhum cookie de analytics/ads roda até a pessoa
+     aceitar no banner (ver partials/gtm-body.html). Decisão: Registro de
+     Decisões, 2026-08-18 (banner de consentimento de cookies). -->
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('consent', 'default', {
+  'ad_storage': 'denied',
+  'ad_user_data': 'denied',
+  'ad_personalization': 'denied',
+  'analytics_storage': 'denied',
+  'wait_for_update': 500
 });
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-59CR472H');</script>
+<!-- End Google Tag Manager -->
+<!-- GTM:HEAD:END -->
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JE6ED0PYHR"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-JE6ED0PYHR');
+</script>
+  
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Sobre — Biblioteca Vesiuol</title>
+<meta name="description" content="Louise Victoria é jornalista e leitora que transforma seus dados de leitura em um acervo literário pessoal, reunindo estatísticas de livros desde 2020.">
+<link rel="canonical" href="https://vesiuol.github.io/vesiuol/sobre/">
+<meta property="og:type" content="profile">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="Biblioteca Vesiuol">
+<meta property="og:title" content="Sobre — Biblioteca Vesiuol">
+<meta property="og:description" content="Louise Victoria é jornalista e leitora que transforma seus dados de leitura em um acervo literário pessoal, reunindo estatísticas de livros desde 2020.">
+<meta property="og:url" content="https://vesiuol.github.io/vesiuol/sobre/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sobre — Biblioteca Vesiuol">
+<meta name="twitter:description" content="Louise Victoria é jornalista e leitora que transforma seus dados de leitura em um acervo literário pessoal, reunindo estatísticas de livros desde 2020.">
+<meta property="og:image" content="https://vesiuol.github.io/vesiuol/og-image-livros-favoritos.png">
+<meta name="twitter:image" content="https://vesiuol.github.io/vesiuol/og-image-livros-favoritos.png">
+<link rel="icon" href="/vesiuol/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/vesiuol/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Louise Victoria",
+  "description": "Jornalista que atua com marketing, comunicação, experiência do cliente, análise e apresentação de dados. Mantém um acervo literário pessoal catalogando suas leituras desde 2020.",
+  "url": "https://vesiuol.github.io/vesiuol/",
+  "sameAs": [
+    "https://www.linkedin.com/in/louise-victoria/",
+    "https://www.instagram.com/vesiuol/",
+    "https://www.skoob.com.br/usuario/5346682-louise",
+    "https://github.com/vesiuol"
+  ]
+}
+</script>
+<link rel="stylesheet" href="/vesiuol/assets/theme.css">
+<style>
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { -webkit-font-smoothing: antialiased; }
+body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 500; }
+a { color: inherit; text-decoration: none; }
+
+/* ── SKIP LINK (acessibilidade — só aparece com foco de teclado) ── */
+.skip-link {
+  position: absolute; left: -999px; top: 0; z-index: 200;
+  background: var(--green); color: var(--white);
+  padding: .6rem 1.2rem; font-family: 'DM Sans', sans-serif;
+  font-size: .8rem; font-weight: 600;
+}
+.skip-link:focus { left: 1rem; top: .6rem; }
+
+/* ── NAV ── */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--white); height: 52px;
+  padding: 0 2rem; display: flex; align-items: center; gap: 1.5rem;
+  border-bottom: 1.5px solid #c5c5a0;
+}
+.nav-logo { display: flex; gap: 5px; align-items: center; }
+.nav-dot  { width: 10px; height: 10px; border-radius: 50%; background: var(--black); }
+nav ul { list-style: none; display: flex; gap: 2rem; margin-left: auto; align-items: center; }
+nav ul li a {
+  color: var(--black); font-size: .78rem; letter-spacing: .12em;
+  text-transform: uppercase; font-weight: 500; transition: color .2s;
+}
+nav ul li a:hover { color: var(--green); }
+nav ul li a.active {
+  background: var(--green); color: var(--white);
+  padding: .28rem .7rem; border-radius: 3px; font-weight: 700;
+}
+.nav-hamburger {
+  display: none; background: none; border: none;
+  color: var(--black); font-size: 1.4rem; cursor: pointer; margin-left: auto;
+}
+
+/* ── WINDOW CARD ── */
+.wcard {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 14px; overflow: hidden;
+  box-shadow: 2px 2px 0 var(--border);
+}
+.wbar {
+  padding: .5rem 1rem;
+  display: flex; align-items: center; gap: 5px;
+  border-bottom: 1px solid var(--border-soft);
+}
+.wdot { width: 8px; height: 8px; border-radius: 50%; background: #bbb; }
+.wtitle {
+  font-size: .68rem; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--muted); margin-left: .4rem;
+}
+
+/* ── HERO ── */
+.hero-section { max-width: 1100px; margin: 3rem auto 2rem; padding: 0 2.5rem; }
+.hero-card { padding: 2.5rem 3rem 0; }
+
+.intro-eyebrow {
+  font-size: .72rem; font-weight: 500;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--green); margin-bottom: 1rem;
+}
+/* Título hero com faixa verde no comprimento */
+.hero-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.4rem, 4vw, 3.8rem);
+  font-weight: 600; line-height: 1.35;
+  display: inline;
+  background: var(--green);
+  color: var(--white);
+  padding: .12em .28em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  margin-bottom: 1.4rem;
+}
+.hero-name-wrap { margin-bottom: 1.4rem; }
+
+.hero-card p {
+  font-size: 1.02rem; line-height: 1.85; color: var(--text);
+  margin-bottom: .9rem;
+}
+.hero-card p strong { color: var(--text); font-weight: 600; }
+
+/* Botões pílula */
+.hero-links { display: flex; gap: .6rem; flex-wrap: wrap; margin: 1.4rem 0 .4rem; }
+.hero-link {
+  display: inline-flex; align-items: center; gap: .3rem; padding: .4rem 1.1rem;
+  border: 1.5px solid var(--border-interactive); border-radius: 100px;
+  font-size: .80rem; font-weight: 500;
+  color: var(--muted); background: transparent;
+  transition: all .2s;
+}
+.hero-link:hover { background: var(--green); border-color: var(--green); color: var(--white); }
+.hero-link-icon { font-size: .72rem; }
+
+.hero-divider {
+  margin-top: 2rem; border-top: 1px solid var(--border);
+  padding: 1rem 3rem;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.hero-tagline {
+  font-size: .68rem; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--text); font-weight: 500;
+}
+.hero-arrow { font-size: 1.1rem; color: var(--black); }
+
+/* ── SEÇÕES ── */
+.page-section { max-width: 1100px; margin: 0 auto; padding: 0 2.5rem 3.5rem; }
+.section-gap { margin-top: 2.5rem; }
+
+.section-head {
+  display: flex; align-items: baseline; gap: .8rem;
+  margin-bottom: 1.4rem;
+  border-bottom: 1px solid var(--border-soft); padding-bottom: .7rem;
+}
+/* Títulos de seção com faixa verde no comprimento — igual ao publicado */
+.section-h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.35rem; font-weight: 700; /* era 600 — 700 (negrito real) + 1.35rem enquadra como "texto grande" no WCAG, então o limite de contraste cai pra 3:1 e o branco (3,09:1) já passa */
+  display: inline;
+  background: var(--green);
+  color: var(--white);
+  padding: .08em .4em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.section-sub {
+  font-size: .72rem; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--muted);
+}
+
+.text-block {
+  font-size: 1.02rem; line-height: 1.85; color: var(--text);
+  margin-bottom: 1.1rem;
+}
+
+/* ── INSPIRATION CARDS ── */
+.inspiration-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.inspiration-card {
+  border: 1.5px solid var(--green-dark);
+  border-radius: 14px; overflow: hidden;
+  display: flex; flex-direction: column;
+  box-shadow: 2px 2px 0 var(--green-dark);
+}
+.insp-winbar {
+  padding: .5rem .9rem; display: flex; align-items: center; gap: 5px;
+  border-bottom: 1px solid rgba(255,255,255,.3);
+  background: var(--green);
+}
+.insp-winbar .wdot { background: rgba(255,255,255,.7); }
+.insp-body {
+  background: var(--green); padding: 1.4rem 1.4rem 1.1rem;
+  flex: 1; display: flex; flex-direction: column; gap: .7rem;
+}
+.insp-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem; font-weight: 700;
+  color: var(--white); margin-bottom: .2rem;
+}
+.insp-text { font-size: 1.02rem; line-height: 1.75; color: var(--white); font-weight: 500; }
+.insp-footer {
+  background: var(--green); padding: .85rem 1.4rem;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  border-top: 1px solid rgba(255,255,255,.25);
+}
+.insp-tag {
+  font-size: .68rem; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--white); font-weight: 500;
+}
+.insp-link {
+  display: inline-block; padding: .35rem .9rem;
+  border: 1.5px solid var(--white); border-radius: 100px;
+  font-size: .74rem; font-weight: 500; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--white);
+  background: transparent; transition: all .2s;
+}
+.insp-link:hover { background: var(--white); border-color: var(--white); color: var(--green); }
+/* Foco do teclado sobre fundo verde: o outline global (:focus-visible, var(--green))
+   se mistura no fundo verde de .insp-footer/.insp-body e fica invisível — mesmo
+   problema identificado e corrigido em .skoob-btn (historico) e .notion-btn (desafio),
+   2026-09-10. Correção local, só neste botão. */
+.insp-link:focus-visible { outline: 2px solid var(--white); outline-offset: 2px; }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--green); padding: 1rem 2rem;
+  display: flex; align-items: center; gap: 1rem;
+  border-top: 1.5px solid var(--green-dark);
+}
+.footer-dots { display: flex; gap: 5px; }
+.footer-dot  { width: 10px; height: 10px; border-radius: 50%; background: var(--white); }
+.footer-text {
+  font-size: .60rem; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--white); font-weight: 500; font-family: 'DM Sans', sans-serif;
+}
+
+@media (max-width: 900px) {
+  .inspiration-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  nav ul { display: none; position: absolute; top: 52px; left: 0; right: 0; z-index: 99;
+    background: var(--white); flex-direction: column; padding: 1rem 2rem;
+    gap: 1rem; border-bottom: 1px solid var(--border); }
+  nav ul.open { display: flex; }
+  .nav-hamburger { display: block; }
+  .hero-section { padding: 0 1rem; margin-top: 1.5rem; }
+  .hero-card { padding: 1.2rem 1.2rem 0; }
+  .hero-divider { flex-direction: column; align-items: flex-start; gap: .6rem; padding: 1rem 1.2rem; }
+  .page-section { padding: 0 1rem 2.5rem; }
+  .section-head { flex-wrap: wrap; gap: .5rem; }
+  footer { padding: 1rem; flex-wrap: wrap; gap: .5rem; }
+}
+
+/* ── NAV DROPDOWN: Histórico > Visão geral / 2026 — governança 2026-08-02 ── */
+.nav-dropdown { position: relative; display: flex; align-items: center; }
+.nav-dropdown::after { content: ""; position: absolute; top: 100%; left: 0; width: 100%; height: 6px; }
+.nav-caret {
+  background: none; border: none; cursor: pointer;
+  color: var(--black); font-size: .6rem; line-height: 1;
+  padding: .2rem .15rem; margin-left: -.1rem;
+  font-family: inherit;
+}
+.nav-submenu {
+  list-style: none;
+  position: absolute; top: calc(100% + 6px); left: 0;
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 2px 2px 0 var(--border);
+  min-width: 150px;
+  padding: .4rem;
+  margin: 0;
+  display: none;
+  flex-direction: column;
+  gap: .15rem;
+  z-index: 300;
+}
+.nav-dropdown:hover .nav-submenu,
+.nav-dropdown:focus-within .nav-submenu,
+.nav-dropdown.submenu-open .nav-submenu {
+  display: flex;
+}
+.nav-submenu li { list-style: none; }
+.nav-submenu li a {
+  display: block;
+  padding: .4rem .6rem;
+  font-size: .74rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  white-space: nowrap;
+  color: var(--black);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+}
+.nav-submenu li a:hover { background: var(--green); color: var(--white); }
+@media (max-width: 600px) {
+  .nav-dropdown { flex-direction: column; align-items: center; width: 100%; } .nav-dropdown::after { display: none; }
+  .nav-dropdown:hover .nav-submenu { display: none; }
+  .nav-submenu {
+    position: static;
+    border: none; box-shadow: none;
+    padding: .2rem 0 .4rem 0;
+    width: 100%;
+  }
+  .nav-submenu li a { text-align: center; }
+  .nav-dropdown.submenu-open .nav-submenu { display: flex; }
+}
+</style>
+</head>
+<body>
+<!-- GTM:BODY:START -->
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-59CR472H"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<!-- Banner de consentimento de cookies (Google Consent Mode v2).
+     Decisão: Registro de Decisões, 2026-08-18. Estilo em assets/theme.css
+     (.cookie-consent e afins). Lógica: se a pessoa já escolheu antes
+     (localStorage), respeita a escolha sem mostrar o banner de novo. -->
+<div class="cookie-consent" id="cookie-consent" role="dialog" aria-live="polite" aria-label="Consentimento de cookies" hidden>
+  <p>Este site usa cookies de análise para entender como as páginas são lidas.</p>
+  <div class="cc-actions">
+    <button type="button" class="cc-btn cc-btn-decline" id="cc-decline">Recusar</button>
+    <button type="button" class="cc-btn cc-btn-accept" id="cc-accept">Aceitar</button>
+  </div>
+</div>
+<script>
+(function(){
+  var KEY = 'vesiuol-cookie-consent';
+  var banner = document.getElementById('cookie-consent');
+  if(!banner) return;
+
+  function salvo(){ try { return localStorage.getItem(KEY); } catch(e){ return null; } }
+  function definir(valor){ try { localStorage.setItem(KEY, valor); } catch(e){} }
+
+  function atualizarConsent(status){
+    if (typeof gtag !== 'function') return;
+    gtag('consent', 'update', {
+      'ad_storage': status,
+      'ad_user_data': status,
+      'ad_personalization': status,
+      'analytics_storage': status
+    });
+  }
+
+  function abrir(){
+    banner.hidden = false;
+    document.body.classList.add('cc-open');
+    requestAnimationFrame(function(){ banner.classList.add('visible'); });
+  }
+
+  function fechar(){
+    banner.classList.remove('visible');
+    document.body.classList.remove('cc-open');
+    setTimeout(function(){ banner.hidden = true; }, 300);
+  }
+
+  var escolha = salvo();
+  if (escolha === 'granted') {
+    atualizarConsent('granted');
+  } else if (escolha === 'denied') {
+    // já recusou antes — não mostra o banner de novo, mantém tudo negado (default)
+  } else {
+    abrir();
+  }
+
+  var btnAceitar = document.getElementById('cc-accept');
+  var btnRecusar = document.getElementById('cc-decline');
+  if (btnAceitar) btnAceitar.addEventListener('click', function(){
+    definir('granted');
+    atualizarConsent('granted');
+    fechar();
+  });
+  if (btnRecusar) btnRecusar.addEventListener('click', function(){
+    definir('denied');
+    fechar();
+  });
+})();
+</script>
+<!-- GTM:BODY:END -->
+
+<a href="#conteudo-principal" class="skip-link">Pular para o conteúdo principal</a>
+
+<!-- NAV:START -->
+<nav>
+  <a href="/vesiuol/" class="nav-logo" style="text-decoration:none" aria-label="Biblioteca Vesiuol — página inicial">
+    <div class="nav-dot"></div>
+    <div class="nav-dot"></div>
+    <div class="nav-dot" style="background:var(--green)"></div>
+  </a>
+  <ul id="nav-menu">
+    <li><a href="/vesiuol/">Início</a></li>
+    <li><a href="/vesiuol/estante/">Estante</a></li>
+    <li class="nav-dropdown">
+      <a href="/vesiuol/historico/" onclick="if(window.innerWidth<=600){const li=this.closest('li');if(!li.classList.contains('submenu-open')){event.preventDefault();li.classList.add('submenu-open');li.querySelector('.nav-caret').setAttribute('aria-expanded','true');}}">Histórico</a><button class="nav-caret" type="button" aria-label="Abrir submenu de Histórico" aria-expanded="false" onclick="const li=this.closest('li');const open=li.classList.toggle('submenu-open');this.setAttribute('aria-expanded',open);event.stopPropagation();">▾</button>
+      <ul class="nav-submenu">
+        <li><a href="/vesiuol/historico/">Visão geral</a></li>
+        <li><a href="/vesiuol/2026/">2026</a></li>
+      </ul>
+    </li>
+    <li><a href="/vesiuol/desafio/">Desafio</a></li>
+    <li><a href="/vesiuol/blog/">Blog</a></li>
+    <li><a href="/vesiuol/sobre/" class="active" aria-current="page">Sobre</a></li>
+  </ul>
+  <button class="nav-hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-menu" onclick="const u=document.getElementById('nav-menu');u.classList.toggle('open');this.setAttribute('aria-expanded', u.classList.contains('open'));">☰</button>
+</nav>
+<!-- NAV:END -->
+
+<!-- HERO -->
+<main class="hero-section" id="conteudo-principal">
+  <div class="wcard">
+    <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div></div>
+    <div class="hero-card">
+      <div class="hero-name-wrap">
+        <h1 class="hero-name">Louise Victoria</h1>
+      </div>
+      <p>Jornalista que sempre atuou com marketing, trabalha com comunicação, experiência do cliente e nos últimos anos com análise e apresentação de dados. Também leio bastante e tenho uma certa fascinação por acompanhar, organizar e analisar esse hobby.</p>
+      <div class="hero-links">
+        <a class="hero-link" href="https://www.linkedin.com/in/louise-victoria/" target="_blank" rel="noopener">LinkedIn<span class="hero-link-icon" aria-hidden="true">↗</span></a>
+        <a class="hero-link" href="https://www.instagram.com/vesiuol/" target="_blank" rel="noopener">Instagram<span class="hero-link-icon" aria-hidden="true">↗</span></a>
+        <a class="hero-link" href="https://www.skoob.com.br/usuario/5346682-louise" target="_blank" rel="noopener">Skoob<span class="hero-link-icon" aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+    <div class="hero-divider">
+      <span class="hero-tagline">Meu acervo literário pessoal — organizar, analisar e compartilhar a minha relação com os livros.</span>
+      <span class="hero-arrow">→</span>
+    </div>
+  </div>
+</main>
+
+<!-- POR QUE ESSE SITE EXISTE -->
+<div class="page-section section-gap">
+  <div class="section-head">
+    <h2 class="section-h2">Por que esse site existe?</h2>
+    <span class="section-sub">Da planilha ao site</span>
+  </div>
+  <p class="text-block">Já falei bastante sobre a minha relação com os livros e sobre como acho fascinante descobrir coisas que vão muito além do que a sinopse pode contar. E eu adoro pensar que posso compartilhar essa maluquice com outras pessoas. Mas que fique claro: eu não sou criadora de conteúdo literário e nem aspiro ser. Só gosto de imaginar que talvez existam outras pessoas nesse universo da internet que também se interessem por esse tipo de fascinação.</p>
+  <p class="text-block">Durante a pandemia da Covid-19, comecei a catalogar meus livros em uma planilha de Excel que foi criada e disponibilizada por uma maravilhosa criadora de conteúdo literário. Era um modelo pronto para duplicar e preencher com os dados dos próprios livros, o que abriu um baú dos tesouros na minha cabeça. Hoje eu tenho duas planilhas: uma dedicada aos livros da minha estante e outra ao histórico das minhas leituras. Mais tarde comecei a me aventurar no Notion, o que foi um certo desafio, mas me recusei a aceitar que não conseguiria aprender e, aos poucos, migrei minha organização para lá também.</p>
+  <p class="text-block">Isso significa que abandonei o Excel? Nãooo. Continuo usando as duas planilhas e talvez isso me torne um pouquinho maluca por organização. Também já perdi boas horas buscando informações retroativas, montando visualmente minhas páginas no Notion e atualizando dados que provavelmente só eu mesma consultaria com tanta frequência.</p>
+  <p class="text-block">Mas, afinal, por que criar esse site? Um belo dia vi nos stories do Instagram uma pessoa compartilhando o site de uma amiga que catalogava todos os shows em que já tinha ido. Achei incrível. Era bonito, interativo, criativo e cheio de informações sobre algo que ela claramente amava.</p>
+  <p class="text-block">E com isso pensei: por que não fazer um para mim também? Afinal, se tem uma coisa que eu já deixei claro, é que tenho dados suficientes para isso. Sendo assim, esse é meu pequeno universo de catalogação literária ou, como gosto de pensar, o meu acervo literário pessoal.</p>
+</div>
+
+<!-- EM QUEM ME INSPIREI -->
+<div class="page-section">
+  <div class="section-head">
+    <h2 class="section-h2">Em quem me inspirei</h2>
+    <span class="section-sub">Referências e agradecimentos</span>
+  </div>
+  <div class="inspiration-grid">
+    <div class="inspiration-card reveal">
+      <div class="insp-winbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div></div>
+      <div class="insp-body">
+        <div class="insp-name">Bruna Miranda</div>
+        <p class="insp-text">A Bruna é booktuber e criadora de conteúdo literário, além de ter feito parte do podcast Wine About It, que eu adorava. Hoje já não encontro mais o link da planilha, mas ainda assim queria deixar meu agradecimento.</p>
+        <p class="insp-text">A planilha que ela criou foi o ponto de partida para esse meu hobby de catalogação literária. Foi através dela que comecei a organizar meus livros e, com o tempo, adaptar tudo para uma versão com a minha cara.</p>
+      </div>
+      <div class="insp-footer">
+        <span class="insp-tag">Bruna está lendo</span>
+        <a class="insp-link" href="https://www.instagram.com/brunaestalendo/" target="_blank" rel="noopener">Instagram →</a>
+      </div>
+    </div>
+    <div class="inspiration-card reveal">
+      <div class="insp-winbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div></div>
+      <div class="insp-body">
+        <div class="insp-name">Bianca Muniz</div>
+        <p class="insp-text">A Bianca me mostrou que todo esse projeto era possível, algo que até então eu nem imaginava como fazer ou tinha referências. Ao descobrir o site dela, percebi que também poderia planejar e construir um espaço parecido para mim.</p>
+        <p class="insp-text">Ela acabou sendo uma referência visual e um ponto de partida importante, me ajudando com ideias, estrutura e até no entendimento de como começar. A meta é que, assim como minhas planilhas, este site também vá sendo cada vez mais personalizado.</p>
+      </div>
+      <div class="insp-footer">
+        <span class="insp-tag">300 shows em 30 anos</span>
+        <a class="insp-link" href="https://biamuniz.github.io/300em30/index.html" target="_blank" rel="noopener">Site →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- COMO ESTE SITE FOI FEITO -->
+<div class="page-section">
+  <div class="section-head">
+    <h2 class="section-h2">Como este site foi feito</h2>
+    <span class="section-sub">Metodologia e bastidores técnicos</span>
+  </div>
+  <p class="text-block">Os dados que você vê em cada página não aparecem por mágica: o site lê minhas fontes de dados diretamente em formato CSV toda vez que alguém abre uma página. Assim, os números e gráficos refletem sempre o estado mais atual da minha catalogação, sem nenhum passo manual de exportação no meio do caminho. A publicação em si é automatizada: qualquer mudança no código passa por um fluxo do GitHub Actions antes de ir para o ar no GitHub Pages.</p>
+  <p class="text-block">Tecnicamente, o site é construído com HTML, CSS e JavaScript puros, sem frameworks. Os gráficos usam Chart.js, a leitura das planilhas usa PapaParse e os mapas usam Leaflet. Toda decisão visual (paleta de cores, tipografia, tamanho dos gráficos, estrutura dos cards) foi documentada e aprovada por mim antes de virar código, e cada página segue a mesma governança de design para manter consistência entre uma seção e outra.</p>
+  <p class="text-block">E aqui cabe uma transparência importante: todo o código desse site (estrutura, estilos, lógica de leitura dos dados, ajustes de performance e de acessibilidade) foi escrito pelo Claude, o assistente de IA da Anthropic com quem trabalho neste projeto. Eu planejo, escrevo o conteúdo textual, tenho as ideias, defino a direção visual e de conteúdo, analiso os dados e reviso cada entrega antes de publicar, mas não escrevo código. Também estudei o suficiente sobre SEO e sobre UX/acessibilidade para ter ideias do que trabalhar, entender o que está sendo feito, avaliar as decisões técnicas propostas e cobrar qualidade.</p>
+</div>
+
+<!-- NÃO VOU PARAR POR AQUI -->
+<div class="page-section">
+  <div class="section-head">
+    <h2 class="section-h2">Não vou parar por aqui</h2>
+    <span class="section-sub">Próximos passos</span>
+  </div>
+  <p class="text-block">Como já falei, a ideia é deixar este espaço cada vez mais com a minha cara. Já perdi incontáveis horas trabalhando em melhorias e a intenção continua sendo personalizar mais, aprofundar os dados e expandir as possibilidades do que pode existir por aqui.</p>
+  <p class="text-block">Ainda há muita coisa que quero fazer com essas informações. Meu desafio literário continua, novos textos talvez voltem a aparecer e um novo desafio já está engatinhando para, em breve, ganhar espaço neste site também. As leituras do ano podem render reflexões sobre a experiência, novas metas podem surgir a partir dos dados e, conforme os números mudam, os cenários também mudam junto comigo.</p>
+</div>
+
+<!-- FOOTER -->
+<!-- FOOTER:START -->
+<footer>
+  <div class="footer-dots">
+    <div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div>
+  </div>
+  <span class="footer-text"><span id="footer-autora"></span>&nbsp;&nbsp;|&nbsp;&nbsp;© <span id="footer-ano"></span>&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">11 de setembro de 2026</span></span>
+</footer>
+<!-- FOOTER:END -->
+
+<script src="/vesiuol/assets/config.js"></script>
+<script src="/vesiuol/assets/motion.js"></script>
+<script>
+document.getElementById("footer-autora").textContent = SITE_CONFIG.autora;
+document.getElementById("footer-ano").textContent = SITE_CONFIG.copyrightAno;
+</script>
+
+<!-- Botão voltar ao topo -->
+<button class="back-to-top" id="back-to-top" aria-label="Voltar ao topo" title="Voltar ao topo">↑</button>
+<script>
+(function(){
+  var btn = document.getElementById('back-to-top');
+  if(!btn) return;
+  var threshold = window.innerHeight * 0.8;
+  function toggle(){ btn.classList.toggle('visible', window.scrollY > threshold); }
+  window.addEventListener('scroll', toggle, {passive:true});
+  toggle();
+  btn.addEventListener('click', function(){ window.scrollTo({top:0, behavior:'smooth'}); });
+})();
+</script>
+
+</body>
+</html>
