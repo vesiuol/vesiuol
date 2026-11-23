@@ -206,7 +206,7 @@ nav ul li a.active{background:var(--green);color:var(--white);padding:.28rem .7r
 
 .rank-sub{font-size:.72rem;color:var(--muted);margin:.05rem 0 .3rem;}
 .rank-tipo{font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-left:.4rem;}
-#series .charts-2col{align-items:start;}
+#series .charts-3col{align-items:start;}
 
 /* Mapa */
 /* Mesmo tom de fundo e filtro de tile do mapa do Desafio (desafio/index.html, #dlm-map) —
@@ -766,18 +766,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
       </div>
 
-      <div class="charts-2col">
-        <div class="wcard">
-          <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Livros por tipo</span></div>
-          <div class="chart-body reveal"><div class="rank-list" id="rank-tipo"></div></div>
-        </div>
+      <div class="charts-3col">
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle">Quanto falta para completar</span></div>
-          <div class="chart-body reveal" style="height:280px;overflow-y:auto" tabindex="0" aria-label="Lista rolável das séries com livros que ainda faltam, da mais próxima de completar para a mais distante"><div class="rank-list" id="lista-faltam"></div></div>
+          <div class="chart-body reveal" style="height:360px;overflow-y:auto" tabindex="0" aria-label="Lista rolável das séries com livros que ainda faltam, da mais próxima de completar para a mais distante"><div class="rank-list" id="lista-faltam"></div></div>
         </div>
-      </div>
-
-      <div class="charts-2col">
         <div class="wcard">
           <div class="wbar"><div class="wdot"></div><div class="wdot"></div><div class="wdot"></div><span class="wtitle" id="tit-incompletas">Séries incompletas</span></div>
           <div class="chart-body reveal" style="height:360px;overflow-y:auto" tabindex="0" aria-label="Lista rolável das séries incompletas, com quantos livros eu li de cada uma"><div class="rank-list" id="lista-incompletas"></div></div>
@@ -946,7 +939,7 @@ function countField(arr, key){
 function topN(obj,n){ return Object.entries(obj).sort((a,b)=>b[1]-a[1]).slice(0,n); }
 
 // Séries e livros únicos — duas fontes diferentes, de propósito:
-//  • "Livros por tipo" e "Livros únicos" vêm da Estante (coluna "Série ou único?", já em allBooks);
+//  • o número "Livros únicos" vem da Estante (coluna "Série ou único?", já em allBooks);
 //  • todo o resto vem do Notion ("Séries — Minha Coleção"), via data/series.json
 //    (gerado por scripts/fetch-notion-series.js / workflow update-series.yml).
 function escHtml(t){ return String(t==null?'':t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
@@ -981,7 +974,6 @@ function serieItem(x, modo){
 }
 async function buildSeries(books){
   const tipos=countField(books,'Série ou único?');
-  buildRank('rank-tipo', tipos, 999);
   setTxt('sg-unicos', tipos['Livro único']||0);
   let series=[];
   try{ series=await fetchSeriesLocal(); }catch(e){ console.warn('Estante: séries do Notion indisponíveis —', e.message); }
