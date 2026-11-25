@@ -19,6 +19,13 @@
 .book-subhead .book-country{font-family:'DM Sans',sans-serif;color:var(--black);font-weight:400;}
 .book-subhead .book-author{font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:500;letter-spacing:.03em;text-transform:uppercase;color:var(--muted);display:block;margin-top:.15rem;}
 
+/* Componente: livro com capa no corpo do texto (layout OPCIONAL, só em posts que usam [CAPA: ...]) — ver Governança Blog.
+   A capa flutua à esquerda e o texto do livro contorna. Não confundir com .book-cover (miniatura 26x38 das tabelas do Desafio e do 2026). */
+.article-body .book-entry{display:flow-root;margin-top:1.8rem;}
+.article-body .book-entry .book-subhead{margin-top:.2rem;}
+.article-body img.book-entry-cover{float:left;width:110px;aspect-ratio:2/3;object-fit:cover;margin:.4rem 1.1rem .6rem 0;}
+@media(max-width:600px){.article-body img.book-entry-cover{width:72px;margin-right:.8rem;}}
+
 /* Texto em negrito verde dentro de um parágrafo comum (sem ser o componente de livro) */
 .article-body strong.text-accent{color:var(--green-dark);}
 
@@ -317,4 +324,4 @@
 body.cc-open .back-to-top { bottom: 6.4rem; }
 @media (max-width:600px){
   body.cc-open .back-to-top { bottom: 5.6rem; }
-}
+  }
