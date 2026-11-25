@@ -26,6 +26,15 @@
 .article-body img.book-entry-cover{float:left;width:110px;aspect-ratio:2/3;object-fit:cover;margin:.4rem 1.1rem .6rem 0;}
 @media(max-width:600px){.article-body img.book-entry-cover{width:72px;margin-right:.8rem;}}
 
+/* Componente: chamada final para a página do Desafio (marcador [CHAMADA: ...]) — padrão dos posts do Desafio (opção B); ver Governança Blog.
+   Faixa --green com texto e botão pílula brancos. O fundo usa --green (já com o contraste corrigido do Lighthouse). */
+.article-body .post-cta{background:var(--green);border-radius:12px;padding:1.7rem 1.5rem;margin:2.6rem 0 1rem;text-align:center;clear:both;}
+.article-body .post-cta-title{font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:600;line-height:1.2;color:var(--white);margin:0 0 .45rem;}
+.article-body .post-cta-text{font-family:'DM Sans',sans-serif;font-size:.95rem;line-height:1.7;color:var(--white);margin:0 0 1.1rem;}
+.article-body a.post-cta-btn{display:inline-block;font-family:'DM Sans',sans-serif;font-size:.74rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--white);color:var(--green-dark);border:1.5px solid var(--white);border-radius:50px;padding:.6rem 1.3rem;text-decoration:none;transition:all .2s;}
+.article-body a.post-cta-btn::after{content:"\2192";margin-left:.5em;}
+.article-body a.post-cta-btn:hover,.article-body a.post-cta-btn:focus-visible{background:transparent;color:var(--white);}
+
 /* Texto em negrito verde dentro de um parágrafo comum (sem ser o componente de livro) */
 .article-body strong.text-accent{color:var(--green-dark);}
 
@@ -324,4 +333,4 @@
 body.cc-open .back-to-top { bottom: 6.4rem; }
 @media (max-width:600px){
   body.cc-open .back-to-top { bottom: 5.6rem; }
-  }
+}
