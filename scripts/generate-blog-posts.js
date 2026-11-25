@@ -57,6 +57,10 @@
  *    A capa fica à esquerda e o texto do livro contorna ela (opção B aprovada).
  *    O visual vive em assets/theme.css (.book-entry / .book-entry-cover), como os demais
  *    componentes do blog. O alt da capa segue o padrão do Desafio e do 2026.
+ *  - Chamada final para a página do Desafio (padrão dos posts do Desafio; opção B aprovada).
+ *    Um parágrafo próprio, normalmente no fim do texto, com 4 partes separadas por "|":
+ *        [CHAMADA: Título | Texto curto | Texto do botão | /vesiuol/desafio/]
+ *    O link precisa começar com "/" ou "https://". Visual em assets/theme.css (.post-cta).
  *    Sem a linha [CAPA: ...], o [LIVRO: ...] sai exatamente como sempre.
  *  - Rode primeiro manualmente (workflow_dispatch) e confira o resultado antes
  *    de confiar no agendamento automático.
@@ -284,12 +288,28 @@ function blocksToArticle(blocks, tags) {
         html += `<p class="book-subhead">${countryHtml}: <strong>${escapeHtml(bookTitle)}</strong><span class="book-author">${escapeHtml(author)}</span></p>\n`;
         continue;
       }
+      const chamadaMatch = text.match(/^\[CHAMADA:\s*([^|\]]+)\|([^|\]]+)\|([^|\]]+)\|\s*([^\s|\]]+)\s*\]$/i);
+      if (chamadaMatch) {
+        const chamadaHref = chamadaMatch[4].trim();
+        if (!/^(\/|https:\/\/)/.test(chamadaHref)) {
+          console.warn(`AVISO: [CHAMADA: ...] ignorado — o link "${chamadaHref}" precisa começar com "/" ou "https://".`);
+          continue;
+        }
+        closeEntry();
+        html += `<div class="post-cta">\n<p class="post-cta-title">${escapeHtml(chamadaMatch[1].trim())}</p>\n<p class="post-cta-text">${escapeHtml(chamadaMatch[2].trim())}</p>\n<a class="post-cta-btn" href="${escapeHtml(chamadaHref)}">${escapeHtml(chamadaMatch[3].trim())}</a>\n</div>\n`;
+        continue;
+      }
+      if (/^\[CHAMADA:/i.test(text)) {
+        console.warn(`AVISO: "${text.slice(0, 60)}" ignorado — o formato é [CHAMADA: Título | Texto | Botão | /link].`);
+        continue;
+      }
       if (/^\[CAPA:/i.test(text)) {
         console.warn(`AVISO: "${text.slice(0, 60)}" ignorado — [CAPA: ...] precisa vir logo abaixo de um [LIVRO: ...].`);
         continue;
       }
       const imgMatch = text.match(/^\[IMAGEM:\s*([^\]]+)\]$/i);
       if (imgMatch) {
+        closeEntry();
         const filename = imgMatch[1].trim();
         html += `<figure>\n  <img src="/vesiuol/assets/img/blog/${escapeHtml(filename)}" alt="aguardando imagem enviada por Louise" onerror="this.src='https://placehold.co/900x500/c8d4b8/2f3a26?text=aguardando+imagem'">\n</figure>\n`;
         continue;
