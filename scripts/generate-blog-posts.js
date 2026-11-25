@@ -50,6 +50,14 @@
  *        Legenda: texto opcional da legenda
  *    A imagem em si precisa ser enviada manualmente para assets/img/blog/ no
  *    repositório — o gerador só referencia o nome do arquivo.
+ *  - Capa de livro (layout OPCIONAL, só para posts que usarem — não é o padrão):
+ *    escrita direto no Notion, em um parágrafo próprio, logo abaixo do [LIVRO: ...]:
+ *        [LIVRO: País | Título | Autor]
+ *        [CAPA: https://link-da-capa.jpg]
+ *    A capa fica à esquerda e o texto do livro contorna ela (opção B aprovada).
+ *    O visual vive em assets/theme.css (.book-entry / .book-entry-cover), como os demais
+ *    componentes do blog. O alt da capa segue o padrão do Desafio e do 2026.
+ *    Sem a linha [CAPA: ...], o [LIVRO: ...] sai exatamente como sempre.
  *  - Rode primeiro manualmente (workflow_dispatch) e confira o resultado antes
  *    de confiar no agendamento automático.
  */
@@ -219,6 +227,14 @@ function blocksToArticle(blocks, tags) {
   let firstParagraphText = '';
   let wordCount = 0;
   let listBuffer = [];
+  let entryOpen = false;
+
+  function closeEntry() {
+    if (entryOpen) {
+      html += '</div>\n';
+      entryOpen = false;
+    }
+  }
 
   function flushList() {
     if (listBuffer.length) {
@@ -227,9 +243,11 @@ function blocksToArticle(blocks, tags) {
     }
   }
 
-  for (const block of blocks) {
+  for (let i = 0; i < blocks.length; i++) {
+    const block = blocks[i];
     const type = block.type;
     if (type !== 'bulleted_list_item' && type !== 'numbered_list_item') flushList();
+    if (type === 'heading_1' || type === 'heading_2' || type === 'heading_3') closeEntry();
 
     if (type === 'paragraph') {
       const text = getPlainText(block.paragraph.rich_text);
@@ -244,7 +262,30 @@ function blocksToArticle(blocks, tags) {
         const countryHtml = isDesafioLpm
           ? `<a class="book-country" href="/vesiuol/desafio/?pais=${encodeURIComponent(country)}">${escapeHtml(country)}</a>`
           : `<span class="book-country">${escapeHtml(country)}</span>`;
+        // Capa opcional: [CAPA: https://...] no parágrafo seguinte (parágrafos vazios no meio são ignorados)
+        closeEntry();
+        let coverUrl = '';
+        for (let j = i + 1; j < blocks.length; j++) {
+          const nb = blocks[j];
+          if (nb.type !== 'paragraph') break;
+          const nt = getPlainText(nb.paragraph.rich_text).trim();
+          if (!nt) continue;
+          const capaMatch = nt.match(/^\[CAPA:\s*(https:\/\/[^\]\s]+)\]$/i);
+          if (capaMatch) {
+            coverUrl = capaMatch[1];
+            i = j;
+          }
+          break;
+        }
+        if (coverUrl) {
+          entryOpen = true;
+          html += `<div class="book-entry">\n<img class="book-entry-cover" src="${escapeHtml(coverUrl)}" alt="Capa do livro ${escapeHtml(bookTitle)}, de ${escapeHtml(author)}" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'">\n`;
+        }
         html += `<p class="book-subhead">${countryHtml}: <strong>${escapeHtml(bookTitle)}</strong><span class="book-author">${escapeHtml(author)}</span></p>\n`;
+        continue;
+      }
+      if (/^\[CAPA:/i.test(text)) {
+        console.warn(`AVISO: "${text.slice(0, 60)}" ignorado — [CAPA: ...] precisa vir logo abaixo de um [LIVRO: ...].`);
         continue;
       }
       const imgMatch = text.match(/^\[IMAGEM:\s*([^\]]+)\]$/i);
@@ -280,6 +321,7 @@ function blocksToArticle(blocks, tags) {
     }
   }
   flushList();
+  closeEntry();
   return { html: html.trim(), firstParagraphText, wordCount };
 }
 
@@ -615,7 +657,9 @@ async function main() {
 
     const blocks = await fetchAllBlocks(page.id);
     const { html: bodyHtml, firstParagraphText, wordCount } = blocksToArticle(blocks, tags);
-    const metaDescription = firstParagraphText.slice(0, 155).trim();
+    // Descrição opcional escrita à mão na propriedade "Descrição (SEO)" do Notion; sem ela, usa o 1º parágrafo (como sempre)
+    const customDesc = props['Descrição (SEO)']?.rich_text ? getPlainText(props['Descrição (SEO)'].rich_text).trim() : '';
+    const metaDescription = (customDesc || firstParagraphText).slice(0, 155).trim();
     const post = {
       slug,
       title,
