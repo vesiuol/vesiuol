@@ -38,13 +38,18 @@
   },
   {
     "slug": "resenha-historias-cruzadas-entre-sobreviventes-svetlana-alexijevich",
-    "title": "Histórias cruzadas entre sobreviventes — Svetlana Alexijevich",
+    "title": "Histórias curzadas entre sobreviventes",
     "dateISO": "2025-06-29",
     "tags": [
       "Resenha",
       "Literatura"
     ],
-    "extraTags": [],
+    "extraTags": [
+      "Svetlana Aleksiévitch",
+      "Vozes de Tchérnobil",
+      "A guerra não tem rosto de mulher",
+      "Segunda Guerra Mundial"
+    ],
     "readingTime": 4
   },
   {
@@ -61,7 +66,7 @@
   },
   {
     "slug": "como-escolhi-um-livro-por-pais-rota-1",
-    "title": "Desafio LPM: como escolhi os livros por país",
+    "title": "Desafio LPM: como escolhi um livro por país",
     "dateISO": "2024-07-26",
     "tags": [
       "Livros Pelo Mundo",
