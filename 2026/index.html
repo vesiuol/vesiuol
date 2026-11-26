@@ -670,7 +670,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <button class="tag-btn" data-tag="audiobook">Audiobook</button>
       </div>
       <div class="table-controls">
-        <div class="search-wrap"><input type="text" id="search" placeholder="Buscar título ou autor…"></div>
+        <div class="search-wrap"><input type="text" id="search" placeholder="Buscar título, autor, gênero, país…"></div>
         <select class="filter-select" id="f-status" aria-label="Filtrar por status de leitura"><option value="">Todos os status</option><option value="lido">Lido</option><option value="lendo">Lendo</option><option value="não lido">Não lido</option></select>
         <select class="filter-select" id="f-genero" aria-label="Filtrar por gênero"><option value="">Todos os gêneros</option></select>
         <select class="filter-select" id="f-formato" aria-label="Filtrar por formato"><option value="">Todos os formatos</option></select>
@@ -706,6 +706,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </footer>
 <!-- FOOTER:END -->
 
+<script src="/vesiuol/assets/search.js"></script>
 <script>
 // ── Governança Lighthouse — Nível 4, Fase A (lazy-load) ──
 // Chart.js, chartjs-plugin-datalabels, Leaflet e PapaParse só são baixados/executados quando
@@ -1107,7 +1108,7 @@ function applyFilters(){
   const gn=document.getElementById('f-genero').value;
   const fm=document.getElementById('f-formato').value;
   filtered=allRows.filter(b=>{
-    if(q && !((b['Título']||'')+(b['Nome']||'')).toLowerCase().includes(q)) return false;
+    if(q && window.VesiuolBusca && !VesiuolBusca.combina(q,[b['Título'],b['Nome'],b['Gênero'],b['País']])) return false;
     if(st==='lido' && !isLido(b['LIDO'])) return false;
     if(st==='lendo' && !isLendo(b['LIDO'])) return false;
     if(st==='não lido' && (isLido(b['LIDO'])||isLendo(b['LIDO']))) return false;
