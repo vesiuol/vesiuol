@@ -15,6 +15,8 @@ jobs:
     steps:
       - name: Checkout do repositório
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # histórico completo: o sync-partials usa "git log" por arquivo para a data do rodapé
 
       - name: Configurar Node.js
         uses: actions/setup-node@v4
@@ -26,6 +28,12 @@ jobs:
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
           NOTION_BLOG_DB_ID: ${{ secrets.NOTION_BLOG_DB_ID }}
         run: node scripts/generate-blog-posts.js
+
+      # Push feito pelo bot (GITHUB_TOKEN) NÃO dispara outros workflows, então o
+      # sync-partials precisa rodar aqui dentro, antes do commit. Assim todo post
+      # novo já nasce com nav, rodapé e GTM atualizados.
+      - name: Sincronizar cabeçalho/rodapé nos posts
+        run: node scripts/sync-partials.js
 
       - name: Commitar e publicar mudanças (se houver)
         run: |
