@@ -815,7 +815,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <button class="tag-btn" data-tag="psico">Questões psicológicas</button>
       </div>
       <div class="table-controls">
-        <div class="search-wrap"><input type="text" id="search" placeholder="Buscar título ou autor…"></div>
+        <div class="search-wrap"><input type="text" id="search" placeholder="Buscar título, autor, gênero, país…"></div>
         <select class="filter-select" id="f-status" aria-label="Filtrar por status de leitura"><option value="">Todos</option><option>Lido</option><option>Não Lido</option><option>Lendo</option></select>
         <select class="filter-select" id="f-genero" aria-label="Filtrar por gênero"><option value="">Todos os gêneros</option></select>
         <select class="filter-select" id="f-idioma" aria-label="Filtrar por idioma"><option value="">Todos os idiomas</option></select>
@@ -849,6 +849,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </footer>
 <!-- FOOTER:END -->
 
+<script src="/vesiuol/assets/search.js"></script>
 <script>
 // ── Governança Lighthouse — Nível 4, Fase A (lazy-load) ──
 // Chart.js, chartjs-plugin-datalabels e Leaflet só são baixados/executados quando as
@@ -1279,13 +1280,13 @@ function buildFilters(){
 }
 
 function applyFilters(){
-  const q=document.getElementById('search').value.toLowerCase();
+  const q=document.getElementById('search').value;
   const st=document.getElementById('f-status').value;
   const gn=document.getElementById('f-genero').value;
   const id=document.getElementById('f-idioma').value;
   const cor=document.getElementById('f-cor').value;
   filtered=listBooks.filter(b=>{
-    if(q&&!((b['Livros']||'')+(b['Nome']||'')).toLowerCase().includes(q)) return false;
+    if(q&&window.VesiuolBusca&&!VesiuolBusca.combina(q,[b['Livros'],b['Nome'],b['Gênero'],b['Idioma'],b['Cor'],b['País']])) return false;
     if(st&&norm(b['Lido/Não Lido'])!==norm(st)) return false;
     if(gn&&b['Gênero']!==gn) return false;
     if(id&&b['Idioma']!==id) return false;
