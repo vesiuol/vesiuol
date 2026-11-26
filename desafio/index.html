@@ -1080,7 +1080,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <button class="filter-pill"        data-f="mapeado" onclick="setPillFilter('mapeado',this)">📚 Mapeados</button>
         <button class="filter-pill"        data-f="nao"     onclick="setPillFilter('nao',this)">— Sem livro</button>
         <div class="search-wrap">
-          <input type="text" id="search-notion" placeholder="Buscar país, livro ou autor…" oninput="renderNotion()">
+          <input type="text" id="search-notion" placeholder="Buscar país, livro, autor, gênero…" oninput="renderNotion()">
         </div>
       </div>
       <div class="lista-filters-avancados">
@@ -1124,6 +1124,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </footer>
 <!-- FOOTER:END -->
 
+<script src="/vesiuol/assets/search.js"></script>
 <script>
 // ── Governança Lighthouse — Nível 4, Fase A (lazy-load) ──
 // Chart.js, chartjs-plugin-datalabels, Leaflet e PapaParse só são baixados/executados quando
@@ -1744,7 +1745,7 @@ function altTextCapa(n){
   return esc(`Capa de livro para ${n.pais}`);
 }
 function renderNotion(){
-  const q=(document.getElementById('search-notion')?.value||'').toLowerCase();
+  const q=(document.getElementById('search-notion')?.value||'');
   notionFiltered=notionData.filter(n=>{
     const sr=getStatusReal(n);
     if(pillFilter==='lido'    && sr!=='lido') return false;
@@ -1753,7 +1754,7 @@ function renderNotion(){
     if(filtrosBin.diversidade && n.diversidade_etnica!=='Sim') return false;
     if(filtrosBin.lgbtq       && n.lgbtq!=='Sim') return false;
     if(filtrosBin.ownvoices   && n.ownvoices!=='Sim') return false;
-    if(q&&!(n.pais+n.livro+n.autor).toLowerCase().includes(q)) return false;
+    if(q&&window.VesiuolBusca&&!VesiuolBusca.combina(q,[n.pais,n.livro,n.autor,n.ga,n.genero_livro,n.cor])) return false;
     return true;
   });
   notionFiltered.sort((a,b)=>(a[notionSortKey]||'').localeCompare(b[notionSortKey]||'')*notionSortDir);
