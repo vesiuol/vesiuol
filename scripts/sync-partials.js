@@ -41,13 +41,20 @@ const PAGES = [
   { file: "desafio/index.html", active: "desafio" },
   { file: "sobre/index.html", active: "sobre" },
   { file: "blog/index.html", active: "blog" },
-  { file: "blog/como-escolhi-um-livro-por-pais-rota-1/index.html", active: "blog" },
-  { file: "blog/desafio-livros-pelo-mundo/index.html", active: "blog" },
-  { file: "blog/encontrando-escritores-e-montando-a-lista-por-pais-rota-2/index.html", active: "blog" },
-  { file: "blog/os-paises-que-ja-li-e-minha-planilha-no-notion/index.html", active: "blog" },
-  { file: "blog/resenha-a-guerra-nao-tem-rosto-de-mulher-svetlana-alexijevich/index.html", active: "blog" },
-  { file: "blog/resenha-historias-cruzadas-entre-sobreviventes-svetlana-alexijevich/index.html", active: "blog" },
 ];
+
+// Posts do blog: descobertos automaticamente (blog/<slug>/index.html).
+// Não é mais preciso listar cada post aqui — o gerador de posts (Notion) cria a
+// pasta, e este script a encontra sozinho. Decisão: Registro de Decisões, 2026-11-26.
+function descobrirPostsDoBlog() {
+  const blogDir = path.join(ROOT, "blog");
+  if (!fs.existsSync(blogDir)) return [];
+  return fs
+    .readdirSync(blogDir, { withFileTypes: true })
+    .filter((d) => d.isDirectory() && fs.existsSync(path.join(blogDir, d.name, "index.html")))
+    .map((d) => ({ file: `blog/${d.name}/index.html`, active: "blog" }))
+    .sort((a, b) => a.file.localeCompare(b.file));
+}
 
 function ativo(padrao, comAriaCurrent = true) {
   return padrao ? ` class="active"${comAriaCurrent ? ' aria-current="page"' : ""}` : "";
@@ -114,10 +121,12 @@ function main() {
   const gtmHeadTemplate = fs.readFileSync(path.join(ROOT, "partials/gtm-head.html"), "utf8").trim();
   const gtmBodyTemplate = fs.readFileSync(path.join(ROOT, "partials/gtm-body.html"), "utf8").trim();
 
+  const todasAsPaginas = [...PAGES, ...descobrirPostsDoBlog()];
+
   let alterados = 0;
   let comErro = [];
 
-  for (const page of PAGES) {
+  for (const page of todasAsPaginas) {
     const filePath = path.join(ROOT, page.file);
     if (!fs.existsSync(filePath)) {
       comErro.push(`${page.file}: arquivo não encontrado`);
@@ -156,7 +165,7 @@ function main() {
     process.exitCode = 1;
   }
 
-  console.log(`\n${alterados} arquivo(s) atualizado(s) de ${PAGES.length} listado(s).`);
+  console.log(`\n${alterados} arquivo(s) atualizado(s) de ${todasAsPaginas.length} página(s) (${todasAsPaginas.length - PAGES.length} posts do blog descobertos automaticamente).`);
 }
 
 main();
