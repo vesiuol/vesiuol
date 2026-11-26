@@ -15,6 +15,11 @@
  *     atualiza o contador "textos publicados".
  *  6. Atualiza data/blog-posts.json (manifesto simples de todos os posts).
  *  7. Marca a página no Notion como Status = "Publicado".
+ *  8. (a cada execução, mesmo sem página pendente) Recalcula o bloco "Outras
+ *     leituras" de TODOS os posts a partir do manifesto — mantém os mesmos posts
+ *     sugeridos, mas atualiza título, tags, data e tempo de leitura — e
+ *     sincroniza o sitemap.xml (adiciona posts que faltam, atualiza lastmod dos
+ *     posts publicados/atualizados, remove os excluídos).
  *
  * Ciclo de vida do campo Status (base Textos blog, ver Governança Blog):
  *  - "Pronto para publicar" → gera o post pela primeira vez (passo 3 acima).
@@ -78,6 +83,13 @@ const BLOG_DIR = path.join(REPO_ROOT, 'blog');
 const INDEX_PATH = path.join(BLOG_DIR, 'index.html');
 const TEMPLATE_PATH = path.join(BLOG_DIR, 'como-escolhi-um-livro-por-pais-rota-1', 'index.html');
 const MANIFEST_PATH = path.join(REPO_ROOT, 'data', 'blog-posts.json');
+const SITEMAP_PATH = path.join(REPO_ROOT, 'sitemap.xml');
+
+// Bloco "Outras leituras" (posts-grid) de um post. O fim do bloco pode vir direto
+// antes de <footer> OU antes do marcador <!-- FOOTER:START --> que o
+// scripts/sync-partials.js injeta — a regex antiga só aceitava a 1ª forma e, depois
+// que o marcador entrou, deixou de casar (posts novos herdavam a lista do template).
+const RELATED_GRID_RE = /(<div class="posts-grid">\n)([\s\S]*?)(\n {4}<\/div>\n {2}<\/div>\n\n(?:<!-- FOOTER:START -->\n)?<footer>)/;
 const SITE_BASE = 'https://vesiuol.github.io/vesiuol';
 
 // Valores exatos do template canônico (blog/como-escolhi-um-livro-por-pais-rota-1/index.html),
@@ -177,6 +189,22 @@ function pickRelatedCards(manifest, post) {
     .sort((a, b) => b.shared - a.shared)
     .slice(0, 3)
     .map((s) => s.item);
+}
+
+// Markup de UM card de "Outras leituras" (usado na geração do post e na
+// atualização de todos os posts a cada execução).
+function renderRelatedCard(r) {
+  return `        <a class="post-card" href="/vesiuol/blog/${r.slug}/">
+          <div class="post-wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div></div>
+          <div class="post-body">
+            <h3 class="post-title">${escapeHtml(r.title)}</h3>
+          </div>
+          <div class="post-tags">${r.tags
+            .slice(0, 2)
+            .map((t) => `<span class="post-tag">${escapeHtml(t)}</span>`)
+            .join('')}</div>
+          <div class="post-foot"><span>${formatDateShort(r.dateISO)} · ${r.readingTime} min</span><span>→</span></div>
+        </a>`;
 }
 
 function formatDateShort(iso) {
@@ -414,25 +442,8 @@ function buildPostHtml(templateRaw, post, relatedCards) {
   );
 
   // Outras leituras (posts-grid)
-  const relatedHtml = relatedCards
-    .map(
-      (r) => `        <a class="post-card" href="/vesiuol/blog/${r.slug}/">
-          <div class="post-wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div></div>
-          <div class="post-body">
-            <h3 class="post-title">${escapeHtml(r.title)}</h3>
-          </div>
-          <div class="post-tags">${r.tags
-            .slice(0, 2)
-            .map((t) => `<span class="post-tag">${escapeHtml(t)}</span>`)
-            .join('')}</div>
-          <div class="post-foot"><span>${formatDateShort(r.dateISO)} · ${r.readingTime} min</span><span>→</span></div>
-        </a>`
-    )
-    .join('\n');
-  html = html.replace(
-    /<div class="posts-grid">\n[\s\S]*?\n {4}<\/div>\n {2}<\/div>\n\n<footer>/,
-    `<div class="posts-grid">\n${relatedHtml}\n    </div>\n  </div>\n\n<footer>`
-  );
+  const relatedHtml = relatedCards.map(renderRelatedCard).join('\n');
+  html = html.replace(RELATED_GRID_RE, (_all, a, _b, c) => `${a}${relatedHtml}${c}`);
 
   return html;
 }
@@ -610,6 +621,96 @@ async function markAsPublished(pageId) {
   });
 }
 
+// --- 8. Manutenção a cada execução: \"Outras leituras\" e sitemap ---------------
+
+function escapeRegExp(str) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+
+// Recalcula o bloco \"Outras leituras\" de todos os posts do manifesto. Mantém os
+// MESMOS posts sugeridos que já estão em cada página (só troca título, tags, data
+// e tempo de leitura pelos valores atuais do manifesto). Se um post sugerido saiu
+// do manifesto (oculto/excluído), ele é substituído pelos mais relacionados.
+// Só reescreve o arquivo se o bloco mudou. Retorna a lista de slugs alterados.
+function refreshRelatedGrids(manifest) {
+  const bySlug = new Map(manifest.map((m) => [m.slug, m]));
+  const changed = [];
+  for (const entry of manifest) {
+    const file = path.join(BLOG_DIR, entry.slug, 'index.html');
+    if (!fs.existsSync(file)) continue;
+    const html = fs.readFileSync(file, 'utf8');
+    const m = html.match(RELATED_GRID_RE);
+    if (!m) continue;
+
+    const shown = [...m[2].matchAll(/href="\/vesiuol\/blog\/([^"/]+)\/"/g)].map((x) => x[1]);
+    let cards = shown.filter((slug) => slug !== entry.slug && bySlug.has(slug)).map((slug) => bySlug.get(slug));
+    if (cards.length < 3) {
+      const extra = pickRelatedCards(manifest, entry).filter((c) => !cards.includes(c));
+      cards = cards.concat(extra).slice(0, 3);
+    }
+    const newGrid = cards.map(renderRelatedCard).join('\n');
+    if (newGrid === m[2]) continue;
+
+    fs.writeFileSync(file, html.replace(RELATED_GRID_RE, (_all, a, _b, c) => `${a}${newGrid}${c}`), 'utf8');
+    changed.push(entry.slug);
+  }
+  return changed;
+}
+
+function setSitemapLastmod(xml, loc, date) {
+  const re = new RegExp(`(<url><loc>${escapeRegExp(loc)}</loc><lastmod>)[^<]*(</lastmod>)`);
+  return re.test(xml) ? xml.replace(re, `$1${date}$2`) : xml;
+}
+
+// Sincroniza o sitemap.xml com o manifesto: adiciona posts que faltam, atualiza o
+// lastmod de quem foi publicado/atualizado nesta execução (e de /blog/) e remove
+// os posts excluídos. Não mexe nas outras páginas do site. Retorna true se mudou.
+function syncSitemap(manifest, touchedSlugs, removedSlugs) {
+  if (!fs.existsSync(SITEMAP_PATH)) return false;
+  const original = fs.readFileSync(SITEMAP_PATH, 'utf8');
+  let xml = original;
+  const today = new Date().toISOString().slice(0, 10);
+  const blogLoc = `${SITE_BASE}/blog/`;
+  let blogTouched = false;
+
+  for (const slug of removedSlugs) {
+    const loc = `${SITE_BASE}/blog/${slug}/`;
+    const before = xml;
+    xml = xml.replace(new RegExp(`[ \\t]*<url><loc>${escapeRegExp(loc)}</loc>[\\s\\S]*?</url>\\n?`), '');
+    if (xml !== before) blogTouched = true;
+  }
+  for (const entry of manifest) {
+    const loc = `${SITE_BASE}/blog/${entry.slug}/`;
+    if (!xml.includes(`<loc>${loc}</loc>`)) {
+      const line = `  <url><loc>${loc}</loc><lastmod>${today}</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>\n`;
+      xml = xml.replace('</urlset>', `${line}</urlset>`);
+      blogTouched = true;
+    }
+  }
+  for (const slug of touchedSlugs) {
+    xml = setSitemapLastmod(xml, `${SITE_BASE}/blog/${slug}/`, today);
+    blogTouched = true;
+  }
+  if (blogTouched) xml = setSitemapLastmod(xml, blogLoc, today);
+
+  if (xml === original) return false;
+  fs.writeFileSync(SITEMAP_PATH, xml, 'utf8');
+  return true;
+}
+
+function runMaintenance(touchedSlugs, removedSlugs) {
+  if (!fs.existsSync(MANIFEST_PATH)) return;
+  const manifest = JSON.parse(fs.readFileSync(MANIFEST_PATH, 'utf8'));
+  const relatedChanged = refreshRelatedGrids(manifest);
+  if (relatedChanged.length) {
+    console.log(`OK: \"Outras leituras\" atualizado em ${relatedChanged.length} post(s): ${relatedChanged.join(', ')}.`);
+  }
+  if (syncSitemap(manifest, touchedSlugs, removedSlugs)) {
+    console.log('OK: sitemap.xml sincronizado com os posts do blog.');
+  }
+}
+
 // --- Principal ----------------------------------------------------------------
 
 async function main() {
@@ -620,9 +721,12 @@ async function main() {
 
   const pages = await fetchReadyPages();
   if (!pages.length) {
-    console.log('Nenhuma página com Status = "Pronto para publicar". Nada a fazer.');
-    return;
+    console.log('Nenhuma página pendente (Pronto para publicar / Atualizar / Rascunho / Excluído). Só a manutenção de "Outras leituras" e sitemap será feita.');
   }
+
+  // Slugs mexidos nesta execução — alimentam o lastmod/remoção do sitemap.xml.
+  const touchedSlugs = new Set();
+  const removedSlugs = new Set();
 
   for (const page of pages) {
     const props = page.properties;
@@ -652,6 +756,7 @@ async function main() {
       }
       removeFromManifest(slug);
       manifest = manifest.filter((p) => p.slug !== slug);
+      removedSlugs.add(slug);
       console.log(removedSomething ? `OK: "${title}" excluído (arquivo, card e manifesto removidos).` : `AVISO: "${title}" marcado como Excluído, mas não encontrei blog/${slug}/index.html nem card correspondente — talvez já tenha sido removido antes, ou o campo URL não bate com o nome do arquivo.`);
       continue;
     }
@@ -701,6 +806,7 @@ async function main() {
       const existingHtml = fs.readFileSync(outPath, 'utf8');
       const updatedHtml = updateArticleContent(existingHtml, post);
       fs.writeFileSync(outPath, updatedHtml, 'utf8');
+      touchedSlugs.add(slug);
 
       // Caminho de volta de um "Rascunho" anterior: se o card sumiu de
       // blog/index.html e/ou a entrada sumiu do manifesto (porque este post
@@ -754,6 +860,7 @@ async function main() {
     const finalHtml = buildPostHtml(templateRaw, post, relatedCards);
     fs.mkdirSync(path.dirname(outPath), { recursive: true });
     fs.writeFileSync(outPath, finalHtml, 'utf8');
+    touchedSlugs.add(slug);
 
     let indexHtml = fs.readFileSync(INDEX_PATH, 'utf8');
     indexHtml = insertCardIntoIndex(indexHtml, post);
@@ -765,9 +872,17 @@ async function main() {
     await markAsPublished(page.id);
     console.log(`OK: ${title} publicado.`);
   }
+
+  // Roda SEMPRE (mesmo sem página pendente): "Outras leituras" de todos os posts
+  // com os títulos atuais do manifesto + sitemap.xml.
+  runMaintenance(touchedSlugs, removedSlugs);
 }
 
-main().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+if (require.main === module) {
+  main().catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });
+}
+
+module.exports = { refreshRelatedGrids, syncSitemap, renderRelatedCard, buildPostHtml, pickRelatedCards };
