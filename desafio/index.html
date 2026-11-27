@@ -305,8 +305,6 @@ nav ul li a.active {
 }
 .post-desc { font-size: .82rem; line-height: 1.6; color: var(--muted); flex: 1; margin-top: .5rem; }
 .posts-grid--single { grid-template-columns: 1fr; }
-.post-latest { font-size: .78rem; line-height: 1.5; color: var(--muted); margin: 0; }
-.post-latest strong { font-weight: 500; color: var(--text); }
 .post-foot {
   border-top: 1px solid var(--border-soft);
   padding: .55rem 1.1rem;
@@ -858,10 +856,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="post-wbar"><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div><div class="wdot" aria-hidden="true"></div></div>
           <div class="post-body">
             <h3 class="post-title">Todos os textos do desafio</h3>
-            <p class="post-desc">Apresentação, organização da planilha, rotas e atualizações de jornada: tudo o que escrevi sobre o Desafio LPM está reunido no blog, já filtrado pela tag Livros Pelo Mundo.</p>
-            <p class="post-latest" id="blogs-latest" hidden></p>
+            <p class="post-desc">Apresentação, organização da planilha, rotas e atualizações de jornada: tudo o que escrevi sobre o Desafio LPM está reunido no blog.</p>
           </div>
-          <div class="post-foot"><span id="blogs-count">Ver no blog</span><span>→</span></div>
+          <div class="post-foot"><span>Ver no blog</span><span>→</span></div>
         </a>
       </div>
 
@@ -871,38 +868,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <a class="notion-btn" href="https://app.notion.com/p/vesiuol/679c7c463b784b75b645ca16b283cb64?v=091d4f4f0139433383dc3bfb1855ef48&source=copy_link" target="_blank" rel="noopener">Abrir no Notion →</a>
       </div>
     </section>
-
-    <script>
-    /* Seção "Blogs sobre o desafio": o card aponta para /blog/?tag=Livros Pelo Mundo.
-       Contagem e texto mais recente vêm de data/blog-posts.json (mesma tag), então
-       novos posts do desafio aparecem aqui sem editar esta página. Se falhar, o card
-       continua funcionando com o texto estático. */
-    (function(){
-      var TAG = 'livros pelo mundo';
-      fetch('/vesiuol/data/blog-posts.json?t=' + Date.now())
-        .then(function(r){ if(!r.ok) throw new Error('blog-posts.json'); return r.json(); })
-        .then(function(posts){
-          var lista = (posts || []).filter(function(p){
-            return (p.tags || []).some(function(t){ return String(t).trim().toLowerCase() === TAG; });
-          });
-          if (!lista.length) return;
-          lista.sort(function(a,b){ return String(b.dateISO).localeCompare(String(a.dateISO)); });
-          var n = lista.length;
-          var count = document.getElementById('blogs-count');
-          if (count) count.textContent = n + (n === 1 ? ' texto' : ' textos') + ' no blog';
-          var latest = document.getElementById('blogs-latest');
-          if (latest) {
-            var d = new Date(lista[0].dateISO + 'T12:00:00');
-            var data = isNaN(d) ? '' : ' · ' + d.toLocaleDateString('pt-BR', {day:'numeric', month:'long', year:'numeric'});
-            latest.innerHTML = 'Mais recente: <strong></strong><span></span>';
-            latest.querySelector('strong').textContent = lista[0].title;
-            latest.querySelector('span').textContent = data;
-            latest.hidden = false;
-          }
-        })
-        .catch(function(e){ console.warn('Erro ao carregar data/blog-posts.json', e); });
-    })();
-    </script>
 
     <!-- PERFIL DO DESAFIO — sem donut, 4 modelos alternativos -->
     <section class="section-gap" id="perfil">
@@ -1132,7 +1097,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="footer-dots">
     <div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div>
   </div>
-  <span class="footer-text"><span id="footer-autora"></span>&nbsp;&nbsp;|&nbsp;&nbsp;© <span id="footer-ano"></span>&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">27 de novembro de 2026</span></span>
+  <span class="footer-text"><span id="footer-autora"></span>&nbsp;&nbsp;|&nbsp;&nbsp;© <span id="footer-ano"></span>&nbsp;&nbsp;|&nbsp;&nbsp;Atualizado em <span id="data-atualizacao">26 de novembro de 2026</span></span>
 </footer>
 <!-- FOOTER:END -->
 
