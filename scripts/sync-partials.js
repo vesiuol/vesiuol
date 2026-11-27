@@ -12,6 +12,11 @@
 // partials/nav.html e partials/footer.html, e rode este script (ou dê push,
 // que a Action roda sozinha).
 //
+// Também mantém o <lastmod> de cada página no sitemap.xml (desde 2026-11-26): a data vem do
+// último commit do arquivo (igual à data do rodapé) e nunca volta para trás. Este script NÃO
+// adiciona páginas novas ao sitemap — isso é do generate-blog-posts.js (posts) — mas avisa se
+// alguma página do site estiver faltando lá.
+//
 // Atualizado em 13/08 para refletir a migração de URLs de 12/08: todas as
 // páginas agora vivem em pastas com index.html (ex: estante/index.html) e o
 // nav usa caminhos absolutos (/vesiuol/...) em vez de caminhos relativos com
@@ -115,6 +120,67 @@ function injetar(conteudo, marcadorInicio, marcadorFim, novoTrecho) {
   return `${antes}\n${novoTrecho}\n${depois}`;
 }
 
+const BASE_URL = "https://vesiuol.github.io/vesiuol/";
+
+function urlDaPagina(file) {
+  if (file === "404.html") return null; // o 404 não entra no sitemap
+  if (file === "index.html") return BASE_URL;
+  return BASE_URL + file.replace(/index\.html$/, "");
+}
+
+function hojeIso() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+
+// Data (AAAA-MM-DD) da última alteração do arquivo: hoje se ele está modificado
+// e ainda sem commit; senão, a data do último commit que o alterou.
+function dataIsoDoArquivo(relFile) {
+  try {
+    const sujo = execSync(`git status --porcelain -- "${relFile}"`, { cwd: ROOT, encoding: "utf8" }).trim();
+    if (sujo) return hojeIso();
+    const iso = execSync(`git log -1 --format=%cd --date=short -- "${relFile}"`, { cwd: ROOT, encoding: "utf8" }).trim();
+    return iso || hojeIso();
+  } catch {
+    return hojeIso();
+  }
+}
+
+function atualizarSitemap(paginas) {
+  const sitemapPath = path.join(ROOT, "sitemap.xml");
+  if (!fs.existsSync(sitemapPath)) {
+    console.warn("sitemap.xml não encontrado — pulei a atualização de lastmod.");
+    return;
+  }
+  const original = fs.readFileSync(sitemapPath, "utf8");
+  const dataPorUrl = {};
+  for (const page of paginas) {
+    const url = urlDaPagina(page.file);
+    if (url) dataPorUrl[url] = dataIsoDoArquivo(page.file);
+  }
+
+  const vistas = new Set();
+  let mudancas = 0;
+  const novo = original.replace(/<url>[\s\S]*?<\/url>/g, (bloco) => {
+    const loc = (bloco.match(/<loc>([^<]*)<\/loc>/) || [])[1];
+    if (!loc || !dataPorUrl[loc]) return bloco;
+    vistas.add(loc);
+    const atual = (bloco.match(/<lastmod>([^<]*)<\/lastmod>/) || [])[1];
+    if (atual === undefined) return bloco;
+    const nova = dataPorUrl[loc] > atual ? dataPorUrl[loc] : atual; // nunca volta no tempo
+    if (nova === atual) return bloco;
+    mudancas++;
+    return bloco.replace(/<lastmod>[^<]*<\/lastmod>/, `<lastmod>${nova}</lastmod>`);
+  });
+
+  for (const url of Object.keys(dataPorUrl)) {
+    if (!vistas.has(url)) console.warn(`⚠ ${url} não está no sitemap.xml (posts novos entram pelo generate-blog-posts.js)`);
+  }
+
+  if (novo !== original) fs.writeFileSync(sitemapPath, novo, "utf8");
+  console.log(`sitemap.xml: ${mudancas} lastmod atualizado(s).`);
+}
+
 function main() {
   const navTemplate = fs.readFileSync(path.join(ROOT, "partials/nav.html"), "utf8").trim();
   const footerTemplate = fs.readFileSync(path.join(ROOT, "partials/footer.html"), "utf8").trim();
@@ -158,6 +224,8 @@ function main() {
       console.log(`= ${page.file} (sem mudanças)`);
     }
   }
+
+  atualizarSitemap(todasAsPaginas);
 
   if (comErro.length) {
     console.error("\nErros:");
